@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Career Consulting — Kompetenzen | Build Your Professional Path</title>
+  <meta name="description"
+    content="Expert career consulting and guidance from Kompetenzen Technologies. Personal mapping, skill gap analysis, resume building, and interview preparation." />
+  <link rel="icon" type="image/png" href="icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Inconsolata:wght@400;700&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    :root {
+      --ink: #02050E;
+      --ink-2: #0D1630;
+      --ink-mute: #474F66;
+      --blue: #1947FF;
+      --blue-deep: #0E2EC9;
+      --blue-soft: #E8ECFF;
+      --cream: #FFFFFF;
+      --paper: #FFFFFF;
+      --line: rgba(10, 21, 48, .12);
+      --line-soft: rgba(10, 21, 48, .06);
+      --radius: 18px;
+      --maxw: 1200px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    html,
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.45;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: 'Plus Jakarta Sans', sans-serif !important;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* NAV */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #fff;
+    }
+
+    .nav-inner {
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 0 40px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .brand img {
+      height: 36px;
+      display: block;
+    }
+
+    .brand {
+      text-decoration: none;
+      margin-right: auto;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink-mute);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--ink);
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 99px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .nav-cta:hover {
+      background: var(--blue);
+      transform: translateY(-1px);
+    }
+
+    /* HERO */
+    .tech-hero {
+      position: relative;
+      background: transparent;
+      color: var(--ink);
+      padding: 100px 24px 80px;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .tech-hero h1 {
+      font-size: clamp(36px, 6vw, 72px);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+      color: var(--ink);
+    }
+
+    .tech-hero h1 em {
+      font-style: italic;
+      color: var(--blue);
+      font-family: 'Instrument Serif', serif !important;
+    }
+
+    .tech-hero p {
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--ink-mute);
+      max-width: 600px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+    }
+
+    /* CARDS */
+    .programs-section {
+      background: #eef3fc;
+      padding: 100px 24px;
+      margin: 0;
+    }
+
+    .programs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 32px;
+      max-width: var(--maxw);
+      margin: 0 auto;
+    }
+
+    .program-card {
+      background: #fff;
+      border: 2px solid #000;
+      border-radius: 24px;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      box-shadow: 8px 8px 0px rgba(0, 0, 0, 1);
+    }
+
+    .program-card:hover {
+      box-shadow: 12px 12px 0px rgba(0, 0, 0, 1);
+      transform: translate(-4px, -4px);
+    }
+
+    .card-header {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .card-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: #fff;
+      border: 1px solid var(--line-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .card-icon svg {
+      width: 32px;
+      height: 32px;
+      color: var(--blue);
+    }
+
+    .card-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .program-title {
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+
+    .program-desc {
+      font-size: 15px;
+      color: var(--ink-mute);
+      line-height: 1.6;
+    }
+
+    .card-footer {
+      margin-top: auto;
+      padding-top: 16px;
+    }
+
+    .apply-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 32px;
+      background: #1a73e8;
+      color: #fff;
+      border-radius: 99px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .apply-btn:hover {
+      background: #1557b0;
+    }
+
+    /* FOOTER */
+    .site-footer {
+      background: var(--ink);
+      color: rgba(255, 255, 255, 0.5);
+      text-align: center;
+      padding: 40px 24px;
+      font-size: 14px;
+      margin-top: 80px;
+    }
+
+    .site-footer a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .site-footer a:hover {
+      color: #fff;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      .tech-hero {
+        padding: 60px 16px 80px !important;
+      }
+      .programs-grid {
+        grid-template-columns: 1fr !important;
+      }
+      .program-card {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="brand">
+        <img src="kompetenzen logo-02.png" alt="Kompetenzen" />
+      </a>
+      <div class="nav-links">
+        <a href="index.html#consulting" style="color: var(--blue); font-weight: 700;">Consulting</a>
+        <a href="index.html#training">Training</a>
+        <a href="index.html#placements">Placements</a>
+        <a href="jobs.html">Jobs</a>
+        <a href="#" class="logout-link" style="display: none; color: #dc2626; font-weight: 600;" onclick="event.preventDefault(); localStorage.removeItem('token'); window.location.reload();">Log Out</a>
+      </div>
+      <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="nav-cta">
+        Talk to us
+      </a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="tech-hero"
+    style="text-align: center; display: flex; flex-direction: column; align-items: center; max-width: var(--maxw); margin: 0 auto; padding: 100px 24px 60px;">
+    <div style="width: 100%;">
+      <h1
+        style="font-family: 'Red Hat Display', sans-serif; font-size: clamp(48px, 6.5vw, 72px); font-weight: 400; line-height: 1.8; margin-bottom: 24px; color: var(--ink); text-align: center; letter-spacing: -0.04em;">
+        Expert Career Consulting<br><span style="color: var(--blue);">Designed for</span> Your Success.
+      </h1>
+      <p style="font-size: clamp(16px, 2vw, 20px); color: var(--ink-mute); max-width: 600px; margin: 0 auto 40px; line-height: 1.6;">
+        Unlock your true potential. We help you discover your strengths, analyze skill gaps, and map out a clear, actionable path to your dream job.
+      </p>
+      <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="apply-btn">Book a Free Consultation</a>
+    </div>
+  </section>
+
+  <!-- CONSULTING SERVICES -->
+  <section class="programs-section" id="services">
+    <div style="text-align: center; margin-bottom: 64px;">
+      <span
+        style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; color: var(--ink-mute); text-transform: uppercase;">WHAT WE DO</span>
+      <h2
+        style="font-size: clamp(32px, 5vw, 44px); font-weight: 400; color: var(--ink); margin-top: 16px; line-height: 1.2;">
+        Comprehensive Career Guidance<br>at Every Step</h2>
+    </div>
+
+    <div class="programs-grid">
+      
+      <!-- Career Mapping -->
+      <div class="program-card">
+        <div class="card-header">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+          </div>
+          <div class="card-title-group">
+            <h3 class="program-title">Career Discovery & Mapping</h3>
+          </div>
+        </div>
+        <p class="program-desc">Feeling stuck or unsure about which tech or business role fits you best? Our experts analyze your background, interests, and strengths to map out the ideal career trajectory for you in today's job market.</p>
+      </div>
+
+      <!-- Skill Gap Analysis -->
+      <div class="program-card">
+        <div class="card-header">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+            </svg>
+          </div>
+          <div class="card-title-group">
+            <h3 class="program-title">Skill Gap Analysis</h3>
+          </div>
+        </div>
+        <p class="program-desc">We identify exactly what you're missing between your current skill set and what top employers are demanding. Stop guessing and start learning the exact tools, languages, and frameworks that get you hired.</p>
+      </div>
+
+      <!-- Resume Building -->
+      <div class="program-card">
+        <div class="card-header">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+          </div>
+          <div class="card-title-group">
+            <h3 class="program-title">Resume & Profile Optimization</h3>
+          </div>
+        </div>
+        <p class="program-desc">A great resume gets you in the door. We help you craft an ATS-friendly resume that highlights your achievements. We also optimize your LinkedIn profile to attract recruiters to you directly.</p>
+      </div>
+
+      <!-- Interview Prep -->
+      <div class="program-card">
+        <div class="card-header">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10z"></path>
+            </svg>
+          </div>
+          <div class="card-title-group">
+            <h3 class="program-title">Mock Interviews & Prep</h3>
+          </div>
+        </div>
+        <p class="program-desc">Overcome interview anxiety with our company-specific mock interviews. Receive constructive, actionable feedback on your technical explanations, body language, and problem-solving approach.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CALL TO ACTION -->
+  <section style="max-width: var(--maxw); margin: 100px auto; padding: 60px 24px; text-align: center; background: #fff; border-radius: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); border: 1px solid var(--line-soft);">
+    <h2 style="font-size: clamp(28px, 4vw, 40px); font-weight: 700; color: var(--ink); margin-bottom: 24px;">Ready to Transform Your Career?</h2>
+    <p style="font-size: 18px; color: var(--ink-mute); max-width: 600px; margin: 0 auto 40px;">
+      Don't leave your professional future to chance. Talk to our career experts today and get a personalized roadmap tailored to your ambitions.
+    </p>
+    <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="apply-btn" style="padding: 16px 40px; font-size: 18px;">Talk to an Expert Now</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <p>&copy; 2026 Kompetenzen Technologies. All rights reserved.</p>
+    <p style="margin-top: 8px;">
+      <a href="https://wa.me/918590886009" target="_blank" rel="noopener">Contact us via WhatsApp</a>
+    </p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      if(localStorage.getItem('token')) {
+        document.querySelectorAll('.logout-link').forEach(l => l.style.display = 'inline-block');
+      }
+    });
+  </script>
+</body>
+
+</html>

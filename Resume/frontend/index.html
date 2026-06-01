@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResumePro | Build Your Professional Future</title>
+    <script>
+        if (!window.location.pathname.endsWith('/') && !window.location.pathname.endsWith('.html')) {
+            window.location.replace(window.location.pathname + '/' + window.location.search + window.location.hash);
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=2">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="light-theme">
+    <div id="webgl-bg"></div>
+    <div id="app">
+        <!-- Landing View -->
+        <section id="landing-view" class="view">
+            <nav class="glass-nav">
+                <div class="nav-container" style="width:100%; display:flex; align-items:center; justify-content:space-between; padding:0 2%; height:70px;">
+                    <div class="nav-left" style="display:flex; align-items:center;">
+                        <img src="../../kompetenzen logo-02.png" alt="Kompetenzen" style="height: 32px;">
+                    </div>
+                    <div class="nav-right" style="display:flex; align-items:center; gap: 16px;">
+                        <a href="#" class="logout-link" style="display: none; color: #dc2626; font-weight: 600; text-decoration: none;" onclick="event.preventDefault(); localStorage.removeItem('token'); window.location.reload();">Log Out</a>
+                        <button class="primary-btn" id="start-building-btn">Start Building</button>
+                    </div>
+                </div>
+            </nav>
+
+            <header class="hero-section">
+                <div class="hero-content">
+                    <div class="badge">New: AI-Powered Free Templates ✨</div>
+                    <h1>Create a job-winning resume <span>in minutes.</span></h1>
+                    <p>Build a professional resume with our easy-to-use builder. 100% ATS-friendly
+                        templates. And its free!!</p>
+                    <div class="hero-actions">
+                        <button class="primary-btn lg" id="hero-cta-btn">
+                            Create My Resume
+                            <i data-lucide="arrow-right"></i>
+                        </button>
+                    </div>
+                    <div class="hero-trust">
+                        <span>Trusted by 10,000+ professionals from</span>
+                        <div class="trust-icons">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg"
+                                alt="Google" style="height: 20px; opacity: 0.5;">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg" alt="IBM"
+                                style="height: 15px; opacity: 0.5;">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg"
+                                alt="Microsoft" style="height: 20px; opacity: 0.5;">
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-preview">
+                    <div class="preview-card">
+                        <div class="preview-mockup">
+                            <img src="assets/dark_pro.png" alt="Resume Template Preview" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit; opacity: 0.85;">
+                        </div>
+                        <div class="floating-stat">
+                            <i data-lucide="check-circle" style="color: #4ade80;"></i>
+                            <span>ATS Score: 98%</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        </section>
+
+        <!-- Templates View -->
+        <section id="templates-view" class="view hidden">
+            <nav class="top-nav">
+                <div class="nav-container">
+                    <div class="nav-left">
+                        <button class="icon-btn" id="back-to-home"><i data-lucide="arrow-left"></i></button>
+                        <h2>Select a Template</h2>
+                    </div>
+                    <div class="nav-right">
+                    </div>
+                </div>
+            </nav>
+
+            <main class="templates-grid-container">
+                <div id="template-picker-grid" class="template-grid">
+                    <!-- Templates will be injected here -->
+                </div>
+            </main>
+        </section>
+
+        <!-- Editor View -->
+        <section id="editor-view" class="view hidden">
+            <nav class="editor-nav">
+                <div class="nav-left">
+                    <button class="icon-btn" id="back-to-templates"><i data-lucide="chevron-left"></i></button>
+                    <div class="resume-title-edit">
+                        <input type="text" id="resume-title-input" value="Untitled Resume">
+                        <span class="save-status"><i data-lucide="check"></i> Saved</span>
+                    </div>
+                </div>
+                <div class="nav-right">
+
+                    <button class="secondary-btn" id="ats-check-btn">
+                        <i data-lucide="shield-check"></i>
+                        <span>ATS Score</span>
+                    </button>
+                    <button class="primary-btn" id="download-pdf-btn">
+                        <i data-lucide="download"></i>
+                        <span>Download PDF</span>
+                    </button>
+                </div>
+            </nav>
+
+            <div class="editor-layout">
+                <!-- Sidebar Tools -->
+                <aside class="editor-sidebar">
+                    <div class="sidebar-tabs">
+                        <button class="sidebar-tab-btn active" data-panel="content-panel">
+                            <i data-lucide="layout-grid"></i> Content
+                        </button>
+                        <button class="sidebar-tab-btn" data-panel="analysis-panel">
+                            <i data-lucide="shield-check"></i> ATS
+                        </button>
+                    </div>
+                    <div class="sidebar-panels">
+                        <div id="content-panel" class="panel active">
+                            <div class="section-list" id="editor-sections">
+                                <!-- Sections like Experience, Education, etc. -->
+                            </div>
+                        </div>
+                        <div id="analysis-panel" class="panel">
+                            <div class="sidebar-ats-card">
+                                <div class="mini-score">
+                                    <span id="sidebar-ats-percentage">0%</span>
+                                    <label>ATS Score</label>
+                                </div>
+                                <div id="sidebar-ats-feedback" class="mini-feedback">
+                                    <p>Start writing to see your score...</p>
+                                </div>
+                                <div style="margin-top: 1rem;">
+                                    <label for="ats-job-title-input" style="font-size: 0.85rem; font-weight: 500; display: block; margin-bottom: 0.5rem;">Target Job Title (Optional)</label>
+                                    <input type="text" id="ats-job-title-input" placeholder="e.g. Senior Software Engineer..." style="width: 100%; padding: 0.5rem; border-radius: 8px; border: 1px solid var(--border-color); font-family: inherit; font-size: 0.85rem; margin-bottom: 0.75rem;">
+                                    
+                                    <label for="ats-jd-input" style="font-size: 0.85rem; font-weight: 500; display: block; margin-bottom: 0.5rem;">Company JD (Optional)</label>
+                                    <textarea id="ats-jd-input" placeholder="Paste the job description here for a tailored ATS score..." style="width: 100%; height: 80px; padding: 0.5rem; border-radius: 8px; border: 1px solid var(--border-color); font-family: inherit; font-size: 0.85rem; resize: vertical;"></textarea>
+                                </div>
+                                <button class="primary-btn sm full" id="sidebar-ai-scan-btn" style="margin-top:1rem;">
+                                    <i data-lucide="sparkles"></i> AI Deep Scan
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Form Area -->
+                <main class="editor-form-container">
+                    <div id="active-section-form" class="section-form">
+                        <!-- Dynamic form based on selected section -->
+                    </div>
+                </main>
+
+                <!-- Preview Area -->
+                <section class="editor-preview">
+                    <div class="preview-frame-container">
+                        <iframe id="resume-preview-iframe" title="Resume Preview"></iframe>
+                    </div>
+                </section>
+
+                <!-- Mobile FAB (Keeping for now but prioritizing bottom bar) -->
+                <button id="mobile-download-fab" class="mobile-only-btn">
+                    <i data-lucide="download"></i>
+                </button>
+
+                <!-- Mobile Bottom Button (Static at the end) -->
+                <div class="mobile-footer-action">
+                    <button class="primary-btn full beautiful-btn" id="mobile-bottom-download-btn">
+                        <i data-lucide="download"></i>
+                        Download PDF Resume
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Auth Modal -->
+        <div id="auth-modal" class="modal hidden">
+            <div class="modal-content auth-form-container">
+                <div class="modal-header">
+                    <h2 id="auth-modal-title">Welcome Back</h2>
+                    <button class="icon-btn close-modal"><i data-lucide="x"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-tabs">
+                        <button class="modal-tab-btn active" data-tab="auth-login">Login</button>
+                        <button class="modal-tab-btn" data-tab="auth-register">Create Account</button>
+                    </div>
+
+                    <!-- Login Form -->
+                    <div id="auth-login-pane" class="tab-pane">
+                        <form id="login-form" class="auth-form" style="display: flex; flex-direction: column; gap: 1rem;">
+                            <div class="input-group full">
+                                <label for="login-email">Email</label>
+                                <input type="email" id="login-email" required placeholder="you@example.com">
+                            </div>
+                            <div class="input-group full">
+                                <label for="login-password">Password</label>
+                                <input type="password" id="login-password" required placeholder="••••••••">
+                            </div>
+                            <button type="submit" class="primary-btn lg full" style="margin-top: 0.5rem; justify-content: center;">Sign In</button>
+                        </form>
+                    </div>
+
+                    <!-- Register Form -->
+                    <div id="auth-register-pane" class="tab-pane hidden">
+                        <form id="register-form" class="auth-form" style="display: flex; flex-direction: column; gap: 1rem;">
+                            <div class="input-group full">
+                                <label for="register-name">Full Name</label>
+                                <input type="text" id="register-name" required placeholder="John Doe">
+                            </div>
+                            <div class="input-group full">
+                                <label for="register-phone">Phone Number</label>
+                                <input type="tel" id="register-phone" required placeholder="+1 234 567 8900">
+                            </div>
+                            <div class="input-group full">
+                                <label for="register-email">Email</label>
+                                <input type="email" id="register-email" required placeholder="you@example.com">
+                            </div>
+                            <div class="input-group full">
+                                <label for="register-password">Password</label>
+                                <input type="password" id="register-password" required placeholder="••••••••" minlength="6">
+                            </div>
+                            <button type="submit" class="primary-btn lg full" style="margin-top: 0.5rem; justify-content: center;">Create Account</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modals -->
+        <div id="ats-modal" class="modal hidden">
+            <div class="modal-content ats-results">
+                <div class="modal-header">
+                    <h2>ATS Analysis</h2>
+                    <button class="icon-btn close-modal"><i data-lucide="x"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-tabs">
+                        <button class="modal-tab-btn active" data-tab="local-ats">Basic Scan</button>
+                        <button class="modal-tab-btn" data-tab="ai-ats">
+                            <i data-lucide="sparkles" style="width:14px; height:14px;"></i>
+                            AI Deep Scan
+                        </button>
+                    </div>
+
+                    <div id="local-ats-pane" class="tab-pane">
+                        <div class="ats-score-container">
+                            <div class="score-circle">
+                                <svg viewBox="0 0 36 36">
+                                    <path class="circle-bg"
+                                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    <path id="score-path" class="circle" stroke-dasharray="0, 100"
+                                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                </svg>
+                                <div class="score-text">
+                                    <span id="ats-percentage">0%</span>
+                                    <label id="ats-grade">F</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="ats-feedback-list" class="feedback-list">
+                            <!-- Feedback items -->
+                        </div>
+                    </div>
+
+                    <div id="ai-ats-pane" class="tab-pane hidden">
+                        <div class="ai-ats-loading">
+                            <div class="spinner"></div>
+                            <p>Gemini is analyzing your resume for industry keywords and impact...</p>
+                        </div>
+                        <div id="ai-ats-content" class="hidden">
+                            <div class="ai-score-display" style="text-align:center; margin-bottom:1.5rem;">
+                                <h3 id="ai-ats-score" style="font-size:2.5rem; color:var(--primary);">0%</h3>
+                                <p id="ai-ats-grade" style="font-weight:600;"></p>
+                            </div>
+                            <div id="ai-feedback-list" class="feedback-list"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Toast Notifications -->
+        <div id="toast-container"></div>
+    </div>
+
+    <script type="module">
+        import { initBackground } from './background.js';
+        document.addEventListener('DOMContentLoaded', () => {
+            initBackground();
+        });
+    </script>
+    <script type="module" src="app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      if(localStorage.getItem('token')) {
+        document.querySelectorAll('.logout-link').forEach(l => l.style.display = 'inline-block');
+      }
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,795 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tech School — Kompetenzen | AI-Integrated Tech Programs</title>
+  <meta name="description"
+    content="Explore the AI-Integrated Tech School programs by Kompetenzen Technologies. Full Stack Python, Full Stack Java, and Data Analytics courses with live projects." />
+  <link rel="icon" type="image/png" href="icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Inconsolata:wght@400;700&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    :root {
+      --ink: #02050E;
+      --ink-2: #0D1630;
+      --ink-mute: #474F66;
+      --blue: #1947FF;
+      --blue-deep: #0E2EC9;
+      --blue-soft: #E8ECFF;
+      --cream: #FFFFFF;
+      --paper: #FFFFFF;
+      --line: rgba(10, 21, 48, .12);
+      --line-soft: rgba(10, 21, 48, .06);
+      --radius: 18px;
+      --maxw: 1200px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    html,
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.45;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: 'Plus Jakarta Sans', sans-serif !important;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* NAV */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #fff;
+    }
+
+    .nav-inner {
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 0 40px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .brand img {
+      height: 36px;
+      display: block;
+    }
+
+    .brand {
+      text-decoration: none;
+      margin-right: auto;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink-mute);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--ink);
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 99px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .nav-cta:hover {
+      background: var(--blue);
+      transform: translateY(-1px);
+    }
+
+    /* HERO */
+    .tech-hero {
+      position: relative;
+      background: transparent;
+      color: var(--ink);
+      padding: 100px 24px 120px;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .tech-hero h1 {
+      font-size: clamp(36px, 6vw, 72px);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+      color: var(--ink);
+    }
+
+    .tech-hero h1 em {
+      font-style: italic;
+      color: var(--blue);
+      font-family: 'Instrument Serif', serif !important;
+    }
+
+    .tech-hero p {
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--ink-mute);
+      max-width: 600px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(25, 71, 255, 0.2);
+      border: 1px solid rgba(25, 71, 255, 0.4);
+      color: #7B92FF;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 99px;
+      margin-bottom: 28px;
+    }
+
+    /* CARDS */
+    .programs-section {
+      background: #eef3fc;
+      padding: 100px 24px;
+      margin: 0;
+    }
+
+    .programs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 32px;
+      max-width: var(--maxw);
+      margin: 0 auto;
+    }
+
+    .program-card {
+      background: #fff;
+      border: 2px solid #000;
+      border-radius: 24px;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      box-shadow: 8px 8px 0px rgba(0, 0, 0, 1);
+    }
+
+    .program-card:hover {
+      box-shadow: 12px 12px 0px rgba(0, 0, 0, 1);
+      transform: translate(-4px, -4px);
+    }
+
+    .card-header {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .card-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: #fff;
+      border: 1px solid var(--line-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .card-icon svg {
+      width: 32px;
+      height: 32px;
+      color: var(--blue);
+    }
+
+    .card-sparkle {
+      position: absolute;
+      top: -6px;
+      left: -6px;
+      color: #1a73e8;
+    }
+
+    .card-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .program-title {
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+
+    .program-rating {
+      font-size: 13px;
+      color: var(--ink-mute);
+      font-weight: 500;
+    }
+
+    .program-desc {
+      font-size: 14px;
+      color: var(--ink-mute);
+      line-height: 1.6;
+    }
+
+    .skills-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 4px;
+      font-size: 14px;
+      color: var(--ink);
+    }
+
+    .card-footer {
+      margin-top: auto;
+      padding-top: 16px;
+    }
+
+    .apply-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 24px;
+      background: #1a73e8;
+      color: #fff;
+      border-radius: 99px;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .apply-btn:hover {
+      background: #1557b0;
+    }
+
+    /* FOOTER */
+    .site-footer {
+      background: var(--ink);
+      color: rgba(255, 255, 255, 0.5);
+      text-align: center;
+      padding: 40px 24px;
+      font-size: 14px;
+      margin-top: 80px;
+    }
+
+    .site-footer a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .site-footer a:hover {
+      color: #fff;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      .tech-hero {
+        padding: 60px 16px 80px !important;
+      }
+      .program-grid,
+      .structure-grid,
+      .roadmap-grid,
+      div[style*="minmax(220px"] {
+        grid-template-columns: 1fr !important;
+      }
+      .program-card {
+        padding: 24px;
+      }
+      .placements-section {
+        padding: 60px 16px !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="brand">
+        <img src="kompetenzen logo-02.png" alt="Kompetenzen" />
+      </a>
+      <div class="nav-links">
+        <a href="index.html#consulting">Consulting</a>
+        <a href="index.html#training" style="color: var(--blue); font-weight: 700;">Training</a>
+        <a href="index.html#placements">Placements</a>
+        <a href="jobs.html">Jobs</a>
+        <a href="#" class="logout-link" style="display: none; color: #dc2626; font-weight: 600;" onclick="event.preventDefault(); localStorage.removeItem('token'); window.location.reload();">Log Out</a>
+      </div>
+      <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="nav-cta">
+        Talk to us
+      </a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="tech-hero"
+    style="text-align: center; display: flex; flex-direction: column; align-items: center; max-width: var(--maxw); margin: 0 auto; padding: 100px 24px 60px;">
+    <div style="width: 100%;">
+      <h1
+        style="font-family: 'Red Hat Display', sans-serif; font-size: clamp(48px, 6.5vw, 72px); font-weight: 400; line-height: 1.8; margin-bottom: 24px; color: var(--ink); text-align: center; letter-spacing: -0.04em;">
+        AI-Integrated Tech School Programs<br><span style="color: var(--blue);">Built for</span> Real Careers.
+      </h1>
+    </div>
+  </section>
+
+  <!-- PROGRAMS SECTION -->
+  <section class="programs-section" id="programs">
+    <div style="text-align: center; margin-bottom: 64px;">
+      <span
+        style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; color: var(--ink-mute); text-transform: uppercase;">KOMPETENZEN
+        TECH SCHOOL PROGRAMS</span>
+      <h2
+        style="font-size: clamp(32px, 5vw, 44px); font-weight: 400; color: var(--ink); margin-top: 16px; line-height: 1.2;">
+        Master high-demand tech skills to<br>launch your career in top companies</h2>
+    </div>
+
+    <div class="programs-grid">
+      <!-- Python + AI -->
+      <div class="program-card">
+        <div class="card-header">
+          <div class="card-icon">
+            <svg class="card-sparkle" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z" />
+            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" />
+              <path d="M9 3v18" />
+              <path d="M14 9h4" />
+              <path d="M14 15h4" />
+            </svg>
+          </div>
+          <div class="card-title-group">
+            <h3 class="program-title">Full Stack Python + AI</h3>
+            <div class="program-rating">★★★★★ (Trusted by 500+ students)</div>
+          </div>
+        </div>
+        <p class="program-desc">Master Python backend development, React frontends, and integrate cutting-edge AI models
+          and n8n workflow automation into modern web applications.</p>
+        <div class="skills-row">
+          <span style="font-weight: 600;">If you like:</span> Python, Django, React + MUI, n8n, AI Integration
+        </div>
+        <div class="card-footer">
+          <a href="course-details.html" onclick="checkAuthAndGoToCourse(event, 'course-details.html')" class="apply-btn">
+            View course details
+          </a>
+        </div>
+      </div>
+
+      <!-- Java + AI -->
+      <div class="program-card">
+        <div class="card-header">
+          <div class="card-icon">
+            <svg class="card-sparkle" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z" />
+            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" />
+              <path d="M9 3v18" />
+              <path d="M14 9h4" />
+              <path d="M14 15h4" />
+            </svg>
+          </div>
+          <div class="card-title-group">
+            <h3 class="program-title">Full Stack Java + AI</h3>
+            <div class="program-rating">★★★★★ (Trusted by 420+ students)</div>
+          </div>
+        </div>
+        <p class="program-desc">Build robust, enterprise-scale applications using Java Spring Boot while learning to
+          weave AI features and n8n automation seamlessly into enterprise architectures.</p>
+        <div class="skills-row">
+          <span style="font-weight: 600;">If you like:</span> Java, Spring Boot, React + MUI, n8n, GenAI
+        </div>
+        <div class="card-footer">
+          <a href="java-course-details.html" onclick="checkAuthAndGoToCourse(event, 'java-course-details.html')" class="apply-btn">
+            View course details
+          </a>
+        </div>
+      </div>
+
+      <!-- Data Analytics + GenAI -->
+      <div class="program-card">
+        <div class="card-header">
+          <div class="card-icon">
+            <svg class="card-sparkle" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z" />
+            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M3 3v18h18" />
+              <path d="M18 17V9" />
+              <path d="M13 17V5" />
+              <path d="M8 17v-3" />
+            </svg>
+          </div>
+          <div class="card-title-group">
+            <h3 class="program-title">Data Analytics + GenAI</h3>
+            <div class="program-rating">★★★★★ (Trusted by 380+ students)</div>
+          </div>
+        </div>
+        <p class="program-desc">Transform raw data into strategic insights. Learn Python data tools, Power BI,
+          Tableau visualization, and use Generative AI to automate analytical workflows.</p>
+        <div class="skills-row">
+          <span style="font-weight: 600;">If you like:</span> Excel, SQL, Python, Power BI, Tableau, GenAI
+        </div>
+        <div class="card-footer">
+          <a href="data-analytics-course-details.html" onclick="checkAuthAndGoToCourse(event, 'data-analytics-course-details.html')" class="apply-btn">
+            View course details
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TRAINING STATS (Google Style) -->
+  <section
+    style="max-width: var(--maxw); margin: 20px auto 100px; padding: 40px 24px; text-align: center; font-family: 'Inter', sans-serif;">
+    <h2
+      style="font-size: clamp(28px, 4vw, 40px); font-weight: 400; color: var(--ink); margin-bottom: 64px; line-height: 1.3;">
+      Get professional job training from<br>Kompetenzen
+    </h2>
+
+    <div
+      style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 60px 32px; text-align: left;">
+      <!-- Col 1 -->
+      <div style="display: flex; flex-direction: column; gap: 40px;">
+        <div style="min-height: 110px;">
+          <h3 style="font-size: 20px; font-weight: 400; color: var(--ink); margin-bottom: 12px; line-height: 1.3;">
+            Intensive training</h3>
+          <p style="font-size: 14px; color: var(--ink-mute); line-height: 1.6;">Master full-stack skills with hands-on
+            projects and AI integration.</p>
+        </div>
+        <div>
+          <div
+            style="font-size: clamp(36px, 4vw, 48px); font-weight: 400; color: var(--blue); margin-bottom: 12px; line-height: 1.1; letter-spacing: -0.02em;">
+            6 months</div>
+          <p style="font-size: 13px; color: var(--ink-mute); line-height: 1.6;">of intensive, hands-on training designed
+            to make you completely job-ready</p>
+        </div>
+      </div>
+
+      <!-- Col 2 -->
+      <div style="display: flex; flex-direction: column; gap: 40px;">
+        <div style="min-height: 110px;">
+          <h3 style="font-size: 20px; font-weight: 400; color: var(--ink); margin-bottom: 12px; line-height: 1.3;">Stand
+            out to employers</h3>
+          <p style="font-size: 14px; color: var(--ink-mute); line-height: 1.6;">Build a portfolio of real-world
+            AI-integrated applications.</p>
+        </div>
+        <div>
+          <div
+            style="font-size: clamp(36px, 4vw, 48px); font-weight: 400; color: var(--blue); margin-bottom: 12px; line-height: 1.1; letter-spacing: -0.02em;">
+            100%</div>
+          <p style="font-size: 13px; color: var(--ink-mute); line-height: 1.6;">placement assistance and dedicated
+            career support for our tech school graduates.</p>
+        </div>
+      </div>
+
+      <!-- Col 3 -->
+      <div style="display: flex; flex-direction: column; gap: 40px;">
+        <div style="min-height: 110px;">
+          <h3 style="font-size: 20px; font-weight: 400; color: var(--ink); margin-bottom: 12px; line-height: 1.3;">
+            High-paying tech roles</h3>
+          <p style="font-size: 14px; color: var(--ink-mute); line-height: 1.6;">Step into roles like Full-Stack
+            Developer, AI Engineer, or Data Analyst.</p>
+        </div>
+        <div>
+          <div
+            style="font-size: clamp(36px, 4vw, 48px); font-weight: 400; color: var(--blue); margin-bottom: 12px; line-height: 1.1; letter-spacing: -0.02em;">
+            6-12 LPA</div>
+          <p style="font-size: 13px; color: var(--ink-mute); line-height: 1.6;">target salary range for entry-level
+            developers with our tech stack.</p>
+        </div>
+      </div>
+
+      <!-- Col 4 -->
+      <div style="display: flex; flex-direction: column; gap: 40px;">
+        <div style="min-height: 110px;">
+          <h3 style="font-size: 20px; font-weight: 400; color: var(--ink); margin-bottom: 12px; line-height: 1.3;">No
+            prior coding needed</h3>
+          <p style="font-size: 14px; color: var(--ink-mute); line-height: 1.6;">We start from the absolute basics and
+            take you to advanced concepts.</p>
+        </div>
+        <div>
+          <div
+            style="font-size: clamp(36px, 4vw, 48px); font-weight: 400; color: var(--blue); margin-bottom: 12px; line-height: 1.1; letter-spacing: -0.02em;">
+            2,000+</div>
+          <p style="font-size: 13px; color: var(--ink-mute); line-height: 1.6;">successful placements to date through
+            our comprehensive training.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAM STRUCTURE -->
+  <section class="structure-section" style="padding: 100px 0;">
+    <div class="section-head center" style="text-align: center; margin-bottom: 60px;">
+      <span class="eyebrow"
+        style="display: inline-block; background: #fff; border: 1px solid var(--line-soft); color: var(--blue); padding: 6px 16px; border-radius: 99px; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(25,71,255,0.05);">Program
+        Structure</span>
+      <h2 style="font-size: clamp(32px, 5vw, 48px); font-weight: 700; letter-spacing: -0.03em; color: var(--ink);">
+        Discovery, Development, Launch.</h2>
+    </div>
+
+    <div class="structure-grid"
+      style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; max-width: 1000px; margin: 0 auto;">
+      <!-- Discovery -->
+      <div class="structure-card"
+        style="background: #fff; padding: 40px; border-radius: 20px; border: 1px solid var(--line-soft); box-shadow: 0 10px 30px rgba(0,0,0,0.03); transition: transform 0.3s;">
+        <div
+          style="width: 56px; height: 56px; border-radius: 14px; background: rgba(25,71,255,0.05); color: var(--blue); display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <circle cx="12" cy="12" r="6"></circle>
+            <circle cx="12" cy="12" r="2"></circle>
+          </svg>
+        </div>
+        <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 16px; color: var(--ink);">Discovery</h3>
+        <p style="font-size: 15px; color: var(--ink-mute); line-height: 1.6;">Career mapping, skill gap analysis, and
+          structured roadmap planning tailored to your goals.</p>
+      </div>
+
+      <!-- Development -->
+      <div class="structure-card"
+        style="background: #fff; padding: 40px; border-radius: 20px; border: 1px solid var(--line-soft); box-shadow: 0 10px 30px rgba(0,0,0,0.03); transition: transform 0.3s;">
+        <div
+          style="width: 56px; height: 56px; border-radius: 14px; background: rgba(25,71,255,0.05); color: var(--blue); display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path
+              d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83">
+            </path>
+          </svg>
+        </div>
+        <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 16px; color: var(--ink);">Development</h3>
+        <p style="font-size: 15px; color: var(--ink-mute); line-height: 1.6;">Backend foundations, database design, API
+          development, frontend integration, and AI-assisted coding.</p>
+      </div>
+
+      <!-- Launch -->
+      <div class="structure-card"
+        style="background: #fff; padding: 40px; border-radius: 20px; border: 1px solid var(--line-soft); box-shadow: 0 10px 30px rgba(0,0,0,0.03); transition: transform 0.3s;">
+        <div
+          style="width: 56px; height: 56px; border-radius: 14px; background: rgba(25,71,255,0.05); color: var(--blue); display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13.5 2.5l5.5 5.5-2 10-10-2L2.5 13.5 13.5 2.5z"></path>
+          </svg>
+        </div>
+        <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 16px; color: var(--ink);">Launch</h3>
+        <p style="font-size: 15px; color: var(--ink-mute); line-height: 1.6;">Portfolio projects, resume building,
+          LinkedIn optimization, mock interviews, and placement drives.</p>
+      </div>
+    </div>
+    <!-- ROADMAP -->
+    <section class="roadmap-section" style="padding: 40px 0 100px;">
+      <div class="section-head center" style="text-align: center; margin-bottom: 60px;">
+        <span class="eyebrow"
+          style="display: inline-block; background: var(--blue); color: #fff; padding: 6px 16px; border-radius: 99px; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(25,71,255,0.2);">Roadmap</span>
+        <h2 style="font-size: clamp(32px, 5vw, 48px); font-weight: 700; letter-spacing: -0.03em; color: var(--ink);">
+          6-Month Course Journey.</h2>
+      </div>
+
+      <div class="roadmap-grid"
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; max-width: 900px; margin: 0 auto; padding: 0 24px;">
+        <!-- Month 1 -->
+        <div
+          style="background: #fff; padding: 28px 24px; border-radius: 12px; border-left: 4px solid var(--blue); box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
+          <h3 style="color: var(--blue); font-size: 18px; font-weight: 700; margin-bottom: 8px;">Month 1: Foundations
+          </h3>
+          <p style="color: var(--ink-mute); font-size: 15px; line-height: 1.5;">Programming basics, logic building, &
+            database concepts.</p>
+        </div>
+        <!-- Month 2 -->
+        <div
+          style="background: #fff; padding: 28px 24px; border-radius: 12px; border-left: 4px solid var(--blue); box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
+          <h3 style="color: var(--blue); font-size: 18px; font-weight: 700; margin-bottom: 8px;">Month 2: Backend
+            Framework</h3>
+          <p style="color: var(--ink-mute); font-size: 15px; line-height: 1.5;">Spring Boot / Django & REST APIs.</p>
+        </div>
+        <!-- Month 3 -->
+        <div
+          style="background: #fff; padding: 28px 24px; border-radius: 12px; border-left: 4px solid var(--blue); box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
+          <h3 style="color: var(--blue); font-size: 18px; font-weight: 700; margin-bottom: 8px;">Month 3: Frontend
+            Integration</h3>
+          <p style="color: var(--ink-mute); font-size: 15px; line-height: 1.5;">React & Full Stack integration.</p>
+        </div>
+        <!-- Month 4 -->
+        <div
+          style="background: #fff; padding: 28px 24px; border-radius: 12px; border-left: 4px solid var(--blue); box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
+          <h3 style="color: var(--blue); font-size: 18px; font-weight: 700; margin-bottom: 8px;">Month 4: AI Integration
+          </h3>
+          <p style="color: var(--ink-mute); font-size: 15px; line-height: 1.5;">AI APIs & Prompt Engineering
+            implementation.</p>
+        </div>
+        <!-- Month 5 -->
+        <div
+          style="background: #fff; padding: 28px 24px; border-radius: 12px; border-left: 4px solid var(--ink); box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
+          <h3 style="color: var(--ink); font-size: 18px; font-weight: 700; margin-bottom: 8px;">Month 5: Automation</h3>
+          <p style="color: var(--ink-mute); font-size: 15px; line-height: 1.5;">n8n workflows & smart backend processes.
+          </p>
+        </div>
+        <!-- Month 6 -->
+        <div
+          style="background: #fff; padding: 28px 24px; border-radius: 12px; border-left: 4px solid var(--ink); box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
+          <h3 style="color: var(--ink); font-size: 18px; font-weight: 700; margin-bottom: 8px;">Month 6: Capstone &
+            Career Prep</h3>
+          <p style="color: var(--ink-mute); font-size: 15px; line-height: 1.5;">Projects, portfolio building, and mock
+            interviews.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PLACEMENTS & CAREER SUPPORT -->
+    <section class="placements-section" style="padding: 100px 0; background: var(--blue-soft);">
+      <div style="max-width: var(--maxw); margin: 0 auto; padding: 0 24px; display: flex; justify-content: center;">
+
+        <!-- Centered Text Content -->
+        <div style="display: flex; flex-direction: column; align-items: center; text-align: center; max-width: 700px;">
+          <span class="eyebrow"
+            style="display: inline-block; background: #fff; border: 1px solid var(--line-soft); color: var(--blue); padding: 6px 16px; border-radius: 99px; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(25,71,255,0.05);">Careers</span>
+          <h2
+            style="font-size: clamp(32px, 5vw, 48px); font-weight: 700; letter-spacing: -0.03em; color: var(--ink); margin-bottom: 32px;">
+            Placement & Career Support</h2>
+
+          <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 24px; text-align: left;">
+            <li
+              style="display: flex; align-items: flex-start; gap: 16px; font-size: 18px; color: var(--ink-mute); line-height: 1.5;">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <polyline points="16 11 18 13 22 9"></polyline>
+              </svg>
+              <span><strong style="color: var(--ink);">Dedicated B2B placement team</strong> working for your
+                success.</span>
+            </li>
+            <li
+              style="display: flex; align-items: flex-start; gap: 16px; font-size: 18px; color: var(--ink-mute); line-height: 1.5;">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
+                <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                <line x1="12" y1="4" x2="12" y2="20"></line>
+                <line x1="4" y1="12" x2="20" y2="12"></line>
+              </svg>
+              <span><strong style="color: var(--ink);">Mega job drives</strong> connecting you with top
+                employers.</span>
+            </li>
+            <li
+              style="display: flex; align-items: flex-start; gap: 16px; font-size: 18px; color: var(--ink-mute); line-height: 1.5;">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+              <span><strong style="color: var(--ink);">Resume & LinkedIn optimization</strong> to stand out.</span>
+            </li>
+            <li
+              style="display: flex; align-items: flex-start; gap: 16px; font-size: 18px; color: var(--ink-mute); line-height: 1.5;">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M12 8v4"></path>
+                <path d="M12 16h.01"></path>
+              </svg>
+              <span><strong style="color: var(--ink);">Company-specific mock interviews</strong> to build
+                confidence.</span>
+            </li>
+            <li
+              style="display: flex; align-items: flex-start; gap: 16px; font-size: 18px; color: var(--ink-mute); line-height: 1.5;">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
+                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+                <polyline points="16 7 22 7 22 13"></polyline>
+              </svg>
+              <span><strong style="color: var(--ink);">Continuous employer feedback</strong> & skill enhancement.</span>
+            </li>
+          </ul>
+        </div>
+
+
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <p>&copy; 2026 Kompetenzen Technologies. All rights reserved.</p>
+      <p style="margin-top: 8px;">
+        <a href="https://wa.me/918590886009" target="_blank" rel="noopener">Contact us via WhatsApp</a>
+      </p>
+    </footer>
+
+  <script>
+    function checkAuthAndGoToCourse(event, url) {
+      event.preventDefault();
+      if (localStorage.getItem('token')) {
+        window.location.href = url;
+      } else {
+        window.location.href = 'index.html#auth-redirect=' + url;
+      }
+    }
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      if(localStorage.getItem('token')) {
+        document.querySelectorAll('.logout-link').forEach(l => l.style.display = 'inline-block');
+      }
+    });
+  </script>
+</body>
+
+</html>

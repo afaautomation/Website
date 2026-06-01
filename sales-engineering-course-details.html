@@ -1,0 +1,732 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sales Engineering — Kompetenzen</title>
+  <meta name="description"
+    content="Master B2B and B2C sales, customer psychology, and modern sales tools in this 45-day job-ready Sales Engineering program." />
+  <link rel="icon" type="image/png" href="icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    :root {
+      --ink: #02050E;
+      --ink-2: #0D1630;
+      --ink-mute: #474F66;
+      --blue: #1947FF;
+      --blue-deep: #0E2EC9;
+      --blue-soft: #E8ECFF;
+      --cream: #FFFFFF;
+      --paper: #FFFFFF;
+      --line: rgba(10, 21, 48, .12);
+      --line-soft: rgba(10, 21, 48, .06);
+      --radius: 18px;
+      --maxw: 1200px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    html,
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: 'Plus Jakarta Sans', sans-serif !important;
+    }
+
+    /* NAV */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #fff;
+    }
+
+    .nav-inner {
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 0 40px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .brand img {
+      height: 36px;
+      display: block;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink-mute);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--ink);
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 99px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .nav-cta:hover {
+      background: var(--blue);
+      transform: translateY(-1px);
+    }
+
+    /* COURSE HERO */
+    .course-hero {
+      background: #fff;
+      border-bottom: 1px solid var(--line-soft);
+      padding: 60px 24px;
+    }
+
+    .course-hero-inner {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .breadcrumbs {
+      font-size: 14px;
+      color: var(--ink-mute);
+      margin-bottom: 24px;
+    }
+
+    .breadcrumbs a {
+      color: var(--blue);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .course-title {
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.1;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .course-subtitle {
+      font-size: 18px;
+      color: var(--ink-mute);
+      line-height: 1.6;
+      margin-bottom: 24px;
+      max-width: 600px;
+    }
+
+    .course-meta {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    .meta-item svg {
+      color: var(--blue);
+    }
+
+    .enroll-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--blue);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 16px 32px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.2s;
+      width: 100%;
+    }
+
+    .enroll-btn:hover {
+      background: var(--blue-deep);
+    }
+
+    .course-image {
+      width: 100%;
+      height: auto;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+      border: 1px solid var(--line-soft);
+    }
+
+    /* COURSE BODY */
+    .course-body {
+      max-width: var(--maxw);
+      margin: 60px auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 60px;
+    }
+
+    .section-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      color: var(--ink);
+    }
+
+    /* SKILLS */
+    .skills-container {
+      background: #fff;
+      padding: 40px;
+      border-radius: 16px;
+      border: 1px solid var(--line-soft);
+      margin-bottom: 40px;
+    }
+
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .skill-tag {
+      background: var(--blue-soft);
+      color: var(--blue-deep);
+      padding: 8px 16px;
+      border-radius: 99px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    /* ABOUT / LEARN */
+    .learn-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .learn-item {
+      display: flex;
+      gap: 12px;
+    }
+
+    .learn-item svg {
+      flex-shrink: 0;
+      color: var(--blue);
+      margin-top: 2px;
+    }
+
+    .learn-item p {
+      font-size: 15px;
+      color: var(--ink-mute);
+    }
+
+    /* SYLLABUS */
+    .syllabus-module {
+      border: 1px solid var(--line-soft);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 16px;
+      background: #fff;
+      transition: box-shadow 0.2s;
+    }
+
+    .syllabus-module:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+
+    .module-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .module-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .module-meta {
+      font-size: 13px;
+      color: var(--ink-mute);
+      margin-top: 4px;
+    }
+
+    .module-content {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line-soft);
+      font-size: 14px;
+      color: var(--ink-mute);
+    }
+
+    /* SIDEBAR */
+    .sidebar-widget {
+      background: #fff;
+      border: 1px solid var(--line-soft);
+      border-radius: 16px;
+      padding: 32px;
+      position: sticky;
+      top: 100px;
+    }
+
+    .widget-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .widget-feature {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      color: var(--ink-mute);
+    }
+
+    .widget-feature svg {
+      color: var(--ink);
+    }
+
+    /* FOOTER */
+    .site-footer {
+      background: var(--ink);
+      color: #fff;
+      padding: 60px 24px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .site-footer a {
+      color: var(--blue-soft);
+      text-decoration: none;
+    }
+
+    @media (max-width: 900px) {
+      .nav-links {
+        display: none;
+      }
+      .nav-inner {
+        padding: 0 20px;
+      }
+      .course-hero-inner {
+        grid-template-columns: 1fr;
+      }
+      .course-body {
+        grid-template-columns: 1fr;
+      }
+      .learn-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="brand">
+        <img src="kompetenzen logo-02.png" alt="Kompetenzen Logo">
+      </a>
+      <div class="nav-links">
+        <a href="tech-school.html">Tech School</a>
+        <a href="finishing-school.html">Finishing School</a>
+        <a href="index.html#contact" class="nav-cta">Contact Us</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- COURSE HERO -->
+  <section class="course-hero">
+    <div class="course-hero-inner">
+      <div>
+        <div class="breadcrumbs">
+          <a href="index.html">Home</a> &rsaquo; <a href="b-school.html">B-School</a> &rsaquo; Sales Engineering
+        </div>
+        <h1 class="course-title">Sales Engineering Job-Ready Program</h1>
+        <p class="course-subtitle">Your Fastest Path to a High-Paying Career. Master B2B and B2C sales, customer psychology, and modern sales tools in this 90-hour job-ready program.</p>
+        
+        <div class="course-meta">
+          <div class="meta-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+            </svg>
+            45 Days (90 Hours)
+          </div>
+          <div class="meta-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+            ★★★★★ (500+ Students)
+          </div>
+          <div class="meta-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+              <line x1="8" y1="21" x2="16" y2="21"></line>
+              <line x1="12" y1="17" x2="12" y2="21"></line>
+            </svg>
+            Offline and Online
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="sidebar-widget" style="margin-top: 0;">
+          <h3 class="widget-title">Start your career in Sales</h3>
+          <p style="font-size: 14px; color: var(--ink-mute); margin-bottom: 24px;">Enroll now to get access to industry experts, live projects, and 100% placement assistance.</p>
+          <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen,%20I%20am%20interested%20in%20the%20Sales%20Engineering%20program." target="_blank" class="enroll-btn">
+            Enquire via WhatsApp
+          </a>
+          <div style="margin-top: 16px; text-align: center; font-size: 13px; color: var(--ink-mute);">
+            Seats fill up fast. Apply early!
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COURSE BODY -->
+  <section class="course-body">
+    <div class="main-content">
+      
+      <!-- SKILLS -->
+      <div class="skills-container">
+        <h2 class="section-title">Skills you'll gain</h2>
+        <div class="skills-list">
+          <span class="skill-tag">B2B & B2C Sales</span>
+          <span class="skill-tag">Communication Mastery</span>
+          <span class="skill-tag">Customer Psychology</span>
+          <span class="skill-tag">HubSpot CRM</span>
+          <span class="skill-tag">LinkedIn Prospecting</span>
+          <span class="skill-tag">Objection Handling</span>
+          <span class="skill-tag">Cold Calling</span>
+        </div>
+      </div>
+
+      <!-- ABOUT -->
+      <div style="margin-bottom: 40px;">
+        <h2 class="section-title">What you'll learn</h2>
+        <div class="learn-grid">
+          <div class="learn-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <p>Master end-to-end B2B and B2C sales cycles and closing techniques.</p>
+          </div>
+          <div class="learn-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <p>Implement customer psychology, rapport building, and objection handling techniques.</p>
+          </div>
+          <div class="learn-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <p>Run lead generation campaigns and manage CRM platforms like HubSpot.</p>
+          </div>
+          <div class="learn-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <p>Utilize modern tools like LinkedIn Prospecting for client sourcing.</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 60px;">
+        <h2 class="section-title">About the Program</h2>
+        <p style="color: var(--ink-mute); margin-bottom: 16px;">
+          Become a corporate-ready Sales Professional in 45 days. Master end-to-end sales operations, lead generation, pipeline management, and closing strategies that modern businesses demand.
+        </p>
+        <p style="color: var(--ink-mute);">
+          Go beyond theoretical knowledge. Gain practical execution skills, build corporate confidence, and handle real-world scenarios with 40% practical learning, daily role plays, and live simulations.
+        </p>
+      </div>
+
+      
+      <!-- WHY SALES CAREER -->
+      <div style="margin-bottom: 60px;">
+        <h2 class="section-title">Why a Sales Career is the Smartest Move</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px;">
+          <div style="background: #fff; padding: 24px; border-radius: 12px; border: 1px solid var(--line-soft);">
+            <div style="font-size: 32px; font-weight: 700; color: var(--blue); margin-bottom: 8px;">₹1L+</div>
+            <div style="font-weight: 600; margin-bottom: 4px;">Monthly Ceiling</div>
+            <div style="font-size: 14px; color: var(--ink-mute);">Salary + incentives = unlimited upside</div>
+          </div>
+          <div style="background: #fff; padding: 24px; border-radius: 12px; border: 1px solid var(--line-soft);">
+            <div style="font-size: 32px; font-weight: 700; color: var(--blue); margin-bottom: 8px;">45</div>
+            <div style="font-weight: 600; margin-bottom: 4px;">Days to Job-Ready</div>
+            <div style="font-size: 14px; color: var(--ink-mute);">Fastest path from graduate to employed</div>
+          </div>
+          <div style="background: #fff; padding: 24px; border-radius: 12px; border: 1px solid var(--line-soft);">
+            <div style="font-size: 32px; font-weight: 700; color: var(--blue); margin-bottom: 8px;">100%</div>
+            <div style="font-weight: 600; margin-bottom: 4px;">Industry Demand</div>
+            <div style="font-size: 14px; color: var(--ink-mute);">Every company in India needs salespeople</div>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-top: 24px;">
+          <div style="background: var(--blue-soft); padding: 24px; border-radius: 12px;">
+            <div style="font-weight: 600; margin-bottom: 8px; color: var(--ink);">No Coding</div>
+            <div style="font-size: 14px; color: var(--ink-mute);">Pure people skills — your biggest asset</div>
+          </div>
+          <div style="background: var(--blue-soft); padding: 24px; border-radius: 12px;">
+            <div style="font-weight: 600; margin-bottom: 8px; color: var(--ink);">Fast Growth</div>
+            <div style="font-size: 14px; color: var(--ink-mute);">Executive &rarr; Manager &rarr; Director in years, not decades</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROLES -->
+      <div style="margin-bottom: 60px;">
+        <h2 class="section-title">Career Roles You Can Land</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px;">
+          <div style="border: 1px solid var(--line-soft); border-radius: 12px; padding: 24px; background: #fff;">
+            <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">Sales Consultant</h3>
+            <p style="font-size: 14px; color: var(--ink-mute);">Drive revenue across industries</p>
+          </div>
+          <div style="border: 1px solid var(--line-soft); border-radius: 12px; padding: 24px; background: #fff;">
+            <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">Business Development Associate</h3>
+            <p style="font-size: 14px; color: var(--ink-mute);">Build pipelines and close deals</p>
+          </div>
+          <div style="border: 1px solid var(--line-soft); border-radius: 12px; padding: 24px; background: #fff;">
+            <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">Pre-Sales Executive</h3>
+            <p style="font-size: 14px; color: var(--ink-mute);">Demo, pitch, and win clients</p>
+          </div>
+          <div style="border: 1px solid var(--line-soft); border-radius: 12px; padding: 24px; background: #fff;">
+            <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">Customer Relation Manager</h3>
+            <p style="font-size: 14px; color: var(--ink-mute);">Build a good relationship with the customers</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRACTICAL LEARNING -->
+      <div style="margin-bottom: 60px;">
+        <h2 class="section-title">40% Practical Learning &mdash; Every Single Day</h2>
+        <p style="color: var(--ink-mute); margin-bottom: 24px;">Sales cannot be learned by theory alone. You learn by doing.</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px;">
+          <div style="background: var(--blue); color: #fff; padding: 24px; border-radius: 12px;">
+            <div style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">Daily Role Plays</div>
+            <div style="font-size: 14px; color: rgba(255,255,255,0.8);">Simulate real sales scenarios</div>
+          </div>
+          <div style="background: var(--blue); color: #fff; padding: 24px; border-radius: 12px;">
+            <div style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">Cold Calling Practice</div>
+            <div style="font-size: 14px; color: rgba(255,255,255,0.8);">Build confidence on real calls</div>
+          </div>
+          <div style="background: var(--blue); color: #fff; padding: 24px; border-radius: 12px;">
+            <div style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">Live Simulations</div>
+            <div style="font-size: 14px; color: rgba(255,255,255,0.8);">Sell real products, get real feedback</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WHO SHOULD JOIN -->
+      <div style="margin-bottom: 60px;">
+        <h2 class="section-title">Who Should Join This Program?</h2>
+        <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 16px;">
+          <li style="display: flex; gap: 12px; align-items: flex-start; background: #fff; padding: 16px 24px; border-radius: 12px; border: 1px solid var(--line-soft);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            <div>
+              <div style="font-weight: 600; color: var(--ink);">Any Graduate</div>
+              <div style="font-size: 14px; color: var(--ink-mute);">Any stream &mdash; arts, commerce, science</div>
+            </div>
+          </li>
+          <li style="display: flex; gap: 12px; align-items: flex-start; background: #fff; padding: 16px 24px; border-radius: 12px; border: 1px solid var(--line-soft);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            <div>
+              <div style="font-weight: 600; color: var(--ink);">Career-Confused Students</div>
+              <div style="font-size: 14px; color: var(--ink-mute);">Not sure what to do next? This is your answer</div>
+            </div>
+          </li>
+          <li style="display: flex; gap: 12px; align-items: flex-start; background: #fff; padding: 16px 24px; border-radius: 12px; border: 1px solid var(--line-soft);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            <div>
+              <div style="font-weight: 600; color: var(--ink);">Non-Technical Candidates</div>
+              <div style="font-size: 14px; color: var(--ink-mute);">No coding, no engineering required</div>
+            </div>
+          </li>
+          <li style="display: flex; gap: 12px; align-items: flex-start; background: #fff; padding: 16px 24px; border-radius: 12px; border: 1px solid var(--line-soft);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            <div>
+              <div style="font-weight: 600; color: var(--ink);">Fast-Income Seekers</div>
+              <div style="font-size: 14px; color: var(--ink-mute);">Want to start earning in under 2 months</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- BEFORE VS AFTER -->
+      <div style="margin-bottom: 60px;">
+        <h2 class="section-title">Before This Program vs After</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+          <!-- Before -->
+          <div style="background: #fff; border: 1px solid var(--line-soft); border-radius: 16px; padding: 32px;">
+            <h3 style="font-size: 20px; font-weight: 700; color: var(--ink); margin-bottom: 24px; display: flex; align-items: center; gap: 8px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+              Before
+            </h3>
+            <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 16px;">
+              <li style="color: var(--ink-mute); font-size: 15px; display: flex; gap: 8px;"><span>❌</span> Fear of speaking in public</li>
+              <li style="color: var(--ink-mute); font-size: 15px; display: flex; gap: 8px;"><span>❌</span> No clarity on career path</li>
+              <li style="color: var(--ink-mute); font-size: 15px; display: flex; gap: 8px;"><span>❌</span> Only theoretical knowledge</li>
+              <li style="color: var(--ink-mute); font-size: 15px; display: flex; gap: 8px;"><span>❌</span> No job, no income</li>
+            </ul>
+          </div>
+          <!-- After -->
+          <div style="background: var(--blue-soft); border: 1px solid var(--blue); border-radius: 16px; padding: 32px;">
+            <h3 style="font-size: 20px; font-weight: 700; color: var(--blue-deep); margin-bottom: 24px; display: flex; align-items: center; gap: 8px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+              After
+            </h3>
+            <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 16px;">
+              <li style="color: var(--ink); font-size: 15px; font-weight: 600; display: flex; gap: 8px;"><span>✅</span> Confident, compelling communicator</li>
+              <li style="color: var(--ink); font-size: 15px; font-weight: 600; display: flex; gap: 8px;"><span>✅</span> Skilled, industry-ready salesperson</li>
+              <li style="color: var(--ink); font-size: 15px; font-weight: 600; display: flex; gap: 8px;"><span>✅</span> Hands-on, practical experience</li>
+              <li style="color: var(--ink); font-size: 15px; font-weight: 600; display: flex; gap: 8px;"><span>✅</span> Placed in a high income role</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <!-- SYLLABUS -->
+
+      <div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
+          <h2 class="section-title" style="margin-bottom: 0;">Courses in this program (Syllabus)</h2>
+          <a href="Sales-Engineering.pdf" download class="apply-btn" style="background: var(--blue-soft); color: var(--blue-deep); text-decoration: none;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px; vertical-align: text-bottom;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Download PDF
+          </a>
+        </div>
+        
+        <div class="syllabus-module">
+          <div class="module-header">
+            <div>
+              <div class="module-title">Phase 1: Foundation & Mindset (Days 1-15)</div>
+              <div class="module-meta">Modules 1-2</div>
+            </div>
+          </div>
+          <div class="module-content">
+            <strong>Sales Foundation & Communication</strong><br>
+            Why Sales Pays High, B2B vs B2C, How Customers Think. Communication Skills: Speak with Confidence, Body Language, Rapport Building. Activity: 1-minute product pitch practice.
+          </div>
+        </div>
+
+        <div class="syllabus-module">
+          <div class="module-header">
+            <div>
+              <div class="module-title">Phase 2: Core Sales & Process (Days 16-30)</div>
+              <div class="module-meta">Modules 3-6</div>
+            </div>
+          </div>
+          <div class="module-content">
+            <strong>Customer Psychology & Sales Process</strong><br>
+            Features vs Benefits, Buyer Types. Sales Process: Lead Gen, Qualify, Pitch, Handle Objections, Close. B2C Sales: Emotional selling, Upselling. B2B Sales: Email & LinkedIn outreach, Presentation to decision-makers.
+          </div>
+        </div>
+
+        <div class="syllabus-module">
+          <div class="module-header">
+            <div>
+              <div class="module-title">Phase 3: Tools & Placement (Days 31-45)</div>
+              <div class="module-meta">Modules 7-9</div>
+            </div>
+          </div>
+          <div class="module-content">
+            <strong>Objection Handling, Tools & Grooming</strong><br>
+            Objection Handling: "Too Costly", "Not Interested", Closing Techniques. Sales Tools: HubSpot CRM, LinkedIn Prospecting. Placement Training: Resume Building, Mock Interviews.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sidebar-widget">
+        <h3 class="widget-title">Professional Certificate</h3>
+        <p style="font-size: 14px; color: var(--ink-mute); margin-bottom: 24px;">Equip yourself with the most in-demand skills in Sales today.</p>
+        
+        <div class="widget-feature">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          Shareable Certificate
+        </div>
+        <div class="widget-feature">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          Flexible Schedule
+        </div>
+        <div class="widget-feature">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+          Beginner Level
+        </div>
+        <div class="widget-feature">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5c-1.1 0-2 .9-2 2v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+          100% Placement Assistance
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <p>&copy; 2026 Kompetenzen Technologies. All rights reserved.</p>
+    <p style="margin-top: 8px;">
+      <a href="https://wa.me/918590886009" target="_blank" rel="noopener">Contact us via WhatsApp</a>
+    </p>
+  </footer>
+
+</body>
+</html>

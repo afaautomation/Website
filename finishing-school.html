@@ -1,0 +1,755 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Finishing School — Kompetenzen | Get Hired</title>
+  <meta name="description"
+    content="Kerala's most placement-focused career readiness program by Kompetenzen Technologies. Communication mastery, interview confidence, and continuous support." />
+  <link rel="icon" type="image/png" href="icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Inconsolata:wght@400;700&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    :root {
+      --ink: #02050E;
+      --ink-2: #0D1630;
+      --ink-mute: #474F66;
+      --blue: #1947FF;
+      --blue-deep: #0E2EC9;
+      --blue-soft: #E8ECFF;
+      --cream: #FFFFFF;
+      --paper: #FFFFFF;
+      --line: rgba(10, 21, 48, .12);
+      --line-soft: rgba(10, 21, 48, .06);
+      --radius: 18px;
+      --maxw: 1200px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    html,
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.45;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: 'Plus Jakarta Sans', sans-serif !important;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* NAV */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #fff;
+    }
+
+    .nav-inner {
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 0 40px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .brand img {
+      height: 36px;
+      display: block;
+    }
+
+    .brand {
+      text-decoration: none;
+      margin-right: auto;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink-mute);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--ink);
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 99px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .nav-cta:hover {
+      background: var(--blue);
+      transform: translateY(-1px);
+    }
+
+    /* HERO */
+    .tech-hero {
+      position: relative;
+      background: transparent;
+      color: var(--ink);
+      padding: 100px 24px 120px;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .tech-hero h1 {
+      font-size: clamp(36px, 6vw, 72px);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+      color: var(--ink);
+    }
+
+    .tech-hero h1 em {
+      font-style: italic;
+      color: var(--blue);
+      font-family: 'Instrument Serif', serif !important;
+    }
+
+    .tech-hero p {
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--ink-mute);
+      max-width: 600px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+    }
+
+    /* CARDS (neo-brutalist like tech-school) */
+    .programs-section {
+      background: #eef3fc;
+      padding: 100px 24px;
+      margin: 0;
+    }
+
+    .programs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 32px;
+      max-width: var(--maxw);
+      margin: 0 auto;
+    }
+
+    .program-card {
+      background: #fff;
+      border: 2px solid #000;
+      border-radius: 24px;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      box-shadow: 8px 8px 0px rgba(0, 0, 0, 1);
+    }
+
+    .program-card:hover {
+      box-shadow: 12px 12px 0px rgba(0, 0, 0, 1);
+      transform: translate(-4px, -4px);
+    }
+
+    .program-card.highlight {
+      background: var(--blue);
+      border-color: var(--blue-deep);
+      box-shadow: 8px 8px 0px rgba(9, 46, 201, 0.6);
+      color: #fff;
+    }
+
+    .program-card.highlight:hover {
+      box-shadow: 12px 12px 0px rgba(9, 46, 201, 0.6);
+    }
+
+    .card-module-num {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 4px;
+    }
+
+    .program-card.highlight .card-module-num {
+      color: rgba(255,255,255,0.7);
+    }
+
+    .program-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+
+    .program-card.highlight .program-title {
+      color: #fff;
+    }
+
+    .program-desc {
+      font-size: 14px;
+      color: var(--ink-mute);
+      line-height: 1.6;
+    }
+
+    .program-card.highlight .program-desc {
+      color: rgba(255,255,255,0.85);
+    }
+
+    /* STATS */
+    .stat-num {
+      font-size: clamp(36px, 4vw, 48px);
+      font-weight: 400;
+      color: var(--blue);
+      margin-bottom: 12px;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    /* FOOTER */
+    .site-footer {
+      background: var(--ink);
+      color: rgba(255, 255, 255, 0.5);
+      text-align: center;
+      padding: 40px 24px;
+      font-size: 14px;
+      margin-top: 0;
+    }
+
+    .site-footer a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .site-footer a:hover {
+      color: #fff;
+    }
+
+    /* EYEBROW PILL */
+    .eyebrow {
+      display: inline-block;
+      background: #fff;
+      border: 1px solid var(--line-soft);
+      color: var(--blue);
+      padding: 6px 16px;
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(25,71,255,0.05);
+    }
+
+    .eyebrow-solid {
+      display: inline-block;
+      background: var(--blue);
+      color: #fff;
+      padding: 6px 16px;
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(25,71,255,0.2);
+    }
+
+    /* STRUCTURE CARDS */
+    .structure-card {
+      background: #fff;
+      padding: 40px;
+      border-radius: 20px;
+      border: 1px solid var(--line-soft);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+      transition: transform 0.3s;
+    }
+
+    .structure-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .structure-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      background: rgba(25,71,255,0.05);
+      color: var(--blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    /* ROADMAP ITEMS */
+    .roadmap-item {
+      background: #fff;
+      padding: 28px 24px;
+      border-radius: 12px;
+      border-left: 4px solid var(--blue);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    }
+
+    .roadmap-item.dark {
+      border-left-color: var(--ink);
+    }
+
+    /* WHO SHOULD JOIN CARDS */
+    .audience-card {
+      background: var(--blue-soft);
+      border-radius: 20px;
+      padding: 32px;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+
+    .audience-card:hover {
+      transform: translateY(-4px);
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      .tech-hero {
+        padding: 60px 16px 80px !important;
+      }
+      .programs-grid,
+      div[style*="minmax("] {
+        grid-template-columns: 1fr !important;
+      }
+      .program-card {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="brand">
+        <img src="kompetenzen logo-02.png" alt="Kompetenzen" />
+      </a>
+      <div class="nav-links">
+        <a href="index.html#consulting">Consulting</a>
+        <a href="index.html#training" style="color: var(--blue); font-weight: 700;">Training</a>
+        <a href="index.html#placements">Placements</a>
+        <a href="jobs.html">Jobs</a>
+        <a href="#" class="logout-link" style="display: none; color: #dc2626; font-weight: 600;" onclick="event.preventDefault(); localStorage.removeItem('token'); window.location.reload();">Log Out</a>
+      </div>
+      <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="nav-cta">
+        Talk to us
+      </a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="tech-hero"
+    style="text-align: center; display: flex; flex-direction: column; align-items: center; max-width: var(--maxw); margin: 0 auto; padding: 100px 24px 60px;">
+    <div style="width: 100%;">
+      <h1
+        style="font-size: clamp(48px, 6.5vw, 72px); font-weight: 400; line-height: 1.1; margin-bottom: 24px; color: var(--ink); text-align: center; letter-spacing: -0.04em;">
+        Finishing School — <em>Upskill</em> Program<br><span style="color: var(--blue);">Become Placement Ready.</span> Build Skills. Get Hired.
+      </h1>
+      <p style="font-size: clamp(16px, 2vw, 20px); color: var(--ink-mute); max-width: 640px; margin: 0 auto 20px; line-height: 1.6;">
+        Transform your career with industry-focused training designed to help students and graduates become confident, skilled, and job-ready.
+      </p>
+      <p style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 40px;">
+        Communication • Soft Skills • Interview Training • Placement Support
+      </p>
+      <div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; margin-bottom: 0;">
+        <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen,%20I%20am%20interested%20in%20joining%20the%20Finishing%20School%20program.%20Please%20send%20me%20details." target="_blank" rel="noopener"
+          style="display: inline-flex; align-items: center; gap: 8px; background: var(--blue); color: #fff; font-size: 15px; font-weight: 600; padding: 14px 28px; border-radius: 99px; text-decoration: none; transition: background 0.2s;">
+          Join the Finishing School →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section style="padding: 100px 24px; background: #fff;">
+    <div style="max-width: var(--maxw); margin: 0 auto;">
+      <div style="text-align: center; margin-bottom: 60px;">
+        <span class="eyebrow">About</span>
+        <h2 style="font-size: clamp(32px, 5vw, 48px); font-weight: 700; letter-spacing: -0.03em; color: var(--ink);">Why Choose Our Upskill Program?</h2>
+        <p style="font-size: 18px; color: var(--ink-mute); max-width: 700px; margin: 16px auto 0; line-height: 1.6;">The Upskill Program is designed for students, fresh graduates, and job seekers who want to bridge the gap between education and employment. We help you:</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; max-width: var(--maxw); margin: 0 auto;">
+        <div style="display: flex; gap: 16px; align-items: flex-start; background: var(--cream); padding: 24px; border-radius: 16px;">
+          <div style="background: #fff; padding: 12px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); color: var(--blue);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          </div>
+          <div>
+            <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 4px;">Improve communication</h3>
+            <p style="font-size: 14px; color: var(--ink-mute); line-height: 1.5;">Speak confidently in professional settings.</p>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 16px; align-items: flex-start; background: var(--cream); padding: 24px; border-radius: 16px;">
+          <div style="background: #fff; padding: 12px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); color: var(--blue);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+          </div>
+          <div>
+            <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 4px;">Build confidence</h3>
+            <p style="font-size: 14px; color: var(--ink-mute); line-height: 1.5;">Face interviews without hesitation.</p>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 16px; align-items: flex-start; background: var(--cream); padding: 24px; border-radius: 16px;">
+          <div style="background: #fff; padding: 12px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); color: var(--blue);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          </div>
+          <div>
+            <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 4px;">Create strong resumes</h3>
+            <p style="font-size: 14px; color: var(--ink-mute); line-height: 1.5;">And optimize your LinkedIn profile.</p>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 16px; align-items: flex-start; background: var(--cream); padding: 24px; border-radius: 16px;">
+          <div style="background: #fff; padding: 12px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); color: var(--blue);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4l3 3"></path></svg>
+          </div>
+          <div>
+            <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 4px;">Develop soft skills</h3>
+            <p style="font-size: 14px; color: var(--ink-mute); line-height: 1.5;">Prepare for placement tests and workplace challenges.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 MODULES SECTION (neo-brutalist cards) -->
+  <section class="programs-section" id="modules">
+    <div style="text-align: center; margin-bottom: 64px;">
+      <span style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; color: var(--ink-mute); text-transform: uppercase;">KOMPETENZEN FINISHING SCHOOL</span>
+      <h2 style="font-size: clamp(32px, 5vw, 44px); font-weight: 400; color: var(--ink); margin-top: 16px; line-height: 1.2;">
+        The 8-Module Upskill Program<br>designed to get you hired
+      </h2>
+    </div>
+
+    <div class="programs-grid">
+
+      <!-- Module 1 -->
+      <div class="program-card">
+        <div class="card-module-num">Module 01</div>
+        <h3 class="program-title">Communication Mastery</h3>
+        <p class="program-desc">Build articulate, confident English communication skills for corporate environments. Master workplace vocabulary, email writing, and professional conversation.</p>
+      </div>
+
+      <!-- Module 2 -->
+      <div class="program-card">
+        <div class="card-module-num">Module 02</div>
+        <h3 class="program-title">Interview Confidence</h3>
+        <p class="program-desc">Crack any HR or technical interview. Learn how to answer behavioural questions (STAR method), frame your story, and handle unexpected questions with clarity.</p>
+      </div>
+
+      <!-- Module 3 -->
+      <div class="program-card">
+        <div class="card-module-num">Module 03</div>
+        <h3 class="program-title">Resume &amp; LinkedIn</h3>
+        <p class="program-desc">Build a recruiter-friendly ATS resume and a powerful LinkedIn profile that gets you noticed. Learn to showcase your skills, projects, and experience effectively.</p>
+      </div>
+
+      <!-- Module 4 -->
+      <div class="program-card">
+        <div class="card-module-num">Module 04</div>
+        <h3 class="program-title">Aptitude &amp; Reasoning</h3>
+        <p class="program-desc">Ace the quantitative aptitude, logical reasoning, and verbal ability sections used in off-campus drives, product companies, and MNC recruitments.</p>
+      </div>
+
+      <!-- Module 5 -->
+      <div class="program-card">
+        <div class="card-module-num">Module 05</div>
+        <h3 class="program-title">Body Language &amp; Personality</h3>
+        <p class="program-desc">First impressions count. Learn professional grooming, confident body language, active listening, and how to carry yourself in group discussions and interviews.</p>
+      </div>
+
+      <!-- Module 6 -->
+      <div class="program-card">
+        <div class="card-module-num">Module 06</div>
+        <h3 class="program-title">Group Discussion &amp; GD Training</h3>
+        <p class="program-desc">Master the art of group discussions. Learn how to initiate, contribute, summarize, and stand out in competitive GD rounds at top companies.</p>
+      </div>
+
+      <!-- Module 7 -->
+      <div class="program-card">
+        <div class="card-module-num">Module 07</div>
+        <h3 class="program-title">Mock Interviews &amp; Feedback</h3>
+        <p class="program-desc">Practice with real company-style mock interviews conducted by industry professionals. Get detailed feedback and iterate until you're ready.</p>
+      </div>
+
+      <!-- Module 8 -->
+      <div class="program-card">
+        <div class="card-module-num">Module 08</div>
+        <h3 class="program-title">Placement Drive &amp; Job Support</h3>
+        <p class="program-desc">Access Kompetenzen's network of 100+ hiring partners. Attend mega placement drives, get company-specific preparation, and receive support until you land your first job.</p>
+      </div>
+
+    </div>
+  </section>
+  <!-- WHO SHOULD JOIN -->
+  <section style="padding: 100px 24px;">
+    <div style="max-width: var(--maxw); margin: 0 auto;">
+      <div style="text-align: center; margin-bottom: 60px;">
+        <span class="eyebrow">Eligibility</span>
+        <h2 style="font-size: clamp(32px, 5vw, 48px); font-weight: 700; letter-spacing: -0.03em; color: var(--ink);">Who Should Join?</h2>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px;">
+        <div class="audience-card">
+          <div style="font-size: 40px; margin-bottom: 16px;">🎓</div>
+          <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">Fresh Graduates</h3>
+          <p style="font-size: 14px; color: var(--ink-mute); line-height: 1.6;">Just finished college and looking for your first job? This is your launchpad.</p>
+        </div>
+        <div class="audience-card">
+          <div style="font-size: 40px; margin-bottom: 16px;">🔍</div>
+          <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">Job Seekers</h3>
+          <p style="font-size: 14px; color: var(--ink-mute); line-height: 1.6;">Applying but not getting calls? Fix your resume and sharpen your interview skills.</p>
+        </div>
+        <div class="audience-card">
+          <div style="font-size: 40px; margin-bottom: 16px;">💬</div>
+          <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">Communication-Shy Students</h3>
+          <p style="font-size: 14px; color: var(--ink-mute); line-height: 1.6;">Struggle with spoken English or public speaking? We'll fix that in weeks.</p>
+        </div>
+        <div class="audience-card">
+          <div style="font-size: 40px; margin-bottom: 16px;">🎯</div>
+          <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">Career Changers</h3>
+          <p style="font-size: 14px; color: var(--ink-mute); line-height: 1.6;">Pivoting to a new domain? Build the soft skills and confidence to make a smooth transition.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS (Google-style like tech-school) -->
+  <section style="max-width: var(--maxw); margin: 20px auto 80px; padding: 40px 24px; text-align: center; font-family: 'Inter', sans-serif;">
+    <h2 style="font-size: clamp(28px, 4vw, 40px); font-weight: 400; color: var(--ink); margin-bottom: 64px; line-height: 1.3;">
+      Get career-ready with<br>Kompetenzen Finishing School
+    </h2>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 60px 32px; text-align: left;">
+      <!-- Col 1 -->
+      <div style="display: flex; flex-direction: column; gap: 40px;">
+        <div style="min-height: 110px;">
+          <h3 style="font-size: 20px; font-weight: 400; color: var(--ink); margin-bottom: 12px; line-height: 1.3;">Intensive modules</h3>
+          <p style="font-size: 14px; color: var(--ink-mute); line-height: 1.6;">Communication, aptitude, resume, interview, and placement support all in one program.</p>
+        </div>
+        <div>
+          <div class="stat-num">8 Modules</div>
+          <p style="font-size: 13px; color: var(--ink-mute); line-height: 1.6;">of structured, hands-on career readiness training</p>
+        </div>
+      </div>
+
+      <!-- Col 2 -->
+      <div style="display: flex; flex-direction: column; gap: 40px;">
+        <div style="min-height: 110px;">
+          <h3 style="font-size: 20px; font-weight: 400; color: var(--ink); margin-bottom: 12px; line-height: 1.3;">Stand out to employers</h3>
+          <p style="font-size: 14px; color: var(--ink-mute); line-height: 1.6;">Build a recruiter-friendly resume and a LinkedIn profile that gets noticed.</p>
+        </div>
+        <div>
+          <div class="stat-num">100+</div>
+          <p style="font-size: 13px; color: var(--ink-mute); line-height: 1.6;">hiring partners in our placement network</p>
+        </div>
+      </div>
+
+      <!-- Col 3 -->
+      <div style="display: flex; flex-direction: column; gap: 40px;">
+        <div style="min-height: 110px;">
+          <h3 style="font-size: 20px; font-weight: 400; color: var(--ink); margin-bottom: 12px; line-height: 1.3;">Proven placement success</h3>
+          <p style="font-size: 14px; color: var(--ink-mute); line-height: 1.6;">Our students consistently land jobs across top companies in Kerala and beyond.</p>
+        </div>
+        <div>
+          <div class="stat-num">90%</div>
+          <p style="font-size: 13px; color: var(--ink-mute); line-height: 1.6;">placement success rate for Finishing School graduates</p>
+        </div>
+      </div>
+
+      <!-- Col 4 -->
+      <div style="display: flex; flex-direction: column; gap: 40px;">
+        <div style="min-height: 110px;">
+          <h3 style="font-size: 20px; font-weight: 400; color: var(--ink); margin-bottom: 12px; line-height: 1.3;">Long-term support</h3>
+          <p style="font-size: 14px; color: var(--ink-mute); line-height: 1.6;">We don't stop after training. We support you until you land the job you want.</p>
+        </div>
+        <div>
+          <div class="stat-num">1 Year</div>
+          <p style="font-size: 13px; color: var(--ink-mute); line-height: 1.6;">of dedicated placement support after completing the program</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAM STRUCTURE -->
+  <section style="padding: 100px 0;">
+    <div style="text-align: center; margin-bottom: 60px;">
+      <span class="eyebrow">Program Structure</span>
+      <h2 style="font-size: clamp(32px, 5vw, 48px); font-weight: 700; letter-spacing: -0.03em; color: var(--ink);">
+        Assess, Upskill, Launch.
+      </h2>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; max-width: 1100px; margin: 0 auto; padding: 0 24px;">
+      <!-- Assess -->
+      <div class="structure-card">
+        <div class="structure-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle>
+          </svg>
+        </div>
+        <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 16px; color: var(--ink);">Assess</h3>
+        <p style="font-size: 15px; color: var(--ink-mute); line-height: 1.6;">Career goal mapping, skill gap analysis, and a personalised roadmap tailored to your target role and industry.</p>
+      </div>
+
+      <!-- Upskill -->
+      <div class="structure-card">
+        <div class="structure-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"></path>
+          </svg>
+        </div>
+        <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 16px; color: var(--ink);">Upskill</h3>
+        <p style="font-size: 15px; color: var(--ink-mute); line-height: 1.6;">Communication, aptitude, interview prep, GD training, body language, resume writing, and mock interview practice.</p>
+      </div>
+
+      <!-- Launch -->
+      <div class="structure-card">
+        <div class="structure-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13.5 2.5l5.5 5.5-2 10-10-2L2.5 13.5 13.5 2.5z"></path>
+          </svg>
+        </div>
+        <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 16px; color: var(--ink);">Launch</h3>
+        <p style="font-size: 15px; color: var(--ink-mute); line-height: 1.6;">Attend mega placement drives with 100+ hiring partners, get company-specific preparation, and receive support until you're placed.</p>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- TRAINER SECTION -->
+  <section style="background: var(--ink); color: #fff; padding: 100px 24px;">
+    <div style="max-width: var(--maxw); margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 60px; align-items: center;">
+      <div>
+        <span style="font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Your Trainer</span>
+        <h2 style="font-size: clamp(32px, 5vw, 48px); font-weight: 800; margin-top: 12px; line-height: 1.1; letter-spacing: -0.02em;">Ananthu Vijayan</h2>
+        <p style="font-size: 18px; color: rgba(255,255,255,0.75); margin-top: 16px; line-height: 1.6;">Industry expert and career coach with a passion for transforming students into confident, corporate-ready professionals. Learn directly from someone who knows what top employers are looking for.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 16px; margin-top: 32px;">
+          <a href="https://www.instagram.com/byananthuvijayan" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 12px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            @byananthuvijayan
+          </a>
+          <a href="https://www.instagram.com/kompetenzen_finishingschool" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 12px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            @kompetenzen_finishingschool
+          </a>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 24px; color: rgba(255,255,255,0.9);">What Ananthu teaches you</h3>
+        <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 16px;">
+          <li style="display: flex; gap: 12px; align-items: flex-start; font-size: 16px; color: rgba(255,255,255,0.8);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7B92FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Interview tips and battle-tested strategies
+          </li>
+          <li style="display: flex; gap: 12px; align-items: flex-start; font-size: 16px; color: rgba(255,255,255,0.8);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7B92FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Communication and confidence building techniques
+          </li>
+          <li style="display: flex; gap: 12px; align-items: flex-start; font-size: 16px; color: rgba(255,255,255,0.8);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7B92FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Career tools, tricks, and real-world insights
+          </li>
+          <li style="display: flex; gap: 12px; align-items: flex-start; font-size: 16px; color: rgba(255,255,255,0.8);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7B92FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Job-ready skill development and career clarity for freshers
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section style="background: var(--blue-soft); padding: 100px 24px; text-align: center;">
+    <div style="max-width: 640px; margin: 0 auto;">
+      <h2 style="font-size: clamp(32px, 5vw, 52px); font-weight: 700; letter-spacing: -0.03em; color: var(--ink); margin-bottom: 20px; line-height: 1.1;">Ready to Get Hired?</h2>
+      <p style="font-size: 18px; color: var(--ink-mute); margin-bottom: 40px; line-height: 1.6;">Join Kerala's most placement-focused career readiness program and start your corporate journey today.</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;">
+        <a href="https://wa.me/918590849708?text=Hi%20Kompetenzen,%20I%20am%20interested%20in%20joining%20the%20Finishing%20School%20Upskill%20Program.%20Please%20send%20me%20the%20details." target="_blank" rel="noopener"
+          style="display: inline-flex; align-items: center; gap: 8px; background: var(--ink); color: #fff; font-size: 16px; font-weight: 600; padding: 16px 32px; border-radius: 99px; text-decoration: none; transition: background 0.2s;">
+          Join the Finishing School →
+        </a>
+      </div>
+      <div style="margin-top: 32px; font-size: 14px; color: var(--ink-mute);">
+        📍 Kochi, Kerala &nbsp;|&nbsp; 📞 +91 8590 849 708 &nbsp;|&nbsp; 🌐 www.kompetenzen.in
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <p>&copy; 2026 Kompetenzen Technologies. All rights reserved.</p>
+    <p style="margin-top: 8px;">
+      <a href="https://wa.me/918590886009" target="_blank" rel="noopener">Contact us via WhatsApp</a>
+    </p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      if(localStorage.getItem('token')) {
+        document.querySelectorAll('.logout-link').forEach(l => l.style.display = 'inline-block');
+      }
+    });
+  </script>
+</body>
+
+</html>

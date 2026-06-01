@@ -1,0 +1,1052 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script>
+    // Auth guard — if no token, redirect to main page which will show the login modal
+    if (!localStorage.getItem('token')) {
+      window.location.replace('index.html#jobs-auth');
+    }
+  </script>
+  <title>Job Listings — Kompetenzen | Latest Career Opportunities in Kerala</title>
+  <meta name="description"
+    content="Explore the latest job listings curated by Kompetenzen Technologies. Find top IT, HR, and management roles with leading companies in Kerala and across India." />
+  <link rel="icon" type="image/png" href="icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Inconsolata:wght@400;700&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    /* =============================================
+       TOKENS — same as main site
+    ============================================= */
+    :root {
+      --ink: #02050E;
+      --ink-2: #0D1630;
+      --ink-mute: #474F66;
+      --blue: #1947FF;
+      --blue-deep: #0E2EC9;
+      --blue-soft: #E8ECFF;
+      --cream: #FFFFFF;
+      --paper: #FFFFFF;
+      --line: rgba(10, 21, 48, .12);
+      --line-soft: rgba(10, 21, 48, .06);
+      --radius: 18px;
+      --maxw: 1200px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+
+    html, body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.45;
+    }
+
+    body { overflow-x: hidden; }
+
+
+
+    /* =============================================
+       NAV
+    ============================================= */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .nav-inner {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .brand img { height: 36px; display: block; }
+    .brand { text-decoration: none; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink-mute);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--ink); }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 99px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .nav-cta:hover { background: var(--blue); transform: translateY(-1px); }
+
+    .nav-dot {
+      width: 7px; height: 7px;
+      background: #1ED760;
+      border-radius: 50%;
+      box-shadow: 0 0 0 3px rgba(30,215,96,0.2);
+      animation: pulse-dot 2s ease infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { box-shadow: 0 0 0 3px rgba(30,215,96,0.2); }
+      50% { box-shadow: 0 0 0 6px rgba(30,215,96,0.1); }
+    }
+
+    /* =============================================
+       HERO
+    ============================================= */
+    .jobs-hero {
+      position: relative;
+      background: transparent;
+      color: var(--ink);
+      padding: 80px 24px 100px;
+      overflow: hidden;
+      text-align: center;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .jobs-hero::before {
+      display: none;
+    }
+
+    .jobs-hero::after { display: none; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(25,71,255,0.08);
+      border: 1px solid rgba(25,71,255,0.2);
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 99px;
+      margin-bottom: 28px;
+    }
+
+    .hero-badge .live-dot {
+      width: 6px; height: 6px;
+      background: #1ED760;
+      border-radius: 50%;
+      animation: pulse-dot 2s ease infinite;
+    }
+
+    .jobs-hero h1 {
+      font-size: clamp(36px, 6vw, 72px);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+    }
+
+    .jobs-hero h1 em {
+      font-style: normal;
+      color: var(--blue);
+    }
+
+    .jobs-hero p {
+      font-size: clamp(15px, 1.8vw, 18px);
+      color: var(--ink-mute);
+      max-width: 560px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-top: 40px;
+    }
+
+    .hero-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .hero-stat .val {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+
+    .hero-stat .lbl {
+      font-size: 12px;
+      color: var(--ink-mute);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* =============================================
+       MAIN CONTENT
+    ============================================= */
+    .jobs-main {
+      position: relative;
+      z-index: 1;
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 48px 24px 100px;
+    }
+
+    /* Filter Bar */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .filter-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-mute);
+      margin-right: 4px;
+    }
+
+    .filter-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      border-radius: 99px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink-mute);
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover { border-color: var(--blue); color: var(--blue); }
+    .filter-btn.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+    .filter-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      font-size: 10px;
+      font-weight: 700;
+      background: rgba(25,71,255,0.15);
+      color: var(--blue);
+    }
+
+    .filter-btn.active .filter-count {
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+    }
+
+    /* Section heading */
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .section-head h2 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .jobs-count {
+      font-size: 13px;
+      color: var(--ink-mute);
+      background: var(--blue-soft);
+      padding: 4px 12px;
+      border-radius: 99px;
+      font-weight: 600;
+      color: var(--blue);
+    }
+
+    /* =============================================
+       JOB CARDS GRID
+    ============================================= */
+    .jobs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 20px;
+    }
+
+    .job-card {
+      background: #fff;
+      border: 2px solid #000;
+      border-radius: 20px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 8px 8px 0px rgba(0, 0, 0, 1);
+    }
+
+    .job-card:hover {
+      box-shadow: 12px 12px 0px rgba(0, 0, 0, 1);
+      transform: translate(-4px, -4px);
+    }
+
+    /* Card header */
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .company-logo {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      background: var(--blue-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--blue);
+      flex-shrink: 0;
+      border: 1px solid rgba(25,71,255,0.1);
+    }
+
+    .job-type-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 12px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .badge-fulltime { background: rgba(30,215,96,0.1); color: #0D7E3E; }
+    .badge-contract { background: rgba(255,165,0,0.1); color: #A05A00; }
+    .badge-parttime { background: rgba(25,71,255,0.1); color: var(--blue); }
+    .badge-remote   { background: rgba(139,92,246,0.1); color: #6D28D9; }
+    .badge-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+    /* Card body */
+    .job-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+    }
+
+    .company-name {
+      font-size: 13px;
+      color: var(--ink-mute);
+      font-weight: 500;
+      margin-top: 4px;
+    }
+
+    .company-name strong { color: var(--ink); font-weight: 600; }
+
+    /* Meta row */
+    .job-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--ink-mute);
+      font-weight: 500;
+    }
+
+    .meta-icon {
+      width: 16px; height: 16px;
+      opacity: 0.6;
+    }
+
+    /* Skills */
+    .skills-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .skill-chip {
+      padding: 5px 12px;
+      background: var(--paper);
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Card footer */
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 16px;
+      border-top: 1px solid var(--line-soft);
+      gap: 12px;
+    }
+
+    .salary-range {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .salary-range span {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--ink-mute);
+    }
+
+    .apply-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 18px;
+      background: var(--ink);
+      color: #fff;
+      border-radius: 99px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.25s;
+      white-space: nowrap;
+    }
+
+    .apply-btn:hover { background: var(--blue); gap: 10px; }
+
+    /* Posted date */
+    .posted-time {
+      font-size: 11px;
+      color: var(--ink-mute);
+      margin-top: -8px;
+    }
+
+    /* =============================================
+       FEATURED CARD (spans 2 cols)
+    ============================================= */
+    .job-card.featured {
+      background: var(--ink);
+      border-color: transparent;
+      color: #fff;
+      grid-column: span 2;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 32px;
+    }
+
+    .job-card.featured:hover {
+      box-shadow: 0 20px 60px rgba(25,71,255,0.3);
+      transform: translateY(-4px);
+    }
+
+    .job-card.featured .company-logo {
+      background: rgba(25,71,255,0.2);
+      color: #7B92FF;
+      border-color: rgba(25,71,255,0.3);
+      width: 64px; height: 64px;
+      font-size: 22px;
+    }
+
+    .job-card.featured .job-title { font-size: 22px; color: #fff; }
+    .job-card.featured .company-name { color: rgba(255,255,255,0.5); }
+    .job-card.featured .company-name strong { color: rgba(255,255,255,0.8); }
+    .job-card.featured .meta-item { color: rgba(255,255,255,0.5); }
+    .job-card.featured .skill-chip { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.8); }
+    .job-card.featured .card-footer { border-color: rgba(255,255,255,0.08); }
+    .job-card.featured .salary-range { color: #fff; }
+    .job-card.featured .salary-range span { color: rgba(255,255,255,0.5); }
+    .job-card.featured .apply-btn { background: var(--blue); }
+    .job-card.featured .apply-btn:hover { background: var(--blue-deep); }
+    .job-card.featured .posted-time { color: rgba(255,255,255,0.35); }
+
+    .featured-tag {
+      position: absolute;
+      top: 20px; right: 20px;
+      background: rgba(25,71,255,0.2);
+      border: 1px solid rgba(25,71,255,0.4);
+      color: #7B92FF;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 4px 10px;
+      border-radius: 99px;
+    }
+
+    .featured-content { flex: 1; display: flex; flex-direction: column; gap: 14px; }
+
+    /* =============================================
+       EMPTY STATE / CTA BANNER
+    ============================================= */
+    .alert-cta {
+      margin-top: 48px;
+      background: linear-gradient(135deg, var(--blue) 0%, #5B7EFF 100%);
+      border-radius: 20px;
+      padding: 40px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .alert-cta h3 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .alert-cta p { font-size: 14px; color: rgba(255,255,255,0.7); }
+
+    .alert-cta a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      color: var(--blue);
+      font-size: 14px;
+      font-weight: 700;
+      padding: 12px 24px;
+      border-radius: 99px;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .alert-cta a:hover { background: var(--blue-soft); }
+
+    /* =============================================
+       FOOTER
+    ============================================= */
+    .jobs-footer {
+      background: var(--ink);
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      padding: 32px 24px;
+      font-size: 13px;
+    }
+
+    .jobs-footer a { color: rgba(255,255,255,0.7); text-decoration: none; }
+    .jobs-footer a:hover { color: #fff; }
+
+    /* =============================================
+       RESPONSIVE
+    ============================================= */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .jobs-hero { padding: 60px 20px 80px; }
+      .hero-stats { gap: 24px; }
+      .jobs-grid { grid-template-columns: 1fr; }
+      .job-card.featured { grid-column: span 1; flex-direction: column; gap: 18px; }
+      .filter-bar { gap: 8px; }
+      .alert-cta { padding: 28px 24px; }
+    }
+
+    @media (max-width: 480px) {
+      .card-footer { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .apply-btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="brand">
+        <img src="kompetenzen logo-02.png" alt="Kompetenzen" />
+      </a>
+      <div class="nav-links">
+        <a href="index.html#consulting">Consulting</a>
+        <a href="index.html#training">Training</a>
+        <a href="index.html#placements">Placements</a>
+        <a href="jobs.html" style="color: var(--blue); font-weight: 700;">Jobs</a>
+      </div>
+      <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen,%20I%20would%20like%20to%20talk%20to%20your%20team." 
+         target="_blank" rel="noopener" class="nav-cta">
+        <span class="nav-dot"></span>
+        Talk to us
+      </a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="jobs-hero">
+    <div class="hero-badge">
+      <span class="live-dot"></span>
+      Live Opportunities
+    </div>
+    <h1>Find Your Next<br><em>Career Move.</em></h1>
+    <p>Exclusive job openings sourced by Kompetenzen Technologies. Connecting talented professionals with top companies across Kerala and India.</p>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="val">24+</span>
+        <span class="lbl">Open Roles</span>
+      </div>
+      <div class="hero-stat">
+        <span class="val">60+</span>
+        <span class="lbl">Partner Companies</span>
+      </div>
+      <div class="hero-stat">
+        <span class="val">2000+</span>
+        <span class="lbl">Placements Done</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN -->
+  <main class="jobs-main">
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+      <span class="filter-label">Filter:</span>
+      <button class="filter-btn active" onclick="filterJobs('all', this)">
+        All Roles <span class="filter-count">8</span>
+      </button>
+      <button class="filter-btn" onclick="filterJobs('tech', this)">
+        Tech <span class="filter-count">4</span>
+      </button>
+      <button class="filter-btn" onclick="filterJobs('hr', this)">
+        HR & Management <span class="filter-count">2</span>
+      </button>
+      <button class="filter-btn" onclick="filterJobs('sales', this)">
+        Sales <span class="filter-count">2</span>
+      </button>
+    </div>
+
+    <!-- Section Head -->
+    <div class="section-head">
+      <h2>Current Openings</h2>
+      <span class="jobs-count" id="jobs-count">8 Jobs Available</span>
+    </div>
+
+    <!-- Jobs Grid -->
+    <div class="jobs-grid" id="jobs-grid">
+
+      <!-- Card: Full Stack Developer -->
+      <a class="job-card" 
+         data-category="tech"
+         href="https://wa.me/918590886009?text=Hi%20Kompetenzen,%20I%20am%20interested%20in%20the%20Full%20Stack%20Developer%20role%20at%20Stagewise%20Innovations.%20Please%20share%20more%20details." 
+         target="_blank" rel="noopener">
+        <div class="card-header">
+          <div class="company-logo">SI</div>
+          <span class="job-type-badge badge-fulltime"><span class="badge-dot"></span>Full-Time</span>
+        </div>
+        <div>
+          <div class="job-title">Full Stack Developer</div>
+          <div class="company-name">at <strong>Stagewise Innovations</strong></div>
+          <div class="posted-time" style="margin-top:4px;">Posted 2 days ago</div>
+        </div>
+        <div class="job-meta">
+          <div class="meta-item">
+            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Kochi / Hybrid
+          </div>
+          <div class="meta-item">
+            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            1–3 Years Exp.
+          </div>
+        </div>
+        <div class="skills-row">
+          <span class="skill-chip">React.js</span>
+          <span class="skill-chip">Python</span>
+          <span class="skill-chip">Django</span>
+          <span class="skill-chip">PostgreSQL</span>
+          <span class="skill-chip">AWS</span>
+          <span class="skill-chip">REST APIs</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="salary-range">₹4L – ₹8L <span>/ year</span></div>
+          </div>
+          <span class="apply-btn">Apply →</span>
+        </div>
+      </a>
+
+      <!-- Card: Python AI Developer -->
+      <a class="job-card" 
+         data-category="tech"
+         href="https://wa.me/918590886009?text=Hi%20Kompetenzen,%20I%20am%20interested%20in%20the%20Python%20AI%20Developer%20role.%20Please%20share%20details." 
+         target="_blank" rel="noopener">
+        <div class="card-header">
+          <div class="company-logo">TN</div>
+          <span class="job-type-badge badge-fulltime"><span class="badge-dot"></span>Full-Time</span>
+        </div>
+        <div>
+          <div class="job-title">Python + AI Developer</div>
+          <div class="company-name">at <strong>TechNova Solutions</strong></div>
+          <div class="posted-time" style="margin-top:4px;">Posted 1 day ago</div>
+        </div>
+        <div class="job-meta">
+          <div class="meta-item">
+            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Kochi, Kerala
+          </div>
+          <div class="meta-item">
+            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            0–2 Years
+          </div>
+        </div>
+        <div class="skills-row">
+          <span class="skill-chip">Python</span>
+          <span class="skill-chip">TensorFlow</span>
+          <span class="skill-chip">LangChain</span>
+          <span class="skill-chip">FastAPI</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="salary-range">₹3.5L – ₹6L <span>/ year</span></div>
+          </div>
+          <span class="apply-btn">Apply →</span>
+        </div>
+      </a>
+
+      <!-- Card: Java Developer -->
+      <a class="job-card"
+         data-category="tech"
+         href="https://wa.me/918590886009?text=Hi%20Kompetenzen,%20I%20am%20interested%20in%20the%20Java%20Developer%20role.%20Please%20share%20details." 
+         target="_blank" rel="noopener">
+        <div class="card-header">
+          <div class="company-logo">IB</div>
+          <span class="job-type-badge badge-fulltime"><span class="badge-dot"></span>Full-Time</span>
+        </div>
+        <div>
+          <div class="job-title">Java Backend Developer</div>
+          <div class="company-name">at <strong>InfraBase Technologies</strong></div>
+          <div class="posted-time" style="margin-top:4px;">Posted 3 days ago</div>
+        </div>
+        <div class="job-meta">
+          <div class="meta-item">
+            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Trivandrum / Remote
+          </div>
+          <div class="meta-item">
+            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            1–4 Years
+          </div>
+        </div>
+        <div class="skills-row">
+          <span class="skill-chip">Java</span>
+          <span class="skill-chip">Spring Boot</span>
+          <span class="skill-chip">Microservices</span>
+          <span class="skill-chip">MySQL</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="salary-range">₹4L – ₹9L <span>/ year</span></div>
+          </div>
+          <span class="apply-btn">Apply →</span>
+        </div>
+      </a>
+
+      <!-- Card: Data Analyst -->
+      <a class="job-card"
+         data-category="tech"
+         href="https://wa.me/918590886009?text=Hi%20Kompetenzen,%20I%20am%20interested%20in%20the%20Data%20Analyst%20role.%20Please%20share%20details." 
+         target="_blank" rel="noopener">
+        <div class="card-header">
+          <div class="company-logo">DX</div>
+          <span class="job-type-badge badge-remote"><span class="badge-dot"></span>Remote</span>
+        </div>
+        <div>
+          <div class="job-title">Data Analyst — BI & GenAI</div>
+          <div class="company-name">at <strong>DataXcel Analytics</strong></div>
+          <div class="posted-time" style="margin-top:4px;">Posted 5 days ago</div>
+        </div>
+        <div class="job-meta">
+          <div class="meta-item">
+            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Remote — India
+          </div>
+          <div class="meta-item">
+            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            0–2 Years
+          </div>
+        </div>
+        <div class="skills-row">
+          <span class="skill-chip">Power BI</span>
+          <span class="skill-chip">SQL</span>
+          <span class="skill-chip">Python</span>
+          <span class="skill-chip">ChatGPT APIs</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="salary-range">₹3L – ₹5.5L <span>/ year</span></div>
+          </div>
+          <span class="apply-btn">Apply →</span>
+        </div>
+      </a>
+
+      <!-- Card: HR Executive -->
+      <a class="job-card"
+         data-category="hr"
+         href="https://wa.me/918590886009?text=Hi%20Kompetenzen,%20I%20am%20interested%20in%20the%20HR%20Executive%20role.%20Please%20share%20details." 
+         target="_blank" rel="noopener">
+        <div class="card-header">
+          <div class="company-logo">GP</div>
+          <span class="job-type-badge badge-fulltime"><span class="badge-dot"></span>Full-Time</span>
+        </div>
+        <div>
+          <div class="job-title">HR Executive — Generalist</div>
+          <div class="company-name">at <strong>GlobalPrime HR Consultants</strong></div>
+          <div class="posted-time" style="margin-top:4px;">Posted 1 week ago</div>
+        </div>
+        <div class="job-meta">
+          <div class="meta-item">
+            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Kochi, Kerala
+          </div>
+          <div class="meta-item">
+            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            0–2 Years
+          </div>
+        </div>
+        <div class="skills-row">
+          <span class="skill-chip">Recruitment</span>
+          <span class="skill-chip">KEKA HRMS</span>
+          <span class="skill-chip">Payroll</span>
+          <span class="skill-chip">Labour Law</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="salary-range">₹2.5L – ₹4.5L <span>/ year</span></div>
+          </div>
+          <span class="apply-btn">Apply →</span>
+        </div>
+      </a>
+
+      <!-- Card: HR Manager -->
+      <a class="job-card"
+         data-category="hr"
+         href="https://wa.me/918590886009?text=Hi%20Kompetenzen,%20I%20am%20interested%20in%20the%20HR%20Manager%20role.%20Please%20share%20details." 
+         target="_blank" rel="noopener">
+        <div class="card-header">
+          <div class="company-logo">CC</div>
+          <span class="job-type-badge badge-contract"><span class="badge-dot"></span>Contract</span>
+        </div>
+        <div>
+          <div class="job-title">HR Manager — GCC Ready</div>
+          <div class="company-name">at <strong>CoreCorp Solutions</strong></div>
+          <div class="posted-time" style="margin-top:4px;">Posted 4 days ago</div>
+        </div>
+        <div class="job-meta">
+          <div class="meta-item">
+            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Dubai / Kochi
+          </div>
+          <div class="meta-item">
+            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            2–5 Years
+          </div>
+        </div>
+        <div class="skills-row">
+          <span class="skill-chip">HR Strategy</span>
+          <span class="skill-chip">AI HR Tools</span>
+          <span class="skill-chip">GCC</span>
+          <span class="skill-chip">Compliance</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="salary-range">₹6L – ₹12L <span>/ year</span></div>
+          </div>
+          <span class="apply-btn">Apply →</span>
+        </div>
+      </a>
+
+      <!-- Card: Sales Executive -->
+      <a class="job-card"
+         data-category="sales"
+         href="https://wa.me/918590886009?text=Hi%20Kompetenzen,%20I%20am%20interested%20in%20the%20Sales%20Executive%20role.%20Please%20share%20details." 
+         target="_blank" rel="noopener">
+        <div class="card-header">
+          <div class="company-logo">NX</div>
+          <span class="job-type-badge badge-fulltime"><span class="badge-dot"></span>Full-Time</span>
+        </div>
+        <div>
+          <div class="job-title">Inside Sales Executive</div>
+          <div class="company-name">at <strong>NexGen Ventures</strong></div>
+          <div class="posted-time" style="margin-top:4px;">Posted 6 days ago</div>
+        </div>
+        <div class="job-meta">
+          <div class="meta-item">
+            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Kochi, Kerala
+          </div>
+          <div class="meta-item">
+            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            0–3 Years
+          </div>
+        </div>
+        <div class="skills-row">
+          <span class="skill-chip">CRM Tools</span>
+          <span class="skill-chip">Lead Generation</span>
+          <span class="skill-chip">Communication</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="salary-range">₹2.5L – ₹5L + Incentives</div>
+          </div>
+          <span class="apply-btn">Apply →</span>
+        </div>
+      </a>
+
+      <!-- Card: B2B Sales Manager -->
+      <a class="job-card"
+         data-category="sales"
+         href="https://wa.me/918590886009?text=Hi%20Kompetenzen,%20I%20am%20interested%20in%20the%20B2B%20Sales%20Manager%20role.%20Please%20share%20details." 
+         target="_blank" rel="noopener">
+        <div class="card-header">
+          <div class="company-logo">AS</div>
+          <span class="job-type-badge badge-fulltime"><span class="badge-dot"></span>Full-Time</span>
+        </div>
+        <div>
+          <div class="job-title">B2B Sales Manager</div>
+          <div class="company-name">at <strong>ApexScale Technologies</strong></div>
+          <div class="posted-time" style="margin-top:4px;">Posted 2 days ago</div>
+        </div>
+        <div class="job-meta">
+          <div class="meta-item">
+            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Bangalore / Kochi
+          </div>
+          <div class="meta-item">
+            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            3–6 Years
+          </div>
+        </div>
+        <div class="skills-row">
+          <span class="skill-chip">B2B Sales</span>
+          <span class="skill-chip">Negotiation</span>
+          <span class="skill-chip">SaaS</span>
+          <span class="skill-chip">Pipeline Mgmt</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="salary-range">₹7L – ₹14L + Bonus</div>
+          </div>
+          <span class="apply-btn">Apply →</span>
+        </div>
+      </a>
+
+    </div><!-- /jobs-grid -->
+
+    <!-- Alert CTA -->
+    <div class="alert-cta">
+      <div>
+        <h3>Don't see your perfect role?</h3>
+        <p>Register with us and we'll match you with companies as soon as a relevant opening appears.</p>
+      </div>
+      <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen,%20I%20would%20like%20to%20register%20for%20job%20alerts%20and%20be%20notified%20of%20new%20openings." 
+         target="_blank" rel="noopener">
+        Register for Job Alerts →
+      </a>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="jobs-footer">
+    <p>© 2025 Kompetenzen Technologies. All rights reserved. · <a href="index.html">Back to Main Site</a></p>
+  </footer>
+
+  <script>
+    function filterJobs(category, btn) {
+      // Update active button
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // Filter cards
+      const cards = document.querySelectorAll('.job-card');
+      let visible = 0;
+
+      cards.forEach(card => {
+        const cat = card.getAttribute('data-category');
+        const show = category === 'all' || cat === category;
+        card.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+
+      // Handle featured card column span on mobile
+      const featured = document.querySelector('.job-card.featured');
+      if (featured && featured.style.display !== 'none') {
+        featured.style.gridColumn = window.innerWidth > 768 ? 'span 2' : 'span 1';
+      }
+
+      // Update count
+      document.getElementById('jobs-count').textContent = visible + ' Job' + (visible !== 1 ? 's' : '') + ' Available';
+    }
+
+    // Fix featured card on resize
+    window.addEventListener('resize', () => {
+      const featured = document.querySelector('.job-card.featured');
+      if (featured && featured.style.display !== 'none') {
+        featured.style.gridColumn = window.innerWidth > 768 ? 'span 2' : 'span 1';
+      }
+    });
+  </script>
+
+</body>
+</html>

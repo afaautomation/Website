@@ -1,0 +1,7 @@
+# AI Assistant Directories
+.gemini/
+scratch/
+
+# OS Files
+.DS_Store
+Thumbs.db
