@@ -24,8 +24,7 @@
       --ink-2: #0D1630;
       --ink-mute: #474F66;
       /* empowered readable muted text color */
-      --blue: #1947FF;
-      /* electric blue from the lion */
+      --blue: #0E2EC9;
       --blue-deep: #0E2EC9;
       --blue-soft: #E8ECFF;
       --cream: #FFFFFF;
@@ -417,11 +416,12 @@
    HERO — Career Consulting
 =========================================================== */
     .hero {
-      padding: clamp(120px, 15vh, 180px) 0 0;
+      padding: clamp(100px, 12vh, 160px) 0 clamp(40px, 6vh, 80px);
       position: relative;
-      min-height: 85vh;
+      min-height: 100vh;
+      box-sizing: border-box;
       display: flex;
-      align-items: center
+      align-items: center;
     }
 
     .hero-grid {
@@ -922,28 +922,25 @@
     }
 
     /* ===========================================================
-   TRAINING PROGRAMS (Sticky Scroll Showcase)
+   TRAINING PROGRAMS (Showcase Box)
 =========================================================== */
     #training {
-      padding: 0;
+      padding: 60px 0;
       position: relative;
       background: transparent;
     }
 
     .scroll-track {
-      height: 300vh;
-      /* Smooth, progressive scroll track */
+      height: auto;
       position: relative;
     }
 
     .training-sticky-inner {
-      position: sticky;
-      top: 0;
-      height: 100vh;
+      position: relative;
+      height: auto;
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
     }
 
     /* Hover Play Video Button & Full Screen Modal styling */
@@ -1104,17 +1101,44 @@
       }
 
       .video-play-btn {
+        position: relative !important;
+        left: auto !important;
+        top: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+        margin: 14px auto 0 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: auto !important;
+        max-width: fit-content !important;
+        padding: 6px 14px !important;
+        font-size: 12px !important;
+        border-radius: 99px !important;
         opacity: 1 !important;
         visibility: visible !important;
-        transform: scale(1) translateY(0) !important;
-        top: 20px !important;
-        right: 20px !important;
-        padding: 8px 16px !important;
-        font-size: 12px !important;
+        transform: none !important;
+        z-index: 10 !important;
+      }
+
+      #training {
+        padding: 30px 0 !important;
+        margin-top: 20px !important;
+      }
+
+      .training-sticky-inner {
+        height: auto !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
       }
 
       .glowing-box-container {
-        width: calc(100% - 40px);
+        width: calc(100% - 32px) !important;
+        height: 75vh !important;
+        min-height: 520px !important;
+        max-height: none !important;
+        margin: 0 auto 36px auto !important;
       }
     }
 
@@ -1203,17 +1227,34 @@
       align-items: center;
       justify-content: flex-start;
       width: 100%;
+      margin-bottom: 50px;
     }
 
     .glowing-box-container {
       position: relative;
-      margin: 0 auto;
+      margin: 0 auto 50px auto;
       width: calc(100% - 40px);
       max-width: 1920px;
-      height: calc(100vh - 40px);
+      height: 82vh;
+      min-height: 580px;
+      max-height: 860px;
       border-radius: 28px;
       overflow: hidden;
-      box-shadow: 0 30px 80px rgba(2, 5, 14, 0.08);
+      box-shadow: none;
+      transform: translateY(180px) scale(0.72);
+      opacity: 0;
+      transform-origin: center top;
+      transition: transform 1.25s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 1.25s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform, opacity;
+      pointer-events: none;
+    }
+
+    .glowing-box-container.is-popped {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+      box-shadow: none;
+      pointer-events: auto;
     }
 
     /* Tracing border glow animation */
@@ -1264,6 +1305,7 @@
       position: absolute;
       inset: 0;
       z-index: 1;
+      perspective: 1600px;
     }
 
     .school-slide {
@@ -1275,31 +1317,37 @@
       gap: 0;
       opacity: 0;
       pointer-events: none;
-      transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 1.15s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.9s cubic-bezier(0.65, 0, 0.35, 1);
       z-index: 0;
+      backface-visibility: hidden;
     }
 
-    /* Incoming state: positioned below the container */
+    /* Incoming state: rolled under, as if wrapped beneath a rotating drum */
     .school-slide.next {
       opacity: 0;
-      transform: translateY(120px) scale(0.97);
+      transform-origin: bottom center;
+      transform: translateY(60px) rotateX(-110deg);
       z-index: 1;
     }
 
-    /* Active state: centered in focus */
+    /* Active state: facing forward on the drum's front face */
     .school-slide.active {
       opacity: 1;
-      transform: translateY(0) scale(1);
+      transform-origin: center center;
+      transform: translateY(0) rotateX(0deg);
       pointer-events: auto;
       z-index: 2;
     }
 
-    /* Outgoing state: positioned above the container */
+    /* Outgoing state: rolled away over the top of the drum */
     .school-slide.prev {
       opacity: 0;
-      transform: translateY(-120px) scale(0.97);
+      transform-origin: top center;
+      transform: translateY(-60px) rotateX(110deg);
       z-index: 0;
     }
+
+
 
     /* Staggered text elements sliding up inside each slide */
     .school-slide .slide-title,
@@ -1397,44 +1445,145 @@
       justify-content: center;
       align-items: center;
       text-align: center;
+      padding: 32px 24px;
     }
 
-    .school-slide.cover-slide .slide-header {
+    .future-content-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       justify-content: center;
-      margin-top: 80px;
-      /* Moves heading down */
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
     }
 
-    .school-slide.cover-slide .slide-title {
-      font-family: 'Work Sans', sans-serif !important;
-      font-size: clamp(140px, 16vw, 250px) !important;
-      font-weight: 500;
-      /* Reduced thickness */
-      letter-spacing: -.03em;
+    .future-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: rgba(59, 130, 246, 0.12);
+      border: 1px solid rgba(96, 165, 250, 0.35);
+      border-radius: 99px;
+      color: #93C5FD;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      box-shadow: 0 0 24px rgba(59, 130, 246, 0.2);
+    }
+
+    .future-title {
+      font-family: 'Outfit', 'Google Sans', 'Plus Jakarta Sans', sans-serif !important;
+      font-size: clamp(38px, 6vw, 76px) !important;
+      font-weight: 800 !important;
+      letter-spacing: -0.035em;
       line-height: 1.1;
-      max-width: 100% !important;
-      margin-bottom: 24px;
+      color: #FFFFFF;
+      margin-bottom: 14px;
+      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
     }
 
-    .school-slide.cover-slide .slide-title em {
-      color: #7B92FF;
-      /* Vibrant premium accent blue */
+    .future-title .gradient-text {
+      background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 45%, #A855F7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: inline-block;
     }
 
-    .school-slide.cover-slide .slide-desc {
-      font-size: clamp(16px, 1.4vw, 22px);
-      line-height: 1.6;
-      color: rgba(255, 255, 255, 0.7);
-      max-width: 800px;
-      margin: 10px auto 40px auto;
+    .future-glow-line {
+      width: 70px;
+      height: 3px;
+      border-radius: 99px;
+      background: linear-gradient(90deg, transparent, #3B82F6, #93C5FD, transparent);
+      box-shadow: 0 0 14px #3B82F6;
+      margin: 0 auto 18px;
     }
 
-    .school-slide.cover-slide .cover-badges {
-      max-width: 100%;
-      margin: 0 auto !important;
+    .future-desc {
+      font-size: clamp(15px, 1.5vw, 19px);
+      line-height: 1.65;
+      color: #E2E8F0;
+      max-width: 680px;
+      margin: 0 auto 24px;
+      font-weight: 400;
+      opacity: 0.92;
+    }
+
+    .future-pills-row {
+      display: flex;
+      align-items: center;
       justify-content: center;
-      flex-direction: row !important;
-      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .future-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 99px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #CBD5E1;
+      backdrop-filter: blur(8px);
+      transition: all 0.25s ease;
+    }
+
+    .future-pill:hover {
+      background: rgba(255, 255, 255, 0.09);
+      border-color: rgba(96, 165, 250, 0.4);
+      color: #FFFFFF;
+      transform: translateY(-2px);
+    }
+
+    .pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+    }
+
+    .pill-dot.blue { background: #3B82F6; box-shadow: 0 0 8px #3B82F6; }
+    .pill-dot.green { background: #10B981; box-shadow: 0 0 8px #10B981; }
+    .pill-dot.purple { background: #A855F7; box-shadow: 0 0 8px #A855F7; }
+
+    .future-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .future-btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 28px;
+      background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+      color: #FFFFFF;
+      border: 1px solid rgba(147, 197, 253, 0.4);
+      border-radius: 99px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(37, 99, 235, 0.4), 0 0 15px rgba(59, 130, 246, 0.2);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      font-family: inherit;
+    }
+
+    .future-btn-primary:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 8px 30px rgba(37, 99, 235, 0.6), 0 0 25px rgba(96, 165, 250, 0.4);
+      background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%);
     }
 
     .school-slide .pchips {
@@ -1541,50 +1690,100 @@
       filter: drop-shadow(0 20px 55px rgba(25, 71, 255, 0.6)) drop-shadow(0 0 35px rgba(25, 71, 255, 0.4));
     }
 
-    /* Tech Slide Layout - Top Intro, Bottom Cards Grid */
+    /* Tech Slide Layout - full-cover background photo with CTA overlay */
     .school-slide[data-index="1"] {
       width: 100% !important;
       display: flex;
       flex-direction: column;
       height: 100%;
       justify-content: flex-start;
-      padding-top: 60px;
+      padding-top: 40px !important;
       gap: 0;
+      background-image: url('tech.png');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
     }
 
-    .school-slide[data-index="1"] .pillust {
+    /* Dulls the busy photo so the wordmark reads clearly on top of it */
+    .school-slide[data-index="1"]::before {
+      content: '';
       position: absolute;
-      right: 48px;
-      top: 45%;
-      width: 380px;
-      height: 380px;
-      transform: translateY(-50%) scale(0.9);
-      opacity: 0;
-      transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
-      background: transparent;
-      border: none;
-      box-shadow: none;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 55% at 50% 42%, rgba(2, 5, 14, 0.72) 0%, rgba(2, 5, 14, 0.4) 55%, transparent 80%),
+        rgba(2, 5, 14, 0.35);
       pointer-events: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      z-index: 0;
     }
 
-    .school-slide[data-index="1"].active .pillust {
-      opacity: 1;
-      transform: translateY(-50%) scale(1);
-    }
-
-    .school-slide[data-index="1"] .pillust img {
+    /* "AI-Integrated / Tech School" wordmark overlaid on the background photo */
+    .tech-photo-heading {
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      transform: translateX(-50%);
       width: 100%;
-      height: 100%;
-      object-fit: contain;
-      filter: drop-shadow(0 15px 45px rgba(25, 71, 255, 0.45)) drop-shadow(0 0 25px rgba(25, 71, 255, 0.25));
-      transition: filter 0.8s ease;
+      text-align: center;
+      pointer-events: none;
+      z-index: 1;
     }
 
-    .school-slide[data-index="1"].active:hover .pillust img {
-      filter: drop-shadow(0 20px 55px rgba(25, 71, 255, 0.6)) drop-shadow(0 0 35px rgba(25, 71, 255, 0.4));
+    .tech-photo-eyebrow {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(12px, 1.3vw, 15px);
+      font-weight: 700;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: #8FADFF;
+      text-shadow: 0 0 26px rgba(91, 138, 255, 0.9);
+      margin-bottom: 16px;
+    }
+
+    .tech-photo-title {
+      font-family: 'Michroma', sans-serif;
+      font-size: clamp(30px, 5.2vw, 68px);
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #fff;
+      margin: 0 0 22px;
+      text-shadow:
+        0 0 4px rgba(255, 255, 255, 0.6),
+        0 0 55px rgba(91, 138, 255, 0.85),
+        0 4px 20px rgba(2, 5, 14, 0.9);
+    }
+
+    .tech-photo-title::after {
+      content: '';
+      display: block;
+      width: min(320px, 60%);
+      height: 2px;
+      margin: 22px auto 0;
+      background: linear-gradient(90deg, transparent, #8FADFF, transparent);
+      box-shadow: 0 0 16px rgba(143, 173, 255, 0.9);
+    }
+
+    .tech-photo-title.no-line::after {
+      display: none !important;
+    }
+
+    .glow-line-under {
+      display: block;
+      width: min(320px, 60%);
+      height: 2px;
+      margin: 16px auto 0;
+      background: linear-gradient(90deg, transparent, #8FADFF, transparent);
+      box-shadow: 0 0 16px rgba(143, 173, 255, 0.9);
+    }
+
+    /* CTA sits just under the wordmark overlaid on the photo */
+    .tech-photo-cta {
+      position: absolute;
+      top: 62%;
+      left: 50%;
+      transform: translateX(-50%);
     }
 
     /* Slide 03 B-School Image Styling */
@@ -1717,12 +1916,16 @@
     }
 
     .tech-action-btn.primary {
-      background: #1947ff;
-      color: #fff;
+      background: #0052FF !important;
+      color: #ffffff !important;
+      box-shadow: none !important;
+      border: none !important;
     }
 
     .tech-action-btn.primary:hover {
-      background: #1032bf;
+      background: #1D4ED8 !important;
+      color: #ffffff !important;
+      box-shadow: none !important;
     }
 
     .tech-action-btn.secondary {
@@ -1916,7 +2119,7 @@
     @media (max-width: 560px) {
       .glowing-box-container {
         aspect-ratio: auto;
-        height: 480px;
+        height: min(540px, calc(100dvh - 60px));
         border-radius: 20px;
       }
 
@@ -1950,32 +2153,160 @@
       }
     }
 
-    /* Finishing School & B-School Slide Styling (Split Layout) */
+    /* InterviewNinja Style Slide Layouts (Data-index 1, 2, 3) */
+    .school-slide[data-index="1"],
     .school-slide[data-index="2"],
     .school-slide[data-index="3"] {
+      position: absolute !important;
+      inset: 0 !important;
       width: 100% !important;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      justify-content: flex-start;
-      padding-top: 80px;
+      height: 100% !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      align-items: flex-start !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      border-radius: 32px !important;
+      background-color: #02050E !important;
+      background-repeat: no-repeat !important;
+      background-size: cover !important;
+      background-position: right center !important;
     }
 
-    /* Override large default margin-bottom on slide-title for Slide 02 & 03 */
-    .school-slide[data-index="2"] .slide-title,
-    .school-slide[data-index="3"] .slide-title {
-      margin-bottom: 6px !important;
+    .school-slide[data-index="1"] {
+      background-image: url('tech.png') !important;
     }
 
-    /* Center all content in Finishing School slide */
     .school-slide[data-index="2"] {
-      align-items: center !important;
-      text-align: center !important;
+      background-image: url('finishing.png') !important;
     }
 
-    .school-slide[data-index="2"] .slide-header,
-    .school-slide[data-index="3"] .slide-header {
-      margin-bottom: 4px;
+    .school-slide[data-index="3"] {
+      background-image: url('bschool.png') !important;
+    }
+
+    /* Left-to-right dark gradient overlay (InterviewNinja style) */
+    .school-slide[data-index="1"]::before,
+    .school-slide[data-index="2"]::before,
+    .school-slide[data-index="3"]::before {
+      content: '' !important;
+      position: absolute !important;
+      inset: 0 !important;
+      background: linear-gradient(90deg, #02050E 0%, #02050E 42%, rgba(2, 5, 14, 0.78) 65%, rgba(2, 5, 14, 0.2) 100%) !important;
+      pointer-events: none !important;
+      z-index: 1 !important;
+    }
+
+    .ninja-slide-content {
+      position: relative !important;
+      z-index: 2 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      text-align: left !important;
+      padding: 48px clamp(24px, 5vw, 64px) !important;
+      max-width: 580px !important;
+      width: 100% !important;
+      margin: auto 0 !important;
+    }
+
+    .school-slide.active .ninja-slide-content,
+    .school-slide.active .ninja-eyebrow,
+    .school-slide.active .ninja-title,
+    .school-slide.active .ninja-sub,
+    .school-slide.active .ninja-btn,
+    .school-slide.active .pchips {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
+
+    .ninja-eyebrow {
+      display: block !important;
+      font-family: 'JetBrains Mono', monospace !important;
+      font-size: clamp(12px, 1.2vw, 14px) !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.25em !important;
+      text-transform: uppercase !important;
+      color: #8FADFF !important;
+      margin-bottom: 12px !important;
+      text-shadow: 0 0 20px rgba(143, 173, 255, 0.6) !important;
+    }
+
+    .ninja-title {
+      font-family: 'Plus Jakarta Sans', sans-serif !important;
+      font-size: clamp(34px, 5.2vw, 64px) !important;
+      font-weight: 700 !important;
+      letter-spacing: -0.02em !important;
+      color: #ffffff !important;
+      margin: 0 0 16px 0 !important;
+      line-height: 1.1 !important;
+      text-shadow: none !important;
+    }
+
+    .ninja-sub {
+      font-size: clamp(15px, 1.6vw, 18px) !important;
+      font-weight: 400 !important;
+      line-height: 1.55 !important;
+      color: rgba(255, 255, 255, 0.85) !important;
+      margin: 0 0 28px 0 !important;
+      text-align: left !important;
+      max-width: 500px !important;
+    }
+
+    .ninja-btn {
+      background: #1947FF !important;
+      color: #ffffff !important;
+      padding: 14px 34px !important;
+      font-size: 15px !important;
+      font-weight: 700 !important;
+      border-radius: 99px !important;
+      box-shadow: 0 4px 20px rgba(25, 71, 255, 0.4) !important;
+      border: none !important;
+      text-decoration: none !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 8px !important;
+      transition: all 0.3s ease !important;
+    }
+
+    .ninja-btn:hover {
+      background: #0036d9 !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 8px 30px rgba(25, 71, 255, 0.6) !important;
+    }
+
+    .ninja-scroll-prompt {
+      position: absolute !important;
+      bottom: 24px !important;
+      left: clamp(24px, 5vw, 64px) !important;
+      z-index: 2 !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 12px !important;
+      font-size: 13px !important;
+      font-weight: 500 !important;
+      color: rgba(255, 255, 255, 0.4) !important;
+    }
+
+    @media (max-width: 768px) {
+
+      .school-slide[data-index="1"]::before,
+      .school-slide[data-index="2"]::before,
+      .school-slide[data-index="3"]::before {
+        background: linear-gradient(180deg, #02050E 0%, #02050E 50%, rgba(2, 5, 14, 0.85) 100%) !important;
+      }
+
+      .ninja-slide-content {
+        padding: 32px 24px !important;
+        max-width: 100% !important;
+      }
+
+      .ninja-scroll-prompt {
+        left: 24px !important;
+        bottom: 16px !important;
+      }
     }
 
     /* Finishing School illustration overlay */
@@ -2008,39 +2339,6 @@
     }
 
     .school-slide[data-index="2"].active:hover .fs-pillust img {
-      filter: drop-shadow(0 20px 55px rgba(25, 71, 255, 0.6)) drop-shadow(0 0 35px rgba(25, 71, 255, 0.4));
-    }
-
-    /* B-School illustration overlay */
-    .school-slide[data-index="3"] .b-pillust {
-      position: absolute;
-      right: 48px;
-      top: 50%;
-      width: 420px;
-      height: 420px;
-      transform: translateY(-50%) scale(0.9);
-      opacity: 0;
-      transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
-      pointer-events: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .school-slide[data-index="3"].active .b-pillust {
-      opacity: 1;
-      transform: translateY(-50%) scale(1);
-    }
-
-    .school-slide[data-index="3"] .b-pillust img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      filter: drop-shadow(0 15px 45px rgba(25, 71, 255, 0.45)) drop-shadow(0 0 25px rgba(25, 71, 255, 0.25));
-      transition: filter 0.8s ease;
-    }
-
-    .school-slide[data-index="3"].active:hover .b-pillust img {
       filter: drop-shadow(0 20px 55px rgba(25, 71, 255, 0.6)) drop-shadow(0 0 35px rgba(25, 71, 255, 0.4));
     }
 
@@ -3566,46 +3864,14 @@
         <a href="#" class="brand"><img src="kompetenzen logo-02.png" alt="Kompetenzen" /></a>
       </div>
       <div class="nav-links">
-        <a href="#stats-section">Our Story</a>
-        <a href="#consulting">Consulting</a>
-        <div class="nav-dropdown-wrapper">
-          <a href="#training" class="nav-dropdown-trigger" onclick="scrollToTrainingSlide(1); return false;">Training
-            <span class="chevron">▾</span></a>
-          <div class="dropdown-menu">
-            <div class="dropdown-item-wrapper">
-              <a class="dropdown-item" onclick="scrollToTrainingSlide(1); return false;">Tech School <span
-                  class="chevron-right">▸</span></a>
-              <div class="sub-dropdown-menu">
-                <a class="sub-dropdown-item" onclick="scrollToTrainingSlide(1); return false;">Full Stack Python with
-                  AI</a>
-                <a class="sub-dropdown-item" onclick="scrollToTrainingSlide(1); return false;">Java</a>
-                <a class="sub-dropdown-item" onclick="scrollToTrainingSlide(1); return false;">Data Analytics</a>
-              </div>
-            </div>
-            <div class="dropdown-item-wrapper">
-              <a class="dropdown-item" onclick="scrollToTrainingSlide(2); return false;">Finishing School <span
-                  class="chevron-right">▸</span></a>
-              <div class="sub-dropdown-menu">
-                <a class="sub-dropdown-item" onclick="scrollToTrainingSlide(2); return false;">Soft Skills</a>
-                <a class="sub-dropdown-item" onclick="scrollToTrainingSlide(2); return false;">Communication</a>
-              </div>
-            </div>
-            <div class="dropdown-item-wrapper">
-              <a class="dropdown-item" onclick="scrollToTrainingSlide(3); return false;">B-School <span
-                  class="chevron-right">▸</span></a>
-              <div class="sub-dropdown-menu">
-                <a class="sub-dropdown-item" onclick="scrollToTrainingSlide(1); return false;">Tech School</a>
-                <a class="sub-dropdown-item" onclick="scrollToTrainingSlide(2); return false;">Finishing School</a>
-                <a class="sub-dropdown-item" onclick="scrollToTrainingSlide(3); return false;">B-School</a>
-              </div>
-            </div>
-          </div>
-        </div>
+        <a href="career-consulting.html">Consulting</a>
+        <a href="finishing-school.html">Finishing School</a>
+        <a href="tech-school.html">Tech School</a>
+        <a href="b-school.html">B-School</a>
         <a href="#placements">Placements</a>
-        <a href="./Resume/frontend/index.html" target="_blank">Resume Builder</a>
-        <a href="jobs.html">Job Listing</a>
-        <a href="#" class="logout-link" style="display: none; color: #dc2626; font-weight: 600;"
-          onclick="event.preventDefault(); localStorage.removeItem('token'); window.location.reload();">Log Out</a>
+        <a href="our-story.html">Our Story</a>
+        <a href="jobs.html">Jobs</a>
+        <a href="https://darksalmon-llama-333572.hostingersite.com/" target="_blank">Resume Builder</a>
       </div>
       <div class="nav-right">
         <a href="#contact" class="cta"><span class="dot"></span>Talk to us</a>
@@ -3633,9 +3899,9 @@
         </h1>
         <p class="hero-sub"></p>
         <div class="hero-actions">
-          <a href="career-consulting.html" class="btn-primary"><span>View Consulting Details</span><span
+          <a href="career-consulting.html" class="btn-primary"><span>Book Consulting</span><span
               class="arrow">→</span></a>
-          <a href="#training" class="btn-ghost">Explore Schools</a>
+          <a href="#training" class="btn-ghost">Explore Trainings</a>
         </div>
         <div class="hero-meta">
           <div class="stat"><b>4.8★</b><span>Google Reviews</span></div>
@@ -3802,13 +4068,6 @@
         <!-- Right side: Single Big Showcase Container Box -->
         <div class="training-right reveal d1">
           <div class="glowing-box-container">
-            <!-- Play Video Button (Fades in on Hover) -->
-            <button class="video-play-btn" onclick="openVideoModal(); event.stopPropagation();">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="play-svg">
-                <polygon points="5 3 19 12 5 21 5 3" fill="currentColor" />
-              </svg>
-              <span>Watch Video</span>
-            </button>
             <div class="glowing-box">
 
               <!-- Shifting radial color glow behind content -->
@@ -3842,7 +4101,8 @@
                 document.addEventListener('DOMContentLoaded', () => {
                   const container = document.getElementById('blue-dust-container');
                   if (!container) return;
-                  for (let i = 0; i < 40; i++) {
+                  const dustCount = window.innerWidth <= 768 ? 12 : 40;
+                  for (let i = 0; i < dustCount; i++) {
                     let p = document.createElement('div');
                     p.style.position = 'absolute';
                     let size = Math.random() * 3 + 1;
@@ -3860,6 +4120,24 @@
                     p.style.animation = `floatDust ${duration}s ${delay}s linear infinite`;
                     container.appendChild(p);
                   }
+
+                  // Smooth Pop-Up & Pop-Down on Scroll for 2nd Page Glowing Box
+                  const box = document.querySelector('.glowing-box-container');
+                  if (box) {
+                    const updateBoxVisibility = () => {
+                      const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+                      const rect = box.getBoundingClientRect();
+                      // If user is at or near the first page (top of page), ALWAYS unpop and hide the box
+                      if (scrollY < 120 || rect.top > window.innerHeight * 0.85) {
+                        box.classList.remove('is-popped');
+                      } else if (rect.top <= window.innerHeight * 0.75 && rect.bottom >= 100) {
+                        box.classList.add('is-popped');
+                      }
+                    };
+                    window.addEventListener('scroll', updateBoxVisibility, { passive: true });
+                    window.addEventListener('resize', updateBoxVisibility, { passive: true });
+                    updateBoxVisibility();
+                  }
                 });
               </script>
 
@@ -3870,180 +4148,53 @@
 
                 <!-- Slide 00: Cover / Heading Page -->
                 <div class="school-slide active cover-slide" data-index="0">
-                  <div class="pillust">
-                    <img src="icon.png" alt="Training Icon" />
-                  </div>
-                  <div class="slide-header">
-                    <span class="slide-num">EXPLORE PATHWAYS</span>
-                  </div>
-                  <h3 class="slide-title"
-                    style="font-size: clamp(44px, 6vw, 72px); font-family: 'Work Sans', sans-serif; font-weight: 300; line-height: 1.2; text-align: center;">
-                    Three focused paths to become<br><em>job-ready.</em>
-                  </h3>
-                  <p class="slide-desc">At Kompetenzen Technologies, we offer specialized training programs designed to
-                    bridge the gap between academic learning and industry requirements.<br> Choose the best IT course in
-                    Kerala for your career.</p>
-
-                  <div style="display: flex; gap: 40px; flex-wrap: wrap; margin-top: 24px;" class="cover-badges">
-                    <div style="display: flex; flex-direction: column; gap: 8px;">
-                      <span
-                        style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #7B92FF;">01
-                        / TECHNICAL</span>
-                      <span style="font-size: 18px; font-weight: 500; color: #fff;">Tech School</span>
+                  <div class="future-content-wrapper">
+                    <div class="future-badge">
+                      <span>✨ Shape Your Career</span>
                     </div>
-                    <div
-                      style="display: flex; flex-direction: column; gap: 8px; border-left: 1px solid rgba(255,255,255,0.15); padding-left: 40px;">
-                      <span
-                        style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #7B92FF;">02
-                        / CONFIDENCE</span>
-                      <span style="font-size: 18px; font-weight: 500; color: #fff;">Finishing School</span>
-                    </div>
-                    <div
-                      style="display: flex; flex-direction: column; gap: 8px; border-left: 1px solid rgba(255,255,255,0.15); padding-left: 40px;">
-                      <span
-                        style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #7B92FF;">03
-                        / MANAGEMENT</span>
-                      <span style="font-size: 18px; font-weight: 500; color: #fff;">B-School</span>
-                    </div>
-                  </div>
 
-                  <div
-                    style="margin-top: auto; display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.4);"
-                    class="scroll-prompt">
-                    <span class="pulse-dot"
-                      style="background: #1947FF; box-shadow: 0 0 0 4px rgba(25,71,255,0.25);"></span>
-                    Scroll down to explore academies
-                  </div>
-                </div>
+                    <h2 class="future-title">
+                      Design Your <span class="gradient-text">Future.</span>
+                    </h2>
+                    <div class="future-glow-line"></div>
 
-                <!-- Slide 01: Tech School -->
-                <div class="school-slide" data-index="1">
-                  <div class="pillust">
-                    <img src="kompetenzen logo-02.png" alt="Tech School Icon" />
-                  </div>
+                    <p class="future-desc">
+                      Bridge the gap between academic learning and industry excellence with specialized finishing schools, full-stack engineering tracks, and guaranteed placement acceleration.
+                    </p>
 
-                  <!-- Top Section: Large Heading, Descriptions & Checklist -->
-                  <div class="tech-slide-top">
-                    <!-- Left Column: Main Headings & CTA actions -->
-                    <div class="tech-intro-left">
-                      <div class="slide-header" style="margin-bottom: 4px;">
-                        <span class="slide-num">School 01</span>
+                    <div class="future-pills-row">
+                      <div class="future-pill">
+                        <span class="pill-dot blue"></span>
+                        <span>100% Practical Capstones</span>
                       </div>
-                      <h3 class="slide-title inline-h3-override"
-                        style="font-size: clamp(52px, 7vw, 90px); margin: 0 0 8px; line-height: 1.1; font-weight: 800; text-align: center; width: 100%;">
-                        AI-Integrated Tech School <br>Programs Built for <em>Real Careers.</em>
-                      </h3>
-                      <p class="slide-desc inline-p-override">
-                        Not just coding. Not just theory. We train you to build AI-powered, job-ready applications and
-                        dashboards that companies hire for and clients pay for.
-                      </p>
-                      <a href="tech-school.html" class="btn-primary"
-                        style="margin-top: 16px; align-self: flex-start; padding: 12px 24px; font-size: 14px;">
-                        <span style="position: relative; z-index: 1;">View Course Details</span>
-                        <div class="arrow"
-                          style="position: relative; z-index: 1; display: inline-flex; justify-content: center; align-items: center; width: 24px; height: 24px; border-radius: 50%; background: #F5F4EF; color: #02050E; margin-left: 10px; font-size: 14px;">
-                          →</div>
-                      </a>
-
+                      <div class="future-pill">
+                        <span class="pill-dot green"></span>
+                        <span>Dedicated Placement Cell</span>
+                      </div>
+                      <div class="future-pill">
+                        <span class="pill-dot purple"></span>
+                        <span>1-on-1 Industry Mentorship</span>
+                      </div>
                     </div>
 
-
-                  </div>
-
-                </div>
-
-                <!-- Slide 02: Finishing School -->
-                <div class="school-slide" data-index="2">
-                  <!-- FS Icon Illustration - hidden -->
-                  <div class="pillust fs-pillust" style="display: none !important;"></div>
-                  <!-- Header & Titles (Full Width) -->
-                  <div class="slide-header" style="justify-content: center;">
-                    <span class="slide-num">School 02</span>
-                  </div>
-                  <h3 class="slide-title"
-                    style="font-size: clamp(64px, 8vw, 100px); line-height: 1.05; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 6px; text-align: center; width: 100%;">
-                    Finishing <em>School</em>
-                  </h3>
-                  <p class="finish-tagline"
-                    style="font-size: 28px; font-weight: 700; color: #fff; margin: 0 0 20px; font-family: inherit; text-align: center;">
-                    Don't Just Graduate. <span style="color: #7B92FF;">Get Hired.</span>
-                  </p>
-
-                  <!-- Description & CTAs -->
-                  <div class="finish-top-content" style="align-items: center; text-align: center;">
-                    <p class="slide-desc"
-                      style="margin: 0 0 32px; font-size: 24px; line-height: 1.5; color: rgba(255,255,255,0.72); max-width: 540px; text-align: center;">
-                      Kerala's most placement-focused career readiness program — communication mastery, interview
-                      confidence, resume &amp; LinkedIn optimization, aptitude training, and continuous support until
-                      you
-                      land the job.
-                    </p>
-                    <div class="finish-left-actions" style="justify-content: center;">
-                      <a href="finishing-school.html" class="tech-action-btn primary">
-                        Join the Finishing School →
-                      </a>
-                      <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen,%20I%20would%20like%20to%20talk%20to%20a%20career%20coach%20about%20the%20Finishing%20School."
-                        target="_blank" rel="noopener" class="tech-action-btn secondary">
-                        Talk to Coach
-                      </a>
+                    <div class="future-actions">
+                      <button type="button" class="future-btn-primary" onclick="openVideoModal(); event.stopPropagation();">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                          <polygon points="5 3 19 12 5 21 5 3"/>
+                        </svg>
+                        <span>Watch Program Overview</span>
+                      </button>
                     </div>
                   </div>
-
-
                 </div>
-
-                <!-- Slide 03: B-School -->
-                <div class="school-slide" data-index="3">
-                  <!-- B-School Icon Illustration -->
-                  <div class="pillust b-pillust">
-                    <img src="b_icon.png" alt="B-School Icon" />
-                  </div>
-                  <!-- Header & Titles (Full Width) -->
-                  <div class="slide-header" style="justify-content: center; margin-bottom: 4px;">
-                    <span class="slide-num">School 03</span>
-                  </div>
-                  <h3 class="slide-title"
-                    style="font-size: clamp(64px, 8vw, 100px); line-height: 1.05; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 6px; text-align: center; width: 100%;">
-                    Corporate <em>B-School</em>
-                  </h3>
-                  <p class="finish-tagline"
-                    style="font-size: 28px; font-weight: 700; color: #fff; margin: 0 0 20px; font-family: inherit; text-align: center;">
-                    Master high-demand skills <span style="color: #7B92FF;">to launch your career.</span>
-                  </p>
-
-                  <!-- Description & CTAs -->
-                  <div class="finish-top-content"
-                    style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; width: 100%; margin: 72px auto 0;">
-                    <p class="slide-desc"
-                      style="margin: 0 auto 16px; font-size: 20px; line-height: 1.5; color: rgba(255,255,255,0.72); max-width: 540px; text-align: center;">
-                      Corporate B-School Programs Built for Real Careers in HR and Sales.
-                    </p>
-
-                    <!-- Accent badges/chips -->
-                    <div class="pchips"
-                      style="display: flex; justify-content: center; margin-top: 8px; margin-bottom: 16px;">
-                      <span class="pchip">PG Diploma in HR</span>
-                      <span class="pchip">Sales Engineering</span>
-                      <span class="pchip">Corporate Ready</span>
-                    </div>
-
-                    <a href="b-school.html" class="tech-action-btn primary"
-                      style="padding: 16px 36px; font-size: 18px; font-weight: 700; border-radius: 12px; margin-top: 8px;">
-                      Explore B-School Programs
-                    </a>
-                  </div>
-                </div>
-
-
 
               </div>
+
             </div>
 
           </div>
         </div>
       </div>
-    </div>
-    </div>
     </div>
 
 
@@ -4055,10 +4206,16 @@
       <div class="section-head"
         style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
         <div style="display: flex; flex-direction: column; align-items: center;">
-          <div class="section-tag reveal">Recent Placements</div>
           <h2 class="section-title reveal d1"
-            style="text-align: center; font-family: 'Open Sans', sans-serif !important; font-weight: 400 !important; letter-spacing: -0.02em; line-height: 1.2; max-width: 100%;">
-            Recent Placements<br><em>Success Stories.</em></h2>
+            style="text-align: center; font-family: 'Open Sans', sans-serif !important; font-weight: 300 !important; letter-spacing: -0.02em; line-height: 1.2; max-width: 100%;">
+            Recent Placements <em>Success Stories.</em></h2>
+
+          <div style="text-align: center; margin-top: 20px;" class="reveal d2">
+            <a href="placements.html" class="btn-primary placements-cta-btn" id="placements-cta-btn">
+              <span class="btn-text">Explore </span>
+              <div class="arrow">→</div>
+            </a>
+          </div>
         </div>
       </div>
 
@@ -4076,27 +4233,13 @@
       <div class="ig-wrap">
         <div class="ig-grid" id="igGrid"></div>
       </div>
-
-
     </div>
   </section>
 
-  <!-- ============ TALENT Hunt ============ -->
   <style>
     @media (max-width: 980px) {
       #placements {
         padding-bottom: 20px !important;
-      }
-
-      #talent-hunt-section {
-        padding-top: 60px !important;
-        padding-bottom: 80px !important;
-        overflow: visible !important;
-      }
-
-      #talent-hunt-section .section-title {
-        line-height: 1.3 !important;
-        padding-top: 10px;
       }
 
       #ag-canvas {
@@ -4104,32 +4247,6 @@
       }
     }
   </style>
-  <section id="talent-hunt-section" style="padding: 100px 0; overflow: hidden;">
-    <div class="wrap">
-      <div style="display: flex; justify-content: center; text-align: center; position: relative;">
-        <!-- Center Text -->
-        <div class="reveal d1"
-          style="position: relative; max-width: 800px; width: 100%; display: flex; flex-direction: column; align-items: center;">
-          <!-- (Wavy Dust Effect Removed) -->
-          <h2 class="section-title"
-            style="font-family: 'Michroma', sans-serif; font-size: 58px; line-height: 1.05; font-weight: 400; letter-spacing: -0.02em; margin: 0 0 20px;">
-            Find The Right Talent Hunt 2026
-          </h2>
-          <p class="lede" style="font-size: 24px; line-height: 1.5; color: #474F66; max-width: 560px; margin: 0 auto;">
-            Kerala's Largest Recruitment Drive Connecting Graduates Directly to Industry.
-          </p>
-          <div style="margin-top: 40px;">
-            <a href="talent-hunt.html" class="btn-primary">
-              <span style="position: relative; z-index: 1;">Register Now</span>
-              <div class="arrow"
-                style="position: relative; z-index: 1; display: inline-flex; justify-content: center; align-items: center; width: 24px; height: 24px; border-radius: 50%; background: #F5F4EF; color: #02050E; margin-left: 10px; font-size: 14px;">
-                →</div>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- ============ OUR SERVICES (REELS) ============ -->
   <section id="our-services-section" style="padding: 100px 0; position: relative; z-index: 2;">
@@ -4139,10 +4256,10 @@
         <div class="section-head" style="text-align: center; margin-bottom: 80px; position: relative; z-index: 3;">
           <h2 class="section-title reveal"
             style="font-family: 'Montserrat', sans-serif; font-size: 56px; font-weight: 800; color: #fff; letter-spacing: -0.02em;">
-            Our <em style="color: #1947FF; font-style: normal;">Services</em></h2>
+            <em style="color: #1947FF; font-style: normal;"></em>
+          </h2>
           <p class="lede reveal"
             style="color: rgba(255,255,255,0.7); max-width: 600px; margin: 20px auto 0; font-size: 20px;">
-            Experience our vibrant learning culture and placement updates directly through our latest Instagram reels.
           </p>
         </div>
 
@@ -4166,7 +4283,8 @@
             resize();
 
             // Generate points on a sphere (Fibonacci sphere)
-            const numPoints = 600;
+            const isMobileAg = window.innerWidth <= 768;
+            const numPoints = isMobileAg ? 160 : 600;
             const points = [];
             const phi = Math.PI * (3 - Math.sqrt(5)); // golden angle
 
@@ -5298,501 +5416,8 @@
             padding: 20px;
           }
         }
-
-
-        /* Desktop classes to replace inline styles */
-        .inline-h3-override {
-          font-size: 70px;
-          line-height: 1.1;
-          font-weight: 800;
-          margin: 0 0 26px;
-        }
-
-        .inline-p-override {
-          font-size: 24px;
-          line-height: 1.5;
-          color: rgba(255, 255, 255, 0.7);
-          max-width: 700px;
-          margin: 0 0 52px;
-        }
-
-        /* ===========================================================
-       MOBILE COMPATIBILITY OVERRIDES (max-width: 980px)
-       =========================================================== */
-        @media (max-width: 980px) {
-
-          /* Mobile fixes for the new classes */
-          .inline-h3-override {
-            font-size: 26px !important;
-            margin-bottom: 8px !important;
-          }
-
-          .inline-p-override {
-            font-size: 14px !important;
-            margin-bottom: 12px !important;
-          }
-
-          .school-slide[data-index="1"] {
-            justify-content: space-between !important;
-            padding-bottom: 24px !important;
-            padding-top: 16px !important;
-            overflow-y: auto !important;
-            /* Allow scrolling if it overflows */
-          }
-
-          .tech-cards-grid {
-            display: flex !important;
-            flex-direction: column !important;
-            gap: 8px !important;
-          }
-
-          .tech-card {
-            padding: 12px !important;
-            min-height: auto !important;
-          }
-
-          body {
-            overflow-x: hidden;
-            width: 100%;
-            max-width: 100vw;
-          }
-
-          .wrap {
-            padding: 0 16px;
-            overflow-x: hidden;
-          }
-
-          /* Nav & Hamburger */
-          .nav-inner {
-            position: relative;
-            z-index: 1001;
-          }
-
-          .hamburger {
-            display: flex !important;
-            flex-direction: column;
-            gap: 6px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
-            z-index: 1002;
-          }
-
-          .hamburger span {
-            display: block;
-            width: 30px;
-            height: 2px;
-            background: var(--ink);
-            transition: 0.3s;
-          }
-
-          .hamburger.active span:nth-child(1) {
-            transform: translateY(8px) rotate(45deg);
-          }
-
-          .hamburger.active span:nth-child(2) {
-            opacity: 0;
-          }
-
-          .hamburger.active span:nth-child(3) {
-            transform: translateY(-8px) rotate(-45deg);
-          }
-
-          .nav-links {
-            display: flex !important;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--cream);
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 32px;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-          }
-
-          .nav-links.mobile-active {
-            opacity: 1;
-            visibility: visible;
-          }
-
-          .nav-links a {
-            font-size: 22px;
-            font-weight: 600;
-          }
-
-          .dropdown-menu {
-            position: relative;
-            opacity: 1;
-            visibility: visible;
-            transform: none;
-            box-shadow: none;
-            background: transparent;
-            border: none;
-            top: 0;
-            min-width: 100%;
-            padding: 0;
-            pointer-events: auto;
-          }
-
-          .dropdown-item {
-            justify-content: center;
-            font-size: 18px !important;
-          }
-
-          /* Hide existing nav logic that overrides mobile */
-          .nav-right {
-            flex: 0 0 auto;
-          }
-
-          /* Hero */
-          .hero-grid {
-            grid-template-columns: 1fr;
-            margin-top: 0;
-            text-align: center;
-            overflow-x: hidden;
-            width: 100%;
-          }
-
-          .headline {
-            font-size: clamp(32px, 10vw, 54px) !important;
-            margin: 12px 0 24px;
-            white-space: normal !important;
-            overflow-wrap: break-word;
-          }
-
-          .headline .line-inner,
-          .headline em {
-            font-size: clamp(32px, 10vw, 54px) !important;
-            line-height: 1.1 !important;
-            padding-bottom: 0 !important;
-          }
-
-          .hero-actions {
-            justify-content: center;
-          }
-
-          .hero-meta {
-            justify-content: center;
-            flex-wrap: wrap;
-          }
-
-          .hero-vis {
-            height: 350px;
-            display: block;
-            margin-top: 32px;
-          }
-
-          /* Hide the ticker on mobile to save space, or make it smaller */
-
-          /* Other grids to single column */
-          /* Adjusted hero-vis: 3 columns, perfectly scaled to fit mobile screen */
-          .hero-vis {
-            height: 280px !important;
-            margin-top: 20px;
-          }
-
-          .columns {
-            grid-template-columns: repeat(3, 1fr) !important;
-            gap: 8px !important;
-            padding: 8px !important;
-          }
-
-          .tcol {
-            gap: 8px !important;
-          }
-
-          .tcard {
-            padding: 8px !important;
-            min-height: 60px !important;
-            border-radius: 8px !important;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-          }
-
-          .tname {
-            font-size: 10px !important;
-            line-height: 1.1 !important;
-            word-break: break-word;
-          }
-
-          .tag {
-            font-size: 7px !important;
-            margin-bottom: 2px !important;
-          }
-
-          .tcard .glyph {
-            display: none !important;
-          }
-
-          /* Hide large decorative icons to save space */
-          .tcard.placement {
-            min-height: 70px !important;
-            padding: 8px !important;
-          }
-
-          .companies .grid {
-            grid-template-columns: repeat(3, 1fr) !important;
-            gap: 16px;
-          }
-
-          .th-split {
-            flex-direction: column !important;
-          }
-
-          .th-visual,
-          .th-content {
-            width: 100% !important;
-            padding: 20px !important;
-          }
-
-          .serv-grid {
-            grid-template-columns: 1fr !important;
-          }
-
-          .f-cols {
-            flex-direction: column;
-            gap: 32px;
-          }
-
-          .f-brand {
-            width: 100%;
-          }
-
-          .foot-bottom {
-            flex-direction: column;
-            text-align: center;
-            gap: 16px;
-          }
-        }
-
-
-        /* Training Slider 9:16 mobile adjustments */
-        .glowing-box-container {
-          height: auto !important;
-          aspect-ratio: 9 / 16 !important;
-          max-height: 85vh;
-          /* just in case */
-        }
-
-        .school-slide {
-          padding: 24px 16px !important;
-        }
-
-        .school-slide.cover-slide .slide-title {
-          font-size: clamp(44px, 6vw, 72px) !important;
-          font-weight: 300 !important;
-          max-width: 100% !important;
-          text-align: center !important;
-        }
-        }
-
-        .school-slide.cover-slide .slide-desc {
-          font-size: clamp(14px, 4vw, 18px) !important;
-          max-width: 100% !important;
-          margin-top: 16px !important;
-        }
-
-        .cover-badges {
-          margin-top: auto !important;
-          /* pushes it down */
-          gap: 16px !important;
-          flex-direction: column;
-        }
-
-        .cover-badges>div {
-          border-left: none !important;
-          padding-left: 0 !important;
-        }
-        }
-
-
-        /* Tech School slide mobile fixes */
-        .school-slide[data-index="1"] .tech-intro-left h3 {
-          font-size: clamp(24px, 8vw, 36px) !important;
-          line-height: 1.1 !important;
-          margin-bottom: 8px !important;
-        }
-
-        .school-slide[data-index="1"] .tech-intro-left p {
-          font-size: clamp(14px, 4vw, 16px) !important;
-          line-height: 1.4 !important;
-          margin-bottom: 12px !important;
-        }
-
-        .school-slide[data-index="1"] .tech-cards-grid {
-          display: flex !important;
-          flex-direction: column !important;
-          gap: 8px !important;
-        }
-
-        .school-slide[data-index="1"] .tech-card {
-          padding: 12px !important;
-          min-height: auto !important;
-        }
-
-        .school-slide[data-index="1"] .tech-title {
-          font-size: 14px !important;
-        }
-        }
-
-
-        /* B-School slide and general slide mobile fixes */
-        .school-slide {
-          overflow-y: auto !important;
-          justify-content: space-between !important;
-          padding-bottom: 24px !important;
-        }
-
-        .finish-left-actions {
-          margin-top: 24px !important;
-          flex-direction: column !important;
-        }
-
-        .finish-left-actions a {
-          width: 100% !important;
-          text-align: center !important;
-          justify-content: center !important;
-        }
-
-        .finish-metrics-bottom {
-          margin-top: 24px !important;
-        }
-
-        .finish-metrics-grid {
-          grid-template-columns: repeat(2, 1fr) !important;
-          gap: 8px !important;
-        }
-
-        .finish-metric-card {
-          padding: 8px !important;
-        }
-
-        .finish-metric-card .metric-val {
-          font-size: 16px !important;
-        }
-
-        .finish-metric-card .metric-label {
-          font-size: 10px !important;
-        }
-        }
-
-
-        /* Fix for tech cards cutting off text on mobile */
-        .tech-card {
-          height: auto !important;
-          min-height: min-content !important;
-          overflow: visible !important;
-          flex: 0 0 auto !important;
-        }
-
-        .tech-title {
-          white-space: normal !important;
-          overflow: visible !important;
-        }
-        }
-
-
-        /* === TECH SCHOOL SLIDE - comprehensive mobile fit === */
-        .school-slide[data-index="1"] {
-          overflow-y: auto !important;
-          overflow-x: hidden !important;
-          justify-content: flex-start !important;
-          padding: 20px 16px !important;
-          gap: 8px !important;
-          padding-top: 20px !important;
-        }
-
-        .school-slide[data-index="1"] .tech-slide-top {
-          flex: 0 0 auto !important;
-        }
-
-        .school-slide[data-index="1"] .tech-intro-left {
-          display: flex !important;
-          flex-direction: column !important;
-          gap: 4px !important;
-        }
-
-        .school-slide[data-index="1"] .slide-header {
-          margin-bottom: 4px !important;
-        }
-
-        .school-slide[data-index="1"] .inline-h3-override,
-        .school-slide[data-index="1"] .slide-title {
-          font-size: clamp(52px, 7vw, 90px) !important;
-          line-height: 1.15 !important;
-          font-weight: 800 !important;
-          margin: 0 0 6px !important;
-          text-align: center !important;
-        }
-
-        .school-slide[data-index="1"] .inline-p-override,
-        .school-slide[data-index="1"] .slide-desc {
-          font-size: 12px !important;
-          line-height: 1.4 !important;
-          margin: 0 0 8px !important;
-          max-width: 100% !important;
-        }
-
-        .school-slide[data-index="1"] .tech-slide-bottom {
-          flex: 0 0 auto !important;
-          margin-top: 8px !important;
-        }
-
-        .school-slide[data-index="1"] .tech-cards-grid {
-          display: flex !important;
-          flex-direction: column !important;
-          gap: 8px !important;
-          width: 100% !important;
-          max-width: 100% !important;
-        }
-
-        .school-slide[data-index="1"] .tech-card {
-          height: auto !important;
-          min-height: auto !important;
-          overflow: visible !important;
-          padding: 10px 12px !important;
-          flex: 0 0 auto !important;
-        }
-
-        .school-slide[data-index="1"] .tech-title {
-          font-size: 13px !important;
-          white-space: normal !important;
-          overflow: visible !important;
-        }
-
-        .school-slide[data-index="1"] .pillust {
-          display: none !important;
-        }
-        }
-
-        @media (max-width: 480px) {
-          .companies .grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-          }
-
-          .btn-primary,
-          .btn-ghost {
-            width: 100%;
-            justify-content: center;
-          }
-
-          .nav-right .cta {
-            display: none;
-          }
-
-          /* Hide 'Book Consult' in nav on very small screens to make room for hamburger */
-        }
       </style>
     </section>
-
 
     <!-- ============ JOB LISTING ============ -->
     <section id="job-listing-section"
@@ -5807,7 +5432,7 @@
           dream job and take the next step in your career journey with us.
         </p>
         <div style="margin-top: 40px;">
-          <a href="#" onclick="checkAuthAndGoToJobs(event)" class="btn-primary"
+          <a href="jobs.html" class="btn-primary"
             style="display: inline-flex; font-family: 'Inria Sans', sans-serif;"><span>Check Available Jobs</span><span
               class="arrow">→</span></a>
         </div>
@@ -5840,500 +5465,7 @@
           background: var(--blue-hover, #0E2EC9);
           box-shadow: 0 15px 30px rgba(25, 71, 255, 0.4);
         }
-
-
-        /* Desktop classes to replace inline styles */
-        .inline-h3-override {
-          font-size: 70px;
-          line-height: 1.1;
-          font-weight: 800;
-          margin: 0 0 26px;
-        }
-
-        .inline-p-override {
-          font-size: 24px;
-          line-height: 1.5;
-          color: rgba(255, 255, 255, 0.7);
-          max-width: 700px;
-          margin: 0 0 52px;
-        }
-
-        /* ===========================================================
-       MOBILE COMPATIBILITY OVERRIDES (max-width: 980px)
-       =========================================================== */
-        @media (max-width: 980px) {
-
-          /* Mobile fixes for the new classes */
-          .inline-h3-override {
-            font-size: 26px !important;
-            margin-bottom: 8px !important;
-          }
-
-          .inline-p-override {
-            font-size: 14px !important;
-            margin-bottom: 12px !important;
-          }
-
-          .school-slide[data-index="1"] {
-            justify-content: space-between !important;
-            padding-bottom: 24px !important;
-            padding-top: 16px !important;
-            overflow-y: auto !important;
-            /* Allow scrolling if it overflows */
-          }
-
-          .tech-cards-grid {
-            display: flex !important;
-            flex-direction: column !important;
-            gap: 8px !important;
-          }
-
-          .tech-card {
-            padding: 12px !important;
-            min-height: auto !important;
-          }
-
-          body {
-            overflow-x: hidden;
-            width: 100%;
-            max-width: 100vw;
-          }
-
-          .wrap {
-            padding: 0 16px;
-            overflow-x: hidden;
-          }
-
-          /* Nav & Hamburger */
-          .nav-inner {
-            position: relative;
-            z-index: 1001;
-          }
-
-          .hamburger {
-            display: flex !important;
-            flex-direction: column;
-            gap: 6px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
-            z-index: 1002;
-          }
-
-          .hamburger span {
-            display: block;
-            width: 30px;
-            height: 2px;
-            background: var(--ink);
-            transition: 0.3s;
-          }
-
-          .hamburger.active span:nth-child(1) {
-            transform: translateY(8px) rotate(45deg);
-          }
-
-          .hamburger.active span:nth-child(2) {
-            opacity: 0;
-          }
-
-          .hamburger.active span:nth-child(3) {
-            transform: translateY(-8px) rotate(-45deg);
-          }
-
-          .nav-links {
-            display: flex !important;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--cream);
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 32px;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-          }
-
-          .nav-links.mobile-active {
-            opacity: 1;
-            visibility: visible;
-          }
-
-          .nav-links a {
-            font-size: 22px;
-            font-weight: 600;
-          }
-
-          .dropdown-menu {
-            position: relative;
-            opacity: 1;
-            visibility: visible;
-            transform: none;
-            box-shadow: none;
-            background: transparent;
-            border: none;
-            top: 0;
-            min-width: 100%;
-            padding: 0;
-            pointer-events: auto;
-          }
-
-          .dropdown-item {
-            justify-content: center;
-            font-size: 18px !important;
-          }
-
-          /* Hide existing nav logic that overrides mobile */
-          .nav-right {
-            flex: 0 0 auto;
-          }
-
-          /* Hero */
-          .hero-grid {
-            grid-template-columns: 1fr;
-            margin-top: 0;
-            text-align: center;
-            overflow-x: hidden;
-            width: 100%;
-          }
-
-          .headline {
-            font-size: clamp(32px, 10vw, 54px) !important;
-            margin: 12px 0 24px;
-            white-space: normal !important;
-            overflow-wrap: break-word;
-          }
-
-          .headline .line-inner,
-          .headline em {
-            font-size: clamp(32px, 10vw, 54px) !important;
-            line-height: 1.1 !important;
-            padding-bottom: 0 !important;
-          }
-
-          .hero-actions {
-            justify-content: center;
-          }
-
-          .hero-meta {
-            justify-content: center;
-            flex-wrap: wrap;
-          }
-
-          .hero-vis {
-            height: 350px;
-            display: block;
-            margin-top: 32px;
-          }
-
-          /* Hide the ticker on mobile to save space, or make it smaller */
-
-          /* Other grids to single column */
-          /* Adjusted hero-vis: 3 columns, perfectly scaled to fit mobile screen */
-          .hero-vis {
-            height: 280px !important;
-            margin-top: 20px;
-          }
-
-          .columns {
-            grid-template-columns: repeat(3, 1fr) !important;
-            gap: 8px !important;
-            padding: 8px !important;
-          }
-
-          .tcol {
-            gap: 8px !important;
-          }
-
-          .tcard {
-            padding: 8px !important;
-            min-height: 60px !important;
-            border-radius: 8px !important;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-          }
-
-          .tname {
-            font-size: 10px !important;
-            line-height: 1.1 !important;
-            word-break: break-word;
-          }
-
-          .tag {
-            font-size: 7px !important;
-            margin-bottom: 2px !important;
-          }
-
-          .tcard .glyph {
-            display: none !important;
-          }
-
-          /* Hide large decorative icons to save space */
-          .tcard.placement {
-            min-height: 70px !important;
-            padding: 8px !important;
-          }
-
-          .companies .grid {
-            grid-template-columns: repeat(3, 1fr) !important;
-            gap: 16px;
-          }
-
-          .th-split {
-            flex-direction: column !important;
-          }
-
-          .th-visual,
-          .th-content {
-            width: 100% !important;
-            padding: 20px !important;
-          }
-
-          .serv-grid {
-            grid-template-columns: 1fr !important;
-          }
-
-          .f-cols {
-            flex-direction: column;
-            gap: 32px;
-          }
-
-          .f-brand {
-            width: 100%;
-          }
-
-          .foot-bottom {
-            flex-direction: column;
-            text-align: center;
-            gap: 16px;
-          }
-        }
-
-
-        /* Training Slider 9:16 mobile adjustments */
-        .glowing-box-container {
-          height: auto !important;
-          aspect-ratio: 9 / 16 !important;
-          max-height: 85vh;
-          /* just in case */
-        }
-
-        .school-slide {
-          padding: 24px 16px !important;
-        }
-
-        .school-slide.cover-slide .slide-title {
-          font-size: clamp(44px, 6vw, 72px) !important;
-          font-weight: 300 !important;
-          max-width: 100% !important;
-          text-align: center !important;
-        }
-
-        .school-slide.cover-slide .slide-desc {
-          font-size: clamp(14px, 4vw, 18px) !important;
-          max-width: 100% !important;
-          margin-top: 16px !important;
-        }
-
-        .cover-badges {
-          margin-top: auto !important;
-          /* pushes it down */
-          gap: 16px !important;
-          flex-direction: column;
-        }
-
-        .cover-badges>div {
-          border-left: none !important;
-          padding-left: 0 !important;
-        }
-        }
-
-
-        /* Tech School slide mobile fixes */
-        .school-slide[data-index="1"] .tech-intro-left h3 {
-          font-size: clamp(24px, 8vw, 36px) !important;
-          line-height: 1.1 !important;
-          margin-bottom: 8px !important;
-        }
-
-        .school-slide[data-index="1"] .tech-intro-left p {
-          font-size: clamp(14px, 4vw, 16px) !important;
-          line-height: 1.4 !important;
-          margin-bottom: 12px !important;
-        }
-
-        .school-slide[data-index="1"] .tech-cards-grid {
-          display: flex !important;
-          flex-direction: column !important;
-          gap: 8px !important;
-        }
-
-        .school-slide[data-index="1"] .tech-card {
-          padding: 12px !important;
-          min-height: auto !important;
-        }
-
-        .school-slide[data-index="1"] .tech-title {
-          font-size: 14px !important;
-        }
-        }
-
-
-        /* B-School slide and general slide mobile fixes */
-        .school-slide {
-          overflow-y: auto !important;
-          justify-content: space-between !important;
-          padding-bottom: 24px !important;
-        }
-
-        .finish-left-actions {
-          margin-top: 24px !important;
-          flex-direction: column !important;
-        }
-
-        .finish-left-actions a {
-          width: 100% !important;
-          text-align: center !important;
-          justify-content: center !important;
-        }
-
-        .finish-metrics-bottom {
-          margin-top: 24px !important;
-        }
-
-        .finish-metrics-grid {
-          grid-template-columns: repeat(2, 1fr) !important;
-          gap: 8px !important;
-        }
-
-        .finish-metric-card {
-          padding: 8px !important;
-        }
-
-        .finish-metric-card .metric-val {
-          font-size: 16px !important;
-        }
-
-        .finish-metric-card .metric-label {
-          font-size: 10px !important;
-        }
-        }
-
-
-        /* Fix for tech cards cutting off text on mobile */
-        .tech-card {
-          height: auto !important;
-          min-height: min-content !important;
-          overflow: visible !important;
-          flex: 0 0 auto !important;
-        }
-
-        .tech-title {
-          white-space: normal !important;
-          overflow: visible !important;
-        }
-        }
-
-
-        /* === TECH SCHOOL SLIDE - comprehensive mobile fit === */
-        .school-slide[data-index="1"] {
-          overflow-y: auto !important;
-          overflow-x: hidden !important;
-          justify-content: flex-start !important;
-          padding: 20px 16px !important;
-          gap: 8px !important;
-          padding-top: 20px !important;
-        }
-
-        .school-slide[data-index="1"] .tech-slide-top {
-          flex: 0 0 auto !important;
-        }
-
-        .school-slide[data-index="1"] .tech-intro-left {
-          display: flex !important;
-          flex-direction: column !important;
-          gap: 4px !important;
-        }
-
-        .school-slide[data-index="1"] .slide-header {
-          margin-bottom: 4px !important;
-        }
-
-        .school-slide[data-index="1"] .inline-h3-override,
-        .school-slide[data-index="1"] .slide-title {
-          font-size: clamp(52px, 7vw, 90px) !important;
-          line-height: 1.15 !important;
-          font-weight: 800 !important;
-          margin: 0 0 6px !important;
-          text-align: center !important;
-        }
-
-        .school-slide[data-index="1"] .inline-p-override,
-        .school-slide[data-index="1"] .slide-desc {
-          font-size: 12px !important;
-          line-height: 1.4 !important;
-          margin: 0 0 8px !important;
-          max-width: 100% !important;
-        }
-
-        .school-slide[data-index="1"] .tech-slide-bottom {
-          flex: 0 0 auto !important;
-          margin-top: 8px !important;
-        }
-
-        .school-slide[data-index="1"] .tech-cards-grid {
-          display: flex !important;
-          flex-direction: column !important;
-          gap: 8px !important;
-          width: 100% !important;
-          max-width: 100% !important;
-        }
-
-        .school-slide[data-index="1"] .tech-card {
-          height: auto !important;
-          min-height: auto !important;
-          overflow: visible !important;
-          padding: 10px 12px !important;
-          flex: 0 0 auto !important;
-        }
-
-        .school-slide[data-index="1"] .tech-title {
-          font-size: 13px !important;
-          white-space: normal !important;
-          overflow: visible !important;
-        }
-
-        .school-slide[data-index="1"] .pillust {
-          display: none !important;
-        }
-        }
-
-        @media (max-width: 480px) {
-          .companies .grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-          }
-
-          .btn-primary,
-          .btn-ghost {
-            width: 100%;
-            justify-content: center;
-          }
-
-          .nav-right .cta {
-            display: none;
-          }
-
-          /* Hide 'Book Consult' in nav on very small screens to make room for hamburger */
-        }
       </style>
-
-
       <div class="wrap" style="position: relative; z-index: 1;">
         <div
           style="display: inline-block; font-family: 'Inconsolata', monospace; font-weight: 400; background: rgba(25, 71, 255, 0.1); color: #7B92FF; font-size: 13px; padding: 8px 20px; border-radius: 50px; border: 1px solid rgba(25, 71, 255, 0.3); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 24px;">
@@ -6351,7 +5483,8 @@
           experience to land your dream job.
         </p>
 
-        <button class="resume-btn" onclick="window.open('./Resume/frontend/index.html', '_blank')">
+        <button class="resume-btn"
+          onclick="window.open('https://darksalmon-llama-333572.hostingersite.com/', '_blank')">
           build your resume
         </button>
       </div>
@@ -6553,39 +5686,11 @@
             backface-visibility: hidden;
           }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          /* nth-child static transforms removed — wave is JS-driven */
           .tool-card:hover {
             transform: scale(1.12) !important;
             transition: transform 0.25s ease;
           }
 
-
-
-
-
-
-
-
-
-
-
-
-
-          /* (second duplicate nth-child block removed) */
           .tool-card:hover {
             animation-play-state: paused;
             transform: scale(1.08) !important;
@@ -6619,715 +5724,9 @@
             color: #02050E;
             text-align: center;
           }
-
-          @media (max-width: 1024px) {}
-
-          @media (max-width: 768px) {}
-
-
-          /* Training Slider 9:16 mobile adjustments */
-          .glowing-box-container {
-            height: auto !important;
-            aspect-ratio: 9 / 16 !important;
-            max-height: 85vh;
-            /* just in case */
-          }
-
-          .school-slide {
-            padding: 24px 16px !important;
-          }
-
-          .school-slide.cover-slide .slide-title {
-            font-size: clamp(44px, 6vw, 72px) !important;
-            font-weight: 300 !important;
-            max-width: 100% !important;
-            text-align: center !important;
-          }
-
-          .school-slide.cover-slide .slide-desc {
-            font-size: clamp(14px, 4vw, 18px) !important;
-            max-width: 100% !important;
-            margin-top: 16px !important;
-          }
-
-          .cover-badges {
-            margin-top: auto !important;
-            /* pushes it down */
-            gap: 16px !important;
-            flex-direction: column;
-          }
-
-          .cover-badges>div {
-            border-left: none !important;
-            padding-left: 0 !important;
-          }
-          }
-
-
-          /* Tech School slide mobile fixes */
-          .school-slide[data-index="1"] .tech-intro-left h3 {
-            font-size: clamp(24px, 8vw, 36px) !important;
-            line-height: 1.1 !important;
-            margin-bottom: 8px !important;
-          }
-
-          .school-slide[data-index="1"] .tech-intro-left p {
-            font-size: clamp(14px, 4vw, 16px) !important;
-            line-height: 1.4 !important;
-            margin-bottom: 12px !important;
-          }
-
-          .school-slide[data-index="1"] .tech-cards-grid {
-            display: flex !important;
-            flex-direction: column !important;
-            gap: 8px !important;
-          }
-
-          .school-slide[data-index="1"] .tech-card {
-            padding: 12px !important;
-            min-height: auto !important;
-          }
-
-          .school-slide[data-index="1"] .tech-title {
-            font-size: 14px !important;
-          }
-          }
-
-
-          /* B-School slide and general slide mobile fixes */
-          .school-slide {
-            overflow-y: auto !important;
-            justify-content: space-between !important;
-            padding-bottom: 24px !important;
-          }
-
-          .finish-left-actions {
-            margin-top: 24px !important;
-            flex-direction: column !important;
-          }
-
-          .finish-left-actions a {
-            width: 100% !important;
-            text-align: center !important;
-            justify-content: center !important;
-          }
-
-          .finish-metrics-bottom {
-            margin-top: 24px !important;
-          }
-
-          .finish-metrics-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-            gap: 8px !important;
-          }
-
-          .finish-metric-card {
-            padding: 8px !important;
-          }
-
-          .finish-metric-card .metric-val {
-            font-size: 16px !important;
-          }
-
-          .finish-metric-card .metric-label {
-            font-size: 10px !important;
-          }
-          }
-
-
-          /* Fix for tech cards cutting off text on mobile */
-          .tech-card {
-            height: auto !important;
-            min-height: min-content !important;
-            overflow: visible !important;
-            flex: 0 0 auto !important;
-          }
-
-          .tech-title {
-            white-space: normal !important;
-            overflow: visible !important;
-          }
-          }
-
-
-          /* === TECH SCHOOL SLIDE - comprehensive mobile fit === */
-          .school-slide[data-index="1"] {
-            overflow-y: auto !important;
-            overflow-x: hidden !important;
-            justify-content: flex-start !important;
-            padding: 20px 16px !important;
-            gap: 8px !important;
-            padding-top: 20px !important;
-          }
-
-          .school-slide[data-index="1"] .tech-slide-top {
-            flex: 0 0 auto !important;
-          }
-
-          .school-slide[data-index="1"] .tech-intro-left {
-            display: flex !important;
-            flex-direction: column !important;
-            gap: 4px !important;
-          }
-
-          .school-slide[data-index="1"] .slide-header {
-            margin-bottom: 4px !important;
-          }
-
-          .school-slide[data-index="1"] .inline-h3-override,
-          .school-slide[data-index="1"] .slide-title {
-            font-size: clamp(52px, 7vw, 90px) !important;
-            line-height: 1.15 !important;
-            font-weight: 800 !important;
-            margin: 0 0 6px !important;
-            text-align: center !important;
-          }
-
-          .school-slide[data-index="1"] .inline-p-override,
-          .school-slide[data-index="1"] .slide-desc {
-            font-size: 12px !important;
-            line-height: 1.4 !important;
-            margin: 0 0 8px !important;
-            max-width: 100% !important;
-          }
-
-          .school-slide[data-index="1"] .tech-slide-bottom {
-            flex: 0 0 auto !important;
-            margin-top: 8px !important;
-          }
-
-          .school-slide[data-index="1"] .tech-cards-grid {
-            display: flex !important;
-            flex-direction: column !important;
-            gap: 8px !important;
-            width: 100% !important;
-            max-width: 100% !important;
-          }
-
-          .school-slide[data-index="1"] .tech-card {
-            height: auto !important;
-            min-height: auto !important;
-            overflow: visible !important;
-            padding: 10px 12px !important;
-            flex: 0 0 auto !important;
-          }
-
-          .school-slide[data-index="1"] .tech-title {
-            font-size: 13px !important;
-            white-space: normal !important;
-            overflow: visible !important;
-          }
-
-          .school-slide[data-index="1"] .pillust {
-            display: none !important;
-          }
-          }
-
-          @media (max-width: 480px) {}
-
-
-          /* Desktop classes to replace inline styles */
-          .inline-h3-override {
-            font-size: 70px;
-            line-height: 1.1;
-            font-weight: 800;
-            margin: 0 0 26px;
-          }
-
-          .inline-p-override {
-            font-size: 24px;
-            line-height: 1.5;
-            color: rgba(255, 255, 255, 0.7);
-            max-width: 700px;
-            margin: 0 0 52px;
-          }
-
-          /* ===========================================================
-       MOBILE COMPATIBILITY OVERRIDES (max-width: 980px)
-       =========================================================== */
-          @media (max-width: 980px) {
-
-            /* Mobile fixes for the new classes */
-            .inline-h3-override {
-              font-size: 26px !important;
-              margin-bottom: 8px !important;
-            }
-
-            .inline-p-override {
-              font-size: 14px !important;
-              margin-bottom: 12px !important;
-            }
-
-            .school-slide[data-index="1"] {
-              justify-content: space-between !important;
-              padding-bottom: 24px !important;
-              padding-top: 16px !important;
-              overflow-y: auto !important;
-              /* Allow scrolling if it overflows */
-            }
-
-            .tech-cards-grid {
-              display: flex !important;
-              flex-direction: column !important;
-              gap: 8px !important;
-            }
-
-            .tech-card {
-              padding: 12px !important;
-              min-height: auto !important;
-            }
-
-            body {
-              overflow-x: hidden;
-              width: 100%;
-              max-width: 100vw;
-            }
-
-            .wrap {
-              padding: 0 16px;
-              overflow-x: hidden;
-            }
-
-            /* Nav & Hamburger */
-            .nav-inner {
-              position: relative;
-              z-index: 1001;
-            }
-
-            .hamburger {
-              display: flex !important;
-              flex-direction: column;
-              gap: 6px;
-              background: transparent;
-              border: none;
-              cursor: pointer;
-              padding: 8px;
-              z-index: 1002;
-            }
-
-            .hamburger span {
-              display: block;
-              width: 30px;
-              height: 2px;
-              background: var(--ink);
-              transition: 0.3s;
-            }
-
-            .hamburger.active span:nth-child(1) {
-              transform: translateY(8px) rotate(45deg);
-            }
-
-            .hamburger.active span:nth-child(2) {
-              opacity: 0;
-            }
-
-            .hamburger.active span:nth-child(3) {
-              transform: translateY(-8px) rotate(-45deg);
-            }
-
-            .nav-links {
-              display: flex !important;
-              position: fixed;
-              top: 0;
-              left: 0;
-              right: 0;
-              bottom: 0;
-              background: var(--cream);
-              flex-direction: column;
-              justify-content: center;
-              align-items: center;
-              gap: 32px;
-              z-index: 1000;
-              opacity: 0;
-              visibility: hidden;
-              transition: opacity 0.3s ease, visibility 0.3s ease;
-            }
-
-            .nav-links.mobile-active {
-              opacity: 1;
-              visibility: visible;
-            }
-
-            .nav-links a {
-              font-size: 22px;
-              font-weight: 600;
-            }
-
-            .dropdown-menu {
-              position: relative;
-              opacity: 1;
-              visibility: visible;
-              transform: none;
-              box-shadow: none;
-              background: transparent;
-              border: none;
-              top: 0;
-              min-width: 100%;
-              padding: 0;
-              pointer-events: auto;
-            }
-
-            .dropdown-item {
-              justify-content: center;
-              font-size: 18px !important;
-            }
-
-            /* Hide existing nav logic that overrides mobile */
-            .nav-right {
-              flex: 0 0 auto;
-            }
-
-            /* Hero */
-            .hero-grid {
-              grid-template-columns: 1fr;
-              margin-top: 0;
-              text-align: center;
-              overflow-x: hidden;
-              width: 100%;
-            }
-
-            .headline {
-              font-size: clamp(32px, 10vw, 54px) !important;
-              margin: 12px 0 24px;
-              white-space: normal !important;
-              overflow-wrap: break-word;
-            }
-
-            .headline .line-inner,
-            .headline em {
-              font-size: clamp(32px, 10vw, 54px) !important;
-              line-height: 1.1 !important;
-              padding-bottom: 0 !important;
-            }
-
-            .hero-actions {
-              justify-content: center;
-            }
-
-            .hero-meta {
-              justify-content: center;
-              flex-wrap: wrap;
-            }
-
-            .hero-vis {
-              height: 350px;
-              display: block;
-              margin-top: 32px;
-            }
-
-            /* Hide the ticker on mobile to save space, or make it smaller */
-
-            /* Other grids to single column */
-            /* Adjusted hero-vis: 3 columns, perfectly scaled to fit mobile screen */
-            .hero-vis {
-              height: 280px !important;
-              margin-top: 20px;
-            }
-
-            .columns {
-              grid-template-columns: repeat(3, 1fr) !important;
-              gap: 8px !important;
-              padding: 8px !important;
-            }
-
-            .tcol {
-              gap: 8px !important;
-            }
-
-            .tcard {
-              padding: 8px !important;
-              min-height: 60px !important;
-              border-radius: 8px !important;
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-            }
-
-            .tname {
-              font-size: 10px !important;
-              line-height: 1.1 !important;
-              word-break: break-word;
-            }
-
-            .tag {
-              font-size: 7px !important;
-              margin-bottom: 2px !important;
-            }
-
-            .tcard .glyph {
-              display: none !important;
-            }
-
-            /* Hide large decorative icons to save space */
-            .tcard.placement {
-              min-height: 70px !important;
-              padding: 8px !important;
-            }
-
-            .companies .grid {
-              grid-template-columns: repeat(3, 1fr) !important;
-              gap: 16px;
-            }
-
-            .th-split {
-              flex-direction: column !important;
-            }
-
-            .th-visual,
-            .th-content {
-              width: 100% !important;
-              padding: 20px !important;
-            }
-
-            .serv-grid {
-              grid-template-columns: 1fr !important;
-            }
-
-            .f-cols {
-              flex-direction: column;
-              gap: 32px;
-            }
-
-            .f-brand {
-              width: 100%;
-            }
-
-            .foot-bottom {
-              flex-direction: column;
-              text-align: center;
-              gap: 16px;
-            }
-          }
-
-
-          /* Training Slider 9:16 mobile adjustments */
-          .glowing-box-container {
-            height: auto !important;
-            aspect-ratio: 9 / 16 !important;
-            max-height: 85vh;
-            /* just in case */
-          }
-
-          .school-slide {
-            padding: 24px 16px !important;
-          }
-
-          .school-slide.cover-slide .slide-title {
-            font-size: clamp(44px, 6vw, 72px) !important;
-            font-weight: 300 !important;
-            max-width: 100% !important;
-            text-align: center !important;
-          }
-
-          .school-slide.cover-slide .slide-desc {
-            font-size: clamp(14px, 4vw, 18px) !important;
-            max-width: 100% !important;
-            margin-top: 16px !important;
-          }
-
-          .cover-badges {
-            margin-top: auto !important;
-            /* pushes it down */
-            gap: 16px !important;
-            flex-direction: column;
-          }
-
-          .cover-badges>div {
-            border-left: none !important;
-            padding-left: 0 !important;
-          }
-          }
-
-
-          /* Tech School slide mobile fixes */
-          .school-slide[data-index="1"] .tech-intro-left h3 {
-            font-size: clamp(24px, 8vw, 36px) !important;
-            line-height: 1.1 !important;
-            margin-bottom: 8px !important;
-          }
-
-          .school-slide[data-index="1"] .tech-intro-left p {
-            font-size: clamp(14px, 4vw, 16px) !important;
-            line-height: 1.4 !important;
-            margin-bottom: 12px !important;
-          }
-
-          .school-slide[data-index="1"] .tech-cards-grid {
-            display: flex !important;
-            flex-direction: column !important;
-            gap: 8px !important;
-          }
-
-          .school-slide[data-index="1"] .tech-card {
-            padding: 12px !important;
-            min-height: auto !important;
-          }
-
-          .school-slide[data-index="1"] .tech-title {
-            font-size: 14px !important;
-          }
-          }
-
-
-          /* B-School slide and general slide mobile fixes */
-          .school-slide {
-            overflow-y: auto !important;
-            justify-content: space-between !important;
-            padding-bottom: 24px !important;
-          }
-
-          .finish-left-actions {
-            margin-top: 24px !important;
-            flex-direction: column !important;
-          }
-
-          .finish-left-actions a {
-            width: 100% !important;
-            text-align: center !important;
-            justify-content: center !important;
-          }
-
-          .finish-metrics-bottom {
-            margin-top: 24px !important;
-          }
-
-          .finish-metrics-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-            gap: 8px !important;
-          }
-
-          .finish-metric-card {
-            padding: 8px !important;
-          }
-
-          .finish-metric-card .metric-val {
-            font-size: 16px !important;
-          }
-
-          .finish-metric-card .metric-label {
-            font-size: 10px !important;
-          }
-          }
-
-
-          /* Fix for tech cards cutting off text on mobile */
-          .tech-card {
-            height: auto !important;
-            min-height: min-content !important;
-            overflow: visible !important;
-            flex: 0 0 auto !important;
-          }
-
-          .tech-title {
-            white-space: normal !important;
-            overflow: visible !important;
-          }
-          }
-
-
-          /* === TECH SCHOOL SLIDE - comprehensive mobile fit === */
-          .school-slide[data-index="1"] {
-            overflow-y: auto !important;
-            overflow-x: hidden !important;
-            justify-content: flex-start !important;
-            padding: 20px 16px !important;
-            gap: 8px !important;
-            padding-top: 20px !important;
-          }
-
-          .school-slide[data-index="1"] .tech-slide-top {
-            flex: 0 0 auto !important;
-          }
-
-          .school-slide[data-index="1"] .tech-intro-left {
-            display: flex !important;
-            flex-direction: column !important;
-            gap: 4px !important;
-          }
-
-          .school-slide[data-index="1"] .slide-header {
-            margin-bottom: 4px !important;
-          }
-
-          .school-slide[data-index="1"] .inline-h3-override,
-          .school-slide[data-index="1"] .slide-title {
-            font-size: clamp(52px, 7vw, 90px) !important;
-            line-height: 1.15 !important;
-            font-weight: 800 !important;
-            margin: 0 0 6px !important;
-            text-align: center !important;
-          }
-
-          .school-slide[data-index="1"] .inline-p-override,
-          .school-slide[data-index="1"] .slide-desc {
-            font-size: 12px !important;
-            line-height: 1.4 !important;
-            margin: 0 0 8px !important;
-            max-width: 100% !important;
-          }
-
-          .school-slide[data-index="1"] .tech-slide-bottom {
-            flex: 0 0 auto !important;
-            margin-top: 8px !important;
-          }
-
-          .school-slide[data-index="1"] .tech-cards-grid {
-            display: flex !important;
-            flex-direction: column !important;
-            gap: 8px !important;
-            width: 100% !important;
-            max-width: 100% !important;
-          }
-
-          .school-slide[data-index="1"] .tech-card {
-            height: auto !important;
-            min-height: auto !important;
-            overflow: visible !important;
-            padding: 10px 12px !important;
-            flex: 0 0 auto !important;
-          }
-
-          .school-slide[data-index="1"] .tech-title {
-            font-size: 13px !important;
-            white-space: normal !important;
-            overflow: visible !important;
-          }
-
-          .school-slide[data-index="1"] .pillust {
-            display: none !important;
-          }
-          }
-
-          @media (max-width: 480px) {
-            .companies .grid {
-              grid-template-columns: repeat(2, 1fr) !important;
-            }
-
-            .btn-primary,
-            .btn-ghost {
-              width: 100%;
-              justify-content: center;
-            }
-
-            .nav-right .cta {
-              display: none;
-            }
-
-            /* Hide 'Book Consult' in nav on very small screens to make room for hamburger */
-          }
         </style>
+      </div>
     </section>
-
-
-
-
-
-
-
-
-
-
-
     <!-- ============ CTA ============ -->
     <section class="cta-strip" id="contact" data-screen-label="04 Contact">
       <div class="wrap">
@@ -7337,7 +5736,7 @@
         <div class="row">
           <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="btn-primary"><span>WhatsApp
               now</span><span class="arrow">→</span></a>
-          <a href="tel:+918590886009" class="btn-ghost">Call +91 85908 86009</a>
+          <a href="tel:+918590886009" class="btn-ghost">Call +91 95444 34566</a>
         </div>
       </div>
     </section>
@@ -7364,10 +5763,9 @@
           <div class="ft-col">
             <h4>Explore</h4>
             <a href="#placements">2000+ Placements</a>
-            <a href="./Resume/frontend/index.html" target="_blank">Resume Builder</a>
-            <a href="jobs.html">Job Listing</a>
-            <a href="#">Careers</a>
-            <a href="#">Tech Blog</a>
+            <a href="https://darksalmon-llama-333572.hostingersite.com/" target="_blank">Resume Builder</a>
+            <a href="#"></a>
+            <a href="#"></a>
           </div>
           <div class="ft-col">
             <h4>Contact</h4>
@@ -7548,19 +5946,19 @@
 
       /* ===== Build placement (instagram) grid ===== */
       const placements = [
-        { name: 'Aamina AA', co: 'Cognizant', likes: 412, img: './placement-01-aamina-aa-cognizant.png' },
+        { name: 'Aamina AA', co: 'Cognizant', likes: 412, img: './placement-01-aamina-aa-cognizant.webp' },
         { name: 'Adithyanath', co: 'TCS', likes: 289, img: './placement-02-adithyanath-tcs.webp' },
         { name: 'Alfin', co: 'Aion Pixel', likes: 187, img: './placement-03-alfin-aion-pixel.webp' },
         { name: 'Aswin', co: 'Sioniq', likes: 245, img: './placement-04-aswin-sioniq.webp' },
         { name: 'Azra Ayisha', co: 'Neologics', likes: 310, img: './placement-05-azra-ayisha-neologics.webp' },
-        { name: 'Jisha Raj', co: 'IBS', likes: 423, img: './placement-06-jisha-raj-ibs-1.png' },
+        { name: 'Jisha Raj', co: 'IBS', likes: 423, img: './placement-06-jisha-raj-ibs-1.webp' },
         { name: 'Krishnapriya RB', co: 'ISRO', likes: 1248, img: './placement-07-krishnapriya-isro.webp' },
         { name: 'Leo Antony', co: 'Claysis', likes: 201, img: './placement-08-leo-antony-claysis.webp' },
         { name: 'Niya Biju', co: 'Aabosoft', likes: 356, img: './placement-09-niya-biju-aabosoft.webp' },
         { name: 'Parvathy', co: 'Neologics', likes: 278, img: './placement-10-parvathy-neologics.webp' },
-        { name: 'Samudra', co: 'Neologix', likes: 198, img: './placement-11-samudra-neologix.png' },
-        { name: 'Shivadath', co: 'Evalogical', likes: 295, img: './placement-12-shivadath-evalogical.png' },
-        { name: 'Thasleema Jafarr', co: 'MariApps', likes: 331, img: './placement-13-thasleema-jafarr-mariapps.png' }
+        { name: 'Samudra', co: 'Neologix', likes: 198, img: './placement-11-samudra-neologix.webp' },
+        { name: 'Shivadath', co: 'Evalogical', likes: 295, img: './placement-12-shivadath-evalogical.webp' },
+        { name: 'Thasleema Jafarr', co: 'MariApps', likes: 331, img: './placement-13-thasleema-jafarr-mariapps.webp' }
       ];
       const igGrid = document.getElementById('igGrid');
       const renderPlacements = () => [...placements, ...placements].forEach((p, i) => {
@@ -7603,291 +6001,26 @@
         visCols[1] && (visCols[1].style.translate = `0 ${v * .2}px`);
         visCols[2] && (visCols[2].style.translate = `0 ${-v * .15}px`);
 
-        if (typeof window.updateTrainingStickyScroll === 'function') {
-          window.updateTrainingStickyScroll();
-        }
       });
 
-      /* Premium Water Fluid Particle Effect - Disabled on mobile */
-      const cvs = document.createElement('canvas');
-      cvs.style.position = 'fixed';
-      cvs.style.top = '0';
-      cvs.style.left = '0';
-      cvs.style.width = '100vw';
-      cvs.style.height = '100vh';
-      cvs.style.pointerEvents = 'none';
-      cvs.style.zIndex = '1';
-      document.body.insertBefore(cvs, document.body.firstChild);
-      const ctx = cvs.getContext('2d');
-      let w, h, pts = [];
-
-      function resize() {
-        if (isMobile) return;
-        w = cvs.width = window.innerWidth;
-        h = cvs.height = window.innerHeight;
-      }
-
-      function initPts() {
-        pts = [];
-        if (isMobile) return;
-        // Dynamic calculation for a dense fluid suspension (more particles like water droplets)
-        const numParticles = Math.min(Math.floor((w * h) / 250), 4000);
-
-        for (let i = 0; i < numParticles; i++) {
-          let z = Math.random() * 0.8 + 0.2; // Parallax depth layer
-          pts.push({
-            x: Math.random() * w,
-            y: Math.random() * h,
-            r: (Math.random() * 1.2 + 0.3) * z, // Much smaller, subtle dust/bubble size
-            alpha: z * 0.70, // Opacity boosted to 70% as requested
-            vx: 0,
-            vy: 0,
-            z: z,
-            phase: Math.random() * Math.PI * 2, // Fluid wobble phase
-            wobbleSpeed: 0.01 + Math.random() * 0.02
-          });
-        }
-      }
-
-      window.addEventListener('resize', () => { resize(); initPts(); });
-      resize(); initPts();
-
-      let mx = -1000, my = -1000;
-      let pmx = -1000, pmy = -1000;
-      let mouseVx = 0, mouseVy = 0;
-
-      window.addEventListener('pointermove', e => {
-        if (isMobile) return;
-        mx = e.clientX;
-        my = e.clientY;
-      });
-
-      window.addEventListener('pointerleave', () => {
-        if (isMobile) return;
-        mx = -1000;
-        my = -1000;
-        pmx = -1000;
-        pmy = -1000;
-        mouseVx = 0;
-        mouseVy = 0;
-      });
-
-      function tick() {
-        if (!isMobile) {
-          ctx.clearRect(0, 0, w, h);
-
-          // Calculate mouse velocity (drag current force)
-          if (pmx !== -1000 && mx !== -1000) {
-            mouseVx = mx - pmx;
-            mouseVy = my - pmy;
+      window.scrollToTrainingSlide = function () {
+        const sec = document.getElementById('training');
+        if (sec) {
+          if (window.lenis) {
+            window.lenis.scrollTo(sec, { offset: -40, duration: 1 });
           } else {
-            mouseVx = 0;
-            mouseVy = 0;
-          }
-          pmx = mx;
-          pmy = my;
-
-          // Slowly decay mouse current momentum
-          mouseVx *= 0.95;
-          mouseVy *= 0.95;
-
-          for (let p of pts) {
-            // Water Current Wobble (Brownian drift)
-            p.phase += p.wobbleSpeed;
-            p.vx += Math.sin(p.phase) * 0.015 * p.z;
-
-            // Water buoyancy (gentle upward floating bubbles)
-            p.vy -= 0.04 * p.z;
-
-            // High fluid viscosity (damping / friction)
-            p.vx *= 0.94;
-            p.vy *= 0.94;
-
-            // Move particle
-            p.x += p.vx;
-            p.y += p.vy;
-
-            // Smooth wrapping at boundaries
-            if (p.x < -10) p.x = w + 10;
-            if (p.x > w + 10) p.x = -10;
-            if (p.y < -10) {
-              p.y = h + 10;
-              p.x = Math.random() * w; // Re-randomize x to look like natural continuous fluid rising
-            }
-            if (p.y > h + 10) p.y = -10;
-
-            // Draw fluid particle
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(25, 71, 255, ${p.alpha})`;
-            ctx.fill();
+            sec.scrollIntoView({ behavior: 'smooth' });
           }
         }
-
-        // Smoothly LERP the training progress value (faster LERP coefficient 0.09 for snappier scrolling)
-        if (Math.abs(window.targetTrainingProgress - currentTrainingProgress) > 0.0001) {
-          currentTrainingProgress += (window.targetTrainingProgress - currentTrainingProgress) * 0.09;
-          if (typeof window.applyTrainingStickyScroll === 'function') {
-            window.applyTrainingStickyScroll(currentTrainingProgress);
-          }
-        }
-
-        requestAnimationFrame(tick);
-      }
-
-      // Sticky Scroll Animation Progress Variables
-      window.targetTrainingProgress = 0;
-      let currentTrainingProgress = 0;
-
-      // Sticky Scroll Animation for Training Section (Scroll Listener updates target progress)
-      window.updateTrainingStickyScroll = function () {
-        const track = document.querySelector('#training .scroll-track');
-        if (!track) return;
-
-        const rect = track.getBoundingClientRect();
-        const trackHeight = rect.height;
-        const viewHeight = window.innerHeight;
-
-        // Calculate progress from -1 (entering viewport) to 1 (end of sticky)
-        let targetProgress;
-        if (rect.top > 0) {
-          targetProgress = -(rect.top / viewHeight);
-        } else if (rect.bottom < viewHeight) {
-          targetProgress = 1;
-        } else {
-          targetProgress = -rect.top / (trackHeight - viewHeight);
-        }
-        window.targetTrainingProgress = Math.max(-1, Math.min(1, targetProgress));
       };
 
-      // Apply the visual transforms and class updates for the active slide
-      window.applyTrainingStickyScroll = function (progress) {
-        const slides = document.querySelectorAll('#training .school-slide');
-        const navItems = document.querySelectorAll('#training .nav-item');
+      (function () {
         const radialGlow = document.querySelector('#training .box-radial-glow');
-
-        if (slides.length === 0) return;
-
-        // Fluid entrance animation while the section is scrolling up from the bottom (progress < 0)
-        let scale = 1;
-        let translateY = 0;
-        let opacity = 1;
-        let borderRadius = 28;
-
-        if (progress < 0) {
-          // progress goes from -1 (bottom of viewport) to 0 (top of viewport)
-          const factor = Math.min(1, Math.max(0, progress + 1));
-          const easeFactor = factor * factor * (3 - 2 * factor); // smoothstep
-
-          scale = 0.85 + (0.15 * easeFactor);
-          translateY = 150 * (1 - easeFactor);
-          opacity = 0.5 + (0.5 * easeFactor);
-          borderRadius = 60 - (32 * easeFactor);
-        }
-
-        const boxContainer = document.querySelector('#training .glowing-box-container');
-        if (boxContainer) {
-          boxContainer.style.transform = `translateY(${translateY}px) scale(${scale})`;
-          boxContainer.style.opacity = opacity.toString();
-          boxContainer.style.borderRadius = `${borderRadius}px`;
-          boxContainer.style.transformOrigin = 'center center';
-          boxContainer.style.transition = 'none';
-        }
-
-        // Determine active index
-        let activeIdx = 0;
-        if (progress > 0.25 && progress <= 0.50) {
-          activeIdx = 1;
-        } else if (progress > 0.50 && progress <= 0.75) {
-          activeIdx = 2;
-        } else if (progress > 0.75) {
-          activeIdx = 3;
-        }
-
-        const glowPos = [
-          { x: '50%', y: '50%' }, // Cover slide: centered soft ambient glow
-          { x: '80%', y: '20%' }, // Tech School: top right energy
-          { x: '20%', y: '80%' }, // Finishing School: bottom left warmth
-          { x: '60%', y: '40%' }  // B-School: center-right confidence
-        ];
-
         if (radialGlow) {
-          radialGlow.style.setProperty('--glow-x', glowPos[activeIdx].x);
-          radialGlow.style.setProperty('--glow-y', glowPos[activeIdx].y);
+          radialGlow.style.setProperty('--glow-x', '50%');
+          radialGlow.style.setProperty('--glow-y', '50%');
         }
-
-        // Only show the video play button on the first slide (Cover slide, activeIdx === 0)
-        const playBtn = document.querySelector('#training .video-play-btn');
-        if (playBtn) {
-          if (activeIdx === 0) {
-            playBtn.classList.remove('hidden-slide');
-          } else {
-            playBtn.classList.add('hidden-slide');
-          }
-        }
-
-        // Update slides (Apply active, prev, and next classes for vertical slide animation)
-        slides.forEach((slide, idx) => {
-          if (idx === activeIdx) {
-            slide.classList.add('active');
-            slide.classList.remove('prev', 'next');
-          } else if (idx < activeIdx) {
-            slide.classList.add('prev');
-            slide.classList.remove('active', 'next');
-          } else {
-            slide.classList.add('next');
-            slide.classList.remove('active', 'prev');
-          }
-        });
-
-        // Update nav items
-        navItems.forEach((item, idx) => {
-          if (idx === activeIdx) {
-            item.classList.add('active');
-          } else {
-            item.classList.remove('active');
-          }
-        });
-      };
-
-      // Nav item click interaction
-      document.querySelectorAll('#training .nav-item').forEach((item, idx) => {
-        item.addEventListener('click', () => {
-          const track = document.querySelector('#training .scroll-track');
-          const slides = document.querySelectorAll('#training .school-slide');
-          const navItems = document.querySelectorAll('#training .nav-item');
-
-          if (window.innerWidth <= 980) {
-            slides.forEach((slide, sIdx) => {
-              if (sIdx === idx) slide.classList.add('active');
-              else slide.classList.remove('active');
-            });
-            navItems.forEach((nav, nIdx) => {
-              if (nIdx === idx) nav.classList.add('active');
-              else nav.classList.remove('active');
-            });
-          } else {
-            const totalHeight = track.scrollHeight;
-            const viewHeight = window.innerHeight;
-            const scrollTarget = window.scrollY + track.getBoundingClientRect().top + (idx * (totalHeight - viewHeight) / 2) + 20;
-            if (window.lenis) {
-              window.lenis.scrollTo(scrollTarget, { duration: 1.2 });
-            } else {
-              window.scrollTo({
-                top: scrollTarget,
-                behavior: 'smooth'
-              });
-            }
-          }
-        });
-      });
-
-      if (typeof window.updateTrainingStickyScroll === 'function') {
-        window.updateTrainingStickyScroll();
-        currentTrainingProgress = window.targetTrainingProgress;
-        window.applyTrainingStickyScroll(currentTrainingProgress);
-      }
-      tick();
+      })();
     </script>
     <!-- Video Player Modal -->
     <div id="videoModal" class="video-modal" onclick="closeVideoModal()">
@@ -7978,514 +6111,878 @@
     <style>
       @media (max-width: 980px) {
 
-        /* === BOX: Force 9:16 ratio — remove all fixed heights === */
-        #training .glowing-box-container {
-          aspect-ratio: 9 / 16 !important;
-          height: auto !important;
-          width: 100% !important;
+        /* Mobile Menu Overlay System */
+        #hamburger-menu {
+          display: flex !important;
+          flex-direction: column;
+          justify-content: space-between;
+          width: 32px;
+          height: 22px;
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          z-index: 10001;
+          padding: 0;
         }
 
-        /* KEY FIX: Remove overflow:hidden so content is not clipped */
-        #training .glowing-box {
+        #hamburger-menu span {
+          display: block;
+          width: 100%;
+          height: 2.5px;
+          background: var(--ink);
+          border-radius: 4px;
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #hamburger-menu.active span:nth-child(1) {
+          transform: translateY(9.5px) rotate(45deg);
+        }
+
+        #hamburger-menu.active span:nth-child(2) {
+          opacity: 0;
+        }
+
+        #hamburger-menu.active span:nth-child(3) {
+          transform: translateY(-9.5px) rotate(-45deg);
+        }
+
+        .nav-links.mobile-active {
+          display: flex !important;
+          position: fixed !important;
+          inset: 0 !important;
+          width: 100vw !important;
+          height: 100vh !important;
+          height: 100dvh !important;
+          background: rgba(255, 255, 255, 0.98) !important;
+          backdrop-filter: blur(24px) !important;
+          -webkit-backdrop-filter: blur(24px) !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          justify-content: center !important;
+          gap: 16px !important;
+          padding: 80px 24px 40px !important;
+          z-index: 10000 !important;
           overflow-y: auto !important;
-          overflow-x: hidden !important;
-          border-radius: 19px !important;
-          -webkit-overflow-scrolling: touch !important;
+          box-sizing: border-box !important;
         }
 
-        /* slides-viewport: match glowing-box height (no clip) */
-        #training .slides-viewport {
-          position: relative !important;
-          inset: unset !important;
-          width: 100% !important;
-          min-height: 100% !important;
+        .nav-links.mobile-active a {
+          font-size: 20px !important;
+          font-weight: 600 !important;
+          color: var(--ink) !important;
+          text-decoration: none !important;
+          text-align: center !important;
         }
 
-        /* All slides: stack normally as block elements instead of absolute overlay */
-        #training .school-slide {
-          position: relative !important;
-          inset: unset !important;
-          display: none !important;
-          /* hidden by default */
-          flex-direction: column !important;
-          width: 100% !important;
-          min-height: auto !important;
-          overflow: visible !important;
-          justify-content: flex-start !important;
-          gap: 10px !important;
-          padding: 20px 18px !important;
-          opacity: 1 !important;
-          pointer-events: auto !important;
-        }
-
-        /* Only show the active slide */
-        #training .school-slide.active {
-          display: flex !important;
-        }
-
-        /* Hide the large decorative background illustration on mobile */
-        #training .school-slide .pillust {
-          display: none !important;
-        }
-
-        /* ---- SLIDE 1: Tech School ---- */
-        #training .school-slide[data-index="1"] .slide-title,
-        #training .school-slide[data-index="1"] h3 {
-          font-size: 22px !important;
-          line-height: 1.15 !important;
-          margin: 0 0 6px !important;
-        }
-
-        #training .school-slide[data-index="1"] .slide-desc,
-        #training .school-slide[data-index="1"] p {
-          font-size: 13px !important;
-          line-height: 1.4 !important;
-          margin: 0 0 8px !important;
-          max-width: 100% !important;
-        }
-
-        #training .school-slide[data-index="1"] .tech-cards-grid {
+        .nav-links.mobile-active .nav-dropdown-wrapper {
           display: flex !important;
           flex-direction: column !important;
-          gap: 8px !important;
+          align-items: center !important;
           width: 100% !important;
-          max-width: 100% !important;
-        }
-
-        #training .school-slide[data-index="1"] .tech-card {
           height: auto !important;
-          min-height: auto !important;
-          overflow: visible !important;
-          padding: 10px 12px !important;
-          flex: 0 0 auto !important;
         }
 
-        #training .school-slide[data-index="1"] .tech-title {
-          font-size: 13px !important;
-          white-space: normal !important;
-          overflow: visible !important;
-        }
-
-        /* ---- SLIDE 2: Finishing School ---- */
-        #training .school-slide[data-index="2"] h3,
-        #training .school-slide[data-index="2"] .slide-title {
-          font-size: 28px !important;
-          line-height: 1.1 !important;
-          margin: 0 0 4px !important;
-        }
-
-        #training .school-slide[data-index="2"] .finish-tagline,
-        #training .school-slide[data-index="2"] p.finish-tagline {
-          font-size: 16px !important;
-          margin: 0 0 10px !important;
-          font-weight: 700 !important;
-        }
-
-        #training .school-slide[data-index="2"] .slide-desc,
-        #training .school-slide[data-index="2"] p.slide-desc {
-          font-size: 13px !important;
-          line-height: 1.4 !important;
-          margin: 0 0 10px !important;
-          max-width: 100% !important;
-        }
-
-        #training .school-slide[data-index="2"] .finish-left-actions {
-          margin-top: 10px !important;
+        .nav-links.mobile-active .dropdown-menu {
+          position: static !important;
+          transform: none !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+          pointer-events: auto !important;
+          box-shadow: none !important;
+          border: none !important;
+          background: transparent !important;
+          min-width: unset !important;
+          width: 100% !important;
+          display: flex !important;
           flex-direction: column !important;
+          align-items: center !important;
           gap: 8px !important;
+          padding: 6px 0 !important;
+          margin: 4px 0 !important;
         }
 
-        #training .school-slide[data-index="2"] .tech-action-btn {
+        .nav-links.mobile-active .dropdown-item-wrapper {
+          position: static !important;
           width: 100% !important;
           text-align: center !important;
-          justify-content: center !important;
-          padding: 10px 16px !important;
-          font-size: 13px !important;
         }
 
-        #training .school-slide[data-index="2"] .finish-metrics-bottom {
-          margin-top: 12px !important;
+        .nav-links.mobile-active .dropdown-item {
+          display: inline-block !important;
+          font-size: 15px !important;
+          font-weight: 600 !important;
+          color: #1947FF !important;
+          padding: 6px 14px !important;
+          margin: 0 !important;
+          background: rgba(25, 71, 255, 0.08) !important;
+          border-radius: 99px !important;
         }
 
-        #training .school-slide[data-index="2"] .finish-metrics-grid {
-          grid-template-columns: repeat(2, 1fr) !important;
-          gap: 8px !important;
+        .nav-links.mobile-active .dropdown-item .chevron-right,
+        .nav-links.mobile-active .nav-dropdown-trigger .chevron {
+          display: none !important;
         }
 
-        #training .school-slide[data-index="2"] .finish-metric-card {
-          padding: 8px 10px !important;
+        .nav-links.mobile-active .sub-dropdown-menu {
+          display: none !important;
         }
 
-        #training .school-slide[data-index="2"] .metric-val {
-          font-size: 14px !important;
+        /* Mobile Performance GPU Hardware Acceleration */
+        * {
+          -webkit-tap-highlight-color: transparent;
         }
 
-        #training .school-slide[data-index="2"] .metric-lbl {
-          font-size: 10px !important;
+        /* Reduced Placements CTA Button size for Mobile */
+        .placements-cta-btn {
+          padding: 8px 16px !important;
+          font-size: 12px !important;
+          max-width: calc(100% - 32px) !important;
+          border-radius: 99px !important;
         }
 
-        /* ---- SLIDE 3: B-School HRCRP ---- */
-        #training .school-slide[data-index="3"] h3,
-        #training .school-slide[data-index="3"] .slide-title {
-          font-size: 26px !important;
-          line-height: 1.1 !important;
-          margin: 0 0 4px !important;
+        .placements-cta-btn .arrow {
+          width: 20px !important;
+          height: 20px !important;
+          font-size: 11px !important;
+          margin-left: 6px !important;
         }
 
-        #training .school-slide[data-index="3"] .finish-tagline,
-        #training .school-slide[data-index="3"] p.finish-tagline {
-          font-size: 16px !important;
-          margin: 0 0 10px !important;
-          font-weight: 700 !important;
-        }
-
-        #training .school-slide[data-index="3"] .slide-desc,
-        #training .school-slide[data-index="3"] p.slide-desc {
-          font-size: 13px !important;
-          line-height: 1.4 !important;
-          margin: 0 0 10px !important;
-          max-width: 100% !important;
-        }
-
-        #training .school-slide[data-index="3"] .finish-left-actions {
-          margin-top: 10px !important;
-          flex-direction: column !important;
-          gap: 8px !important;
-        }
-
-        #training .school-slide[data-index="3"] .tech-action-btn {
-          width: 100% !important;
-          text-align: center !important;
-          justify-content: center !important;
-          padding: 10px 16px !important;
-          font-size: 13px !important;
-        }
-
-        #training .school-slide[data-index="3"] .finish-metrics-bottom {
-          margin-top: 12px !important;
-        }
-
-        #training .school-slide[data-index="3"] .finish-metrics-grid {
-          grid-template-columns: repeat(2, 1fr) !important;
-          gap: 8px !important;
-        }
-
-        #training .school-slide[data-index="3"] .finish-metric-card {
-          padding: 8px 10px !important;
-        }
-
-        #training .school-slide[data-index="3"] .metric-val {
-          font-size: 14px !important;
-        }
-
-        #training .school-slide[data-index="3"] .metric-lbl {
-          font-size: 10px !important;
-        }
-
-        #training .school-slide[data-index="3"] .pchips {
-          margin-top: 6px !important;
-          margin-bottom: 8px !important;
+        #training .glowing-box-container {
+          will-change: transform;
         }
       }
     </style>
 
-    <!-- ===== SHARED AUTH MODAL (Jobs + Resume Builder) ===== -->
+    <!-- ===== AUTHENTICATION MODAL (Rearranged 2-Panel Landscape Layout) ===== -->
     <div id="jobs-auth-modal"
-      style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.55); backdrop-filter:blur(8px); align-items:center; justify-content:center; padding:1rem;">
-      <div
-        style="background:#fff; border-radius:20px; width:100%; max-width:440px; overflow:hidden; box-shadow:0 32px 80px rgba(0,0,0,0.25); animation:authFadeIn 0.3s ease;">
-        <!-- Header -->
-        <div
-          style="padding:2rem 2rem 1rem; border-bottom:1px solid #f0f0f0; display:flex; align-items:center; justify-content:space-between;">
+      style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(15,23,42,0.65); backdrop-filter:blur(8px); align-items:center; justify-content:center; padding:1rem;">
+      <div class="auth-modal-container"
+        style="background:#ffffff; border-radius:20px; width:100%; max-width:740px; overflow:hidden; box-shadow:0 25px 60px -12px rgba(15,23,42,0.35), 0 0 0 1px rgba(15,23,42,0.06); animation:authFadeIn 0.25s ease; position:relative; display:flex; flex-direction:row;">
+        
+        <!-- LEFT PANEL: Brand, Title, 1-Click Google & Trust Perks -->
+        <div class="auth-modal-left"
+          style="width:44%; background:#f8fafc; padding:2rem 1.75rem; border-right:1px solid #f1f5f9; display:flex; flex-direction:column; justify-content:space-between;">
           <div>
-            <img src="kompetenzen logo-02.png" alt="Kompetenzen"
-              style="height:28px; margin-bottom:0.5rem; display:block;">
-            <p id="jobs-auth-subtitle" style="margin:0; font-size:0.85rem; color:#666;">Sign in to access job listings
-            </p>
+            <img src="kompetenzen logo-02.png" alt="Kompetenzen" style="height:28px; margin-bottom:1.15rem; display:block;">
+            <h3 id="auth-modal-title" style="margin:0 0 0.4rem; font-size:1.25rem; font-weight:800; color:#0f172a; letter-spacing:-0.02em; line-height:1.25;">Create Your Account</h3>
+            <p id="auth-modal-subtitle" style="margin:0 0 1.25rem; font-size:0.82rem; color:#64748b; line-height:1.45;">Sign up to access courses, jobs & placements</p>
+            
+            <!-- Google 1-Click Button -->
+            <button type="button" id="lead-google-btn" onclick="triggerWebsiteGoogleSignIn()"
+              style="display:flex; align-items:center; justify-content:center; gap:9px; width:100%; padding:0.7rem 1rem; background:#fff; border:1.5px solid #e2e8f0; border-radius:10px; font-family:inherit; font-size:0.88rem; font-weight:600; color:#1e293b; cursor:pointer; transition:all 0.2s ease; box-shadow:0 1px 2px rgba(0,0,0,0.04);"
+              onmouseover="this.style.borderColor='#cbd5e1'; this.style.background='#f8fafc'; this.style.transform='translateY(-1px)';"
+              onmouseout="this.style.borderColor='#e2e8f0'; this.style.background='#fff'; this.style.transform='none';">
+              <svg style="width:18px; height:18px; flex-shrink:0;" viewBox="0 0 48 48">
+                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+              </svg>
+              <span id="lead-google-btn-text">Continue with Google</span>
+            </button>
+
+            <!-- Feature Perks -->
+            <div style="margin-top:1.4rem; display:flex; flex-direction:column; gap:0.6rem;">
+              <div style="display:flex; align-items:center; gap:0.55rem; font-size:0.78rem; color:#475569; font-weight:600;">
+                <span style="color:#10b981; font-weight:800;">✓</span> 1-Click instant sign-in
+              </div>
+              <div style="display:flex; align-items:center; gap:0.55rem; font-size:0.78rem; color:#475569; font-weight:600;">
+                <span style="color:#10b981; font-weight:800;">✓</span> 100% Placement assistance
+              </div>
+              <div style="display:flex; align-items:center; gap:0.55rem; font-size:0.78rem; color:#475569; font-weight:600;">
+                <span style="color:#10b981; font-weight:800;">✓</span> Industry-verified certificates
+              </div>
+            </div>
           </div>
-          <button onclick="closeJobsAuthModal()"
-            style="background:none; border:none; cursor:pointer; padding:0.4rem; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#999; transition:all 0.2s;"
-            onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='none'">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          </button>
-        </div>
-        <!-- Tabs -->
-        <div style="display:flex; border-bottom:1px solid #f0f0f0;">
-          <button id="jobs-tab-login" onclick="switchJobsTab('login')"
-            style="flex:1; padding:0.9rem; background:none; border:none; cursor:pointer; font-weight:600; font-size:0.9rem; color:#1947FF; border-bottom:2px solid #1947FF; transition:all 0.2s;">Log
-            In</button>
-          <button id="jobs-tab-register" onclick="switchJobsTab('register')"
-            style="flex:1; padding:0.9rem; background:none; border:none; cursor:pointer; font-weight:600; font-size:0.9rem; color:#999; border-bottom:2px solid transparent; transition:all 0.2s;">Create
-            Account</button>
-        </div>
-        <!-- Body -->
-        <div style="padding:1.75rem 2rem 2rem;">
-          <!-- Login Pane -->
-          <div id="jobs-login-pane">
-            <form onsubmit="handleJobsLogin(event)" style="display:flex; flex-direction:column; gap:1rem;">
-              <div style="display:flex; flex-direction:column; gap:0.4rem;">
-                <label style="font-size:0.85rem; font-weight:500; color:#333;">Email</label>
-                <input id="jobs-login-email" type="email" required placeholder="you@example.com"
-                  style="padding:0.75rem 1rem; border:1.5px solid #e5e5e5; border-radius:10px; font-size:0.95rem; outline:none; transition:border 0.2s;"
-                  onfocus="this.style.borderColor='#1947FF'" onblur="this.style.borderColor='#e5e5e5'">
-              </div>
-              <div style="display:flex; flex-direction:column; gap:0.4rem;">
-                <label style="font-size:0.85rem; font-weight:500; color:#333;">Password</label>
-                <input id="jobs-login-password" type="password" required placeholder="••••••••"
-                  style="padding:0.75rem 1rem; border:1.5px solid #e5e5e5; border-radius:10px; font-size:0.95rem; outline:none; transition:border 0.2s;"
-                  onfocus="this.style.borderColor='#1947FF'" onblur="this.style.borderColor='#e5e5e5'">
-              </div>
-              <div id="jobs-login-error"
-                style="display:none; color:#ef4444; font-size:0.85rem; padding:0.5rem 0.75rem; background:#fef2f2; border-radius:8px;">
-              </div>
-              <button type="submit" id="jobs-login-btn"
-                style="background:#1947FF; color:#fff; border:none; padding:0.85rem; border-radius:12px; font-weight:600; font-size:0.95rem; cursor:pointer; transition:all 0.2s; margin-top:0.25rem;"
-                onmouseover="this.style.background='#0E2EC9'" onmouseout="this.style.background='#1947FF'">Log In & View
-                Jobs</button>
-            </form>
+
+          <div style="padding-top:1.15rem; border-top:1px solid #e2e8f0; font-size:0.74rem; color:#94a3b8; display:flex; align-items:center; gap:0.4rem;">
+            <span>🎓</span> Trusted by 5,000+ students & learners
           </div>
-          <!-- Register Pane -->
-          <div id="jobs-register-pane" style="display:none;">
-            <form onsubmit="handleJobsRegister(event)" style="display:flex; flex-direction:column; gap:1rem;">
-              <div style="display:flex; flex-direction:column; gap:0.4rem;">
-                <label style="font-size:0.85rem; font-weight:500; color:#333;">Full Name</label>
-                <input id="jobs-reg-name" type="text" required placeholder="John Doe"
-                  style="padding:0.75rem 1rem; border:1.5px solid #e5e5e5; border-radius:10px; font-size:0.95rem; outline:none; transition:border 0.2s;"
-                  onfocus="this.style.borderColor='#1947FF'" onblur="this.style.borderColor='#e5e5e5'">
+        </div>
+
+        <!-- RIGHT PANEL: Tab Switcher, Close Button, & Email Auth Form -->
+        <div class="auth-modal-right"
+          style="width:56%; padding:1.75rem 2rem; background:#ffffff; display:flex; flex-direction:column; justify-content:space-between;">
+          
+          <!-- Top Row: Tab Switcher on Left, Close Button on Right -->
+          <div>
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:1rem;">
+              <div style="display:flex; background:#f1f5f9; border-radius:99px; padding:2px; border:1px solid #e2e8f0;">
+                <button type="button" id="tab-signup-btn" onclick="switchAuthTab('signup')"
+                  style="padding:5px 14px; border:none; border-radius:99px; font-weight:700; font-size:0.78rem; cursor:pointer; transition:all 0.2s; background:#1947FF; color:#ffffff; box-shadow:0 2px 6px rgba(25,71,255,0.25);">
+                  Sign Up
+                </button>
+                <button type="button" id="tab-login-btn" onclick="switchAuthTab('login')"
+                  style="padding:5px 14px; border:none; border-radius:99px; font-weight:700; font-size:0.78rem; cursor:pointer; transition:all 0.2s; background:transparent; color:#64748b;">
+                  Log In
+                </button>
               </div>
-              <div style="display:flex; flex-direction:column; gap:0.4rem;">
-                <label style="font-size:0.85rem; font-weight:500; color:#333;">Phone</label>
-                <input id="jobs-reg-phone" type="tel" required placeholder="+91 98765 43210"
-                  style="padding:0.75rem 1rem; border:1.5px solid #e5e5e5; border-radius:10px; font-size:0.95rem; outline:none; transition:border 0.2s;"
-                  onfocus="this.style.borderColor='#1947FF'" onblur="this.style.borderColor='#e5e5e5'">
+
+              <button type="button" onclick="closeJobsAuthModal()" aria-label="Close modal"
+                style="background:#f8fafc; border:1px solid #e2e8f0; cursor:pointer; width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#64748b; transition:all 0.2s;"
+                onmouseover="this.style.background='#fee2e2'; this.style.borderColor='#fca5a5'; this.style.color='#b91c1c'"
+                onmouseout="this.style.background='#f8fafc'; this.style.borderColor='#e2e8f0'; this.style.color='#64748b'">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+            </div>
+
+            <!-- Divider -->
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:1rem;">
+              <div style="flex:1; height:1px; background:#f1f5f9;"></div>
+              <span id="auth-divider-text" style="font-size:0.72rem; color:#94a3b8; font-weight:700; text-transform:uppercase; letter-spacing:0.06em;">or continue with email</span>
+              <div style="flex:1; height:1px; background:#f1f5f9;"></div>
+            </div>
+
+            <!-- Inline Status Message -->
+            <div id="auth-inline-msg" style="display:none; padding:0.55rem 0.85rem; border-radius:8px; font-size:0.82rem; font-weight:600; margin-bottom:0.85rem; text-align:center;"></div>
+
+            <!-- SIGN UP FORM -->
+            <form id="signup-form" onsubmit="handleSignupSubmit(event)" style="display:flex; flex-direction:column; gap:0.75rem; width:100%; box-sizing:border-box;">
+              <div class="auth-fields-grid" style="display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:0.65rem 0.75rem; width:100%; box-sizing:border-box;">
+                <div style="display:flex; flex-direction:column; gap:0.25rem; min-width:0;">
+                  <label style="font-size:0.74rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.03em;">Full Name</label>
+                  <input id="signup-name" type="text" required placeholder="Enter full name"
+                    style="width:100%; max-width:100%; min-width:0; box-sizing:border-box; padding:0.6rem 0.75rem; background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.88rem; color:#0f172a; outline:none; transition:all 0.2s;"
+                    onfocus="this.style.borderColor='#1947FF'; this.style.background='#fff'" onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc'">
+                </div>
+                <div style="display:flex; flex-direction:column; gap:0.25rem; min-width:0;">
+                  <label style="font-size:0.74rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.03em;">Email Address</label>
+                  <input id="signup-email" type="email" required placeholder="you@example.com"
+                    style="width:100%; max-width:100%; min-width:0; box-sizing:border-box; padding:0.6rem 0.75rem; background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.88rem; color:#0f172a; outline:none; transition:all 0.2s;"
+                    onfocus="this.style.borderColor='#1947FF'; this.style.background='#fff'" onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc'">
+                </div>
+                <div style="display:flex; flex-direction:column; gap:0.25rem; min-width:0;">
+                  <label style="font-size:0.74rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.03em;">Phone Number</label>
+                  <input id="signup-phone" type="tel" required placeholder="+91 98765 43210"
+                    style="width:100%; max-width:100%; min-width:0; box-sizing:border-box; padding:0.6rem 0.75rem; background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.88rem; color:#0f172a; outline:none; transition:all 0.2s;"
+                    onfocus="this.style.borderColor='#1947FF'; this.style.background='#fff'" onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc'">
+                </div>
+                <div style="display:flex; flex-direction:column; gap:0.25rem; position:relative; min-width:0;">
+                  <label style="font-size:0.74rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.03em;">Password</label>
+                  <input id="signup-password" type="password" required minlength="6" placeholder="Min 6 chars"
+                    style="width:100%; max-width:100%; min-width:0; box-sizing:border-box; padding:0.6rem 2rem 0.6rem 0.75rem; background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.88rem; color:#0f172a; outline:none; transition:all 0.2s;"
+                    onfocus="this.style.borderColor='#1947FF'; this.style.background='#fff'" onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc'">
+                  <span onclick="togglePasswordVisibility('signup-password')" style="position:absolute; right:8px; top:28px; cursor:pointer; color:#94a3b8; font-size:13px; user-select:none; padding:4px;" title="Toggle password visibility">👁️</span>
+                </div>
               </div>
-              <div style="display:flex; flex-direction:column; gap:0.4rem;">
-                <label style="font-size:0.85rem; font-weight:500; color:#333;">Email</label>
-                <input id="jobs-reg-email" type="email" required placeholder="you@example.com"
-                  style="padding:0.75rem 1rem; border:1.5px solid #e5e5e5; border-radius:10px; font-size:0.95rem; outline:none; transition:border 0.2s;"
-                  onfocus="this.style.borderColor='#1947FF'" onblur="this.style.borderColor='#e5e5e5'">
-              </div>
-              <div style="display:flex; flex-direction:column; gap:0.4rem;">
-                <label style="font-size:0.85rem; font-weight:500; color:#333;">Password</label>
-                <input id="jobs-reg-password" type="password" required placeholder="Min. 8 characters"
-                  style="padding:0.75rem 1rem; border:1.5px solid #e5e5e5; border-radius:10px; font-size:0.95rem; outline:none; transition:border 0.2s;"
-                  onfocus="this.style.borderColor='#1947FF'" onblur="this.style.borderColor='#e5e5e5'">
-              </div>
-              <div id="jobs-register-error"
-                style="display:none; color:#ef4444; font-size:0.85rem; padding:0.5rem 0.75rem; background:#fef2f2; border-radius:8px;">
-              </div>
-              <button type="submit" id="jobs-register-btn"
-                style="background:#1947FF; color:#fff; border:none; padding:0.85rem; border-radius:12px; font-weight:600; font-size:0.95rem; cursor:pointer; transition:all 0.2s; margin-top:0.25rem;"
-                onmouseover="this.style.background='#0E2EC9'" onmouseout="this.style.background='#1947FF'">Create
-                Account & View Jobs</button>
+              
+              <button type="submit" id="signup-submit-btn"
+                style="background:#1947FF; color:#fff; border:none; padding:0.72rem 1rem; border-radius:10px; font-weight:700; font-size:0.9rem; cursor:pointer; transition:all 0.2s; box-shadow:0 2px 8px rgba(25,71,255,0.28); margin-top:0.35rem; width:100%; box-sizing:border-box;"
+                onmouseover="this.style.background='#0E2EC9'; this.style.transform='translateY(-1px)'" onmouseout="this.style.background='#1947FF'; this.style.transform='none'">
+                Create Account →
+              </button>
+              <p style="margin:0.2rem 0 0; font-size:0.78rem; color:#64748b; text-align:center;">
+                Already have an account? <a href="javascript:void(0)" onclick="switchAuthTab('login')" style="color:#1947FF; font-weight:700; text-decoration:none;">Log In</a>
+              </p>
             </form>
+
+            <!-- LOG IN FORM -->
+            <form id="login-form" onsubmit="handleLoginSubmit(event)" style="display:none; flex-direction:column; gap:0.8rem; width:100%; box-sizing:border-box;">
+              <div style="display:flex; flex-direction:column; gap:0.25rem; min-width:0;">
+                <label style="font-size:0.74rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.03em;">Email Address</label>
+                <input id="login-email" type="email" required placeholder="you@example.com"
+                  style="width:100%; max-width:100%; min-width:0; box-sizing:border-box; padding:0.65rem 0.85rem; background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.88rem; color:#0f172a; outline:none; transition:all 0.2s;"
+                  onfocus="this.style.borderColor='#1947FF'; this.style.background='#fff'" onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc'">
+              </div>
+              <div style="display:flex; flex-direction:column; gap:0.25rem; position:relative; min-width:0;">
+                <label style="font-size:0.74rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.03em;">Password</label>
+                <input id="login-password" type="password" required placeholder="Enter password"
+                  style="width:100%; max-width:100%; min-width:0; box-sizing:border-box; padding:0.65rem 2.2rem 0.65rem 0.85rem; background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.88rem; color:#0f172a; outline:none; transition:all 0.2s;"
+                  onfocus="this.style.borderColor='#1947FF'; this.style.background='#fff'" onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc'">
+                <span onclick="togglePasswordVisibility('login-password')" style="position:absolute; right:8px; top:28px; cursor:pointer; color:#94a3b8; font-size:13px; user-select:none; padding:4px;" title="Toggle password visibility">👁️</span>
+              </div>
+              
+              <button type="submit" id="login-submit-btn"
+                style="background:#1947FF; color:#fff; border:none; padding:0.72rem 1rem; border-radius:10px; font-weight:700; font-size:0.9rem; cursor:pointer; transition:all 0.2s; box-shadow:0 2px 8px rgba(25,71,255,0.28); margin-top:0.35rem; width:100%; box-sizing:border-box;"
+                onmouseover="this.style.background='#0E2EC9'; this.style.transform='translateY(-1px)'" onmouseout="this.style.background='#1947FF'; this.style.transform='none'">
+                Log In →
+              </button>
+              <p style="margin:0.2rem 0 0; font-size:0.78rem; color:#64748b; text-align:center;">
+                Don't have an account? <a href="javascript:void(0)" onclick="switchAuthTab('signup')" style="color:#1947FF; font-weight:700; text-decoration:none;">Sign Up</a>
+              </p>
+            </form>
+
           </div>
         </div>
       </div>
     </div>
 
     <style>
+      #jobs-auth-modal,
+      #jobs-auth-modal * {
+        box-sizing: border-box !important;
+      }
+      #jobs-auth-modal .auth-modal-container {
+        width: 100% !important;
+        max-width: 760px !important;
+        overflow: hidden !important;
+      }
+      #jobs-auth-modal .auth-modal-left {
+        flex: 0 0 44% !important;
+        min-width: 0 !important;
+      }
+      #jobs-auth-modal .auth-modal-right {
+        flex: 1 1 56% !important;
+        min-width: 0 !important;
+        overflow: hidden !important;
+      }
+      #jobs-auth-modal .auth-fields-grid {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+        gap: 0.65rem 0.75rem !important;
+        width: 100% !important;
+      }
+      #jobs-auth-modal .auth-fields-grid > div {
+        min-width: 0 !important;
+        width: 100% !important;
+      }
+      #jobs-auth-modal input {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+      }
       @keyframes authFadeIn {
         from {
           opacity: 0;
-          transform: scale(0.95) translateY(10px);
+          transform: scale(0.96) translateY(8px);
         }
-
         to {
           opacity: 1;
           transform: scale(1) translateY(0);
         }
       }
+      @media (max-width: 680px) {
+        #jobs-auth-modal .auth-modal-container {
+          flex-direction: column !important;
+          max-height: 90vh !important;
+          overflow-y: auto !important;
+        }
+        #jobs-auth-modal .auth-modal-left {
+          width: 100% !important;
+          flex: none !important;
+          border-right: none !important;
+          border-bottom: 1px solid #f1f5f9 !important;
+          padding: 1.25rem 1.5rem !important;
+        }
+        #jobs-auth-modal .auth-modal-right {
+          width: 100% !important;
+          flex: none !important;
+          padding: 1.25rem 1.5rem !important;
+        }
+        #jobs-auth-modal .auth-fields-grid {
+          grid-template-columns: 1fr !important;
+        }
+      }
     </style>
 
-    <script>
-      // ===== SHARED AUTH — same API and localStorage token as Resume Builder =====
-      const JOBS_API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-        ? `http://${window.location.hostname}:5000/api`
-        : `https://afaautomation-kompetenzenweb.hf.space/api`;
+    <!-- Hidden iframe: receives Apps Script form submissions silently -->
+    <iframe name="gs-lead-target" style="display:none;" aria-hidden="true"></iframe>
 
-      async function checkAuthAndGoToJobs(e) {
-        e.preventDefault();
-        const token = localStorage.getItem('token');
-        if (token) {
-          // Validate the token is still alive
-          try {
-            const res = await fetch(JOBS_API + '/resumes', {
-              headers: { 'Authorization': 'Bearer ' + token }
-            });
-            if (res.ok || res.status === 404) {
-              // Token is valid — go directly to jobs
-              window.location.href = 'jobs.html';
-              return;
-            }
-          } catch (err) { /* server down, fall through to modal */ }
-          // Token invalid/expired — clear it and show modal
-          localStorage.removeItem('token');
-        }
-        const modal = document.getElementById('jobs-auth-modal');
-        modal.style.display = 'flex';
-      }
+        <script>
+      // ===== GOOGLE SHEETS LEAD CONFIG =====
+      const GOOGLE_SHEET_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyXVTlB1OtcwI_erBc5OC4kl6oZTijLhri0oL97GWBwyGb-VaHHR0NHVIVjq4Bgzc3wxg/exec';
 
-      function closeJobsAuthModal() {
-        document.getElementById('jobs-auth-modal').style.display = 'none';
-        if (window._pendingAuthRedirect) {
-          window._pendingAuthRedirect = null;
-          history.back();
-        }
-      }
+      // ===== sendLeadToSheet: sends to Google Apps Script (Course_Enrollments) =====
+      function sendLeadToSheet(fields) {
+        if (!GOOGLE_SHEET_SCRIPT_URL) return;
 
-      // Close on backdrop click
-      document.getElementById('jobs-auth-modal').addEventListener('click', function (e) {
-        if (e.target === this) closeJobsAuthModal();
-      });
-
-      function switchJobsTab(tab) {
-        const loginPane = document.getElementById('jobs-login-pane');
-        const registerPane = document.getElementById('jobs-register-pane');
-        const loginTab = document.getElementById('jobs-tab-login');
-        const registerTab = document.getElementById('jobs-tab-register');
-
-        if (tab === 'login') {
-          loginPane.style.display = 'block';
-          registerPane.style.display = 'none';
-          loginTab.style.color = '#1947FF';
-          loginTab.style.borderBottomColor = '#1947FF';
-          registerTab.style.color = '#999';
-          registerTab.style.borderBottomColor = 'transparent';
-        } else {
-          loginPane.style.display = 'none';
-          registerPane.style.display = 'block';
-          loginTab.style.color = '#999';
-          loginTab.style.borderBottomColor = 'transparent';
-          registerTab.style.color = '#1947FF';
-          registerTab.style.borderBottomColor = '#1947FF';
-        }
-      }
-
-      async function handleJobsLogin(e) {
-        e.preventDefault();
-        const btn = document.getElementById('jobs-login-btn');
-        const errEl = document.getElementById('jobs-login-error');
-        errEl.style.display = 'none';
-        btn.textContent = 'Signing in…';
-        btn.disabled = true;
+        // Use single reliable hidden iframe form post (prevents duplicate submissions)
         try {
-          // [DEMO MODE] Bypass backend login
+          const iframeName = 'gs-lead-' + Math.random().toString(36).substring(2, 8);
+          const ifr = document.createElement('iframe');
+          ifr.name = iframeName;
+          ifr.style.display = 'none';
+          document.body.appendChild(ifr);
+
+          const form = document.createElement('form');
+          form.method = 'POST';
+          form.action = GOOGLE_SHEET_SCRIPT_URL;
+          form.target = iframeName;
+
+          Object.entries(fields).forEach(([key, val]) => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = (val !== undefined && val !== null) ? String(val) : '';
+            form.appendChild(input);
+          });
+
+          document.body.appendChild(form);
+          form.submit();
           setTimeout(() => {
-            localStorage.setItem('token', 'demo-token-123');
-            window.location.href = window._pendingAuthRedirect || 'jobs.html';
-          }, 500);
-        } catch (err) {
-          errEl.textContent = err.message || 'Invalid credentials. Try again.';
-          errEl.style.display = 'block';
-          btn.textContent = 'Sign In to View Jobs';
-          btn.disabled = false;
+            if (form.parentNode) form.parentNode.removeChild(form);
+            if (ifr.parentNode) ifr.parentNode.removeChild(ifr);
+          }, 2500);
+        } catch (e) {
+          console.warn('Sheet submission error:', e);
         }
       }
 
-      async function handleJobsRegister(e) {
-        e.preventDefault();
-        const btn = document.getElementById('jobs-register-btn');
-        const errEl = document.getElementById('jobs-register-error');
-        errEl.style.display = 'none';
-        btn.textContent = 'Creating account…';
-        btn.disabled = true;
+      // ===== SYNC TO RESUME BUILDER BACKEND (if running locally) =====
+      function syncToResumeBuilder(userData) {
         try {
-          const res = await fetch(JOBS_API + '/auth/register', {
+          fetch('http://localhost:5000/api/auth/login-phone', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              name: document.getElementById('jobs-reg-name').value,
-              phone: document.getElementById('jobs-reg-phone').value,
-              email: document.getElementById('jobs-reg-email').value,
-              password: document.getElementById('jobs-reg-password').value
+              phone: userData.phone || userData.email,
+              email: userData.email,
+              name: userData.name
             })
-          });
-          const data = await res.json();
-          if (!res.ok) throw new Error(data.message || 'Registration failed');
-          localStorage.setItem('token', data.tokens.access);
-          window.location.href = window._pendingAuthRedirect || 'jobs.html';
-        } catch (err) {
-          errEl.textContent = err.message || 'Could not create account. Try again.';
-          errEl.style.display = 'block';
-          btn.textContent = 'Create Account & View Jobs';
-          btn.disabled = false;
+          }).catch(function() {});
+        } catch (e) {}
+      }
+
+      // ===== AUTHENTICATION MODAL LOGIC (SIGN UP & LOG IN) =====
+      let currentAuthMode = 'signup';
+
+      function switchAuthTab(mode) {
+        currentAuthMode = mode;
+        const signupBtn = document.getElementById('tab-signup-btn');
+        const loginBtn = document.getElementById('tab-login-btn');
+        const signupForm = document.getElementById('signup-form');
+        const loginForm = document.getElementById('login-form');
+        const titleEl = document.getElementById('auth-modal-title');
+        const subtitleEl = document.getElementById('auth-modal-subtitle');
+        const googleText = document.getElementById('lead-google-btn-text');
+        const dividerText = document.getElementById('auth-divider-text');
+        const inlineMsg = document.getElementById('auth-inline-msg');
+
+        if (inlineMsg) inlineMsg.style.display = 'none';
+
+        if (mode === 'login') {
+          if (signupBtn) {
+            signupBtn.style.background = 'transparent';
+            signupBtn.style.color = '#64748b';
+            signupBtn.style.boxShadow = 'none';
+          }
+          if (loginBtn) {
+            loginBtn.style.background = '#1947FF';
+            loginBtn.style.color = '#ffffff';
+            loginBtn.style.boxShadow = '0 2px 6px rgba(25,71,255,0.25)';
+          }
+          if (signupForm) signupForm.style.display = 'none';
+          if (loginForm) loginForm.style.display = 'flex';
+          if (titleEl) titleEl.textContent = 'Welcome Back';
+          if (subtitleEl) subtitleEl.textContent = 'Log in to your student & career portal';
+          if (googleText) googleText.textContent = 'Log In with Google';
+          if (dividerText) dividerText.textContent = 'or continue with email';
+        } else {
+          if (signupBtn) {
+            signupBtn.style.background = '#1947FF';
+            signupBtn.style.color = '#ffffff';
+            signupBtn.style.boxShadow = '0 2px 6px rgba(25,71,255,0.25)';
+          }
+          if (loginBtn) {
+            loginBtn.style.background = 'transparent';
+            loginBtn.style.color = '#64748b';
+            loginBtn.style.boxShadow = 'none';
+          }
+          if (signupForm) signupForm.style.display = 'flex';
+          if (loginForm) loginForm.style.display = 'none';
+          if (titleEl) titleEl.textContent = 'Create Your Account';
+          if (subtitleEl) subtitleEl.textContent = 'Sign up to access courses, jobs & placements';
+          if (googleText) googleText.textContent = 'Continue with Google';
+          if (dividerText) dividerText.textContent = 'or continue with email';
         }
       }
 
-      if (window.location.hash.startsWith('#auth-redirect=') || window.location.hash === '#jobs-auth') {
+      function togglePasswordVisibility(inputId) {
+        const input = document.getElementById(inputId);
+        if (!input) return;
+        input.type = input.type === 'password' ? 'text' : 'password';
+      }
+
+      function showAuthMessage(msg, isError = false) {
+        const msgEl = document.getElementById('auth-inline-msg');
+        if (!msgEl) return;
+        msgEl.textContent = msg;
+        msgEl.style.display = 'block';
+        if (isError) {
+          msgEl.style.background = '#FEE2E2';
+          msgEl.style.color = '#B91C1C';
+          msgEl.style.border = '1px solid #FECACA';
+        } else {
+          msgEl.style.background = '#DCFCE7';
+          msgEl.style.color = '#15803D';
+          msgEl.style.border = '1px solid #BBF7D0';
+        }
+      }
+
+      function closeJobsAuthModal() {
+        const modal = document.getElementById('jobs-auth-modal');
+        if (modal) modal.style.display = 'none';
+        window._pendingAuthRedirect = null;
+        const msgEl = document.getElementById('auth-inline-msg');
+        if (msgEl) msgEl.style.display = 'none';
+      }
+
+      document.getElementById('jobs-auth-modal')?.addEventListener('click', function (e) {
+        if (e.target === this) closeJobsAuthModal();
+      });
+
+      window.openAuthModal = function(mode = 'signup', redirectUrl = null) {
+        const modal = document.getElementById('jobs-auth-modal');
+        if (redirectUrl) window._pendingAuthRedirect = redirectUrl;
+        switchAuthTab(mode);
+        if (modal) modal.style.display = 'flex';
+      };
+
+      // Helper to get registered users
+      function getRegisteredUsers() {
+        try {
+          return JSON.parse(localStorage.getItem('kompetenzen_registered_users') || '[]');
+        } catch (e) {
+          return [];
+        }
+      }
+
+      // Complete authentication session locally (DISCONNECTED FROM Users_Auth SHEET)
+      function completeAuthSession(userData, redirectMsg = 'Logging in…') {
+        const token = 'kompetenzen_jwt_' + Math.random().toString(36).substring(2) + Date.now().toString(36);
+        localStorage.setItem('token', token);
+        localStorage.setItem('kompetenzen_user', JSON.stringify(userData));
+        localStorage.setItem('user', JSON.stringify(userData));
+
+        // Sync to local resume builder if active
+        syncToResumeBuilder({ name: userData.name, email: userData.email, phone: userData.phone });
+
+        showAuthMessage(`✓ ${redirectMsg}`, false);
+
+        setTimeout(() => {
+          const redirect = window._pendingAuthRedirect;
+          window._pendingAuthRedirect = null;
+          if (redirect) {
+            window.location.href = redirect;
+          } else {
+            closeJobsAuthModal();
+          }
+        }, 700);
+      }
+
+      // Handle Sign Up (Saves to Login_Signup_Details sheet)
+      function handleSignupSubmit(e) {
+        e.preventDefault();
+        const name = document.getElementById('signup-name').value.trim();
+        const email = document.getElementById('signup-email').value.trim().toLowerCase();
+        const phone = document.getElementById('signup-phone').value.trim();
+        const password = document.getElementById('signup-password').value;
+        const btn = document.getElementById('signup-submit-btn');
+
+        if (!name || !email || !phone || !password) {
+          showAuthMessage('Please fill in all required fields.', true);
+          return;
+        }
+
+        const users = getRegisteredUsers();
+        const existing = users.find(u => u.email === email);
+        if (existing) {
+          showAuthMessage('An account with this email already exists. Please log in.', true);
+          switchAuthTab('login');
+          const loginEmail = document.getElementById('login-email');
+          if (loginEmail) loginEmail.value = email;
+          return;
+        }
+
+        if (btn) {
+          btn.disabled = true;
+          btn.textContent = 'Creating Account…';
+        }
+
+        const newUser = {
+          name: name,
+          email: email,
+          phone: phone,
+          password: password,
+          createdAt: new Date().toISOString(),
+          authType: 'Email Signup'
+        };
+
+        users.push(newUser);
+        try {
+          localStorage.setItem('kompetenzen_registered_users', JSON.stringify(users));
+        } catch (err) {}
+
+        // Send Signup details to Google Sheet Login_Signup_Details tab
+        sendLeadToSheet({
+          type: 'signup',
+          authType: 'Email Signup',
+          action: 'Account Created',
+          name: name,
+          email: email,
+          phone: phone,
+          password: password,
+          page: window.location.href,
+          timestamp: new Date().toISOString()
+        });
+
+        completeAuthSession(newUser, 'Account created! Welcome to Kompetenzen…');
+      }
+
+      // Handle Log In (Saves to Login_Signup_Details sheet)
+      function handleLoginSubmit(e) {
+        e.preventDefault();
+        const email = document.getElementById('login-email').value.trim().toLowerCase();
+        const password = document.getElementById('login-password').value;
+        const btn = document.getElementById('login-submit-btn');
+
+        if (!email || !password) {
+          showAuthMessage('Please enter both your email and password.', true);
+          return;
+        }
+
+        const users = getRegisteredUsers();
+        const user = users.find(u => u.email === email);
+
+        if (user && user.password && user.password !== password) {
+          showAuthMessage('Incorrect password. Please try again.', true);
+          return;
+        }
+
+        if (btn) {
+          btn.disabled = true;
+          btn.textContent = 'Logging In…';
+        }
+
+        const authenticatedUser = user || {
+          name: email.split('@')[0].charAt(0).toUpperCase() + email.split('@')[0].slice(1),
+          email: email,
+          phone: '',
+          authType: 'Direct Login'
+        };
+
+        // Send Login details to Google Sheet Login_Signup_Details tab
+        sendLeadToSheet({
+          type: 'login',
+          authType: 'Direct Login',
+          action: 'User Logged In',
+          name: authenticatedUser.name || '',
+          email: email,
+          phone: authenticatedUser.phone || '',
+          password: password,
+          page: window.location.href,
+          timestamp: new Date().toISOString()
+        });
+
+        completeAuthSession(authenticatedUser, `Welcome back, ${authenticatedUser.name}! Logging you in…`);
+      }
+
+      // Handle Google Sign In (Saves to Login_Signup_Details sheet)
+      async function triggerWebsiteGoogleSignIn() {
+        const btn = document.getElementById('lead-google-btn');
+        const btnText = document.getElementById('lead-google-btn-text');
+
+        let defaultEmail = '';
+        let defaultName = '';
+        try {
+          const stored = localStorage.getItem('kompetenzen_user') || localStorage.getItem('user');
+          if (stored) {
+            const parsed = JSON.parse(stored);
+            defaultEmail = parsed.email || '';
+            defaultName = parsed.name || '';
+          }
+        } catch (e) {}
+
+        let email = defaultEmail;
+        const signupEmail = document.getElementById('signup-email');
+        const loginEmail = document.getElementById('login-email');
+        if (!email && signupEmail && signupEmail.value.trim()) email = signupEmail.value.trim();
+        if (!email && loginEmail && loginEmail.value.trim()) email = loginEmail.value.trim();
+
+        if (!email || !email.includes('@')) {
+          email = prompt('Continue with Google\nEnter your Google email address:');
+          if (!email) return;
+        }
+
+        email = email.trim().toLowerCase();
+        if (!email.includes('@')) {
+          alert('Please enter a valid Google email address.');
+          return;
+        }
+
+        let name = defaultName;
+        const signupName = document.getElementById('signup-name');
+        if (!name && signupName && signupName.value.trim()) name = signupName.value.trim();
+        if (!name) {
+          const namePart = email.split('@')[0];
+          name = namePart.charAt(0).toUpperCase() + namePart.slice(1).replace(/[._-]/g, ' ');
+        }
+
+        const phone = document.getElementById('signup-phone')?.value.trim() || '';
+
+        if (btnText) btnText.textContent = 'Connecting with Google…';
+        if (btn) btn.disabled = true;
+
+        const googleUser = {
+          name: name,
+          email: email,
+          phone: phone,
+          authType: 'Google Auth',
+          createdAt: new Date().toISOString()
+        };
+
+        // Save in local registered users
+        const users = getRegisteredUsers();
+        if (!users.some(u => u.email === email)) {
+          users.push(googleUser);
+          try {
+            localStorage.setItem('kompetenzen_registered_users', JSON.stringify(users));
+          } catch (e) {}
+        }
+
+        // Send Google Auth details to Google Sheet Login_Signup_Details tab
+        sendLeadToSheet({
+          type: 'google_auth',
+          authType: 'Google Auth',
+          action: 'Google Sign In',
+          name: name,
+          email: email,
+          phone: phone,
+          password: '',
+          page: window.location.href,
+          timestamp: new Date().toISOString()
+        });
+
+        completeAuthSession(googleUser, `Welcome, ${name}! Signed in with Google…`);
+      }
+
+      if (window.location.hash.startsWith('#auth-redirect=') || window.location.hash === '#jobs-auth' || window.location.hash === '#signup' || window.location.hash === '#login') {
         window.addEventListener('DOMContentLoaded', function () {
           const modal = document.getElementById('jobs-auth-modal');
           if (window.location.hash.startsWith('#auth-redirect=')) {
             window._pendingAuthRedirect = window.location.hash.replace('#auth-redirect=', '');
-            document.getElementById('jobs-auth-subtitle').textContent = 'Sign in to view course details';
           }
+          const initialMode = (window.location.hash === '#login') ? 'login' : 'signup';
+          switchAuthTab(initialMode);
           if (modal) modal.style.display = 'flex';
           history.replaceState(null, '', window.location.pathname);
         });
       }
-
-      // Show logout link if logged in
-      document.addEventListener("DOMContentLoaded", function () {
-        if (localStorage.getItem('token')) {
-          document.querySelectorAll('.logout-link').forEach(l => l.style.display = 'inline-block');
-        }
-      });
     </script>
 
+    <!-- ============ SPREAD-OUT SWIRLING MICRO-DUST MOUSE EFFECT ============ -->
+    <canvas id="blue-cyclone-canvas"
+      style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 99999;"></canvas>
+    <script>
+      (function () {
+        const canvas = document.getElementById('blue-cyclone-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+          width = canvas.width = window.innerWidth;
+          height = canvas.height = window.innerHeight;
+        });
+
+        let mouse = { x: width / 2, y: height / 2, active: false, isMoving: false, stopTimer: null };
+        let smoothMouse = { x: width / 2, y: height / 2 };
+
+        window.addEventListener('mousemove', (e) => {
+          mouse.x = e.clientX;
+          mouse.y = e.clientY;
+          mouse.active = true;
+          mouse.isMoving = true;
+
+          clearTimeout(mouse.stopTimer);
+          mouse.stopTimer = setTimeout(() => {
+            mouse.isMoving = false;
+          }, 120); // Mouse paused -> magnetically pull back to ring
+        });
+
+        window.addEventListener('mouseleave', () => {
+          mouse.active = false;
+          mouse.isMoving = false;
+        });
+
+        window.addEventListener('touchmove', (e) => {
+          if (e.touches.length > 0) {
+            mouse.x = e.touches[0].clientX;
+            mouse.y = e.touches[0].clientY;
+            mouse.active = true;
+            mouse.isMoving = true;
+
+            clearTimeout(mouse.stopTimer);
+            mouse.stopTimer = setTimeout(() => {
+              mouse.isMoving = false;
+            }, 120);
+          }
+        });
+
+        const particleCount = 320;
+        const particles = [];
+        const singleColor = '#1947FF';
+
+        for (let i = 0; i < particleCount; i++) {
+          const ringRadius = 30 + Math.random() * 12; // Sleek thin 12px ring thickness when paused
+          particles.push({
+            angle: Math.random() * Math.PI * 2,
+            orbitSpeed: (0.008 + Math.random() * 0.016) * (Math.random() > 0.5 ? 1 : -1),
+            ringRadius: ringRadius,
+            scatterRadius: ringRadius + 35 + Math.random() * 55, // Spread away distance when moving
+            size: Math.random() * 0.75 + 0.35,
+            color: singleColor,
+            wobbleSpeed: 0.015 + Math.random() * 0.025,
+            wobblePhase: Math.random() * Math.PI * 2,
+            currX: width / 2,
+            currY: height / 2,
+            targetRadius: ringRadius
+          });
+        }
+
+        function animate() {
+          ctx.clearRect(0, 0, width, height);
+
+          smoothMouse.x += (mouse.x - smoothMouse.x) * 0.12;
+          smoothMouse.y += (mouse.y - smoothMouse.y) * 0.12;
+
+          if (mouse.active || Math.abs(smoothMouse.x - mouse.x) > 0.5) {
+            const mx = smoothMouse.x;
+            const my = smoothMouse.y;
+
+            particles.forEach((p) => {
+              p.angle += p.orbitSpeed;
+              p.wobblePhase += p.wobbleSpeed;
+
+              // DUAL MODE: Moving -> Scatter & Spread away | Paused -> Attract to Mouse Ring
+              const idealRadius = mouse.isMoving ? p.scatterRadius : p.ringRadius;
+              p.targetRadius += (idealRadius - p.targetRadius) * (mouse.isMoving ? 0.08 : 0.06); // Magnetic attraction
+
+              const dynamicRadius = p.targetRadius + Math.sin(p.wobblePhase) * 2;
+
+              // Target orbital position around mouse
+              const targetX = mx + Math.cos(p.angle) * dynamicRadius;
+              const targetY = my + Math.sin(p.angle) * dynamicRadius;
+
+              // Smooth flow spring position update
+              p.currX += (targetX - p.currX) * (mouse.isMoving ? 0.06 : 0.1);
+              p.currY += (targetY - p.currY) * (mouse.isMoving ? 0.06 : 0.1);
+
+              // Draw Liquid Micro Dust Speck
+              ctx.save();
+              ctx.beginPath();
+              ctx.arc(p.currX, p.currY, p.size, 0, Math.PI * 2);
+              ctx.fillStyle = p.color;
+              ctx.shadowBlur = p.size * 3;
+              ctx.shadowColor = p.color;
+              ctx.globalAlpha = 0.75 + Math.sin(p.wobblePhase) * 0.2;
+              ctx.fill();
+              ctx.restore();
+            });
+          }
+
+          requestAnimationFrame(animate);
+        }
+
+        animate();
+      })();
+    </script>
 </body>
 
 </html>
-
-<style id="__om-edit-overrides">
-  #consulting :is(h1, h2, h3, h4, h5, h6) em>:is(h1, h2, h3, h4, h5, h6, p, li, dt, dd, blockquote, figcaption, label, span, a, em, strong, small, td, th, caption) {
-    font-size: 82px !important
-  }
-
-  /* FIX MOBILE NAV BAR LAYOUT */
-  @media (max-width: 980px) {
-    .nav-links {
-      justify-content: flex-start !important;
-      padding-top: 120px !important;
-      padding-bottom: 50px !important;
-      overflow-y: auto !important;
-    }
-
-    .nav-dropdown-wrapper {
-      flex-direction: column !important;
-      align-items: center !important;
-      width: 100% !important;
-      height: auto !important;
-    }
-
-    .dropdown-menu {
-      position: relative !important;
-      padding-top: 15px !important;
-    }
-
-    /* Ensure the hamburger button is perfectly reachable at the top right */
-    .nav-right {
-      position: relative;
-      z-index: 1005;
-    }
-
-    /* FIX OVERLAPPING PLACEMENTS & TALENT HUNT */
-    #talent-hunt-section {
-      margin-top: 60px !important;
-      padding-top: 40px !important;
-    }
-
-    #talent-hunt-section .section-title {
-      font-size: clamp(32px, 8vw, 42px) !important;
-      line-height: 1.4 !important;
-      margin-bottom: 24px !important;
-    }
-
-    #talent-hunt-section .lede {
-      font-size: 18px !important;
-    }
-  }
-</style>

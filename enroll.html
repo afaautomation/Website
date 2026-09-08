@@ -1,0 +1,781 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Enroll Now — Joining Details | Kompetenzen Academy</title>
+  <meta name="description"
+    content="Complete your enrollment form to kickstart your career with Kerala's #1 job-oriented skill development academy. 100% placement support." />
+  <link rel="icon" type="image/png" href="icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.cdnfonts.com/css/google-sans" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    :root {
+      --coursera-blue: #0056D2;
+      --coursera-blue-hover: #00419E;
+      --coursera-blue-soft: #E8F1FF;
+      --coursera-bg: #F8FAFC;
+      --coursera-card-bg: #FFFFFF;
+      --ink-dark: #0F172A;
+      --ink-muted: #475569;
+      --border-line: #E2E8F0;
+      --maxw: 1240px;
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    html,
+    body,
+    button,
+    input,
+    select,
+    textarea,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: "Google Sans", "Product Sans", "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    }
+
+    html,
+    body {
+      background: var(--coursera-bg);
+      color: var(--ink-dark);
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    /* MAIN NAV */
+    .coursera-nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border-line);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    }
+
+    .coursera-nav-inner {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand img {
+      height: 34px;
+      display: block;
+    }
+
+    .nav-back-link {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--coursera-blue);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+
+    .nav-back-link:hover {
+      color: var(--coursera-blue-hover);
+    }
+
+    /* MAIN CONTENT LAYOUT */
+    .enroll-wrapper {
+      max-width: 1100px;
+      margin: 40px auto 60px;
+      padding: 0 24px;
+    }
+
+    .enroll-header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .enroll-badge {
+      display: inline-block;
+      background: var(--coursera-blue-soft);
+      color: var(--coursera-blue);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 99px;
+      margin-bottom: 12px;
+    }
+
+    .enroll-header h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--ink-dark);
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+    }
+
+    .enroll-header p {
+      font-size: 16px;
+      color: var(--ink-muted);
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    /* GRID CONTAINER */
+    .enroll-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    @media (max-width: 860px) {
+      .enroll-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* SIDEBAR INFO CARD */
+    .sidebar-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-line);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    }
+
+    .sidebar-card h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--ink-dark);
+    }
+
+    .benefit-item {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .benefit-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--coursera-blue-soft);
+      color: var(--coursera-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 18px;
+    }
+
+    .benefit-content h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink-dark);
+      margin-bottom: 2px;
+    }
+
+    .benefit-content p {
+      font-size: 13px;
+      color: var(--ink-muted);
+      line-height: 1.4;
+    }
+
+    .contact-box {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-line);
+    }
+
+    .contact-box h5 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink-dark);
+      margin-bottom: 8px;
+    }
+
+    .contact-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #10B981;
+      font-weight: 600;
+      font-size: 14px;
+      text-decoration: none;
+    }
+
+    .contact-link:hover {
+      text-decoration: underline;
+    }
+
+    /* FORM CARD */
+    .form-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-line);
+      border-radius: var(--radius);
+      padding: 36px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .form-group {
+      margin-bottom: 22px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--ink-dark);
+      margin-bottom: 6px;
+    }
+
+    .form-group label span.required {
+      color: #EF4444;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #CBD5E1;
+      border-radius: 8px;
+      font-size: 15px;
+      color: var(--ink-dark);
+      background: #FFFFFF;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .form-control:focus {
+      border-color: var(--coursera-blue);
+      box-shadow: 0 0 0 3px rgba(0, 86, 210, 0.12);
+    }
+
+    select.form-control {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%20475569'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      background-size: 16px;
+      padding-right: 40px;
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    /* RADIO OPTION CARDS */
+    .radio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+    }
+
+    .radio-card {
+      position: relative;
+    }
+
+    .radio-card input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .radio-card label {
+      display: block;
+      border: 1px solid #CBD5E1;
+      border-radius: 8px;
+      padding: 10px 12px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink-dark);
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 0;
+    }
+
+    .radio-card input:checked+label {
+      border-color: var(--coursera-blue);
+      background: var(--coursera-blue-soft);
+      color: var(--coursera-blue);
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: var(--coursera-blue);
+      color: #FFFFFF;
+      font-weight: 700;
+      font-size: 16px;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .submit-btn:hover {
+      background: var(--coursera-blue-hover);
+    }
+
+    .submit-btn:active {
+      transform: scale(0.99);
+    }
+
+    /* SUCCESS MODAL / BOX */
+    .success-card {
+      display: none;
+      background: #FFFFFF;
+      border: 1px solid var(--border-line);
+      border-radius: var(--radius);
+      padding: 40px 32px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .success-icon {
+      width: 64px;
+      height: 64px;
+      background: #D1FAE5;
+      color: #059669;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      margin: 0 auto 20px;
+    }
+
+    .success-card h2 {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--ink-dark);
+      margin-bottom: 10px;
+    }
+
+    .success-card p {
+      font-size: 15px;
+      color: var(--ink-muted);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    .whatsapp-direct-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #25D366;
+      color: #FFFFFF;
+      font-weight: 700;
+      font-size: 16px;
+      padding: 14px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .whatsapp-direct-btn:hover {
+      background: #1DA851;
+    }
+
+    /* MOBILE RESPONSIVE OPTIMIZATION */
+    @media (max-width: 768px) {
+      .coursera-nav-inner {
+        padding: 0 16px;
+        height: 56px;
+      }
+
+      .brand img {
+        height: 28px;
+      }
+
+      .enroll-wrapper {
+        margin: 24px auto 40px;
+        padding: 0 16px;
+      }
+
+      .enroll-header h1 {
+        font-size: 24px;
+      }
+
+      .enroll-header p {
+        font-size: 14px;
+      }
+
+      .form-card {
+        padding: 20px 16px;
+      }
+
+      .sidebar-card {
+        padding: 20px 16px;
+      }
+
+      .form-control {
+        font-size: 16px; /* Prevents iOS auto-zoom */
+      }
+
+      .radio-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      }
+
+      .whatsapp-direct-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 14px 16px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- MAIN NAV -->
+  <nav class="coursera-nav">
+    <div class="coursera-nav-inner">
+      <a href="index.html" class="brand">
+        <img src="kompetenzen logo-02.png" alt="Kompetenzen Logo" loading="lazy" decoding="async" />
+      </a>
+      <a href="index.html" class="nav-back-link">
+        ← Back to Courses
+      </a>
+    </div>
+  </nav>
+
+  <!-- ENROLLMENT FORM WRAPPER -->
+  <div class="enroll-wrapper">
+    <div class="enroll-header">
+      <span class="enroll-badge">Joining Application</span>
+      <h1>Complete Your Enrollment</h1>
+      <p>Fill out your details below to reserve your seat and connect directly with our admissions and career counseling desk.</p>
+    </div>
+
+    <div class="enroll-grid">
+      <!-- SIDEBAR INFO -->
+      <div class="sidebar-card">
+        <h3>Why Join Kompetenzen?</h3>
+
+        <div class="benefit-item">
+          <div class="benefit-icon">🎯</div>
+          <div class="benefit-content">
+            <h4>100% Placement Support</h4>
+            <p>Direct hiring partner connections with 2000+ alumni successfully placed.</p>
+          </div>
+        </div>
+
+        <div class="benefit-item">
+          <div class="benefit-icon">🚀</div>
+          <div class="benefit-content">
+            <h4>Real Industry Projects</h4>
+            <p>Work on live enterprise codebases & GenAI simulations, not just theoretical concepts.</p>
+          </div>
+        </div>
+
+        <div class="benefit-item">
+          <div class="benefit-icon">👨‍🏫</div>
+          <div class="benefit-content">
+            <h4>1-on-1 Expert Mentorship</h4>
+            <p>Learn directly from senior architects and corporate directors in Kochi.</p>
+          </div>
+        </div>
+
+        <div class="benefit-item">
+          <div class="benefit-icon">📜</div>
+          <div class="benefit-content">
+            <h4>Recognized Certification</h4>
+            <p>Industry-aligned certificate to boost your resume and LinkedIn profile.</p>
+          </div>
+        </div>
+
+        <div class="contact-box">
+          <h5>Need immediate help?</h5>
+          <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen,%20I%20have%20a%20question%20about%20enrollment." target="_blank" class="contact-link">
+            💬 Chat with Counselor on WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <!-- FORM CARD -->
+      <div class="form-card" id="formCard">
+        <form id="enrollmentForm" onsubmit="handleEnrollmentSubmit(event)">
+          
+          <div class="form-group">
+            <label for="fullName">Full Name <span class="required">*</span></label>
+            <input type="text" id="fullName" class="form-control" placeholder="Enter your full name" required />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address <span class="required">*</span></label>
+            <input type="email" id="email" class="form-control" placeholder="e.g. rahul@example.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone / WhatsApp Number <span class="required">*</span></label>
+            <input type="tel" id="phone" class="form-control" placeholder="e.g. +91 98765 43210" required />
+          </div>
+
+          <div class="form-group">
+            <label for="course">Selected Course <span class="required">*</span></label>
+            <select id="course" class="form-control" required>
+              <option value="">-- Choose Course --</option>
+              <option value="python">Full Stack Python + AI Development</option>
+              <option value="java">Full Stack Java + AI Development</option>
+              <option value="data-analytics">Data Analytics + GenAI</option>
+              <option value="hr">PG Diploma in HR & Operations</option>
+              <option value="sales-engineering">Sales Engineering Professional Certificate</option>
+              <option value="other">Other Programs / Custom Training</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="qualification">Highest Educational Qualification <span class="required">*</span></label>
+            <select id="qualification" class="form-control" required>
+              <option value="">-- Select Qualification --</option>
+              <option value="B.Tech / BE">B.Tech / BE</option>
+              <option value="BCA / MCA">BCA / MCA</option>
+              <option value="BSc / MSc">BSc / MSc</option>
+              <option value="BBA / MBA">BBA / MBA</option>
+              <option value="B.Com / M.Com">B.Com / M.Com</option>
+              <option value="Diploma">Diploma</option>
+              <option value="Other">High School / Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Preferred Mode of Learning <span class="required">*</span></label>
+            <div class="radio-grid">
+              <div class="radio-card">
+                <input type="radio" id="modeOffline" name="learningMode" value="Offline (Kochi Campus)" checked />
+                <label for="modeOffline">Offline Campus</label>
+              </div>
+              <div class="radio-card">
+                <input type="radio" id="modeOnline" name="learningMode" value="Online Live Interactive" />
+                <label for="modeOnline">Online Live</label>
+              </div>
+              <div class="radio-card">
+                <input type="radio" id="modeHybrid" name="learningMode" value="Hybrid" />
+                <label for="modeHybrid">Hybrid</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="currentStatus">Current Professional Status</label>
+            <select id="currentStatus" class="form-control">
+              <option value="Student / Final Year">Student / Final Year</option>
+              <option value="Recent Graduate">Recent Graduate</option>
+              <option value="Working Professional">Working Professional</option>
+              <option value="Career Switcher">Career Switcher / Job Seeker</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Preferred Batch Timing</label>
+            <div class="radio-grid">
+              <div class="radio-card">
+                <input type="radio" id="batchMorning" name="batchTime" value="Weekday Morning" checked />
+                <label for="batchMorning">Morning</label>
+              </div>
+              <div class="radio-card">
+                <input type="radio" id="batchEvening" name="batchTime" value="Weekday Evening" />
+                <label for="batchEvening">Evening</label>
+              </div>
+              <div class="radio-card">
+                <input type="radio" id="batchWeekend" name="batchTime" value="Weekend Batch" />
+                <label for="batchWeekend">Weekend</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="comments">Additional Notes / Questions (Optional)</label>
+            <textarea id="comments" class="form-control" placeholder="Any specific requirements, scholarship queries, or target joining date..."></textarea>
+          </div>
+
+          <button type="submit" class="submit-btn" id="enrollSubmitBtn">
+            Submit Joining Application →
+          </button>
+        </form>
+      </div>
+
+      <!-- SUCCESS CONFIRMATION STATE -->
+      <div class="success-card" id="successCard">
+        <div class="success-icon">✓</div>
+        <h2>Your Application is Submitted!</h2>
+        <p>Thank you <strong id="resName">Applicant</strong>. Your application for <strong id="resCourse" style="color: var(--coursera-blue);">Selected Course</strong> has been successfully submitted. We will contact you soon!</p>
+        
+        <div style="margin-top: 20px;">
+          <a href="index.html" class="submit-btn" style="text-decoration: none; display: inline-flex; width: auto; padding: 12px 28px;">
+            ← Return to Homepage
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="maxw" style="max-width: var(--maxw); margin: 0 auto; padding: 0 24px;">
+      <p>© 2026 Kompetenzen Career Consulting & Training Academy. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // ===== GOOGLE SHEETS SCRIPT URL =====
+    const GOOGLE_SHEET_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyXVTlB1OtcwI_erBc5OC4kl6oZTijLhri0oL97GWBwyGb-VaHHR0NHVIVjq4Bgzc3wxg/exec';
+
+    // Auto-select course based on URL query parameter ?course=...
+    document.addEventListener("DOMContentLoaded", function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const courseParam = urlParams.get('course');
+      if (courseParam) {
+        const courseSelect = document.getElementById('course');
+        for (let i = 0; i < courseSelect.options.length; i++) {
+          if (courseSelect.options[i].value.toLowerCase() === courseParam.toLowerCase()) {
+            courseSelect.selectedIndex = i;
+            break;
+          }
+        }
+      }
+    });
+
+    // Send course enrollment to Google Sheets (routes to Course_Enrollments tab)
+    async function sendEnrollmentToSheet(fields) {
+      if (!GOOGLE_SHEET_SCRIPT_URL) return;
+
+      // 1. Direct fetch POST
+      try {
+        fetch(GOOGLE_SHEET_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(fields)
+        }).catch(err => console.warn('Google Sheet fetch error:', err));
+      } catch (err) {
+        console.warn('Google Sheet fetch error:', err);
+      }
+
+      // 2. Form submission via invisible iframe (100% reliable cross-origin fallback)
+      try {
+        const iframeName = 'gs-enroll-' + Math.random().toString(36).substring(2, 8);
+        const ifr = document.createElement('iframe');
+        ifr.name = iframeName;
+        ifr.style.display = 'none';
+        document.body.appendChild(ifr);
+
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = GOOGLE_SHEET_SCRIPT_URL;
+        form.target = iframeName;
+
+        Object.entries(fields).forEach(([key, val]) => {
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = key;
+          input.value = (val !== undefined && val !== null) ? String(val) : '';
+          form.appendChild(input);
+        });
+
+        document.body.appendChild(form);
+        form.submit();
+        setTimeout(() => {
+          if (form.parentNode) form.parentNode.removeChild(form);
+          if (ifr.parentNode) ifr.parentNode.removeChild(ifr);
+        }, 3000);
+      } catch (e) {
+        console.warn('Google Sheet iframe submit error:', e);
+      }
+    }
+
+    function handleEnrollmentSubmit(e) {
+      e.preventDefault();
+
+      const submitBtn = document.getElementById('enrollSubmitBtn') || e.target.querySelector('button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Submitting Application... ⏳';
+      }
+      
+      const name = document.getElementById('fullName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const courseSelect = document.getElementById('course');
+      const courseText = courseSelect.options[courseSelect.selectedIndex] ? courseSelect.options[courseSelect.selectedIndex].text : courseSelect.value;
+      const courseVal = courseSelect.value;
+      const qualification = document.getElementById('qualification').value;
+      const mode = document.querySelector('input[name="learningMode"]:checked')?.value || 'Offline';
+      const status = document.getElementById('currentStatus').value;
+      const batch = document.querySelector('input[name="batchTime"]:checked')?.value || 'Weekday';
+      const comments = document.getElementById('comments').value.trim();
+      const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+
+      // Build payload for Google Sheets with enrolled course
+      const enrollmentPayload = {
+        type: 'course_enrollment',
+        enrolledCourse: courseText, // Explicit column for enrolled course
+        course: courseText,         // Also populated for standard lead mapping
+        courseId: courseVal,
+        name: name,
+        email: email,
+        phone: phone,
+        qualification: qualification,
+        learningMode: mode,
+        status: status,
+        batchTime: batch,
+        comments: comments,
+        page: window.location.href,
+        timestamp: timestamp
+      };
+
+      // 1. Sync directly to Google Sheets
+      sendEnrollmentToSheet(enrollmentPayload);
+
+      // 2. Also cache enrollment in localStorage for browser persistence
+      try {
+        const storedEnrollments = JSON.parse(localStorage.getItem('kompetenzen_enrollments') || '[]');
+        storedEnrollments.unshift(enrollmentPayload);
+        localStorage.setItem('kompetenzen_enrollments', JSON.stringify(storedEnrollments.slice(0, 50)));
+      } catch (err) {}
+
+      // 3. Update UI to success state
+      document.getElementById('resName').textContent = name;
+      const resCourseEl = document.getElementById('resCourse');
+      if (resCourseEl) resCourseEl.textContent = courseText;
+      
+      document.getElementById('formCard').style.display = 'none';
+      document.getElementById('successCard').style.display = 'block';
+
+      // Scroll smoothly to success notice
+      const enrollHeader = document.querySelector('.enroll-header');
+      if (enrollHeader) {
+        enrollHeader.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  </script>
+</body>
+
+</html>

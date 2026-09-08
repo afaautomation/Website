@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Story — Kompetenzen | Journey 2020 – 2026 & Team</title>
+  <meta name="description"
+    content="Discover the story of Kompetenzen Technologies — Kerala's premier career consulting & job-oriented skill development academy. Learn about our journey from 2020 to 2026, our philosophy, and our dedicated staff." />
+  <link rel="icon" type="image/png" href="icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ===========================================================
+       TOKENS & BASE STYLES
+    =========================================================== */
+    :root {
+      --ink: #02050E;
+      --ink-2: #0D1630;
+      --ink-mute: #64748B;
+      --blue: #1947FF;
+      --blue-deep: #0E2EC9;
+      --blue-soft: #E8ECFF;
+      --cream: #FFFFFF;
+      --paper: #FFFFFF;
+      --line: rgba(10, 21, 48, .12);
+      --line-soft: rgba(10, 21, 48, .06);
+      --radius: 18px;
+      --maxw: 1440px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    html,
+    body {
+      background: #FFFFFF;
+      color: #02050E;
+      font-family: "Satoshi", "Plus Jakarta Sans", "Inter", sans-serif;
+      line-height: 1.45;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, .heading, .intro h1, .cta-strip h2 {
+      font-family: "Google Sans Flex", "Google Sans", "Product Sans", "Plus Jakarta Sans", sans-serif !important;
+      font-weight: 400 !important;
+      line-height: 1.22 !important;
+      letter-spacing: -0.02em;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .serif {
+      font-family: "Instrument Serif", serif;
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .mono {
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    /* ===========================================================
+       NAVBAR (Website Standard - Light Theme)
+    =========================================================== */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 16px 0;
+      transition: background .3s ease, backdrop-filter .3s ease, border-color .3s ease;
+      border-bottom: 1px solid transparent;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: saturate(140%) blur(16px);
+      -webkit-backdrop-filter: saturate(140%) blur(16px);
+    }
+
+    .nav.scrolled {
+      background: rgba(255, 255, 255, 0.95);
+      border-bottom-color: rgba(10, 21, 48, 0.08);
+      box-shadow: 0 4px 20px rgba(10, 21, 48, 0.04);
+    }
+
+    .wrap {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .brand img {
+      height: 38px;
+      width: auto;
+      display: block;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .nav-links a {
+      font-size: 15px;
+      font-weight: 500;
+      color: #02050E;
+      transition: color .2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--blue);
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--blue);
+      color: #fff;
+      padding: 10px 22px;
+      border-radius: 99px;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all .25s cubic-bezier(.2, .8, .2, 1);
+      box-shadow: 0 4px 18px rgba(25, 71, 255, 0.35);
+    }
+
+    .cta-btn:hover {
+      background: #3362FF;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(25, 71, 255, 0.5);
+    }
+
+    .mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 900px) {
+      .nav-links {
+        display: none;
+      }
+      .mobile-toggle {
+        display: block;
+      }
+    }
+
+    /* ===========================================================
+       STACKED SCROLL SECTIONS ENGINE (scroll.html style)
+    =========================================================== */
+    main > section {
+      width: 100%;
+      min-height: auto;
+      position: relative;
+      isolation: isolate;
+      overflow: visible;
+    }
+
+    .section {
+      position: relative;
+      overflow: visible;
+      background: transparent;
+    }
+
+    main > *:nth-child(1) { z-index: 1; }
+    main > *:nth-child(2) { z-index: 2; }
+    main > *:nth-child(3) { z-index: 3; }
+    main > *:nth-child(4) { z-index: 4; }
+    main > *:nth-child(5) { z-index: 5; }
+    main > *:nth-child(6) { z-index: 6; }
+
+    .skew-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: visible;
+      pointer-events: none;
+    }
+
+    .bg {
+      width: 100%;
+      height: 100%;
+      transform: none;
+      will-change: transform;
+      transform-origin: 0 0;
+      background: var(--bg);
+    }
+
+    /* ===========================================================
+       PURE WHITE THEME SCHEMES (OUR STORY PAGE)
+    =========================================================== */
+    .ink, .porcelain, .ember, .forest, .steel {
+      --bg: #FFFFFF;
+      --fg: #02050E;
+      --fg-soft: #475569;
+      --line: rgba(15, 23, 42, 0.12);
+      --card-bg: #FFFFFF;
+      background: #FFFFFF !important;
+      color: #02050E !important;
+    }
+
+    .skew-bg, .bg {
+      background: #FFFFFF !important;
+    }
+
+    /* ===========================================================
+       HERO / INTRO SECTION
+    =========================================================== */
+    .intro {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 160px 32px 100px;
+      min-height: 100vh;
+      position: relative;
+      background: #FFFFFF;
+      color: #02050E;
+    }
+
+    .intro-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--blue);
+      padding: 8px 18px;
+      border: 1px solid rgba(25, 71, 255, 0.2);
+      border-radius: 99px;
+      background: rgba(25, 71, 255, 0.06);
+      margin-bottom: 24px;
+      visibility: hidden;
+    }
+
+    .intro-badge .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 99px;
+      background: var(--blue);
+      box-shadow: 0 0 10px rgba(25, 71, 255, 0.6);
+    }
+
+    .intro h1 {
+      font-size: clamp(2.8rem, 6.5vw, 5.5rem);
+      font-weight: 400;
+      line-height: 1.22;
+      letter-spacing: -0.025em;
+      max-width: 22ch;
+      margin-bottom: 24px;
+      visibility: hidden;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      color: #02050E;
+    }
+
+    .intro p.intro-desc {
+      font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+      color: #475569;
+      max-width: 44ch;
+      line-height: 1.6;
+      visibility: hidden;
+    }
+
+    .intro-stats {
+      display: flex;
+      gap: 48px;
+      margin-top: 56px;
+      flex-wrap: wrap;
+      justify-content: center;
+      visibility: hidden;
+    }
+
+    .intro-stat-item b {
+      display: block;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #02050E;
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    .intro-stat-item span {
+      font-size: 0.9rem;
+      color: #64748B;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* ===========================================================
+       GENERAL SECTION LAYOUT
+    =========================================================== */
+    .section-content {
+      padding: 80px 0 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      position: relative;
+      z-index: 2;
+    }
+
+    .section-header {
+      margin-bottom: 40px;
+    }
+
+    .tag-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .heading {
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      font-weight: 800;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      max-width: 28ch;
+      visibility: hidden;
+      font-family: "Plus Jakarta Sans", sans-serif;
+    }
+
+    /* ===========================================================
+       FULL YEAR SECTION CONTENT GRID (scroll.html Style)
+    =========================================================== */
+    .content {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 2.8rem;
+      align-items: flex-start;
+      margin-top: 12px;
+      padding-bottom: 60px;
+    }
+
+    @media (max-width: 900px) {
+      .content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+
+    .media {
+      width: 100%;
+      height: 290px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      border: 1px solid var(--line);
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    .details {
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+      padding-bottom: 20px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 7.5rem 1fr;
+      gap: 1.8rem;
+      align-items: start;
+    }
+
+    .row span {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .row p {
+      font-size: 1.05rem;
+      color: var(--fg-soft);
+      line-height: 1.6;
+    }
+
+    .stats {
+      list-style: none;
+      width: 100%;
+      max-width: 32rem;
+    }
+
+    .stats li {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+
+    .stats li span:first-child {
+      color: var(--fg-soft);
+      font-weight: 500;
+    }
+
+    .stats li span:last-child {
+      color: var(--fg);
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+    }
+
+    .year-nav-pills {
+      display: flex;
+      gap: 10px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+      justify-content: center;
+      visibility: hidden;
+    }
+
+    .year-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 18px;
+      border-radius: 99px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.9rem;
+      font-weight: 700;
+      background: rgba(25, 71, 255, 0.08);
+      color: var(--blue);
+      border: 1px solid rgba(25, 71, 255, 0.2);
+      transition: all 0.25s ease;
+    }
+
+    .year-pill:hover {
+      background: var(--blue);
+      color: #FFFFFF;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(25, 71, 255, 0.3);
+    }
+
+    /* ===========================================================
+       SECTION 1: ABOUT KOMPETENZEN
+    =========================================================== */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    @media (max-width: 980px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+    }
+
+    .about-card {
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .about-row {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .about-row .lbl {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .about-row p {
+      font-size: 1.05rem;
+      color: var(--fg-soft);
+      line-height: 1.6;
+    }
+
+    .about-media {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      height: 480px;
+      box-shadow: 0 24px 48px rgba(10, 21, 48, 0.12);
+      border: 1px solid var(--line);
+    }
+
+    .about-media-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(2, 5, 14, 0.2) 0%, rgba(2, 5, 14, 0.85) 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 36px;
+      color: #fff;
+    }
+
+    .about-media-overlay h3 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .about-media-overlay p {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* ===========================================================
+       SECTION 2: JOURNEY 2020 - 2026 TIMELINE
+    =========================================================== */
+    .timeline-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      margin-top: 20px;
+    }
+
+    .timeline-card {
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 32px;
+      position: relative;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .timeline-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--blue);
+    }
+
+    .timeline-year {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #1947FF;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .timeline-year .badge {
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 99px;
+      background: rgba(25, 71, 255, 0.08);
+      border: 1px solid rgba(25, 71, 255, 0.2);
+      color: #1947FF;
+      font-weight: 600;
+    }
+
+    .timeline-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #02050E;
+    }
+
+    .timeline-desc {
+      font-size: 0.95rem;
+      color: var(--fg-soft);
+      line-height: 1.6;
+    }
+
+    /* ===========================================================
+       SECTION 3: OUR STAFFS & LEADERSHIP
+    =========================================================== */
+    .staff-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 1024px) {
+      .staff-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .staff-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .staff-card {
+      background: #FFFFFF;
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      border-radius: 22px;
+      overflow: hidden;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .staff-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(25, 71, 255, 0.12);
+      border-color: rgba(25, 71, 255, 0.3);
+    }
+
+    .staff-img-box {
+      width: 100%;
+      height: 280px;
+      position: relative;
+      background: #E2E8F0;
+      overflow: hidden;
+    }
+
+    .staff-img-box img {
+      transition: transform 0.5s ease;
+    }
+
+    .staff-card:hover .staff-img-box img {
+      transform: scale(1.06);
+    }
+
+    .staff-avatar-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #E8ECFF 0%, #1947FF 100%);
+      color: #fff;
+      font-size: 3rem;
+      font-weight: 800;
+      font-family: "Plus Jakarta Sans", sans-serif;
+    }
+
+    .staff-info {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .staff-role-badge {
+      align-self: flex-start;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--blue);
+      background: var(--blue-soft);
+      padding: 4px 12px;
+      border-radius: 99px;
+      margin-bottom: 12px;
+    }
+
+    .staff-name {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #02050E;
+      margin-bottom: 4px;
+    }
+
+    .staff-title {
+      font-size: 0.9rem;
+      color: var(--fg-soft);
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+
+    .staff-bio {
+      font-size: 0.92rem;
+      color: var(--fg-soft);
+      line-height: 1.55;
+      margin-top: auto;
+    }
+
+    /* ===========================================================
+       SECTION 4: CORE PILLARS & VALUES
+    =========================================================== */
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    @media (max-width: 1024px) {
+      .pillars-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .pillars-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .pillar-card {
+      background: #FFFFFF;
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      border-radius: 20px;
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 260px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+      transition: border-color 0.3s;
+    }
+
+    .pillar-card:hover {
+      border-color: var(--blue);
+    }
+
+    .pillar-num {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1947FF;
+    }
+
+    .pillar-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #02050E;
+      margin: 16px 0 10px;
+    }
+
+    .pillar-desc {
+      font-size: 0.92rem;
+      color: var(--fg-soft);
+      line-height: 1.55;
+    }
+
+    /* ===========================================================
+       CTA STRIP & FOOTER (Website Standard)
+    =========================================================== */
+    .cta-strip {
+      background: #FFFFFF;
+      padding: 60px 32px;
+      border-top: 1px solid rgba(15, 23, 42, 0.08);
+      text-align: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .cta-strip h2 {
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 800;
+      color: #02050E;
+      margin-bottom: 16px;
+      font-family: "Plus Jakarta Sans", sans-serif;
+    }
+
+    .cta-strip p {
+      font-size: 1.15rem;
+      color: #475569;
+      max-width: 38ch;
+      margin: 0 auto 36px;
+    }
+
+    footer {
+      background: #02050E;
+      color: #FFFFFF;
+      padding: 80px 0 40px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+      z-index: 10;
+    }
+
+    .giant {
+      margin-bottom: 60px;
+    }
+
+    .ft-grid {
+      display: grid;
+      grid-template-columns: 1.8fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 60px;
+    }
+
+    @media (max-width: 900px) {
+      .ft-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .ft-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .ft-brand img {
+      height: 38px;
+      margin-bottom: 16px;
+    }
+
+    .ft-blurb {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.6);
+      max-width: 32ch;
+      line-height: 1.6;
+    }
+
+    .ft-col h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .ft-col a {
+      display: block;
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.65);
+      margin-bottom: 12px;
+      transition: color 0.2s;
+    }
+
+    .ft-col a:hover {
+      color: var(--blue);
+    }
+
+    .ft-bot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 32px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.88rem;
+      color: rgba(255, 255, 255, 0.5);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============ NAV ============ -->
+  <nav class="nav" id="nav">
+    <div class="wrap nav-inner">
+      <div class="nav-left">
+        <a href="index.html" class="brand"><img src="kompetenzen logo-02.png" alt="Kompetenzen" /></a>
+      </div>
+      <div class="nav-links">
+        <a href="career-consulting.html">Consulting</a>
+        <a href="finishing-school.html">Finishing School</a>
+        <a href="tech-school.html">Tech School</a>
+        <a href="b-school.html">B-School</a>
+        <a href="index.html#placements">Placements</a>
+        <a href="our-story.html" class="active" style="color: #1947FF; font-weight: 700;">Our Story</a>
+        <a href="jobs.html">Jobs</a>
+        <a href="https://darksalmon-llama-333572.hostingersite.com/" target="_blank">Resume Builder</a>
+      </div>
+      <div class="nav-right">
+        <a href="https://wa.me/918590886009" target="_blank" class="cta-btn">
+          <span>Talk to us</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <!-- ============ HERO INTRO ============ -->
+    <section class="intro ink">
+      <div class="intro-badge">
+        <span class="dot"></span>
+        <span>KOMPETENZEN® · OUR STORY 2020 – 2026</span>
+      </div>
+      <h1>Empowering Careers.<br />Transforming Futures.</h1>
+      <p class="intro-desc">
+        From a visionary career consulting idea in Kochi in 2020 to Kerala’s premier job-oriented skill development academy with 2,000+ placements in 2026.
+      </p>
+
+      <div class="intro-stats">
+        <div class="intro-stat-item">
+          <b>2020</b>
+          <span>Founded in Kochi</span>
+        </div>
+        <div class="intro-stat-item">
+          <b>2,000+</b><span>Successful Placements</span>
+        </div>
+        <div class="intro-stat-item">
+          <b>120+</b><span>Hiring Partners</span>
+        </div>
+        <div class="intro-stat-item">
+          <b>4.8★</b><span>Google Rating</span>
+        </div>
+      </div>
+
+
+    </section>
+
+    <!-- ============ SECTION 1: ABOUT KOMPETENZEN ============ -->
+    <section class="section ember">
+      <div class="skew-bg">
+        <div class="bg ember"></div>
+      </div>
+      <div class="wrap section-content">
+        <div class="section-header">
+          <span class="tag-label">01 // The Philosophy</span>
+          <h2 class="heading">First, We Built a Bridge Between Academic Degrees & Real Industry Demands.</h2>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-card">
+            <div class="about-row">
+              <span class="lbl">(Gap)</span>
+              <p>
+                In 2020, thousands of talented graduates in Kerala were completing engineering and degree programs without practical coding confidence or corporate interview etiquette.
+              </p>
+            </div>
+            <div class="about-row">
+              <span class="lbl">(Craft)</span>
+              <p>
+                Kompetenzen was established to rewrite the career training playbook: 1-on-1 personalized consulting, hands-on live project labs, and rigorous Finishing School grooming.
+              </p>
+            </div>
+            <div class="about-row">
+              <span class="lbl">(Impact)</span>
+              <p>
+                We turn academic graduates into industry-ready software engineers, data analysts, HR managers, and sales engineers hired by top MNCs nationwide.
+              </p>
+            </div>
+          </div>
+
+          <div class="about-media">
+            <img src="img/1.jpg" alt="Kompetenzen Academy Training Hub" />
+            <div class="about-media-overlay">
+              <h3>Real-World Project Labs</h3>
+              <p>Practical live project experience and corporate finishing school culture in Kochi.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ YEAR 2020 SECTION ============ -->
+    <section class="section ember" id="year-2020">
+      <div class="skew-bg">
+        <div class="bg ember"></div>
+      </div>
+      <div class="wrap section-content">
+        <div class="section-header">
+          <span class="tag-label" style="color: #60A5FA;">2020 // MILESTONE 01</span>
+          <h2 class="heading">2020 · The Inception in Kochi</h2>
+        </div>
+        <div class="content">
+          <div class="media">
+            <img src="img/1.jpg" alt="2020 Inception" />
+          </div>
+          <div class="details">
+            <div class="row">
+              <span>(Context)</span>
+              <p>Founded during global economic shifts with a clear focus: offering 1-on-1 career consulting to guide confused graduates toward high-growth tech careers.</p>
+            </div>
+            <div class="row">
+              <span>(+Craft)</span>
+              <p>Started with 15 brave candidates, pioneering remote career roadmaps, mock interview sessions, and individual portfolio building.</p>
+            </div>
+            <div class="row">
+              <span>(=Impact)</span>
+              <ul class="stats">
+                <li><span>Initial Candidates</span><span>15 Candidates</span></li>
+                <li><span>Placement Rate</span><span>100% Placed</span></li>
+                <li><span>Starting Packages</span><span>Up to 4.5 LPA</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ YEAR 2021 SECTION ============ -->
+    <section class="section porcelain" id="year-2021">
+      <div class="skew-bg">
+        <div class="bg porcelain"></div>
+      </div>
+      <div class="wrap section-content">
+        <div class="section-header">
+          <span class="tag-label">2021 // MILESTONE 02</span>
+          <h2 class="heading">2021 · Tech & Finishing School Launch</h2>
+        </div>
+        <div class="content">
+          <div class="media">
+            <img src="img/2.jpg" alt="2021 Tech & Finishing School" />
+          </div>
+          <div class="details">
+            <div class="row">
+              <span>(Context)</span>
+              <p>Recognized that coding skills alone were incomplete without corporate presentation and soft skills.</p>
+            </div>
+            <div class="row">
+              <span>(+Craft)</span>
+              <p>Launched Python Full-Stack and Finishing School modules. Partnered with 50+ hiring tech companies across Infopark Kochi and Technopark Trivandrum.</p>
+            </div>
+            <div class="row">
+              <span>(=Impact)</span>
+              <ul class="stats">
+                <li><span>Placed Candidates</span><span>150+ Graduates</span></li>
+                <li><span>Hiring Partners</span><span>50+ Firms</span></li>
+                <li><span>Course Tracks</span><span>Python & Soft Skills</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ YEAR 2022 SECTION ============ -->
+    <section class="section forest" id="year-2022">
+      <div class="skew-bg">
+        <div class="bg forest"></div>
+      </div>
+      <div class="wrap section-content">
+        <div class="section-header">
+          <span class="tag-label">2022 // MILESTONE 03</span>
+          <h2 class="heading">2022 · Scaling Practical Labs & 500+ Placements</h2>
+        </div>
+        <div class="content">
+          <div class="media">
+            <img src="img/3.jpg" alt="2022 Scaling Practical Labs" />
+          </div>
+          <div class="details">
+            <div class="row">
+              <span>(Context)</span>
+              <p>Candidates needed hands-on experience on live client projects and real mock interview panels.</p>
+            </div>
+            <div class="row">
+              <span>(+Craft)</span>
+              <p>Expanded physical training hubs in Kochi, introduced company-specific mock interview simulators, and added Java Spring Boot & Data Analytics tracks.</p>
+            </div>
+            <div class="row">
+              <span>(=Impact)</span>
+              <ul class="stats">
+                <li><span>Cumulative Placements</span><span>500+ Placed</span></li>
+                <li><span>Live Projects</span><span>120+ Completed</span></li>
+                <li><span>Core Hub</span><span>Kochi Campus</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ YEAR 2023 SECTION ============ -->
+    <section class="section ember" id="year-2023">
+      <div class="skew-bg">
+        <div class="bg ember"></div>
+      </div>
+      <div class="wrap section-content">
+        <div class="section-header">
+          <span class="tag-label" style="color: #60A5FA;">2023 // MILESTONE 04</span>
+          <h2 class="heading">2023 · B-School & Corporate Division</h2>
+        </div>
+        <div class="content">
+          <div class="media">
+            <img src="img/4.jpg" alt="2023 B-School & Corporate" />
+          </div>
+          <div class="details">
+            <div class="row">
+              <span>(Context)</span>
+              <p>Non-engineering graduates needed specialized non-IT corporate pathways in HR and Tech Sales.</p>
+            </div>
+            <div class="row">
+              <span>(+Craft)</span>
+              <p>Unveiled PG Diploma in HR Management & Sales Engineering programs to prepare graduates for high-growth corporate managerial roles.</p>
+            </div>
+            <div class="row">
+              <span>(=Impact)</span>
+              <ul class="stats">
+                <li><span>Total Placements</span><span>1,000+ Candidates</span></li>
+                <li><span>Corporate Partners</span><span>80+ Companies</span></li>
+                <li><span>New Programs</span><span>PG HR & Sales Eng</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ YEAR 2024 SECTION ============ -->
+    <section class="section porcelain" id="year-2024">
+      <div class="skew-bg">
+        <div class="bg porcelain"></div>
+      </div>
+      <div class="wrap section-content">
+        <div class="section-header">
+          <span class="tag-label">2024 // MILESTONE 05</span>
+          <h2 class="heading">2024 · AI Resume & Automated Test Platform</h2>
+        </div>
+        <div class="content">
+          <div class="media">
+            <img src="img/5.jpg" alt="2024 AI Integration" />
+          </div>
+          <div class="details">
+            <div class="row">
+              <span>(Context)</span>
+              <p>Hiring standards evolved with automated ATS screening and AI technical assessments.</p>
+            </div>
+            <div class="row">
+              <span>(+Craft)</span>
+              <p>Crossed 1,500 placements. Integrated AI resume tools, mock test engines, and automated code review systems to accelerate candidate readiness.</p>
+            </div>
+            <div class="row">
+              <span>(=Impact)</span>
+              <ul class="stats">
+                <li><span>Total Placements</span><span>1,500+ Candidates</span></li>
+                <li><span>Placement Rate</span><span>98% Assistance</span></li>
+                <li><span>Tech Platform</span><span>AI Resume Suite</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ YEAR 2025 SECTION ============ -->
+    <section class="section forest" id="year-2025">
+      <div class="skew-bg">
+        <div class="bg forest"></div>
+      </div>
+      <div class="wrap section-content">
+        <div class="section-header">
+          <span class="tag-label">2025 // MILESTONE 06</span>
+          <h2 class="heading">2025 · Ecosystem Landmark & Talent Hunt</h2>
+        </div>
+        <div class="content">
+          <div class="media">
+            <img src="img/6.jpg" alt="2025 Ecosystem Landmark" />
+          </div>
+          <div class="details">
+            <div class="row">
+              <span>(Context)</span>
+              <p>Connecting top recruiters directly with trained candidates through large-scale hiring drives.</p>
+            </div>
+            <div class="row">
+              <span>(+Craft)</span>
+              <p>Hosted Kerala’s largest corporate Talent Hunt hiring events, connecting hundreds of candidates to 120+ active IT MNCs and high-growth startups.</p>
+            </div>
+            <div class="row">
+              <span>(=Impact)</span>
+              <ul class="stats">
+                <li><span>Total Placements</span><span>2,000+ Candidates</span></li>
+                <li><span>Hiring Partners</span><span>120+ MNCs</span></li>
+                <li><span>Student Rating</span><span>4.8★ Google</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ YEAR 2026 SECTION ============ -->
+    <section class="section steel" id="year-2026">
+      <div class="skew-bg">
+        <div class="bg steel"></div>
+      </div>
+      <div class="wrap section-content">
+        <div class="section-header">
+          <span class="tag-label" style="color: #60A5FA;">2026 // MILESTONE 07</span>
+          <h2 class="heading">2026 · Future-Ready Hybrid Ecosystem</h2>
+        </div>
+        <div class="content">
+          <div class="media">
+            <img src="img/7.jpg" alt="2026 Next-Gen Ecosystem" />
+          </div>
+          <div class="details">
+            <div class="row">
+              <span>(Context)</span>
+              <p>Pioneering next-gen hybrid career development for students, graduates, and working professionals.</p>
+            </div>
+            <div class="row">
+              <span>(+Craft)</span>
+              <p>Expanding hybrid learning hubs, executive mentoring tracks, and international career placement pathways across global tech markets.</p>
+            </div>
+            <div class="row">
+              <span>(=Impact)</span>
+              <ul class="stats">
+                <li><span>Target Placements</span><span>2,500+ Candidates</span></li>
+                <li><span>Global Footprint</span><span>Hybrid Academy</span></li>
+                <li><span>Community</span><span>5,000+ Alumni</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 3: OUR STAFFS & LEADERSHIP ============ -->
+    <section class="section forest">
+      <div class="skew-bg">
+        <div class="bg forest"></div>
+      </div>
+      <div class="wrap section-content">
+        <div class="section-header">
+          <span class="tag-label">03 // People Behind The Promise</span>
+          <h2 class="heading">Meet Our Leaders, Mentors & Dedicated Staff</h2>
+        </div>
+
+        <div class="staff-grid">
+          <!-- Staff 1 -->
+          <div class="staff-card">
+            <div class="staff-img-box">
+              <img src="img/staff_abhinav.jpg" alt="Abhinav S - Founder & MD" />
+            </div>
+            <div class="staff-info">
+              <span class="staff-role-badge">Leadership</span>
+              <h3 class="staff-name">Abhinav S</h3>
+              <p class="staff-title">Founder & Managing Director</p>
+              <p class="staff-bio">
+                Visionary strategist leading Kompetenzen since 2020. Dedicated to creating high-impact career pathways for graduates across Kerala.
+              </p>
+            </div>
+          </div>
+
+          <!-- Staff 2 -->
+          <div class="staff-card">
+            <div class="staff-img-box">
+              <img src="img/staff_deepa.jpg" alt="Deepa Nair - Head of Placements" />
+            </div>
+            <div class="staff-info">
+              <span class="staff-role-badge">Placements</span>
+              <h3 class="staff-name">Deepa Nair</h3>
+              <p class="staff-title">Head of Placements & Corporate Relations</p>
+              <p class="staff-bio">
+                Manages direct hiring tie-ups with 120+ MNCs and IT firms, ensuring every student gets tailored interview opportunities.
+              </p>
+            </div>
+          </div>
+
+          <!-- Staff 3 -->
+          <div class="staff-card">
+            <div class="staff-img-box">
+              <img src="img/staff_rahul.jpg" alt="Rahul Varma - Lead Tech Architect" />
+            </div>
+            <div class="staff-info">
+              <span class="staff-role-badge">Tech School</span>
+              <h3 class="staff-name">Rahul Varma</h3>
+              <p class="staff-title">Lead Tech Architect & Senior Mentor</p>
+              <p class="staff-bio">
+                Full-stack developer with 10+ years experience, guiding students through live project architectures in Python, Java, and React.
+              </p>
+            </div>
+          </div>
+
+          <!-- Staff 4 -->
+          <div class="staff-card">
+            <div class="staff-img-box">
+              <div class="staff-avatar-placeholder">AM</div>
+            </div>
+            <div class="staff-info">
+              <span class="staff-role-badge">Finishing School</span>
+              <h3 class="staff-name">Anjali Menon</h3>
+              <p class="staff-title">Head of Finishing School & Soft Skills</p>
+              <p class="staff-bio">
+                Corporate behavioral coach transforming candidates' communication, presentation skills, and confidence for top HR rounds.
+              </p>
+            </div>
+          </div>
+
+          <!-- Staff 5 -->
+          <div class="staff-card">
+            <div class="staff-img-box">
+              <div class="staff-avatar-placeholder">SR</div>
+            </div>
+            <div class="staff-info">
+              <span class="staff-role-badge">B-School Lead</span>
+              <h3 class="staff-name">Siddharth Roy</h3>
+              <p class="staff-title">Director of Data Analytics & B-School</p>
+              <p class="staff-bio">
+                Analytics expert and mentor behind PG Diploma in HR and Sales Engineering courses, fostering business-tech acumen.
+              </p>
+            </div>
+          </div>
+
+          <!-- Staff 6 -->
+          <div class="staff-card">
+            <div class="staff-img-box">
+              <div class="staff-avatar-placeholder">PR</div>
+            </div>
+            <div class="staff-info">
+              <span class="staff-role-badge">Career Consulting</span>
+              <h3 class="staff-name">Priya Rajesh</h3>
+              <p class="staff-title">Senior Career Consultant & Student Lead</p>
+              <p class="staff-bio">
+                Provides personalized 1-on-1 counseling to assess individual strengths, map career tracks, and support students until placed.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 4: CORE PILLARS & VALUES ============ -->
+    <section class="section steel">
+      <div class="skew-bg">
+        <div class="bg steel"></div>
+      </div>
+      <div class="wrap section-content">
+        <div class="section-header">
+          <span class="tag-label" style="color: #60A5FA;">04 // Our Foundations</span>
+          <h2 class="heading">Built on Uncompromising Standards & Practical Mastery</h2>
+        </div>
+
+        <div class="pillars-grid">
+          <div class="pillar-card">
+            <span class="pillar-num">01</span>
+            <h3 class="pillar-title">Real-World Projects</h3>
+            <p class="pillar-desc">
+              Students build actual scalable applications and production code rather than doing passive theoretical study.
+            </p>
+          </div>
+
+          <div class="pillar-card">
+            <span class="pillar-num">02</span>
+            <h3 class="pillar-title">1-on-1 Mentorship</h3>
+            <p class="pillar-desc">
+              Every candidate receives dedicated 1-on-1 career guidance, portfolio reviews, and individual mock interviews.
+            </p>
+          </div>
+
+          <div class="pillar-card">
+            <span class="pillar-num">03</span>
+            <h3 class="pillar-title">Finishing School Rigor</h3>
+            <p class="pillar-desc">
+              Corporate etiquette, resume engineering, and mock interview simulations prepare candidates to excel in any interview.
+            </p>
+          </div>
+
+          <div class="pillar-card">
+            <span class="pillar-num">04</span>
+            <h3 class="pillar-title">Direct Corporate Access</h3>
+            <p class="pillar-desc">
+              Direct recruitment drives with 120+ active corporate hiring partners ensuring consistent placement opportunities.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CTA STRIP ============ -->
+    <section class="cta-strip">
+      <div class="wrap">
+        <h2>Start Your Own Success Story With Us</h2>
+        <p>Book a free 1-on-1 career consultation or visit our training hub in Kochi today.</p>
+        <a href="https://wa.me/918590886009" target="_blank" class="cta-btn" style="font-size: 1.1rem; padding: 14px 36px;">
+          <span>Connect with a Career Mentor →</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div class="wrap">
+      <div class="giant" style="display: flex; justify-content: center;">
+        <img src="white name.png" alt="Kompetenzen." style="max-width: 100%; height: auto;" />
+      </div>
+      <div class="ft-grid">
+        <div>
+          <div class="ft-brand">
+            <img src="kompetenzen logo-02.png" alt="Kompetenzen" style="height: 38px; width: auto; filter: brightness(0) invert(1);" />
+          </div>
+          <p class="ft-blurb">
+            Kerala's trusted partner for career consulting, IT training, full stack development, data analytics, and guaranteed placement support — since 2020.
+          </p>
+        </div>
+        <div class="ft-col">
+          <h4>Schools</h4>
+          <a href="tech-school.html">Tech School</a>
+          <a href="finishing-school.html">Finishing School</a>
+          <a href="b-school.html">B-School</a>
+        </div>
+        <div class="ft-col">
+          <h4>Explore</h4>
+          <a href="index.html#placements">2000+ Placements</a>
+          <a href="our-story.html">Our Story (2020-2026)</a>
+          <a href="https://darksalmon-llama-333572.hostingersite.com/" target="_blank">Resume Builder</a>
+        </div>
+        <div class="ft-col">
+          <h4>Contact</h4>
+          <a href="mailto:hr@kompetenzen.in">hr@kompetenzen.in</a>
+          <a href="tel:+918590886009">+91 85908 86009</a>
+          <a href="https://www.instagram.com/kompetenzen.techschool" target="_blank" rel="noopener">Instagram ↗</a>
+          <a href="index.html#contact">Visit Campus (Kochi)</a>
+        </div>
+      </div>
+
+      <div class="ft-bot">
+        <span>© 2026 Kompetenzen Technologies. All rights reserved.</span>
+        <span class="mono">Made in Kochi · v2.0</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ SCRIPTS (GSAP + ScrollTrigger + SplitText + Lenis) ============ -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // 1. Lenis Smooth Scroll Setup
+      let lenis;
+      if (typeof Lenis !== 'undefined') {
+        lenis = new Lenis({
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          smoothWheel: true
+        });
+
+        if (typeof ScrollTrigger !== 'undefined') {
+          lenis.on("scroll", ScrollTrigger.update);
+          gsap.ticker.add((time) => lenis.raf(time * 1000));
+          gsap.ticker.lagSmoothing(0);
+        }
+      }
+
+      // Register GSAP plugins
+      if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+        if (typeof SplitText !== 'undefined') {
+          gsap.registerPlugin(SplitText);
+        }
+
+        // Helper to split & reveal text
+        function splitAndHide(el) {
+          if (!el) return null;
+          if (typeof SplitText !== 'undefined') {
+            try {
+              const split = SplitText.create(el, { type: "lines" });
+              gsap.set(split.lines, { yPercent: 90 });
+              gsap.set(el, { visibility: "visible" });
+              return split.lines;
+            } catch (e) {
+              gsap.set(el, { visibility: "visible" });
+              return [el];
+            }
+          } else {
+            gsap.set(el, { visibility: "visible" });
+            return [el];
+          }
+        }
+
+        function revealLines(lines) {
+          if (!lines || !lines.length) return;
+          return gsap.to(lines, {
+            yPercent: 0,
+            duration: 1.2,
+            ease: "power4.out",
+            stagger: 0.08,
+          });
+        }
+
+        // Intro Hero Animations
+        const introBadge = document.querySelector(".intro-badge");
+        const introHeading = splitAndHide(document.querySelector(".intro h1"));
+        const introDesc = splitAndHide(document.querySelector(".intro p.intro-desc"));
+        const introStats = document.querySelector(".intro-stats");
+        const yearNavPills = document.querySelector(".year-nav-pills");
+
+        if (introBadge) gsap.set(introBadge, { visibility: "visible", opacity: 0, y: 20 });
+        if (introStats) gsap.set(introStats, { visibility: "visible", opacity: 0, y: 20 });
+        if (yearNavPills) gsap.set(yearNavPills, { visibility: "visible", opacity: 0, y: 20 });
+
+        const tl = gsap.timeline();
+        if (introBadge) tl.to(introBadge, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" });
+        if (introHeading) tl.add(revealLines(introHeading), "-=0.4");
+        if (introDesc) tl.add(revealLines(introDesc), "-=0.8");
+        if (introStats) tl.to(introStats, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.6");
+        if (yearNavPills) tl.to(yearNavPills, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.4");
+
+        // Skew Background & Section Reveal Effects (as in scroll.html)
+        document.querySelectorAll(".section").forEach((section) => {
+          const heading = section.querySelector("h2.heading");
+          const lines = splitAndHide(heading);
+          const bg = section.querySelector(".bg");
+
+          if (bg) {
+            gsap.to(bg, {
+              y: -80,
+              skewY: -3.5,
+              ease: "none",
+              scrollTrigger: {
+                trigger: section,
+                start: "top 95%",
+                end: "top 50%",
+                scrub: 0.5,
+              },
+            });
+          }
+
+          ScrollTrigger.create({
+            trigger: section,
+            start: "top 80%",
+            once: true,
+            onEnter: () => {
+              if (lines) revealLines(lines);
+            },
+          });
+        });
+      }
+
+      // Nav scroll shadow toggle
+      const nav = document.getElementById("nav");
+      window.addEventListener("scroll", () => {
+        if (nav) nav.classList.toggle("scrolled", window.scrollY > 20);
+      });
+    });
+  </script>
+</body>
+
+</html>

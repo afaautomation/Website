@@ -68,89 +68,133 @@
       z-index: 0;
     }
 
-    /* NAV */
+    /* NAV (Transparent Overlay with Centered Links) */
     .nav {
-      position: sticky;
+      position: absolute;
       top: 0;
+      left: 0;
+      width: 100%;
       z-index: 100;
-      background: #fff;
+      background: transparent;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      transition: background 0.3s ease, backdrop-filter 0.3s ease;
     }
 
     .nav-inner {
       max-width: 100%;
       margin: 0 auto;
-      padding: 0 40px;
-      height: 64px;
+      padding: 0 32px;
+      height: 72px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 32px;
+      gap: 20px;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      flex-shrink: 0;
+    }
+
+    .brand {
+      text-decoration: none;
+      display: flex;
+      align-items: center;
     }
 
     .brand img {
       height: 36px;
       display: block;
-    }
-
-    .brand {
-      text-decoration: none;
-      margin-right: auto;
+      filter: brightness(0) invert(1);
     }
 
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 32px;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
     }
 
     .nav-links a {
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 500;
-      color: var(--ink-mute);
+      color: rgba(255, 255, 255, 0.85);
       text-decoration: none;
       transition: color 0.2s;
+      white-space: nowrap;
     }
 
     .nav-links a:hover {
-      color: var(--ink);
+      color: #ffffff;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
     }
 
     .nav-cta {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: var(--ink);
+      background: #1947FF;
       color: #fff;
       font-size: 14px;
       font-weight: 600;
-      padding: 10px 20px;
+      padding: 10px 22px;
       border-radius: 99px;
       text-decoration: none;
-      transition: background 0.2s, transform 0.2s;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 16px rgba(25, 71, 255, 0.35);
     }
 
     .nav-cta:hover {
-      background: var(--blue);
+      background: #3362FF;
       transform: translateY(-1px);
+      box-shadow: 0 6px 22px rgba(25, 71, 255, 0.55);
     }
 
-    /* HERO */
+    /* HERO (Deep Midnight Space Blue style from index.html) */
     .tech-hero {
       position: relative;
-      background: transparent;
-      color: var(--ink);
-      padding: 100px 24px 120px;
+      background: #02050E;
+      color: #ffffff;
+      min-height: calc(100vh - 64px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 24px;
       overflow: hidden;
       text-align: center;
+      width: 100%;
+    }
+
+    .tech-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(25, 71, 255, 0.28), transparent 70%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .tech-hero > * {
+      position: relative;
+      z-index: 2;
     }
 
     .tech-hero h1 {
-      font-size: clamp(36px, 6vw, 72px);
-      font-weight: 700;
-      line-height: 1.05;
+      font-size: clamp(36px, 6vw, 76px);
+      font-weight: 400;
+      line-height: 1.2;
       letter-spacing: -0.03em;
       margin-bottom: 24px;
-      color: var(--ink);
+      color: #ffffff;
     }
 
     .tech-hero h1 em {
@@ -354,30 +398,59 @@
   <!-- NAV -->
   <nav class="nav">
     <div class="nav-inner">
-      <a href="index.html" class="brand">
-        <img src="kompetenzen logo-02.png" alt="Kompetenzen" />
-      </a>
-      <div class="nav-links">
-        <a href="index.html#consulting">Consulting</a>
-        <a href="index.html#training" style="color: var(--blue); font-weight: 700;">Training</a>
-        <a href="index.html#placements">Placements</a>
-        <a href="jobs.html">Jobs</a>
-        <a href="#" class="logout-link" style="display: none; color: #dc2626; font-weight: 600;" onclick="event.preventDefault(); localStorage.removeItem('token'); window.location.reload();">Log Out</a>
+      <div class="nav-left">
+        <a href="index.html" class="brand">
+          <img src="kompetenzen logo-02.png" alt="Kompetenzen" />
+        </a>
       </div>
-      <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="nav-cta">
-        Talk to us
-      </a>
+      <div class="nav-links">
+        <a href="career-consulting.html">Consulting</a>
+        <a href="finishing-school.html">Finishing School</a>
+        <a href="tech-school.html" class="active" style="color: #60A5FA; font-weight: 700;">Tech School</a>
+        <a href="b-school.html">B-School</a>
+        <a href="placements.html">Placements</a>
+        <a href="our-story.html">Our Story</a>
+        <a href="jobs.html">Jobs</a>
+        <a href="https://darksalmon-llama-333572.hostingersite.com/" target="_blank">Resume Builder</a>
+        <a href="#" class="logout-link" style="display: none; color: #f87171; font-weight: 600;" onclick="event.preventDefault(); localStorage.removeItem('token'); window.location.reload();">Log Out</a>
+      </div>
+      <div class="nav-right">
+        <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="nav-cta">
+          Talk to us
+        </a>
+      </div>
     </div>
   </nav>
 
   <!-- HERO -->
-  <section class="tech-hero"
-    style="text-align: center; display: flex; flex-direction: column; align-items: center; max-width: var(--maxw); margin: 0 auto; padding: 100px 24px 60px;">
-    <div style="width: 100%;">
-      <h1
-        style="font-family: 'Red Hat Display', sans-serif; font-size: clamp(48px, 6.5vw, 72px); font-weight: 400; line-height: 1.8; margin-bottom: 24px; color: var(--ink); text-align: center; letter-spacing: -0.04em;">
-        AI-Integrated Tech School Programs<br><span style="color: var(--blue);">Built for</span> Real Careers.
-      </h1>
+  <section class="tech-hero" id="techHero"
+    style="position: relative; text-align: left; display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #020617; width: 100%; max-width: 100%; padding: 100px 40px 40px; overflow: hidden;">
+    <canvas id="heroLightBlueCanvas" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1;"></canvas>
+    <div style="position: absolute; inset: 0; background: radial-gradient(circle at 75% 50%, rgba(56, 189, 248, 0.38) 0%, rgba(56, 189, 248, 0.12) 45%, rgba(2, 6, 23, 0.92) 80%); pointer-events: none; z-index: 2;"></div>
+    
+    <div style="position: relative; z-index: 3; max-width: 1320px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1.4fr 0.6fr; gap: 20px; align-items: center;">
+      <!-- Left Column: Heading & Copy (Vertically Centered, Exactly 2 Lines) -->
+      <div style="max-width: 820px; text-align: left; display: flex; flex-direction: column; justify-content: center; align-items: flex-start;">
+        <span style="font-size: 13px; font-weight: 700; letter-spacing: 0.22em; color: #38BDF8; text-transform: uppercase; margin-bottom: 20px; display: inline-block;">EXPLORE TECH PATHWAYS</span>
+        <h1
+          style="font-family: 'Red Hat Display', sans-serif; font-size: clamp(28px, 3.6vw, 46px); font-weight: 400; line-height: 1.22; color: #ffffff; text-align: left; letter-spacing: -0.02em; margin-bottom: 24px; max-width: 100%;">
+          AI-Integrated Tech School Programs<br><span style="color: #38BDF8;">Built for</span> Real Careers.
+        </h1>
+        <p style="font-size: clamp(15px, 1.5vw, 18px); color: rgba(226, 232, 240, 0.82); line-height: 1.65; margin: 0 0 32px 0; padding: 0; text-align: left; max-width: 620px;">
+          Hands-on, industry-mentored programs taking you from coding fundamentals to a job-ready, AI-fluent developer in six focused months.
+        </p>
+        <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+          <a href="#programs" style="display: inline-flex; align-items: center; gap: 10px; background: #1947FF; color: #FFFFFF; padding: 14px 32px; border-radius: 99px; font-size: 15px; font-weight: 700; text-decoration: none; box-shadow: 0 8px 30px rgba(25, 71, 255, 0.45);">
+            <span>Explore Programs ↓</span>
+          </a>
+          <a href="https://wa.me/918590886009" target="_blank" style="display: inline-flex; align-items: center; gap: 10px; background: rgba(255, 255, 255, 0.08); color: #FFFFFF; border: 1px solid rgba(255, 255, 255, 0.2); padding: 14px 32px; border-radius: 99px; font-size: 15px; font-weight: 600; text-decoration: none; backdrop-filter: blur(10px);">
+            <span>Talk to us</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Right Column: Showcase area for vibrant animation -->
+      <div style="pointer-events: none; min-height: 300px;"></div>
     </div>
   </section>
 
@@ -773,15 +846,245 @@
       </p>
     </footer>
 
+  <!-- Reusable Auth Modal for School Pages -->
+  <script src="js/auth-modal.js"></script>
+  <!-- TECH & AI NEURAL CONSTELLATION + FLOATING CODE STREAM (Light Blue Theme) -->
   <script>
-    function checkAuthAndGoToCourse(event, url) {
-      event.preventDefault();
-      if (localStorage.getItem('token')) {
-        window.location.href = url;
-      } else {
-        window.location.href = 'index.html#auth-redirect=' + url;
+    (function () {
+      const canvas = document.getElementById('heroLightBlueCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      let width = 0;
+      let height = 0;
+      let dpr = window.devicePixelRatio || 1;
+
+      function resize() {
+        const rect = canvas.parentElement.getBoundingClientRect();
+        width = rect.width;
+        height = rect.height;
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        ctx.scale(dpr, dpr);
       }
-    }
+
+      window.addEventListener('resize', resize);
+      resize();
+
+      // Mouse tracking
+      const mouse = { x: -1000, y: -1000, radius: 220 };
+      window.addEventListener('mousemove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+      });
+      window.addEventListener('mouseleave', () => {
+        mouse.x = -1000;
+        mouse.y = -1000;
+      });
+
+      // 1. High-Contrast Neon Tech Neural Nodes (Exclusively Right Side: 52% to 100% width)
+      const nodeCount = 75;
+      const nodes = [];
+      const colors = ['#00F0FF', '#38BDF8', '#60A5FA', '#93C5FD', '#FFFFFF'];
+
+      for (let i = 0; i < nodeCount; i++) {
+        const minX = width * 0.52;
+        const maxX = width - 20;
+
+        nodes.push({
+          x: minX + Math.random() * (maxX - minX),
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.75,
+          vy: (Math.random() - 0.5) * 0.75,
+          minX: minX,
+          maxX: maxX,
+          radius: Math.random() * 3.5 + 2.2,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          pulse: Math.random() * Math.PI * 2
+        });
+      }
+
+      // 2. High-Visibility Floating Tech Code Tokens (Exclusively Right Side: 54% to 96% width)
+      const tokensList = ['<AI/>', '{ }', '0101', 'Python', 'Java', 'React', '=>', 'n8n', '[ ]', 'SELECT', 'torch', '// DEV', 'import', 'GenAI', 'SQL', '1010', 'Docker', 'Kubernetes'];
+      const codeParticles = [];
+      const particleCount = 26;
+
+      for (let i = 0; i < particleCount; i++) {
+        const minX = width * 0.54;
+        const maxX = width - 40;
+
+        codeParticles.push({
+          text: tokensList[i % tokensList.length],
+          x: minX + Math.random() * (maxX - minX),
+          y: Math.random() * height,
+          vy: - (0.35 + Math.random() * 0.65),
+          vx: (Math.random() - 0.5) * 0.3,
+          minX: minX,
+          maxX: maxX,
+          fontSize: Math.floor(Math.random() * 5) + 12,
+          opacity: 0.45 + Math.random() * 0.45,
+          color: colors[i % colors.length],
+          wobble: Math.random() * Math.PI * 2
+        });
+      }
+
+      // 3. Traveling Energy Synapse Pulses
+      const pulses = [];
+      for (let p = 0; p < 16; p++) {
+        pulses.push({
+          progress: Math.random(),
+          speed: 0.006 + Math.random() * 0.01,
+          fromIndex: Math.floor(Math.random() * nodeCount),
+          toIndex: Math.floor(Math.random() * nodeCount)
+        });
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, width, height);
+
+        // A. Draw High-Visibility Floating Code Tokens
+        codeParticles.forEach(p => {
+          p.y += p.vy;
+          p.x += p.vx + Math.sin(p.y * 0.02) * 0.2;
+          if (p.y < -25) { p.y = height + 25; p.x = p.minX + Math.random() * (p.maxX - p.minX); }
+          if (p.x < p.minX - 25 || p.x > p.maxX + 25) p.x = p.minX + Math.random() * (p.maxX - p.minX);
+
+          ctx.save();
+          ctx.font = `700 ${p.fontSize}px "JetBrains Mono", monospace`;
+          ctx.fillStyle = p.color;
+          ctx.globalAlpha = p.opacity;
+          ctx.shadowBlur = 14;
+          ctx.shadowColor = p.color;
+          ctx.fillText(p.text, p.x, p.y);
+          ctx.restore();
+        });
+
+        // B. Update & Draw Glowing Tech Neural Nodes
+        nodes.forEach(n => {
+          n.x += n.vx;
+          n.y += n.vy;
+
+          if (n.x < n.minX || n.x > n.maxX) n.vx *= -1;
+          if (n.y < 0 || n.y > height) n.vy *= -1;
+
+          n.pulse += 0.04;
+          const currentRadius = n.radius + Math.sin(n.pulse) * 0.8;
+
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, Math.max(1.5, currentRadius), 0, Math.PI * 2);
+          ctx.fillStyle = n.color;
+          ctx.shadowBlur = 16;
+          ctx.shadowColor = n.color;
+          ctx.globalAlpha = 0.95;
+          ctx.fill();
+          ctx.restore();
+        });
+
+        // C. Connect Tech Neural Nodes with Vibrant Light Blue Energy Beams
+        const maxDist = 165;
+        for (let i = 0; i < nodes.length; i++) {
+          for (let j = i + 1; j < nodes.length; j++) {
+            const dx = nodes[i].x - nodes[j].x;
+            const dy = nodes[i].y - nodes[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < maxDist) {
+              const alpha = (1 - dist / maxDist) * 0.58;
+              ctx.save();
+              ctx.beginPath();
+              ctx.moveTo(nodes[i].x, nodes[i].y);
+              ctx.lineTo(nodes[j].x, nodes[j].y);
+              ctx.strokeStyle = '#38BDF8';
+              ctx.shadowBlur = 12;
+              ctx.shadowColor = '#38BDF8';
+              ctx.globalAlpha = alpha;
+              ctx.lineWidth = 1.3;
+              ctx.stroke();
+              ctx.restore();
+            }
+          }
+
+          // D. Interactive Gravitational Beam to Mouse Position
+          if (mouse.x > 0) {
+            const mdx = nodes[i].x - mouse.x;
+            const mdy = nodes[i].y - mouse.y;
+            const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+
+            if (mdist < mouse.radius) {
+              const malpha = (1 - mdist / mouse.radius) * 0.9;
+              ctx.save();
+              ctx.beginPath();
+              ctx.moveTo(nodes[i].x, nodes[i].y);
+              ctx.lineTo(mouse.x, mouse.y);
+              ctx.strokeStyle = '#00F0FF';
+              ctx.shadowBlur = 20;
+              ctx.shadowColor = '#00F0FF';
+              ctx.globalAlpha = malpha;
+              ctx.lineWidth = 2.0;
+              ctx.stroke();
+              ctx.restore();
+            }
+          }
+        }
+
+        // E. Render Traveling Electrical Synapse Pulses
+        pulses.forEach(p => {
+          p.progress += p.speed;
+          if (p.progress > 1) {
+            p.progress = 0;
+            p.fromIndex = Math.floor(Math.random() * nodeCount);
+            p.toIndex = Math.floor(Math.random() * nodeCount);
+          }
+
+          const n1 = nodes[p.fromIndex];
+          const n2 = nodes[p.toIndex];
+          if (n1 && n2) {
+            const dx = n1.x - n2.x;
+            const dy = n1.y - n2.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < maxDist * 1.2) {
+              const px = n1.x + (n2.x - n1.x) * p.progress;
+              const py = n1.y + (n2.y - n1.y) * p.progress;
+
+              ctx.save();
+              ctx.beginPath();
+              ctx.arc(px, py, 3.5, 0, Math.PI * 2);
+              ctx.fillStyle = '#FFFFFF';
+              ctx.shadowBlur = 18;
+              ctx.shadowColor = '#00F0FF';
+              ctx.globalAlpha = 0.95;
+              ctx.fill();
+              ctx.restore();
+            }
+          }
+        });
+
+        // F. Mouse Interactive Glowing Aura
+        if (mouse.x > 0) {
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(mouse.x, mouse.y, 6, 0, Math.PI * 2);
+          ctx.fillStyle = '#00F0FF';
+          ctx.shadowBlur = 24;
+          ctx.shadowColor = '#00F0FF';
+          ctx.fill();
+
+          ctx.beginPath();
+          ctx.arc(mouse.x, mouse.y, 35, 0, Math.PI * 2);
+          ctx.strokeStyle = 'rgba(56, 189, 248, 0.35)';
+          ctx.lineWidth = 1;
+          ctx.stroke();
+          ctx.restore();
+        }
+
+        requestAnimationFrame(draw);
+      }
+
+      draw();
+    })();
   </script>
   <script>
     document.addEventListener("DOMContentLoaded", function() {

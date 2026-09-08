@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Inconsolata:wght@400;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Inconsolata:wght@400;700&family=Open+Sans:wght@300;400;500;600;700&display=swap"
     rel="stylesheet" />
 
   <style>
@@ -37,10 +37,13 @@
     h1, h2, h3, h4, h5, h6 { font-family: 'Plus Jakarta Sans', sans-serif !important; }
     
     .nav { position: sticky; top: 0; z-index: 100; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--line-soft); }
-    .nav-inner { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+    .nav-inner { max-width: 100%; margin: 0 auto; padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+    .nav-left, .nav-right { display: flex; align-items: center; flex: 1; }
+    .nav-left { justify-content: flex-start; }
+    .nav-right { justify-content: flex-end; }
     .brand img { height: 36px; display: block; }
-    .brand { text-decoration: none; margin-right: auto; }
-    .nav-links { display: flex; align-items: center; gap: 32px; }
+    .brand { text-decoration: none; }
+    .nav-links { display: flex; align-items: center; justify-content: center; gap: 32px; }
     .nav-links a { font-size: 14px; font-weight: 500; color: var(--ink-mute); text-decoration: none; transition: color 0.2s; }
     .nav-links a:hover { color: var(--ink); }
     .nav-cta { display: inline-flex; align-items: center; gap: 8px; background: var(--ink); color: #fff; font-size: 14px; font-weight: 600; padding: 10px 20px; border-radius: 99px; text-decoration: none; transition: background 0.2s, transform 0.2s; }
@@ -50,6 +53,21 @@
     
     .btn-primary { display: inline-flex; align-items: center; justify-content: center; background: var(--blue); color: #fff; padding: 14px 28px; border-radius: 99px; text-decoration: none; font-weight: 600; transition: all 0.2s; }
     .btn-primary:hover { background: var(--blue-deep); transform: translateY(-2px); }
+
+    .hero-title {
+      font-family: 'Open Sans', sans-serif !important;
+      font-size: clamp(32px, 5.2vw, 64px);
+      font-weight: 300 !important;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 24px;
+      color: var(--ink);
+    }
+    @media (min-width: 600px) {
+      .hero-title {
+        white-space: nowrap;
+      }
+    }
 
     .site-footer { text-align: center; padding: 40px 20px; background: #fff; font-size: 14px; color: var(--ink-mute); border-top: 1px solid var(--line-soft); }
     .site-footer a { color: var(--blue); text-decoration: none; font-weight: 500; }
@@ -74,17 +92,22 @@
   <!-- NAV -->
   <nav class="nav">
     <div class="nav-inner">
-      <a href="index.html" class="brand">
-        <img src="kompetenzen logo-02.png" alt="Kompetenzen Logo" />
-      </a>
+      <div class="nav-left">
+        <a href="/" class="brand">
+          <img src="kompetenzen logo-02.png" alt="Kompetenzen" />
+        </a>
+      </div>
       <div class="nav-links">
-        <a href="tech-school.html">Tech School</a>
+        <a href="career-consulting.html">Consulting</a>
         <a href="finishing-school.html">Finishing School</a>
+        <a href="tech-school.html">Tech School</a>
         <a href="b-school.html">B-School</a>
       </div>
-      <a href="index.html" class="nav-cta">
-        Home
-      </a>
+      <div class="nav-right">
+        <a href="/" class="nav-cta">
+          Home
+        </a>
+      </div>
     </div>
   </nav>
 
@@ -93,8 +116,8 @@
     <div style="max-width: 800px; margin: 0 auto; position: relative; z-index: 2;">
       <span style="display: inline-block; background: #fff; border: 1px solid var(--line-soft); color: var(--blue); padding: 6px 16px; border-radius: 99px; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 24px;">Talent Hunt 2026</span>
       
-      <h1 style="font-size: clamp(48px, 6vw, 72px); font-weight: 800; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 24px; color: var(--ink);">
-        Find The Right <em style="color: var(--blue); font-style: normal;">Talent Hunt</em>
+      <h1 class="hero-title">
+        Find The Right Talent Hunt
       </h1>
       
       <p style="font-size: clamp(18px, 2vw, 22px); line-height: 1.5; color: var(--ink-mute); margin-bottom: 40px; max-width: 640px; margin-left: auto; margin-right: auto;">
@@ -133,6 +156,28 @@
       <a href="https://wa.me/918590886009" target="_blank" rel="noopener">Contact us via WhatsApp</a>
     </p>
   </footer>
+
+  <!-- Lenis smooth scroll -->
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script>
+    const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (!isMobile) {
+      window.lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+      const lenis = window.lenis;
+      function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
+      requestAnimationFrame(raf);
+
+      document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+          const id = a.getAttribute('href');
+          if (id.length > 1) {
+            const el = document.querySelector(id);
+            if (el) { e.preventDefault(); lenis.scrollTo(el, { offset: -60, duration: 1.4 }); }
+          }
+        });
+      });
+    }
+  </script>
 
 </body>
 </html>

@@ -1,0 +1,809 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Reels Admin — Manage Instagram Reels | Kompetenzen</title>
+  <link rel="icon" type="image/png" href="icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+
+  <style>
+    :root {
+      --ink: #02050E;
+      --ink-2: #0D1630;
+      --ink-mute: #474F66;
+      --blue: #1947FF;
+      --blue-deep: #0E2EC9;
+      --blue-soft: #E8ECFF;
+      --cream: #FFFFFF;
+      --paper: #FFFFFF;
+      --line: rgba(10, 21, 48, .12);
+      --line-soft: rgba(10, 21, 48, .06);
+      --radius: 18px;
+      --maxw: 920px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+
+    html, body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.45;
+    }
+
+    /* NAV */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .nav-inner {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .brand {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blue); }
+
+    .nav-back {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink-mute);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+
+    .nav-back:hover { color: var(--ink); }
+
+    .internal-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(25,71,255,0.08);
+      border: 1px solid rgba(25,71,255,0.2);
+      color: var(--blue);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 99px;
+    }
+
+    /* MAIN WRAP */
+    .wrap {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 48px 24px 100px;
+    }
+
+    .page-head { margin-bottom: 32px; }
+
+    .page-head h1 {
+      font-size: clamp(26px, 4vw, 34px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+    }
+
+    .page-head p { color: var(--ink-mute); font-size: 14px; max-width: 580px; }
+
+    /* NOTICE */
+    .preview-notice {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      background: rgba(25,71,255,0.04);
+      border: 1px solid rgba(25,71,255,0.15);
+      border-radius: 14px;
+      padding: 16px 20px;
+      margin-bottom: 32px;
+    }
+
+    .preview-notice .icon {
+      flex-shrink: 0;
+      width: 20px; height: 20px;
+      color: var(--blue);
+      margin-top: 1px;
+    }
+
+    .preview-notice strong { color: var(--blue-deep); }
+    .preview-notice p { font-size: 13px; color: var(--ink-mute); line-height: 1.6; }
+
+    /* GATE SCREEN */
+    .gate-screen {
+      min-height: calc(100vh - 64px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .gate-card {
+      width: 100%;
+      max-width: 400px;
+      background: #fff;
+      border: 2px solid #000;
+      border-radius: var(--radius);
+      box-shadow: 8px 8px 0px rgba(0, 0, 0, 1);
+      padding: 36px;
+      text-align: center;
+    }
+
+    .gate-card .gate-icon {
+      width: 48px; height: 48px;
+      border-radius: 14px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+    }
+
+    .gate-card h2 { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
+    .gate-card p { font-size: 13px; color: var(--ink-mute); margin-bottom: 22px; line-height: 1.6; }
+
+    .gate-card .field { text-align: left; margin-bottom: 14px; }
+
+    .gate-error {
+      display: none;
+      font-size: 12.5px;
+      color: #B3261E;
+      background: rgba(179,38,30,0.08);
+      border: 1px solid rgba(179,38,30,0.2);
+      border-radius: 10px;
+      padding: 9px 14px;
+      margin-bottom: 14px;
+      text-align: left;
+    }
+
+    .gate-error.is-visible { display: block; }
+
+    /* FORM ELEMENTS */
+    .field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--ink-mute);
+      margin-bottom: 6px;
+    }
+
+    .field .req { color: var(--blue); }
+
+    .field input {
+      width: 100%;
+      font: inherit;
+      font-size: 14px;
+      color: var(--ink);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 11px 14px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .field input:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(25,71,255,0.12);
+    }
+
+    .field-hint { font-size: 12px; color: var(--ink-mute); margin-top: 5px; }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      background: var(--ink);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 13px 24px;
+      border-radius: 99px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .btn-primary:hover { background: var(--blue); transform: translateY(-1px); }
+
+    /* ADMIN FORM CARD */
+    .admin-card {
+      background: #fff;
+      border: 2px solid #000;
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 8px 8px 0px rgba(0, 0, 0, 1);
+      margin-bottom: 40px;
+    }
+
+    .admin-card h2 {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .form-grid { display: flex; flex-direction: column; gap: 16px; }
+
+    .form-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 6px;
+    }
+
+    .form-actions .btn-primary { width: auto; padding: 13px 28px; }
+
+    .save-status {
+      font-size: 13px;
+      color: #0D7E3E;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .save-status.is-visible { opacity: 1; }
+
+    /* REELS LIST */
+    .list-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .list-head h2 { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
+
+    .list-count {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--blue);
+      background: var(--blue-soft);
+      padding: 4px 12px;
+      border-radius: 99px;
+    }
+
+    .list-empty {
+      border: 1px dashed var(--line);
+      border-radius: 16px;
+      padding: 36px 24px;
+      text-align: center;
+      color: var(--ink-mute);
+      font-size: 14px;
+    }
+
+    .reels-list-container { display: flex; flex-direction: column; gap: 14px; }
+
+    .reel-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px 20px;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    }
+
+    .reel-item.dragging {
+      opacity: 0.4;
+      border: 1.5px dashed var(--blue);
+      background: var(--blue-soft);
+    }
+
+    .reel-item.drag-over {
+      border-color: var(--blue);
+      box-shadow: 0 8px 24px rgba(25, 71, 255, 0.08);
+      transform: scale(1.005);
+    }
+
+    .drag-handle:hover {
+      opacity: 0.9 !important;
+      color: var(--blue);
+    }
+
+    .reel-item-main {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .reel-thumbnail {
+      width: 50px;
+      height: 70px;
+      border-radius: 8px;
+      background: #02050E;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 18px;
+      flex-shrink: 0;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .reel-details {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .reel-details h3 {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+
+    .reel-details .link {
+      font-size: 13px;
+      color: var(--blue);
+      text-decoration: none;
+      word-break: break-all;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .reel-details .link:hover { text-decoration: underline; }
+
+    .reel-details .id-badge {
+      display: inline-flex;
+      align-self: flex-start;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      background: var(--line-soft);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--ink-mute);
+    }
+
+    .reel-controls {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .reel-control-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink-mute);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .reel-control-btn:hover:not(:disabled) {
+      border-color: var(--blue);
+      color: var(--blue);
+      background: var(--blue-soft);
+    }
+
+    .reel-control-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .reel-control-btn.reel-remove:hover {
+      border-color: #B3261E;
+      color: #B3261E;
+      background: rgba(179,38,30,0.06);
+    }
+
+    @media (max-width: 640px) {
+      .reel-item { flex-direction: column; align-items: stretch; }
+      .reel-controls { justify-content: flex-end; }
+      .form-actions { flex-direction: column; align-items: stretch; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="brand"><span class="dot"></span>Kompetenzen / Media Manager</a>
+      <a href="index.html" class="nav-back">← Back to Homepage</a>
+    </div>
+  </nav>
+
+  <!-- STAFF GATE -->
+  <div class="gate-screen" id="gate-screen">
+    <div class="gate-card">
+      <div class="gate-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <h2>Staff access</h2>
+      <p>This page is for Kompetenzen staff only. Enter the staff access key to continue.</p>
+      <p class="gate-error" id="gate-error">That key isn't recognised. Please check with your team lead and try again.</p>
+      <form id="gate-form">
+        <div class="field">
+          <label for="gate-key">Staff access key <span class="req">*</span></label>
+          <input id="gate-key" type="password" autocomplete="off" placeholder="Enter access key" required />
+        </div>
+        <button class="btn-primary" type="submit">Unlock →</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ADMIN MAIN (hidden until gate passes) -->
+  <main class="wrap" id="admin-main" style="display:none;">
+    <div class="page-head">
+      <span class="internal-tag">Internal · Media Admin</span>
+      <h1 style="margin-top:14px;">Manage Instagram Reels</h1>
+      <p>Configure and reorder the Instagram reels displayed in the "Our Services" carousel on the homepage.</p>
+    </div>
+
+    <!-- FORM -->
+    <section class="admin-card">
+      <h2>Add a New Instagram Reel</h2>
+      <form class="form-grid" id="reel-form" novalidate>
+        <div class="field">
+          <label for="f-url">Instagram Reel Link / URL <span class="req">*</span></label>
+          <input id="f-url" type="url" placeholder="e.g. https://www.instagram.com/reel/DYZbuipRpnn/" required />
+          <p class="field-hint">Paste the full Instagram reel share URL or simply copy-paste the shortcode (e.g., DYZbuipRpnn).</p>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn-primary" type="submit">Add Reel to List →</button>
+          <span class="save-status" id="save-status">✓ Reels list saved</span>
+        </div>
+      </form>
+    </section>
+
+    <!-- ACTIVE REELS -->
+    <section class="admin-card" style="box-shadow: 6px 6px 0px rgba(0, 0, 0, 1);">
+      <div class="list-head">
+        <h2>Active Reels Carousel</h2>
+        <span class="list-count" id="list-count">0 reels</span>
+      </div>
+      <div id="list-empty" class="list-empty">No reels added yet. The homepage will display the defaults.</div>
+      <div id="reels-list" class="reels-list-container"></div>
+    </section>
+  </main>
+
+  <script>
+    /* =============================================
+       STAFF GATE
+    ============================================= */
+    (function () {
+      const STAFF_KEY = 'kompadmin';
+      const SESSION_FLAG = 'kompetenzen_hr_staff_unlocked';
+
+      const gateScreen = document.getElementById('gate-screen');
+      const adminMain = document.getElementById('admin-main');
+      const gateForm = document.getElementById('gate-form');
+      const gateInput = document.getElementById('gate-key');
+      const gateError = document.getElementById('gate-error');
+
+      function unlock() {
+        gateScreen.style.display = 'none';
+        adminMain.style.display = 'block';
+        sessionStorage.setItem(SESSION_FLAG, '1');
+      }
+
+      if (sessionStorage.getItem(SESSION_FLAG) === '1') {
+        unlock();
+      }
+
+      gateForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const value = gateInput.value.trim();
+
+        if (value === STAFF_KEY) {
+          gateError.classList.remove('is-visible');
+          unlock();
+        } else {
+          gateError.classList.add('is-visible');
+          gateInput.select();
+        }
+      });
+    })();
+
+    /* =============================================
+       REELS MANAGER LOGIC
+    ============================================= */
+    (function () {
+      const STORE_KEY = 'kompetenzen_instagram_reels';
+      
+      // Default 9 reels in system
+      const defaultReels = [
+        "DYZbuipRpnn",
+        "DX1XSgJxTSv",
+        "DXof1vKEXtg",
+        "DUvD3YyAXMs",
+        "DWyYhVxEVwh",
+        "DVdrcfwEWwm",
+        "DVGJFp6k9ms",
+        "DV-2VmpkRqx",
+        "DShyAAskVmw"
+      ];
+
+      const form = document.getElementById('reel-form');
+      const input = document.getElementById('f-url');
+      const status = document.getElementById('save-status');
+      const list = document.getElementById('reels-list');
+      const empty = document.getElementById('list-empty');
+      const count = document.getElementById('list-count');
+
+      async function loadReels() {
+        if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
+          try {
+            const { data, error } = await supabaseClient
+              .from('reels')
+              .select('*')
+              .order('sort_order', { ascending: true });
+            if (!error && data && data.length > 0) {
+              const list = data.map(r => r.reel_id);
+              localStorage.setItem(STORE_KEY, JSON.stringify(list));
+              return list;
+            }
+          } catch (e) {
+            console.warn("Supabase reels fetch error:", e);
+          }
+        }
+        try {
+          const stored = localStorage.getItem(STORE_KEY);
+          return stored ? JSON.parse(stored) : [...defaultReels];
+        } catch {
+          return [...defaultReels];
+        }
+      }
+
+      function loadLocal() {
+        try {
+          const stored = localStorage.getItem(STORE_KEY);
+          return stored ? JSON.parse(stored) : [...defaultReels];
+        } catch {
+          return [...defaultReels];
+        }
+      }
+
+      async function save(reels) {
+        localStorage.setItem(STORE_KEY, JSON.stringify(reels));
+        showSaveStatus();
+
+        if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
+          try {
+            // Sync order & reels array to Supabase
+            await supabaseClient.from('reels').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+            const insertRows = reels.map((rId, idx) => ({ reel_id: rId, sort_order: idx }));
+            await supabaseClient.from('reels').insert(insertRows);
+          } catch (e) {
+            console.warn("Cloud reels save error:", e);
+          }
+        }
+      }
+
+      function showSaveStatus() {
+        status.classList.add('is-visible');
+        setTimeout(() => {
+          status.classList.remove('is-visible');
+        }, 2000);
+      }
+
+      function extractReelId(url) {
+        url = url.trim();
+        if (!url) return '';
+        // If it's already just the shortcode
+        if (!url.includes('/') && url.length > 5) return url;
+        
+        // Match /reel/SHORTCODE or /p/SHORTCODE
+        const matches = url.match(/\/reel\/([A-Za-z0-9_-]+)/) || url.match(/\/p\/([A-Za-z0-9_-]+)/);
+        return matches ? matches[1] : '';
+      }
+
+      let draggedIndex = null;
+
+      function setupDragAndDrop(item) {
+        item.addEventListener('dragstart', (e) => {
+          draggedIndex = parseInt(item.getAttribute('data-index'));
+          item.classList.add('dragging');
+          e.dataTransfer.effectAllowed = 'move';
+        });
+
+        item.addEventListener('dragend', () => {
+          item.classList.remove('dragging');
+          document.querySelectorAll('.reel-item').forEach(el => {
+            el.classList.remove('drag-over');
+          });
+          draggedIndex = null;
+        });
+
+        item.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = 'move';
+          const target = e.target.closest('.reel-item');
+          if (target && parseInt(target.getAttribute('data-index')) !== draggedIndex) {
+            target.classList.add('drag-over');
+          }
+        });
+
+        item.addEventListener('dragleave', (e) => {
+          const target = e.target.closest('.reel-item');
+          if (target) {
+            target.classList.remove('drag-over');
+          }
+        });
+
+        item.addEventListener('drop', async (e) => {
+          e.preventDefault();
+          const target = e.target.closest('.reel-item');
+          if (!target) return;
+          
+          const targetIndex = parseInt(target.getAttribute('data-index'));
+          if (draggedIndex === null || draggedIndex === targetIndex) return;
+
+          const reels = loadLocal();
+          const draggedItem = reels[draggedIndex];
+          
+          reels.splice(draggedIndex, 1);
+          reels.splice(targetIndex, 0, draggedItem);
+          
+          await save(reels);
+          await render();
+        });
+      }
+
+      async function render() {
+        const reels = await loadReels();
+        count.textContent = reels.length + (reels.length === 1 ? ' reel' : ' reels');
+        empty.style.display = reels.length ? 'none' : 'block';
+        list.innerHTML = '';
+
+        reels.forEach((reelId, index) => {
+          const item = document.createElement('article');
+          item.className = 'reel-item';
+          item.setAttribute('draggable', 'true');
+          item.setAttribute('data-index', index);
+
+          item.innerHTML = `
+            <div class="drag-handle" title="Drag to reorder" style="cursor: grab; color: var(--ink-mute); margin-right: 12px; display: flex; align-items: center; align-self: stretch; opacity: 0.4; transition: opacity 0.2s;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="9" cy="5" r="1.5"/>
+                <circle cx="9" cy="12" r="1.5"/>
+                <circle cx="9" cy="19" r="1.5"/>
+                <circle cx="15" cy="5" r="1.5"/>
+                <circle cx="15" cy="12" r="1.5"/>
+                <circle cx="15" cy="19" r="1.5"/>
+              </svg>
+            </div>
+            
+            <div class="reel-item-main">
+              <div class="reel-thumbnail">🎬</div>
+              <div class="reel-details">
+                <h3>Instagram Reel #${index + 1}</h3>
+                <span class="id-badge">ID: ${reelId}</span>
+                <a class="link" href="https://www.instagram.com/reel/${reelId}/" target="_blank" rel="noopener">https://www.instagram.com/reel/${reelId}/</a>
+              </div>
+            </div>
+
+            <div class="reel-controls">
+              <button class="reel-control-btn reel-move-up" type="button" data-index="${index}" aria-label="Move up" ${index === 0 ? 'disabled' : ''}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+              </button>
+              <button class="reel-control-btn reel-move-down" type="button" data-index="${index}" aria-label="Move down" ${index === reels.length - 1 ? 'disabled' : ''}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <button class="reel-control-btn reel-remove" type="button" data-index="${index}" aria-label="Remove reel">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+              </button>
+            </div>
+          `;
+
+          setupDragAndDrop(item);
+          list.appendChild(item);
+        });
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const rawValue = input.value.trim();
+        if (!rawValue) return;
+
+        const reelId = extractReelId(rawValue);
+        if (!reelId) {
+          alert('Could not parse the Reel ID from the link. Please provide a valid Instagram link or shortcode.');
+          return;
+        }
+
+        const reels = loadLocal();
+        reels.push(reelId);
+        await save(reels);
+        input.value = '';
+        await render();
+      });
+
+      list.addEventListener('click', async (e) => {
+        const btn = e.target.closest('.reel-control-btn');
+        if (!btn) return;
+
+        const index = parseInt(btn.getAttribute('data-index'));
+        const reels = loadLocal();
+
+        if (btn.classList.contains('reel-remove')) {
+          if (confirm('Are you sure you want to remove this reel?')) {
+            reels.splice(index, 1);
+            await save(reels);
+            await render();
+          }
+        } else if (btn.classList.contains('reel-move-up')) {
+          if (index > 0) {
+            const temp = reels[index];
+            reels[index] = reels[index - 1];
+            reels[index - 1] = temp;
+            await save(reels);
+            await render();
+          }
+        } else if (btn.classList.contains('reel-move-down')) {
+          if (index < reels.length - 1) {
+            const temp = reels[index];
+            reels[index] = reels[index + 1];
+            reels[index + 1] = temp;
+            await save(reels);
+            await render();
+          }
+        }
+      });
+
+      render();
+    })();
+  </script>
+</body>
+</html>

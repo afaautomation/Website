@@ -1,0 +1,471 @@
+*,
+*::after,
+*::before {
+	box-sizing: border-box;
+}
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+@font-face {
+  font-family: "Coconat";
+  src: url("../fonts/Coconat-Regular.woff2") format("woff2");
+}
+
+:root {
+	font-size: 16px;
+	--color-text: #000;
+	--color-bg: #fff;
+	--color-link: #000;
+	--color-link-hover: #333;
+	--page-padding: 1rem 2rem;
+}
+
+body {
+	margin: 0;
+	color: var(--color-text);
+	background-color: var(--color-bg);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+/* Page Loader */
+.js .loading::before,
+.js .loading::after {
+	content: '';
+	position: fixed;
+	z-index: 1500;
+}
+
+.js .loading::before {
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: var(--color-bg);
+}
+
+.js .loading::after {
+	top: 50%;
+	left: 50%;
+	width: 60px;
+	height: 60px;
+	margin: -30px 0 0 -30px;
+	border-radius: 50%;
+	opacity: 0.4;
+	background: var(--color-link);
+	animation: loaderAnim 0.7s linear infinite alternate forwards;
+
+}
+
+@keyframes loaderAnim {
+	to {
+		opacity: 1;
+		transform: scale3d(0.5,0.5,1);
+	}
+}
+
+a {
+	text-decoration: none;
+	color: var(--color-link);
+	outline: none;
+	cursor: pointer;
+}
+
+a:hover {
+	text-decoration: underline;
+	color: var(--color-link-hover);
+	outline: none;
+}
+
+/* Better focus styles from https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-visible */
+a:focus {
+	/* Provide a fallback style for browsers
+	 that don't support :focus-visible */
+	outline: none;
+	background: lightgrey;
+}
+
+a:focus:not(:focus-visible) {
+	/* Remove the focus indicator on mouse-focus for browsers
+	 that do support :focus-visible */
+	background: transparent;
+}
+
+a:focus-visible {
+	/* Draw a very noticeable focus style for
+	 keyboard-focus on browsers that do support
+	 :focus-visible */
+	outline: 2px solid red;
+	background: transparent;
+}
+
+.unbutton {
+	background: none;
+	border: 0;
+	padding: 0;
+	margin: 0;
+	font: inherit;
+	cursor: pointer;
+}
+
+.unbutton:focus {
+	outline: none;
+}
+
+.frame {
+	opacity: 0.5;
+	padding: var(--page-padding);
+	text-transform: uppercase;
+	font-weight: 500;
+	position: relative;
+	display: grid;
+	z-index: 1000;
+	width: 100%;
+	margin-bottom: 7vh;
+	grid-row-gap: 1rem;
+	grid-column-gap: 2rem;
+	pointer-events: none;
+	justify-items: start;
+	grid-template-columns: 1fr;
+	grid-template-rows: auto;
+	grid-template-areas: 'title' 'archive' 'back' 'github' 'sponsor';
+}
+
+.frame #cdawrap {
+  max-width: 300px;
+  align-self: start;
+  text-align: left;
+  justify-self: start;
+}
+
+.frame a {
+  pointer-events: auto;
+}
+
+.frame__title {
+  grid-area: title;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+}
+
+.frame__back {
+  grid-area: back;
+  justify-self: start;
+}
+
+.frame__archive {
+  grid-area: archive;
+  justify-self: start;
+}
+
+.frame__github {
+  grid-area: github;
+}
+
+.content {
+	padding: var(--page-padding);
+	display: grid;
+	margin-bottom: 5vh;
+	gap: 2rem;
+	grid-template-columns: 100%;
+	grid-template-areas: 'meta' 'type' 'block';
+	grid-template-rows: auto auto auto;
+}
+
+.content:last-of-type {
+  padding-bottom: 10vh;
+}
+
+.meta {
+	grid-area: meta;
+	font-weight: 600;
+	margin-bottom: 5vh;
+	font-size: 13px;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	color: var(--blue, #1947FF);
+}
+
+.meta::before {
+	content: '\2014';
+	padding-right: 0.25rem;
+}
+
+.type {
+	grid-area: type;
+	font-family: "Coconat", serif;
+	margin: 0;
+	font-size: clamp(2rem,4.75vw,5rem);
+	text-transform: none;
+	line-height: 1.1;
+	font-weight: normal;
+	color: var(--ink, #02050E);
+}
+
+.type__expand {
+	vertical-align: middle;
+	display: inline-inline;
+}
+
+.type__expand--center {
+	display: block;
+}
+
+.type__expand--full {
+	display: block;
+}
+
+.type__expand--mini {
+	vertical-align: middle;
+	padding: 0 0.125em;
+}
+
+.type__expand--stack {
+	vertical-align: bottom;
+	grid-template-columns: 100%;
+	justify-items: center;
+}
+
+.type__expand--stack:has(.type__expand-img:first-child) {
+	vertical-align: top;
+}
+
+.type--open .type__expand {
+	gap: 1.5rem;
+}
+
+.type--open .type__expand--stack {
+	gap: 0.5rem;
+	padding: 0 0 1rem 0;
+}
+
+.type--open .type__expand--stack:has(.type__expand-img:first-child) {
+	padding: 1rem 0 0 0;
+}
+
+.type__expand-img {
+	display: inline-block;
+	vertical-align: middle;
+	position: relative;
+	aspect-ratio: 16/9;
+	width: 0%;
+	overflow: hidden;
+	border-radius: 2rem;
+}
+
+.type__expand-img-inner {
+	display: block;
+	width: 100%;
+	height: 100%;
+	background-size: cover;
+}
+
+.type__expand-img--center {
+	justify-self: center;
+	align-self: center;
+}
+
+.type__expand-img--small {
+	aspect-ratio: 1;
+}
+
+.type__expand-img--tiny {
+	aspect-ratio: 25/9;
+}
+
+.type__expand--reveal .type__expand-img-inner {
+	width: 100vw;
+	aspect-ratio: 16/9;
+}
+
+.type--open .type__expand-img {
+	width: 100%;
+}
+
+.type--open .type__expand-img--small {
+	width: 3.25em;
+}
+
+.type--open .type__expand-img--tiny {
+	width: 2em;
+}
+
+.anim {
+	display: inline-block;
+	white-space: nowrap;
+	vertical-align: baseline;
+}
+
+.type--open .skewed {
+	transform: skewX(-20deg);
+}
+
+.type--open .rotated {
+	transform: skewX(-5deg) rotateZ(-10deg);
+}
+
+.block {
+	grid-area: block;
+	margin-top: 2.5rem;
+	max-width: 580px;
+	line-height: 1.6;
+	font-size: 16px;
+	color: var(--ink-mute, #474F66);
+	font-family: "Inter", sans-serif;
+	text-transform: none;
+	font-weight: 400;
+	position: relative;
+	z-index: 5;
+}
+
+@media screen and (min-width: 53em) {
+	.frame {
+		grid-template-columns: auto auto auto auto 1fr;
+		grid-template-areas: 'title back archive github sponsor';
+		margin-bottom: 40vh;
+	}
+	.frame #cdawrap {
+	  text-align: right;
+	  justify-self: end;
+	}
+	.content--left {
+		grid-template-columns: 1fr;
+		grid-template-rows: auto auto auto auto;
+		grid-template-areas: 'meta' 'type' 'block' 'arrow';
+		row-gap: 1.5rem;
+		text-align: left;
+	}
+	.content--left .block {
+		margin-top: 2.5rem;
+		max-width: 580px;
+	}
+	.content--right {
+		grid-template-columns: 1fr;
+		grid-template-rows: auto auto auto auto;
+		grid-template-areas: 'meta' 'type' 'block' 'arrow';
+		row-gap: 1.5rem;
+		text-align: right;
+		justify-items: end;
+	}
+	.content--right .meta {
+		justify-self: end;
+	}
+	.content--right .type {
+		justify-self: end;
+		text-align: right;
+	}
+	.content--right .block {
+		margin-top: 2.5rem;
+		margin-left: auto;
+		max-width: 580px;
+		text-align: right;
+	}
+
+/* TRANSPARENT MOVE DOWN ARROW */
+.scroll-down-arrow {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 56px;
+	height: 56px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.65);
+	border: 1.5px solid rgba(25, 71, 255, 0.25);
+	color: var(--blue, #1947FF);
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	cursor: pointer;
+	transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+	box-shadow: 0 8px 24px rgba(25, 71, 255, 0.08);
+	z-index: 10;
+	position: relative;
+	margin-top: 1.5rem;
+	text-decoration: none !important;
+	animation: arrowBounce 2.2s ease-in-out infinite;
+}
+
+.scroll-down-arrow:hover {
+	background: var(--blue, #1947FF);
+	color: #ffffff;
+	border-color: var(--blue, #1947FF);
+	box-shadow: 0 12px 32px rgba(25, 71, 255, 0.25);
+	transform: translateY(4px);
+}
+
+.scroll-down-arrow svg {
+	width: 24px;
+	height: 24px;
+}
+
+.scroll-down-arrow--right {
+	grid-area: arrow;
+	justify-self: end;
+	margin-left: auto;
+}
+
+.scroll-down-arrow--left {
+	grid-area: arrow;
+	justify-self: start;
+	margin-right: auto;
+}
+
+@keyframes arrowBounce {
+	0%, 20%, 50%, 80%, 100% {
+		transform: translateY(0);
+	}
+	40% {
+		transform: translateY(8px);
+	}
+	60% {
+		transform: translateY(4px);
+	}
+}
+	.type__expand--inline {
+		display: inline-flex;
+		align-items: center;
+		vertical-align: middle;
+		margin-left: 0.3em;
+		max-height: 1.1em;
+	}
+	.type__expand--reveal .type__expand-img-inner {
+		width: 33vw;
+	}
+	.type__expand--center {
+		display: inline-grid;
+		gap: 0.15em;
+		justify-content: center;
+		grid-template-columns: auto auto auto;
+	}
+	.type--open .type__expand--center {
+		grid-template-columns: 1fr auto 1fr;
+	}
+	.type__expand--full {
+	  width: 100%;
+		grid-template-columns: 100%;
+	}
+  .type__expand--full .type__expand-img {
+    margin-left: auto;
+  }
+  .aright {
+		text-align: right;
+	}
+}

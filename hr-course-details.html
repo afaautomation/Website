@@ -4,30 +4,28 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>PG Diploma in HR — Kompetenzen</title>
+  <title>PG Diploma in HR & Operations Professional Certificate | Kompetenzen</title>
   <meta name="description"
-    content="Master Python backend development, React frontends, and integrate cutting-edge AI models into modern web applications." />
+    content="Master HR Management, Talent Acquisition, KEKA HRMS software, Statutory Compliance, Payroll, and AI HR Tools." />
   <link rel="icon" type="image/png" href="icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.cdnfonts.com/css/google-sans" rel="stylesheet" />
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
     rel="stylesheet" />
 
   <style>
     :root {
-      --ink: #02050E;
-      --ink-2: #0D1630;
-      --ink-mute: #474F66;
-      --blue: #1947FF;
-      --blue-deep: #0E2EC9;
-      --blue-soft: #E8ECFF;
-      --cream: #FFFFFF;
-      --paper: #FFFFFF;
-      --line: rgba(10, 21, 48, .12);
-      --line-soft: rgba(10, 21, 48, .06);
-      --radius: 18px;
-      --maxw: 1200px;
+      --primary-blue: #0056D2;
+      --primary-hover: #003B91;
+      --primary-soft: #F0F6FF;
+      --blue-border: #BFDBFE;
+      --bg-page: #FFFFFF;
+      --text-dark: #0F172A;
+      --text-muted: #475569;
+      --border-light: #E2E8F0;
+      --maxw: 1380px;
     }
 
     * {
@@ -37,49 +35,36 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    html,
-    body {
-      background: var(--cream);
-      color: var(--ink);
-      font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+    html, body {
+      background: #FFFFFF;
+      color: var(--text-dark);
+      font-family: "Google Sans", "Product Sans", "Plus Jakarta Sans", sans-serif;
       font-size: 16px;
-      line-height: 1.5;
+      line-height: 1.6;
+      scroll-behavior: smooth;
     }
 
-    body {
-      overflow-x: hidden;
-    }
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      font-family: 'Plus Jakarta Sans', sans-serif !important;
-    }
-
-    /* NAV */
-    .nav {
+    /* HEADER */
+    .header {
       position: sticky;
       top: 0;
-      z-index: 100;
-      background: #fff;
+      z-index: 1000;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border-light);
     }
 
-    .nav-inner {
-      max-width: 100%;
+    .header-inner {
+      max-width: var(--maxw);
       margin: 0 auto;
-      padding: 0 40px;
+      padding: 0 24px;
       height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 32px;
     }
 
     .brand img {
-      height: 36px;
+      height: 32px;
       display: block;
     }
 
@@ -92,290 +77,537 @@
     .nav-links a {
       font-size: 14px;
       font-weight: 500;
-      color: var(--ink-mute);
+      color: var(--text-dark);
       text-decoration: none;
       transition: color 0.2s;
     }
 
     .nav-links a:hover {
-      color: var(--ink);
+      color: var(--primary-blue);
     }
 
-    .nav-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--ink);
-      color: #fff;
-      font-size: 14px;
-      font-weight: 600;
-      padding: 10px 20px;
-      border-radius: 99px;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.2s;
-    }
-
-    .nav-cta:hover {
-      background: var(--blue);
-      transform: translateY(-1px);
-    }
-
-    /* COURSE HERO */
-    .course-hero {
-      background: #fff;
-      border-bottom: 1px solid var(--line-soft);
-      padding: 60px 24px;
-    }
-
-    .course-hero-inner {
-      max-width: var(--maxw);
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 380px;
-      gap: 60px;
-      align-items: center;
-    }
-
-    .breadcrumbs {
-      font-size: 14px;
-      color: var(--ink-mute);
-      margin-bottom: 24px;
-    }
-
-    .breadcrumbs a {
-      color: var(--blue);
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    .course-title {
-      font-size: clamp(32px, 5vw, 48px);
-      font-weight: 700;
-      color: var(--ink);
-      line-height: 1.1;
-      margin-bottom: 16px;
-      letter-spacing: -0.02em;
-    }
-
-    .course-subtitle {
-      font-size: 18px;
-      color: var(--ink-mute);
-      line-height: 1.6;
-      margin-bottom: 24px;
-      max-width: 600px;
-    }
-
-    .course-meta {
-      display: flex;
-      gap: 24px;
-      margin-bottom: 32px;
-      flex-wrap: wrap;
-    }
-
-    .meta-item {
+    .header-actions {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 14px;
-      color: var(--ink);
-      font-weight: 500;
+      gap: 12px;
     }
 
-    .meta-item svg {
-      color: var(--blue);
-    }
-
-    .enroll-btn {
+    .btn-outline {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      background: var(--blue);
-      color: #fff;
-      font-size: 16px;
+      padding: 8px 16px;
+      border: 1px solid var(--border-light);
+      border-radius: 6px;
+      font-size: 14px;
       font-weight: 600;
-      padding: 16px 32px;
-      border-radius: 8px;
+      color: var(--text-dark);
       text-decoration: none;
-      transition: background 0.2s;
-      width: 100%;
+      background: #FFFFFF;
+      transition: all 0.2s;
     }
 
-    .enroll-btn:hover {
-      background: var(--blue-deep);
+    .btn-outline:hover {
+      border-color: var(--primary-blue);
+      color: var(--primary-blue);
     }
 
-    .course-image {
-      width: 100%;
-      height: auto;
-      border-radius: 16px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-      border: 1px solid var(--line-soft);
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 20px;
+      background: var(--primary-blue);
+      color: #FFFFFF;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: none;
     }
 
-    /* COURSE BODY */
-    .course-body {
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    /* HERO SECTION */
+    .hero-section {
+      background: #FFFFFF;
+      padding: 48px 0 36px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .hero-inner {
       max-width: var(--maxw);
-      margin: 60px auto;
+      margin: 0 auto;
       padding: 0 24px;
+    }
+
+    .breadcrumb {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .breadcrumb a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      color: var(--primary-blue);
+    }
+
+    .program-tag {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary-blue);
+      background: var(--primary-soft);
+      border: 1px solid var(--blue-border);
+      padding: 4px 14px;
+      border-radius: 99px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 14px;
+    }
+
+    .hero-title {
+      font-size: 42px;
+      font-weight: 800;
+      color: var(--text-dark);
+      line-height: 1.15;
+      letter-spacing: -0.8px;
+      margin-bottom: 16px;
+    }
+
+    .hero-desc {
+      font-size: 19px;
+      color: var(--text-muted);
+      max-width: 840px;
+      line-height: 1.65;
+      margin-bottom: 28px;
+    }
+
+    /* SIMPLE META LINE */
+    .meta-line {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 28px;
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+
+    .meta-line span strong {
+      color: var(--primary-blue);
+      font-weight: 700;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-hero-main {
+      padding: 12px 28px;
+      font-size: 15px;
+    }
+
+    .btn-hero-secondary {
+      padding: 12px 24px;
+      font-size: 15px;
+    }
+
+    /* MAIN CONTAINER GRID */
+    .main-container {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 40px 24px 80px;
       display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 60px;
+      grid-template-columns: 1fr 340px;
+      gap: 56px;
+      align-items: start;
+    }
+
+    /* SECTIONS */
+    .content-section {
+      margin-bottom: 48px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .content-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
     }
 
     .section-title {
       font-size: 24px;
-      font-weight: 700;
+      font-weight: 800;
+      color: var(--text-dark);
       margin-bottom: 24px;
-      color: var(--ink);
+      letter-spacing: -0.4px;
+      border-left: 3px solid var(--primary-blue);
+      padding-left: 12px;
     }
 
-    /* SKILLS */
-    .skills-container {
-      background: #fff;
-      padding: 40px;
-      border-radius: 16px;
-      border: 1px solid var(--line-soft);
-      margin-bottom: 40px;
+    /* CLEAN HIGHLIGHTS LIST */
+    .highlights-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px 40px;
     }
 
-    .skills-list {
+    .highlight-item h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--primary-blue);
+      margin-bottom: 6px;
+    }
+
+    .highlight-item p {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* SKILLS CATEGORIES */
+    .skills-group {
+      margin-bottom: 20px;
+    }
+
+    .skills-group-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    .skills-flex {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 8px;
     }
 
-    .skill-tag {
-      background: var(--blue-soft);
-      color: var(--blue-deep);
-      padding: 8px 16px;
-      border-radius: 99px;
+    .skill-pill {
+      background: var(--primary-soft);
+      color: var(--text-dark);
+      border: 1px solid var(--blue-border);
       font-size: 14px;
       font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 6px;
     }
 
-    /* ABOUT / LEARN */
-    .learn-grid {
+    /* OUTCOMES LIST */
+    .outcomes-list {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      margin-bottom: 40px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px 32px;
     }
 
-    .learn-item {
+    .outcome-item {
+      font-size: 15.5px;
+      color: var(--text-dark);
+      line-height: 1.6;
       display: flex;
-      gap: 12px;
+      align-items: flex-start;
+      gap: 10px;
     }
 
-    .learn-item svg {
-      flex-shrink: 0;
-      color: var(--blue);
+    .outcome-item span.bullet {
+      color: var(--primary-blue);
+      font-weight: 800;
+    }
+
+    /* SIMPLIFIED PROFESSIONAL CURRICULUM */
+    .curriculum-container {
+      margin-top: 24px;
+    }
+
+    .curriculum-row {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 32px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .curriculum-row:first-child {
+      padding-top: 8px;
+    }
+
+    .curriculum-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .curriculum-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .module-num {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--primary-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .module-time {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .curriculum-body h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+    }
+
+    .curriculum-body p {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+
+    .curriculum-topics {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* PLACED STUDENTS SECTION */
+    .placed-students-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .student-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: all 0.25s ease;
+    }
+
+    .student-card:hover {
+      border-color: var(--primary-blue);
+      box-shadow: 0 10px 24px rgba(0, 86, 210, 0.08);
+      transform: translateY(-3px);
+    }
+
+    .student-photo {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--primary-soft);
+      margin-bottom: 14px;
+    }
+
+    .student-name {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 2px;
+    }
+
+    .student-role {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary-blue);
+      margin-bottom: 8px;
+    }
+
+    .student-company {
+      display: inline-block;
+      background: var(--primary-soft);
+      color: var(--text-dark);
+      border: 1px solid var(--blue-border);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 99px;
+      margin-bottom: 8px;
+    }
+
+    .student-badge {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .curriculum-topics strong {
+      color: var(--primary-blue);
+      font-weight: 700;
+    }
+
+    /* CLEAN SIDEBAR */
+    .sidebar-box {
+      background: #FFFFFF;
+      border: 1px solid var(--border-light);
+      border-radius: 10px;
+      padding: 32px;
+      position: sticky;
+      top: 90px;
+    }
+
+    .sidebar-badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--primary-blue);
+      background: var(--primary-soft);
+      border: 1px solid var(--blue-border);
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .sidebar-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+    }
+
+    .sidebar-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .sidebar-list {
+      list-style: none;
+      margin-bottom: 24px;
+    }
+
+    .sidebar-list li {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sidebar-list li span.check {
+      color: var(--primary-blue);
+      font-weight: 800;
+    }
+
+    .sidebar-btn-main {
+      width: 100%;
+      padding: 12px;
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
+
+    .sidebar-btn-wa {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+    }
+
+    .sidebar-contact {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-light);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .sidebar-contact strong {
+      color: var(--primary-blue);
+      display: block;
       margin-top: 2px;
     }
 
-    .learn-item p {
-      font-size: 15px;
-      color: var(--ink-mute);
-    }
-
-    /* SYLLABUS */
-    .syllabus-module {
-      border: 1px solid var(--line-soft);
-      border-radius: 12px;
-      padding: 24px;
-      margin-bottom: 16px;
-      background: #fff;
-      transition: box-shadow 0.2s;
-    }
-
-    .syllabus-module:hover {
-      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-    }
-
-    .module-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-    }
-
-    .module-title {
-      font-size: 18px;
-      font-weight: 600;
-      color: var(--ink);
-    }
-
-    .module-meta {
-      font-size: 13px;
-      color: var(--ink-mute);
-      margin-top: 4px;
-    }
-
-    .module-content {
-      margin-top: 16px;
-      padding-top: 16px;
-      border-top: 1px solid var(--line-soft);
-      font-size: 14px;
-      color: var(--ink-mute);
-    }
-
-    /* SIDEBAR */
-    .sidebar-widget {
-      background: #fff;
-      border: 1px solid var(--line-soft);
-      border-radius: 16px;
-      padding: 32px;
-      position: sticky;
-      top: 100px;
-    }
-
-    .widget-title {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 16px;
-    }
-
-    .widget-feature {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
-      font-size: 14px;
-      color: var(--ink-mute);
-    }
-
-    .widget-feature svg {
-      color: var(--ink);
-    }
-
     /* FOOTER */
-    .site-footer {
-      background: var(--ink);
-      color: #fff;
-      padding: 60px 24px;
+    footer {
+      background: #FFFFFF;
+      color: var(--text-muted);
+      font-size: 13px;
+      padding: 32px 0;
       text-align: center;
-      font-size: 14px;
+      border-top: 1px solid var(--border-light);
     }
 
-    .site-footer a {
-      color: var(--blue-soft);
-      text-decoration: none;
+    /* BACK TO TOP BUTTON */
+    .scroll-top-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 40px;
+      height: 40px;
+      background: var(--primary-blue);
+      color: #FFFFFF;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+      border: none;
     }
 
-    @media (max-width: 900px) {
+    .scroll-top-btn.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 992px) {
+      .main-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .sidebar-box {
+        position: static;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero-title {
+        font-size: 30px;
+      }
+
+      .highlights-grid, .outcomes-list, .curriculum-row {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .meta-line {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
       .nav-links {
         display: none;
-      }
-      .nav-inner {
-        padding: 0 20px;
-      }
-      .course-hero-inner {
-        grid-template-columns: 1fr;
-      }
-      .course-body {
-        grid-template-columns: 1fr;
-      }
-      .learn-grid {
-        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -383,207 +615,350 @@
 
 <body>
 
-  <!-- NAV -->
-  <nav class="nav">
-    <div class="nav-inner">
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-inner">
       <a href="index.html" class="brand">
-        <img src="kompetenzen logo-02.png" alt="Kompetenzen Logo">
+        <img src="kompetenzen logo-02.png" alt="Kompetenzen Logo" loading="lazy" decoding="async" />
       </a>
+
       <div class="nav-links">
+        <a href="b-school.html">B-School</a>
         <a href="tech-school.html">Tech School</a>
         <a href="finishing-school.html">Finishing School</a>
-        <a href="index.html#contact" class="nav-cta">Contact Us</a>
+        <a href="placements.html">Placements</a>
+        <a href="our-story.html">Our Story</a>
+        <a href="jobs.html">Jobs</a>
+      </div>
+
+      <div class="header-actions">
+        <a href="https://wa.me/918590886009" target="_blank" class="btn-outline">Contact Us</a>
+        <a href="enroll.html?course=hr" class="btn-primary">Enroll Now</a>
       </div>
     </div>
-  </nav>
+  </header>
 
-  <!-- COURSE HERO -->
-  <section class="course-hero">
-    <div class="course-hero-inner">
-      <div>
-        <div class="breadcrumbs">
-          <a href="index.html">Home</a> &rsaquo; <a href="b-school.html">B-School</a> &rsaquo; PG Diploma in HR
-        </div>
-        <h1 class="course-title">PG Diploma in Human Resource Management</h1>
-        <p class="course-subtitle">Accelerate Your HR Career: The 6-Month Transformation Roadmap. Transforming Freshers into Corporate Ready HR Professional Leaders.</p>
-        
-        <div class="course-meta">
-          <div class="meta-item">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-            </svg>
-            6 Months
-          </div>
-          <div class="meta-item">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-            </svg>
-            ★★★★★ (500+ Students)
-          </div>
-          <div class="meta-item">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-              <line x1="8" y1="21" x2="16" y2="21"></line>
-              <line x1="12" y1="17" x2="12" y2="21"></line>
-            </svg>
-            Offline and Online
-          </div>
-        </div>
+  <!-- HERO SECTION -->
+  <section class="hero-section">
+    <div class="hero-inner">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a> &rsaquo; <a href="b-school.html">B-School</a> &rsaquo; PG Diploma in HR & Operations
       </div>
-      <div>
-        <div class="sidebar-widget" style="margin-top: 0;">
-          <h3 class="widget-title">Start your career in HR</h3>
-          <p style="font-size: 14px; color: var(--ink-mute); margin-bottom: 24px;">Enroll now to get access to industry experts, live projects, and 100% placement assistance.</p>
-          <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen,%20I%20am%20interested%20in%20the%20PG%20Diploma%20in%20HR%20program." target="_blank" class="enroll-btn">
-            Enquire via WhatsApp
-          </a>
-          <div style="margin-top: 16px; text-align: center; font-size: 13px; color: var(--ink-mute);">
-            Seats fill up fast. Apply early!
-          </div>
-        </div>
+
+      <div class="program-tag">Professional Certificate</div>
+
+      <h1 class="hero-title">PG Diploma in HR & Operations</h1>
+      <p class="hero-desc">
+        Master Strategic Human Resource Management, Talent Acquisition, KEKA HRMS software, Statutory Compliance, Payroll processing, and AI HR productivity tools.
+      </p>
+
+      <div class="meta-line">
+        <span>Next Batch: <strong>September 15, 2026</strong></span>
+        <span>Duration: <strong>6 Months</strong></span>
+        <span>Format: <strong>Offline (Kochi & Trivandrum) & Online Live</strong></span>
+      </div>
+
+      <div class="hero-cta-group">
+        <a href="enroll.html?course=hr" class="btn-primary btn-hero-main">Enroll Now</a>
+        <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen,%20I%20want%20to%20know%20more%20about%20PG%20Diploma%20in%20HR." target="_blank" class="btn-outline btn-hero-secondary">
+          Chat with Counselor
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- COURSE BODY -->
-  <section class="course-body">
+  <!-- MAIN CONTAINER -->
+  <main class="main-container">
     <div class="main-content">
-      
-      <!-- SKILLS -->
-      <div class="skills-container">
-        <h2 class="section-title">Skills you'll gain</h2>
-        <div class="skills-list">
-          <span class="skill-tag">HR Analytics</span>
-          <span class="skill-tag">Recruitment</span>
-          <span class="skill-tag">Payroll</span>
-          <span class="skill-tag">Labour Laws</span>
-          <span class="skill-tag">POSH</span>
-          <span class="skill-tag">Talent Acquisition</span>
-          <span class="skill-tag">Operations & Compliance</span>
-          <span class="skill-tag">HR Policies</span>
-          <span class="skill-tag">Personal Branding</span>
-        </div>
-      </div>
 
-      <!-- ABOUT -->
-      <div style="margin-bottom: 40px;">
-        <h2 class="section-title">What you'll learn</h2>
-        <div class="learn-grid">
-          <div class="learn-item">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <p>Master end-to-end HR operations and recruitment cycles.</p>
+      <!-- WHO IS THIS PROGRAM FOR -->
+      <section class="content-section">
+        <h2 class="section-title">Who Is This Program For</h2>
+        <div class="highlights-grid">
+          <div class="highlight-item">
+            <h4>Fresh Graduates & Final-Year Students</h4>
+            <p>Designed for BBA, MBA, BCom, BA, and B.Tech graduates seeking career entry into corporate HR & People Operations.</p>
           </div>
-          <div class="learn-item">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <p>Implement compliance policies, labor laws, and POSH frameworks.</p>
+          <div class="highlight-item">
+            <h4>Career Switchers & Non-HR Talent</h4>
+            <p>Ideal for professionals moving from customer service, admin, sales, or teaching into structured corporate HR roles.</p>
           </div>
-          <div class="learn-item">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <p>Run payroll processing and manage HRMS platforms like KEKA.</p>
+          <div class="highlight-item">
+            <h4>Working HR Executives & Recruiter Upskilling</h4>
+            <p>For junior HR executives wanting hands-on mastery over KEKA HRMS software, statutory payroll compliance, and AI recruiting tools.</p>
           </div>
-          <div class="learn-item">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <p>Utilize modern AI tools and analytics for talent sourcing.</p>
+          <div class="highlight-item">
+            <h4>Job Seekers Needing Placement Support</h4>
+            <p>Built for job seekers wanting 1-on-1 mentorship, corporate HR policy drafting, mock interviews, and 100% placement support.</p>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div style="margin-bottom: 60px;">
-        <h2 class="section-title">About the Program</h2>
-        <p style="color: var(--ink-mute); margin-bottom: 16px;">
-          Become a corporate-ready HR Professional in 6 months. Master end-to-end HR operations, recruitment, payroll, and corporate sales strategies that modern businesses demand.
+      <!-- KEY HIGHLIGHTS -->
+      <section class="content-section">
+        <h2 class="section-title">Why Choose This Program</h2>
+        <div class="highlights-grid">
+          <div class="highlight-item">
+            <h4>100% Placement Support</h4>
+            <p>Direct referral network with corporate HR departments across Kochi and South India.</p>
+          </div>
+          <div class="highlight-item">
+            <h4>KEKA HRMS Live Software Training</h4>
+            <p>Hands-on practical training on industry-standard HRMS software and Payroll tools.</p>
+          </div>
+          <div class="highlight-item">
+            <h4>1-on-1 Expert Mentorship</h4>
+            <p>Learn directly from Corporate HR Directors and Senior People Managers.</p>
+          </div>
+          <div class="highlight-item">
+            <h4>Verified Certification</h4>
+            <p>Industry-aligned certificate to boost your LinkedIn and corporate resume.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SKILLS YOU'LL GAIN -->
+      <section class="content-section">
+        <h2 class="section-title">Skills You'll Gain</h2>
+
+        <div class="skills-group">
+          <div class="skills-group-label">Talent Acquisition & HR Tech</div>
+          <div class="skills-flex">
+            <span class="skill-pill">Talent Acquisition & Sourcing</span>
+            <span class="skill-pill">KEKA HRMS Software</span>
+            <span class="skill-pill">AI Recruiting Tools</span>
+            <span class="skill-pill">Employee Onboarding</span>
+          </div>
+        </div>
+
+        <div class="skills-group">
+          <div class="skills-group-label">Payroll & Statutory Compliance</div>
+          <div class="skills-flex">
+            <span class="skill-pill">Payroll Processing & CTC</span>
+            <span class="skill-pill">PF / ESI / Statutory Compliance</span>
+            <span class="skill-pill">Labor Law Regulations</span>
+          </div>
+        </div>
+
+        <div class="skills-group">
+          <div class="skills-group-label">People Operations</div>
+          <div class="skills-flex">
+            <span class="skill-pill">Performance Appraisals (KPIs)</span>
+            <span class="skill-pill">Corporate Operations</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- WHAT YOU WILL LEARN -->
+      <section class="content-section">
+        <h2 class="section-title">What You Will Learn</h2>
+        <div class="outcomes-list">
+          <div class="outcome-item">
+            <span class="bullet">&bull;</span>
+            <p>Execute end-to-end recruitment drives, candidate screening, and AI resume parsing.</p>
+          </div>
+          <div class="outcome-item">
+            <span class="bullet">&bull;</span>
+            <p>Manage leave attendance, employee databases, and workflows inside KEKA HRMS.</p>
+          </div>
+          <div class="outcome-item">
+            <span class="bullet">&bull;</span>
+            <p>Calculate salary CTC components, TDS tax deductions, PF, ESI, and bonus payouts.</p>
+          </div>
+          <div class="outcome-item">
+            <span class="bullet">&bull;</span>
+            <p>Draft HR policies, offer letters, NDA agreements, and conduct exit interviews.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- CURRICULUM SECTION -->
+      <section class="content-section">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
+          <div>
+            <h2 class="section-title" style="margin-bottom: 4px;">Curriculum & Syllabus</h2>
+            <p style="color: var(--text-muted); font-size: 15px;">Structured 6-month HR management learning roadmap.</p>
+          </div>
+          <a href="https://wa.me/918590886009?text=Send%20HR%20Syllabus%20PDF" target="_blank" class="btn-outline" style="font-size: 13px;">Request PDF Syllabus &rarr;</a>
+        </div>
+
+        <div class="curriculum-container">
+          
+          <div class="curriculum-row">
+            <div class="curriculum-meta">
+              <span class="module-num">Module 01</span>
+              <span class="module-time">Month 1 – Month 2</span>
+            </div>
+            <div class="curriculum-body">
+              <h3>Strategic Talent Acquisition & AI Sourcing</h3>
+              <p>Master job descriptions, LinkedIn recruiter search, Boolean queries, AI screening tools, and interview techniques.</p>
+              <div class="curriculum-topics"><strong>Key Topics:</strong> Talent Acquisition &bull; LinkedIn Recruiter &bull; Boolean Search &bull; AI Resume Parsing &bull; Structured Interviews</div>
+            </div>
+          </div>
+
+          <div class="curriculum-row">
+            <div class="curriculum-meta">
+              <span class="module-num">Module 02</span>
+              <span class="module-time">Month 3 – Month 4</span>
+            </div>
+            <div class="curriculum-body">
+              <h3>HRMS Software Operations (KEKA & Tools)</h3>
+              <p>Manage employee lifecycle management, attendance tracking, shift scheduling, and leave approvals in KEKA software.</p>
+              <div class="curriculum-topics"><strong>Key Topics:</strong> KEKA HRMS &bull; Employee Lifecycle &bull; Attendance Systems &bull; Onboarding Workflows &bull; HR Dashboards</div>
+            </div>
+          </div>
+
+          <div class="curriculum-row">
+            <div class="curriculum-meta">
+              <span class="module-num">Module 03</span>
+              <span class="module-time">Month 5</span>
+            </div>
+            <div class="curriculum-body">
+              <h3>Payroll Management & Statutory Compliance</h3>
+              <p>Calculate salary structure breakup, Form 16, Provident Fund (PF), ESI filings, Gratuity, and labor law regulations.</p>
+              <div class="curriculum-topics"><strong>Key Topics:</strong> Payroll Processing &bull; Provident Fund (PF) &bull; ESI Filings &bull; CTC Structuring &bull; Labor Laws</div>
+            </div>
+          </div>
+
+          <div class="curriculum-row">
+            <div class="curriculum-meta">
+              <span class="module-num">Module 04</span>
+              <span class="module-time">Month 6</span>
+            </div>
+            <div class="curriculum-body">
+              <h3>Performance Management & HR Operations</h3>
+              <p>Manage OKR/KPI evaluations, employee engagement activities, conflict resolution, HR policy drafting, and capstone.</p>
+              <div class="curriculum-topics"><strong>Key Topics:</strong> KPI / OKR Appraisal &bull; HR Policy Drafting &bull; Employee Engagement &bull; Exit Management &bull; Capstone Project</div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- STUDENTS PLACED WHILE STUDYING -->
+      <section class="content-section">
+        <h2 class="section-title">Students Placed While Studying</h2>
+        <p style="color: var(--text-muted); font-size: 15px; margin-bottom: 16px;">
+          Meet students who secured high-paying corporate HR & People Ops roles during their 6-month training at Kompetenzen.
         </p>
-        <p style="color: var(--ink-mute);">
-          Go beyond theoretical knowledge. Gain practical execution skills, build corporate confidence, and handle real-world corporate projects with AI HR tools like KEKA and Google LM.
+
+        <div class="placed-students-grid" id="placed-students-container">
+          <div class="student-card">
+            <img src="student_hr.jpg" alt="Aiswarya Raj" class="student-photo" />
+            <h4 class="student-name">Aiswarya Raj</h4>
+            <div class="student-role">HR Operations Executive</div>
+            <span class="student-company">KEKA Tech</span>
+            <div class="student-badge">Placed in Month 4 • ₹5.8 LPA</div>
+          </div>
+
+          <div class="student-card">
+            <img src="student_python.jpg" alt="Gokul Nath" class="student-photo" />
+            <h4 class="student-name">Gokul Nath</h4>
+            <div class="student-role">Talent Acquisition Specialist</div>
+            <span class="student-company">GlobalPrime HR</span>
+            <div class="student-badge">Placed in Month 5 • ₹6.2 LPA</div>
+          </div>
+
+          <div class="student-card">
+            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&auto=format&fit=crop&q=80" alt="Meera Thomas" class="student-photo" />
+            <h4 class="student-name">Meera Thomas</h4>
+            <div class="student-role">Payroll & Compliance Specialist</div>
+            <span class="student-company">CoreCorp HR</span>
+            <div class="student-badge">Placed in Month 4 • ₹5.5 LPA</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CERTIFICATE & CAREER -->
+      <section class="content-section">
+        <h2 class="section-title">Certification & Placement Support</h2>
+        <p style="color: var(--text-muted); margin-bottom: 12px;">
+          Earn a recognized <strong>Kompetenzen Professional Certificate</strong> upon completing your capstone projects.
         </p>
-      </div>
-
-      <!-- SYLLABUS -->
-      <div>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
-          <h2 class="section-title" style="margin-bottom: 0;">Courses in this program (Syllabus)</h2>
-          <a href="HR_Career_Transformation_Roadmap.pdf" download class="apply-btn" style="background: var(--blue-soft); color: var(--blue-deep); text-decoration: none;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px; vertical-align: text-bottom;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-            Download PDF
-          </a>
-        </div>
-        
-        <div class="syllabus-module">
-          <div class="module-header">
-            <div>
-              <div class="module-title">Level 1: Foundation (Months 1-2)</div>
-              <div class="module-meta">10 Core Sessions</div>
-            </div>
-          </div>
-          <div class="module-content">
-            <strong>HR Basics & Mindset Building</strong><br>
-            Core Psychology (Career Planning, Company Expectations, Org Structure). Employee Lifecycle (Overview of hiring to exit, Behaviour & Culture). Communication (Workplace Etiquette, Professional Email Drafting). Digital Basics (Excel, Keka, Google LM, LinkedIn Profile Creation).
-          </div>
-        </div>
-
-        <div class="syllabus-module">
-          <div class="module-header">
-            <div>
-              <div class="module-title">Level 2: Execution & AI (Months 3-4)</div>
-              <div class="module-meta">10 Core Sessions</div>
-            </div>
-          </div>
-          <div class="module-content">
-            <strong>Core HR Execution, Compliance & Policies</strong><br>
-            Recruitment (Talent Acquisition, AI Sourcing, Coordination). Strategy & Analytics (HR Analytics, MIS Dashboards, HR Policies). Operations & Compliance (Onboarding, Payroll, Statutory Basics, Labour Laws, POSH). Tech Focus (Keka, Zoho, AI Tools for JD Creation).
-          </div>
-        </div>
-
-        <div class="syllabus-module">
-          <div class="module-header">
-            <div>
-              <div class="module-title">Level 3: Market Readiness (Months 5-6)</div>
-              <div class="module-meta">10 Core Sessions</div>
-            </div>
-          </div>
-          <div class="module-content">
-            <strong>Internship & Interview Grooming</strong><br>
-            Personal Branding (Resume Preparation, Portfolio Maintenance, Network Building). Practical Training (Mock Interview Sessions, Job Search Strategy, Live Assessment Day). Internship (Specialisation in Recruitment, Payroll, or Ops).
-          </div>
-        </div>
-
-      </div>
+        <p style="color: var(--text-muted);">
+          Our career team provides placement support including technical interviews, resume refinement, and interview scheduling with hiring partners across Kochi, Bangalore, and Remote.
+        </p>
+      </section>
 
     </div>
 
     <!-- SIDEBAR -->
-    <div class="sidebar">
-      <div class="sidebar-widget">
-        <h3 class="widget-title">Professional Certificate</h3>
-        <p style="font-size: 14px; color: var(--ink-mute); margin-bottom: 24px;">Equip yourself with the most in-demand skills in HR today.</p>
-        
-        <div class="widget-feature">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-          Shareable Certificate
-        </div>
-        <div class="widget-feature">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-          Flexible Schedule
-        </div>
-        <div class="widget-feature">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
-          Beginner Level
-        </div>
-        <div class="widget-feature">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5c-1.1 0-2 .9-2 2v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
-          100% Placement Assistance
+    <aside class="sidebar">
+      <div class="sidebar-box">
+        <span class="sidebar-badge">Admissions Open</span>
+        <h3 class="sidebar-title">Program Enrollment</h3>
+        <p class="sidebar-subtitle">Reserve your seat for the upcoming batch.</p>
+
+        <ul class="sidebar-list">
+          <li><span class="check">&bull;</span> 100% Placement Support</li>
+          <li><span class="check">&bull;</span> KEKA HRMS Software Training</li>
+          <li><span class="check">&bull;</span> Offline & Online Live Options</li>
+          <li><span class="check">&bull;</span> Flexible Batches</li>
+          <li><span class="check">&bull;</span> Verified Certificate</li>
+        </ul>
+
+        <a href="enroll.html?course=hr" class="btn-primary sidebar-btn-main">Enroll Now</a>
+        <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen,%20I%20have%20questions%20about%20HR%20course." target="_blank" class="btn-outline sidebar-btn-wa">Enquire via WhatsApp</a>
+
+        <div class="sidebar-contact">
+          Admissions Contact
+          <strong>+91 85908 86009</strong>
         </div>
       </div>
-    </div>
-  </section>
+    </aside>
+  </main>
 
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <p>&copy; 2026 Kompetenzen Technologies. All rights reserved.</p>
-    <p style="margin-top: 8px;">
-      <a href="https://wa.me/918590886009" target="_blank" rel="noopener">Contact us via WhatsApp</a>
-    </p>
+  <footer>
+    <p>© 2026 Kompetenzen Career Consulting & Training Academy. All rights reserved.</p>
   </footer>
 
+  <button id="scrollTopBtn" class="scroll-top-btn" onclick="scrollToTop()" aria-label="Scroll to top">
+    &uarr;
+  </button>
+
+  <script>
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    if (scrollTopBtn) {
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          scrollTopBtn.classList.add('visible');
+        } else {
+          scrollTopBtn.classList.remove('visible');
+        }
+      }, { passive: true });
+    }
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // SYNC DYNAMIC BATCH DATES & PLACED STUDENTS FROM ADMIN LOCALSTORAGE
+    (function syncDynamicData() {
+      const courseKey = 'hr';
+      const storedDates = JSON.parse(localStorage.getItem('kompetenzen_batch_dates') || '{}');
+      if (storedDates[courseKey]) {
+        const batchEl = document.querySelector('.meta-line span:nth-child(1) strong');
+        if (batchEl) batchEl.textContent = storedDates[courseKey];
+      }
+
+      const storedStudents = JSON.parse(localStorage.getItem('kompetenzen_placed_students') || '[]');
+      const courseStudents = storedStudents.filter(s => s.course === courseKey);
+      if (courseStudents.length > 0) {
+        const container = document.getElementById('placed-students-container');
+        if (container) {
+          container.innerHTML = courseStudents.map(s => `
+            <div class="student-card">
+              <img src="${s.photo || 'student_python.jpg'}" alt="${s.name}" class="student-photo" />
+              <h4 class="student-name">${s.name}</h4>
+              <div class="student-role">${s.role}</div>
+              <span class="student-company">${s.company}</span>
+              <div class="student-badge">${s.badge || 'Placed Candidate'}</div>
+            </div>
+          `).join('');
+        }
+      }
+    })();
+  </script>
 </body>
+
 </html>

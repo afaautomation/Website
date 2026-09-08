@@ -1,0 +1,1489 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Quick Apply Profile — Kompetenzen</title>
+  <meta name="description"
+    content="Fill once. See matching jobs instantly. Quick apply profile for career placement with top hiring partners." />
+  <link rel="icon" type="image/png" href="icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.cdnfonts.com/css/google-sans" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <script src="resume-storage.js"></script>
+  <style>
+    :root {
+      --blue: #2563EB;
+      --blue-light: #3B82F6;
+      --blue-hover: #1D4ED8;
+      --blue-subtle: rgba(37, 99, 235, 0.15);
+      --bg: #07090E;
+      --card-bg: #0D121F;
+      --card-border: rgba(255, 255, 255, 0.08);
+      --input-bg: #131A2B;
+      --input-border: rgba(255, 255, 255, 0.1);
+      --ink: #FFFFFF;
+      --ink-2: #E2E8F0;
+      --ink-mute: #8E9DB2;
+      --ink-dim: #55657E;
+      --green: #10B981;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    html,
+    body,
+    button,
+    input,
+    select,
+    textarea {
+      font-family: "Google Sans", "Product Sans", "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* TOP HEADER */
+    .top-header {
+      background: rgba(7, 9, 14, 0.85);
+      border-bottom: 1px solid var(--card-border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .brand-logo img {
+      height: 34px;
+      width: auto;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink-2);
+    }
+
+    .user-avatar {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #3B82F6, #8B5CF6);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    /* MAIN CONTAINER */
+    .apply-container {
+      max-width: 620px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 36px 20px 60px;
+      flex: 1;
+    }
+
+    /* TARGET JOB BANNER */
+    .target-job-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(37, 99, 235, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      color: #93C5FD;
+      margin-bottom: 20px;
+    }
+
+    /* FORM HEADER */
+    .form-header-center {
+      text-align: center;
+      margin-bottom: 26px;
+    }
+
+    .time-badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      color: #60A5FA;
+      background: rgba(37, 99, 235, 0.12);
+      border: 1px solid rgba(59, 130, 246, 0.25);
+      padding: 4px 14px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+      letter-spacing: 0.2px;
+    }
+
+    .main-title {
+      font-size: 26px;
+      font-weight: 800;
+      color: #FFFFFF;
+      letter-spacing: -0.4px;
+      margin-bottom: 6px;
+    }
+
+    .main-subtitle {
+      font-size: 14px;
+      color: var(--ink-mute);
+    }
+
+    /* STEP PROGRESS BAR */
+    .stepper-bars {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 30px;
+    }
+
+    .stepper-bar-segment {
+      flex: 1;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .stepper-bar-segment.active {
+      background: var(--blue);
+      box-shadow: 0 0 10px rgba(37, 99, 235, 0.6);
+    }
+
+    .stepper-bar-segment.completed {
+      background: var(--green);
+    }
+
+    /* SECTION LABEL */
+    .section-tag-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: #64748B;
+      margin-bottom: 18px;
+      display: block;
+    }
+
+    /* FORM GROUPS & INPUTS */
+    .step-section {
+      display: none;
+      animation: fadeInStep 0.25s ease-out;
+    }
+
+    .step-section.active {
+      display: block;
+    }
+
+    @keyframes fadeInStep {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink-2);
+      margin-bottom: 8px;
+    }
+
+    .form-label span.req {
+      color: #EF4444;
+      margin-left: 2px;
+    }
+
+    .form-label span.sub {
+      color: var(--ink-dim);
+      font-weight: normal;
+      font-size: 12px;
+      margin-left: 4px;
+    }
+
+    .form-input-box {
+      width: 100%;
+      height: 46px;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: var(--radius-sm);
+      color: #FFFFFF;
+      font-size: 14.5px;
+      padding: 0 14px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .form-input-box:focus {
+      border-color: var(--blue-light);
+      background: #162035;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+
+    .form-input-box::placeholder {
+      color: #4B5B75;
+      font-size: 13.5px;
+    }
+
+    select.form-input-box {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238E9DB2' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+      cursor: pointer;
+    }
+
+    select.form-input-box option {
+      background: #0D121F;
+      color: #FFFFFF;
+      padding: 10px;
+    }
+
+    /* KOMPETENZEN STUDENT TOGGLE CARD */
+    .toggle-card-box {
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .toggle-card-title {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--ink-2);
+    }
+
+    /* Modern Switch */
+    .switch-wrap {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+
+    .switch-wrap input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider-toggle {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #2D3748;
+      transition: 0.3s;
+      border-radius: 999px;
+    }
+
+    .slider-toggle:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider-toggle {
+      background-color: var(--blue);
+    }
+
+    input:checked + .slider-toggle:before {
+      transform: translateX(20px);
+    }
+
+    .student-course-reveal {
+      display: none;
+      margin-top: 10px;
+    }
+
+    /* PILL BUTTONS / CHIPS (TAPS) */
+    .pills-row-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .choice-pill-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 18px;
+      background: #141B2D;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      color: var(--ink-mute);
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .choice-pill-btn:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+      color: #FFFFFF;
+      background: #1A233A;
+    }
+
+    .choice-pill-btn.selected {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #FFFFFF;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+    }
+
+    /* CUSTOM SKILL ROW */
+    .custom-skill-input-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .btn-add-tag {
+      background: #161F33;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--ink-2);
+      padding: 0 18px;
+      border-radius: var(--radius-sm);
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .btn-add-tag:hover {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #fff;
+    }
+
+    /* BOTTOM MICRO-COPY */
+    .tap-micro-text {
+      text-align: center;
+      font-size: 12px;
+      color: var(--ink-dim);
+      margin: 22px 0 16px;
+    }
+
+    /* FOOTER NAVIGATION BUTTONS */
+    .step-actions-footer {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-step-back {
+      height: 48px;
+      padding: 0 20px;
+      background: #131A2B;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--ink-mute);
+      font-size: 14px;
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-step-back:hover {
+      background: #1B243B;
+      color: #FFFFFF;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-step-next {
+      flex: 1;
+      height: 48px;
+      background: var(--blue);
+      border: none;
+      color: #FFFFFF;
+      font-size: 14.5px;
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 18px rgba(37, 99, 235, 0.35);
+    }
+
+    .btn-step-next:hover {
+      background: var(--blue-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 22px rgba(37, 99, 235, 0.5);
+    }
+
+    .btn-step-next:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* RESUME UPLOAD (STEP 3 LAST SECTION) */
+    .resume-upload-wrap {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .resume-drop-zone {
+      background: rgba(19, 26, 43, 0.6);
+      border: 1.5px dashed rgba(255, 255, 255, 0.16);
+      border-radius: var(--radius-md);
+      padding: 24px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .resume-drop-zone:hover,
+    .resume-drop-zone.dragover {
+      background: rgba(37, 99, 235, 0.08);
+      border-color: #3B82F6;
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
+    }
+
+    .resume-drop-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .resume-upload-icon-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(59, 130, 246, 0.12);
+      border: 1px solid rgba(59, 130, 246, 0.25);
+      color: #60A5FA;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease;
+    }
+
+    .resume-drop-zone:hover .resume-upload-icon-circle {
+      transform: translateY(-2px);
+      background: rgba(59, 130, 246, 0.2);
+    }
+
+    .resume-drop-main {
+      font-size: 14px;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    .resume-drop-sub {
+      font-size: 12px;
+      color: var(--ink-mute);
+    }
+
+    /* Selected state */
+    .resume-file-info {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+    }
+
+    .resume-file-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .resume-file-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: rgba(16, 185, 129, 0.18);
+      color: #10B981;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .resume-file-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      min-width: 0;
+    }
+
+    .resume-filename {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #FFFFFF;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 340px;
+    }
+
+    .resume-filesize {
+      font-size: 11.5px;
+      color: #6EE7B7;
+      font-weight: 600;
+    }
+
+    .btn-remove-resume {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #F87171;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .btn-remove-resume:hover {
+      background: rgba(239, 68, 68, 0.3);
+      color: #FFFFFF;
+      transform: scale(1.05);
+    }
+
+    /* TOAST NOTIFICATION */
+    .success-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #064E3B;
+      color: #ECFDF5;
+      border: 1px solid #10B981;
+      border-radius: var(--radius-md);
+      padding: 14px 22px;
+      box-shadow: 0 10px 32px rgba(0, 0, 0, 0.6);
+      font-weight: 700;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 1000;
+      transform: translateY(120px);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .success-toast.is-visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      .form-row-2 {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .apply-container {
+        padding: 24px 16px 40px;
+      }
+
+      .main-title {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Hidden iframe for silent Google Sheets POST -->
+  <iframe name="gs-lead-target" style="display:none;" aria-hidden="true"></iframe>
+
+  <!-- TOP HEADER -->
+  <header class="top-header">
+    <div class="header-inner">
+      <a href="jobs.html" class="brand-logo">
+        <img src="kompetenzen logo-02.png" alt="Kompetenzen Technologies" />
+      </a>
+      <div class="header-right">
+        <div class="user-pill" id="nav-user-pill">
+          <div class="user-avatar" id="nav-user-avatar">G</div>
+          <span class="user-meta-name" id="nav-user-name">Candidate</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="apply-container">
+
+    <!-- Target Job Pill (if directed from a specific job) -->
+    <div class="target-job-badge" id="target-job-banner" style="display:none;">
+      <span>Applying for:</span>
+      <strong id="target-job-title-text">—</strong>
+    </div>
+
+    <!-- HEADER TITLE & BADGE -->
+    <div class="form-header-center">
+      <div class="time-badge">Takes ~90 seconds</div>
+      <h1 class="main-title">Quick Apply Profile</h1>
+      <p class="main-subtitle">Fill once. See matching jobs instantly.</p>
+    </div>
+
+    <!-- STEP PROGRESS BAR -->
+    <div class="stepper-bars">
+      <div class="stepper-bar-segment active" id="step-bar-1"></div>
+      <div class="stepper-bar-segment" id="step-bar-2"></div>
+      <div class="stepper-bar-segment" id="step-bar-3"></div>
+    </div>
+
+
+    <!-- FORM START -->
+    <form id="quick-apply-form" onsubmit="event.preventDefault();">
+
+      <!-- ========================================== -->
+      <!-- STEP 1: ABOUT YOU                          -->
+      <!-- ========================================== -->
+      <section class="step-section active" id="step-section-1">
+        <span class="section-tag-label">ABOUT YOU</span>
+
+        <!-- Full Name -->
+        <div class="form-group">
+          <label class="form-label" for="field-name">Full Name <span class="req">*</span></label>
+          <input type="text" id="field-name" class="form-input-box" placeholder="Enter your full name" required />
+        </div>
+
+        <!-- WhatsApp & Email -->
+        <div class="form-row-2">
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label" for="field-phone">WhatsApp Number <span class="req">*</span></label>
+            <input type="tel" id="field-phone" class="form-input-box" placeholder="+91 98765 43210" required />
+          </div>
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label" for="field-email">Email <span class="req">*</span></label>
+            <input type="email" id="field-email" class="form-input-box" placeholder="candidate@example.com" required />
+          </div>
+        </div>
+
+        <!-- Degree & Graduation Year -->
+        <div class="form-row-2" style="margin-top:16px;">
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label" for="field-degree">Degree &amp; Branch <span class="req">*</span></label>
+            <input type="text" id="field-degree" class="form-input-box" placeholder="e.g. B.Tech Computer Science, BCA, MCA" required />
+          </div>
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label" for="field-grad-year">Graduation Year <span class="req">*</span></label>
+            <select id="field-grad-year" class="form-input-box">
+              <option value="2026">2026</option>
+              <option value="2025" selected>2025</option>
+              <option value="2024">2024</option>
+              <option value="2023">2023</option>
+              <option value="2022">2022</option>
+              <option value="Before 2022">Before 2022</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Kompetenzen Student Toggle -->
+        <div style="margin-top:16px;">
+          <label class="form-label">Kompetenzen Student?</label>
+          <div class="toggle-card-box">
+            <span class="toggle-card-title">I'm enrolled in / completed a Kompetenzen course</span>
+            <label class="switch-wrap">
+              <input type="checkbox" id="field-is-student" onchange="toggleStudentCourseInput(this.checked)" />
+              <span class="slider-toggle"></span>
+            </label>
+          </div>
+          <div class="student-course-reveal" id="student-course-row">
+            <input type="text" id="field-course-name" class="form-input-box" placeholder="Course name (e.g. Full Stack Python + AI / Java Backend)" />
+          </div>
+        </div>
+
+        <div class="tap-micro-text">3 fields with typing · rest are taps</div>
+
+        <div class="step-actions-footer">
+          <button type="button" class="btn-step-next" onclick="goToStep(2)">
+            <span>Next →</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- STEP 2: JOB PREFERENCES                    -->
+      <!-- ========================================== -->
+      <section class="step-section" id="step-section-2">
+        <span class="section-tag-label">JOB PREFERENCES</span>
+
+        <!-- Experience Level -->
+        <div class="form-group">
+          <label class="form-label">Experience Level <span class="req">*</span></label>
+          <div class="pills-row-wrap" id="pills-experience">
+            <div class="choice-pill-btn" onclick="selectSinglePill(this, 'pills-experience', 'val-experience')" data-value="Fresher / Graduate">Fresher / Graduate</div>
+            <div class="choice-pill-btn" onclick="selectSinglePill(this, 'pills-experience', 'val-experience')" data-value="0–1 Year">0–1 Year</div>
+            <div class="choice-pill-btn" onclick="selectSinglePill(this, 'pills-experience', 'val-experience')" data-value="1–3 Years">1–3 Years</div>
+            <div class="choice-pill-btn" onclick="selectSinglePill(this, 'pills-experience', 'val-experience')" data-value="3+ Years">3+ Years</div>
+          </div>
+          <input type="hidden" id="val-experience" value="" />
+        </div>
+
+        <!-- Preferred Location -->
+        <div class="form-group">
+          <label class="form-label">Preferred Location <span class="sub">(select multiple)</span> <span class="req">*</span></label>
+          <div class="pills-row-wrap" id="pills-location">
+            <div class="choice-pill-btn" onclick="toggleMultiPill(this)">Kochi</div>
+            <div class="choice-pill-btn" onclick="toggleMultiPill(this)">Trivandrum</div>
+            <div class="choice-pill-btn" onclick="toggleMultiPill(this)">Bengaluru</div>
+            <div class="choice-pill-btn" onclick="toggleMultiPill(this)">Chennai</div>
+            <div class="choice-pill-btn" onclick="toggleMultiPill(this)">Remote</div>
+            <div class="choice-pill-btn" onclick="toggleMultiPill(this)">Anywhere in India</div>
+            <div class="choice-pill-btn" onclick="toggleMultiPill(this)">UAE / GCC</div>
+          </div>
+        </div>
+
+        <div class="tap-micro-text">Zero typing · all taps</div>
+
+        <div class="step-actions-footer">
+          <button type="button" class="btn-step-back" onclick="goToStep(1)">← Back</button>
+          <button type="button" class="btn-step-next" onclick="goToStep(3)">
+            <span>Next →</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- STEP 3: YOUR SKILLS                        -->
+      <!-- ========================================== -->
+      <section class="step-section" id="step-section-3">
+        <span class="section-tag-label">YOUR SKILLS</span>
+
+        <!-- Key Skills -->
+        <div class="form-group">
+          <label class="form-label">Key Skills <span class="sub">(select all you know)</span> <span class="req">*</span></label>
+          <div class="pills-row-wrap" id="pills-skills">
+            <div class="choice-pill-btn" onclick="toggleMultiPill(this)">Python</div>
+            <div class="choice-pill-btn" onclick="toggleMultiPill(this)">JavaScript</div>
+            <div class="choice-pill-btn" onclick="toggleMultiPill(this)">React.js</div>
+            <div class="choice-pill-btn" onclick="toggleMultiPill(this)">Node.js</div>
+            <div class="choice-pill-btn" onclick="toggleMultiPill(this)">SQL / PostgreSQL</div>
+            <div class="choice-pill-btn" onclick="toggleMultiPill(this)">Django / FastAPI</div>
+            <div class="choice-pill-btn" onclick="toggleMultiPill(this)">Java</div>
+            <div class="choice-pill-btn" onclick="toggleMultiPill(this)">HTML / CSS</div>
+            <div class="choice-pill-btn" onclick="toggleMultiPill(this)">Git &amp; GitHub</div>
+            <div class="choice-pill-btn" onclick="toggleMultiPill(this)">AWS Cloud</div>
+            <div class="choice-pill-btn" onclick="toggleMultiPill(this)">Docker</div>
+            <div class="choice-pill-btn" onclick="toggleMultiPill(this)">Figma / UI Design</div>
+            <div class="choice-pill-btn" onclick="toggleMultiPill(this)">Excel / Sheets</div>
+            <div class="choice-pill-btn" onclick="toggleMultiPill(this)">Digital Marketing</div>
+            <div class="choice-pill-btn" onclick="toggleMultiPill(this)">Tally / Accounting</div>
+          </div>
+
+          <!-- Add custom skill -->
+          <div class="custom-skill-input-group">
+            <input type="text" id="new-custom-skill-input" class="form-input-box" placeholder="Add a skill not listed above" onkeydown="if(event.key==='Enter'){event.preventDefault(); addCustomSkill();}" />
+            <button type="button" class="btn-add-tag" onclick="addCustomSkill()">+ Add</button>
+          </div>
+        </div>
+
+        <div class="tap-micro-text">Tap skills to toggle · add any custom expertise</div>
+
+        <!-- ========================================== -->
+        <!-- UPLOAD YOUR RESUME (LAST STEP)             -->
+        <!-- ========================================== -->
+        <div class="resume-upload-wrap">
+          <label class="form-label" style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+            <span>Upload Your Resume <span class="sub">(PDF, DOC, DOCX)</span></span>
+            <span style="font-size:11.5px; color:var(--ink-mute); font-weight:500;">Max 5MB</span>
+          </label>
+
+          <div class="resume-drop-zone" id="resume-drop-zone" onclick="document.getElementById('file-resume-input').click()">
+            <input type="file" id="file-resume-input" accept=".pdf,.doc,.docx" style="display:none;" onchange="handleResumeSelected(this.files[0])" />
+
+            <div class="resume-drop-empty" id="resume-drop-empty">
+              <div class="resume-upload-icon-circle">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="12" y1="18" x2="12" y2="12"/>
+                  <polyline points="9 15 12 12 15 15"/>
+                </svg>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:3px;">
+                <span class="resume-drop-main">Click or drag &amp; drop to upload resume</span>
+                <span class="resume-drop-sub">PDF, DOC, or DOCX up to 5MB</span>
+              </div>
+            </div>
+
+            <div class="resume-file-info" id="resume-file-info" style="display:none;">
+              <div class="resume-file-left">
+                <div class="resume-file-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                  </svg>
+                </div>
+                <div class="resume-file-meta">
+                  <span class="resume-filename" id="resume-display-name">resume.pdf</span>
+                  <span class="resume-filesize" id="resume-display-size">✓ Ready to upload</span>
+                </div>
+              </div>
+              <button type="button" class="btn-remove-resume" onclick="event.stopPropagation(); removeUploadedResume();" title="Remove resume">✕</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-actions-footer">
+          <button type="button" class="btn-step-back" onclick="goToStep(2)">← Back</button>
+          <button type="button" class="btn-step-next" id="btn-submit-quick-profile" onclick="handleFinalSubmitProfile()">
+            <span>Complete Profile &amp; Apply ➔</span>
+          </button>
+        </div>
+      </section>
+
+    </form>
+  </main>
+
+  <!-- TOAST NOTIFICATION -->
+  <div class="success-toast" id="app-toast">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+      <polyline points="22 4 12 14.01 9 11.01" />
+    </svg>
+    <span id="toast-text">Quick Apply Profile saved successfully!</span>
+  </div>
+
+  <script>
+    // ===== GOOGLE SHEETS & STORAGE CONFIG =====
+    const GOOGLE_SHEET_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyXVTlB1OtcwI_erBc5OC4kl6oZTijLhri0oL97GWBwyGb-VaHHR0NHVIVjq4Bgzc3wxg/exec';
+    const AUTH_STORAGE_KEY = 'kompetenzen_google_user';
+    const PROFILE_STORAGE_KEY = 'kompetenzen_candidate_profile';
+    const APPLIED_JOBS_KEY = 'kompetenzen_applied_jobs';
+    const USERS_DB_KEY = 'kompetenzen_registered_users';
+
+    function saveRegisteredUser(user) {
+      try {
+        const users = JSON.parse(localStorage.getItem(USERS_DB_KEY) || '[]');
+        const index = users.findIndex(u => u.email.toLowerCase() === user.email.toLowerCase());
+        if (index >= 0) {
+          users[index] = { ...users[index], ...user };
+        } else {
+          users.push(user);
+        }
+        localStorage.setItem(USERS_DB_KEY, JSON.stringify(users));
+      } catch (e) {}
+    }
+
+    let currentStep = 1;
+    let targetJob = null;
+    let targetJobId = null;
+
+    // Database of roles for matching
+    const DEFAULT_JOBS_DB = {
+      'fs-dev': { id: 'fs-dev', title: 'Full Stack Developer', company: 'Stagewise Innovations', category: 'tech' },
+      'py-ai': { id: 'py-ai', title: 'Python + AI Developer', company: 'TechNova Solutions', category: 'python-ai' },
+      'java-dev': { id: 'java-dev', title: 'Java Backend Developer', company: 'InfraBase Technologies', category: 'java' },
+      'data-analyst': { id: 'data-analyst', title: 'Data Analyst — BI & GenAI', company: 'DataXcel Analytics', category: 'data-analytics' },
+      'hr-exec': { id: 'hr-exec', title: 'HR Executive — Generalist', company: 'GlobalPrime HR Consultants', category: 'hr' },
+      'hr-mgr': { id: 'hr-mgr', title: 'HR Manager — GCC Ready', company: 'CoreCorp Solutions', category: 'hr' },
+      'sales-exec': { id: 'sales-exec', title: 'Inside Sales Executive', company: 'NexGen Ventures', category: 'sales' },
+      'b2b-sales': { id: 'b2b-sales', title: 'B2B Sales Manager', company: 'ApexScale Technologies', category: 'sales' },
+      'cts-portal': { id: 'cts-portal', title: 'Global Careers Portal', company: 'Cognizant', category: 'tech' },
+      'tcs-portal': { id: 'tcs-portal', title: 'TCS NextStep & Careers', company: 'TCS', category: 'tech' }
+    };
+
+    function getStoredUser() {
+      try {
+        const data = localStorage.getItem(AUTH_STORAGE_KEY);
+        return data ? JSON.parse(data) : null;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function getStoredProfile() {
+      try {
+        const data = localStorage.getItem(PROFILE_STORAGE_KEY);
+        return data ? JSON.parse(data) : null;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    // ===== MULTI-STEP NAVIGATION =====
+    function goToStep(stepNumber) {
+      if (stepNumber === 2) {
+        const name = document.getElementById('field-name').value.trim();
+        const phone = document.getElementById('field-phone').value.trim();
+        const email = document.getElementById('field-email').value.trim();
+
+        const degree = document.getElementById('field-degree').value.trim();
+
+        if (!name) {
+          alert('Please enter your Full Name.');
+          document.getElementById('field-name').focus();
+          return;
+        }
+        if (!phone) {
+          alert('Please enter your WhatsApp / Phone Number.');
+          document.getElementById('field-phone').focus();
+          return;
+        }
+        if (!email) {
+          alert('Please enter your Email Address.');
+          document.getElementById('field-email').focus();
+          return;
+        }
+        if (!degree) {
+          alert('Please enter your Degree & Branch.');
+          document.getElementById('field-degree').focus();
+          return;
+        }
+      }
+
+      if (stepNumber === 3) {
+        const exp = (document.getElementById('val-experience').value || '').trim();
+        const locations = document.querySelectorAll('#pills-location .choice-pill-btn.selected');
+        if (!exp) {
+          alert('Please select your Experience Level.');
+          return;
+        }
+        if (locations.length === 0) {
+          alert('Please select at least one Preferred Location.');
+          return;
+        }
+      }
+
+      currentStep = stepNumber;
+
+      // Update sections
+      document.querySelectorAll('.step-section').forEach(sec => sec.classList.remove('active'));
+      const activeSec = document.getElementById(`step-section-${stepNumber}`);
+      if (activeSec) activeSec.classList.add('active');
+
+      // Update progress bar segments
+      for (let i = 1; i <= 3; i++) {
+        const bar = document.getElementById(`step-bar-${i}`);
+        if (!bar) continue;
+        bar.className = 'stepper-bar-segment';
+        if (i < stepNumber) {
+          bar.classList.add('completed');
+        } else if (i === stepNumber) {
+          bar.classList.add('active');
+        }
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ===== TOGGLE KOMPETENZEN COURSE INPUT =====
+    function toggleStudentCourseInput(isChecked) {
+      const row = document.getElementById('student-course-row');
+      if (row) {
+        row.style.display = isChecked ? 'block' : 'none';
+        if (isChecked) {
+          document.getElementById('field-course-name').focus();
+        }
+      }
+    }
+
+    // ===== PILLS INTERACTION =====
+    function selectSinglePill(pill, containerId, hiddenInputId) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      container.querySelectorAll('.choice-pill-btn').forEach(p => p.classList.remove('selected'));
+      pill.classList.add('selected');
+
+      const val = pill.getAttribute('data-value');
+      const hiddenInput = document.getElementById(hiddenInputId);
+      if (hiddenInput) hiddenInput.value = val;
+    }
+
+    function toggleMultiPill(pill) {
+      pill.classList.toggle('selected');
+    }
+
+    function addCustomSkill() {
+      const input = document.getElementById('new-custom-skill-input');
+      if (!input) return;
+      const val = input.value.trim();
+      if (!val) return;
+
+      const container = document.getElementById('pills-skills');
+      if (container) {
+        const div = document.createElement('div');
+        div.className = 'choice-pill-btn selected';
+        div.textContent = val;
+        div.onclick = function() { toggleMultiPill(this); };
+        container.appendChild(div);
+      }
+      input.value = '';
+    }
+
+    // ===== READ FILE AS BASE64 HELPER =====
+    function readFileAsBase64(file) {
+      return new Promise((resolve, reject) => {
+        if (!file) return resolve(null);
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // ===== SEND LEAD TO GOOGLE SHEETS =====
+    async function sendLeadToSheet(fields) {
+      const payload = JSON.stringify(fields);
+
+      try {
+        // Fetch POST without keepalive (supports multi-megabyte resume payloads)
+        await fetch(GOOGLE_SHEET_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: payload
+        });
+        console.log('Lead sent to Google Sheets successfully');
+      } catch (err) {
+        console.warn('Primary fetch with resume failed, trying fallback without binary data:', err);
+        // Fallback: send all text fields without heavy base64 to ensure candidate is recorded
+        try {
+          const fallbackFields = Object.assign({}, fields, { resumeData: '' });
+          await fetch(GOOGLE_SHEET_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(fallbackFields)
+          });
+        } catch (fbErr) {
+          console.error('All Google Sheet fetch attempts failed:', fbErr);
+        }
+      }
+    }
+
+    // ===== MARK JOB APPLIED =====
+    function markJobApplied(jobId) {
+      if (!jobId) return;
+      try {
+        const applied = JSON.parse(localStorage.getItem(APPLIED_JOBS_KEY) || '[]');
+        if (!applied.includes(jobId)) {
+          applied.push(jobId);
+          localStorage.setItem(APPLIED_JOBS_KEY, JSON.stringify(applied));
+        }
+      } catch (e) {}
+    }
+
+    // ===== FINAL SUBMIT PROFILE =====
+    async function handleFinalSubmitProfile() {
+      const name = document.getElementById('field-name').value.trim();
+      const phone = document.getElementById('field-phone').value.trim();
+      const email = document.getElementById('field-email').value.trim();
+      const degree = document.getElementById('field-degree').value.trim();
+      const gradYear = document.getElementById('field-grad-year').value;
+      const isStudent = document.getElementById('field-is-student').checked;
+      const courseName = isStudent ? document.getElementById('field-course-name').value.trim() : '';
+
+      const experience = document.getElementById('val-experience').value;
+      const workMode = '';
+
+      // Selected Locations
+      const selectedLocations = [];
+      document.querySelectorAll('#pills-location .choice-pill-btn.selected').forEach(p => {
+        selectedLocations.push(p.textContent.trim());
+      });
+
+      // Selected Skills
+      const selectedSkills = [];
+      document.querySelectorAll('#pills-skills .choice-pill-btn.selected').forEach(p => {
+        selectedSkills.push(p.textContent.trim());
+      });
+
+      if (selectedSkills.length === 0) {
+        alert('Please select at least one Key Skill or add a custom skill.');
+        return;
+      }
+
+      const profile = {
+        name,
+        phone,
+        email,
+        degree,
+        graduationYear: gradYear,
+        isKompetenzenStudent: isStudent,
+        courseName,
+        experience: experience || 'Fresher / Graduate',
+        preferredLocation: selectedLocations.join(', ') || 'Anywhere in India',
+        workMode,
+        skills: selectedSkills,
+        resumeName: uploadedResumeFile ? uploadedResumeFile.name : 'Not uploaded',
+        updatedAt: new Date().toISOString()
+      };
+
+      // Save to localStorage
+      localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(profile));
+      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify({
+        name,
+        email,
+        loginTime: new Date().toISOString()
+      }));
+
+      // Register candidate into registered users store
+      saveRegisteredUser({
+        name: name,
+        email: email.toLowerCase(),
+        phone: phone,
+        authType: 'Candidate Profile',
+        registeredAt: new Date().toISOString()
+      });
+
+      const submitBtn = document.getElementById('btn-submit-quick-profile');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span>Uploading Resume &amp; Saving Profile...</span>';
+      }
+
+      // Read Resume File as Base64 for Google Drive storage
+      let resumeBase64 = null;
+      if (uploadedResumeFile) {
+        try {
+          resumeBase64 = await readFileAsBase64(uploadedResumeFile);
+        } catch (fErr) {
+          console.warn('Could not encode resume to base64:', fErr);
+        }
+      }
+
+      // Save full application and actual resume file to internal IndexedDB
+      if (typeof saveCandidateApplication === 'function') {
+        try {
+          await saveCandidateApplication({
+            name: name,
+            phone: phone,
+            email: email,
+            degree: degree,
+            gradYear: gradYear,
+            isStudent: isStudent ? 'Yes' : 'No',
+            courseName: courseName || 'N/A',
+            experience: experience || 'Fresher / Graduate',
+            preferredLocation: selectedLocations.join(', ') || 'Anywhere in India',
+            workMode: workMode,
+            skills: selectedSkills.join(', '),
+            jobRole: targetJob ? targetJob.title : 'Quick Apply Profile',
+            company: targetJob ? targetJob.company : 'Kompetenzen Network',
+            resumeFileName: uploadedResumeFile ? uploadedResumeFile.name : '',
+            resumeFileSize: uploadedResumeFile ? `${Math.round(uploadedResumeFile.size / 1024)} KB` : '',
+            resumeFileType: uploadedResumeFile ? (uploadedResumeFile.type || 'application/pdf') : '',
+            resumeBlob: uploadedResumeFile || null
+          });
+        } catch (err) {
+          console.warn('Could not save to internal storage:', err);
+        }
+      }
+
+      // Format Summary for Google Sheets
+      const studentTag = isStudent ? ` [Kompetenzen Student: ${courseName || 'Yes'}]` : '';
+      const resumeTag = uploadedResumeFile ? ` [Resume: ${uploadedResumeFile.name}]` : '';
+      const summaryRole = `${targetJob ? targetJob.title : 'Quick Apply Profile'} at ${targetJob ? targetJob.company : 'Kompetenzen'} [Degree: ${degree} (${gradYear})]${studentTag} [Exp: ${experience}] [Loc: ${selectedLocations.join(', ')}] [Skills: ${selectedSkills.join(', ')}]${resumeTag}`;
+
+      // Send to Google Sheets (Job_Applications tab) with Resume PDF data and wait for it
+      try {
+        await sendLeadToSheet({
+          type: 'job_application',
+          name: name,
+          phone: phone,
+          email: email,
+          degree: degree,
+          gradYear: gradYear,
+          isStudent: isStudent ? 'Yes' : 'No',
+          courseName: courseName || 'N/A',
+          experience: experience,
+          preferredLocation: selectedLocations.join(', ') || 'Kochi',
+          workMode: workMode,
+          skills: selectedSkills.join(', '),
+          resumeName: uploadedResumeFile ? uploadedResumeFile.name : 'Not uploaded',
+          resumeData: resumeBase64 || '',
+          resumeFileName: uploadedResumeFile ? uploadedResumeFile.name : '',
+          resumeMimeType: uploadedResumeFile ? (uploadedResumeFile.type || 'application/pdf') : 'application/pdf',
+          jobRole: targetJob ? targetJob.title : 'Quick Apply Candidate Profile',
+          company: targetJob ? targetJob.company : 'Kompetenzen Network',
+          role: summaryRole,
+          page: window.location.href,
+          timestamp: new Date().toISOString()
+        });
+      } catch (sheetErr) {
+        console.warn('Sheet transmission error:', sheetErr);
+      }
+
+      localStorage.removeItem('kompetenzen_user_resume_name');
+
+      if (targetJobId) {
+        markJobApplied(targetJobId);
+      }
+
+      showToast(`🎉 Quick Apply Profile created for ${name}!`);
+
+      setTimeout(() => {
+        if (targetJobId) {
+          window.location.href = `job-details.html?id=${targetJobId}&applied=true`;
+        } else {
+          window.location.href = 'jobs.html?applied=true';
+        }
+      }, 1000);
+    }
+
+    // ===== RESUME FILE UPLOAD HANDLER =====
+    let uploadedResumeFile = null;
+
+    function handleResumeSelected(file) {
+      // Validate file extension
+      const validExtensions = ['.pdf', '.doc', '.docx'];
+      const ext = '.' + (file.name.split('.').pop() || '').toLowerCase();
+      if (!validExtensions.includes(ext)) {
+        alert('Invalid file format. Please upload a PDF, DOC, or DOCX document.');
+        return;
+      }
+
+      const maxSize = 5 * 1024 * 1024;
+      if (file.size > maxSize) {
+        alert('File size exceeds 5MB limit. Please upload a smaller file.');
+        return;
+      }
+
+      uploadedResumeFile = file;
+
+      const emptyBox = document.getElementById('resume-drop-empty');
+      const infoBox = document.getElementById('resume-file-info');
+      const nameEl = document.getElementById('resume-display-name');
+      const sizeEl = document.getElementById('resume-display-size');
+
+      if (nameEl) nameEl.textContent = file.name;
+      if (sizeEl) {
+        const kb = Math.round(file.size / 1024);
+        sizeEl.textContent = `✓ ${kb > 1024 ? (kb / 1024).toFixed(1) + ' MB' : kb + ' KB'} · Attached`;
+      }
+
+      if (emptyBox) emptyBox.style.display = 'none';
+      if (infoBox) infoBox.style.display = 'flex';
+
+      showToast(`✓ Resume attached: ${file.name}`);
+    }
+
+    function removeUploadedResume() {
+      uploadedResumeFile = null;
+      const fileInput = document.getElementById('file-resume-input');
+      if (fileInput) fileInput.value = '';
+
+      const emptyBox = document.getElementById('resume-drop-empty');
+      const infoBox = document.getElementById('resume-file-info');
+
+      if (emptyBox) emptyBox.style.display = 'flex';
+      if (infoBox) infoBox.style.display = 'none';
+
+      localStorage.removeItem('kompetenzen_user_resume_name');
+    }
+
+    function setupResumeDragDrop() {
+      const dropZone = document.getElementById('resume-drop-zone');
+      if (!dropZone) return;
+
+      ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropZone.classList.add('dragover');
+        });
+      });
+
+      ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropZone.classList.remove('dragover');
+        });
+      });
+
+      dropZone.addEventListener('drop', (e) => {
+        const dt = e.dataTransfer;
+        if (dt && dt.files && dt.files[0]) {
+          handleResumeSelected(dt.files[0]);
+        }
+      });
+    }
+
+    // ===== INITIALIZE PAGE =====
+    function initPage() {
+      const urlParams = new URLSearchParams(window.location.search);
+      targetJobId = urlParams.get('jobId') || urlParams.get('id');
+
+      let customJobs = [];
+      try {
+        customJobs = JSON.parse(localStorage.getItem('kompetenzen_custom_jobs') || '[]');
+      } catch (e) {}
+
+      if (targetJobId) {
+        targetJob = customJobs.find(j => String(j.id) === String(targetJobId)) || DEFAULT_JOBS_DB[targetJobId];
+      }
+
+      if (targetJob) {
+        const jobBanner = document.getElementById('target-job-banner');
+        const jobTitleText = document.getElementById('target-job-title-text');
+        if (jobBanner && jobTitleText) {
+          jobBanner.style.display = 'inline-flex';
+          jobTitleText.textContent = `${targetJob.title} at ${targetJob.company}`;
+        }
+      }
+
+      const user = getStoredUser();
+      const profile = getStoredProfile();
+
+      if (user) {
+        document.getElementById('nav-user-name').textContent = user.name || 'Candidate';
+        document.getElementById('nav-user-avatar').textContent = (user.name || 'G')[0].toUpperCase();
+        document.getElementById('field-name').value = user.name || '';
+        document.getElementById('field-email').value = user.email || '';
+      }
+
+      if (profile) {
+        if (profile.name) document.getElementById('field-name').value = profile.name;
+        if (profile.email) document.getElementById('field-email').value = profile.email;
+        if (profile.phone) document.getElementById('field-phone').value = profile.phone;
+        if (profile.degree) document.getElementById('field-degree').value = profile.degree;
+        if (profile.graduationYear) document.getElementById('field-grad-year').value = profile.graduationYear;
+
+        if (profile.isKompetenzenStudent) {
+          document.getElementById('field-is-student').checked = true;
+          toggleStudentCourseInput(true);
+          if (profile.courseName) document.getElementById('field-course-name').value = profile.courseName;
+        }
+      }
+
+      // Ensure all pills start completely unselected
+      document.querySelectorAll('#pills-experience .choice-pill-btn, #pills-location .choice-pill-btn, #pills-skills .choice-pill-btn').forEach(p => {
+        p.classList.remove('selected');
+      });
+      const valExp = document.getElementById('val-experience');
+      if (valExp) valExp.value = '';
+
+      setupResumeDragDrop();
+      removeUploadedResume();
+    }
+
+    function showToast(text) {
+      const toast = document.getElementById('app-toast');
+      if (toast) {
+        document.getElementById('toast-text').textContent = text;
+        toast.classList.add('is-visible');
+        setTimeout(() => toast.classList.remove('is-visible'), 4500);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initPage);
+  </script>
+</body>
+
+</html>
