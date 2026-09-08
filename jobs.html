@@ -849,7 +849,7 @@
         <a href="placements.html">Placements</a>
         <a href="our-story.html">Our Story</a>
         <a href="jobs.html" class="active">Jobs</a>
-        <a href="https://darksalmon-llama-333572.hostingersite.com/" target="_blank">Resume Builder</a>
+        <a href="https://darksalmon-llama-333572.hostingersite.com/" target="_blank" onclick="openResumeBuilder(event)">Resume Builder</a>
       </div>
       <div class="nav-right">
         <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen,%20I%20would%20like%20to%20talk%20to%20your%20team."
@@ -1178,9 +1178,8 @@
     });
 
     function initNavUser() {
-      const AUTH_STORAGE_KEY = 'kompetenzen_google_user';
       try {
-        const raw = localStorage.getItem(AUTH_STORAGE_KEY);
+        const raw = localStorage.getItem('kompetenzen_google_user') || localStorage.getItem('kompetenzen_user') || localStorage.getItem('user');
         if (raw) {
           const user = JSON.parse(raw);
           const badge = document.getElementById('nav-user-badge');
@@ -1209,10 +1208,11 @@
     }
 
     function handleSignOut() {
-      const AUTH_STORAGE_KEY = 'kompetenzen_google_user';
-      const PROFILE_STORAGE_KEY = 'kompetenzen_candidate_profile';
-      localStorage.removeItem(AUTH_STORAGE_KEY);
-      localStorage.removeItem(PROFILE_STORAGE_KEY);
+      localStorage.removeItem('kompetenzen_google_user');
+      localStorage.removeItem('kompetenzen_user');
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      localStorage.removeItem('kompetenzen_candidate_profile');
       const navBadge = document.getElementById('nav-user-badge');
       if (navBadge) {
         navBadge.classList.remove('open');
@@ -1288,5 +1288,7 @@
     }, { passive: true });
   </script>
 
+  <!-- Unified Auth Modal -->
+  <script src="js/auth-modal.js"></script>
 </body>
 </html>

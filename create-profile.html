@@ -1000,8 +1000,21 @@
 
     function getStoredUser() {
       try {
-        const data = localStorage.getItem(AUTH_STORAGE_KEY);
-        return data ? JSON.parse(data) : null;
+        const raw = localStorage.getItem('kompetenzen_google_user') ||
+                    localStorage.getItem('kompetenzen_user') ||
+                    localStorage.getItem('user');
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === 'object') {
+          return {
+            name: parsed.name || parsed.fullName || (parsed.email ? parsed.email.split('@')[0] : 'User'),
+            email: (parsed.email || '').toLowerCase(),
+            phone: parsed.phone || '',
+            token: parsed.token || localStorage.getItem('token') || 'logged_in',
+            loginTime: parsed.loginTime || new Date().toISOString()
+          };
+        }
+        return null;
       } catch (e) {
         return null;
       }
@@ -1225,13 +1238,22 @@
         updatedAt: new Date().toISOString()
       };
 
-      // Save to localStorage
-      localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(profile));
-      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify({
+      // Unified user object for SSO
+      const authUser = {
         name,
-        email,
-        loginTime: new Date().toISOString()
-      }));
+        email: email.toLowerCase(),
+        phone,
+        loginTime: new Date().toISOString(),
+        token: 'token_' + Date.now()
+      };
+
+      // Save to localStorage across all unified SSO keys
+      localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(profile));
+      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(authUser));
+      localStorage.setItem('kompetenzen_user', JSON.stringify(authUser));
+      localStorage.setItem('user', JSON.stringify(authUser));
+      localStorage.setItem('token', authUser.token);
+      localStorage.setItem('kompetenzen_last_auth_email', authUser.email);
 
       // Register candidate into registered users store
       saveRegisteredUser({
@@ -1290,10 +1312,30 @@
       const resumeTag = uploadedResumeFile ? ` [Resume: ${uploadedResumeFile.name}]` : '';
       const summaryRole = `${targetJob ? targetJob.title : 'Quick Apply Profile'} at ${targetJob ? targetJob.company : 'Kompetenzen'} [Degree: ${degree} (${gradYear})]${studentTag} [Exp: ${experience}] [Loc: ${selectedLocations.join(', ')}] [Skills: ${selectedSkills.join(', ')}]${resumeTag}`;
 
+      // Register candidate credentials into Users_Auth sheet for cross-site SSO
+      try {
+        sendLeadToSheet({
+          type: 'auth_signup',
+          section: 'Job Listing',
+          targetSheet: 'Users_Auth',
+          name: name,
+          email: email.toLowerCase(),
+          phone: phone,
+          authType: 'Candidate Profile',
+          role: summaryRole,
+          page: window.location.href,
+          timestamp: new Date().toISOString()
+        });
+      } catch (authErr) {
+        console.warn('Auth sheet transmission error:', authErr);
+      }
+
       // Send to Google Sheets (Job_Applications tab) with Resume PDF data and wait for it
       try {
         await sendLeadToSheet({
           type: 'job_application',
+          section: 'Job Listing',
+          targetSheet: 'Job_Applications',
           name: name,
           phone: phone,
           email: email,

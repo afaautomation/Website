@@ -3871,7 +3871,7 @@
         <a href="#placements">Placements</a>
         <a href="our-story.html">Our Story</a>
         <a href="jobs.html">Jobs</a>
-        <a href="https://darksalmon-llama-333572.hostingersite.com/" target="_blank">Resume Builder</a>
+        <a href="https://darksalmon-llama-333572.hostingersite.com/" target="_blank" onclick="openResumeBuilder(event)">Resume Builder</a>
       </div>
       <div class="nav-right">
         <a href="#contact" class="cta"><span class="dot"></span>Talk to us</a>
@@ -5484,7 +5484,7 @@
         </p>
 
         <button class="resume-btn"
-          onclick="window.open('https://darksalmon-llama-333572.hostingersite.com/', '_blank')">
+          onclick="openResumeBuilder(event)">
           build your resume
         </button>
       </div>
@@ -5763,7 +5763,7 @@
           <div class="ft-col">
             <h4>Explore</h4>
             <a href="#placements">2000+ Placements</a>
-            <a href="https://darksalmon-llama-333572.hostingersite.com/" target="_blank">Resume Builder</a>
+            <a href="https://darksalmon-llama-333572.hostingersite.com/" target="_blank" onclick="openResumeBuilder(event)">Resume Builder</a>
             <a href="#"></a>
             <a href="#"></a>
           </div>
@@ -6537,6 +6537,100 @@
         } catch (e) {}
       }
 
+      // ===== UNIFIED AUTHENTICATION & SINGLE SIGN-ON (SSO) HELPERS =====
+      const AUTH_STORAGE_KEY = 'kompetenzen_google_user';
+
+      function getStoredUser() {
+        try {
+          const raw = localStorage.getItem('kompetenzen_user') || localStorage.getItem(AUTH_STORAGE_KEY) || localStorage.getItem('user');
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) {
+          return null;
+        }
+      }
+
+      function isUserLoggedIn() {
+        return !!(localStorage.getItem('token') || getStoredUser());
+      }
+
+      function getRegisteredUsers() {
+        try {
+          return JSON.parse(localStorage.getItem('kompetenzen_registered_users') || '[]');
+        } catch (e) {
+          return [];
+        }
+      }
+
+      function hasRegisteredAccount() {
+        try {
+          const users = getRegisteredUsers();
+          if (users && users.length > 0) return true;
+          if (getStoredUser() || localStorage.getItem('kompetenzen_last_auth_email')) return true;
+        } catch (e) {}
+        return false;
+      }
+
+      function getLastKnownEmail() {
+        try {
+          const stored = getStoredUser();
+          if (stored && stored.email) return stored.email;
+          const last = localStorage.getItem('kompetenzen_last_auth_email');
+          if (last) return last;
+          const users = getRegisteredUsers();
+          if (users.length > 0 && users[users.length - 1].email) return users[users.length - 1].email;
+        } catch (e) {}
+        return '';
+      }
+
+      function saveUnifiedSession(userData) {
+        const token = localStorage.getItem('token') || ('kompetenzen_jwt_' + Math.random().toString(36).substring(2) + Date.now().toString(36));
+        const userObj = {
+          name: userData.name || 'Student / Candidate',
+          email: (userData.email || '').toLowerCase(),
+          phone: userData.phone || '',
+          authType: userData.authType || 'Direct Login',
+          loginTime: new Date().toISOString()
+        };
+
+        localStorage.setItem('token', token);
+        localStorage.setItem('kompetenzen_user', JSON.stringify(userObj));
+        localStorage.setItem('user', JSON.stringify(userObj));
+        localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(userObj));
+        if (userObj.email) {
+          localStorage.setItem('kompetenzen_last_auth_email', userObj.email);
+        }
+
+        // Add or update in registered users database
+        try {
+          const users = getRegisteredUsers();
+          const idx = users.findIndex(u => (u.email || '').toLowerCase() === userObj.email);
+          if (idx >= 0) {
+            users[idx] = { ...users[idx], ...userObj, password: userData.password || users[idx].password || '' };
+          } else {
+            users.push({ ...userObj, password: userData.password || '' });
+          }
+          localStorage.setItem('kompetenzen_registered_users', JSON.stringify(users));
+        } catch (e) {}
+
+        // Sync to resume builder backend if running locally
+        syncToResumeBuilder({ name: userObj.name, email: userObj.email, phone: userObj.phone });
+
+        return userObj;
+      }
+
+      // Resume builder trigger: opens directly if logged in, or prompts for sign in (saving to Users_Auth)
+      window.openResumeBuilder = function(e) {
+        if (e && e.preventDefault) e.preventDefault();
+        const RESUME_BUILDER_URL = 'https://darksalmon-llama-333572.hostingersite.com/';
+        if (isUserLoggedIn()) {
+          window.open(RESUME_BUILDER_URL, '_blank');
+        } else {
+          window._pendingAuthSection = 'resume';
+          const initialMode = hasRegisteredAccount() ? 'login' : 'signup';
+          window.openAuthModal(initialMode, RESUME_BUILDER_URL);
+        }
+      };
+
       // ===== AUTHENTICATION MODAL LOGIC (SIGN UP & LOG IN) =====
       let currentAuthMode = 'signup';
 
@@ -6571,6 +6665,12 @@
           if (subtitleEl) subtitleEl.textContent = 'Log in to your student & career portal';
           if (googleText) googleText.textContent = 'Log In with Google';
           if (dividerText) dividerText.textContent = 'or continue with email';
+
+          // Pre-fill email if known
+          const loginEmail = document.getElementById('login-email');
+          if (loginEmail && !loginEmail.value.trim()) {
+            loginEmail.value = getLastKnownEmail();
+          }
         } else {
           if (signupBtn) {
             signupBtn.style.background = '#1947FF';
@@ -6617,6 +6717,7 @@
         const modal = document.getElementById('jobs-auth-modal');
         if (modal) modal.style.display = 'none';
         window._pendingAuthRedirect = null;
+        window._pendingAuthSection = null;
         const msgEl = document.getElementById('auth-inline-msg');
         if (msgEl) msgEl.style.display = 'none';
       }
@@ -6628,43 +6729,41 @@
       window.openAuthModal = function(mode = 'signup', redirectUrl = null) {
         const modal = document.getElementById('jobs-auth-modal');
         if (redirectUrl) window._pendingAuthRedirect = redirectUrl;
-        switchAuthTab(mode);
+
+        // If user already registered anywhere, make "Log In" come!
+        let activeMode = mode;
+        if (activeMode === 'signup' && hasRegisteredAccount()) {
+          activeMode = 'login';
+        }
+        switchAuthTab(activeMode);
         if (modal) modal.style.display = 'flex';
       };
 
-      // Helper to get registered users
-      function getRegisteredUsers() {
-        try {
-          return JSON.parse(localStorage.getItem('kompetenzen_registered_users') || '[]');
-        } catch (e) {
-          return [];
-        }
-      }
-
-      // Complete authentication session locally (DISCONNECTED FROM Users_Auth SHEET)
+      // Complete authentication session locally and across SSO
       function completeAuthSession(userData, redirectMsg = 'Logging in…') {
-        const token = 'kompetenzen_jwt_' + Math.random().toString(36).substring(2) + Date.now().toString(36);
-        localStorage.setItem('token', token);
-        localStorage.setItem('kompetenzen_user', JSON.stringify(userData));
-        localStorage.setItem('user', JSON.stringify(userData));
-
-        // Sync to local resume builder if active
-        syncToResumeBuilder({ name: userData.name, email: userData.email, phone: userData.phone });
-
+        saveUnifiedSession(userData);
         showAuthMessage(`✓ ${redirectMsg}`, false);
 
         setTimeout(() => {
           const redirect = window._pendingAuthRedirect;
           window._pendingAuthRedirect = null;
+          const section = window._pendingAuthSection;
+          window._pendingAuthSection = null;
+
           if (redirect) {
-            window.location.href = redirect;
+            if (redirect.indexOf('http') === 0 && redirect.indexOf(window.location.host) === -1) {
+              window.open(redirect, '_blank');
+              closeJobsAuthModal();
+            } else {
+              window.location.href = redirect;
+            }
           } else {
             closeJobsAuthModal();
           }
         }, 700);
       }
 
-      // Handle Sign Up (Saves to Login_Signup_Details sheet)
+      // Handle Sign Up
       function handleSignupSubmit(e) {
         e.preventDefault();
         const name = document.getElementById('signup-name').value.trim();
@@ -6702,16 +6801,17 @@
           authType: 'Email Signup'
         };
 
-        users.push(newUser);
-        try {
-          localStorage.setItem('kompetenzen_registered_users', JSON.stringify(users));
-        } catch (err) {}
+        const isResume = window._pendingAuthSection === 'resume';
+        const targetSheet = isResume ? 'Users_Auth' : 'Course_Login_Details';
+        const sectionName = isResume ? 'Resume Builder' : 'Course Details';
 
-        // Send Signup details to Google Sheet Login_Signup_Details tab
+        // Send Signup details to Google Sheet tab
         sendLeadToSheet({
           type: 'signup',
           authType: 'Email Signup',
           action: 'Account Created',
+          section: sectionName,
+          targetSheet: targetSheet,
           name: name,
           email: email,
           phone: phone,
@@ -6723,8 +6823,8 @@
         completeAuthSession(newUser, 'Account created! Welcome to Kompetenzen…');
       }
 
-      // Handle Log In (Saves to Login_Signup_Details sheet)
-      function handleLoginSubmit(e) {
+      // Handle Log In (Authenticates with local users AND verifies against Users_Auth sheet)
+      async function handleLoginSubmit(e) {
         e.preventDefault();
         const email = document.getElementById('login-email').value.trim().toLowerCase();
         const password = document.getElementById('login-password').value;
@@ -6736,7 +6836,7 @@
         }
 
         const users = getRegisteredUsers();
-        const user = users.find(u => u.email === email);
+        let user = users.find(u => u.email === email);
 
         if (user && user.password && user.password !== password) {
           showAuthMessage('Incorrect password. Please try again.', true);
@@ -6745,7 +6845,27 @@
 
         if (btn) {
           btn.disabled = true;
-          btn.textContent = 'Logging In…';
+          btn.textContent = 'Verifying…';
+        }
+
+        // If user is not found locally, verify against Users_Auth sheet via Google Apps Script
+        if (!user) {
+          try {
+            const verifyUrl = GOOGLE_SHEET_SCRIPT_URL + '?type=verify_user&email=' + encodeURIComponent(email) + '&password=' + encodeURIComponent(password);
+            const resp = await fetch(verifyUrl);
+            const data = await resp.json();
+            if (data && data.verified && data.user) {
+              user = {
+                name: data.user.name || email.split('@')[0],
+                email: data.user.email || email,
+                phone: data.user.phone || '',
+                password: password,
+                authType: 'Direct Login'
+              };
+            }
+          } catch (err) {
+            console.warn('Backend verification query fallback:', err);
+          }
         }
 
         const authenticatedUser = user || {
@@ -6755,11 +6875,17 @@
           authType: 'Direct Login'
         };
 
-        // Send Login details to Google Sheet Login_Signup_Details tab
+        const isResume = window._pendingAuthSection === 'resume';
+        const targetSheet = isResume ? 'Users_Auth' : 'Course_Login_Details';
+        const sectionName = isResume ? 'Resume Builder' : 'Course Details';
+
+        // Send Login details to Google Sheet tab
         sendLeadToSheet({
           type: 'login',
           authType: 'Direct Login',
           action: 'User Logged In',
+          section: sectionName,
+          targetSheet: targetSheet,
           name: authenticatedUser.name || '',
           email: email,
           phone: authenticatedUser.phone || '',
@@ -6771,7 +6897,7 @@
         completeAuthSession(authenticatedUser, `Welcome back, ${authenticatedUser.name}! Logging you in…`);
       }
 
-      // Handle Google Sign In (Saves to Login_Signup_Details sheet)
+      // Handle Google Sign In
       async function triggerWebsiteGoogleSignIn() {
         const btn = document.getElementById('lead-google-btn');
         const btnText = document.getElementById('lead-google-btn-text');
@@ -6779,11 +6905,10 @@
         let defaultEmail = '';
         let defaultName = '';
         try {
-          const stored = localStorage.getItem('kompetenzen_user') || localStorage.getItem('user');
+          const stored = getStoredUser();
           if (stored) {
-            const parsed = JSON.parse(stored);
-            defaultEmail = parsed.email || '';
-            defaultName = parsed.name || '';
+            defaultEmail = stored.email || '';
+            defaultName = stored.name || '';
           }
         } catch (e) {}
 
@@ -6825,20 +6950,17 @@
           createdAt: new Date().toISOString()
         };
 
-        // Save in local registered users
-        const users = getRegisteredUsers();
-        if (!users.some(u => u.email === email)) {
-          users.push(googleUser);
-          try {
-            localStorage.setItem('kompetenzen_registered_users', JSON.stringify(users));
-          } catch (e) {}
-        }
+        const isResume = window._pendingAuthSection === 'resume';
+        const targetSheet = isResume ? 'Users_Auth' : 'Course_Login_Details';
+        const sectionName = isResume ? 'Resume Builder' : 'Course Details';
 
-        // Send Google Auth details to Google Sheet Login_Signup_Details tab
+        // Send Google Auth details to Google Sheet tab
         sendLeadToSheet({
           type: 'google_auth',
           authType: 'Google Auth',
           action: 'Google Sign In',
+          section: sectionName,
+          targetSheet: targetSheet,
           name: name,
           email: email,
           phone: phone,
@@ -6856,7 +6978,10 @@
           if (window.location.hash.startsWith('#auth-redirect=')) {
             window._pendingAuthRedirect = window.location.hash.replace('#auth-redirect=', '');
           }
-          const initialMode = (window.location.hash === '#login') ? 'login' : 'signup';
+          let initialMode = (window.location.hash === '#login') ? 'login' : 'signup';
+          if (initialMode === 'signup' && hasRegisteredAccount()) {
+            initialMode = 'login';
+          }
           switchAuthTab(initialMode);
           if (modal) modal.style.display = 'flex';
           history.replaceState(null, '', window.location.pathname);

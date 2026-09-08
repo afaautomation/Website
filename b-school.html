@@ -552,8 +552,8 @@
         <a href="placements.html">Placements</a>
         <a href="our-story.html">Our Story</a>
         <a href="jobs.html">Jobs</a>
-        <a href="https://darksalmon-llama-333572.hostingersite.com/" target="_blank">Resume Builder</a>
-        <a href="#" class="logout-link" style="display: none; color: #dc2626; font-weight: 600;" onclick="event.preventDefault(); localStorage.removeItem('token'); window.location.reload();">Log Out</a>
+        <a href="https://darksalmon-llama-333572.hostingersite.com/" target="_blank" onclick="openResumeBuilder(event)">Resume Builder</a>
+        <a href="#" class="logout-link" style="display: none; color: #dc2626; font-weight: 600;" onclick="event.preventDefault(); ['token', 'kompetenzen_user', 'user', 'kompetenzen_google_user', 'kompetenzen_candidate_profile'].forEach(k => localStorage.removeItem(k)); window.location.reload();">Log Out</a>
       </div>
       <div class="nav-right">
         <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="nav-cta">

@@ -1575,7 +1575,7 @@
         <a href="placements.html">Placements</a>
         <a href="our-story.html">Our Story</a>
         <a href="jobs.html" class="active">Jobs</a>
-        <a href="https://darksalmon-llama-333572.hostingersite.com/" target="_blank">Resume Builder</a>
+        <a href="https://darksalmon-llama-333572.hostingersite.com/" target="_blank" onclick="openResumeBuilder(event)">Resume Builder</a>
       </div>
       <div class="nav-right">
         <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen,%20I%20would%20like%20to%20talk%20to%20your%20team."
@@ -2270,11 +2270,36 @@
 
     function getStoredUser() {
       try {
-        const data = localStorage.getItem(AUTH_STORAGE_KEY);
-        return data ? JSON.parse(data) : null;
+        const raw = localStorage.getItem(AUTH_STORAGE_KEY) || localStorage.getItem('kompetenzen_user') || localStorage.getItem('user');
+        return raw ? JSON.parse(raw) : null;
       } catch (e) {
         return null;
       }
+    }
+
+    function isUserLoggedIn() {
+      return !!(localStorage.getItem('token') || getStoredUser());
+    }
+
+    function hasRegisteredAccount() {
+      try {
+        const users = getRegisteredUsers();
+        if (users && users.length > 0) return true;
+        if (getStoredUser() || localStorage.getItem('kompetenzen_last_auth_email')) return true;
+      } catch (e) {}
+      return false;
+    }
+
+    function getLastKnownEmail() {
+      try {
+        const stored = getStoredUser();
+        if (stored && stored.email) return stored.email;
+        const last = localStorage.getItem('kompetenzen_last_auth_email');
+        if (last) return last;
+        const users = getRegisteredUsers();
+        if (users.length > 0 && users[users.length - 1].email) return users[users.length - 1].email;
+      } catch (e) {}
+      return '';
     }
 
     function getStoredProfile() {
@@ -2408,7 +2433,20 @@
       if (alertEl) alertEl.style.display = 'none';
     }
 
-    function openAuthModal() {
+    function openAuthModal(initialTab = null) {
+      // If user is already signed in anywhere, bypass modal directly!
+      const user = getStoredUser();
+      if (user) {
+        const profile = getStoredProfile();
+        const currentJobId = currentJob ? currentJob.id : '';
+        if (!profile) {
+          window.location.href = `create-profile.html?jobId=${currentJobId}`;
+        } else {
+          submitDirectApplication(user, profile);
+        }
+        return;
+      }
+
       const modal = document.getElementById('auth-profile-modal');
       if (!modal) return;
       modal.classList.add('active');
@@ -2425,7 +2463,31 @@
 
       if (authView) authView.style.display = 'flex';
       hideAuthAlert();
+
+      // Proactive "make login come": If user already registered anywhere, default to login
+      let tab = initialTab;
+      if (!tab) {
+        tab = hasRegisteredAccount() ? 'login' : 'login';
+      } else if (tab === 'signup' && hasRegisteredAccount()) {
+        tab = 'login';
+      }
+      switchAuthTab(tab);
+
+      const loginEmail = document.getElementById('login-email');
+      if (loginEmail && !loginEmail.value.trim()) {
+        loginEmail.value = getLastKnownEmail();
+      }
     }
+
+    window.openResumeBuilder = function (e) {
+      if (e && e.preventDefault) e.preventDefault();
+      const resumeUrl = 'https://darksalmon-llama-333572.hostingersite.com/';
+      if (isUserLoggedIn()) {
+        window.open(resumeUrl, '_blank', 'noopener,noreferrer');
+        return;
+      }
+      openAuthModal(hasRegisteredAccount() ? 'login' : 'signup');
+    };
 
     function closeAuthModal() {
       const modal = document.getElementById('auth-profile-modal');
@@ -2545,6 +2607,8 @@
         type: 'auth',
         authType: 'Google Auth',
         action: 'Google Login',
+        section: 'Job Listing',
+        targetSheet: 'Users_Auth',
         name: derivedName,
         email: email.toLowerCase(),
         page: window.location.href,
@@ -2590,11 +2654,13 @@
         return;
       }
 
-      // Record login in Google Sheet Login_Signup_Details tab
+      // Record login in Google Sheet Users_Auth tab
       sendLeadToSheet({
         type: 'auth',
         authType: 'Log In (Email)',
         action: 'Logged In Successfully',
+        section: 'Job Listing',
+        targetSheet: 'Users_Auth',
         name: user.name,
         email: user.email,
         phone: user.phone || '',
@@ -2603,7 +2669,7 @@
         timestamp: new Date().toISOString()
       });
 
-      authenticateUser(user.name, user.email, false);
+      authenticateUser(user.name, user.email, false, password);
     }
 
     function handleForgotPassword(e) {
@@ -2702,11 +2768,13 @@
         registeredAt: new Date().toISOString()
       });
 
-      // Record sign-up in Google Sheet Login_Signup_Details tab
+      // Record sign-up in Google Sheet Users_Auth tab
       sendLeadToSheet({
         type: 'auth',
         authType: 'Sign Up (Email)',
         action: 'Account Created',
+        section: 'Job Listing',
+        targetSheet: 'Users_Auth',
         name: name,
         email: email,
         password: password,
@@ -2714,17 +2782,27 @@
         timestamp: new Date().toISOString()
       });
 
-      authenticateUser(name, email, false);
+      authenticateUser(name, email, false, password);
     }
 
-    function authenticateUser(name, email, isGoogle = true) {
+    function authenticateUser(name, email, isGoogle = true, password = '') {
+      const token = localStorage.getItem('token') || ('kompetenzen_jwt_' + Math.random().toString(36).substring(2) + Date.now().toString(36));
       const user = {
         name: name || 'Candidate',
         email: email || 'candidate@example.com',
         isGoogle: isGoogle,
+        authType: isGoogle ? 'Google Auth' : 'Direct Login',
         loginTime: new Date().toISOString()
       };
+      localStorage.setItem('token', token);
+      localStorage.setItem('kompetenzen_user', JSON.stringify(user));
+      localStorage.setItem('user', JSON.stringify(user));
       localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(user));
+      if (email) {
+        localStorage.setItem('kompetenzen_last_auth_email', email);
+      }
+      saveRegisteredUser({ ...user, password: password });
+
       updateSidebarAuthState();
       closeAuthModal();
 
@@ -2783,6 +2861,9 @@
 
     function handleSignOut() {
       localStorage.removeItem(AUTH_STORAGE_KEY);
+      localStorage.removeItem('token');
+      localStorage.removeItem('kompetenzen_user');
+      localStorage.removeItem('user');
       localStorage.removeItem(PROFILE_STORAGE_KEY);
       const navBadge = document.getElementById('nav-user-badge');
       if (navBadge) {
@@ -2792,7 +2873,7 @@
       updateSidebarAuthState();
       const toast = document.getElementById('app-toast');
       if (toast) {
-        toast.querySelector('span').textContent = 'Profile cleared. Signed out successfully.';
+        toast.querySelector('span').textContent = 'Signed out successfully.';
         toast.classList.add('is-visible');
         setTimeout(() => toast.classList.remove('is-visible'), 3000);
       }

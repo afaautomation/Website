@@ -59,9 +59,36 @@ function handleRequest(e) {
     var timestamp = params.timestamp || Utilities.formatDate(new Date(), 'Asia/Kolkata', 'dd/MM/yyyy HH:mm:ss');
 
     // =========================================================================
-    // ROUTE 1: User Login & Signup Events (Dedicated Login_Signup_Details Tab)
+    // ROUTE 0: User Verification & Authentication Query (Cross-Sheet Auth)
+    // Allows Course Details login to verify credentials against Users_Auth
     // =========================================================================
-    if (type === 'auth' || type === 'signup' || type === 'login' || type === 'google_auth') {
+    if (type === 'verify_user' || type === 'check_auth' || type === 'get_user') {
+      var emailToCheck = String(params.email || '').trim().toLowerCase();
+      var passToCheck = String(params.password || '');
+      
+      var foundUser = findUserInAuthSheets(ss, emailToCheck, passToCheck);
+      if (foundUser) {
+        return createJsonResponse({
+          status: 'success',
+          verified: true,
+          user: foundUser,
+          message: 'User successfully verified against ' + foundUser.sourceSheet
+        });
+      } else {
+        return createJsonResponse({
+          status: 'not_found',
+          verified: false,
+          message: 'User credentials not found in Users_Auth or Course_Login_Details'
+        });
+      }
+    }
+
+    // =========================================================================
+    // ROUTE 1: User Login & Signup Events (Course_Login_Details vs Users_Auth)
+    // Course Details -> "Course_Login_Details"
+    // Job Listing & Resume Builder -> "Users_Auth"
+    // =========================================================================
+    else if (type === 'auth' || type === 'signup' || type === 'login' || type === 'google_auth') {
       var authHeaders = [
         'Timestamp',
         'Full Name',
@@ -70,10 +97,32 @@ function handleRequest(e) {
         'Password',
         'Auth Type',
         'Action',
+        'Section',
         'Page URL'
       ];
 
-      var authSheet = getOrCreateSheet(ss, 'Login_Signup_Details', authHeaders, '#4f46e5'); // Indigo header
+      // Determine target sheet tab
+      var sectionParam = (params.section || '').toLowerCase();
+      var pageParam = (params.page || '').toLowerCase();
+      var explicitTarget = params.targetSheet || params.sheet || '';
+
+      var targetSheetName = 'Users_Auth';
+      var headerColor = '#1d4ed8'; // Royal blue for Users_Auth
+
+      if (explicitTarget) {
+        targetSheetName = explicitTarget;
+        if (targetSheetName === 'Course_Login_Details') headerColor = '#4f46e5';
+      } else if (
+        sectionParam.indexOf('course') > -1 ||
+        pageParam.indexOf('school') > -1 ||
+        pageParam.indexOf('course') > -1 ||
+        (pageParam.indexOf('index.html') > -1 && sectionParam.indexOf('job') === -1 && sectionParam.indexOf('resume') === -1)
+      ) {
+        targetSheetName = 'Course_Login_Details';
+        headerColor = '#4f46e5'; // Indigo for Course_Login_Details
+      }
+
+      var authSheet = getOrCreateSheet(ss, targetSheetName, authHeaders, headerColor);
 
       // Deduplication: prevent rapid duplicate submissions
       var lastRow = authSheet.getLastRow();
@@ -93,7 +142,7 @@ function handleRequest(e) {
         if (lastTs === String(timestamp).trim() || (thisEm && lastEm === thisEm && lastType === thisType && (lastPh === thisPh || lastNm === thisNm))) {
           return createJsonResponse({
             status: 'success',
-            sheet: 'Login_Signup_Details',
+            sheet: targetSheetName,
             message: 'Duplicate ignored — single row preserved'
           });
         }
@@ -101,6 +150,7 @@ function handleRequest(e) {
 
       var authTypeVal = params.authType || (type === 'login' ? 'Email Login' : (type === 'google_auth' ? 'Google Auth' : 'Email Signup'));
       var actionVal = params.action || (type === 'login' ? 'User Logged In' : (type === 'google_auth' ? 'Google Sign In' : 'Account Created'));
+      var sectionVal = params.section || (targetSheetName === 'Course_Login_Details' ? 'Course Details' : 'Job Listing');
 
       authSheet.appendRow([
         timestamp,
@@ -110,13 +160,14 @@ function handleRequest(e) {
         params.password || '',
         authTypeVal,
         actionVal,
+        sectionVal,
         params.page || ''
       ]);
 
       return createJsonResponse({
         status: 'success',
-        sheet: 'Login_Signup_Details',
-        message: 'Login/Signup details recorded successfully in Login_Signup_Details'
+        sheet: targetSheetName,
+        message: 'Login/Signup details recorded successfully in ' + targetSheetName
       });
     }
 
@@ -513,9 +564,9 @@ function setupCourseEnrollmentsSheet() {
 
 /**
  * Run this function directly from the Apps Script editor menu to
- * immediately create and format the "Login_Signup_Details" tab in your Google Sheet!
+ * immediately create and format the "Course_Login_Details" tab in your Google Sheet!
  */
-function setupLoginSignupSheet() {
+function setupCourseLoginSheet() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var authHeaders = [
     'Timestamp',
@@ -525,11 +576,67 @@ function setupLoginSignupSheet() {
     'Password',
     'Auth Type',
     'Action',
+    'Section',
     'Page URL'
   ];
-  var sheet = getOrCreateSheet(ss, 'Login_Signup_Details', authHeaders, '#4f46e5');
+  var sheet = getOrCreateSheet(ss, 'Course_Login_Details', authHeaders, '#4f46e5');
   SpreadsheetApp.flush();
-  Logger.log('"Login_Signup_Details" tab created and formatted successfully!');
+  Logger.log('"Course_Login_Details" tab created and formatted successfully!');
+}
+
+/**
+ * Run this function directly from the Apps Script editor menu to
+ * immediately create and format the "Users_Auth" tab in your Google Sheet!
+ */
+function setupUsersAuthSheet() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var authHeaders = [
+    'Timestamp',
+    'Full Name',
+    'Email Address',
+    'Phone Number',
+    'Password',
+    'Auth Type',
+    'Action',
+    'Section',
+    'Page URL'
+  ];
+  var sheet = getOrCreateSheet(ss, 'Users_Auth', authHeaders, '#1d4ed8');
+  SpreadsheetApp.flush();
+  Logger.log('"Users_Auth" tab created and formatted successfully!');
+}
+
+/**
+ * Helper: Find a user across auth sheets (Users_Auth, Course_Login_Details)
+ * Enables Course Details login to verify credentials against Users_Auth.
+ */
+function findUserInAuthSheets(ss, email, password) {
+  if (!email) return null;
+  var sheetsToCheck = ['Users_Auth', 'Course_Login_Details', 'Login_Signup_Details'];
+  for (var s = 0; s < sheetsToCheck.length; s++) {
+    var sheet = ss.getSheetByName(sheetsToCheck[s]);
+    if (!sheet) continue;
+    var lastRow = sheet.getLastRow();
+    if (lastRow <= 1) continue;
+    var data = sheet.getRange(2, 1, lastRow - 1, 8).getValues();
+    for (var i = data.length - 1; i >= 0; i--) {
+      var rowEmail = String(data[i][2] || '').trim().toLowerCase();
+      var rowPass = String(data[i][4] || '').trim();
+      var rowName = String(data[i][1] || '').trim();
+      var rowPhone = String(data[i][3] || '').trim();
+      if (rowEmail === email.toLowerCase()) {
+        if (!password || !rowPass || rowPass === password) {
+          return {
+            name: rowName,
+            email: rowEmail,
+            phone: rowPhone,
+            sourceSheet: sheetsToCheck[s]
+          };
+        }
+      }
+    }
+  }
+  return null;
 }
 
 /**
