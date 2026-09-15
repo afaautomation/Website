@@ -583,7 +583,7 @@
         if (!container || !canvas) return;
 
         // Configuration
-        const MESH_COUNT = 612; // 204 * 3: each unique card appears 3 times in the floating universe
+        const MESH_COUNT = 204; // Exactly 204 cards: 1:1 match with all 204 unique placement photos
         const GRID_COLS = 17;
         const GRID_ROWS = 12;
         const TOTAL_ATLAS_CARDS = 204;
@@ -623,56 +623,41 @@
         // Shaders
         const vertexShader = `
           varying vec2 vUv;
+          varying float vVisibility;
+          varying float vSharpness;
+          varying vec4 vTextureCoords;
+
           attribute vec3 aInitialPosition;
           attribute float aMeshSpeed;
           attribute vec4 aTextureCoords;
 
           uniform float uTime;
-          uniform vec2 uMaxXdisplacement;
           uniform vec2 uDrag;
           uniform float uScrollY;
-
-          varying float vVisibility;
-          varying vec4 vTextureCoords;
-
-          float remap(float value, float originMin, float originMax) {
-              return clamp((value - originMin) / (originMax - originMin), 0.0, 1.0);
-          }
 
           void main() {
               vec3 newPosition = position + aInitialPosition;
 
-              float maxX = uMaxXdisplacement.x;
-              float maxY = uMaxXdisplacement.y;
+              // Organic floating drift in X and Y
+              float driftX = sin(uTime * aMeshSpeed + aInitialPosition.z * 0.15) * 0.35;
+              float driftY = cos(uTime * aMeshSpeed * 0.85 + aInitialPosition.x * 0.15) * 0.25;
 
-              float maxYoffset = distance(aInitialPosition.y, maxY);
-              float minYoffset = distance(aInitialPosition.y, -maxY);
+              newPosition.x += driftX - uDrag.x;
+              newPosition.y += driftY - uDrag.y;
 
-              float maxXoffset = distance(aInitialPosition.x, maxX);
-              float minXoffset = distance(aInitialPosition.x, -maxX);
+              // Continuous linear forward journey along Z driven by page scroll - strictly NO modulo looping
+              newPosition.z += uScrollY;
 
-              // Modulo continuous wrapping displacement (strictly positive for both left & right edges)
-              float totalX = maxXoffset + minXoffset;
-              float xDisplacement = mod(mod(minXoffset - uDrag.x + uTime * aMeshSpeed, totalX) + totalX, totalX) - minXoffset;
+              // Dissolve smoothly before passing behind the camera (camera is at z = 10.0)
+              float nearFade = 1.0 - smoothstep(6.5, 9.2, newPosition.z);
 
-              float totalY = maxYoffset + minYoffset;
-              float yDisplacement = mod(mod(minYoffset - uDrag.y, totalY) + totalY, totalY) - minYoffset;
+              // Smoothly fade in as cards approach from deep background
+              float farFade = smoothstep(-155.0, -115.0, newPosition.z);
 
-              float maxZ = 12.0;
-              float minZ = -30.0;
+              vVisibility = nearFade * farFade;
 
-              float maxZoffset = distance(aInitialPosition.z, maxZ);
-              float minZoffset = distance(aInitialPosition.z, minZ);
-
-              float totalZ = maxZoffset + minZoffset;
-              float zDisplacement = mod(mod(uScrollY + minZoffset, totalZ) + totalZ, totalZ) - minZoffset;
-
-              newPosition.x += xDisplacement;
-              newPosition.y += yDisplacement;
-              newPosition.z += zDisplacement;
-
-              // Visibility fade at deep background bounds
-              vVisibility = remap(newPosition.z, minZ, minZ + 5.0);
+              // Crisp rendering in foreground and midground, soft atmospheric bokeh in distant background
+              vSharpness = clamp((newPosition.z - (-80.0)) / ((-30.0) - (-80.0)), 0.0, 1.0);
 
               vec4 modelPosition = modelMatrix * vec4(newPosition, 1.0);
               vec4 viewPosition = viewMatrix * modelPosition;
@@ -687,6 +672,7 @@
         const fragmentShader = `
           varying vec2 vUv;
           varying float vVisibility;
+          varying float vSharpness;
           varying vec4 vTextureCoords;
 
           uniform sampler2D uAtlas;
@@ -699,15 +685,18 @@
           }
 
           void main() {
+              if (vVisibility <= 0.005) discard;
+
               // Anti-aliased rounded card corners
               vec2 p = vUv - vec2(0.5);
               float cardRadius = 0.055;
               float dist = roundedBoxSDF(p, vec2(0.485, 0.485), cardRadius);
               float alpha = 1.0 - smoothstep(0.0, 0.012, dist);
 
-              if (alpha <= 0.01) discard;
+              float finalAlpha = alpha * vVisibility;
+              if (finalAlpha <= 0.005) discard;
 
-              // UV coordinates from 6x6 texture atlas
+              // UV coordinates from 17x12 texture atlas
               float xStart = vTextureCoords.x;
               float xEnd = vTextureCoords.y;
               float yStart = vTextureCoords.z;
@@ -721,15 +710,15 @@
               vec4 texel = texture2D(uAtlas, atlasUV);
               vec4 blurryTexel = texture2D(uBlurryAtlas, atlasUV);
 
-              // Depth of field blend based on z-visibility
-              vec4 color = mix(blurryTexel, texel, clamp(vVisibility * 1.35, 0.0, 1.0));
+              // Depth of field blend: sharp in foreground/midground, soft in deep distance
+              vec4 color = mix(blurryTexel, texel, vSharpness);
 
               // Crisp subtle card border & dark edge contour like Spotify floater cards
               float border = smoothstep(-0.025, -0.003, dist);
               color.rgb = mix(color.rgb, vec3(0.12, 0.16, 0.28), border * 0.45);
 
-              // Fade with distance
-              color.a = alpha * vVisibility;
+              // Fade with near/far distance visibility
+              color.a = finalAlpha;
 
               gl_FragColor = color;
           }
@@ -815,27 +804,38 @@
           });
         }
 
-        // Shuffle cards distribution across instances so every photo is represented without repetitive clustering
+        // Shuffle all 204 unique card indices so photos appear in a rich, diverse order
         const cardIndices = [];
-        for (let c = 0; c < MESH_COUNT; c++) {
-          cardIndices.push(c % TOTAL_ATLAS_CARDS);
+        for (let c = 0; c < TOTAL_ATLAS_CARDS; c++) {
+          cardIndices.push(c);
         }
         for (let j = cardIndices.length - 1; j > 0; j--) {
           const k = Math.floor(Math.random() * (j + 1));
           [cardIndices[j], cardIndices[k]] = [cardIndices[k], cardIndices[j]];
         }
 
-        // Fill Instanced Buffer Data
+        // Fill Instanced Buffer Data: Each card occupies a unique position along the flight corridor
         const initialPositions = new Float32Array(MESH_COUNT * 3);
         const meshSpeeds = new Float32Array(MESH_COUNT);
         const aTextureCoords = new Float32Array(MESH_COUNT * 4);
 
         for (let i = 0; i < MESH_COUNT; i++) {
-          initialPositions[i * 3 + 0] = (Math.random() - 0.5) * sizes.maxX * 2.0;
-          initialPositions[i * 3 + 1] = (Math.random() - 0.5) * sizes.maxY * 2.0;
-          initialPositions[i * 3 + 2] = Math.random() * (7.0 - (-30.0)) - 30.0;
+          const t = i / (MESH_COUNT - 1);
+          // Continuous flight corridor along Z from near foreground to deep space
+          const z = 4.8 - t * 155.0;
 
-          meshSpeeds[i] = Math.random() * 0.5 + 0.5;
+          // Golden-angle spiral distribution across viewport quadrants
+          const angle = i * 2.3999632;
+          const rFactor = 0.28 + 0.72 * (((i * 7) % 23) / 22.0);
+
+          const x = Math.cos(angle) * (sizes.width * 0.48 * rFactor);
+          const y = Math.sin(angle) * (sizes.height * 0.48 * rFactor);
+
+          initialPositions[i * 3 + 0] = x;
+          initialPositions[i * 3 + 1] = y;
+          initialPositions[i * 3 + 2] = z;
+
+          meshSpeeds[i] = 0.4 + 0.6 * (((i * 13) % 17) / 16.0);
 
           const cardIdx = cardIndices[i];
           const uvInfo = uvs[cardIdx];
@@ -997,7 +997,7 @@
             if (totalScroll > 0) {
               const scrolled = Math.max(0, Math.min(totalScroll, -rect.top));
               const progress = scrolled / totalScroll;
-              scrollZ.target = progress * 140.0;
+              scrollZ.target = progress * 155.0;
             }
           }
 
