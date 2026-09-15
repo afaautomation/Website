@@ -582,11 +582,13 @@
         const canvas = document.getElementById('spotify-placements-canvas');
         if (!container || !canvas) return;
 
-        // Configuration
-        const MESH_COUNT = 600;
+        // Configuration: Exactly 204 unique placement posters (1:1 with atlas)
+        const MESH_COUNT = 204;
         const GRID_COLS = 17;
         const GRID_ROWS = 12;
         const TOTAL_ATLAS_CARDS = 204;
+        const NUM_CENTER_CARDS = 80;
+        const NUM_OUTER_CARDS = 124;
 
         let width = container.clientWidth || window.innerWidth;
         let height = container.clientHeight || 740;
@@ -829,34 +831,102 @@
         const geometry = new THREE.PlaneGeometry(1, 1, 1, 1);
         geometry.scale(2.7, 2.7, 2.7);
 
-        // Fill Instanced Buffer Data: 600 cards fully spread across the entire viewport
+        // Fill Instanced Buffer Data:
+        // Exactly 204 placement cards matching the 204 unique images 1:1.
+        // Zero duplicate cards on screen: each student's card is completely unique!
         const initialPositions = new Float32Array(MESH_COUNT * 3);
         const meshSpeeds = new Float32Array(MESH_COUNT);
         const aInitialCardIndices = new Float32Array(MESH_COUNT);
         const aCardPoolTypes = new Float32Array(MESH_COUNT);
 
-        for (let i = 0; i < MESH_COUNT; i++) {
-          // Full viewport spatial spread across maxX and maxY
-          const x = (Math.random() - 0.5) * sizes.maxX * 2.0;
-          const y = (Math.random() - 0.5) * sizes.maxY * 2.0;
-          const z = Math.random() * (7.0 - (-30.0)) - 30.0;
+        // Decks of unique card indices (no replacement = zero duplicates)
+        const centerCardDeck = Array.from({ length: NUM_CENTER_CARDS }, (_, i) => i);
+        for (let j = centerCardDeck.length - 1; j > 0; j--) {
+          const k = Math.floor(Math.random() * (j + 1));
+          [centerCardDeck[j], centerCardDeck[k]] = [centerCardDeck[k], centerCardDeck[j]];
+        }
 
-          initialPositions[i * 3 + 0] = x;
-          initialPositions[i * 3 + 1] = y;
-          initialPositions[i * 3 + 2] = z;
+        const outerCardDeck = Array.from({ length: NUM_OUTER_CARDS }, (_, i) => i);
+        for (let j = outerCardDeck.length - 1; j > 0; j--) {
+          const k = Math.floor(Math.random() * (j + 1));
+          [outerCardDeck[j], outerCardDeck[k]] = [outerCardDeck[k], outerCardDeck[j]];
+        }
 
-          meshSpeeds[i] = Math.random() * 0.5 + 0.5;
+        function getFrustumAt(z) {
+          const dist = 10.0 - z;
+          const fovRad = camera.fov * (Math.PI / 180);
+          const h = dist * Math.tan(fovRad / 2) * 2;
+          const w = h * camera.aspect;
+          return { width: w, height: h };
+        }
 
-          // If position is on center side (|x| < 40% of maxX), assign to center pool (darker-themed cards)
-          // If on outer sides, assign to outer pool (lighter & medium certificates/posters)
-          const isCenter = Math.abs(x) < sizes.maxX * 0.40;
-          if (isCenter) {
-            aCardPoolTypes[i] = 1.0;
-            aInitialCardIndices[i] = Math.floor(Math.random() * 80.0);
-          } else {
-            aCardPoolTypes[i] = 0.0;
-            aInitialCardIndices[i] = Math.floor(Math.random() * 124.0);
+        const placedPoints = [];
+
+        function tryPlaceCard(isCenter, poolIdx, totalInPool) {
+          for (let attempt = 0; attempt < 300; attempt++) {
+            // Stratified depth from deep atmospheric background (-28.0) to elegant foreground (5.2)
+            const t = (poolIdx + (Math.random() - 0.5) * 0.90) / totalInPool;
+            const clampedT = Math.max(0.01, Math.min(0.99, t));
+            const z = -28.0 + clampedT * 33.2;
+            const fr = getFrustumAt(z);
+
+            let x, y;
+            if (isCenter) {
+              // Dark-themed & accent cards concentrated across central corridor
+              x = (Math.random() - 0.5) * 2.0 * (fr.width * 0.32);
+              y = (Math.random() - 0.5) * 2.0 * (fr.height * 0.52);
+            } else {
+              // Outer cards spread across left and right wings all the way to screen edges
+              const side = Math.random() > 0.5 ? 1.0 : -1.0;
+              const xOffset = fr.width * 0.22 + Math.random() * (fr.width * 0.44);
+              x = side * xOffset;
+              y = (Math.random() - 0.5) * 2.0 * (fr.height * 0.54);
+            }
+
+            // Minimum distance check against all already placed cards (prevent clipping / overlapping)
+            let tooClose = false;
+            for (let p = 0; p < placedPoints.length; p++) {
+              const pt = placedPoints[p];
+              const dz = Math.abs(z - pt.z);
+              if (dz < 1.8) {
+                const dxy = Math.hypot(x - pt.x, y - pt.y);
+                if (dxy < 2.5) {
+                  tooClose = true;
+                  break;
+                }
+              }
+            }
+
+            if (!tooClose || attempt === 299) {
+              placedPoints.push({ x, y, z });
+              return { x, y, z };
+            }
           }
+        }
+
+        // 1. Place 80 Center Cards (Dark-themed & accent posters: 100% unique indices 0..79)
+        for (let i = 0; i < NUM_CENTER_CARDS; i++) {
+          const pt = tryPlaceCard(true, i, NUM_CENTER_CARDS);
+          initialPositions[i * 3 + 0] = pt.x;
+          initialPositions[i * 3 + 1] = pt.y;
+          initialPositions[i * 3 + 2] = pt.z;
+
+          meshSpeeds[i] = Math.random() * 0.4 + 0.6;
+          aCardPoolTypes[i] = 1.0;
+          aInitialCardIndices[i] = centerCardDeck[i];
+        }
+
+        // 2. Place 124 Outer Cards (Light certificates & posters: 100% unique indices 0..123)
+        for (let i = 0; i < NUM_OUTER_CARDS; i++) {
+          const meshIdx = NUM_CENTER_CARDS + i;
+          const pt = tryPlaceCard(false, i, NUM_OUTER_CARDS);
+          initialPositions[meshIdx * 3 + 0] = pt.x;
+          initialPositions[meshIdx * 3 + 1] = pt.y;
+          initialPositions[meshIdx * 3 + 2] = pt.z;
+
+          meshSpeeds[meshIdx] = Math.random() * 0.4 + 0.6;
+          aCardPoolTypes[meshIdx] = 0.0;
+          aInitialCardIndices[meshIdx] = outerCardDeck[i];
         }
 
         geometry.setAttribute(
