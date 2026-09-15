@@ -7,7 +7,9 @@
   <title>Finishing School — Kompetenzen | Get Hired</title>
   <meta name="description"
     content="Kerala's most placement-focused career readiness program by Kompetenzen Technologies. Communication mastery, interview confidence, and continuous support." />
-  <link rel="icon" type="image/png" href="icon.png" />
+  <link rel="icon" type="image/png" href="icon.png?v=2" />
+  <link rel="shortcut icon" href="favicon.ico?v=2" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -76,16 +78,10 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.96);
       backdrop-filter: saturate(140%) blur(14px);
       -webkit-backdrop-filter: saturate(140%) blur(14px);
-      border-bottom: 1px solid transparent;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .nav.scrolled {
-      border-bottom-color: var(--line-soft);
-      box-shadow: 0 4px 20px rgba(10, 21, 48, 0.04);
+      border-bottom: 1px solid var(--line-soft, rgba(10, 21, 48, 0.06));
     }
 
     .nav-inner {
@@ -121,6 +117,8 @@
 
     .brand {
       text-decoration: none;
+      display: flex;
+      align-items: center;
     }
 
     .nav-links {
@@ -136,10 +134,13 @@
       color: var(--ink-mute);
       text-decoration: none;
       transition: color 0.2s;
+      white-space: nowrap;
     }
 
-    .nav-links a:hover {
-      color: var(--ink);
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--blue);
+      font-weight: 700;
     }
 
     .nav-cta {
@@ -154,11 +155,31 @@
       border-radius: 99px;
       text-decoration: none;
       transition: background 0.2s, transform 0.2s;
+      white-space: nowrap;
     }
 
     .nav-cta:hover {
       background: var(--blue);
       transform: translateY(-1px);
+    }
+
+    @media (max-width: 992px) {
+      .nav-links {
+        gap: 18px;
+      }
+      .nav-links a {
+        font-size: 13px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-inner {
+        padding: 0 20px;
+      }
+
+      .nav-links {
+        display: none;
+      }
     }
 
     /* HERO */
@@ -602,13 +623,13 @@
   <nav class="nav">
     <div class="nav-inner">
       <div class="nav-left">
-        <a href="/" class="brand">
+        <a href="index.html" class="brand">
           <img src="kompetenzen logo-02.png" alt="Kompetenzen" />
         </a>
       </div>
       <div class="nav-links">
         <a href="career-consulting.html">Consulting</a>
-        <a href="finishing-school.html" class="active" style="color: var(--blue); font-weight: 700;">Finishing School</a>
+        <a href="finishing-school.html" class="active">Finishing School</a>
         <a href="tech-school.html">Tech School</a>
         <a href="b-school.html">B-School</a>
         <a href="placements.html">Placements</a>

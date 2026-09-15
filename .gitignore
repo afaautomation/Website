@@ -5,3 +5,11 @@ scratch/
 # OS Files
 .DS_Store
 Thumbs.db
+
+# Dependencies & Build artifacts
+node_modules/
+dist/
+
+# External / Temporary tools & output
+output/
+spotify-visualiser-main/

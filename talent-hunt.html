@@ -7,7 +7,9 @@
   <title>Talent Hunt 2026 — Kompetenzen</title>
   <meta name="description"
     content="Find the right talent with Kompetenzen's Talent Hunt 2026. Connecting Graduates Directly to Industry." />
-  <link rel="icon" type="image/png" href="icon.png" />
+  <link rel="icon" type="image/png" href="icon.png?v=2" />
+  <link rel="shortcut icon" href="favicon.ico?v=2" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -44,9 +46,9 @@
     .brand img { height: 36px; display: block; }
     .brand { text-decoration: none; }
     .nav-links { display: flex; align-items: center; justify-content: center; gap: 32px; }
-    .nav-links a { font-size: 14px; font-weight: 500; color: var(--ink-mute); text-decoration: none; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--ink); }
-    .nav-cta { display: inline-flex; align-items: center; gap: 8px; background: var(--ink); color: #fff; font-size: 14px; font-weight: 600; padding: 10px 20px; border-radius: 99px; text-decoration: none; transition: background 0.2s, transform 0.2s; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--ink-mute); text-decoration: none; transition: color 0.2s; white-space: nowrap; }
+    .nav-links a:hover, .nav-links a.active { color: var(--blue); font-weight: 700; }
+    .nav-cta { display: inline-flex; align-items: center; gap: 8px; background: var(--ink); color: #fff; font-size: 14px; font-weight: 600; padding: 10px 20px; border-radius: 99px; text-decoration: none; transition: background 0.2s, transform 0.2s; white-space: nowrap; }
     .nav-cta:hover { background: var(--blue); transform: translateY(-1px); }
 
     .tech-hero { position: relative; background: transparent; color: var(--ink); padding: 100px 24px 120px; overflow: hidden; text-align: center; }
@@ -93,7 +95,7 @@
   <nav class="nav">
     <div class="nav-inner">
       <div class="nav-left">
-        <a href="/" class="brand">
+        <a href="index.html" class="brand">
           <img src="kompetenzen logo-02.png" alt="Kompetenzen" />
         </a>
       </div>
@@ -102,10 +104,15 @@
         <a href="finishing-school.html">Finishing School</a>
         <a href="tech-school.html">Tech School</a>
         <a href="b-school.html">B-School</a>
+        <a href="placements.html" class="active">Placements</a>
+        <a href="our-story.html">Our Story</a>
+        <a href="jobs.html">Jobs</a>
+        <a href="https://darksalmon-llama-333572.hostingersite.com/" target="_blank" onclick="openResumeBuilder(event)">Resume Builder</a>
+        <a href="#" class="logout-link" style="display: none; color: #dc2626; font-weight: 600;" onclick="event.preventDefault(); ['token', 'kompetenzen_user', 'user', 'kompetenzen_google_user', 'kompetenzen_candidate_profile'].forEach(k => localStorage.removeItem(k)); window.location.reload();">Log Out</a>
       </div>
       <div class="nav-right">
-        <a href="/" class="nav-cta">
-          Home
+        <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="nav-cta">
+          Talk to us
         </a>
       </div>
     </div>

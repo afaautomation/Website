@@ -6,7 +6,9 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="robots" content="noindex,nofollow" />
   <title>Reels Admin — Manage Instagram Reels | Kompetenzen</title>
-  <link rel="icon" type="image/png" href="icon.png" />
+  <link rel="icon" type="image/png" href="icon.png?v=2" />
+  <link rel="shortcut icon" href="favicon.ico?v=2" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -459,7 +461,10 @@
   <nav class="nav">
     <div class="nav-inner">
       <a href="index.html" class="brand"><span class="dot"></span>Kompetenzen / Media Manager</a>
-      <a href="index.html" class="nav-back">← Back to Homepage</a>
+      <div style="display:flex; align-items:center; gap:16px;">
+        <a href="admin.html#reels" class="nav-back" style="color:var(--blue); font-weight:700;">Unified Admin Console →</a>
+        <a href="index.html" class="nav-back">← Homepage</a>
+      </div>
     </div>
   </nav>
 
@@ -484,6 +489,18 @@
 
   <!-- ADMIN MAIN (hidden until gate passes) -->
   <main class="wrap" id="admin-main" style="display:none;">
+    <div style="background: rgba(25, 71, 255, 0.06); border: 1.5px solid rgba(25, 71, 255, 0.25); border-radius: 14px; padding: 14px 18px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 20px;">✨</span>
+        <span style="font-size: 13.5px; color: var(--ink); font-weight: 500;">
+          Reels management is now integrated directly inside the unified <strong>Admin Console</strong>.
+        </span>
+      </div>
+      <a href="admin.html#reels" style="display: inline-flex; align-items: center; gap: 6px; background: var(--blue); color: #fff; font-size: 13px; font-weight: 700; padding: 8px 16px; border-radius: 99px; text-decoration: none;">
+        Open in Admin Console →
+      </a>
+    </div>
+
     <div class="page-head">
       <span class="internal-tag">Internal · Media Admin</span>
       <h1 style="margin-top:14px;">Manage Instagram Reels</h1>

@@ -7,7 +7,9 @@
   <title>B-School — Kompetenzen | HR & Sales Programs</title>
   <meta name="description"
     content="Explore the B-School programs by Kompetenzen Technologies. PG Diploma in HR and Sales Engineering courses." />
-  <link rel="icon" type="image/png" href="icon.png" />
+  <link rel="icon" type="image/png" href="icon.png?v=2" />
+  <link rel="shortcut icon" href="favicon.ico?v=2" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -16,21 +18,21 @@
 
   <style>
     :root {
-      --ink: #02050E;
+      --ink: #FFFFFF;
       --ink-2: #0D1630;
-      --ink-mute: #474F66;
-      --blue: #1947FF;
-      --blue-deep: #0E2EC9;
-      --blue-soft: #E8ECFF;
-      --cream: #FFFFFF;
-      --paper: #FFFFFF;
-      --line: rgba(10, 21, 48, .12);
-      --line-soft: rgba(10, 21, 48, .06);
+      --ink-mute: #94A3B8;
+      --blue: #38BDF8;
+      --blue-deep: #1947FF;
+      --blue-soft: rgba(56, 189, 248, 0.08);
+      --cream: #020617;
+      --paper: #0B1329;
+      --line: rgba(56, 189, 248, 0.16);
+      --line-soft: rgba(56, 189, 248, 0.1);
       --radius: 18px;
       --maxw: 1200px;
-      --shadow-sm: 0 6px 20px rgba(10, 21, 48, 0.05);
-      --shadow-md: 0 20px 44px rgba(10, 21, 48, 0.08);
-      --shadow-glow: 0 20px 44px rgba(25, 71, 255, 0.16);
+      --shadow-sm: 0 10px 30px rgba(0, 0, 0, 0.35);
+      --shadow-md: 0 20px 50px rgba(0, 0, 0, 0.5);
+      --shadow-glow: 0 0 35px rgba(56, 189, 248, 0.25);
     }
 
     * {
@@ -42,15 +44,17 @@
 
     html,
     body {
-      background: var(--cream);
-      color: var(--ink);
+      background: #030712;
+      color: #F8FAFC;
       font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
       font-size: 16px;
       line-height: 1.45;
+      min-height: 100vh;
     }
 
     body {
       overflow-x: hidden;
+      position: relative;
     }
 
     h1,
@@ -60,6 +64,33 @@
     h5,
     h6 {
       font-family: 'Plus Jakarta Sans', sans-serif !important;
+      color: #FFFFFF;
+    }
+
+    /* Fixed Full-Page Atmospheric Executive Business Glow (Pure Blue & White) */
+    .tech-bg-glow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 20% 45%, rgba(37, 99, 235, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 50% 85%, rgba(255, 255, 255, 0.05) 0%, rgba(56, 189, 248, 0.08) 35%, transparent 65%),
+        radial-gradient(circle at 50% 0%, rgba(25, 71, 255, 0.18) 0%, transparent 65%),
+        #030712;
+    }
+
+    .nav,
+    .tech-hero,
+    .programs-section,
+    .structure-section,
+    .roadmap-section,
+    .placements-section,
+    .site-footer,
+    section {
+      position: relative;
+      z-index: 1;
     }
 
     body::before {
@@ -86,18 +117,19 @@
     .nav-inner {
       max-width: 100%;
       margin: 0 auto;
-      padding: 0 32px;
-      height: 72px;
+      padding: 0 40px;
+      height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 20px;
+      gap: 32px;
     }
 
     .nav-left,
     .nav-right {
       display: flex;
       align-items: center;
+      flex: 1;
     }
 
     .nav-left {
@@ -116,17 +148,19 @@
 
     .brand {
       text-decoration: none;
+      display: flex;
+      align-items: center;
     }
 
     .nav-links {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 24px;
+      gap: 32px;
     }
 
     .nav-links a {
-      font-size: 13.5px;
+      font-size: 14px;
       font-weight: 500;
       color: rgba(255, 255, 255, 0.85);
       text-decoration: none;
@@ -134,8 +168,10 @@
       white-space: nowrap;
     }
 
-    .nav-links a:hover {
-      color: #ffffff;
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #60A5FA;
+      font-weight: 700;
     }
 
     .nav-cta {
@@ -158,10 +194,10 @@
       transform: translateY(-1px);
     }
 
-    /* HERO (Deep Midnight Space Blue style from tech-school.html) */
+    /* HERO (Executive Business Theme) */
     .tech-hero {
       position: relative;
-      background: #020617;
+      background: transparent;
       color: #ffffff;
       min-height: 100vh;
       display: flex;
@@ -178,7 +214,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.25) 0%, rgba(2, 6, 23, 0.92) 80%);
+      background: radial-gradient(circle at 50% 45%, rgba(56, 189, 248, 0.18) 0%, rgba(37, 99, 235, 0.12) 35%, rgba(3, 7, 18, 0.94) 80%);
       pointer-events: none;
       z-index: 1;
     }
@@ -261,7 +297,7 @@
     /* CARDS */
     .programs-section {
       position: relative;
-      background: linear-gradient(180deg, #eef3fc, #f4f7fd);
+      background: transparent;
       padding: 100px 24px;
       margin: 0;
     }
@@ -275,8 +311,8 @@
     }
 
     .program-card {
-      background: #fff;
-      border: 1px solid var(--line-soft);
+      background: rgba(11, 19, 43, 0.78);
+      border: 1px solid rgba(56, 189, 248, 0.22);
       border-radius: 24px;
       padding: 40px;
       display: flex;
@@ -284,7 +320,9 @@
       gap: 16px;
       transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
       position: relative;
-      box-shadow: var(--shadow-sm);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       overflow: hidden;
     }
 
@@ -295,15 +333,15 @@
       left: 0;
       right: 0;
       height: 4px;
-      background: linear-gradient(90deg, var(--blue), var(--blue-deep));
+      background: linear-gradient(90deg, #38BDF8, #1947FF);
       transform: scaleX(0);
       transform-origin: left;
       transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .program-card:hover {
-      box-shadow: var(--shadow-glow);
-      border-color: rgba(25, 71, 255, 0.18);
+      box-shadow: 0 30px 70px rgba(25, 71, 255, 0.42), 0 0 40px rgba(56, 189, 248, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+      border-color: rgba(56, 189, 248, 0.85);
       transform: translateY(-8px);
     }
 
@@ -322,13 +360,14 @@
       width: 64px;
       height: 64px;
       border-radius: 18px;
-      background: linear-gradient(135deg, var(--blue-soft), #fff);
-      border: 1px solid rgba(25, 71, 255, 0.12);
+      background: rgba(25, 71, 255, 0.18);
+      border: 1px solid rgba(56, 189, 248, 0.35);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
       position: relative;
+      box-shadow: 0 0 20px rgba(25, 71, 255, 0.2);
       transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
@@ -339,14 +378,14 @@
     .card-icon svg {
       width: 30px;
       height: 30px;
-      color: var(--blue);
+      color: #38BDF8;
     }
 
     .card-sparkle {
       position: absolute;
       top: -6px;
       left: -6px;
-      color: #ffb020;
+      color: #00F0FF;
     }
 
     .card-title-group {
@@ -358,20 +397,20 @@
     .program-title {
       font-size: 22px;
       font-weight: 700;
-      color: var(--ink);
+      color: #FFFFFF !important;
       line-height: 1.2;
       letter-spacing: -0.01em;
     }
 
     .program-rating {
       font-size: 13px;
-      color: var(--ink-mute);
+      color: #93C5FD;
       font-weight: 500;
     }
 
     .program-desc {
       font-size: 14.5px;
-      color: var(--ink-mute);
+      color: rgba(226, 232, 240, 0.82);
       line-height: 1.65;
     }
 
@@ -381,7 +420,7 @@
       gap: 4px;
       margin-top: 4px;
       font-size: 14px;
-      color: var(--ink);
+      color: #CBD5E1;
     }
 
     .card-footer {
@@ -394,14 +433,15 @@
       align-items: center;
       gap: 8px;
       justify-content: center;
-      padding: 12px 26px;
-      background: var(--ink);
+      padding: 12px 28px;
+      background: linear-gradient(135deg, #1947FF 0%, #0099FF 100%);
       color: #fff;
       border-radius: 99px;
       font-size: 14px;
       font-weight: 600;
       text-decoration: none;
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 18px rgba(25, 71, 255, 0.4);
     }
 
     .apply-btn svg {
@@ -409,9 +449,9 @@
     }
 
     .apply-btn:hover {
-      background: var(--blue);
-      box-shadow: 0 10px 24px rgba(25, 71, 255, 0.3);
+      background: linear-gradient(135deg, #0055FF 0%, #00C3FF 100%);
       transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(25, 71, 255, 0.6), 0 0 15px rgba(0, 240, 255, 0.4);
     }
 
     .apply-btn:hover svg {
@@ -420,56 +460,336 @@
 
     /* FOOTER */
     .site-footer {
-      background: var(--ink);
-      color: rgba(255, 255, 255, 0.5);
+      background: #01040E;
+      border-top: 1px solid rgba(56, 189, 248, 0.12);
+      color: rgba(255, 255, 255, 0.55);
       text-align: center;
-      padding: 40px 24px;
+      padding: 48px 24px;
       font-size: 14px;
-      margin-top: 80px;
+      margin-top: 40px;
     }
 
     .site-footer a {
-      color: rgba(255, 255, 255, 0.7);
+      color: #38BDF8;
       text-decoration: none;
       font-weight: 600;
     }
 
     .site-footer a:hover {
-      color: #fff;
+      color: #FFFFFF;
     }
 
     /* Elevated hover for structure/roadmap/stat cards */
+    .structure-card {
+      background: rgba(11, 19, 43, 0.78) !important;
+      border: 1px solid rgba(56, 189, 248, 0.22) !important;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4) !important;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+    }
+
     .structure-card:hover {
       transform: translateY(-6px);
-      box-shadow: var(--shadow-md) !important;
-      border-color: rgba(25, 71, 255, 0.16) !important;
+      box-shadow: 0 25px 50px rgba(25, 71, 255, 0.3) !important;
+      border-color: rgba(56, 189, 248, 0.6) !important;
     }
 
-    .roadmap-card {
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+    /* ROADMAP ASTRA-STYLE PINNED STAGE */
+    .roadmap-section {
+      position: relative;
+      height: 330vh; /* Scroll track for cards */
+      margin: 0;
+      padding: 0;
     }
 
-    .roadmap-card:hover {
-      transform: translateY(-5px) translateX(2px);
-      box-shadow: var(--shadow-md) !important;
+    .roadmap-sticky-stage {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: clamp(45px, 8vh, 85px) 24px 30px;
+      overflow: visible;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .roadmap-header {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      pointer-events: auto;
+    }
+
+    .roadmap-beam {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 12px auto 14px;
+    }
+
+    .roadmap-beam-line {
+      width: 2px;
+      height: 44px;
+      background: linear-gradient(180deg, transparent, #38BDF8);
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.85);
+    }
+
+    .roadmap-beam-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      box-shadow: 0 0 14px #38BDF8, 0 0 24px #00F0FF;
+      margin-top: -2px;
+    }
+
+    /* Cards Deck Container */
+    .roadmap-cards-deck {
+      position: relative;
+      width: 580px;
+      max-width: 92vw;
+      height: 240px;
+      pointer-events: auto;
+    }
+
+    .roadmap-stack-card {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(140deg, rgba(14, 25, 60, 0.98) 0%, rgba(7, 13, 35, 0.99) 100%);
+      border: 1.5px solid rgba(56, 189, 248, 0.45);
+      border-top: 1.5px solid rgba(0, 240, 255, 0.9);
+      border-radius: 22px;
+      padding: 24px 30px;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      box-shadow: 
+        0 -6px 20px rgba(0, 0, 0, 0.55),
+        0 20px 50px rgba(0, 0, 0, 0.75),
+        0 0 30px rgba(56, 189, 248, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.22),
+        inset 0 0 20px rgba(56, 189, 248, 0.05);
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      will-change: transform, opacity;
+      transition: box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .roadmap-stack-card:hover {
+      border-color: rgba(56, 189, 248, 0.85);
+      box-shadow: 
+        0 -6px 20px rgba(0, 0, 0, 0.55),
+        0 25px 60px rgba(25, 71, 255, 0.45),
+        0 0 40px rgba(56, 189, 248, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+
+    .roadmap-card-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(25, 71, 255, 0.3) 0%, rgba(56, 189, 248, 0.18) 100%);
+      border: 1.5px solid rgba(56, 189, 248, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: #38BDF8;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
+    }
+
+    .roadmap-card-icon svg {
+      width: 26px;
+      height: 26px;
+    }
+
+    .roadmap-card-content {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .roadmap-card-step {
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #38BDF8;
+      text-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+    }
+
+    .roadmap-card-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #FFFFFF;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+
+    .roadmap-card-desc {
+      font-size: 14px;
+      color: rgba(226, 232, 240, 0.88);
+      line-height: 1.45;
+      margin-top: 2px;
+    }
+
+    @media (max-width: 600px) {
+      .roadmap-section {
+        height: 290vh;
+      }
+      .roadmap-sticky-stage {
+        padding: 40px 16px 20px;
+      }
+      .roadmap-beam-line {
+        height: 30px;
+      }
+      .roadmap-cards-deck {
+        width: 100%;
+        max-width: 95vw;
+        height: 190px;
+      }
+      .roadmap-stack-card {
+        padding: 16px 18px;
+        gap: 14px;
+        border-radius: 18px;
+      }
+      .roadmap-card-icon {
+        width: 44px;
+        height: 44px;
+      }
+      .roadmap-card-title {
+        font-size: 17px;
+      }
+      .roadmap-card-desc {
+        font-size: 12.5px;
+        line-height: 1.35;
+      }
+    }
+
+    /* Active split hover interaction for programs grid */
+    .programs-grid.split-ready .program-card {
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease, opacity 0.35s ease;
+    }
+
+    .programs-grid.split-ready .program-card:hover {
+      transform: translateY(-14px) scale(1.03) rotate(0deg) !important;
+      border-color: rgba(56, 189, 248, 0.85);
+      box-shadow: 
+        0 30px 70px rgba(25, 71, 255, 0.42), 
+        0 0 40px rgba(56, 189, 248, 0.3), 
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+      z-index: 10 !important;
+    }
+
+    .programs-grid.split-ready:hover .program-card:not(:hover) {
+      opacity: 0.65;
+    }
+
+    /* STATS SECTION & 4-CARD SPLIT ANIMATION */
+    .stats-cards-section {
+      max-width: var(--maxw);
+      margin: 20px auto;
+      padding: 80px 24px;
+      text-align: center;
+      font-family: 'Inter', sans-serif;
+      overflow: visible;
+      position: relative;
+    }
+
+    .stats-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      text-align: left;
+      perspective: 1400px;
+      position: relative;
     }
 
     .stat-block {
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      background: rgba(11, 19, 43, 0.78);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      border-radius: 20px;
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 36px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      transform-origin: center bottom;
+      will-change: transform, opacity;
+      transition: box-shadow 0.35s ease, border-color 0.35s ease, opacity 0.35s ease;
     }
 
-    .stat-block:hover {
-      transform: translateY(-4px);
+    .stats-cards-grid.split-ready .stat-block {
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease, opacity 0.35s ease;
+    }
+
+    .stats-cards-grid.split-ready .stat-block:hover {
+      transform: translateY(-12px) scale(1.03) rotate(0deg) !important;
+      border-color: rgba(56, 189, 248, 0.85) !important;
+      box-shadow: 
+        0 25px 60px rgba(25, 71, 255, 0.45), 
+        0 0 35px rgba(56, 189, 248, 0.3), 
+        inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+      z-index: 10 !important;
+    }
+
+    .stats-cards-grid.split-ready:hover .stat-block:not(:hover) {
+      opacity: 0.65;
+    }
+
+    @media (max-width: 1024px) {
+      .stats-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .stats-cards-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+    }
+
+    /* PLACEMENTS SECTION & SLEEK LIST ANIMATION */
+    .placements-section {
+      padding: 100px 0;
+      background: rgba(11, 19, 43, 0.5);
+      border-top: 1px solid rgba(56, 189, 248, 0.15);
+      border-bottom: 1px solid rgba(56, 189, 248, 0.15);
+      backdrop-filter: blur(12px);
     }
 
     .placements-section li {
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      font-size: 18px;
+      color: rgba(226, 232, 240, 0.85);
+      line-height: 1.5;
+      padding: 14px 20px;
+      border-radius: 14px;
+      background: rgba(11, 19, 43, 0.45);
+      border: 1px solid rgba(56, 189, 248, 0.18);
+      backdrop-filter: blur(8px);
+      transition: transform 0.28s ease, background 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
     }
 
     .placements-section li:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-md) !important;
-      border-color: rgba(25, 71, 255, 0.16) !important;
+      transform: translateX(8px);
+      background: rgba(56, 189, 248, 0.12);
+      border-color: rgba(56, 189, 248, 0.5);
+      box-shadow: 0 6px 24px rgba(25, 71, 255, 0.25);
     }
 
     /* =====================================================
@@ -536,11 +856,15 @@
 
 <body>
 
+  <!-- Fixed Full-Page Atmospheric Tech Glow Background & Neural Constellation -->
+  <div class="tech-bg-glow" aria-hidden="true"></div>
+  <canvas id="heroLightBlueCanvas" style="position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0;"></canvas>
+
   <!-- NAV -->
   <nav class="nav">
     <div class="nav-inner">
       <div class="nav-left">
-        <a href="/" class="brand">
+        <a href="index.html" class="brand">
           <img src="kompetenzen logo-02.png" alt="Kompetenzen" />
         </a>
       </div>
@@ -548,7 +872,7 @@
         <a href="career-consulting.html">Consulting</a>
         <a href="finishing-school.html">Finishing School</a>
         <a href="tech-school.html">Tech School</a>
-        <a href="b-school.html" class="active" style="color: var(--blue); font-weight: 700;">B-School</a>
+        <a href="b-school.html" class="active">B-School</a>
         <a href="placements.html">Placements</a>
         <a href="our-story.html">Our Story</a>
         <a href="jobs.html">Jobs</a>
@@ -565,9 +889,8 @@
 
   <!-- HERO -->
   <section class="tech-hero" id="bSchoolHero"
-    style="position: relative; text-align: left; display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #020617; width: 100%; max-width: 100%; padding: 100px 40px 40px; overflow: hidden;">
-    <canvas id="heroLightBlueCanvas" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1;"></canvas>
-    <div style="position: absolute; inset: 0; background: radial-gradient(circle at 75% 50%, rgba(56, 189, 248, 0.38) 0%, rgba(56, 189, 248, 0.12) 45%, rgba(2, 6, 23, 0.92) 80%); pointer-events: none; z-index: 2;"></div>
+    style="position: relative; text-align: left; display: flex; align-items: center; justify-content: center; min-height: 100vh; background: transparent; width: 100%; max-width: 100%; padding: 100px 40px 40px; overflow: hidden;">
+    <div style="position: absolute; inset: 0; background: radial-gradient(circle at 75% 45%, rgba(255, 255, 255, 0.06) 0%, rgba(56, 189, 248, 0.20) 25%, rgba(37, 99, 235, 0.18) 45%, rgba(3, 7, 18, 0.95) 80%); pointer-events: none; z-index: 2;"></div>
     
     <div style="position: relative; z-index: 3; max-width: 1320px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1.4fr 0.6fr; gap: 20px; align-items: center;">
       <!-- Left Column: Heading & Copy (Vertically Centered, Exactly 2 Lines) -->
@@ -599,10 +922,10 @@
   <section class="programs-section" id="programs">
     <div class="sr" style="text-align: center; margin-bottom: 64px;">
       <span
-        style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; color: var(--blue); text-transform: uppercase;">KOMPETENZEN
+        style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; color: #38BDF8; text-transform: uppercase;">KOMPETENZEN
         B-SCHOOL PROGRAMS</span>
       <h2
-        style="font-size: clamp(32px, 5vw, 44px); font-weight: 700; letter-spacing: -0.02em; color: var(--ink); margin-top: 16px; line-height: 1.2;">
+        style="font-size: clamp(32px, 5vw, 44px); font-weight: 700; letter-spacing: -0.02em; color: #FFFFFF; margin-top: 16px; line-height: 1.2;">
         Master high-demand corporate skills to<br>launch your career in top companies</h2>
     </div>
 
@@ -623,14 +946,14 @@
             </svg>
           </div>
           <div class="card-title-group">
-            <h3 class="program-title" style="color: var(--blue);">PG Diploma in HR</h3>
+            <h3 class="program-title" style="color: #FFFFFF;">PG Diploma in HR</h3>
             <div class="program-rating">★★★★★ (Trusted by 300+ students)</div>
           </div>
         </div>
         <p class="program-desc">Kerala's most practical PG Diploma in Human Resource Management. Master end-to-end HR
           operations — recruitment, payroll, labour laws, AI HR tools, and KEKA HRMS.</p>
         <div class="skills-row">
-          <span style="font-weight: 600;">If you like:</span> People Management, Operations, KEKA HRMS, Payroll,
+          <span style="font-weight: 600; color: #38BDF8;">If you like:</span> People Management, Operations, KEKA HRMS, Payroll,
           Corporate Comms
         </div>
         <div class="card-footer">
@@ -659,14 +982,14 @@
             </svg>
           </div>
           <div class="card-title-group">
-            <h3 class="program-title" style="color: var(--blue);">Sales Engineering</h3>
+            <h3 class="program-title" style="color: #FFFFFF;">Sales Engineering</h3>
             <div class="program-rating">★★★★★ (Trusted by 250+ students)</div>
           </div>
         </div>
         <p class="program-desc">Bridge the gap between technology and business. Learn B2B sales strategies, technical
           account management, pipeline tracking, and high-ticket closing.</p>
         <div class="skills-row">
-          <span style="font-weight: 600;">If you like:</span> B2B Sales, Business Dev, CRM tools, Client Relations,
+          <span style="font-weight: 600; color: #38BDF8;">If you like:</span> B2B Sales, Business Dev, CRM tools, Client Relations,
           Growth
         </div>
         <div class="card-footer">
@@ -685,83 +1008,77 @@
   </section>
 
   <!-- TRAINING STATS (Google Style) -->
-  <section
-    style="max-width: var(--maxw); margin: 20px auto; padding: 80px 24px; text-align: center; font-family: 'Inter', sans-serif;">
+  <section class="stats-cards-section">
     <h2 class="sr"
-      style="font-size: clamp(28px, 4vw, 40px); font-weight: 700; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 64px; line-height: 1.3;">
+      style="font-size: clamp(28px, 4vw, 40px); font-weight: 700; letter-spacing: -0.02em; color: #FFFFFF; margin-bottom: 64px; line-height: 1.3;">
       Get professional job training from<br>Kompetenzen
     </h2>
 
-    <div
-      style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 28px; text-align: left;">
+    <div class="stats-cards-grid">
       <!-- Col 1 -->
-      <div class="stat-block sr sr-delay-1"
-        style="display: flex; flex-direction: column; gap: 36px; background: #fff; border: 1px solid var(--line-soft); border-radius: 20px; padding: 32px 28px; box-shadow: var(--shadow-sm);">
+      <div class="stat-block">
         <div style="min-height: 90px;">
-          <h3 style="font-size: 19px; font-weight: 700; color: var(--ink); margin-bottom: 10px; line-height: 1.3;">
+          <h3 style="font-size: 19px; font-weight: 700; color: #FFFFFF; margin-bottom: 10px; line-height: 1.3;">
             Intensive training</h3>
-          <p style="font-size: 14px; color: var(--ink-mute); line-height: 1.6;">Master full-stack skills with hands-on
-            projects and AI integration.</p>
+          <p style="font-size: 14px; color: rgba(226, 232, 240, 0.82); line-height: 1.6;">Master practical HR & sales skills with real
+            business workflows and modern tools.</p>
         </div>
         <div>
           <div
-            style="font-size: clamp(32px, 4vw, 42px); font-weight: 700; color: var(--blue); margin-bottom: 10px; line-height: 1.1; letter-spacing: -0.02em;">
+            style="font-size: clamp(32px, 4vw, 42px); font-weight: 700; color: #38BDF8; margin-bottom: 10px; line-height: 1.1; letter-spacing: -0.02em; text-shadow: 0 0 20px rgba(56, 189, 248, 0.35);">
             6 months</div>
-          <p style="font-size: 13px; color: var(--ink-mute); line-height: 1.6;">of intensive, hands-on training designed
+          <p style="font-size: 13px; color: rgba(226, 232, 240, 0.75); line-height: 1.6;">of intensive, hands-on training designed
             to make you completely job-ready</p>
         </div>
       </div>
 
       <!-- Col 2 -->
-      <div class="stat-block sr sr-delay-2"
-        style="display: flex; flex-direction: column; gap: 36px; background: #fff; border: 1px solid var(--line-soft); border-radius: 20px; padding: 32px 28px; box-shadow: var(--shadow-sm);">
+      <div class="stat-block">
         <div style="min-height: 90px;">
-          <h3 style="font-size: 19px; font-weight: 700; color: var(--ink); margin-bottom: 10px; line-height: 1.3;">Stand
+          <h3 style="font-size: 19px; font-weight: 700; color: #FFFFFF; margin-bottom: 10px; line-height: 1.3;">Stand
             out to employers</h3>
-          <p style="font-size: 14px; color: var(--ink-mute); line-height: 1.6;">Build a portfolio of real-world
-            AI-integrated applications.</p>
+          <p style="font-size: 14px; color: rgba(226, 232, 240, 0.82); line-height: 1.6;">Build a portfolio of real-world
+            HRMS & B2B pipeline strategies.</p>
         </div>
         <div>
           <div
-            style="font-size: clamp(32px, 4vw, 42px); font-weight: 700; color: var(--blue); margin-bottom: 10px; line-height: 1.1; letter-spacing: -0.02em;">
+            style="font-size: clamp(32px, 4vw, 42px); font-weight: 700; color: #38BDF8; margin-bottom: 10px; line-height: 1.1; letter-spacing: -0.02em; text-shadow: 0 0 20px rgba(56, 189, 248, 0.35);">
             100%</div>
-          <p style="font-size: 13px; color: var(--ink-mute); line-height: 1.6;">placement assistance and dedicated
-            career support for our tech school graduates.</p>
+          <p style="font-size: 13px; color: rgba(226, 232, 240, 0.75); line-height: 1.6;">placement assistance and dedicated
+            career support for our b-school graduates.</p>
         </div>
       </div>
 
       <!-- Col 3 -->
-      <div class="stat-block sr sr-delay-3"
-        style="display: flex; flex-direction: column; gap: 36px; background: #fff; border: 1px solid var(--line-soft); border-radius: 20px; padding: 32px 28px; box-shadow: var(--shadow-sm);">
+      <div class="stat-block">
         <div style="min-height: 90px;">
-          <h3 style="font-size: 19px; font-weight: 700; color: var(--ink); margin-bottom: 10px; line-height: 1.3;">
-            High-paying tech roles</h3>
-          <p style="font-size: 14px; color: var(--ink-mute); line-height: 1.6;">Step into roles like Full-Stack
-            Developer, AI Engineer, or Data Analyst.</p>
+          <h3 style="font-size: 19px; font-weight: 700; color: #FFFFFF; margin-bottom: 10px; line-height: 1.3;">
+            High-growth corporate roles</h3>
+          <p style="font-size: 14px; color: rgba(226, 232, 240, 0.82); line-height: 1.6;">Step into roles like HR Specialist,
+            Talent Acquisition, or Sales Engineer.</p>
         </div>
         <div>
           <div
-            style="font-size: clamp(32px, 4vw, 42px); font-weight: 700; color: var(--blue); margin-bottom: 10px; line-height: 1.1; letter-spacing: -0.02em;">
-            6-12 LPA</div>
-          <p style="font-size: 13px; color: var(--ink-mute); line-height: 1.6;">target salary range for entry-level
-            developers with our tech stack.</p>
+            style="font-size: clamp(32px, 4vw, 42px); font-weight: 700; color: #38BDF8; margin-bottom: 10px; line-height: 1.1; letter-spacing: -0.02em; text-shadow: 0 0 20px rgba(56, 189, 248, 0.35);">
+            5-10 LPA</div>
+          <p style="font-size: 13px; color: rgba(226, 232, 240, 0.75); line-height: 1.6;">target salary range for corporate
+            hires with our practical curriculum.</p>
         </div>
       </div>
 
       <!-- Col 4 -->
-      <div class="stat-block sr sr-delay-4"
-        style="display: flex; flex-direction: column; gap: 36px; background: #fff; border: 1px solid var(--line-soft); border-radius: 20px; padding: 32px 28px; box-shadow: var(--shadow-sm);">
+      <div class="stat-block">
         <div style="min-height: 90px;">
-          <h3 style="font-size: 19px; font-weight: 700; color: var(--ink); margin-bottom: 10px; line-height: 1.3;">No
-            prior coding needed</h3>
-          <p style="font-size: 14px; color: var(--ink-mute); line-height: 1.6;">We start from the absolute basics and
-            take you to advanced concepts.</p>
+          <h3 style="font-size: 19px; font-weight: 700; color: #FFFFFF; margin-bottom: 10px; line-height: 1.3;">No
+            prior experience needed</h3>
+          <p style="font-size: 14px; color: rgba(226, 232, 240, 0.82); line-height: 1.6;">We start from foundational business communication
+            and advance to corporate execution.</p>
         </div>
         <div>
           <div
-            style="font-size: clamp(32px, 4vw, 42px); font-weight: 700; color: var(--blue); margin-bottom: 10px; line-height: 1.1; letter-spacing: -0.02em;">
+            style="font-size: clamp(32px, 4vw, 42px); font-weight: 700; color: #38BDF8; margin-bottom: 10px; line-height: 1.1; letter-spacing: -0.02em; text-shadow: 0 0 20px rgba(56, 189, 248, 0.35);">
             2,000+</div>
-          <p style="font-size: 13px; color: var(--ink-mute); line-height: 1.6;">successful placements to date through
+          <p style="font-size: 13px; color: rgba(226, 232, 240, 0.75); line-height: 1.6;">successful placements to date through
             our comprehensive training.</p>
         </div>
       </div>
@@ -772,19 +1089,19 @@
   <section class="structure-section" style="padding: 100px 0;">
     <div class="section-head center sr" style="text-align: center; margin-bottom: 60px;">
       <span class="eyebrow"
-        style="display: inline-block; background: #fff; border: 1px solid var(--line-soft); color: var(--blue); padding: 6px 16px; border-radius: 99px; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(25,71,255,0.05);">Program
+        style="display: inline-block; background: rgba(25, 71, 255, 0.2); border: 1px solid rgba(56, 189, 248, 0.4); color: #38BDF8; padding: 6px 16px; border-radius: 99px; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px; box-shadow: 0 0 15px rgba(56,189,248,0.15);">Program
         Structure</span>
-      <h2 style="font-size: clamp(32px, 5vw, 48px); font-weight: 700; letter-spacing: -0.03em; color: var(--ink);">
+      <h2 style="font-size: clamp(32px, 5vw, 48px); font-weight: 700; letter-spacing: -0.03em; color: #FFFFFF;">
         Discovery, Development, Launch.</h2>
     </div>
 
     <div class="structure-grid"
-      style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; max-width: 1000px; margin: 0 auto;">
+      style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; max-width: 1000px; margin: 0 auto; padding: 0 24px;">
       <!-- Discovery -->
       <div class="structure-card sr sr-delay-1"
-        style="background: #fff; padding: 40px; border-radius: 20px; border: 1px solid var(--line-soft); box-shadow: 0 10px 30px rgba(0,0,0,0.03); transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;">
+        style="padding: 40px; border-radius: 20px;">
         <div
-          style="width: 56px; height: 56px; border-radius: 14px; background: rgba(25,71,255,0.05); color: var(--blue); display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+          style="width: 56px; height: 56px; border-radius: 14px; background: rgba(25,71,255,0.22); border: 1px solid rgba(56, 189, 248, 0.35); color: #38BDF8; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"></circle>
@@ -792,16 +1109,16 @@
             <circle cx="12" cy="12" r="2"></circle>
           </svg>
         </div>
-        <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 16px; color: var(--ink);">Discovery</h3>
-        <p style="font-size: 15px; color: var(--ink-mute); line-height: 1.6;">Career mapping, skill gap analysis, and
+        <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 16px; color: #FFFFFF;">Discovery</h3>
+        <p style="font-size: 15px; color: rgba(226, 232, 240, 0.82); line-height: 1.6;">Career mapping, skill gap analysis, and
           structured roadmap planning tailored to your goals.</p>
       </div>
 
       <!-- Development -->
       <div class="structure-card sr sr-delay-2"
-        style="background: #fff; padding: 40px; border-radius: 20px; border: 1px solid var(--line-soft); box-shadow: 0 10px 30px rgba(0,0,0,0.03); transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;">
+        style="padding: 40px; border-radius: 20px;">
         <div
-          style="width: 56px; height: 56px; border-radius: 14px; background: rgba(25,71,255,0.05); color: var(--blue); display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+          style="width: 56px; height: 56px; border-radius: 14px; background: rgba(25,71,255,0.22); border: 1px solid rgba(56, 189, 248, 0.35); color: #38BDF8; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
             <path
@@ -809,181 +1126,217 @@
             </path>
           </svg>
         </div>
-        <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 16px; color: var(--ink);">Development</h3>
-        <p style="font-size: 15px; color: var(--ink-mute); line-height: 1.6;">Core HR foundations, recruitment cycles,
+        <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 16px; color: #FFFFFF;">Development</h3>
+        <p style="font-size: 15px; color: rgba(226, 232, 240, 0.82); line-height: 1.6;">Core HR foundations, recruitment cycles,
           payroll processing, labor laws, and modern corporate communication.</p>
       </div>
 
       <!-- Launch -->
       <div class="structure-card sr sr-delay-3"
-        style="background: #fff; padding: 40px; border-radius: 20px; border: 1px solid var(--line-soft); box-shadow: 0 10px 30px rgba(0,0,0,0.03); transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;">
+        style="padding: 40px; border-radius: 20px;">
         <div
-          style="width: 56px; height: 56px; border-radius: 14px; background: rgba(25,71,255,0.05); color: var(--blue); display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+          style="width: 56px; height: 56px; border-radius: 14px; background: rgba(25,71,255,0.22); border: 1px solid rgba(56, 189, 248, 0.35); color: #38BDF8; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
             <path d="M13.5 2.5l5.5 5.5-2 10-10-2L2.5 13.5 13.5 2.5z"></path>
           </svg>
         </div>
-        <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 16px; color: var(--ink);">Launch</h3>
-        <p style="font-size: 15px; color: var(--ink-mute); line-height: 1.6;">Portfolio projects, resume building,
+        <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 16px; color: #FFFFFF;">Launch</h3>
+        <p style="font-size: 15px; color: rgba(226, 232, 240, 0.82); line-height: 1.6;">Portfolio projects, resume building,
           LinkedIn optimization, mock interviews, and placement drives.</p>
       </div>
     </div>
-    <!-- ROADMAP -->
-    <section class="roadmap-section" style="padding: 40px 0 100px;">
-      <div class="section-head center sr" style="text-align: center; margin-bottom: 60px;">
-        <span class="eyebrow"
-          style="display: inline-block; background: var(--blue); color: #fff; padding: 6px 16px; border-radius: 99px; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(25,71,255,0.2);">Roadmap</span>
-        <h2 style="font-size: clamp(32px, 5vw, 48px); font-weight: 700; letter-spacing: -0.03em; color: var(--ink);">
-          6-Month Course Journey.</h2>
+  </section>
+
+  <!-- ROADMAP (Astra AI-Style Stacking Cards on Scroll) -->
+  <section class="roadmap-section" id="roadmap">
+    <div class="roadmap-sticky-stage">
+      <div class="roadmap-header">
+        <div class="section-head center" style="text-align: center; margin-bottom: 0;">
+          <span class="eyebrow"
+            style="display: inline-block; background: linear-gradient(135deg, #1947FF, #0099FF); color: #fff; padding: 6px 16px; border-radius: 99px; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 14px; box-shadow: 0 4px 16px rgba(25, 71, 255, 0.35);">Roadmap</span>
+          <h2 style="font-size: clamp(30px, 4.5vw, 46px); font-weight: 600; letter-spacing: -0.02em; color: #FFFFFF; line-height: 1.15; margin: 0;">
+            6-Month Course Journey.</h2>
+        </div>
+
+        <!-- Glowing Vertical Energy Beam -->
+        <div class="roadmap-beam">
+          <div class="roadmap-beam-line"></div>
+          <div class="roadmap-beam-dot"></div>
+        </div>
       </div>
 
-      <div class="roadmap-grid"
-        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; max-width: 900px; margin: 0 auto; padding: 0 24px;">
+      <!-- Card Deck (All cards stack here under the beam) -->
+      <div class="roadmap-cards-deck">
         <!-- Month 1 -->
-        <div class="roadmap-card sr sr-delay-1"
-          style="background: #fff; padding: 28px 24px; border-radius: 12px; border-left: 4px solid var(--blue); box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
-          <h3 style="color: var(--blue); font-size: 18px; font-weight: 700; margin-bottom: 8px;">Month 1: Fundamentals
-          </h3>
-          <p style="color: var(--ink-mute); font-size: 15px; line-height: 1.5;">Business communication & core HR
-            concepts.</p>
+        <div class="roadmap-stack-card" style="z-index: 1;">
+          <div class="roadmap-card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+          </div>
+          <div class="roadmap-card-content">
+            <span class="roadmap-card-step">MONTH 01</span>
+            <h3 class="roadmap-card-title">Fundamentals</h3>
+            <p class="roadmap-card-desc">Business communication, corporate etiquette, & core HR / sales principles.</p>
+          </div>
         </div>
+
         <!-- Month 2 -->
-        <div class="roadmap-card sr sr-delay-2"
-          style="background: #fff; padding: 28px 24px; border-radius: 12px; border-left: 4px solid var(--blue); box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
-          <h3 style="color: var(--blue); font-size: 18px; font-weight: 700; margin-bottom: 8px;">Month 2: Recruitment &
-            Sourcing</h3>
-          <p style="color: var(--ink-mute); font-size: 15px; line-height: 1.5;">Talent acquisition strategies &
-            interviewing skills.</p>
+        <div class="roadmap-stack-card" style="z-index: 2;">
+          <div class="roadmap-card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <div class="roadmap-card-content">
+            <span class="roadmap-card-step">MONTH 02</span>
+            <h3 class="roadmap-card-title">Recruitment & Sourcing</h3>
+            <p class="roadmap-card-desc">Talent acquisition strategies, LinkedIn headhunting, & structured interviewing.</p>
+          </div>
         </div>
+
         <!-- Month 3 -->
-        <div class="roadmap-card sr sr-delay-3"
-          style="background: #fff; padding: 28px 24px; border-radius: 12px; border-left: 4px solid var(--blue); box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
-          <h3 style="color: var(--blue); font-size: 18px; font-weight: 700; margin-bottom: 8px;">Month 3: Operations &
-            Payroll</h3>
-          <p style="color: var(--ink-mute); font-size: 15px; line-height: 1.5;">Labour laws, compliance, and end-to-end
-            payroll processing.</p>
+        <div class="roadmap-stack-card" style="z-index: 3;">
+          <div class="roadmap-card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+              <line x1="8" y1="21" x2="16" y2="21"></line>
+              <line x1="12" y1="17" x2="12" y2="21"></line>
+            </svg>
+          </div>
+          <div class="roadmap-card-content">
+            <span class="roadmap-card-step">MONTH 03</span>
+            <h3 class="roadmap-card-title">Operations & Payroll</h3>
+            <p class="roadmap-card-desc">Labour law compliance, compensation structuring, & end-to-end payroll processing.</p>
+          </div>
         </div>
+
         <!-- Month 4 -->
-        <div class="roadmap-card sr sr-delay-4"
-          style="background: #fff; padding: 28px 24px; border-radius: 12px; border-left: 4px solid var(--blue); box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
-          <h3 style="color: var(--blue); font-size: 18px; font-weight: 700; margin-bottom: 8px;">Month 4: AI & HR Tech
-          </h3>
-          <p style="color: var(--ink-mute); font-size: 15px; line-height: 1.5;">Hands-on with KEKA HRMS & AI automation
-            tools.</p>
+        <div class="roadmap-stack-card" style="z-index: 4;">
+          <div class="roadmap-card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z"></path>
+            </svg>
+          </div>
+          <div class="roadmap-card-content">
+            <span class="roadmap-card-step">MONTH 04</span>
+            <h3 class="roadmap-card-title">AI & HR Tech / CRM</h3>
+            <p class="roadmap-card-desc">Hands-on mastery of KEKA HRMS, Salesforce/HubSpot CRMs, & AI workflow tools.</p>
+          </div>
         </div>
+
         <!-- Month 5 -->
-        <div class="roadmap-card sr sr-delay-5"
-          style="background: #fff; padding: 28px 24px; border-radius: 12px; border-left: 4px solid var(--ink); box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
-          <h3 style="color: var(--ink); font-size: 18px; font-weight: 700; margin-bottom: 8px;">Month 5: Internship
-            Project</h3>
-          <p style="color: var(--ink-mute); font-size: 15px; line-height: 1.5;">Live industry project focusing on
-            corporate HR workflows.
-          </p>
+        <div class="roadmap-stack-card" style="z-index: 5;">
+          <div class="roadmap-card-icon" style="color: #00F0FF; background: rgba(0, 240, 255, 0.12); border-color: rgba(0, 240, 255, 0.3);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00F0FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="18" cy="18" r="3"></circle>
+              <circle cx="6" cy="6" r="3"></circle>
+              <circle cx="6" cy="18" r="3"></circle>
+              <path d="M18 9a9 9 0 0 1-9 9"></path>
+              <line x1="6" y1="9" x2="6" y2="15"></line>
+            </svg>
+          </div>
+          <div class="roadmap-card-content">
+            <span class="roadmap-card-step" style="color: #00F0FF;">MONTH 05</span>
+            <h3 class="roadmap-card-title">Corporate Internship</h3>
+            <p class="roadmap-card-desc">Live corporate project handling real enterprise HR workflows or sales pipelines.</p>
+          </div>
         </div>
+
         <!-- Month 6 -->
-        <div class="roadmap-card sr sr-delay-6"
-          style="background: #fff; padding: 28px 24px; border-radius: 12px; border-left: 4px solid var(--ink); box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
-          <h3 style="color: var(--ink); font-size: 18px; font-weight: 700; margin-bottom: 8px;">Month 6: Placement Prep
-          </h3>
-          <p style="color: var(--ink-mute); font-size: 15px; line-height: 1.5;">Resume optimization, LinkedIn branding,
-            and mock interviews.</p>
+        <div class="roadmap-stack-card" style="z-index: 6;">
+          <div class="roadmap-card-icon" style="color: #00F0FF; background: rgba(0, 240, 255, 0.12); border-color: rgba(0, 240, 255, 0.3);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00F0FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
+              <path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-4.05 11a22.7 22.7 0 0 1-3.95 2z"></path>
+              <path d="M9 22l3-3"></path>
+            </svg>
+          </div>
+          <div class="roadmap-card-content">
+            <span class="roadmap-card-step" style="color: #00F0FF;">MONTH 06</span>
+            <h3 class="roadmap-card-title">Placement Drives & Launch</h3>
+            <p class="roadmap-card-desc">Executive resume optimization, LinkedIn branding, mock HR rounds, & exclusive drives.</p>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- PLACEMENTS & CAREER SUPPORT -->
-    <section class="placements-section"
-      style="padding: 100px 0; background: linear-gradient(180deg, var(--blue-soft), #eef2ff);">
-      <div style="max-width: var(--maxw); margin: 0 auto; padding: 0 24px; display: flex; justify-content: center;">
+  <!-- PLACEMENTS & CAREER SUPPORT -->
+  <section class="placements-section" style="padding: 100px 0; background: rgba(11, 19, 43, 0.5); border-top: 1px solid rgba(56, 189, 248, 0.15); border-bottom: 1px solid rgba(56, 189, 248, 0.15); backdrop-filter: blur(12px);">
+    <div style="max-width: var(--maxw); margin: 0 auto; padding: 0 24px; display: flex; justify-content: center;">
 
-        <!-- Centered Text Content -->
-        <div style="display: flex; flex-direction: column; align-items: center; text-align: center; max-width: 860px;">
-          <span class="eyebrow sr"
-            style="display: inline-block; background: #fff; border: 1px solid var(--line-soft); color: var(--blue); padding: 6px 16px; border-radius: 99px; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(25,71,255,0.05);">Careers</span>
-          <h2 class="sr"
-            style="font-size: clamp(32px, 5vw, 48px); font-weight: 700; letter-spacing: -0.03em; color: var(--ink); margin-bottom: 48px;">
-            Placement & Career Support</h2>
+      <!-- Centered Text Content -->
+      <div style="display: flex; flex-direction: column; align-items: center; text-align: center; max-width: 700px;">
+        <span class="eyebrow"
+          style="display: inline-block; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.3); color: #38BDF8; padding: 6px 16px; border-radius: 99px; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 20px; box-shadow: 0 0 15px rgba(56, 189, 248, 0.15);">Careers</span>
+        <h2
+          style="font-size: clamp(32px, 5vw, 48px); font-weight: 600; letter-spacing: -0.02em; color: #FFFFFF; margin-bottom: 32px;">
+          Placement & Career Support</h2>
 
-          <ul
-            style="list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; text-align: left; width: 100%;">
-            <li class="sr sr-delay-1"
-              style="display: flex; align-items: flex-start; gap: 16px; font-size: 16.5px; color: var(--ink-mute); line-height: 1.5; background: #fff; border: 1px solid var(--line-soft); border-radius: 16px; padding: 22px 24px; box-shadow: var(--shadow-sm);">
-              <span
-                style="flex-shrink: 0; width: 44px; height: 44px; border-radius: 12px; background: var(--blue-soft); display: flex; align-items: center; justify-content: center;">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="9" cy="7" r="4"></circle>
-                  <polyline points="16 11 18 13 22 9"></polyline>
-                </svg>
-              </span>
-              <span style="padding-top: 8px;"><strong style="color: var(--ink);">Dedicated B2B placement team</strong>
-                working for your success.</span>
-            </li>
-            <li class="sr sr-delay-2"
-              style="display: flex; align-items: flex-start; gap: 16px; font-size: 16.5px; color: var(--ink-mute); line-height: 1.5; background: #fff; border: 1px solid var(--line-soft); border-radius: 16px; padding: 22px 24px; box-shadow: var(--shadow-sm);">
-              <span
-                style="flex-shrink: 0; width: 44px; height: 44px; border-radius: 12px; background: var(--blue-soft); display: flex; align-items: center; justify-content: center;">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
-                  <line x1="12" y1="4" x2="12" y2="20"></line>
-                  <line x1="4" y1="12" x2="20" y2="12"></line>
-                </svg>
-              </span>
-              <span style="padding-top: 8px;"><strong style="color: var(--ink);">Mega job drives</strong> connecting
-                you with top employers.</span>
-            </li>
-            <li class="sr sr-delay-3"
-              style="display: flex; align-items: flex-start; gap: 16px; font-size: 16.5px; color: var(--ink-mute); line-height: 1.5; background: #fff; border: 1px solid var(--line-soft); border-radius: 16px; padding: 22px 24px; box-shadow: var(--shadow-sm);">
-              <span
-                style="flex-shrink: 0; width: 44px; height: 44px; border-radius: 12px; background: var(--blue-soft); display: flex; align-items: center; justify-content: center;">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                  <polyline points="14 2 14 8 20 8"></polyline>
-                  <line x1="16" y1="13" x2="8" y2="13"></line>
-                  <line x1="16" y1="17" x2="8" y2="17"></line>
-                  <polyline points="10 9 9 9 8 9"></polyline>
-                </svg>
-              </span>
-              <span style="padding-top: 8px;"><strong style="color: var(--ink);">Resume & LinkedIn
-                  optimization</strong> to stand out.</span>
-            </li>
-            <li class="sr sr-delay-4"
-              style="display: flex; align-items: flex-start; gap: 16px; font-size: 16.5px; color: var(--ink-mute); line-height: 1.5; background: #fff; border: 1px solid var(--line-soft); border-radius: 16px; padding: 22px 24px; box-shadow: var(--shadow-sm);">
-              <span
-                style="flex-shrink: 0; width: 44px; height: 44px; border-radius: 12px; background: var(--blue-soft); display: flex; align-items: center; justify-content: center;">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <path d="M12 8v4"></path>
-                  <path d="M12 16h.01"></path>
-                </svg>
-              </span>
-              <span style="padding-top: 8px;"><strong style="color: var(--ink);">Company-specific mock
-                  interviews</strong> to build confidence.</span>
-            </li>
-            <li class="sr sr-delay-5"
-              style="display: flex; align-items: flex-start; gap: 16px; font-size: 16.5px; color: var(--ink-mute); line-height: 1.5; background: #fff; border: 1px solid var(--line-soft); border-radius: 16px; padding: 22px 24px; box-shadow: var(--shadow-sm);">
-              <span
-                style="flex-shrink: 0; width: 44px; height: 44px; border-radius: 12px; background: var(--blue-soft); display: flex; align-items: center; justify-content: center;">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
-                  <polyline points="16 7 22 7 22 13"></polyline>
-                </svg>
-              </span>
-              <span style="padding-top: 8px;"><strong style="color: var(--ink);">Continuous employer feedback</strong>
-                & skill enhancement.</span>
-            </li>
-          </ul>
-        </div>
-
-
+        <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 20px; text-align: left; width: 100%;">
+          <li
+            style="display: flex; align-items: flex-start; gap: 16px; font-size: 18px; color: rgba(226, 232, 240, 0.85); line-height: 1.5; padding: 14px 20px; border-radius: 14px; background: rgba(11, 19, 43, 0.45); border: 1px solid rgba(56, 189, 248, 0.18); backdrop-filter: blur(8px); transition: transform 0.28s ease, background 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <polyline points="16 11 18 13 22 9"></polyline>
+            </svg>
+            <span><strong style="color: #FFFFFF;">Dedicated B2B placement team</strong> working for your success.</span>
+          </li>
+          <li
+            style="display: flex; align-items: flex-start; gap: 16px; font-size: 18px; color: rgba(226, 232, 240, 0.85); line-height: 1.5; padding: 14px 20px; border-radius: 14px; background: rgba(11, 19, 43, 0.45); border: 1px solid rgba(56, 189, 248, 0.18); backdrop-filter: blur(8px); transition: transform 0.28s ease, background 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
+              <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+              <line x1="12" y1="4" x2="12" y2="20"></line>
+              <line x1="4" y1="12" x2="20" y2="12"></line>
+            </svg>
+            <span><strong style="color: #FFFFFF;">Mega job drives</strong> connecting you with top employers.</span>
+          </li>
+          <li
+            style="display: flex; align-items: flex-start; gap: 16px; font-size: 18px; color: rgba(226, 232, 240, 0.85); line-height: 1.5; padding: 14px 20px; border-radius: 14px; background: rgba(11, 19, 43, 0.45); border: 1px solid rgba(56, 189, 248, 0.18); backdrop-filter: blur(8px); transition: transform 0.28s ease, background 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            <span><strong style="color: #FFFFFF;">Resume & LinkedIn optimization</strong> to stand out.</span>
+          </li>
+          <li
+            style="display: flex; align-items: flex-start; gap: 16px; font-size: 18px; color: rgba(226, 232, 240, 0.85); line-height: 1.5; padding: 14px 20px; border-radius: 14px; background: rgba(11, 19, 43, 0.45); border: 1px solid rgba(56, 189, 248, 0.18); backdrop-filter: blur(8px); transition: transform 0.28s ease, background 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M12 8v4"></path>
+              <path d="M12 16h.01"></path>
+            </svg>
+            <span><strong style="color: #FFFFFF;">Company-specific mock interviews</strong> to build confidence.</span>
+          </li>
+          <li
+            style="display: flex; align-items: flex-start; gap: 16px; font-size: 18px; color: rgba(226, 232, 240, 0.85); line-height: 1.5; padding: 14px 20px; border-radius: 14px; background: rgba(11, 19, 43, 0.45); border: 1px solid rgba(56, 189, 248, 0.18); backdrop-filter: blur(8px); transition: transform 0.28s ease, background 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
+              <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+              <polyline points="16 7 22 7 22 13"></polyline>
+            </svg>
+            <span><strong style="color: #FFFFFF;">Continuous employer feedback</strong> & skill enhancement.</span>
+          </li>
+        </ul>
       </div>
-    </section>
+
+    </div>
+  </section>
 
     <footer class="site-footer">
       <p>&copy; 2026 Kompetenzen Technologies. All rights reserved.</p>
@@ -1045,291 +1398,905 @@
     document.querySelectorAll('.sr').forEach(el => srObserver.observe(el));
   </script>
 
-  <!-- BESPOKE 3D CORPORATE GLOBE & HOLOGRAPHIC BUSINESS BADGES ANIMATION SCRIPT -->
+    <!-- FULL-PAGE EXECUTIVE BUSINESS ENGINE: BLUE & WHITE COMBOS (CANDLESTICKS + GROWTH SPLINES + 3D COMMERCE GLOBE + KPI BADGES) -->
   <script>
     (function () {
       const canvas = document.getElementById('heroLightBlueCanvas');
       if (!canvas) return;
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext('2d', { alpha: true });
 
-      let width = 0;
-      let height = 0;
-      let dpr = window.devicePixelRatio || 1;
+      let width = window.innerWidth;
+      let height = window.innerHeight;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      let isVisible = true;
+      let animId = null;
 
       function resize() {
-        const rect = canvas.parentElement.getBoundingClientRect();
-        width = rect.width;
-        height = rect.height;
-        canvas.width = width * dpr;
-        canvas.height = height * dpr;
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = Math.floor(width * dpr);
+        canvas.height = Math.floor(height * dpr);
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.scale(dpr, dpr);
       }
 
-      window.addEventListener('resize', resize);
+      window.addEventListener('resize', resize, { passive: true });
       resize();
 
-      // Mouse tracking
-      const mouse = { x: -1000, y: -1000, radius: 220 };
+      // Mouse tracking across full viewport
+      const mouse = { x: -1000, y: -1000, active: false, clickPulse: 0 };
       window.addEventListener('mousemove', (e) => {
-        const rect = canvas.getBoundingClientRect();
-        mouse.x = e.clientX - rect.left;
-        mouse.y = e.clientY - rect.top;
-      });
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+        mouse.active = true;
+      }, { passive: true });
+
       window.addEventListener('mouseleave', () => {
         mouse.x = -1000;
         mouse.y = -1000;
-      });
+        mouse.active = false;
+      }, { passive: true });
 
-      // 1. Holographic Business Metric Badges (Right side 54% to 96% width)
-      const businessBadges = [
-        '📊 B2B Sales +340%', '💼 HR Talent Acquisition', '🚀 Sales Pipeline $2.4M',
-        '🎯 Conversion Rate 88%', '⚡ High-Ticket Closing', '🌐 Global Corporate Net',
-        '🤝 Enterprise Deals', '📈 Revenue Growth', '💡 AI-Driven HRMS', '🏢 Corporate Strategy'
+      window.addEventListener('click', () => {
+        mouse.clickPulse = 1.0;
+      }, { passive: true });
+
+      // 1. Candlestick Market Pillar Data (Exclusively Pure Blue & White Theme)
+      const candleCount = 32;
+      const candles = [];
+      const blueWhiteCandleStyles = [
+        { fill: '#38BDF8', wick: 'rgba(56, 189, 248, 0.7)', rim: '#FFFFFF' },      // Electric Sky Blue
+        { fill: '#60A5FA', wick: 'rgba(96, 165, 250, 0.7)', rim: '#FFFFFF' },      // Bright Blue
+        { fill: '#2563EB', wick: 'rgba(37, 99, 235, 0.7)', rim: '#93C5FD' },       // Royal Corporate Blue
+        { fill: '#1D4ED8', wick: 'rgba(29, 78, 216, 0.65)', rim: '#38BDF8' },      // Deep Sapphire Blue
+        { fill: '#FFFFFF', wick: 'rgba(255, 255, 255, 0.75)', rim: '#38BDF8' }     // Pure White Accent
       ];
-      const badges = [];
-      const badgeCount = 14;
 
-      for (let i = 0; i < badgeCount; i++) {
-        badges.push({
-          text: businessBadges[i % businessBadges.length],
-          x: width * 0.54 + Math.random() * (width * 0.42),
-          y: Math.random() * height,
-          vy: - (0.35 + Math.random() * 0.55),
-          vx: (Math.random() - 0.5) * 0.25,
-          minX: width * 0.54,
-          maxX: width - 30,
-          opacity: 0.45 + Math.random() * 0.45,
-          color: i % 2 === 0 ? '#00F0FF' : '#38BDF8'
+      for (let i = 0; i < candleCount; i++) {
+        const style = blueWhiteCandleStyles[i % blueWhiteCandleStyles.length];
+        const baseH = 22 + Math.random() * 46;
+        candles.push({
+          relX: (i + 0.5) / candleCount,
+          relY: 0.72 + (Math.sin(i * 0.45) * 0.08) - (i / candleCount) * 0.12, // Ascending market trend
+          wickTop: 12 + Math.random() * 24,
+          wickBottom: 10 + Math.random() * 20,
+          bodyH: baseH,
+          width: 9 + (i % 3 === 0 ? 3 : 0),
+          fill: style.fill,
+          wickColor: style.wick,
+          rimColor: style.rim,
+          opacity: 0.22 + Math.random() * 0.24,
+          pulse: Math.random() * Math.PI * 2
         });
       }
 
-      // 2. Global Corporate Hubs on 3D Globe
+      // 2. Curated Glassmorphic Executive KPI Badges (Pure Blue & White Palette)
+      const kpiMetrics = [
+        { title: 'ARR GROWTH', val: '+185%', badge: '▲ YOY', accent: '#38BDF8', points: [20, 18, 26, 22, 35, 42, 54] },
+        { title: 'B2B PIPELINE', val: '$4.8M', badge: 'ACTIVE', accent: '#60A5FA', points: [15, 20, 18, 28, 30, 44, 50] },
+        { title: 'DEAL CLOSURE', val: '94.2%', badge: 'TOP 5%', accent: '#FFFFFF', points: [28, 26, 32, 35, 38, 42, 48] },
+        { title: 'TALENT RETENTION', val: '98.5%', badge: 'EXCELLENT', accent: '#93C5FD', points: [30, 32, 31, 38, 40, 45, 52] },
+        { title: 'AVG PLACEMENT', val: '₹6.5 LPA', badge: 'PREMIUM', accent: '#38BDF8', points: [18, 22, 26, 25, 36, 40, 52] },
+        { title: 'CORP NETWORK', val: '350+ COS', badge: 'GLOBAL', accent: '#60A5FA', points: [14, 18, 25, 30, 36, 44, 50] },
+        { title: 'EBITDA MULTIPLE', val: '8.4x', badge: 'VALUATION', accent: '#FFFFFF', points: [16, 20, 24, 28, 32, 42, 48] },
+        { title: 'PLACEMENTS', val: '100%', badge: 'VERIFIED', accent: '#38BDF8', points: [25, 28, 32, 35, 40, 46, 56] }
+      ];
+
+      const kpiCards = kpiMetrics.map((k, idx) => ({
+        ...k,
+        x: ((idx * 0.24 + 0.05) * width) % (width - 180),
+        y: ((idx * 0.27 + 0.1) * height) % (height - 80),
+        vx: (Math.random() - 0.5) * 0.32,
+        vy: - (0.2 + Math.random() * 0.25),
+        w: 168,
+        h: 64,
+        opacity: 0.82 + Math.random() * 0.16
+      }));
+
+      // 3. Milestone Nodes for Primary Growth Spline
+      const milestones = [
+        { relX: 0.18, label: 'Q1 STRATEGY', value: 'FOUNDATION' },
+        { relX: 0.42, label: 'Q2 REVENUE +45%', value: 'ACCELERATION' },
+        { relX: 0.68, label: 'Q3 B2B SCALE', value: '$6.4M PIPELINE' },
+        { relX: 0.88, label: 'Q4 PEAK EBITDA', value: '100% PLACED' }
+      ];
+
+      // 4. Global Commerce Hubs (Hero 3D Globe)
       const hubs = [
         { lat: 0.2, lon: 0.5, name: 'Kochi Hub' },
-        { lat: -0.3, lon: 1.2, name: 'Dubai Office' },
-        { lat: 0.6, lon: 2.1, name: 'Singapore HQ' },
-        { lat: -0.5, lon: 3.4, name: 'London Partner' },
-        { lat: 0.4, lon: 4.5, name: 'New York HQ' },
-        { lat: 0.1, lon: 5.2, name: 'Tokyo Office' }
+        { lat: -0.3, lon: 1.2, name: 'Dubai HQ' },
+        { lat: 0.6, lon: 2.1, name: 'Singapore APAC' },
+        { lat: -0.5, lon: 3.4, name: 'London Finance' },
+        { lat: 0.4, lon: 4.5, name: 'New York Wall St' },
+        { lat: 0.1, lon: 5.2, name: 'Tokyo Capital' }
+      ];
+      let globeRotation = 0;
+
+      // 5. Commerce Trade Packets traveling between hubs
+      const tradePackets = [
+        { fromIdx: 0, toIdx: 1, progress: 0.1, speed: 0.008 },
+        { fromIdx: 1, toIdx: 2, progress: 0.4, speed: 0.007 },
+        { fromIdx: 0, toIdx: 3, progress: 0.7, speed: 0.009 },
+        { fromIdx: 3, toIdx: 4, progress: 0.2, speed: 0.006 },
+        { fromIdx: 0, toIdx: 2, progress: 0.85, speed: 0.01 }
       ];
 
-      // 3. Ascending Corporate Financial Bar Columns
-      const bars = [];
-      const barCount = 10;
-      for (let b = 0; b < barCount; b++) {
-        bars.push({
-          xRatio: 0.52 + (b / barCount) * 0.44,
-          heightRatio: 0.25 + Math.random() * 0.45,
-          speed: 0.008 + Math.random() * 0.012,
-          phase: Math.random() * Math.PI * 2,
-          width: 14 + Math.random() * 10
-        });
-      }
-
-      let rotation = 0;
+      let scanlineY = 0;
+      let splineTime = 0;
 
       function draw() {
+        if (!isVisible) {
+          animId = null;
+          return;
+        }
+
         ctx.clearRect(0, 0, width, height);
-        rotation += 0.006;
+        splineTime += 0.018;
+        globeRotation += 0.0055;
+        if (mouse.clickPulse > 0.02) mouse.clickPulse *= 0.94;
 
-        const globeCenterX = width * 0.72;
-        const globeCenterY = height * 0.5;
-        const globeRadius = Math.min(width * 0.18, 175);
+        // A. ARCHITECTURAL BUSINESS GRID & COORDINATE CROSSHAIRS (Pure Blue & White)
+        const gridSize = 90;
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.04)';
+        ctx.beginPath();
+        for (let x = 0; x < width; x += gridSize) {
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x, height);
+        }
+        for (let y = 0; y < height; y += gridSize) {
+          ctx.moveTo(0, y);
+          ctx.lineTo(width, y);
+        }
+        ctx.stroke();
 
-        // A. Draw Ascending Glowing Corporate Bar Columns (Background Layer)
-        bars.forEach(b => {
-          b.phase += b.speed;
-          const currentH = (b.heightRatio + Math.sin(b.phase) * 0.12) * height * 0.5;
-          const bx = b.xRatio * width;
-          const by = height - currentH - 30;
+        // Coordinate '+' markers at grid intersections
+        const crossSize = 3;
+        for (let x = gridSize; x < width; x += gridSize * 2) {
+          for (let y = gridSize; y < height; y += gridSize * 2) {
+            ctx.beginPath();
+            ctx.moveTo(x - crossSize, y); ctx.lineTo(x + crossSize, y);
+            ctx.moveTo(x, y - crossSize); ctx.lineTo(x, y + crossSize);
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.16)';
+            ctx.stroke();
+          }
+        }
 
-          ctx.save();
-          const barGradient = ctx.createLinearGradient(bx, by, bx, height);
-          barGradient.addColorStop(0, 'rgba(56, 189, 248, 0.28)');
-          barGradient.addColorStop(0.6, 'rgba(56, 189, 248, 0.08)');
-          barGradient.addColorStop(1, 'rgba(2, 6, 23, 0)');
+        // Telemetry Laser Scanline (Electric Blue & White)
+        scanlineY = (scanlineY + 0.75) % (height + 100);
+        const scanGrad = ctx.createLinearGradient(0, scanlineY - 40, 0, scanlineY);
+        scanGrad.addColorStop(0, 'rgba(56, 189, 248, 0)');
+        scanGrad.addColorStop(0.75, 'rgba(56, 189, 248, 0.035)');
+        scanGrad.addColorStop(1, 'rgba(56, 189, 248, 0.12)');
+        ctx.fillStyle = scanGrad;
+        ctx.fillRect(0, scanlineY - 40, width, 40);
 
-          ctx.fillStyle = barGradient;
-          ctx.fillRect(bx - b.width / 2, by, b.width, currentH);
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.28)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(0, scanlineY);
+        ctx.lineTo(width, scanlineY);
+        ctx.stroke();
 
-          // Glowing Edge Top
+        // Telemetry Readout along scanline (Crisp Blue & White)
+        ctx.fillStyle = 'rgba(147, 197, 253, 0.65)';
+        ctx.font = '600 9px "Inter", monospace';
+        ctx.fillText(`BUSINESS TELEMETRY // REAL-TIME METRICS STREAM // SCAN_Y: ${Math.floor(scanlineY)}`, 28, Math.max(18, scanlineY - 6));
+
+        // B. LIVE FINANCIAL CANDLESTICKS (Pure Blue & White Market Depth)
+        candles.forEach((c) => {
+          c.pulse += 0.025;
+          const currentX = c.relX * width;
+          const baseY = c.relY * height + Math.sin(c.pulse) * 4;
+          const currentBodyH = c.bodyH + Math.sin(c.pulse * 1.4) * 5;
+
+          // Upper & Lower Wick
+          ctx.strokeStyle = c.wickColor;
+          ctx.lineWidth = 1;
+          ctx.globalAlpha = c.opacity * 0.75;
           ctx.beginPath();
-          ctx.moveTo(bx - b.width / 2, by);
-          ctx.lineTo(bx + b.width / 2, by);
-          ctx.strokeStyle = '#00F0FF';
-          ctx.shadowBlur = 10;
-          ctx.shadowColor = '#00F0FF';
-          ctx.lineWidth = 1.8;
-          ctx.globalAlpha = 0.6;
+          ctx.moveTo(currentX, baseY - c.wickTop);
+          ctx.lineTo(currentX, baseY + currentBodyH + c.wickBottom);
           ctx.stroke();
+
+          // Candle Body
+          ctx.fillStyle = c.fill;
+          ctx.globalAlpha = c.opacity;
+          ctx.fillRect(currentX - c.width / 2, baseY, c.width, currentBodyH);
+
+          // Candle Highlight Rim
+          ctx.strokeStyle = c.rimColor;
+          ctx.globalAlpha = c.opacity * 0.6;
+          ctx.strokeRect(currentX - c.width / 2, baseY, c.width, currentBodyH);
+        });
+
+        // C. DUAL ASCENDING MARKET GROWTH SPLINE CURVES (Blue & White Trajectory)
+        // Primary Curve (Royal Blue -> Sky Blue -> Pure White Gradient)
+        ctx.save();
+        const pts = 9;
+        const curvePoints = [];
+        for (let i = 0; i <= pts; i++) {
+          const rx = i / pts;
+          const cx = rx * width;
+          // Upward slope from ~64% height on left to ~28% height on right
+          const cy = height * (0.64 - rx * 0.38) + Math.sin(splineTime + rx * 5) * 16;
+          curvePoints.push({ x: cx, y: cy, rx: rx });
+        }
+
+        // Fill area under primary curve with delicate Blue gradient
+        ctx.beginPath();
+        ctx.moveTo(0, height);
+        ctx.lineTo(curvePoints[0].x, curvePoints[0].y);
+        for (let i = 0; i < curvePoints.length - 1; i++) {
+          const xc = (curvePoints[i].x + curvePoints[i + 1].x) / 2;
+          const yc = (curvePoints[i].y + curvePoints[i + 1].y) / 2;
+          ctx.quadraticCurveTo(curvePoints[i].x, curvePoints[i].y, xc, yc);
+        }
+        ctx.lineTo(curvePoints[curvePoints.length - 1].x, curvePoints[curvePoints.length - 1].y);
+        ctx.lineTo(width, height);
+        ctx.closePath();
+        const areaGrad = ctx.createLinearGradient(0, height * 0.2, 0, height);
+        areaGrad.addColorStop(0, 'rgba(56, 189, 248, 0.08)');
+        areaGrad.addColorStop(0.5, 'rgba(37, 99, 235, 0.035)');
+        areaGrad.addColorStop(1, 'rgba(3, 7, 18, 0)');
+        ctx.fillStyle = areaGrad;
+        ctx.fill();
+
+        // Stroke primary curve (Royal Blue -> Sky Blue -> Pure White)
+        ctx.beginPath();
+        ctx.moveTo(curvePoints[0].x, curvePoints[0].y);
+        for (let i = 0; i < curvePoints.length - 1; i++) {
+          const xc = (curvePoints[i].x + curvePoints[i + 1].x) / 2;
+          const yc = (curvePoints[i].y + curvePoints[i + 1].y) / 2;
+          ctx.quadraticCurveTo(curvePoints[i].x, curvePoints[i].y, xc, yc);
+        }
+        ctx.lineTo(curvePoints[curvePoints.length - 1].x, curvePoints[curvePoints.length - 1].y);
+        const curveGrad = ctx.createLinearGradient(0, 0, width, 0);
+        curveGrad.addColorStop(0, '#2563EB');
+        curveGrad.addColorStop(0.5, '#38BDF8');
+        curveGrad.addColorStop(1, '#FFFFFF');
+        ctx.strokeStyle = curveGrad;
+        ctx.lineWidth = 2.2;
+        ctx.shadowBlur = 14;
+        ctx.shadowColor = 'rgba(56, 189, 248, 0.7)';
+        ctx.stroke();
+        ctx.restore();
+
+        // Secondary Benchmark Spline (Dashed Crisp White)
+        ctx.save();
+        ctx.beginPath();
+        for (let i = 0; i <= pts; i++) {
+          const rx = i / pts;
+          const cx = rx * width;
+          const cy = height * (0.72 - rx * 0.32) + Math.cos(splineTime * 0.8 + rx * 4) * 14;
+          if (i === 0) ctx.moveTo(cx, cy);
+          else ctx.lineTo(cx, cy);
+        }
+        ctx.setLineDash([4, 6]);
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
+        ctx.lineWidth = 1.3;
+        ctx.stroke();
+        ctx.restore();
+
+        // Milestones on Primary Growth Curve (Pure Blue & White)
+        milestones.forEach((m) => {
+          const mx = m.relX * width;
+          const my = height * (0.64 - m.relX * 0.38) + Math.sin(splineTime + m.relX * 5) * 16;
+
+          // Vertical drop indicator
+          ctx.save();
+          ctx.setLineDash([2, 4]);
+          ctx.strokeStyle = 'rgba(56, 189, 248, 0.3)';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(mx, my);
+          ctx.lineTo(mx, my + 55);
+          ctx.stroke();
+
+          // Milestone node halo (Sky Blue)
+          ctx.beginPath();
+          ctx.arc(mx, my, 8 + Math.sin(splineTime * 3) * 2, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(56, 189, 248, 0.22)';
+          ctx.fill();
+
+          // Milestone node core (Crisp White)
+          ctx.beginPath();
+          ctx.arc(mx, my, 3.5, 0, Math.PI * 2);
+          ctx.fillStyle = '#FFFFFF';
+          ctx.shadowBlur = 12;
+          ctx.shadowColor = '#38BDF8';
+          ctx.fill();
+
+          // Milestone Badge Label (White & Sky Blue)
+          ctx.font = '700 10px "Inter", sans-serif';
+          ctx.fillStyle = '#FFFFFF';
+          ctx.fillText(m.label, mx + 10, my - 6);
+
+          ctx.font = '500 9px "Inter", sans-serif';
+          ctx.fillStyle = 'rgba(147, 197, 253, 0.85)';
+          ctx.fillText(m.value, mx + 10, my + 8);
           ctx.restore();
         });
 
-        // B. Draw Interactive 3D Rotating Corporate Globe (Right Side)
-        if (width > 600) {
+        // D. 8 CURATED GLASSMORPHIC EXECUTIVE KPI CARDS (Blue & White Combos)
+        kpiCards.forEach(c => {
+          c.y += c.vy;
+          c.x += c.vx + Math.sin(c.y * 0.015) * 0.15;
+          if (c.y < -75) { c.y = height + 30; c.x = Math.random() * (width - c.w); }
+          if (c.x < -c.w) c.x = width + 20;
+          if (c.x > width + 20) c.x = -c.w;
+
+          // Mouse evasion / gentle deflection
+          if (mouse.active) {
+            const dx = (c.x + c.w / 2) - mouse.x;
+            const dy = (c.y + c.h / 2) - mouse.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 140 && dist > 0) {
+              c.x += (dx / dist) * 1.5;
+              c.y += (dy / dist) * 1.5;
+            }
+          }
+
           ctx.save();
-          ctx.translate(globeCenterX, globeCenterY);
+          ctx.globalAlpha = c.opacity;
 
-          // Globe Outer Glow Atmosphere
-          const atmosphereGradient = ctx.createRadialGradient(0, 0, globeRadius * 0.8, 0, 0, globeRadius * 1.25);
-          atmosphereGradient.addColorStop(0, 'rgba(56, 189, 248, 0.15)');
-          atmosphereGradient.addColorStop(0.7, 'rgba(0, 240, 255, 0.06)');
-          atmosphereGradient.addColorStop(1, 'rgba(2, 6, 23, 0)');
-
+          // Card Background Glass Container (Deep Corporate Midnight Navy)
+          ctx.fillStyle = 'rgba(8, 20, 48, 0.85)';
+          ctx.strokeStyle = 'rgba(56, 189, 248, 0.22)';
+          ctx.lineWidth = 1;
+          ctx.shadowBlur = 16;
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.45)';
           ctx.beginPath();
-          ctx.arc(0, 0, globeRadius * 1.25, 0, Math.PI * 2);
-          ctx.fillStyle = atmosphereGradient;
+          ctx.roundRect(c.x, c.y, c.w, c.h, 10);
+          ctx.fill();
+          ctx.stroke();
+
+          // Accent bar on left edge (Sky Blue / White)
+          ctx.fillStyle = c.accent;
+          ctx.beginPath();
+          ctx.roundRect(c.x, c.y + 6, 3, c.h - 12, 2);
           ctx.fill();
 
-          // Globe Main Boundary Ring
+          // Card Title (Uppercase small ice blue)
+          ctx.font = '700 9px "Inter", sans-serif';
+          ctx.fillStyle = 'rgba(186, 230, 253, 0.9)';
+          ctx.fillText(c.title, c.x + 12, c.y + 18);
+
+          // Card Value (Crisp Pure White)
+          ctx.font = '800 15px "Plus Jakarta Sans", sans-serif';
+          ctx.fillStyle = '#FFFFFF';
+          ctx.fillText(c.val, c.x + 12, c.y + 38);
+
+          // Status Badge Pill (Blue/White pill)
+          ctx.font = '700 8px "Inter", sans-serif';
+          const badgeTextW = ctx.measureText(c.badge).width;
+          ctx.fillStyle = c.accent;
+          ctx.globalAlpha = 0.16;
+          ctx.beginPath();
+          ctx.roundRect(c.x + 12, c.y + 44, badgeTextW + 8, 13, 99);
+          ctx.fill();
+          ctx.globalAlpha = c.opacity;
+          ctx.fillStyle = c.accent;
+          ctx.fillText(c.badge, c.x + 16, c.y + 53);
+
+          // Real Sparkline Graph on right of card (Blue & White)
+          const spX = c.x + c.w - 58;
+          const spY = c.y + 16;
+          const spW = 46;
+          const spH = 34;
+
+          ctx.strokeStyle = c.accent;
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          c.points.forEach((pt, pIdx) => {
+            const px = spX + (pIdx / (c.points.length - 1)) * spW;
+            const py = spY + spH - (pt / 60) * spH;
+            if (pIdx === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
+          });
+          ctx.stroke();
+
+          // Mini sparkline endpoint dot (Pure White)
+          const lastX = spX + spW;
+          const lastY = spY + spH - (c.points[c.points.length - 1] / 60) * spH;
+          ctx.beginPath();
+          ctx.arc(lastX, lastY, 2.5, 0, Math.PI * 2);
+          ctx.fillStyle = '#FFFFFF';
+          ctx.shadowBlur = 8;
+          ctx.shadowColor = c.accent;
+          ctx.fill();
+
+          ctx.restore();
+        });
+
+        // E. 3D GLOBAL COMMERCE HUB & TRADE ARCS (Pure Blue & White)
+        const scrollY = window.scrollY || 0;
+        const globeFade = Math.max(0, 1 - scrollY / (height * 0.85));
+
+        if (globeFade > 0.05 && width > 768) {
+          const globeCenterX = width * 0.76;
+          const globeCenterY = Math.min(height * 0.52, 420) - scrollY * 0.35;
+          const globeRadius = Math.min(width * 0.16, 175);
+
+          ctx.save();
+          ctx.globalAlpha = globeFade;
+          ctx.translate(globeCenterX, globeCenterY);
+
+          // Atmospheric Globe Halo (Pure Sapphire Blue & White)
+          const atmosphere = ctx.createRadialGradient(0, 0, globeRadius * 0.75, 0, 0, globeRadius * 1.35);
+          atmosphere.addColorStop(0, 'rgba(37, 99, 235, 0.22)');
+          atmosphere.addColorStop(0.5, 'rgba(56, 189, 248, 0.12)');
+          atmosphere.addColorStop(0.8, 'rgba(255, 255, 255, 0.04)');
+          atmosphere.addColorStop(1, 'rgba(3, 7, 18, 0)');
+          ctx.fillStyle = atmosphere;
+          ctx.beginPath();
+          ctx.arc(0, 0, globeRadius * 1.35, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Outer Commerce Horizon Ring (Sky Blue & White Glow)
           ctx.beginPath();
           ctx.arc(0, 0, globeRadius, 0, Math.PI * 2);
-          ctx.strokeStyle = 'rgba(56, 189, 248, 0.45)';
-          ctx.lineWidth = 1.5;
-          ctx.shadowBlur = 16;
+          ctx.strokeStyle = 'rgba(56, 189, 248, 0.5)';
+          ctx.lineWidth = 1.4;
+          ctx.shadowBlur = 14;
           ctx.shadowColor = '#38BDF8';
           ctx.stroke();
 
-          // Globe Latitude Rings
+          // Latitude Rings (Sky Blue)
           const latRings = 7;
           for (let l = 1; l < latRings; l++) {
             const r = globeRadius * Math.sin((l / latRings) * Math.PI);
             const y = globeRadius * Math.cos((l / latRings) * Math.PI);
-
             ctx.beginPath();
-            ctx.ellipse(0, y, r, r * 0.32, 0, 0, Math.PI * 2);
-            ctx.strokeStyle = 'rgba(56, 189, 248, 0.22)';
+            ctx.ellipse(0, y, r, r * 0.3, 0, 0, Math.PI * 2);
+            ctx.strokeStyle = 'rgba(56, 189, 248, 0.16)';
             ctx.lineWidth = 1;
             ctx.stroke();
           }
 
-          // Globe Longitude Revolving Arcs
+          // Longitude Rings (Electric Blue)
           const lonRings = 8;
           for (let i = 0; i < lonRings; i++) {
-            const angle = rotation + (i / lonRings) * Math.PI * 2;
+            const angle = globeRotation + (i / lonRings) * Math.PI * 2;
             const cosAngle = Math.cos(angle);
             const sinAngle = Math.sin(angle);
 
-            if (sinAngle > -0.2) { // Front hemisphere
+            if (sinAngle > -0.2) {
               ctx.beginPath();
               ctx.ellipse(0, 0, globeRadius * Math.abs(cosAngle), globeRadius, 0, 0, Math.PI * 2);
-              ctx.strokeStyle = `rgba(0, 240, 255, ${0.15 + sinAngle * 0.25})`;
+              ctx.strokeStyle = `rgba(56, 189, 248, ${0.12 + sinAngle * 0.22})`;
               ctx.lineWidth = 1;
               ctx.stroke();
             }
           }
 
-          // Global Corporate Hub Markers on 3D Globe
-          hubs.forEach(h => {
-            const hAngle = rotation + h.lon;
+          // Calculated Hub Coordinates on 3D Globe
+          const hubCoords = hubs.map(h => {
+            const hAngle = globeRotation + h.lon;
             const hSin = Math.sin(hAngle);
             const hCos = Math.cos(hAngle);
+            const hx = globeRadius * hCos * Math.cos(h.lat);
+            const hy = globeRadius * h.lat;
+            return { ...h, x: hx, y: hy, visible: hSin > -0.05, depth: hSin };
+          });
 
-            if (hSin > 0) { // Visible on front side of globe
-              const hx = globeRadius * hCos * Math.cos(h.lat);
-              const hy = globeRadius * h.lat;
+          // Draw International Trade Arcs between hubs (Crisp White & Blue)
+          ctx.save();
+          tradePackets.forEach(tp => {
+            tp.progress += tp.speed;
+            if (tp.progress > 1) tp.progress = 0;
+
+            const fromH = hubCoords[tp.fromIdx];
+            const toH = hubCoords[tp.toIdx];
+
+            if (fromH && toH && fromH.visible && toH.visible) {
+              // Curved trade arc
+              const midX = (fromH.x + toH.x) / 2;
+              const midY = (fromH.y + toH.y) / 2 - 30;
+
+              ctx.strokeStyle = 'rgba(255, 255, 255, 0.32)';
+              ctx.lineWidth = 1.2;
+              ctx.setLineDash([2, 3]);
+              ctx.beginPath();
+              ctx.moveTo(fromH.x, fromH.y);
+              ctx.quadraticCurveTo(midX, midY, toH.x, toH.y);
+              ctx.stroke();
+              ctx.setLineDash([]);
+
+              // Traveling Brilliant White Capital Packet
+              const t = tp.progress;
+              const px = (1 - t) * (1 - t) * fromH.x + 2 * (1 - t) * t * midX + t * t * toH.x;
+              const py = (1 - t) * (1 - t) * fromH.y + 2 * (1 - t) * t * midY + t * t * toH.y;
 
               ctx.beginPath();
-              ctx.arc(hx, hy, 4, 0, Math.PI * 2);
+              ctx.arc(px, py, 3, 0, Math.PI * 2);
               ctx.fillStyle = '#FFFFFF';
-              ctx.shadowBlur = 18;
-              ctx.shadowColor = '#00F0FF';
+              ctx.shadowBlur = 12;
+              ctx.shadowColor = '#38BDF8';
+              ctx.fill();
+            }
+          });
+          ctx.restore();
+
+          // Hub Markers (Pure White & Sky Blue)
+          hubCoords.forEach(h => {
+            if (h.visible) {
+              ctx.beginPath();
+              ctx.arc(h.x, h.y, 4, 0, Math.PI * 2);
+              ctx.fillStyle = '#FFFFFF';
+              ctx.shadowBlur = 14;
+              ctx.shadowColor = '#38BDF8';
               ctx.fill();
 
               // Pulsing ring
               ctx.beginPath();
-              ctx.arc(hx, hy, 8 + Math.sin(rotation * 4 + h.lat) * 3, 0, Math.PI * 2);
-              ctx.strokeStyle = '#00F0FF';
+              ctx.arc(h.x, h.y, 7 + Math.sin(globeRotation * 4 + h.lat) * 2.5, 0, Math.PI * 2);
+              ctx.strokeStyle = '#38BDF8';
               ctx.lineWidth = 1.2;
-              ctx.globalAlpha = 0.7;
               ctx.stroke();
 
-              // Hub Label
-              ctx.font = '600 11px "Inter", sans-serif';
-              ctx.fillStyle = '#38BDF8';
-              ctx.globalAlpha = 0.85;
-              ctx.fillText(h.name, hx + 10, hy + 4);
+              // Hub Label (Pure White)
+              ctx.font = '700 10px "Inter", sans-serif';
+              ctx.fillStyle = '#FFFFFF';
+              ctx.fillText(h.name, h.x + 10, h.y + 3);
             }
           });
 
           ctx.restore();
         }
 
-        // C. Draw Floating Holographic Corporate Metric Badges
-        badges.forEach(p => {
-          p.y += p.vy;
-          p.x += p.vx + Math.sin(p.y * 0.015) * 0.2;
-          if (p.y < -30) { p.y = height + 30; p.x = p.minX + Math.random() * (p.maxX - p.minX); }
-          if (p.x < p.minX - 30 || p.x > p.maxX + 30) p.x = p.minX + Math.random() * (p.maxX - p.minX);
-
+        // F. EXECUTIVE TELEMETRY CROSSHAIR & COORDINATE RETICLE (Pure Blue & White)
+        if (mouse.active) {
           ctx.save();
-          ctx.font = '600 13px "Inter", sans-serif';
-          const textMetrics = ctx.measureText(p.text);
-          const bgW = textMetrics.width + 24;
-          const bgH = 28;
-
-          // Holographic Badge Glass Container
-          ctx.fillStyle = 'rgba(2, 6, 23, 0.65)';
-          ctx.strokeStyle = 'rgba(56, 189, 248, 0.35)';
+          // Full-screen subtle crosshair axes
+          ctx.strokeStyle = 'rgba(56, 189, 248, 0.15)';
           ctx.lineWidth = 1;
-          ctx.shadowBlur = 12;
-          ctx.shadowColor = p.color;
-          ctx.globalAlpha = p.opacity;
-
-          // Rounded Rectangle Pill
+          ctx.setLineDash([3, 6]);
           ctx.beginPath();
-          ctx.roundRect(p.x, p.y, bgW, bgH, 99);
-          ctx.fill();
+          ctx.moveTo(0, mouse.y); ctx.lineTo(width, mouse.y);
+          ctx.moveTo(mouse.x, 0); ctx.lineTo(mouse.x, height);
+          ctx.stroke();
+          ctx.setLineDash([]);
+
+          // Precision Reticle Ring (Sky Blue)
+          ctx.strokeStyle = 'rgba(56, 189, 248, 0.85)';
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.arc(mouse.x, mouse.y, 14, 0, Math.PI * 2);
           ctx.stroke();
 
-          // Badge Text
-          ctx.fillStyle = p.color;
-          ctx.fillText(p.text, p.x + 12, p.y + 18);
-          ctx.restore();
-        });
+          // Center Reticle Dot (Pure White)
+          ctx.fillStyle = '#FFFFFF';
+          ctx.shadowBlur = 8;
+          ctx.shadowColor = '#38BDF8';
+          ctx.beginPath();
+          ctx.arc(mouse.x, mouse.y, 2.5, 0, Math.PI * 2);
+          ctx.fill();
 
-        // D. Mouse Interactive Laser Connection to 3D Globe / Cursor
-        if (mouse.x > 0 && width > 600) {
-          const mdx = globeCenterX - mouse.x;
-          const mdy = globeCenterY - mouse.y;
-          const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+          // Corner bracket accents (Crisp White)
+          const bSize = 6;
+          const bDist = 20;
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.85)';
+          ctx.lineWidth = 1.4;
+          // Top-Left
+          ctx.beginPath();
+          ctx.moveTo(mouse.x - bDist, mouse.y - bDist + bSize);
+          ctx.lineTo(mouse.x - bDist, mouse.y - bDist);
+          ctx.lineTo(mouse.x - bDist + bSize, mouse.y - bDist);
+          // Bottom-Right
+          ctx.moveTo(mouse.x + bDist, mouse.y + bDist - bSize);
+          ctx.lineTo(mouse.x + bDist, mouse.y + bDist);
+          ctx.lineTo(mouse.x + bDist - bSize, mouse.y + bDist);
+          ctx.stroke();
 
-          if (mdist < 300) {
-            const malpha = (1 - mdist / 300) * 0.85;
-            ctx.save();
+          // Click Pulse Wave (Electric Blue & White)
+          if (mouse.clickPulse > 0.05) {
             ctx.beginPath();
-            ctx.moveTo(globeCenterX, globeCenterY);
-            ctx.lineTo(mouse.x, mouse.y);
-            ctx.strokeStyle = '#00F0FF';
-            ctx.shadowBlur = 20;
-            ctx.shadowColor = '#00F0FF';
-            ctx.globalAlpha = malpha;
-            ctx.lineWidth = 1.8;
+            ctx.arc(mouse.x, mouse.y, (1 - mouse.clickPulse) * 80 + 14, 0, Math.PI * 2);
+            ctx.strokeStyle = `rgba(56, 189, 248, ${mouse.clickPulse * 0.9})`;
+            ctx.lineWidth = 2;
             ctx.stroke();
-            ctx.restore();
           }
 
-          // Cursor Halo
-          ctx.save();
-          ctx.beginPath();
-          ctx.arc(mouse.x, mouse.y, 5, 0, Math.PI * 2);
-          ctx.fillStyle = '#00F0FF';
-          ctx.shadowBlur = 20;
-          ctx.shadowColor = '#00F0FF';
-          ctx.fill();
+          // Live Telemetry Readout Box next to cursor (Deep Navy / White text)
+          const tooltipX = mouse.x + 28;
+          const tooltipY = mouse.y - 28;
+          if (tooltipX + 130 < width && tooltipY > 30) {
+            ctx.fillStyle = 'rgba(3, 7, 18, 0.88)';
+            ctx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.roundRect(tooltipX, tooltipY, 126, 38, 6);
+            ctx.fill();
+            ctx.stroke();
 
-          ctx.beginPath();
-          ctx.arc(mouse.x, mouse.y, 32, 0, Math.PI * 2);
-          ctx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
-          ctx.lineWidth = 1;
-          ctx.stroke();
+            ctx.font = '700 8px monospace';
+            ctx.fillStyle = '#38BDF8';
+            ctx.fillText(`VECTOR: [${Math.floor(mouse.x)}, ${Math.floor(mouse.y)}]`, tooltipX + 8, tooltipY + 14);
+
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillText(`INDEX: ▲ +28.4% | LIVE`, tooltipX + 8, tooltipY + 28);
+          }
+
           ctx.restore();
         }
 
-        requestAnimationFrame(draw);
+        animId = requestAnimationFrame(draw);
       }
 
-      draw();
+      animId = requestAnimationFrame(draw);
+
+      document.addEventListener('visibilitychange', () => {
+        isVisible = !document.hidden;
+        if (isVisible && !animId) {
+          animId = requestAnimationFrame(draw);
+        }
+      });
+    })();
+  </script>
+
+  <!-- ASTRA-STYLE ROADMAP STACKING & PINNED CENTER SCROLL -->
+  <script>
+    (function initRoadmapStacking() {
+      const section = document.getElementById('roadmap');
+      if (!section) return;
+
+      const cards = Array.from(section.querySelectorAll('.roadmap-stack-card'));
+      if (!cards.length) return;
+
+      const deck = section.querySelector('.roadmap-cards-deck');
+
+      // Proportional scroll progress windows for cards 1 to 5 to glide in:
+      const cardRanges = [
+        { start: 0.00, end: 0.00 }, // Month 01 (Foundations) - resting base
+        { start: 0.08, end: 0.22 }, // Month 02 (Core Operations)
+        { start: 0.24, end: 0.38 }, // Month 03 (Advanced Systems & Tools)
+        { start: 0.40, end: 0.54 }, // Month 04 (AI & Strategy)
+        { start: 0.56, end: 0.70 }, // Month 05 (High-Ticket Execution)
+        { start: 0.72, end: 0.86 }  // Month 06 (Placement Drives & Launch - Last Box!)
+      ];
+
+      function render() {
+        const rect = section.getBoundingClientRect();
+        const totalScroll = section.offsetHeight - window.innerHeight;
+        if (totalScroll <= 0) return;
+
+        const progress = Math.max(0, Math.min(1, -rect.top / totalScroll));
+        const stackOffset = window.innerWidth <= 600 ? 12 : 20;
+
+        // Distance from dock to below bottom of viewport
+        const deckTop = deck ? deck.getBoundingClientRect().top : 240;
+        const travelDist = Math.max(650, window.innerHeight - deckTop + 80);
+
+        for (let i = 0; i < cards.length; i++) {
+          const card = cards[i];
+          const targetY = i * stackOffset;
+          card.style.zIndex = 10 + i;
+
+          if (i === 0) {
+            card.style.transform = `translate3d(0, 0px, 0)`;
+            card.style.opacity = '1';
+            card.style.pointerEvents = 'auto';
+            continue;
+          }
+
+          const { start, end } = cardRanges[i];
+
+          if (progress <= start) {
+            card.style.transform = `translate3d(0, ${targetY + travelDist}px, 0) scale(0.92)`;
+            card.style.opacity = '0';
+            card.style.pointerEvents = 'none';
+          } else if (progress >= end) {
+            card.style.transform = `translate3d(0, ${targetY}px, 0) scale(1)`;
+            card.style.opacity = '1';
+            card.style.pointerEvents = 'auto';
+          } else {
+            const t = (progress - start) / (end - start);
+            const ease = 1 - Math.pow(1 - t, 2.4);
+            const y = targetY + (1 - ease) * travelDist;
+            const scale = 0.94 + ease * 0.06;
+            const opacity = Math.min(1, t * 3.5);
+
+            card.style.transform = `translate3d(0, ${y.toFixed(1)}px, 0) scale(${scale.toFixed(3)})`;
+            card.style.opacity = opacity.toFixed(3);
+            card.style.pointerEvents = ease > 0.6 ? 'auto' : 'none';
+          }
+        }
+      }
+
+      window.addEventListener('scroll', render, { passive: true });
+      window.addEventListener('resize', render, { passive: true });
+      render();
+    })();
+  </script>
+
+  <!-- 2-CARD SPLIT ANIMATION ON SCROLL -->
+  <script>
+    (function initProgramsCardSplit() {
+      const grid = document.querySelector('.programs-grid');
+      if (!grid) return;
+
+      const cards = Array.from(grid.querySelectorAll('.program-card'));
+      if (cards.length !== 2) return;
+
+      let targetProgress = 0;
+      let currentProgress = 0;
+      let isMobile = window.innerWidth <= 1024;
+
+      function checkScroll() {
+        isMobile = window.innerWidth <= 1024;
+        if (isMobile) {
+          cards.forEach(c => {
+            c.style.transform = '';
+            c.style.opacity = '1';
+          });
+          grid.classList.add('split-ready');
+          return;
+        }
+
+        const rect = grid.getBoundingClientRect();
+        const vh = window.innerHeight;
+
+        // Begins splitting when top of grid reaches 92% of viewport
+        // Finishes splitting when top of grid reaches 38% of viewport
+        const start = vh * 0.92;
+        const end = vh * 0.38;
+
+        const raw = (start - rect.top) / (start - end);
+        targetProgress = Math.max(0, Math.min(1, raw));
+      }
+
+      function updateCards(p) {
+        if (isMobile) return;
+
+        const dist = Math.max(220, (cards[1].offsetLeft - cards[0].offsetLeft) / 2);
+        const ease = 1 - Math.pow(1 - p, 2.5); // Natural card dealing easing
+
+        // Card 0 (Left - HR): Deals out to left, un-fanning
+        const x0 = (1 - ease) * dist;
+        const rot0 = (1 - ease) * -6;
+        const y0 = (1 - ease) * 14;
+        const s0 = 0.96 + ease * 0.04;
+        cards[0].style.transform = `translate3d(${x0.toFixed(1)}px, ${y0.toFixed(1)}px, 0) rotate(${rot0.toFixed(2)}deg) scale(${s0.toFixed(3)})`;
+        cards[0].style.zIndex = '1';
+
+        // Card 1 (Right - Sales): Deals out to right, un-fanning
+        const x1 = (1 - ease) * -dist;
+        const rot1 = (1 - ease) * 6;
+        const y1 = (1 - ease) * 14;
+        const s1 = 0.96 + ease * 0.04;
+        cards[1].style.transform = `translate3d(${x1.toFixed(1)}px, ${y1.toFixed(1)}px, 0) rotate(${rot1.toFixed(2)}deg) scale(${s1.toFixed(3)})`;
+        cards[1].style.zIndex = '2';
+
+        if (p >= 0.96) {
+          grid.classList.add('split-ready');
+        } else {
+          grid.classList.remove('split-ready');
+        }
+      }
+
+      function loop() {
+        if (!isMobile) {
+          const diff = targetProgress - currentProgress;
+          if (Math.abs(diff) > 0.002) {
+            currentProgress += diff * 0.14;
+            updateCards(currentProgress);
+          } else if (currentProgress !== targetProgress) {
+            currentProgress = targetProgress;
+            updateCards(currentProgress);
+          }
+        }
+        requestAnimationFrame(loop);
+      }
+
+      window.addEventListener('scroll', checkScroll, { passive: true });
+      window.addEventListener('resize', () => {
+        checkScroll();
+        currentProgress = targetProgress;
+        updateCards(currentProgress);
+      }, { passive: true });
+
+      checkScroll();
+      currentProgress = targetProgress;
+      updateCards(currentProgress);
+      requestAnimationFrame(loop);
+    })();
+  </script>
+
+  <!-- 4-CARD STATS SPLIT ANIMATION ON SCROLL -->
+  <script>
+    (function initStatsCardSplit() {
+      const grid = document.querySelector('.stats-cards-grid');
+      if (!grid) return;
+
+      const cards = Array.from(grid.querySelectorAll('.stat-block'));
+      if (cards.length !== 4) return;
+
+      let targetProgress = 0;
+      let currentProgress = 0;
+      let isMobile = window.innerWidth <= 1024;
+
+      function checkScroll() {
+        isMobile = window.innerWidth <= 1024;
+        if (isMobile) {
+          cards.forEach(c => {
+            c.style.transform = '';
+            c.style.opacity = '1';
+          });
+          grid.classList.add('split-ready');
+          return;
+        }
+
+        const rect = grid.getBoundingClientRect();
+        const vh = window.innerHeight;
+
+        // Start splitting when top of section enters 92% of viewport
+        // Complete splitting when top reaches 38% of viewport
+        const start = vh * 0.92;
+        const end = vh * 0.38;
+
+        const raw = (start - rect.top) / (start - end);
+        targetProgress = Math.max(0, Math.min(1, raw));
+      }
+
+      function updateCards(p) {
+        if (isMobile) return;
+
+        const gridCenter = grid.offsetWidth / 2;
+        const ease = 1 - Math.pow(1 - p, 2.5); // Card deal easing
+
+        // Fanning angles and vertical offsets for the 4 cards when closed in deck
+        const angles = [-9, -3, 3, 9];
+
+        for (let i = 0; i < cards.length; i++) {
+          const card = cards[i];
+          const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+          const targetOffset = cardCenter - gridCenter;
+
+          // Deals outward from center (p = 0: all cards stacked in center; p = 1: in 4 columns)
+          const currentX = (1 - ease) * (-targetOffset);
+          const currentRot = (1 - ease) * angles[i];
+          const currentY = (1 - ease) * (Math.abs(i - 1.5) * 12);
+          const scale = 0.94 + ease * 0.06;
+          const opacity = Math.min(1, 0.25 + ease * 0.75);
+
+          card.style.transform = `translate3d(${currentX.toFixed(1)}px, ${currentY.toFixed(1)}px, 0) rotate(${currentRot.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
+          card.style.opacity = opacity.toFixed(3);
+          card.style.zIndex = 1 + i;
+        }
+
+        if (p >= 0.96) {
+          grid.classList.add('split-ready');
+        } else {
+          grid.classList.remove('split-ready');
+        }
+      }
+
+      function loop() {
+        if (!isMobile) {
+          const diff = targetProgress - currentProgress;
+          if (Math.abs(diff) > 0.002) {
+            currentProgress += diff * 0.14;
+            updateCards(currentProgress);
+          } else if (currentProgress !== targetProgress) {
+            currentProgress = targetProgress;
+            updateCards(currentProgress);
+          }
+        }
+        requestAnimationFrame(loop);
+      }
+
+      window.addEventListener('scroll', checkScroll, { passive: true });
+      window.addEventListener('resize', () => {
+        checkScroll();
+        currentProgress = targetProgress;
+        updateCards(currentProgress);
+      }, { passive: true });
+
+      checkScroll();
+      currentProgress = targetProgress;
+      updateCards(currentProgress);
+      requestAnimationFrame(loop);
     })();
   </script>
 </body>

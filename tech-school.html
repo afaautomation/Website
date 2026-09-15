@@ -7,7 +7,9 @@
   <title>Tech School — Kompetenzen | AI-Integrated Tech Programs</title>
   <meta name="description"
     content="Explore the AI-Integrated Tech School programs by Kompetenzen Technologies. Full Stack Python, Full Stack Java, and Data Analytics courses with live projects." />
-  <link rel="icon" type="image/png" href="icon.png" />
+  <link rel="icon" type="image/png" href="icon.png?v=2" />
+  <link rel="shortcut icon" href="favicon.ico?v=2" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -16,16 +18,16 @@
 
   <style>
     :root {
-      --ink: #02050E;
+      --ink: #FFFFFF;
       --ink-2: #0D1630;
-      --ink-mute: #474F66;
-      --blue: #1947FF;
-      --blue-deep: #0E2EC9;
-      --blue-soft: #E8ECFF;
-      --cream: #FFFFFF;
-      --paper: #FFFFFF;
-      --line: rgba(10, 21, 48, .12);
-      --line-soft: rgba(10, 21, 48, .06);
+      --ink-mute: #94A3B8;
+      --blue: #38BDF8;
+      --blue-deep: #1947FF;
+      --blue-soft: rgba(56, 189, 248, 0.08);
+      --cream: #020617;
+      --paper: #0B1329;
+      --line: rgba(56, 189, 248, 0.16);
+      --line-soft: rgba(56, 189, 248, 0.1);
       --radius: 18px;
       --maxw: 1200px;
     }
@@ -39,15 +41,21 @@
 
     html,
     body {
-      background: var(--cream);
-      color: var(--ink);
+      background: #020617;
+      color: #F8FAFC;
       font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
       font-size: 16px;
       line-height: 1.45;
+      min-height: 100vh;
+    }
+
+    html {
+      scroll-behavior: auto;
     }
 
     body {
-      overflow-x: hidden;
+      overflow-x: clip;
+      position: relative;
     }
 
     h1,
@@ -57,15 +65,30 @@
     h5,
     h6 {
       font-family: 'Plus Jakarta Sans', sans-serif !important;
+      color: #FFFFFF;
     }
 
-    body::before {
-      content: '';
+    /* Fixed Full-Page Atmospheric Tech Glow */
+    .tech-bg-glow {
       position: fixed;
       inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
       pointer-events: none;
       z-index: 0;
+      background:
+        radial-gradient(circle at 85% 20%, rgba(56, 189, 248, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 15% 50%, rgba(25, 71, 255, 0.07) 0%, transparent 50%),
+        #020617;
+    }
+
+    .nav,
+    .tech-hero,
+    .programs-section,
+    .roadmap-section,
+    .placements-section,
+    .site-footer,
+    section {
+      position: relative;
+      z-index: 1;
     }
 
     /* NAV (Transparent Overlay with Centered Links) */
@@ -83,19 +106,27 @@
     .nav-inner {
       max-width: 100%;
       margin: 0 auto;
-      padding: 0 32px;
-      height: 72px;
+      padding: 0 40px;
+      height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 20px;
+      gap: 32px;
+    }
+
+    .nav-left,
+    .nav-right {
+      display: flex;
+      align-items: center;
+      flex: 1;
     }
 
     .nav-left {
-      display: flex;
-      align-items: center;
       justify-content: flex-start;
-      flex-shrink: 0;
+    }
+
+    .nav-right {
+      justify-content: flex-end;
     }
 
     .brand {
@@ -114,12 +145,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 24px;
-      flex-wrap: wrap;
+      gap: 32px;
     }
 
     .nav-links a {
-      font-size: 13.5px;
+      font-size: 14px;
       font-weight: 500;
       color: rgba(255, 255, 255, 0.85);
       text-decoration: none;
@@ -127,14 +157,10 @@
       white-space: nowrap;
     }
 
-    .nav-links a:hover {
-      color: #ffffff;
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #60A5FA;
+      font-weight: 700;
     }
 
     .nav-cta {
@@ -158,10 +184,10 @@
       box-shadow: 0 6px 22px rgba(25, 71, 255, 0.55);
     }
 
-    /* HERO (Deep Midnight Space Blue style from index.html) */
+    /* HERO (Deep Midnight Space Blue style) */
     .tech-hero {
       position: relative;
-      background: #02050E;
+      background: transparent;
       color: #ffffff;
       min-height: calc(100vh - 64px);
       display: flex;
@@ -169,18 +195,8 @@
       justify-content: center;
       align-items: center;
       padding: 40px 24px;
-      overflow: hidden;
       text-align: center;
       width: 100%;
-    }
-
-    .tech-hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 50% 50%, rgba(25, 71, 255, 0.28), transparent 70%);
-      pointer-events: none;
-      z-index: 1;
     }
 
     .tech-hero > * {
@@ -227,37 +243,294 @@
       margin-bottom: 28px;
     }
 
-    /* CARDS */
-    .programs-section {
-      background: #eef3fc;
-      padding: 100px 24px;
+
+
+    /* ROADMAP ASTRA-STYLE PINNED STAGE */
+    .roadmap-section {
+      position: relative;
+      height: 330vh; /* Scroll track for cards */
       margin: 0;
+      padding: 0;
+    }
+
+    .roadmap-sticky-stage {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: clamp(45px, 8vh, 85px) 24px 30px;
+      overflow: visible;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .roadmap-header {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      pointer-events: auto;
+    }
+
+    .roadmap-beam {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 12px auto 14px;
+    }
+
+    .roadmap-beam-line {
+      width: 2px;
+      height: 44px;
+      background: linear-gradient(180deg, transparent, #38BDF8);
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.85);
+    }
+
+    .roadmap-beam-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      box-shadow: 0 0 14px #38BDF8, 0 0 24px #00F0FF;
+      margin-top: -2px;
+    }
+
+    /* Cards Deck Container */
+    .roadmap-cards-deck {
+      position: relative;
+      width: 580px;
+      max-width: 92vw;
+      height: 240px; /* Generous height for all 6 stacked visible tabs */
+      pointer-events: auto;
+    }
+
+    .roadmap-stack-card {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(140deg, rgba(14, 25, 60, 0.98) 0%, rgba(7, 13, 35, 0.99) 100%);
+      border: 1.5px solid rgba(56, 189, 248, 0.45);
+      border-top: 1.5px solid rgba(0, 240, 255, 0.9);
+      border-radius: 22px;
+      padding: 24px 30px;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      box-shadow: 
+        0 -6px 20px rgba(0, 0, 0, 0.55),
+        0 20px 50px rgba(0, 0, 0, 0.75),
+        0 0 30px rgba(56, 189, 248, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.22),
+        inset 0 0 20px rgba(56, 189, 248, 0.05);
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      will-change: transform, opacity;
+      transition: box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .roadmap-stack-card:hover {
+      border-color: rgba(56, 189, 248, 0.85);
+      box-shadow: 
+        0 -6px 20px rgba(0, 0, 0, 0.55),
+        0 25px 60px rgba(25, 71, 255, 0.45),
+        0 0 40px rgba(56, 189, 248, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+
+    .roadmap-card-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(25, 71, 255, 0.3) 0%, rgba(56, 189, 248, 0.18) 100%);
+      border: 1.5px solid rgba(56, 189, 248, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: #38BDF8;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
+    }
+
+    .roadmap-card-icon svg {
+      width: 26px;
+      height: 26px;
+    }
+
+    .roadmap-card-content {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .roadmap-card-step {
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #38BDF8;
+      text-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+    }
+
+    .roadmap-card-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #FFFFFF;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+
+    .roadmap-card-desc {
+      font-size: 14px;
+      color: rgba(226, 232, 240, 0.88);
+      line-height: 1.45;
+      margin-top: 2px;
+    }
+
+    @media (max-width: 600px) {
+      .roadmap-section {
+        height: 290vh;
+      }
+      .roadmap-sticky-stage {
+        padding: 40px 16px 20px;
+      }
+      .roadmap-beam-line {
+        height: 30px;
+      }
+      .roadmap-cards-deck {
+        width: 100%;
+        max-width: 95vw;
+        height: 190px;
+      }
+      .roadmap-stack-card {
+        padding: 16px 18px;
+        gap: 14px;
+        border-radius: 18px;
+      }
+      .roadmap-card-icon {
+        width: 44px;
+        height: 44px;
+      }
+      .roadmap-card-title {
+        font-size: 17px;
+      }
+      .roadmap-card-desc {
+        font-size: 12.5px;
+        line-height: 1.35;
+      }
+    }
+
+    .stats-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      text-align: left;
+      perspective: 1400px;
+      position: relative;
+    }
+
+    .stat-card {
+      background: rgba(11, 19, 43, 0.55);
+      border: 1px solid rgba(56, 189, 248, 0.18);
+      border-radius: 18px;
+      padding: 32px 28px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 32px;
+      transform-origin: center bottom;
+      will-change: transform, opacity;
+      transition: box-shadow 0.35s ease, border-color 0.35s ease, opacity 0.35s ease;
+    }
+
+    .stats-cards-grid.split-ready .stat-card {
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease, opacity 0.35s ease;
+    }
+
+    .stats-cards-grid.split-ready .stat-card:hover {
+      transform: translateY(-10px) scale(1.03) rotate(0deg) !important;
+      border-color: rgba(56, 189, 248, 0.85) !important;
+      box-shadow: 0 25px 60px rgba(25, 71, 255, 0.45), 0 0 35px rgba(56, 189, 248, 0.3) !important;
+      z-index: 10 !important;
+    }
+
+    .stats-cards-grid.split-ready:hover .stat-card:not(:hover) {
+      opacity: 0.65;
+    }
+
+    @media (max-width: 1024px) {
+      .stats-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .stats-cards-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+    }
+
+    /* PROGRAMS SECTION & 3-CARD SPLIT */
+    .programs-section {
+      background: transparent;
+      padding: 90px 24px 130px;
+      margin: 0;
+      position: relative;
+      overflow: visible;
     }
 
     .programs-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 32px;
       max-width: var(--maxw);
       margin: 0 auto;
+      perspective: 1400px;
+      position: relative;
     }
 
     .program-card {
-      background: #fff;
-      border: 2px solid #000;
+      background: rgba(11, 19, 43, 0.78);
+      border: 1px solid rgba(56, 189, 248, 0.22);
       border-radius: 24px;
       padding: 40px;
       display: flex;
       flex-direction: column;
       gap: 16px;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       position: relative;
-      box-shadow: 8px 8px 0px rgba(0, 0, 0, 1);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      transform-origin: center bottom;
+      will-change: transform, opacity;
+      transition: box-shadow 0.35s ease, border-color 0.35s ease, opacity 0.35s ease;
     }
 
-    .program-card:hover {
-      box-shadow: 12px 12px 0px rgba(0, 0, 0, 1);
-      transform: translate(-4px, -4px);
+    /* Active split hover interaction */
+    .programs-grid.split-ready .program-card {
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease, opacity 0.35s ease;
+    }
+
+    .programs-grid.split-ready .program-card:hover {
+      transform: translateY(-14px) scale(1.03) rotate(0deg) !important;
+      border-color: rgba(56, 189, 248, 0.85);
+      box-shadow: 
+        0 30px 70px rgba(25, 71, 255, 0.42), 
+        0 0 40px rgba(56, 189, 248, 0.3), 
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+      z-index: 10 !important;
+    }
+
+    .programs-grid.split-ready:hover .program-card:not(:hover) {
+      opacity: 0.65;
     }
 
     .card-header {
@@ -271,26 +544,27 @@
       width: 64px;
       height: 64px;
       border-radius: 16px;
-      background: #fff;
-      border: 1px solid var(--line-soft);
+      background: rgba(25, 71, 255, 0.18);
+      border: 1px solid rgba(56, 189, 248, 0.35);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
       position: relative;
+      box-shadow: 0 0 20px rgba(25, 71, 255, 0.2);
     }
 
     .card-icon svg {
       width: 32px;
       height: 32px;
-      color: var(--blue);
+      color: #38BDF8;
     }
 
     .card-sparkle {
       position: absolute;
       top: -6px;
       left: -6px;
-      color: #1a73e8;
+      color: #00F0FF;
     }
 
     .card-title-group {
@@ -301,30 +575,30 @@
 
     .program-title {
       font-size: 22px;
-      font-weight: 400;
-      color: var(--ink);
+      font-weight: 600;
+      color: #FFFFFF;
       line-height: 1.2;
     }
 
     .program-rating {
       font-size: 13px;
-      color: var(--ink-mute);
+      color: #93C5FD;
       font-weight: 500;
     }
 
     .program-desc {
       font-size: 14px;
-      color: var(--ink-mute);
+      color: rgba(226, 232, 240, 0.82);
       line-height: 1.6;
     }
 
     .skills-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 4px;
+      gap: 6px;
       margin-top: 4px;
       font-size: 14px;
-      color: var(--ink);
+      color: #CBD5E1;
     }
 
     .card-footer {
@@ -336,38 +610,54 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 10px 24px;
-      background: #1a73e8;
+      padding: 12px 28px;
+      background: linear-gradient(135deg, #1947FF 0%, #0099FF 100%);
       color: #fff;
       border-radius: 99px;
       font-size: 14px;
-      font-weight: 500;
+      font-weight: 600;
       text-decoration: none;
-      transition: all 0.2s;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 18px rgba(25, 71, 255, 0.4);
     }
 
     .apply-btn:hover {
-      background: #1557b0;
+      background: linear-gradient(135deg, #0055FF 0%, #00C3FF 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(25, 71, 255, 0.6), 0 0 15px rgba(0, 240, 255, 0.4);
     }
 
     /* FOOTER */
     .site-footer {
-      background: var(--ink);
-      color: rgba(255, 255, 255, 0.5);
+      background: #01040E;
+      border-top: 1px solid rgba(56, 189, 248, 0.12);
+      color: rgba(255, 255, 255, 0.55);
       text-align: center;
-      padding: 40px 24px;
+      padding: 48px 24px;
       font-size: 14px;
       margin-top: 80px;
     }
 
     .site-footer a {
-      color: rgba(255, 255, 255, 0.7);
+      color: #38BDF8;
       text-decoration: none;
       font-weight: 600;
+      transition: color 0.2s;
     }
 
     .site-footer a:hover {
-      color: #fff;
+      color: #00F0FF;
+    }
+
+    @media (max-width: 1024px) {
+      .programs-grid {
+        grid-template-columns: 1fr;
+        max-width: 520px;
+        gap: 24px;
+      }
+      .program-card {
+        padding: 30px 24px;
+      }
     }
 
     @media (max-width: 768px) {
@@ -377,8 +667,8 @@
       .tech-hero {
         padding: 60px 16px 80px !important;
       }
+      .programs-grid,
       .program-grid,
-      .structure-grid,
       .roadmap-grid,
       div[style*="minmax(220px"] {
         grid-template-columns: 1fr !important;
@@ -395,6 +685,10 @@
 
 <body>
 
+  <!-- Fixed Full-Page Atmospheric Tech Glow Background & Neural Constellation -->
+  <div class="tech-bg-glow" aria-hidden="true"></div>
+  <canvas id="heroLightBlueCanvas" style="position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0;"></canvas>
+
   <!-- NAV -->
   <nav class="nav">
     <div class="nav-inner">
@@ -406,7 +700,7 @@
       <div class="nav-links">
         <a href="career-consulting.html">Consulting</a>
         <a href="finishing-school.html">Finishing School</a>
-        <a href="tech-school.html" class="active" style="color: #60A5FA; font-weight: 700;">Tech School</a>
+        <a href="tech-school.html" class="active">Tech School</a>
         <a href="b-school.html">B-School</a>
         <a href="placements.html">Placements</a>
         <a href="our-story.html">Our Story</a>
@@ -424,33 +718,22 @@
 
   <!-- HERO -->
   <section class="tech-hero" id="techHero"
-    style="position: relative; text-align: left; display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #020617; width: 100%; max-width: 100%; padding: 100px 40px 40px; overflow: hidden;">
-    <canvas id="heroLightBlueCanvas" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1;"></canvas>
-    <div style="position: absolute; inset: 0; background: radial-gradient(circle at 75% 50%, rgba(56, 189, 248, 0.38) 0%, rgba(56, 189, 248, 0.12) 45%, rgba(2, 6, 23, 0.92) 80%); pointer-events: none; z-index: 2;"></div>
+    style="position: relative; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 100vh; background: transparent; width: 100%; max-width: 100%; padding: 120px 24px 60px;">
     
-    <div style="position: relative; z-index: 3; max-width: 1320px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1.4fr 0.6fr; gap: 20px; align-items: center;">
-      <!-- Left Column: Heading & Copy (Vertically Centered, Exactly 2 Lines) -->
-      <div style="max-width: 820px; text-align: left; display: flex; flex-direction: column; justify-content: center; align-items: flex-start;">
-        <span style="font-size: 13px; font-weight: 700; letter-spacing: 0.22em; color: #38BDF8; text-transform: uppercase; margin-bottom: 20px; display: inline-block;">EXPLORE TECH PATHWAYS</span>
-        <h1
-          style="font-family: 'Red Hat Display', sans-serif; font-size: clamp(28px, 3.6vw, 46px); font-weight: 400; line-height: 1.22; color: #ffffff; text-align: left; letter-spacing: -0.02em; margin-bottom: 24px; max-width: 100%;">
-          AI-Integrated Tech School Programs<br><span style="color: #38BDF8;">Built for</span> Real Careers.
-        </h1>
-        <p style="font-size: clamp(15px, 1.5vw, 18px); color: rgba(226, 232, 240, 0.82); line-height: 1.65; margin: 0 0 32px 0; padding: 0; text-align: left; max-width: 620px;">
-          Hands-on, industry-mentored programs taking you from coding fundamentals to a job-ready, AI-fluent developer in six focused months.
-        </p>
-        <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
-          <a href="#programs" style="display: inline-flex; align-items: center; gap: 10px; background: #1947FF; color: #FFFFFF; padding: 14px 32px; border-radius: 99px; font-size: 15px; font-weight: 700; text-decoration: none; box-shadow: 0 8px 30px rgba(25, 71, 255, 0.45);">
-            <span>Explore Programs ↓</span>
-          </a>
-          <a href="https://wa.me/918590886009" target="_blank" style="display: inline-flex; align-items: center; gap: 10px; background: rgba(255, 255, 255, 0.08); color: #FFFFFF; border: 1px solid rgba(255, 255, 255, 0.2); padding: 14px 32px; border-radius: 99px; font-size: 15px; font-weight: 600; text-decoration: none; backdrop-filter: blur(10px);">
-            <span>Talk to us</span>
-          </a>
-        </div>
+    <div style="position: relative; z-index: 2; max-width: 920px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center;">
+      <span style="font-size: 13px; font-weight: 700; letter-spacing: 0.22em; color: #38BDF8; text-transform: uppercase; margin-bottom: 20px; display: inline-block;">EXPLORE TECH PATHWAYS</span>
+      <h1
+        style="font-family: 'Red Hat Display', sans-serif; font-size: clamp(32px, 4.2vw, 54px); font-weight: 400; line-height: 1.2; color: #ffffff; text-align: center; letter-spacing: -0.02em; margin-bottom: 24px; max-width: 860px;">
+        AI-Integrated Tech School Programs<br><span style="color: #38BDF8;">Built for</span> Real Careers.
+      </h1>
+      <p style="font-size: clamp(15px, 1.6vw, 19px); color: rgba(226, 232, 240, 0.85); line-height: 1.65; margin: 0 auto 36px auto; text-align: center; max-width: 660px;">
+        Hands-on, industry-mentored programs taking you from coding fundamentals to a job-ready, AI-fluent developer in six focused months.
+      </p>
+      <div style="display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap;">
+        <a href="#programs" style="display: inline-flex; align-items: center; gap: 10px; background: #1947FF; color: #FFFFFF; padding: 14px 34px; border-radius: 99px; font-size: 15px; font-weight: 700; text-decoration: none; box-shadow: 0 8px 30px rgba(25, 71, 255, 0.45); transition: transform 0.2s ease, box-shadow 0.2s ease;">
+          <span>Explore Programs ↓</span>
+        </a>
       </div>
-
-      <!-- Right Column: Showcase area for vibrant animation -->
-      <div style="pointer-events: none; min-height: 300px;"></div>
     </div>
   </section>
 
@@ -458,10 +741,10 @@
   <section class="programs-section" id="programs">
     <div style="text-align: center; margin-bottom: 64px;">
       <span
-        style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; color: var(--ink-mute); text-transform: uppercase;">KOMPETENZEN
+        style="font-size: 13px; font-weight: 700; letter-spacing: 0.18em; color: #38BDF8; text-transform: uppercase;">KOMPETENZEN
         TECH SCHOOL PROGRAMS</span>
       <h2
-        style="font-size: clamp(32px, 5vw, 44px); font-weight: 400; color: var(--ink); margin-top: 16px; line-height: 1.2;">
+        style="font-size: clamp(32px, 5vw, 44px); font-weight: 400; color: #FFFFFF; margin-top: 16px; line-height: 1.2;">
         Master high-demand tech skills to<br>launch your career in top companies</h2>
     </div>
 
@@ -565,279 +848,278 @@
     </div>
   </section>
 
-  <!-- TRAINING STATS (Google Style) -->
+  <!-- TRAINING STATS -->
   <section
-    style="max-width: var(--maxw); margin: 20px auto 100px; padding: 40px 24px; text-align: center; font-family: 'Inter', sans-serif;">
+    style="max-width: var(--maxw); margin: 40px auto 100px; padding: 40px 24px; text-align: center; font-family: 'Inter', sans-serif;">
     <h2
-      style="font-size: clamp(28px, 4vw, 40px); font-weight: 400; color: var(--ink); margin-bottom: 64px; line-height: 1.3;">
-      Get professional job training from<br>Kompetenzen
+      style="font-size: clamp(28px, 4vw, 42px); font-weight: 500; color: #FFFFFF; margin-bottom: 56px; line-height: 1.3;">
+      Get professional job training from<br><span style="color: #38BDF8;">Kompetenzen</span>
     </h2>
 
-    <div
-      style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 60px 32px; text-align: left;">
+    <div class="stats-cards-grid">
       <!-- Col 1 -->
-      <div style="display: flex; flex-direction: column; gap: 40px;">
-        <div style="min-height: 110px;">
-          <h3 style="font-size: 20px; font-weight: 400; color: var(--ink); margin-bottom: 12px; line-height: 1.3;">
+      <div class="stat-card">
+        <div>
+          <h3 style="font-size: 20px; font-weight: 600; color: #FFFFFF; margin-bottom: 12px; line-height: 1.3;">
             Intensive training</h3>
-          <p style="font-size: 14px; color: var(--ink-mute); line-height: 1.6;">Master full-stack skills with hands-on
+          <p style="font-size: 14px; color: rgba(226, 232, 240, 0.75); line-height: 1.6;">Master full-stack skills with hands-on
             projects and AI integration.</p>
         </div>
         <div>
           <div
-            style="font-size: clamp(36px, 4vw, 48px); font-weight: 400; color: var(--blue); margin-bottom: 12px; line-height: 1.1; letter-spacing: -0.02em;">
+            style="font-size: clamp(36px, 4vw, 48px); font-weight: 700; color: #38BDF8; text-shadow: 0 0 20px rgba(56, 189, 248, 0.4); margin-bottom: 10px; line-height: 1.1; letter-spacing: -0.02em;">
             6 months</div>
-          <p style="font-size: 13px; color: var(--ink-mute); line-height: 1.6;">of intensive, hands-on training designed
+          <p style="font-size: 13px; color: rgba(148, 163, 184, 0.85); line-height: 1.6;">of intensive, hands-on training designed
             to make you completely job-ready</p>
         </div>
       </div>
 
       <!-- Col 2 -->
-      <div style="display: flex; flex-direction: column; gap: 40px;">
-        <div style="min-height: 110px;">
-          <h3 style="font-size: 20px; font-weight: 400; color: var(--ink); margin-bottom: 12px; line-height: 1.3;">Stand
+      <div class="stat-card">
+        <div>
+          <h3 style="font-size: 20px; font-weight: 600; color: #FFFFFF; margin-bottom: 12px; line-height: 1.3;">Stand
             out to employers</h3>
-          <p style="font-size: 14px; color: var(--ink-mute); line-height: 1.6;">Build a portfolio of real-world
+          <p style="font-size: 14px; color: rgba(226, 232, 240, 0.75); line-height: 1.6;">Build a portfolio of real-world
             AI-integrated applications.</p>
         </div>
         <div>
           <div
-            style="font-size: clamp(36px, 4vw, 48px); font-weight: 400; color: var(--blue); margin-bottom: 12px; line-height: 1.1; letter-spacing: -0.02em;">
+            style="font-size: clamp(36px, 4vw, 48px); font-weight: 700; color: #38BDF8; text-shadow: 0 0 20px rgba(56, 189, 248, 0.4); margin-bottom: 10px; line-height: 1.1; letter-spacing: -0.02em;">
             100%</div>
-          <p style="font-size: 13px; color: var(--ink-mute); line-height: 1.6;">placement assistance and dedicated
+          <p style="font-size: 13px; color: rgba(148, 163, 184, 0.85); line-height: 1.6;">placement assistance and dedicated
             career support for our tech school graduates.</p>
         </div>
       </div>
 
       <!-- Col 3 -->
-      <div style="display: flex; flex-direction: column; gap: 40px;">
-        <div style="min-height: 110px;">
-          <h3 style="font-size: 20px; font-weight: 400; color: var(--ink); margin-bottom: 12px; line-height: 1.3;">
+      <div class="stat-card">
+        <div>
+          <h3 style="font-size: 20px; font-weight: 600; color: #FFFFFF; margin-bottom: 12px; line-height: 1.3;">
             High-paying tech roles</h3>
-          <p style="font-size: 14px; color: var(--ink-mute); line-height: 1.6;">Step into roles like Full-Stack
+          <p style="font-size: 14px; color: rgba(226, 232, 240, 0.75); line-height: 1.6;">Step into roles like Full-Stack
             Developer, AI Engineer, or Data Analyst.</p>
         </div>
         <div>
           <div
-            style="font-size: clamp(36px, 4vw, 48px); font-weight: 400; color: var(--blue); margin-bottom: 12px; line-height: 1.1; letter-spacing: -0.02em;">
+            style="font-size: clamp(36px, 4vw, 48px); font-weight: 700; color: #38BDF8; text-shadow: 0 0 20px rgba(56, 189, 248, 0.4); margin-bottom: 10px; line-height: 1.1; letter-spacing: -0.02em;">
             6-12 LPA</div>
-          <p style="font-size: 13px; color: var(--ink-mute); line-height: 1.6;">target salary range for entry-level
+          <p style="font-size: 13px; color: rgba(148, 163, 184, 0.85); line-height: 1.6;">target salary range for entry-level
             developers with our tech stack.</p>
         </div>
       </div>
 
       <!-- Col 4 -->
-      <div style="display: flex; flex-direction: column; gap: 40px;">
-        <div style="min-height: 110px;">
-          <h3 style="font-size: 20px; font-weight: 400; color: var(--ink); margin-bottom: 12px; line-height: 1.3;">No
+      <div class="stat-card">
+        <div>
+          <h3 style="font-size: 20px; font-weight: 600; color: #FFFFFF; margin-bottom: 12px; line-height: 1.3;">No
             prior coding needed</h3>
-          <p style="font-size: 14px; color: var(--ink-mute); line-height: 1.6;">We start from the absolute basics and
+          <p style="font-size: 14px; color: rgba(226, 232, 240, 0.75); line-height: 1.6;">We start from the absolute basics and
             take you to advanced concepts.</p>
         </div>
         <div>
           <div
-            style="font-size: clamp(36px, 4vw, 48px); font-weight: 400; color: var(--blue); margin-bottom: 12px; line-height: 1.1; letter-spacing: -0.02em;">
+            style="font-size: clamp(36px, 4vw, 48px); font-weight: 700; color: #38BDF8; text-shadow: 0 0 20px rgba(56, 189, 248, 0.4); margin-bottom: 10px; line-height: 1.1; letter-spacing: -0.02em;">
             2,000+</div>
-          <p style="font-size: 13px; color: var(--ink-mute); line-height: 1.6;">successful placements to date through
+          <p style="font-size: 13px; color: rgba(148, 163, 184, 0.85); line-height: 1.6;">successful placements to date through
             our comprehensive training.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- PROGRAM STRUCTURE -->
-  <section class="structure-section" style="padding: 100px 0;">
-    <div class="section-head center" style="text-align: center; margin-bottom: 60px;">
-      <span class="eyebrow"
-        style="display: inline-block; background: #fff; border: 1px solid var(--line-soft); color: var(--blue); padding: 6px 16px; border-radius: 99px; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(25,71,255,0.05);">Program
-        Structure</span>
-      <h2 style="font-size: clamp(32px, 5vw, 48px); font-weight: 700; letter-spacing: -0.03em; color: var(--ink);">
-        Discovery, Development, Launch.</h2>
-    </div>
 
-    <div class="structure-grid"
-      style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; max-width: 1000px; margin: 0 auto;">
-      <!-- Discovery -->
-      <div class="structure-card"
-        style="background: #fff; padding: 40px; border-radius: 20px; border: 1px solid var(--line-soft); box-shadow: 0 10px 30px rgba(0,0,0,0.03); transition: transform 0.3s;">
-        <div
-          style="width: 56px; height: 56px; border-radius: 14px; background: rgba(25,71,255,0.05); color: var(--blue); display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle>
-            <circle cx="12" cy="12" r="6"></circle>
-            <circle cx="12" cy="12" r="2"></circle>
-          </svg>
-        </div>
-        <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 16px; color: var(--ink);">Discovery</h3>
-        <p style="font-size: 15px; color: var(--ink-mute); line-height: 1.6;">Career mapping, skill gap analysis, and
-          structured roadmap planning tailored to your goals.</p>
-      </div>
 
-      <!-- Development -->
-      <div class="structure-card"
-        style="background: #fff; padding: 40px; border-radius: 20px; border: 1px solid var(--line-soft); box-shadow: 0 10px 30px rgba(0,0,0,0.03); transition: transform 0.3s;">
-        <div
-          style="width: 56px; height: 56px; border-radius: 14px; background: rgba(25,71,255,0.05); color: var(--blue); display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <path
-              d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83">
-            </path>
-          </svg>
-        </div>
-        <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 16px; color: var(--ink);">Development</h3>
-        <p style="font-size: 15px; color: var(--ink-mute); line-height: 1.6;">Backend foundations, database design, API
-          development, frontend integration, and AI-assisted coding.</p>
-      </div>
-
-      <!-- Launch -->
-      <div class="structure-card"
-        style="background: #fff; padding: 40px; border-radius: 20px; border: 1px solid var(--line-soft); box-shadow: 0 10px 30px rgba(0,0,0,0.03); transition: transform 0.3s;">
-        <div
-          style="width: 56px; height: 56px; border-radius: 14px; background: rgba(25,71,255,0.05); color: var(--blue); display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <path d="M13.5 2.5l5.5 5.5-2 10-10-2L2.5 13.5 13.5 2.5z"></path>
-          </svg>
-        </div>
-        <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 16px; color: var(--ink);">Launch</h3>
-        <p style="font-size: 15px; color: var(--ink-mute); line-height: 1.6;">Portfolio projects, resume building,
-          LinkedIn optimization, mock interviews, and placement drives.</p>
-      </div>
-    </div>
-    <!-- ROADMAP -->
-    <section class="roadmap-section" style="padding: 40px 0 100px;">
-      <div class="section-head center" style="text-align: center; margin-bottom: 60px;">
-        <span class="eyebrow"
-          style="display: inline-block; background: var(--blue); color: #fff; padding: 6px 16px; border-radius: 99px; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(25,71,255,0.2);">Roadmap</span>
-        <h2 style="font-size: clamp(32px, 5vw, 48px); font-weight: 700; letter-spacing: -0.03em; color: var(--ink);">
-          6-Month Course Journey.</h2>
-      </div>
-
-      <div class="roadmap-grid"
-        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; max-width: 900px; margin: 0 auto; padding: 0 24px;">
-        <!-- Month 1 -->
-        <div
-          style="background: #fff; padding: 28px 24px; border-radius: 12px; border-left: 4px solid var(--blue); box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
-          <h3 style="color: var(--blue); font-size: 18px; font-weight: 700; margin-bottom: 8px;">Month 1: Foundations
-          </h3>
-          <p style="color: var(--ink-mute); font-size: 15px; line-height: 1.5;">Programming basics, logic building, &
-            database concepts.</p>
-        </div>
-        <!-- Month 2 -->
-        <div
-          style="background: #fff; padding: 28px 24px; border-radius: 12px; border-left: 4px solid var(--blue); box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
-          <h3 style="color: var(--blue); font-size: 18px; font-weight: 700; margin-bottom: 8px;">Month 2: Backend
-            Framework</h3>
-          <p style="color: var(--ink-mute); font-size: 15px; line-height: 1.5;">Spring Boot / Django & REST APIs.</p>
-        </div>
-        <!-- Month 3 -->
-        <div
-          style="background: #fff; padding: 28px 24px; border-radius: 12px; border-left: 4px solid var(--blue); box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
-          <h3 style="color: var(--blue); font-size: 18px; font-weight: 700; margin-bottom: 8px;">Month 3: Frontend
-            Integration</h3>
-          <p style="color: var(--ink-mute); font-size: 15px; line-height: 1.5;">React & Full Stack integration.</p>
-        </div>
-        <!-- Month 4 -->
-        <div
-          style="background: #fff; padding: 28px 24px; border-radius: 12px; border-left: 4px solid var(--blue); box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
-          <h3 style="color: var(--blue); font-size: 18px; font-weight: 700; margin-bottom: 8px;">Month 4: AI Integration
-          </h3>
-          <p style="color: var(--ink-mute); font-size: 15px; line-height: 1.5;">AI APIs & Prompt Engineering
-            implementation.</p>
-        </div>
-        <!-- Month 5 -->
-        <div
-          style="background: #fff; padding: 28px 24px; border-radius: 12px; border-left: 4px solid var(--ink); box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
-          <h3 style="color: var(--ink); font-size: 18px; font-weight: 700; margin-bottom: 8px;">Month 5: Automation</h3>
-          <p style="color: var(--ink-mute); font-size: 15px; line-height: 1.5;">n8n workflows & smart backend processes.
-          </p>
-        </div>
-        <!-- Month 6 -->
-        <div
-          style="background: #fff; padding: 28px 24px; border-radius: 12px; border-left: 4px solid var(--ink); box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
-          <h3 style="color: var(--ink); font-size: 18px; font-weight: 700; margin-bottom: 8px;">Month 6: Capstone &
-            Career Prep</h3>
-          <p style="color: var(--ink-mute); font-size: 15px; line-height: 1.5;">Projects, portfolio building, and mock
-            interviews.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- PLACEMENTS & CAREER SUPPORT -->
-    <section class="placements-section" style="padding: 100px 0; background: var(--blue-soft);">
-      <div style="max-width: var(--maxw); margin: 0 auto; padding: 0 24px; display: flex; justify-content: center;">
-
-        <!-- Centered Text Content -->
-        <div style="display: flex; flex-direction: column; align-items: center; text-align: center; max-width: 700px;">
+  <!-- ROADMAP (Astra AI-Style Stacking Cards on Scroll) -->
+  <section class="roadmap-section" id="roadmap">
+    <div class="roadmap-sticky-stage">
+      <div class="roadmap-header">
+        <div class="section-head center" style="text-align: center; margin-bottom: 0;">
           <span class="eyebrow"
-            style="display: inline-block; background: #fff; border: 1px solid var(--line-soft); color: var(--blue); padding: 6px 16px; border-radius: 99px; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(25,71,255,0.05);">Careers</span>
-          <h2
-            style="font-size: clamp(32px, 5vw, 48px); font-weight: 700; letter-spacing: -0.03em; color: var(--ink); margin-bottom: 32px;">
-            Placement & Career Support</h2>
-
-          <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 24px; text-align: left;">
-            <li
-              style="display: flex; align-items: flex-start; gap: 16px; font-size: 18px; color: var(--ink-mute); line-height: 1.5;">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-                <polyline points="16 11 18 13 22 9"></polyline>
-              </svg>
-              <span><strong style="color: var(--ink);">Dedicated B2B placement team</strong> working for your
-                success.</span>
-            </li>
-            <li
-              style="display: flex; align-items: flex-start; gap: 16px; font-size: 18px; color: var(--ink-mute); line-height: 1.5;">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
-                <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
-                <line x1="12" y1="4" x2="12" y2="20"></line>
-                <line x1="4" y1="12" x2="20" y2="12"></line>
-              </svg>
-              <span><strong style="color: var(--ink);">Mega job drives</strong> connecting you with top
-                employers.</span>
-            </li>
-            <li
-              style="display: flex; align-items: flex-start; gap: 16px; font-size: 18px; color: var(--ink-mute); line-height: 1.5;">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                <polyline points="14 2 14 8 20 8"></polyline>
-                <line x1="16" y1="13" x2="8" y2="13"></line>
-                <line x1="16" y1="17" x2="8" y2="17"></line>
-                <polyline points="10 9 9 9 8 9"></polyline>
-              </svg>
-              <span><strong style="color: var(--ink);">Resume & LinkedIn optimization</strong> to stand out.</span>
-            </li>
-            <li
-              style="display: flex; align-items: flex-start; gap: 16px; font-size: 18px; color: var(--ink-mute); line-height: 1.5;">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="M12 8v4"></path>
-                <path d="M12 16h.01"></path>
-              </svg>
-              <span><strong style="color: var(--ink);">Company-specific mock interviews</strong> to build
-                confidence.</span>
-            </li>
-            <li
-              style="display: flex; align-items: flex-start; gap: 16px; font-size: 18px; color: var(--ink-mute); line-height: 1.5;">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
-                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
-                <polyline points="16 7 22 7 22 13"></polyline>
-              </svg>
-              <span><strong style="color: var(--ink);">Continuous employer feedback</strong> & skill enhancement.</span>
-            </li>
-          </ul>
+            style="display: inline-block; background: linear-gradient(135deg, #1947FF, #0099FF); color: #fff; padding: 6px 16px; border-radius: 99px; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 14px; box-shadow: 0 4px 16px rgba(25, 71, 255, 0.35);">Roadmap</span>
+          <h2 style="font-size: clamp(30px, 4.5vw, 46px); font-weight: 600; letter-spacing: -0.02em; color: #FFFFFF; line-height: 1.15; margin: 0;">
+            6-Month Course Journey.</h2>
         </div>
 
-
+        <!-- Glowing Vertical Energy Beam -->
+        <div class="roadmap-beam">
+          <div class="roadmap-beam-line"></div>
+          <div class="roadmap-beam-dot"></div>
+        </div>
       </div>
-    </section>
+
+      <!-- Card Deck (All cards stack here under the beam) -->
+      <div class="roadmap-cards-deck">
+        <!-- Month 1 -->
+        <div class="roadmap-stack-card" style="z-index: 1;">
+          <div class="roadmap-card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 18 22 12 16 6"></polyline>
+              <polyline points="8 6 2 12 8 18"></polyline>
+            </svg>
+          </div>
+          <div class="roadmap-card-content">
+            <span class="roadmap-card-step">MONTH 01</span>
+            <h3 class="roadmap-card-title">Foundations</h3>
+            <p class="roadmap-card-desc">Programming basics, logic building, & database concepts.</p>
+          </div>
+        </div>
+
+        <!-- Month 2 -->
+        <div class="roadmap-stack-card" style="z-index: 2;">
+          <div class="roadmap-card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+              <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+              <line x1="6" y1="6" x2="6.01" y2="6"></line>
+              <line x1="6" y1="18" x2="6.01" y2="18"></line>
+            </svg>
+          </div>
+          <div class="roadmap-card-content">
+            <span class="roadmap-card-step">MONTH 02</span>
+            <h3 class="roadmap-card-title">Backend Framework</h3>
+            <p class="roadmap-card-desc">Spring Boot / Django & REST APIs.</p>
+          </div>
+        </div>
+
+        <!-- Month 3 -->
+        <div class="roadmap-stack-card" style="z-index: 3;">
+          <div class="roadmap-card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+              <line x1="3" y1="9" x2="21" y2="9"></line>
+              <line x1="9" y1="21" x2="9" y2="9"></line>
+            </svg>
+          </div>
+          <div class="roadmap-card-content">
+            <span class="roadmap-card-step">MONTH 03</span>
+            <h3 class="roadmap-card-title">Frontend Integration</h3>
+            <p class="roadmap-card-desc">React & Full Stack integration.</p>
+          </div>
+        </div>
+
+        <!-- Month 4 -->
+        <div class="roadmap-stack-card" style="z-index: 4;">
+          <div class="roadmap-card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z"></path>
+            </svg>
+          </div>
+          <div class="roadmap-card-content">
+            <span class="roadmap-card-step">MONTH 04</span>
+            <h3 class="roadmap-card-title">AI Integration</h3>
+            <p class="roadmap-card-desc">AI APIs & Prompt Engineering implementation.</p>
+          </div>
+        </div>
+
+        <!-- Month 5 -->
+        <div class="roadmap-stack-card" style="z-index: 5;">
+          <div class="roadmap-card-icon" style="color: #00F0FF; background: rgba(0, 240, 255, 0.12); border-color: rgba(0, 240, 255, 0.3);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00F0FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="18" cy="18" r="3"></circle>
+              <circle cx="6" cy="6" r="3"></circle>
+              <circle cx="6" cy="18" r="3"></circle>
+              <path d="M18 9a9 9 0 0 1-9 9"></path>
+              <line x1="6" y1="9" x2="6" y2="15"></line>
+            </svg>
+          </div>
+          <div class="roadmap-card-content">
+            <span class="roadmap-card-step" style="color: #00F0FF;">MONTH 05</span>
+            <h3 class="roadmap-card-title">Automation</h3>
+            <p class="roadmap-card-desc">n8n workflows & smart backend processes.</p>
+          </div>
+        </div>
+
+        <!-- Month 6 -->
+        <div class="roadmap-stack-card" style="z-index: 6;">
+          <div class="roadmap-card-icon" style="color: #00F0FF; background: rgba(0, 240, 255, 0.12); border-color: rgba(0, 240, 255, 0.3);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00F0FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
+              <path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-4.05 11a22.7 22.7 0 0 1-3.95 2z"></path>
+              <path d="M9 22l3-3"></path>
+            </svg>
+          </div>
+          <div class="roadmap-card-content">
+            <span class="roadmap-card-step" style="color: #00F0FF;">MONTH 06</span>
+            <h3 class="roadmap-card-title">Capstone & Career Prep</h3>
+            <p class="roadmap-card-desc">Projects, portfolio building, and mock interviews.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLACEMENTS & CAREER SUPPORT -->
+  <section class="placements-section" style="padding: 100px 0; background: rgba(11, 19, 43, 0.5); border-top: 1px solid rgba(56, 189, 248, 0.15); border-bottom: 1px solid rgba(56, 189, 248, 0.15); backdrop-filter: blur(12px);">
+    <div style="max-width: var(--maxw); margin: 0 auto; padding: 0 24px; display: flex; justify-content: center;">
+
+      <!-- Centered Text Content -->
+      <div style="display: flex; flex-direction: column; align-items: center; text-align: center; max-width: 700px;">
+        <span class="eyebrow"
+          style="display: inline-block; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.3); color: #38BDF8; padding: 6px 16px; border-radius: 99px; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 20px; box-shadow: 0 0 15px rgba(56, 189, 248, 0.15);">Careers</span>
+        <h2
+          style="font-size: clamp(32px, 5vw, 48px); font-weight: 600; letter-spacing: -0.02em; color: #FFFFFF; margin-bottom: 32px;">
+          Placement & Career Support</h2>
+
+        <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 24px; text-align: left;">
+          <li
+            style="display: flex; align-items: flex-start; gap: 16px; font-size: 18px; color: rgba(226, 232, 240, 0.85); line-height: 1.5;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <polyline points="16 11 18 13 22 9"></polyline>
+            </svg>
+            <span><strong style="color: #FFFFFF;">Dedicated B2B placement team</strong> working for your
+              success.</span>
+          </li>
+          <li
+            style="display: flex; align-items: flex-start; gap: 16px; font-size: 18px; color: rgba(226, 232, 240, 0.85); line-height: 1.5;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
+              <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+              <line x1="12" y1="4" x2="12" y2="20"></line>
+              <line x1="4" y1="12" x2="20" y2="12"></line>
+            </svg>
+            <span><strong style="color: #FFFFFF;">Mega job drives</strong> connecting you with top
+              employers.</span>
+          </li>
+          <li
+            style="display: flex; align-items: flex-start; gap: 16px; font-size: 18px; color: rgba(226, 232, 240, 0.85); line-height: 1.5;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            <span><strong style="color: #FFFFFF;">Resume & LinkedIn optimization</strong> to stand out.</span>
+          </li>
+          <li
+            style="display: flex; align-items: flex-start; gap: 16px; font-size: 18px; color: rgba(226, 232, 240, 0.85); line-height: 1.5;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M12 8v4"></path>
+              <path d="M12 16h.01"></path>
+            </svg>
+            <span><strong style="color: #FFFFFF;">Company-specific mock interviews</strong> to build
+              confidence.</span>
+          </li>
+          <li
+            style="display: flex; align-items: flex-start; gap: 16px; font-size: 18px; color: rgba(226, 232, 240, 0.85); line-height: 1.5;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
+              <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+              <polyline points="16 7 22 7 22 13"></polyline>
+            </svg>
+            <span><strong style="color: #FFFFFF;">Continuous employer feedback</strong> & skill enhancement.</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
 
     <footer class="site-footer">
       <p>&copy; 2026 Kompetenzen Technologies. All rights reserved.</p>
@@ -848,90 +1130,118 @@
 
   <!-- Reusable Auth Modal for School Pages -->
   <script src="js/auth-modal.js"></script>
-  <!-- TECH & AI NEURAL CONSTELLATION + FLOATING CODE STREAM (Light Blue Theme) -->
+
+  <!-- Lenis Smooth Scroll -->
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script>
+    (function () {
+      if (typeof Lenis !== 'undefined') {
+        const lenis = new Lenis({
+          lerp: 0.1,
+          smoothWheel: true,
+          wheelMultiplier: 1.0,
+          touchMultiplier: 1.5
+        });
+        function raf(time) {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Anchor link smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+          anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (href && href.length > 1) {
+              const target = document.querySelector(href);
+              if (target) {
+                e.preventDefault();
+                lenis.scrollTo(target, { offset: -60, duration: 1.2 });
+              }
+            }
+          });
+        });
+      }
+    })();
+  </script>
+
+  <!-- TECH & AI NEURAL CONSTELLATION + FLOATING CODE STREAM (Full-Page Engine) -->
   <script>
     (function () {
       const canvas = document.getElementById('heroLightBlueCanvas');
       if (!canvas) return;
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext('2d', { alpha: true });
 
-      let width = 0;
-      let height = 0;
-      let dpr = window.devicePixelRatio || 1;
+      let width = window.innerWidth;
+      let height = window.innerHeight;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      let isVisible = true;
+      let animId = null;
 
       function resize() {
-        const rect = canvas.parentElement.getBoundingClientRect();
-        width = rect.width;
-        height = rect.height;
-        canvas.width = width * dpr;
-        canvas.height = height * dpr;
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = Math.floor(width * dpr);
+        canvas.height = Math.floor(height * dpr);
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.scale(dpr, dpr);
       }
 
-      window.addEventListener('resize', resize);
+      window.addEventListener('resize', resize, { passive: true });
       resize();
 
-      // Mouse tracking
-      const mouse = { x: -1000, y: -1000, radius: 220 };
+      // Mouse tracking across full viewport
+      const mouse = { x: -1000, y: -1000, radius: 220, active: false };
       window.addEventListener('mousemove', (e) => {
-        const rect = canvas.getBoundingClientRect();
-        mouse.x = e.clientX - rect.left;
-        mouse.y = e.clientY - rect.top;
-      });
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+        mouse.active = true;
+      }, { passive: true });
+
       window.addEventListener('mouseleave', () => {
         mouse.x = -1000;
         mouse.y = -1000;
-      });
+        mouse.active = false;
+      }, { passive: true });
 
-      // 1. High-Contrast Neon Tech Neural Nodes (Exclusively Right Side: 52% to 100% width)
-      const nodeCount = 75;
+      // 1. Full-Page High-Contrast Neon Tech Neural Nodes (Silky smooth 60-120 FPS)
+      const nodeCount = 55;
       const nodes = [];
       const colors = ['#00F0FF', '#38BDF8', '#60A5FA', '#93C5FD', '#FFFFFF'];
 
       for (let i = 0; i < nodeCount; i++) {
-        const minX = width * 0.52;
-        const maxX = width - 20;
-
         nodes.push({
-          x: minX + Math.random() * (maxX - minX),
+          x: Math.random() * width,
           y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.75,
-          vy: (Math.random() - 0.5) * 0.75,
-          minX: minX,
-          maxX: maxX,
-          radius: Math.random() * 3.5 + 2.2,
+          vx: (Math.random() - 0.5) * 0.6,
+          vy: (Math.random() - 0.5) * 0.6,
+          radius: Math.random() * 2.4 + 1.8,
           color: colors[Math.floor(Math.random() * colors.length)],
           pulse: Math.random() * Math.PI * 2
         });
       }
 
-      // 2. High-Visibility Floating Tech Code Tokens (Exclusively Right Side: 54% to 96% width)
-      const tokensList = ['<AI/>', '{ }', '0101', 'Python', 'Java', 'React', '=>', 'n8n', '[ ]', 'SELECT', 'torch', '// DEV', 'import', 'GenAI', 'SQL', '1010', 'Docker', 'Kubernetes'];
+      // 2. Full-Page Floating Tech Code Tokens
+      const tokensList = ['<AI/>', '{ }', '0101', 'Python', 'Java', 'React', '=>', 'n8n', '[ ]', 'SELECT', 'torch', '// DEV', 'import', 'GenAI', 'SQL', '1010', 'Docker', 'Kubernetes', 'AWS', 'API', 'Git'];
       const codeParticles = [];
-      const particleCount = 26;
+      const particleCount = 24;
 
       for (let i = 0; i < particleCount; i++) {
-        const minX = width * 0.54;
-        const maxX = width - 40;
-
         codeParticles.push({
           text: tokensList[i % tokensList.length],
-          x: minX + Math.random() * (maxX - minX),
+          x: Math.random() * width,
           y: Math.random() * height,
-          vy: - (0.35 + Math.random() * 0.65),
-          vx: (Math.random() - 0.5) * 0.3,
-          minX: minX,
-          maxX: maxX,
-          fontSize: Math.floor(Math.random() * 5) + 12,
-          opacity: 0.45 + Math.random() * 0.45,
-          color: colors[i % colors.length],
-          wobble: Math.random() * Math.PI * 2
+          vy: - (0.3 + Math.random() * 0.45),
+          vx: (Math.random() - 0.5) * 0.25,
+          fontSize: Math.floor(Math.random() * 4) + 12,
+          opacity: 0.22 + Math.random() * 0.28,
+          color: colors[i % colors.length]
         });
       }
 
       // 3. Traveling Energy Synapse Pulses
       const pulses = [];
-      for (let p = 0; p < 16; p++) {
+      for (let p = 0; p < 14; p++) {
         pulses.push({
           progress: Math.random(),
           speed: 0.006 + Math.random() * 0.01,
@@ -940,91 +1250,84 @@
         });
       }
 
+      const maxDist = 165;
+      const maxDistSq = maxDist * maxDist;
+      const mouseRadiusSq = mouse.radius * mouse.radius;
+
       function draw() {
+        if (!isVisible) {
+          animId = null;
+          return;
+        }
+
         ctx.clearRect(0, 0, width, height);
 
-        // A. Draw High-Visibility Floating Code Tokens
+        // A. Draw Floating Code Tokens
         codeParticles.forEach(p => {
           p.y += p.vy;
-          p.x += p.vx + Math.sin(p.y * 0.02) * 0.2;
-          if (p.y < -25) { p.y = height + 25; p.x = p.minX + Math.random() * (p.maxX - p.minX); }
-          if (p.x < p.minX - 25 || p.x > p.maxX + 25) p.x = p.minX + Math.random() * (p.maxX - p.minX);
+          p.x += p.vx + Math.sin(p.y * 0.02) * 0.16;
+          if (p.y < -30) { p.y = height + 30; p.x = Math.random() * width; }
+          if (p.x < -30) p.x = width + 30;
+          if (p.x > width + 30) p.x = -30;
 
-          ctx.save();
-          ctx.font = `700 ${p.fontSize}px "JetBrains Mono", monospace`;
+          ctx.font = `600 ${p.fontSize}px "JetBrains Mono", monospace`;
           ctx.fillStyle = p.color;
           ctx.globalAlpha = p.opacity;
-          ctx.shadowBlur = 14;
-          ctx.shadowColor = p.color;
           ctx.fillText(p.text, p.x, p.y);
-          ctx.restore();
         });
 
-        // B. Update & Draw Glowing Tech Neural Nodes
+        // B. Update Nodes Position
         nodes.forEach(n => {
           n.x += n.vx;
           n.y += n.vy;
 
-          if (n.x < n.minX || n.x > n.maxX) n.vx *= -1;
+          if (n.x < 0 || n.x > width) n.vx *= -1;
           if (n.y < 0 || n.y > height) n.vy *= -1;
 
-          n.pulse += 0.04;
-          const currentRadius = n.radius + Math.sin(n.pulse) * 0.8;
-
-          ctx.save();
-          ctx.beginPath();
-          ctx.arc(n.x, n.y, Math.max(1.5, currentRadius), 0, Math.PI * 2);
-          ctx.fillStyle = n.color;
-          ctx.shadowBlur = 16;
-          ctx.shadowColor = n.color;
-          ctx.globalAlpha = 0.95;
-          ctx.fill();
-          ctx.restore();
+          n.pulse += 0.035;
         });
 
-        // C. Connect Tech Neural Nodes with Vibrant Light Blue Energy Beams
-        const maxDist = 165;
-        for (let i = 0; i < nodes.length; i++) {
-          for (let j = i + 1; j < nodes.length; j++) {
-            const dx = nodes[i].x - nodes[j].x;
-            const dy = nodes[i].y - nodes[j].y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
+        // C. Connect Tech Neural Nodes (GPU strokes)
+        ctx.strokeStyle = '#38BDF8';
+        ctx.lineWidth = 1.1;
 
-            if (dist < maxDist) {
-              const alpha = (1 - dist / maxDist) * 0.58;
-              ctx.save();
-              ctx.beginPath();
-              ctx.moveTo(nodes[i].x, nodes[i].y);
-              ctx.lineTo(nodes[j].x, nodes[j].y);
-              ctx.strokeStyle = '#38BDF8';
-              ctx.shadowBlur = 12;
-              ctx.shadowColor = '#38BDF8';
+        for (let i = 0; i < nodeCount; i++) {
+          const n1 = nodes[i];
+
+          for (let j = i + 1; j < nodeCount; j++) {
+            const n2 = nodes[j];
+            const dx = n1.x - n2.x;
+            const dy = n1.y - n2.y;
+            const distSq = dx * dx + dy * dy;
+
+            if (distSq < maxDistSq) {
+              const alpha = (1 - Math.sqrt(distSq) / maxDist) * 0.45;
               ctx.globalAlpha = alpha;
-              ctx.lineWidth = 1.3;
+              ctx.beginPath();
+              ctx.moveTo(n1.x, n1.y);
+              ctx.lineTo(n2.x, n2.y);
               ctx.stroke();
-              ctx.restore();
             }
           }
 
-          // D. Interactive Gravitational Beam to Mouse Position
-          if (mouse.x > 0) {
-            const mdx = nodes[i].x - mouse.x;
-            const mdy = nodes[i].y - mouse.y;
-            const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+          // D. Interactive Gravitational Beam to Mouse
+          if (mouse.active) {
+            const mdx = n1.x - mouse.x;
+            const mdy = n1.y - mouse.y;
+            const mdistSq = mdx * mdx + mdy * mdy;
 
-            if (mdist < mouse.radius) {
-              const malpha = (1 - mdist / mouse.radius) * 0.9;
-              ctx.save();
-              ctx.beginPath();
-              ctx.moveTo(nodes[i].x, nodes[i].y);
-              ctx.lineTo(mouse.x, mouse.y);
+            if (mdistSq < mouseRadiusSq) {
+              const mdist = Math.sqrt(mdistSq);
+              const malpha = (1 - mdist / mouse.radius) * 0.75;
               ctx.strokeStyle = '#00F0FF';
-              ctx.shadowBlur = 20;
-              ctx.shadowColor = '#00F0FF';
               ctx.globalAlpha = malpha;
-              ctx.lineWidth = 2.0;
+              ctx.lineWidth = 1.6;
+              ctx.beginPath();
+              ctx.moveTo(n1.x, n1.y);
+              ctx.lineTo(mouse.x, mouse.y);
               ctx.stroke();
-              ctx.restore();
+              ctx.strokeStyle = '#38BDF8';
+              ctx.lineWidth = 1.1;
             }
           }
         }
@@ -1043,47 +1346,352 @@
           if (n1 && n2) {
             const dx = n1.x - n2.x;
             const dy = n1.y - n2.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
+            const distSq = dx * dx + dy * dy;
 
-            if (dist < maxDist * 1.2) {
+            if (distSq < maxDistSq * 1.3) {
               const px = n1.x + (n2.x - n1.x) * p.progress;
               const py = n1.y + (n2.y - n1.y) * p.progress;
 
-              ctx.save();
+              // Outer pulse glow halo
+              ctx.globalAlpha = 0.35;
+              ctx.fillStyle = '#00F0FF';
               ctx.beginPath();
-              ctx.arc(px, py, 3.5, 0, Math.PI * 2);
-              ctx.fillStyle = '#FFFFFF';
-              ctx.shadowBlur = 18;
-              ctx.shadowColor = '#00F0FF';
-              ctx.globalAlpha = 0.95;
+              ctx.arc(px, py, 5, 0, Math.PI * 2);
               ctx.fill();
-              ctx.restore();
+
+              // Pulse core
+              ctx.globalAlpha = 0.95;
+              ctx.fillStyle = '#FFFFFF';
+              ctx.beginPath();
+              ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+              ctx.fill();
             }
           }
         });
 
-        // F. Mouse Interactive Glowing Aura
-        if (mouse.x > 0) {
-          ctx.save();
+        // F. Draw Glowing Tech Neural Nodes
+        nodes.forEach(n => {
+          const currentRadius = n.radius + Math.sin(n.pulse) * 0.6;
+
+          // Outer halo
           ctx.beginPath();
-          ctx.arc(mouse.x, mouse.y, 6, 0, Math.PI * 2);
-          ctx.fillStyle = '#00F0FF';
-          ctx.shadowBlur = 24;
-          ctx.shadowColor = '#00F0FF';
+          ctx.arc(n.x, n.y, currentRadius * 2.1, 0, Math.PI * 2);
+          ctx.fillStyle = n.color;
+          ctx.globalAlpha = 0.2;
           ctx.fill();
 
+          // Core dot
           ctx.beginPath();
-          ctx.arc(mouse.x, mouse.y, 35, 0, Math.PI * 2);
-          ctx.strokeStyle = 'rgba(56, 189, 248, 0.35)';
+          ctx.arc(n.x, n.y, Math.max(1.4, currentRadius), 0, Math.PI * 2);
+          ctx.fillStyle = n.color;
+          ctx.globalAlpha = 0.95;
+          ctx.fill();
+        });
+
+        // G. Mouse Glow when active
+        if (mouse.active) {
+          ctx.globalAlpha = 0.8;
+          ctx.beginPath();
+          ctx.arc(mouse.x, mouse.y, 4, 0, Math.PI * 2);
+          ctx.fillStyle = '#00F0FF';
+          ctx.fill();
+
+          ctx.globalAlpha = 0.25;
+          ctx.beginPath();
+          ctx.arc(mouse.x, mouse.y, 25, 0, Math.PI * 2);
+          ctx.strokeStyle = '#38BDF8';
           ctx.lineWidth = 1;
           ctx.stroke();
-          ctx.restore();
         }
 
-        requestAnimationFrame(draw);
+        ctx.globalAlpha = 1.0;
+        animId = requestAnimationFrame(draw);
       }
 
-      draw();
+      // Start full-page animation
+      animId = requestAnimationFrame(draw);
+
+      // Pause when tab is not visible to save battery
+      document.addEventListener('visibilitychange', () => {
+        isVisible = !document.hidden;
+        if (isVisible && !animId) {
+          animId = requestAnimationFrame(draw);
+        }
+      });
+    })();
+  </script>
+  <script>
+    /* ASTRA-STYLE ROADMAP STACKING & PINNED CENTER SCROLL */
+    (function initRoadmapStacking() {
+      const section = document.getElementById('roadmap');
+      if (!section) return;
+
+      const cards = Array.from(section.querySelectorAll('.roadmap-stack-card'));
+      if (!cards.length) return;
+
+      const deck = section.querySelector('.roadmap-cards-deck');
+
+      // Proportional scroll progress windows for cards 1 to 5 to glide in:
+      const cardRanges = [
+        { start: 0.00, end: 0.00 }, // Month 01 (Foundations) - resting base
+        { start: 0.08, end: 0.22 }, // Month 02 (Backend Framework)
+        { start: 0.24, end: 0.38 }, // Month 03 (Frontend Integration)
+        { start: 0.40, end: 0.54 }, // Month 04 (AI Integration)
+        { start: 0.56, end: 0.70 }, // Month 05 (Automation)
+        { start: 0.72, end: 0.86 }  // Month 06 (Capstone & Career Prep - Last Box!)
+        // 0.86 to 1.00: The full stack with Month 06 is fully seen in place!
+        // At 1.00+: The track completes, and the entire stage scrolls up together with the page.
+      ];
+
+      function render() {
+        const rect = section.getBoundingClientRect();
+        const totalScroll = section.offsetHeight - window.innerHeight;
+        if (totalScroll <= 0) return;
+
+        const progress = Math.max(0, Math.min(1, -rect.top / totalScroll));
+        const stackOffset = window.innerWidth <= 600 ? 12 : 20;
+
+        // Distance from dock to below the bottom of the viewport
+        const deckTop = deck ? deck.getBoundingClientRect().top : 240;
+        const travelDist = Math.max(650, window.innerHeight - deckTop + 80);
+
+        for (let i = 0; i < cards.length; i++) {
+          const card = cards[i];
+          const targetY = i * stackOffset;
+          card.style.zIndex = 10 + i;
+
+          if (i === 0) {
+            card.style.transform = `translate3d(0, 0px, 0)`;
+            card.style.opacity = '1';
+            card.style.pointerEvents = 'auto';
+            continue;
+          }
+
+          const { start, end } = cardRanges[i];
+
+          if (progress <= start) {
+            // Completely below the bottom of the viewport
+            card.style.transform = `translate3d(0, ${targetY + travelDist}px, 0) scale(0.92)`;
+            card.style.opacity = '0';
+            card.style.pointerEvents = 'none';
+          } else if (progress >= end) {
+            // Docked in the stack
+            card.style.transform = `translate3d(0, ${targetY}px, 0) scale(1)`;
+            card.style.opacity = '1';
+            card.style.pointerEvents = 'auto';
+          } else {
+            // Rising smoothly from the bottom of the screen
+            const t = (progress - start) / (end - start);
+            const ease = 1 - Math.pow(1 - t, 2.4);
+            const y = targetY + (1 - ease) * travelDist;
+            const scale = 0.94 + ease * 0.06;
+            const opacity = Math.min(1, t * 3.5);
+
+            card.style.transform = `translate3d(0, ${y.toFixed(1)}px, 0) scale(${scale.toFixed(3)})`;
+            card.style.opacity = opacity.toFixed(3);
+            card.style.pointerEvents = ease > 0.6 ? 'auto' : 'none';
+          }
+        }
+      }
+
+      window.addEventListener('scroll', render, { passive: true });
+      window.addEventListener('resize', render, { passive: true });
+      render();
+    })();
+  </script>
+  <script>
+    /* 3-CARD SPLIT ANIMATION ON SCROLL */
+    (function initProgramsCardSplit() {
+      const grid = document.querySelector('.programs-grid');
+      if (!grid) return;
+
+      const cards = Array.from(grid.querySelectorAll('.program-card'));
+      if (cards.length !== 3) return;
+
+      let targetProgress = 0;
+      let currentProgress = 0;
+      let isMobile = window.innerWidth <= 1024;
+
+      function checkScroll() {
+        isMobile = window.innerWidth <= 1024;
+        if (isMobile) {
+          cards.forEach(c => {
+            c.style.transform = '';
+            c.style.opacity = '1';
+          });
+          grid.classList.add('split-ready');
+          return;
+        }
+
+        const rect = grid.getBoundingClientRect();
+        const vh = window.innerHeight;
+
+        // Begins splitting when top of the grid reaches 92% of viewport
+        // Finishes splitting when top of the grid reaches 38% of viewport
+        const start = vh * 0.92;
+        const end = vh * 0.38;
+
+        const raw = (start - rect.top) / (start - end);
+        targetProgress = Math.max(0, Math.min(1, raw));
+      }
+
+      function updateCards(p) {
+        if (isMobile) return;
+
+        // Horizontal distance between left/right cards and the center card
+        const dist = Math.max(340, cards[1].offsetLeft - cards[0].offsetLeft);
+        const ease = 1 - Math.pow(1 - p, 2.5); // Natural card dealing easing
+
+        // Card 0 (Left - Python + AI):
+        // Slides from center (+dist) out to left, un-fanning from -8deg to -1.5deg
+        const x0 = (1 - ease) * dist;
+        const rot0 = (1 - ease) * -8 + ease * -1.5;
+        const y0 = (1 - ease) * 16 + ease * 6;
+        const s0 = 0.96 + ease * 0.04;
+        cards[0].style.transform = `translate3d(${x0.toFixed(1)}px, ${y0.toFixed(1)}px, 0) rotate(${rot0.toFixed(2)}deg) scale(${s0.toFixed(3)})`;
+        cards[0].style.zIndex = '1';
+
+        // Card 1 (Center - Java + AI):
+        // Floats slightly forward with subtle scale
+        const y1 = (1 - ease) * 4 + ease * -6;
+        const s1 = 0.98 + ease * 0.03;
+        cards[1].style.transform = `translate3d(0, ${y1.toFixed(1)}px, 0) scale(${s1.toFixed(3)})`;
+        cards[1].style.zIndex = '2';
+
+        // Card 2 (Right - Data Analytics + GenAI):
+        // Slides from center (-dist) out to right, un-fanning from +8deg to +1.5deg
+        const x2 = (1 - ease) * -dist;
+        const rot2 = (1 - ease) * 8 + ease * 1.5;
+        const y2 = (1 - ease) * 16 + ease * 6;
+        const s2 = 0.96 + ease * 0.04;
+        cards[2].style.transform = `translate3d(${x2.toFixed(1)}px, ${y2.toFixed(1)}px, 0) rotate(${rot2.toFixed(2)}deg) scale(${s2.toFixed(3)})`;
+        cards[2].style.zIndex = '3';
+
+        if (p >= 0.96) {
+          grid.classList.add('split-ready');
+        } else {
+          grid.classList.remove('split-ready');
+        }
+      }
+
+      function loop() {
+        if (!isMobile) {
+          const diff = targetProgress - currentProgress;
+          if (Math.abs(diff) > 0.002) {
+            currentProgress += diff * 0.14;
+            updateCards(currentProgress);
+          } else if (currentProgress !== targetProgress) {
+            currentProgress = targetProgress;
+            updateCards(currentProgress);
+          }
+        }
+        requestAnimationFrame(loop);
+      }
+
+      window.addEventListener('scroll', checkScroll, { passive: true });
+      window.addEventListener('resize', () => {
+        checkScroll();
+        currentProgress = targetProgress;
+        updateCards(currentProgress);
+      }, { passive: true });
+
+      checkScroll();
+      currentProgress = targetProgress;
+      updateCards(currentProgress);
+      requestAnimationFrame(loop);
+    })();
+  </script>
+
+  <!-- 4-CARD STATS SPLIT ANIMATION ON SCROLL -->
+  <script>
+    (function initStatsCardSplit() {
+      const grid = document.querySelector('.stats-cards-grid');
+      if (!grid) return;
+
+      const cards = Array.from(grid.querySelectorAll('.stat-card'));
+      if (cards.length !== 4) return;
+
+      let targetProgress = 0;
+      let currentProgress = 0;
+      let isMobile = window.innerWidth <= 1024;
+
+      function checkScroll() {
+        isMobile = window.innerWidth <= 1024;
+        if (isMobile) {
+          cards.forEach(c => {
+            c.style.transform = '';
+            c.style.opacity = '1';
+          });
+          grid.classList.add('split-ready');
+          return;
+        }
+
+        const rect = grid.getBoundingClientRect();
+        const vh = window.innerHeight;
+
+        const start = vh * 0.92;
+        const end = vh * 0.38;
+
+        const raw = (start - rect.top) / (start - end);
+        targetProgress = Math.max(0, Math.min(1, raw));
+      }
+
+      function updateCards(p) {
+        if (isMobile) return;
+
+        const gridCenter = grid.offsetWidth / 2;
+        const ease = 1 - Math.pow(1 - p, 2.5);
+
+        const angles = [-9, -3, 3, 9];
+
+        for (let i = 0; i < cards.length; i++) {
+          const card = cards[i];
+          const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+          const targetOffset = cardCenter - gridCenter;
+
+          const currentX = (1 - ease) * (-targetOffset);
+          const currentRot = (1 - ease) * angles[i];
+          const currentY = (1 - ease) * (Math.abs(i - 1.5) * 12);
+          const scale = 0.94 + ease * 0.06;
+          const opacity = Math.min(1, 0.25 + ease * 0.75);
+
+          card.style.transform = `translate3d(${currentX.toFixed(1)}px, ${currentY.toFixed(1)}px, 0) rotate(${currentRot.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
+          card.style.opacity = opacity.toFixed(3);
+          card.style.zIndex = 1 + i;
+        }
+
+        if (p >= 0.96) {
+          grid.classList.add('split-ready');
+        } else {
+          grid.classList.remove('split-ready');
+        }
+      }
+
+      function loop() {
+        if (!isMobile) {
+          const diff = targetProgress - currentProgress;
+          if (Math.abs(diff) > 0.002) {
+            currentProgress += diff * 0.14;
+            updateCards(currentProgress);
+          } else if (currentProgress !== targetProgress) {
+            currentProgress = targetProgress;
+            updateCards(currentProgress);
+          }
+        }
+        requestAnimationFrame(loop);
+      }
+
+      window.addEventListener('scroll', checkScroll, { passive: true });
+      window.addEventListener('resize', () => {
+        checkScroll();
+        currentProgress = targetProgress;
+        updateCards(currentProgress);
+      }, { passive: true });
+
+      checkScroll();
+      currentProgress = targetProgress;
+      updateCards(currentProgress);
+      requestAnimationFrame(loop);
     })();
   </script>
   <script>

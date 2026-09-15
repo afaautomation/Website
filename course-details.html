@@ -7,7 +7,9 @@
   <title>Full Stack Python + AI Development Professional Certificate | Kompetenzen</title>
   <meta name="description"
     content="Master Python backend engineering, React frontends, and integrate cutting-edge AI models and n8n automations into production web applications." />
-  <link rel="icon" type="image/png" href="icon.png" />
+  <link rel="icon" type="image/png" href="icon.png?v=2" />
+  <link rel="shortcut icon" href="favicon.ico?v=2" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.cdnfonts.com/css/google-sans" rel="stylesheet" />
@@ -44,52 +46,94 @@
       scroll-behavior: smooth;
     }
 
-    /* HEADER */
-    .header {
+    /* NAV */
+    .nav {
       position: sticky;
       top: 0;
       z-index: 1000;
-      background: #FFFFFF;
-      border-bottom: 1px solid var(--border-light);
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: saturate(140%) blur(14px);
+      -webkit-backdrop-filter: saturate(140%) blur(14px);
+      border-bottom: 1px solid var(--border-light, #E2E8F0);
     }
 
-    .header-inner {
-      max-width: var(--maxw);
+    .nav-inner {
+      max-width: 100%;
       margin: 0 auto;
-      padding: 0 24px;
+      padding: 0 40px;
       height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 32px;
+    }
+
+    .nav-left,
+    .nav-right {
+      display: flex;
+      align-items: center;
+      flex: 1;
+    }
+
+    .nav-left {
+      justify-content: flex-start;
+    }
+
+    .nav-right {
+      justify-content: flex-end;
     }
 
     .brand img {
-      height: 32px;
+      height: 36px;
       display: block;
+    }
+
+    .brand {
+      text-decoration: none;
+      display: flex;
+      align-items: center;
     }
 
     .nav-links {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 32px;
     }
 
     .nav-links a {
       font-size: 14px;
       font-weight: 500;
-      color: var(--text-dark);
+      color: var(--text-dark, #474F66);
       text-decoration: none;
       transition: color 0.2s;
+      white-space: nowrap;
     }
 
-    .nav-links a:hover {
-      color: var(--primary-blue);
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--primary-blue, #1947FF);
+      font-weight: 700;
     }
 
-    .header-actions {
-      display: flex;
+    .nav-cta {
+      display: inline-flex;
       align-items: center;
-      gap: 12px;
+      gap: 8px;
+      background: #02050E;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 99px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+      white-space: nowrap;
+    }
+
+    .nav-cta:hover {
+      background: var(--primary-blue, #1947FF);
+      transform: translateY(-1px);
     }
 
     .btn-outline {
@@ -615,28 +659,32 @@
 
 <body>
 
-  <!-- HEADER -->
-  <header class="header">
-    <div class="header-inner">
-      <a href="index.html" class="brand">
-        <img src="kompetenzen logo-02.png" alt="Kompetenzen Logo" loading="lazy" decoding="async" />
-      </a>
-
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <a href="index.html" class="brand">
+          <img src="kompetenzen logo-02.png" alt="Kompetenzen" />
+        </a>
+      </div>
       <div class="nav-links">
-        <a href="tech-school.html">Tech School</a>
-        <a href="b-school.html">B-School</a>
+        <a href="career-consulting.html">Consulting</a>
         <a href="finishing-school.html">Finishing School</a>
+        <a href="tech-school.html" class="active">Tech School</a>
+        <a href="b-school.html">B-School</a>
         <a href="placements.html">Placements</a>
         <a href="our-story.html">Our Story</a>
         <a href="jobs.html">Jobs</a>
+        <a href="https://darksalmon-llama-333572.hostingersite.com/" target="_blank" onclick="openResumeBuilder(event)">Resume Builder</a>
+        <a href="#" class="logout-link" style="display: none; color: #dc2626; font-weight: 600;" onclick="event.preventDefault(); ['token', 'kompetenzen_user', 'user', 'kompetenzen_google_user', 'kompetenzen_candidate_profile'].forEach(k => localStorage.removeItem(k)); window.location.reload();">Log Out</a>
       </div>
-
-      <div class="header-actions">
-        <a href="https://wa.me/918590886009" target="_blank" class="btn-outline">Contact Us</a>
-        <a href="enroll.html?course=python" class="btn-primary">Enroll Now</a>
+      <div class="nav-right">
+        <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="nav-cta">
+          Talk to us
+        </a>
       </div>
     </div>
-  </header>
+  </nav>
 
   <!-- HERO SECTION -->
   <section class="hero-section">

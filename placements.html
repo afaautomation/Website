@@ -9,12 +9,17 @@
     content="Kompetenzen has placed 2000+ students in top IT companies across Kerala and India. View real placement posters, hiring partners, and join Kerala's biggest job drive. 90%+ placement rate." />
   <meta name="keywords"
     content="IT placements Kerala, software job placement Kochi, placement record Kerala 2026, best placement institute Trivandrum, Kompetenzen placements" />
-  <link rel="icon" type="image/png" href="icon.png" />
+  <link rel="icon" type="image/png" href="icon.png?v=2" />
+  <link rel="shortcut icon" href="favicon.ico?v=2" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Open+Sans:wght@300;400;600;700&display=swap"
     rel="stylesheet" />
+
+  <!-- Three.js 3D Engine for Spotify Visualizer -->
+  <script src="js/three.min.js"></script>
 
   <style>
     :root {
@@ -159,104 +164,54 @@
       transform: translateY(-1px);
     }
 
-    /* HERO */
-    .placement-hero {
-      position: relative;
-      padding: 100px 24px 70px;
-      text-align: center;
-      background: linear-gradient(180deg, #F5F8FF 0%, #FFFFFF 100%);
-      border-bottom: 1px solid var(--line-soft);
-    }
-
     .hero-badge {
       display: inline-block;
       font-size: 12px;
       font-weight: 700;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--blue);
       background: var(--blue-soft);
-      padding: 6px 16px;
+      padding: 6px 18px;
       border-radius: 99px;
-      margin-bottom: 24px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(25, 71, 255, 0.12);
     }
 
-    .placement-hero h1 {
-      font-family: 'Open Sans', sans-serif !important;
-      font-size: clamp(38px, 5.5vw, 68px);
-      font-weight: 300 !important;
-      line-height: 1.1;
-      letter-spacing: -0.03em;
-      color: var(--ink);
-      max-width: 900px;
-      margin: 0 auto 24px;
-    }
-
-    .placement-hero h1 span.highlight {
-      color: var(--blue);
-    }
-
-    .placement-hero p {
-      font-size: clamp(16px, 2vw, 20px);
-      color: var(--ink-mute);
-      max-width: 760px;
-      margin: 0 auto 40px;
-      line-height: 1.6;
-    }
-
-    .hero-buttons {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--blue);
-      color: #fff;
-      font-size: 16px;
-      font-weight: 600;
-      padding: 14px 32px;
-      border-radius: 99px;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.2s;
-      box-shadow: 0 8px 24px rgba(25, 71, 255, 0.25);
-    }
-
-    .btn-primary:hover {
-      background: var(--blue-deep);
-      transform: translateY(-2px);
-    }
-
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: #fff;
-      color: var(--ink);
-      border: 1px solid var(--line);
-      font-size: 16px;
-      font-weight: 600;
-      padding: 14px 32px;
-      border-radius: 99px;
-      text-decoration: none;
-      transition: border-color 0.2s, transform 0.2s;
-    }
-
-    .btn-secondary:hover {
-      border-color: var(--ink);
-      transform: translateY(-2px);
-    }
-
-    /* STATS BAR */
+    /* STATS BAR & MAIN HEADING */
     .stats-section {
-      padding: 50px 24px;
+      padding: 90px 24px 70px;
       background: #fff;
       border-bottom: 1px solid var(--line-soft);
+    }
+
+    .stats-header {
+      text-align: center;
+      max-width: 920px;
+      margin: 0 auto 50px;
+    }
+
+    .stats-title {
+      font-family: 'Open Sans', sans-serif !important;
+      font-size: clamp(34px, 4.8vw, 56px);
+      font-weight: 300 !important;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      margin: 0 auto 16px;
+    }
+
+    .stats-title span.highlight {
+      color: var(--blue);
+      font-weight: 600;
+    }
+
+    .stats-subtitle {
+      font-size: clamp(16px, 1.8vw, 20px);
+      color: var(--ink-mute);
+      line-height: 1.6;
+      max-width: 760px;
+      margin: 0 auto;
     }
 
     .stats-grid {
@@ -321,77 +276,6 @@
       font-style: italic;
       color: var(--blue);
       font-family: 'Open Sans', sans-serif;
-    }
-
-    .ig-strip {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #fff;
-      border: 1px solid var(--line-soft);
-      border-radius: 99px;
-      padding: 12px 24px;
-      max-width: 720px;
-      margin: 0 auto 40px;
-      text-decoration: none;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
-    }
-
-    .ig-h {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .ig-h img {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-    }
-
-    .ig-handle {
-      font-weight: 700;
-      font-size: 14px;
-      color: var(--ink);
-    }
-
-    .ig-sub {
-      font-size: 12px;
-      color: var(--ink-mute);
-    }
-
-    .ig-cta {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--blue);
-    }
-
-    .posters-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 24px;
-    }
-
-    .poster-card {
-      background: #fff;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid var(--line-soft);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .poster-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 16px 36px rgba(25, 71, 255, 0.12);
-    }
-
-    .poster-img {
-      width: 100%;
-      height: auto;
-      display: block;
     }
 
     /* TALENT HUNT SECTION */
@@ -483,6 +367,56 @@
         display: none;
       }
     }
+
+    /* ==========================================================================
+       SPOTIFY-STYLE 3D PLACEMENT UNIVERSE (HERO LANDING & 600VH STICKY FLIGHT)
+       ========================================================================== */
+    .universe-section {
+      width: 100%;
+      height: 600vh; /* Extended deep flight length */
+      background: #FFFFFF;
+      position: relative;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .universe-wrapper {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      height: 100vh;
+      min-height: 700px;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #FFFFFF;
+    }
+
+    .universe-canvas-container {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: #FFFFFF;
+      border-radius: 0;
+      overflow: hidden;
+      border: none;
+      box-shadow: none;
+      cursor: grab;
+      touch-action: none;
+    }
+
+    .universe-canvas-container:active {
+      cursor: grabbing;
+    }
+
+    #spotify-placements-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      outline: none;
+    }
   </style>
 </head>
 
@@ -492,7 +426,7 @@
   <nav class="nav">
     <div class="nav-inner">
       <div class="nav-left">
-        <a href="/" class="brand">
+        <a href="index.html" class="brand">
           <img src="kompetenzen logo-02.png" alt="Kompetenzen" />
         </a>
       </div>
@@ -504,9 +438,11 @@
         <a href="placements.html" class="active">Placements</a>
         <a href="our-story.html">Our Story</a>
         <a href="jobs.html">Jobs</a>
-        <a href="https://darksalmon-llama-333572.hostingersite.com/" target="_blank" onclick="openResumeBuilder(event)">Resume Builder</a>
+        <a href="https://darksalmon-llama-333572.hostingersite.com/" target="_blank"
+          onclick="openResumeBuilder(event)">Resume Builder</a>
         <a href="#" class="logout-link" style="display: none; color: #dc2626; font-weight: 600;"
-          onclick="event.preventDefault(); ['token', 'kompetenzen_user', 'user', 'kompetenzen_google_user', 'kompetenzen_candidate_profile'].forEach(k => localStorage.removeItem(k)); window.location.reload();">Log Out</a>
+          onclick="event.preventDefault(); ['token', 'kompetenzen_user', 'user', 'kompetenzen_google_user', 'kompetenzen_candidate_profile'].forEach(k => localStorage.removeItem(k)); window.location.reload();">Log
+          Out</a>
       </div>
       <div class="nav-right">
         <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="nav-cta">
@@ -516,18 +452,23 @@
     </div>
   </nav>
 
-  <!-- HERO -->
-  <section class="placement-hero">
-    <span class="hero-badge">2000+ Students Placed Across IT & Corporate Sectors</span>
-    <h1>2000+ Careers Launched.<br><span class="highlight">Real Students. Real Companies. Real Offers.</span></h1>
-    <p>From fresh graduates to career switchers — Kompetenzen's placement ecosystem connects trained talent directly to Kerala's top IT companies. 90%+ placement rate. 500+ hiring partners. Kerala's largest annual job drive.</p>
-    <div class="hero-buttons">
-      <a href="#success-stories" class="btn-primary">View Success Stories ↓</a>
+  <!-- SPOTIFY-STYLE 3D PLACEMENT UNIVERSE (600VH EXTENDED FLIGHT) -->
+  <section class="universe-section" id="placement-universe">
+    <div class="universe-wrapper">
+      <div class="universe-canvas-container" id="visualizer-container">
+        <canvas id="spotify-placements-canvas"></canvas>
+      </div>
     </div>
   </section>
 
-  <!-- STATS -->
+  <!-- STATS & HERO HEADLINE -->
   <section class="stats-section">
+    <div class="stats-header">
+      <span class="hero-badge">2000+ Students Placed Across IT &amp; Corporate Sectors</span>
+      <h2 class="stats-title">2000+ Careers Launched.<br><span class="highlight">Real Students. Real Companies. Real Offers.</span></h2>
+      <p class="stats-subtitle">From fresh graduates to career switchers — Kompetenzen's placement ecosystem connects trained talent directly to Kerala's top IT companies. 90%+ placement rate. 500+ hiring partners.</p>
+    </div>
+
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-number">2,000+</div>
@@ -542,76 +483,14 @@
         <div class="stat-label">Corporate Hiring Partners</div>
       </div>
       <div class="stat-card">
-        <div class="stat-number">18+</div>
+        <div class="stat-number">20+</div>
         <div class="stat-label">Industry Sectors Covered</div>
       </div>
     </div>
   </section>
 
-  <!-- POSTERS GRID -->
-  <section class="posters-section" id="success-stories">
-    <div class="section-head">
-      <div class="section-tag">Recent Placements</div>
-      <h2 class="section-title">Recent Placements<br><em>Success Stories.</em></h2>
-    </div>
-
-    <a href="https://www.instagram.com/kompetenzen.techschool" target="_blank" rel="noopener" class="ig-strip">
-      <div class="ig-h">
-        <img src="kompetenzen logo-02.png" alt="K" />
-        <div>
-          <div class="ig-handle">@kompetenzen.techschool</div>
-          <div class="ig-sub">Latest placement posts · updates daily</div>
-        </div>
-      </div>
-      <span class="ig-cta">Follow on Instagram ↗</span>
-    </a>
-
-    <div class="posters-grid">
-      <a href="https://www.instagram.com/kompetenzen.techschool" target="_blank" rel="noopener" class="poster-card">
-        <img src="placement-01-aamina-aa-cognizant.webp" alt="Aamina AA placed @ Cognizant" class="poster-img" loading="lazy" />
-      </a>
-      <a href="https://www.instagram.com/kompetenzen.techschool" target="_blank" rel="noopener" class="poster-card">
-        <img src="placement-02-adithyanath-tcs.webp" alt="Adithyanath placed @ TCS" class="poster-img" loading="lazy" />
-      </a>
-      <a href="https://www.instagram.com/kompetenzen.techschool" target="_blank" rel="noopener" class="poster-card">
-        <img src="placement-03-alfin-aion-pixel.webp" alt="Alfin placed @ Aion Pixel" class="poster-img" loading="lazy" />
-      </a>
-      <a href="https://www.instagram.com/kompetenzen.techschool" target="_blank" rel="noopener" class="poster-card">
-        <img src="placement-04-aswin-sioniq.webp" alt="Aswin placed @ Sioniq" class="poster-img" loading="lazy" />
-      </a>
-      <a href="https://www.instagram.com/kompetenzen.techschool" target="_blank" rel="noopener" class="poster-card">
-        <img src="placement-05-azra-ayisha-neologics.webp" alt="Azra Ayisha placed @ Neologics" class="poster-img" loading="lazy" />
-      </a>
-      <a href="https://www.instagram.com/kompetenzen.techschool" target="_blank" rel="noopener" class="poster-card">
-        <img src="placement-06-jisha-raj-ibs-1.webp" alt="Jisha Raj placed @ IBS" class="poster-img" loading="lazy" />
-      </a>
-      <a href="https://www.instagram.com/kompetenzen.techschool" target="_blank" rel="noopener" class="poster-card">
-        <img src="placement-07-krishnapriya-isro.webp" alt="Krishnapriya RB placed @ ISRO" class="poster-img" loading="lazy" />
-      </a>
-      <a href="https://www.instagram.com/kompetenzen.techschool" target="_blank" rel="noopener" class="poster-card">
-        <img src="placement-08-leo-antony-claysis.webp" alt="Leo Antony placed @ Claysis" class="poster-img" loading="lazy" />
-      </a>
-      <a href="https://www.instagram.com/kompetenzen.techschool" target="_blank" rel="noopener" class="poster-card">
-        <img src="placement-09-niya-biju-aabosoft.webp" alt="Niya Biju placed @ Aabosoft" class="poster-img" loading="lazy" />
-      </a>
-      <a href="https://www.instagram.com/kompetenzen.techschool" target="_blank" rel="noopener" class="poster-card">
-        <img src="placement-10-parvathy-neologics.webp" alt="Parvathy placed @ Neologics" class="poster-img" loading="lazy" />
-      </a>
-      <a href="https://www.instagram.com/kompetenzen.techschool" target="_blank" rel="noopener" class="poster-card">
-        <img src="placement-11-samudra-neologix.webp" alt="Samudra placed @ Neologix" class="poster-img" loading="lazy" />
-      </a>
-      <a href="https://www.instagram.com/kompetenzen.techschool" target="_blank" rel="noopener" class="poster-card">
-        <img src="placement-12-shivadath-evalogical.webp" alt="Shivadath placed @ Evalogical" class="poster-img" loading="lazy" />
-      </a>
-      <a href="https://www.instagram.com/kompetenzen.techschool" target="_blank" rel="noopener" class="poster-card">
-        <img src="placement-13-thasleema-jafarr-mariapps.webp" alt="Thasleema Jafarr placed @ MariApps" class="poster-img" loading="lazy" />
-      </a>
-    </div>
-  </section>
-
-
   <!-- PROCESS SECTION -->
-  <section class="process-section">
+  <section class="process-section" id="process">
     <div class="section-head">
       <div class="section-tag">How We Work</div>
       <h2 class="section-title">Our End-to-End <em>Placement System</em></h2>
@@ -621,25 +500,29 @@
       <div class="process-card">
         <div class="process-step">STEP 01</div>
         <h3>Skill Mapping & ATS Audit</h3>
-        <p>We analyze your technical skill set, benchmark against corporate requirements, and optimize your resume for ATS screening.</p>
+        <p>We analyze your technical skill set, benchmark against corporate requirements, and optimize your resume for
+          ATS screening.</p>
       </div>
 
       <div class="process-card">
         <div class="process-step">STEP 02</div>
         <h3>Mock Interviews & Soft Skills</h3>
-        <p>Company-specific interview training, communication polishing, and mock technical rounds conducted by industry experts.</p>
+        <p>Company-specific interview training, communication polishing, and mock technical rounds conducted by industry
+          experts.</p>
       </div>
 
       <div class="process-card">
         <div class="process-step">STEP 03</div>
         <h3>Direct Drive Invitations</h3>
-        <p>Exclusive access to pool placement drives, campus drives, and direct interview scheduling with top employers.</p>
+        <p>Exclusive access to pool placement drives, campus drives, and direct interview scheduling with top employers.
+        </p>
       </div>
 
       <div class="process-card">
         <div class="process-step">STEP 04</div>
         <h3>Offer Letter & Placement</h3>
-        <p>Offer letter verification, salary negotiation guidance, and seamless corporate onboarding support until day one.</p>
+        <p>Offer letter verification, salary negotiation guidance, and seamless corporate onboarding support until day
+          one.</p>
       </div>
     </div>
   </section>
@@ -653,8 +536,8 @@
   </footer>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      if(localStorage.getItem('token')) {
+    document.addEventListener("DOMContentLoaded", function () {
+      if (localStorage.getItem('token')) {
         document.querySelectorAll('.logout-link').forEach(l => l.style.display = 'inline-block');
       }
     });
@@ -681,8 +564,448 @@
     }
   </script>
 
+  <!-- Spotify-Style 3D Placement Universe Engine -->
+  <script>
+    (function () {
+      if (typeof THREE === 'undefined') {
+        console.warn('Three.js not loaded. Retrying with CDN fallback...');
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+        script.onload = initUniverse;
+        document.head.appendChild(script);
+      } else {
+        initUniverse();
+      }
+
+      function initUniverse() {
+        const container = document.getElementById('visualizer-container');
+        const canvas = document.getElementById('spotify-placements-canvas');
+        if (!container || !canvas) return;
+
+        // Configuration
+        const MESH_COUNT = 600;
+        const GRID_COLS = 6;
+        const GRID_ROWS = 6;
+        const TOTAL_ATLAS_CARDS = 36;
+
+        let width = container.clientWidth || window.innerWidth;
+        let height = container.clientHeight || 740;
+
+        // Scene, Camera & Renderer
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 100);
+        camera.position.z = 10;
+
+        const renderer = new THREE.WebGLRenderer({
+          canvas: canvas,
+          alpha: true,
+          antialias: true,
+          powerPreference: 'high-performance'
+        });
+        renderer.setClearColor(0xffffff, 1.0);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+        renderer.setSize(width, height);
+
+        // Viewport Projection Calculations
+        function getSizes() {
+          const fov = camera.fov * (Math.PI / 180);
+          const h = camera.position.z * Math.tan(fov / 2) * 2;
+          const w = h * camera.aspect;
+          return {
+            width: w,
+            height: h,
+            maxX: w * 2.0,
+            maxY: h * 2.0
+          };
+        }
+        let sizes = getSizes();
+
+        // Shaders
+        const vertexShader = `
+          varying vec2 vUv;
+          attribute vec3 aInitialPosition;
+          attribute float aMeshSpeed;
+          attribute vec4 aTextureCoords;
+
+          uniform float uTime;
+          uniform vec2 uMaxXdisplacement;
+          uniform vec2 uDrag;
+          uniform float uScrollY;
+
+          varying float vVisibility;
+          varying vec4 vTextureCoords;
+
+          float remap(float value, float originMin, float originMax) {
+              return clamp((value - originMin) / (originMax - originMin), 0.0, 1.0);
+          }
+
+          void main() {
+              vec3 newPosition = position + aInitialPosition;
+
+              float maxX = uMaxXdisplacement.x;
+              float maxY = uMaxXdisplacement.y;
+
+              float maxYoffset = distance(aInitialPosition.y, maxY);
+              float minYoffset = distance(aInitialPosition.y, -maxY);
+
+              float maxXoffset = distance(aInitialPosition.x, maxX);
+              float minXoffset = distance(aInitialPosition.x, -maxX);
+
+              // Modulo continuous wrapping displacement (strictly positive for both left & right edges)
+              float totalX = maxXoffset + minXoffset;
+              float xDisplacement = mod(mod(minXoffset - uDrag.x + uTime * aMeshSpeed, totalX) + totalX, totalX) - minXoffset;
+
+              float totalY = maxYoffset + minYoffset;
+              float yDisplacement = mod(mod(minYoffset - uDrag.y, totalY) + totalY, totalY) - minYoffset;
+
+              float maxZ = 12.0;
+              float minZ = -30.0;
+
+              float maxZoffset = distance(aInitialPosition.z, maxZ);
+              float minZoffset = distance(aInitialPosition.z, minZ);
+
+              float totalZ = maxZoffset + minZoffset;
+              float zDisplacement = mod(mod(uScrollY + minZoffset, totalZ) + totalZ, totalZ) - minZoffset;
+
+              newPosition.x += xDisplacement;
+              newPosition.y += yDisplacement;
+              newPosition.z += zDisplacement;
+
+              // Visibility fade at deep background bounds
+              vVisibility = remap(newPosition.z, minZ, minZ + 5.0);
+
+              vec4 modelPosition = modelMatrix * vec4(newPosition, 1.0);
+              vec4 viewPosition = viewMatrix * modelPosition;
+              vec4 projectedPosition = projectionMatrix * viewPosition;
+              gl_Position = projectedPosition;
+
+              vUv = uv;
+              vTextureCoords = aTextureCoords;
+          }
+        `;
+
+        const fragmentShader = `
+          varying vec2 vUv;
+          varying float vVisibility;
+          varying vec4 vTextureCoords;
+
+          uniform sampler2D uAtlas;
+          uniform sampler2D uBlurryAtlas;
+
+          // Rounded rectangle signed distance field
+          float roundedBoxSDF(vec2 p, vec2 b, float r) {
+              vec2 d = abs(p) - b + vec2(r);
+              return min(max(d.x, d.y), 0.0) + length(max(d, 0.0)) - r;
+          }
+
+          void main() {
+              // Anti-aliased rounded card corners
+              vec2 p = vUv - vec2(0.5);
+              float cardRadius = 0.055;
+              float dist = roundedBoxSDF(p, vec2(0.485, 0.485), cardRadius);
+              float alpha = 1.0 - smoothstep(0.0, 0.012, dist);
+
+              if (alpha <= 0.01) discard;
+
+              // UV coordinates from 6x6 texture atlas
+              float xStart = vTextureCoords.x;
+              float xEnd = vTextureCoords.y;
+              float yStart = vTextureCoords.z;
+              float yEnd = vTextureCoords.w;
+
+              vec2 atlasUV = vec2(
+                  mix(xStart, xEnd, vUv.x),
+                  mix(yStart, yEnd, 1.0 - vUv.y)
+              );
+
+              vec4 texel = texture2D(uAtlas, atlasUV);
+              vec4 blurryTexel = texture2D(uBlurryAtlas, atlasUV);
+
+              // Depth of field blend based on z-visibility
+              vec4 color = mix(blurryTexel, texel, clamp(vVisibility * 1.35, 0.0, 1.0));
+
+              // Crisp subtle card border & dark edge contour like Spotify floater cards
+              float border = smoothstep(-0.025, -0.003, dist);
+              color.rgb = mix(color.rgb, vec3(0.12, 0.16, 0.28), border * 0.45);
+
+              // Fade with distance
+              color.a = alpha * vVisibility;
+
+              gl_FragColor = color;
+          }
+        `;
+
+        // Dummy 1x1 white textures for instant startup
+        const createDummyTexture = () => {
+          const cvs = document.createElement('canvas');
+          cvs.width = 2;
+          cvs.height = 2;
+          const ctx = cvs.getContext('2d');
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, 2, 2);
+          const t = new THREE.CanvasTexture(cvs);
+          return t;
+        };
+
+        const dummyAtlas = createDummyTexture();
+        const dummyBlurry = createDummyTexture();
+
+        // Material with uniforms
+        const material = new THREE.ShaderMaterial({
+          vertexShader: vertexShader,
+          fragmentShader: fragmentShader,
+          transparent: true,
+          uniforms: {
+            uTime: { value: 0 },
+            uMaxXdisplacement: {
+              value: new THREE.Vector2(sizes.maxX, sizes.maxY)
+            },
+            uAtlas: { value: dummyAtlas },
+            uBlurryAtlas: { value: dummyBlurry },
+            uScrollY: { value: 0 },
+            uDrag: { value: new THREE.Vector2(0, 0) }
+          }
+        });
+
+        // Load Real Placement Atlases
+        const textureLoader = new THREE.TextureLoader();
+        textureLoader.load(
+          'placements-atlas.webp',
+          function (tex) {
+            tex.wrapS = THREE.ClampToEdgeWrapping;
+            tex.wrapT = THREE.ClampToEdgeWrapping;
+            tex.minFilter = THREE.LinearFilter;
+            tex.magFilter = THREE.LinearFilter;
+            material.uniforms.uAtlas.value = tex;
+            material.needsUpdate = true;
+          },
+          undefined,
+          function (err) {
+            console.error('Error loading placements-atlas.webp', err);
+          }
+        );
+
+        textureLoader.load(
+          'placements-atlas-blur.webp',
+          function (texBlur) {
+            texBlur.wrapS = THREE.ClampToEdgeWrapping;
+            texBlur.wrapT = THREE.ClampToEdgeWrapping;
+            texBlur.minFilter = THREE.LinearFilter;
+            texBlur.magFilter = THREE.LinearFilter;
+            material.uniforms.uBlurryAtlas.value = texBlur;
+            material.needsUpdate = true;
+          }
+        );
+
+        // Instanced Mesh Geometry
+        // 1:1 square ratio scaled to 2.7 world units for prominent card visibility
+        const geometry = new THREE.PlaneGeometry(1, 1, 1, 1);
+        geometry.scale(2.7, 2.7, 2.7);
+
+        // Compute UV Coordinates for 6x6 Atlas
+        const uvs = [];
+        for (let i = 0; i < TOTAL_ATLAS_CARDS; i++) {
+          const col = i % GRID_COLS;
+          const row = Math.floor(i / GRID_COLS);
+          uvs.push({
+            xStart: col / GRID_COLS,
+            xEnd: (col + 1) / GRID_COLS,
+            yStart: 1.0 - (row / GRID_ROWS),
+            yEnd: 1.0 - ((row + 1) / GRID_ROWS)
+          });
+        }
+
+        // Fill Instanced Buffer Data
+        const initialPositions = new Float32Array(MESH_COUNT * 3);
+        const meshSpeeds = new Float32Array(MESH_COUNT);
+        const aTextureCoords = new Float32Array(MESH_COUNT * 4);
+
+        for (let i = 0; i < MESH_COUNT; i++) {
+          initialPositions[i * 3 + 0] = (Math.random() - 0.5) * sizes.maxX * 2.0;
+          initialPositions[i * 3 + 1] = (Math.random() - 0.5) * sizes.maxY * 2.0;
+          initialPositions[i * 3 + 2] = Math.random() * (7.0 - (-30.0)) - 30.0;
+
+          meshSpeeds[i] = Math.random() * 0.5 + 0.5;
+
+          const cardIdx = i % TOTAL_ATLAS_CARDS;
+          const uvInfo = uvs[cardIdx];
+          aTextureCoords[i * 4 + 0] = uvInfo.xStart;
+          aTextureCoords[i * 4 + 1] = uvInfo.xEnd;
+          aTextureCoords[i * 4 + 2] = uvInfo.yStart;
+          aTextureCoords[i * 4 + 3] = uvInfo.yEnd;
+        }
+
+        geometry.setAttribute(
+          'aInitialPosition',
+          new THREE.InstancedBufferAttribute(initialPositions, 3)
+        );
+        geometry.setAttribute(
+          'aMeshSpeed',
+          new THREE.InstancedBufferAttribute(meshSpeeds, 1)
+        );
+        geometry.setAttribute(
+          'aTextureCoords',
+          new THREE.InstancedBufferAttribute(aTextureCoords, 4)
+        );
+
+        const instancedMesh = new THREE.InstancedMesh(geometry, material, MESH_COUNT);
+        instancedMesh.frustumCulled = false;
+        const idMat = new THREE.Matrix4();
+        for (let i = 0; i < MESH_COUNT; i++) {
+          instancedMesh.setMatrixAt(i, idMat);
+        }
+        instancedMesh.instanceMatrix.needsUpdate = true;
+        scene.add(instancedMesh);
+
+        // Interaction State
+        const drag = {
+          xCurrent: 0,
+          xTarget: 0,
+          yCurrent: 0,
+          yTarget: 0,
+          isDown: false,
+          lastX: 0,
+          lastY: 0
+        };
+
+        const scrollZ = {
+          current: 0,
+          target: 0
+        };
+
+        let speedMultiplier = 1.0; // Cruise = 1.0, Hyper = 3.0, Slow = 0.35
+
+        // Drag Controls
+        function onPointerDown(e) {
+          drag.isDown = true;
+          drag.lastX = e.clientX;
+          drag.lastY = e.clientY;
+          if (container.setPointerCapture) {
+            try { container.setPointerCapture(e.pointerId); } catch (err) {}
+          }
+          hideHint();
+        }
+
+        function onPointerMove(e) {
+          if (!drag.isDown) return;
+          const dx = e.clientX - drag.lastX;
+          const dy = e.clientY - drag.lastY;
+          drag.lastX = e.clientX;
+          drag.lastY = e.clientY;
+
+          const rect = container.getBoundingClientRect();
+          const worldPerPixelX = sizes.width / rect.width;
+          const worldPerPixelY = sizes.height / rect.height;
+
+          drag.xTarget += -dx * worldPerPixelX;
+          drag.yTarget += dy * worldPerPixelY;
+        }
+
+        function onPointerUp(e) {
+          drag.isDown = false;
+          if (container.releasePointerCapture) {
+            try { container.releasePointerCapture(e.pointerId); } catch (err) {}
+          }
+        }
+
+        container.addEventListener('pointerdown', onPointerDown);
+        window.addEventListener('pointermove', onPointerMove);
+        window.addEventListener('pointerup', onPointerUp);
+        window.addEventListener('pointercancel', onPointerUp);
+
+        // Mouse Wheel Flythrough
+        container.addEventListener('wheel', function (e) {
+          const deltaZ = (e.deltaY * sizes.height) / (height || window.innerHeight) * 1.0;
+          scrollZ.target += deltaZ;
+        }, { passive: true });
+
+        // Touch Pinch / Zoom Support
+        let initialDistance = 0;
+        container.addEventListener('touchstart', function (e) {
+          if (e.touches.length === 2) {
+            initialDistance = Math.hypot(
+              e.touches[0].clientX - e.touches[1].clientX,
+              e.touches[0].clientY - e.touches[1].clientY
+            );
+          }
+        }, { passive: true });
+
+        container.addEventListener('touchmove', function (e) {
+          if (e.touches.length === 2 && initialDistance > 0) {
+            const currentDistance = Math.hypot(
+              e.touches[0].clientX - e.touches[1].clientX,
+              e.touches[0].clientY - e.touches[1].clientY
+            );
+            const delta = (initialDistance - currentDistance) * 0.08;
+            scrollZ.target += delta;
+            initialDistance = currentDistance;
+          }
+        }, { passive: true });
+
+        // Window & Container Resize
+        function onResize() {
+          width = container.clientWidth || window.innerWidth;
+          height = container.clientHeight || window.innerHeight;
+
+          camera.aspect = width / height;
+          camera.updateProjectionMatrix();
+
+          sizes = getSizes();
+          material.uniforms.uMaxXdisplacement.value.set(sizes.maxX, sizes.maxY);
+
+          renderer.setSize(width, height);
+          renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+        }
+        window.addEventListener('resize', onResize);
+
+        // Animation Loop
+        const clock = new THREE.Clock();
+        let lastTime = 0;
+
+        function animate() {
+          requestAnimationFrame(animate);
+
+          const elapsedTime = clock.getElapsedTime();
+          const delta = elapsedTime - lastTime;
+          lastTime = elapsedTime;
+
+          const normalizedDelta = delta / (1 / 60);
+
+          // Continuous drift with chosen speed factor
+          material.uniforms.uTime.value += normalizedDelta * 0.015 * speedMultiplier;
+
+          // Smooth drag damping
+          drag.xCurrent += (drag.xTarget - drag.xCurrent) * 0.1;
+          drag.yCurrent += (drag.yTarget - drag.yCurrent) * 0.1;
+          material.uniforms.uDrag.value.set(drag.xCurrent, drag.yCurrent);
+
+          // Map page scroll progress through 600vh section into 3D flight
+          const section = document.getElementById('placement-universe');
+          if (section) {
+            const rect = section.getBoundingClientRect();
+            const totalScroll = section.clientHeight - window.innerHeight;
+            if (totalScroll > 0) {
+              const scrolled = Math.max(0, Math.min(totalScroll, -rect.top));
+              const progress = scrolled / totalScroll;
+              scrollZ.target = progress * 140.0;
+            }
+          }
+
+          // Smooth scroll z easing
+          scrollZ.current += (scrollZ.target - scrollZ.current) * 0.12;
+          material.uniforms.uScrollY.value = scrollZ.current;
+
+          renderer.render(scene, camera);
+        }
+
+        animate();
+      }
+    })();
+  </script>
+
   <!-- Unified Auth Modal -->
   <script src="js/auth-modal.js"></script>
+
 </body>
 
 </html>

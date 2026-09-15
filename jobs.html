@@ -8,7 +8,9 @@
   <title>Job Listings — Kompetenzen | Latest Career Opportunities in Kerala</title>
   <meta name="description"
     content="Explore the latest job listings curated by Kompetenzen Technologies. Find top IT, HR, and management roles with leading companies in Kerala and across India." />
-  <link rel="icon" type="image/png" href="icon.png" />
+  <link rel="icon" type="image/png" href="icon.png?v=2" />
+  <link rel="shortcut icon" href="favicon.ico?v=2" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -95,9 +97,9 @@
     }
 
     .nav-inner {
-      max-width: var(--maxw);
+      max-width: 100%;
       margin: 0 auto;
-      padding: 0 36px;
+      padding: 0 40px;
       height: 64px;
       display: flex;
       align-items: center;
@@ -837,7 +839,7 @@
   <nav class="nav">
     <div class="nav-inner">
       <div class="nav-left">
-        <a href="/" class="brand">
+        <a href="index.html" class="brand">
           <img src="kompetenzen logo-02.png" alt="Kompetenzen" />
         </a>
       </div>
@@ -850,6 +852,7 @@
         <a href="our-story.html">Our Story</a>
         <a href="jobs.html" class="active">Jobs</a>
         <a href="https://darksalmon-llama-333572.hostingersite.com/" target="_blank" onclick="openResumeBuilder(event)">Resume Builder</a>
+        <a href="#" class="logout-link" style="display: none; color: #dc2626; font-weight: 600;" onclick="event.preventDefault(); ['token', 'kompetenzen_user', 'user', 'kompetenzen_google_user', 'kompetenzen_candidate_profile'].forEach(k => localStorage.removeItem(k)); window.location.reload();">Log Out</a>
       </div>
       <div class="nav-right">
         <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen,%20I%20would%20like%20to%20talk%20to%20your%20team."

@@ -7,7 +7,9 @@
   <title>Career Consulting — Kompetenzen | Build Your Professional Path</title>
   <meta name="description"
     content="Expert career consulting and guidance from Kompetenzen Technologies. Personal mapping, skill gap analysis, resume building, and interview preparation." />
-  <link rel="icon" type="image/png" href="icon.png" />
+  <link rel="icon" type="image/png" href="icon.png?v=2" />
+  <link rel="shortcut icon" href="favicon.ico?v=2" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -73,7 +75,10 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: #fff;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: saturate(140%) blur(14px);
+      -webkit-backdrop-filter: saturate(140%) blur(14px);
+      border-bottom: 1px solid var(--line-soft, rgba(10, 21, 48, 0.06));
     }
 
     .nav-inner {
@@ -109,6 +114,8 @@
 
     .brand {
       text-decoration: none;
+      display: flex;
+      align-items: center;
     }
 
     .nav-links {
@@ -124,10 +131,13 @@
       color: var(--ink-mute);
       text-decoration: none;
       transition: color 0.2s;
+      white-space: nowrap;
     }
 
-    .nav-links a:hover {
-      color: var(--ink);
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--blue);
+      font-weight: 700;
     }
 
     .nav-cta {
@@ -142,6 +152,31 @@
       border-radius: 99px;
       text-decoration: none;
       transition: background 0.2s, transform 0.2s;
+      white-space: nowrap;
+    }
+
+    .nav-cta:hover {
+      background: var(--blue);
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 992px) {
+      .nav-links {
+        gap: 18px;
+      }
+      .nav-links a {
+        font-size: 13px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-inner {
+        padding: 0 20px;
+      }
+
+      .nav-links {
+        display: none;
+      }
     }
 
     .nav-cta:hover {
@@ -180,9 +215,14 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center;
+      object-position: center 16%;
       pointer-events: none;
       display: block;
+      border: none !important;
+      outline: none !important;
+      box-shadow: none !important;
+      mix-blend-mode: multiply;
+      filter: brightness(1.02) contrast(1.01);
     }
 
     .tech-hero.show-text .hero-video-wrapper {
@@ -274,61 +314,77 @@
 
     /* CARDS */
     .programs-section {
-      background: #eef3fc;
-      padding: 140px 24px 100px;
+      background: #ffffff;
+      padding: 90px 24px 110px;
       margin: 0;
+      position: relative;
     }
 
     .programs-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: 32px;
-      max-width: var(--maxw);
+      max-width: 1160px;
       margin: 0 auto;
     }
 
     .program-card {
-      background: #fff;
-      border: 2px solid #000;
+      background: #ffffff;
+      border: 1px solid rgba(25, 71, 255, 0.14);
       border-radius: 24px;
-      padding: 40px;
+      padding: 38px 34px;
       display: flex;
       flex-direction: column;
       gap: 16px;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       position: relative;
-      box-shadow: 8px 8px 0px rgba(0, 0, 0, 1);
+      box-shadow: 0 10px 30px -5px rgba(2, 5, 14, 0.05), 0 0 0 1px rgba(25, 71, 255, 0.04);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .program-card:hover {
-      box-shadow: 12px 12px 0px rgba(0, 0, 0, 1);
-      transform: translate(-4px, -4px);
+      transform: translateY(-8px);
+      border-color: rgba(25, 71, 255, 0.38);
+      box-shadow: 0 22px 48px -8px rgba(25, 71, 255, 0.16), 0 0 25px rgba(25, 71, 255, 0.06);
     }
 
     .card-header {
       display: flex;
-      gap: 20px;
-      align-items: flex-start;
-      margin-bottom: 8px;
+      gap: 18px;
+      align-items: center;
+      margin-bottom: 2px;
     }
 
     .card-icon {
-      width: 64px;
-      height: 64px;
+      width: 60px;
+      height: 60px;
       border-radius: 16px;
-      background: #fff;
-      border: 1px solid var(--line-soft);
+      background: rgba(25, 71, 255, 0.07);
+      border: 1px solid rgba(25, 71, 255, 0.22);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
       position: relative;
+      box-shadow: 0 4px 14px rgba(25, 71, 255, 0.08);
+      transition: transform 0.3s ease;
     }
 
-    .card-icon svg {
-      width: 32px;
-      height: 32px;
-      color: var(--blue);
+    .program-card:hover .card-icon {
+      transform: scale(1.05);
+    }
+
+    .card-icon svg:not(.card-sparkle) {
+      width: 28px;
+      height: 28px;
+      color: var(--blue, #1947FF);
+    }
+
+    .card-sparkle {
+      position: absolute;
+      top: -6px;
+      left: -6px;
+      color: #0099FF;
+      filter: drop-shadow(0 2px 5px rgba(0, 153, 255, 0.4));
     }
 
     .card-title-group {
@@ -338,39 +394,67 @@
     }
 
     .program-title {
-      font-size: 22px;
-      font-weight: 400;
-      color: var(--ink);
-      line-height: 1.2;
+      font-size: 21px;
+      font-weight: 700;
+      color: var(--ink, #02050E);
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+
+    .program-rating {
+      font-size: 13px;
+      color: var(--blue, #1947FF);
+      font-weight: 600;
+      letter-spacing: 0.01em;
     }
 
     .program-desc {
-      font-size: 15px;
-      color: var(--ink-mute);
-      line-height: 1.6;
+      font-size: 14.5px;
+      color: var(--ink-mute, #474F66);
+      line-height: 1.65;
+    }
+
+    .skills-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+      font-size: 13.5px;
+      color: #334155;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      padding: 10px 14px;
+      border-radius: 12px;
+    }
+
+    .skills-row span {
+      color: var(--blue, #1947FF);
     }
 
     .card-footer {
       margin-top: auto;
-      padding-top: 16px;
+      padding-top: 14px;
     }
 
     .apply-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 12px 32px;
-      background: #1a73e8;
+      padding: 12px 28px;
+      background: linear-gradient(135deg, #1947FF 0%, #0099FF 100%);
       color: #fff;
       border-radius: 99px;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 600;
       text-decoration: none;
-      transition: all 0.2s;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 18px rgba(25, 71, 255, 0.3);
     }
 
     .apply-btn:hover {
-      background: #1557b0;
+      background: linear-gradient(135deg, #0E2EC9 0%, #0088EE 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(25, 71, 255, 0.45);
     }
 
     /* FOOTER */
@@ -417,11 +501,16 @@
         inset: 0 !important;
         width: 100% !important;
         height: 100% !important;
-        object-fit: contain !important;
-        object-position: center center !important;
+        object-fit: cover !important;
+        object-position: center 16% !important;
         background: #ffffff !important;
         z-index: 1 !important;
         transform: none !important;
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+        mix-blend-mode: multiply !important;
+        filter: brightness(1.02) contrast(1.01) !important;
       }
 
       .hero-overlay {
@@ -465,7 +554,7 @@
   <nav class="nav">
     <div class="nav-inner">
       <div class="nav-left">
-        <a href="/" class="brand">
+        <a href="index.html" class="brand">
           <img src="kompetenzen logo-02.png" alt="Kompetenzen" />
         </a>
       </div>
@@ -514,12 +603,12 @@
 
   <!-- CONSULTING SERVICES -->
   <section class="programs-section" id="services">
-    <div style="text-align: center; margin-bottom: 64px;">
+    <div style="text-align: center; margin-bottom: 56px;">
       <span
-        style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; color: var(--ink-mute); text-transform: uppercase;">WHAT
+        style="font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: var(--blue); text-transform: uppercase;">WHAT
         WE DO</span>
       <h2
-        style="font-size: clamp(32px, 5vw, 44px); font-weight: 400; color: var(--ink); margin-top: 16px; line-height: 1.2;">
+        style="font-size: clamp(32px, 5vw, 44px); font-weight: 700; color: var(--ink); margin-top: 14px; line-height: 1.2; letter-spacing: -0.02em;">
         Comprehensive Career Guidance<br>at Every Step</h2>
     </div>
 
@@ -529,6 +618,9 @@
       <div class="program-card">
         <div class="card-header">
           <div class="card-icon">
+            <svg class="card-sparkle" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z" />
+            </svg>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
               stroke-linejoin="round">
               <circle cx="12" cy="12" r="10"></circle>
@@ -538,17 +630,29 @@
           </div>
           <div class="card-title-group">
             <h3 class="program-title">Career Discovery & Mapping</h3>
+            <div class="program-rating">★★★★★ (Personalized 1-on-1 Guidance)</div>
           </div>
         </div>
         <p class="program-desc">Feeling stuck or unsure about which tech or business role fits you best? Our experts
           analyze your background, interests, and strengths to map out the ideal career trajectory for you in today's
           job market.</p>
+        <div class="skills-row">
+          <span style="font-weight: 600;">Includes:</span> Strengths Mapping, Role Alignment, 3-Year Career Roadmap
+        </div>
+        <div class="card-footer">
+          <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="apply-btn">
+            Book Discovery Session →
+          </a>
+        </div>
       </div>
 
       <!-- Skill Gap Analysis -->
       <div class="program-card">
         <div class="card-header">
           <div class="card-icon">
+            <svg class="card-sparkle" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z" />
+            </svg>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
               stroke-linejoin="round">
               <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
@@ -556,17 +660,29 @@
           </div>
           <div class="card-title-group">
             <h3 class="program-title">Skill Gap Analysis</h3>
+            <div class="program-rating">★★★★★ (Industry Benchmarked)</div>
           </div>
         </div>
         <p class="program-desc">We identify exactly what you're missing between your current skill set and what top
           employers are demanding. Stop guessing and start learning the exact tools, languages, and frameworks that get
           you hired.</p>
+        <div class="skills-row">
+          <span style="font-weight: 600;">Includes:</span> Competency Audit, Employer Benchmarks, Custom Upskilling Plan
+        </div>
+        <div class="card-footer">
+          <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="apply-btn">
+            Analyze Skill Gaps →
+          </a>
+        </div>
       </div>
 
       <!-- Resume Building -->
       <div class="program-card">
         <div class="card-header">
           <div class="card-icon">
+            <svg class="card-sparkle" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z" />
+            </svg>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
               stroke-linejoin="round">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -578,17 +694,29 @@
           </div>
           <div class="card-title-group">
             <h3 class="program-title">Resume & Profile Optimization</h3>
+            <div class="program-rating">★★★★★ (ATS Guaranteed)</div>
           </div>
         </div>
         <p class="program-desc">A great resume gets you in the door. We help you craft an ATS-friendly resume that
           highlights your achievements. We also optimize your LinkedIn profile to attract recruiters to you directly.
         </p>
+        <div class="skills-row">
+          <span style="font-weight: 600;">Includes:</span> ATS-Proof Rewrite, LinkedIn Makeover, Recruiter SEO
+        </div>
+        <div class="card-footer">
+          <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="apply-btn">
+            Optimize My Profile →
+          </a>
+        </div>
       </div>
 
       <!-- Interview Prep -->
       <div class="program-card">
         <div class="card-header">
           <div class="card-icon">
+            <svg class="card-sparkle" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z" />
+            </svg>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
               stroke-linejoin="round">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10z"></path>
@@ -596,11 +724,20 @@
           </div>
           <div class="card-title-group">
             <h3 class="program-title">Mock Interviews & Prep</h3>
+            <div class="program-rating">★★★★★ (94% Placement Success)</div>
           </div>
         </div>
         <p class="program-desc">Overcome interview anxiety with our company-specific mock interviews. Receive
           constructive, actionable feedback on your technical explanations, body language, and problem-solving approach.
         </p>
+        <div class="skills-row">
+          <span style="font-weight: 600;">Includes:</span> Real-time Tech/HR Rounds, Detailed Scorecard, Salary Guidance
+        </div>
+        <div class="card-footer">
+          <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="apply-btn">
+            Schedule Mock Interview →
+          </a>
+        </div>
       </div>
 
     </div>

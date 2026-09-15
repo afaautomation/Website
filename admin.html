@@ -5,8 +5,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="robots" content="noindex,nofollow" />
-  <title>HR Admin — Post a Job Listing | Kompetenzen</title>
-  <link rel="icon" type="image/png" href="icon.png" />
+  <title>Admin Console — HR &amp; Media Manager | Kompetenzen</title>
+  <link rel="icon" type="image/png" href="icon.png?v=2" />
+  <link rel="shortcut icon" href="favicon.ico?v=2" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -32,9 +34,15 @@
       --maxw: 1140px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
 
-    html, body {
+    html,
+    body {
       background: var(--cream);
       color: var(--ink);
       font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
@@ -76,7 +84,12 @@
       gap: 8px;
     }
 
-    .brand .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blue); }
+    .brand .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--blue);
+    }
 
     .nav-back {
       font-size: 13px;
@@ -89,14 +102,16 @@
       transition: color 0.2s;
     }
 
-    .nav-back:hover { color: var(--ink); }
+    .nav-back:hover {
+      color: var(--ink);
+    }
 
     .internal-tag {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(25,71,255,0.08);
-      border: 1px solid rgba(25,71,255,0.2);
+      background: rgba(25, 71, 255, 0.08);
+      border: 1px solid rgba(25, 71, 255, 0.2);
       color: var(--blue);
       font-size: 11px;
       font-weight: 700;
@@ -113,7 +128,9 @@
       padding: 48px 24px 100px;
     }
 
-    .page-head { margin-bottom: 32px; }
+    .page-head {
+      margin-bottom: 32px;
+    }
 
     .page-head h1 {
       font-size: clamp(26px, 4vw, 34px);
@@ -122,15 +139,19 @@
       margin-bottom: 8px;
     }
 
-    .page-head p { color: var(--ink-mute); font-size: 14px; max-width: 580px; }
+    .page-head p {
+      color: var(--ink-mute);
+      font-size: 14px;
+      max-width: 580px;
+    }
 
     /* PREVIEW-BUILD NOTICE */
     .preview-notice {
       display: flex;
       gap: 14px;
       align-items: flex-start;
-      background: rgba(255,165,0,0.08);
-      border: 1px solid rgba(255,165,0,0.3);
+      background: rgba(255, 165, 0, 0.08);
+      border: 1px solid rgba(255, 165, 0, 0.3);
       border-radius: 14px;
       padding: 16px 20px;
       margin-bottom: 32px;
@@ -138,13 +159,21 @@
 
     .preview-notice .icon {
       flex-shrink: 0;
-      width: 20px; height: 20px;
+      width: 20px;
+      height: 20px;
       color: #A05A00;
       margin-top: 1px;
     }
 
-    .preview-notice strong { color: #A05A00; }
-    .preview-notice p { font-size: 13px; color: var(--ink-mute); line-height: 1.6; }
+    .preview-notice strong {
+      color: #A05A00;
+    }
+
+    .preview-notice p {
+      font-size: 13px;
+      color: var(--ink-mute);
+      line-height: 1.6;
+    }
 
     /* GATE SCREEN */
     .gate-screen {
@@ -167,7 +196,8 @@
     }
 
     .gate-card .gate-icon {
-      width: 48px; height: 48px;
+      width: 48px;
+      height: 48px;
       border-radius: 14px;
       background: var(--blue-soft);
       color: var(--blue);
@@ -177,24 +207,40 @@
       margin: 0 auto 18px;
     }
 
-    .gate-card h2 { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
-    .gate-card p { font-size: 13px; color: var(--ink-mute); margin-bottom: 22px; line-height: 1.6; }
+    .gate-card h2 {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
 
-    .gate-card .field { text-align: left; margin-bottom: 14px; }
+    .gate-card p {
+      font-size: 13px;
+      color: var(--ink-mute);
+      margin-bottom: 22px;
+      line-height: 1.6;
+    }
+
+    .gate-card .field {
+      text-align: left;
+      margin-bottom: 14px;
+    }
 
     .gate-error {
       display: none;
       font-size: 12.5px;
       color: #B3261E;
-      background: rgba(179,38,30,0.08);
-      border: 1px solid rgba(179,38,30,0.2);
+      background: rgba(179, 38, 30, 0.08);
+      border: 1px solid rgba(179, 38, 30, 0.2);
       border-radius: 10px;
       padding: 9px 14px;
       margin-bottom: 14px;
       text-align: left;
     }
 
-    .gate-error.is-visible { display: block; }
+    .gate-error.is-visible {
+      display: block;
+    }
 
     /* FORM ELEMENTS (shared) */
     .field label {
@@ -207,7 +253,9 @@
       margin-bottom: 6px;
     }
 
-    .field .req { color: var(--blue); }
+    .field .req {
+      color: var(--blue);
+    }
 
     .field input,
     .field select,
@@ -223,17 +271,25 @@
       transition: border-color 0.2s, box-shadow 0.2s;
     }
 
-    .field textarea { resize: vertical; min-height: 90px; line-height: 1.5; }
+    .field textarea {
+      resize: vertical;
+      min-height: 90px;
+      line-height: 1.5;
+    }
 
     .field input:focus,
     .field select:focus,
     .field textarea:focus {
       outline: none;
       border-color: var(--blue);
-      box-shadow: 0 0 0 3px rgba(25,71,255,0.12);
+      box-shadow: 0 0 0 3px rgba(25, 71, 255, 0.12);
     }
 
-    .field-hint { font-size: 12px; color: var(--ink-mute); margin-top: 5px; }
+    .field-hint {
+      font-size: 12px;
+      color: var(--ink-mute);
+      margin-top: 5px;
+    }
 
     .btn-primary {
       display: inline-flex;
@@ -252,7 +308,10 @@
       transition: background 0.2s, transform 0.2s;
     }
 
-    .btn-primary:hover { background: var(--blue); transform: translateY(-1px); }
+    .btn-primary:hover {
+      background: var(--blue);
+      transform: translateY(-1px);
+    }
 
     /* ADMIN FORM CARD */
     .admin-card {
@@ -271,9 +330,22 @@
       margin-bottom: 20px;
     }
 
-    .form-grid { display: flex; flex-direction: column; gap: 16px; }
-    .form-row { display: flex; gap: 12px; flex-wrap: wrap; }
-    .form-row .field { flex: 1; min-width: 180px; }
+    .form-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .form-row .field {
+      flex: 1;
+      min-width: 180px;
+    }
 
     .form-actions {
       display: flex;
@@ -282,7 +354,10 @@
       margin-top: 6px;
     }
 
-    .form-actions .btn-primary { width: auto; padding: 13px 28px; }
+    .form-actions .btn-primary {
+      width: auto;
+      padding: 13px 28px;
+    }
 
     .save-status {
       font-size: 13px;
@@ -292,7 +367,9 @@
       transition: opacity 0.2s;
     }
 
-    .save-status.is-visible { opacity: 1; }
+    .save-status.is-visible {
+      opacity: 1;
+    }
 
     /* DRAFT LIST */
     .drafts-head {
@@ -304,7 +381,11 @@
       flex-wrap: wrap;
     }
 
-    .drafts-head h2 { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
+    .drafts-head h2 {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
 
     .drafts-count {
       font-size: 13px;
@@ -324,7 +405,11 @@
       font-size: 14px;
     }
 
-    .draft-list { display: flex; flex-direction: column; gap: 14px; }
+    .draft-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
 
     .draft-item {
       display: flex;
@@ -371,7 +456,11 @@
       margin-bottom: 8px;
     }
 
-    .draft-item-main .meta span { display: inline-flex; align-items: center; gap: 5px; }
+    .draft-item-main .meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
 
     .draft-item-main .desc {
       font-size: 13px;
@@ -390,7 +479,9 @@
       word-break: break-all;
     }
 
-    .draft-item-main .apply-link:hover { text-decoration: underline; }
+    .draft-item-main .apply-link:hover {
+      text-decoration: underline;
+    }
 
     .draft-tag {
       display: inline-flex;
@@ -447,7 +538,7 @@
     .draft-control-btn.draft-remove:hover {
       border-color: #B3261E;
       color: #B3261E;
-      background: rgba(179,38,30,0.06);
+      background: rgba(179, 38, 30, 0.06);
     }
 
     .form-grid.form-direct-active .hide-on-direct {
@@ -515,8 +606,15 @@
     }
 
     @keyframes tabFadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* APPLICATIONS TOOLBAR */
@@ -1055,7 +1153,7 @@
       background: #2563EB !important;
       color: #FFFFFF !important;
       font-weight: 600 !important;
-      box-shadow: 0 2px 6px rgba(37,99,235,0.3);
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
     }
 
     /* APPLICATION CARD */
@@ -1072,7 +1170,7 @@
     }
 
     .app-card:hover {
-      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
     }
 
     .app-card-head {
@@ -1289,6 +1387,188 @@
     .btn-delete-app:hover {
       background: #FEE2E2;
     }
+
+    /* ===========================================================
+       REELS MANAGER STYLES
+    =========================================================== */
+    .list-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .list-head h2 {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .list-count {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--blue);
+      background: var(--blue-soft);
+      padding: 4px 12px;
+      border-radius: 99px;
+    }
+
+    .list-empty {
+      border: 1px dashed var(--line);
+      border-radius: 16px;
+      padding: 36px 24px;
+      text-align: center;
+      color: var(--ink-mute);
+      font-size: 14px;
+    }
+
+    .reels-list-container {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .reel-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px 20px;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    }
+
+    .reel-item.dragging {
+      opacity: 0.4;
+      border: 1.5px dashed var(--blue);
+      background: var(--blue-soft);
+    }
+
+    .reel-item.drag-over {
+      border-color: var(--blue);
+      box-shadow: 0 8px 24px rgba(25, 71, 255, 0.08);
+      transform: scale(1.005);
+    }
+
+    .drag-handle:hover {
+      opacity: 0.9 !important;
+      color: var(--blue);
+    }
+
+    .reel-item-main {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .reel-thumbnail {
+      width: 50px;
+      height: 70px;
+      border-radius: 8px;
+      background: #02050E;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 18px;
+      flex-shrink: 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .reel-details {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .reel-details h3 {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+
+    .reel-details .link {
+      font-size: 13px;
+      color: var(--blue);
+      text-decoration: none;
+      word-break: break-all;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .reel-details .link:hover {
+      text-decoration: underline;
+    }
+
+    .reel-details .id-badge {
+      display: inline-flex;
+      align-self: flex-start;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      background: var(--line-soft);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--ink-mute);
+    }
+
+    .reel-controls {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .reel-control-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink-mute);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .reel-control-btn:hover:not(:disabled) {
+      border-color: var(--blue);
+      color: var(--blue);
+      background: var(--blue-soft);
+    }
+
+    .reel-control-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .reel-control-btn.reel-remove:hover {
+      border-color: #B3261E;
+      color: #B3261E;
+      background: rgba(179, 38, 30, 0.06);
+    }
+
+    @media (max-width: 640px) {
+      .reel-item {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .reel-controls {
+        justify-content: flex-end;
+      }
+    }
   </style>
 </head>
 
@@ -1297,9 +1577,10 @@
   <!-- NAV -->
   <nav class="nav">
     <div class="nav-inner">
-      <a href="jobs.html" class="brand"><span class="dot"></span>Kompetenzen / HR Tools</a>
+      <a href="index.html" class="brand"><span class="dot"></span>Kompetenzen / Admin Console</a>
       <div style="display:flex; align-items:center; gap:16px; margin-left:auto;">
-        <a href="jobs.html" class="nav-back">← Back to Jobs Page</a>
+        <a href="index.html" class="nav-back">← Homepage</a>
+        <a href="jobs.html" class="nav-back">Jobs Page →</a>
       </div>
     </div>
   </nav>
@@ -1308,11 +1589,15 @@
   <div class="gate-screen" id="gate-screen">
     <div class="gate-card">
       <div class="gate-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="11" width="18" height="11" rx="2" />
+          <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+        </svg>
       </div>
       <h2>Staff access</h2>
       <p>This page is for Kompetenzen HR staff only. Enter the staff access key to continue.</p>
-      <p class="gate-error" id="gate-error">That key isn't recognised. Please check with your team lead and try again.</p>
+      <p class="gate-error" id="gate-error">That key isn't recognised. Please check with your team lead and try again.
+      </p>
       <form id="gate-form">
         <div class="field">
           <label for="gate-key">Staff access key <span class="req">*</span></label>
@@ -1328,23 +1613,46 @@
     <div class="page-head">
       <span class="internal-tag">Internal · HR Portal</span>
       <h1 style="margin-top:14px;">Kompetenzen HR &amp; Hiring Console</h1>
-      <p>Review candidate applications &amp; download resumes, manage live job listings, and update course cohorts.</p>
+      <p>Review candidate applications &amp; download resumes, manage live job listings, update course cohorts, and curate Instagram reels.</p>
     </div>
 
     <!-- TABS -->
     <div class="admin-tabs">
-      <button type="button" class="admin-tab-btn active" onclick="switchAdminTab('applications')" id="tab-btn-applications">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      <button type="button" class="admin-tab-btn active" onclick="switchAdminTab('applications')"
+        id="tab-btn-applications">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+          <line x1="16" y1="13" x2="8" y2="13" />
+          <line x1="16" y1="17" x2="8" y2="17" />
+        </svg>
         <span>Candidate Applications &amp; Resumes</span>
         <span class="tab-badge" id="app-counter-badge">0</span>
       </button>
       <button type="button" class="admin-tab-btn" onclick="switchAdminTab('jobs')" id="tab-btn-jobs">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+        </svg>
         <span>Post &amp; Manage Jobs</span>
       </button>
       <button type="button" class="admin-tab-btn" onclick="switchAdminTab('courses')" id="tab-btn-courses">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+          <line x1="16" y1="2" x2="16" y2="6" />
+          <line x1="8" y1="2" x2="8" y2="6" />
+          <line x1="3" y1="10" x2="21" y2="10" />
+        </svg>
         <span>Course Dates &amp; Placements</span>
+      </button>
+      <button type="button" class="admin-tab-btn" onclick="switchAdminTab('reels')" id="tab-btn-reels">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+        </svg>
+        <span>Instagram Reels</span>
+        <span class="tab-badge" id="reels-counter-badge">0</span>
       </button>
     </div>
 
@@ -1354,16 +1662,30 @@
     <div id="panel-applications" class="admin-tab-panel active">
       <div class="apps-toolbar">
         <div class="apps-search-wrap">
-          <svg class="apps-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input type="text" id="apps-search-input" class="apps-search-input" placeholder="Search keywords across skills, location, degree, role, experience, year, name..." oninput="filterApplications()" />
+          <svg class="apps-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input type="text" id="apps-search-input" class="apps-search-input"
+            placeholder="Search keywords across skills, location, degree, role, experience, year, name..."
+            oninput="filterApplications()" />
         </div>
         <div class="apps-actions">
           <button type="button" class="btn-secondary" onclick="exportApplicationsToCSV()">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
             <span>Export CSV</span>
           </button>
           <button type="button" class="btn-secondary" onclick="loadApplicationsList()">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="23 4 23 10 17 10" />
+              <polyline points="1 20 1 14 7 14" />
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+            </svg>
             <span>Refresh</span>
           </button>
         </div>
@@ -1375,11 +1697,14 @@
         <div class="apps-filter-header">
           <div class="apps-filter-header-left">
             <div class="filter-icon-badge">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+              </svg>
             </div>
             <div>
               <div class="filter-header-title-text">Candidate Smart Filtration</div>
-              <div class="filter-header-subtitle">Filter applicants by matching role, required stack, location &amp; experience</div>
+              <div class="filter-header-subtitle">Filter applicants by matching role, required stack, location &amp;
+                experience</div>
             </div>
           </div>
           <div class="apps-filter-header-right">
@@ -1401,21 +1726,29 @@
           <!-- 2. Multi-Select Skills Filter -->
           <div class="apps-filter-card apps-multi-select-container" id="apps-skills-container">
             <label class="apps-filter-label" for="skills-multi-btn">
-              <span class="field-icon">⚡</span> Key Skills <span id="skills-selected-count" class="apps-filter-count-badge" style="display:none;">0</span>
+              <span class="field-icon">⚡</span> Key Skills <span id="skills-selected-count"
+                class="apps-filter-count-badge" style="display:none;">0</span>
             </label>
-            <button type="button" id="skills-multi-btn" class="apps-filter-select apps-multi-select-btn" onclick="toggleSkillsDropdown(event)" aria-haspopup="listbox" aria-expanded="false">
+            <button type="button" id="skills-multi-btn" class="apps-filter-select apps-multi-select-btn"
+              onclick="toggleSkillsDropdown(event)" aria-haspopup="listbox" aria-expanded="false">
               <span id="skills-btn-text" class="apps-multi-btn-text">All Skills</span>
-              <svg class="apps-multi-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              <svg class="apps-multi-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2.5">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
             </button>
             <div id="skills-multi-dropdown" class="apps-multi-dropdown" style="display:none;">
               <div class="apps-multi-search-row">
-                <input type="text" id="skills-search-input" class="apps-multi-search-input" placeholder="Search skill..." oninput="filterSkillsList(this.value)" autocomplete="off">
+                <input type="text" id="skills-search-input" class="apps-multi-search-input"
+                  placeholder="Search skill..." oninput="filterSkillsList(this.value)" autocomplete="off">
               </div>
               <div class="apps-multi-actions-row">
                 <div class="apps-multi-mode-toggle">
                   <span class="mode-label">Match:</span>
-                  <button type="button" class="btn-mode-pill active" id="skill-mode-any" onclick="setSkillMatchMode('any', event)">Any</button>
-                  <button type="button" class="btn-mode-pill" id="skill-mode-all" onclick="setSkillMatchMode('all', event)">All</button>
+                  <button type="button" class="btn-mode-pill active" id="skill-mode-any"
+                    onclick="setSkillMatchMode('any', event)">Any</button>
+                  <button type="button" class="btn-mode-pill" id="skill-mode-all"
+                    onclick="setSkillMatchMode('all', event)">All</button>
                 </div>
                 <button type="button" class="btn-clear-skills-text" onclick="clearSelectedSkills(event)">Clear</button>
               </div>
@@ -1487,35 +1820,53 @@
         <!-- Quick Keyword Chips -->
         <div class="apps-chips-row">
           <span class="apps-chip-label">Quick Keywords:</span>
-          <button type="button" class="apps-filter-chip" data-val="Fresher" onclick="toggleFilterChip(this)">Fresher</button>
+          <button type="button" class="apps-filter-chip" data-val="Fresher"
+            onclick="toggleFilterChip(this)">Fresher</button>
           <button type="button" class="apps-filter-chip" data-val="0–1" onclick="toggleFilterChip(this)">0–1 Yr</button>
-          <button type="button" class="apps-filter-chip" data-val="1–3" onclick="toggleFilterChip(this)">1–3 Yrs</button>
-          <button type="button" class="apps-filter-chip" data-val="Kochi" onclick="toggleFilterChip(this)">Kochi</button>
-          <button type="button" class="apps-filter-chip" data-val="Bengaluru" onclick="toggleFilterChip(this)">Bengaluru</button>
-          <button type="button" class="apps-filter-chip" data-val="Remote" onclick="toggleFilterChip(this)">Remote</button>
+          <button type="button" class="apps-filter-chip" data-val="1–3" onclick="toggleFilterChip(this)">1–3
+            Yrs</button>
+          <button type="button" class="apps-filter-chip" data-val="Kochi"
+            onclick="toggleFilterChip(this)">Kochi</button>
+          <button type="button" class="apps-filter-chip" data-val="Bengaluru"
+            onclick="toggleFilterChip(this)">Bengaluru</button>
+          <button type="button" class="apps-filter-chip" data-val="Remote"
+            onclick="toggleFilterChip(this)">Remote</button>
           <button type="button" class="apps-filter-chip" data-val="2025" onclick="toggleFilterChip(this)">2025</button>
           <button type="button" class="apps-filter-chip" data-val="2026" onclick="toggleFilterChip(this)">2026</button>
-          <button type="button" class="apps-filter-chip" data-val="Python" onclick="toggleFilterChip(this)">Python</button>
-          <button type="button" class="apps-filter-chip" data-val="React" onclick="toggleFilterChip(this)">React.js</button>
+          <button type="button" class="apps-filter-chip" data-val="Python"
+            onclick="toggleFilterChip(this)">Python</button>
+          <button type="button" class="apps-filter-chip" data-val="React"
+            onclick="toggleFilterChip(this)">React.js</button>
           <button type="button" class="apps-filter-chip" data-val="SQL" onclick="toggleFilterChip(this)">SQL</button>
-          <button type="button" class="apps-filter-chip" data-val="with_resume" onclick="toggleFilterChip(this)">With Resume</button>
+          <button type="button" class="apps-filter-chip" data-val="with_resume" onclick="toggleFilterChip(this)">With
+            Resume</button>
         </div>
 
         <!-- Filter Status & Active Summary Bar -->
         <div class="apps-filter-status-bar" id="apps-filter-status-bar">
           <div id="apps-filter-status-text">Showing all candidates</div>
-          <button type="button" class="btn-clear-filters" id="btn-clear-filters" onclick="clearAllFilters()" style="display:none;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          <button type="button" class="btn-clear-filters" id="btn-clear-filters" onclick="clearAllFilters()"
+            style="display:none;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
             <span>Reset All Filters</span>
           </button>
         </div>
       </div>
 
-      <div id="apps-loading" style="display:none; text-align:center; padding:40px; color:var(--ink-mute);">Loading candidate applications...</div>
+      <div id="apps-loading" style="display:none; text-align:center; padding:40px; color:var(--ink-mute);">Loading
+        candidate applications...</div>
       <div id="apps-empty" class="draft-empty" style="display:none;">
-        <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="var(--ink-mute)" stroke-width="1.5" style="margin:0 auto 12px; display:block;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="var(--ink-mute)" stroke-width="1.5"
+          style="margin:0 auto 12px; display:block;">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+        </svg>
         <strong>No candidate applications received yet.</strong>
-        <p style="font-size:13px; color:var(--ink-mute); margin-top:4px;">When candidates submit their profile and upload their resume, they will appear here with one-click download &amp; preview buttons.</p>
+        <p style="font-size:13px; color:var(--ink-mute); margin-top:4px;">When candidates submit their profile and
+          upload their resume, they will appear here with one-click download &amp; preview buttons.</p>
       </div>
 
       <div id="apps-container"></div>
@@ -1574,28 +1925,40 @@
             </div>
           </div>
           <div class="field hide-on-direct">
-            <label for="f-skills">Key skills <span class="field-hint" style="display:inline; text-transform:none; letter-spacing:0; font-weight:500; color:var(--ink-mute);">(comma-separated)</span></label>
+            <label for="f-skills">Key skills <span class="field-hint"
+                style="display:inline; text-transform:none; letter-spacing:0; font-weight:500; color:var(--ink-mute);">(comma-separated)</span></label>
             <input id="f-skills" name="skills" type="text" placeholder="e.g. React.js, Python, PostgreSQL, AWS" />
           </div>
           <div class="field hide-on-direct">
             <label for="f-description">About the role / Overview</label>
-            <textarea id="f-description" name="description" placeholder="Brief summary of the role, team context, and main objectives..."></textarea>
+            <textarea id="f-description" name="description"
+              placeholder="Brief summary of the role, team context, and main objectives..."></textarea>
           </div>
           <div class="field hide-on-direct">
-            <label for="f-responsibilities">Key responsibilities <span class="field-hint" style="display:inline; text-transform:none; letter-spacing:0; font-weight:500; color:var(--ink-mute);">(one per line)</span></label>
-            <textarea id="f-responsibilities" name="responsibilities" placeholder="• Build scalable microservices and APIs&#10;• Collaborate with frontend and DevOps engineers&#10;• Optimize database queries and system performance"></textarea>
+            <label for="f-responsibilities">Key responsibilities <span class="field-hint"
+                style="display:inline; text-transform:none; letter-spacing:0; font-weight:500; color:var(--ink-mute);">(one
+                per line)</span></label>
+            <textarea id="f-responsibilities" name="responsibilities"
+              placeholder="• Build scalable microservices and APIs&#10;• Collaborate with frontend and DevOps engineers&#10;• Optimize database queries and system performance"></textarea>
           </div>
           <div class="field hide-on-direct">
-            <label for="f-requirements">Requirements &amp; qualifications <span class="field-hint" style="display:inline; text-transform:none; letter-spacing:0; font-weight:500; color:var(--ink-mute);">(one per line)</span></label>
-            <textarea id="f-requirements" name="requirements" placeholder="• 1–3 years hands-on experience in software development&#10;• Strong problem-solving and debugging skills&#10;• Bachelor's degree in CS, IT, or equivalent engineering"></textarea>
+            <label for="f-requirements">Requirements &amp; qualifications <span class="field-hint"
+                style="display:inline; text-transform:none; letter-spacing:0; font-weight:500; color:var(--ink-mute);">(one
+                per line)</span></label>
+            <textarea id="f-requirements" name="requirements"
+              placeholder="• 1–3 years hands-on experience in software development&#10;• Strong problem-solving and debugging skills&#10;• Bachelor's degree in CS, IT, or equivalent engineering"></textarea>
           </div>
           <div class="field hide-on-direct">
-            <label for="f-about-company">About the hiring company <span class="field-hint" style="display:inline; text-transform:none; letter-spacing:0; font-weight:500; color:var(--ink-mute);">(optional overview)</span></label>
-            <textarea id="f-about-company" name="aboutCompany" placeholder="Brief overview of the hiring company, culture, and achievements..."></textarea>
+            <label for="f-about-company">About the hiring company <span class="field-hint"
+                style="display:inline; text-transform:none; letter-spacing:0; font-weight:500; color:var(--ink-mute);">(optional
+                overview)</span></label>
+            <textarea id="f-about-company" name="aboutCompany"
+              placeholder="Brief overview of the hiring company, culture, and achievements..."></textarea>
           </div>
           <div class="field" style="display: flex; align-items: center; gap: 8px; margin-top: 8px;">
             <input id="f-direct" name="isDirectLink" type="checkbox" style="width: auto; cursor: pointer;" />
-            <label for="f-direct" style="margin-bottom: 0; cursor: pointer; text-transform: none; font-size: 13.5px; font-weight: 600; color: var(--ink);">
+            <label for="f-direct"
+              style="margin-bottom: 0; cursor: pointer; text-transform: none; font-size: 13.5px; font-weight: 600; color: var(--ink);">
               Direct company career page opening (displays in highlighted top section on website)
             </label>
           </div>
@@ -1613,7 +1976,8 @@
           <h2>Draft listings</h2>
           <span class="drafts-count" id="drafts-count">0 saved</span>
         </div>
-        <div id="drafts-empty" class="draft-empty">No listings saved yet. Use the form above to add your first draft.</div>
+        <div id="drafts-empty" class="draft-empty">No listings saved yet. Use the form above to add your first draft.
+        </div>
         <div id="drafts-list" class="draft-list"></div>
       </section>
     </div>
@@ -1625,8 +1989,9 @@
       <!-- COURSE STARTING DATES MANAGER -->
       <section class="admin-card">
         <h2>Course Starting Dates Manager</h2>
-        <p style="font-size: 13.5px; color: var(--ink-mute); margin-bottom: 20px;">Update the live "Next Batch Starts" date for each course page below.</p>
-        
+        <p style="font-size: 13.5px; color: var(--ink-mute); margin-bottom: 20px;">Update the live "Next Batch Starts"
+          date for each course page below.</p>
+
         <form id="course-dates-form">
           <div class="form-row">
             <div class="field">
@@ -1662,8 +2027,9 @@
       <!-- PLACED CANDIDATES MANAGER -->
       <section class="admin-card" style="margin-top: 32px;">
         <h2>Placed Candidates Manager</h2>
-        <p style="font-size: 13.5px; color: var(--ink-mute); margin-bottom: 20px;">Add or update placed student profiles and photos displayed on course pages.</p>
-        
+        <p style="font-size: 13.5px; color: var(--ink-mute); margin-bottom: 20px;">Add or update placed student profiles
+          and photos displayed on course pages.</p>
+
         <form id="student-form">
           <div class="form-row">
             <div class="field">
@@ -1711,6 +2077,42 @@
           <h3 style="font-size: 16px; margin-bottom: 12px;">Currently Managed Placed Candidates</h3>
           <div id="students-list" style="display: flex; flex-direction: column; gap: 12px;"></div>
         </div>
+      </section>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- PANEL 4: INSTAGRAM REELS                   -->
+    <!-- ========================================== -->
+    <div id="panel-reels" class="admin-tab-panel">
+      <!-- FORM -->
+      <section class="admin-card">
+        <h2>Add a New Instagram Reel</h2>
+        <p style="font-size: 13.5px; color: var(--ink-mute); margin-bottom: 20px;">Configure and reorder the Instagram reels displayed in the "Our Services" carousel on the homepage.</p>
+        <form class="form-grid" id="reel-form" novalidate>
+          <div class="field">
+            <label for="reel-url">Instagram Reel Link / URL <span class="req">*</span></label>
+            <input id="reel-url" type="url" placeholder="e.g. https://www.instagram.com/reel/DYZbuipRpnn/" required />
+            <p class="field-hint">Paste the full Instagram reel share URL or simply copy-paste the shortcode (e.g., DYZbuipRpnn).</p>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn-primary" type="submit">Add Reel to List →</button>
+            <span class="save-status" id="reels-save-status">✓ Reels list saved</span>
+          </div>
+        </form>
+      </section>
+
+      <!-- ACTIVE REELS -->
+      <section class="admin-card" style="box-shadow: 6px 6px 0px rgba(0, 0, 0, 1);">
+        <div class="list-head">
+          <div>
+            <h2>Active Reels Carousel</h2>
+            <p style="font-size: 13px; color: var(--ink-mute); margin-top: 4px;">Drag &amp; drop or use the arrows to reorder how reels appear on the homepage carousel.</p>
+          </div>
+          <span class="list-count" id="reels-list-count">0 reels</span>
+        </div>
+        <div id="reels-list-empty" class="list-empty">No reels added yet. The homepage will display the defaults.</div>
+        <div id="reels-list" class="reels-list-container"></div>
       </section>
     </div>
 
@@ -1789,7 +2191,15 @@
 
       if (tabId === 'applications') {
         loadApplicationsList();
+      } else if (tabId === 'reels' && typeof window.renderReels === 'function') {
+        window.renderReels();
       }
+
+      try {
+        if (history.replaceState) {
+          history.replaceState(null, '', '#' + tabId);
+        }
+      } catch (e) {}
     };
 
     // Load applications from IndexedDB + localStorage fallback
@@ -1832,7 +2242,7 @@
               });
             }
           });
-        } catch (e) {}
+        } catch (e) { }
 
         // Sort newest first
         apps.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
@@ -2037,7 +2447,7 @@
             reader.onerror = () => resolve('');
             reader.readAsDataURL(app.resumeBlob);
           });
-        } catch (e) {}
+        } catch (e) { }
       }
 
       const payload = {
@@ -2127,7 +2537,7 @@
             regUsers = regUsers.filter(u => (u.email || '').toLowerCase() !== app.email.toLowerCase());
             localStorage.setItem('kompetenzen_registered_users', JSON.stringify(regUsers));
           }
-        } catch (e) {}
+        } catch (e) { }
       }
 
       // 2. Delete from internal IndexedDB & localStorage metadata
@@ -2152,7 +2562,7 @@
             return parsed.filter(j => j && !String(j.id).startsWith('def-'));
           }
         }
-      } catch (e) {}
+      } catch (e) { }
       return [];
     }
 
@@ -2858,16 +3268,16 @@
           e.preventDefault();
           const target = e.target.closest('.draft-item');
           if (!target) return;
-          
+
           const targetIndex = parseInt(target.getAttribute('data-index'));
           if (draggedIndex === null || draggedIndex === targetIndex) return;
 
           const drafts = loadLocal();
           const draggedItem = drafts[draggedIndex];
-          
+
           drafts.splice(draggedIndex, 1);
           drafts.splice(targetIndex, 0, draggedItem);
-          
+
           saveLocal(drafts);
           await render();
         });
@@ -3088,7 +3498,7 @@
         `).join('');
       }
 
-      window.deleteStudent = function(idx) {
+      window.deleteStudent = function (idx) {
         const students = getStudents();
         students.splice(idx, 1);
         saveStudents(students);
@@ -3118,6 +3528,272 @@
     })();
 
     /* =============================================
+       REELS MANAGER LOGIC
+    ============================================= */
+    (function () {
+      const STORE_KEY = 'kompetenzen_instagram_reels';
+
+      // Default 9 reels in system
+      const defaultReels = [
+        "DYZbuipRpnn",
+        "DX1XSgJxTSv",
+        "DXof1vKEXtg",
+        "DUvD3YyAXMs",
+        "DWyYhVxEVwh",
+        "DVdrcfwEWwm",
+        "DVGJFp6k9ms",
+        "DV-2VmpkRqx",
+        "DShyAAskVmw"
+      ];
+
+      const form = document.getElementById('reel-form');
+      const input = document.getElementById('reel-url');
+      const status = document.getElementById('reels-save-status');
+      const list = document.getElementById('reels-list');
+      const empty = document.getElementById('reels-list-empty');
+      const count = document.getElementById('reels-list-count');
+      const badge = document.getElementById('reels-counter-badge');
+
+      function updateCounter(total) {
+        if (badge) badge.textContent = total;
+        if (count) count.textContent = total + (total === 1 ? ' reel' : ' reels');
+      }
+
+      async function loadReels() {
+        if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
+          try {
+            const { data, error } = await supabaseClient
+              .from('reels')
+              .select('*')
+              .order('sort_order', { ascending: true });
+            if (!error && data && data.length > 0) {
+              const reelList = data.map(r => r.reel_id);
+              localStorage.setItem(STORE_KEY, JSON.stringify(reelList));
+              updateCounter(reelList.length);
+              return reelList;
+            }
+          } catch (e) {
+            console.warn("Supabase reels fetch error:", e);
+          }
+        }
+        try {
+          const stored = localStorage.getItem(STORE_KEY);
+          const result = stored ? JSON.parse(stored) : [...defaultReels];
+          updateCounter(result.length);
+          return result;
+        } catch {
+          updateCounter(defaultReels.length);
+          return [...defaultReels];
+        }
+      }
+
+      function loadLocal() {
+        try {
+          const stored = localStorage.getItem(STORE_KEY);
+          return stored ? JSON.parse(stored) : [...defaultReels];
+        } catch {
+          return [...defaultReels];
+        }
+      }
+
+      async function save(reels) {
+        localStorage.setItem(STORE_KEY, JSON.stringify(reels));
+        showSaveStatus();
+        updateCounter(reels.length);
+
+        if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
+          try {
+            await supabaseClient.from('reels').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+            const insertRows = reels.map((rId, idx) => ({ reel_id: rId, sort_order: idx }));
+            await supabaseClient.from('reels').insert(insertRows);
+          } catch (e) {
+            console.warn("Cloud reels save error:", e);
+          }
+        }
+      }
+
+      function showSaveStatus() {
+        if (!status) return;
+        status.classList.add('is-visible');
+        setTimeout(() => {
+          status.classList.remove('is-visible');
+        }, 2000);
+      }
+
+      function extractReelId(url) {
+        url = url.trim();
+        if (!url) return '';
+        if (!url.includes('/') && url.length > 5) return url;
+        const matches = url.match(/\/reel\/([A-Za-z0-9_-]+)/) || url.match(/\/p\/([A-Za-z0-9_-]+)/);
+        return matches ? matches[1] : '';
+      }
+
+      let draggedIndex = null;
+
+      function setupDragAndDrop(item) {
+        item.addEventListener('dragstart', (e) => {
+          draggedIndex = parseInt(item.getAttribute('data-index'));
+          item.classList.add('dragging');
+          e.dataTransfer.effectAllowed = 'move';
+        });
+
+        item.addEventListener('dragend', () => {
+          item.classList.remove('dragging');
+          document.querySelectorAll('.reel-item').forEach(el => {
+            el.classList.remove('drag-over');
+          });
+          draggedIndex = null;
+        });
+
+        item.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = 'move';
+          const target = e.target.closest('.reel-item');
+          if (target && parseInt(target.getAttribute('data-index')) !== draggedIndex) {
+            target.classList.add('drag-over');
+          }
+        });
+
+        item.addEventListener('dragleave', (e) => {
+          const target = e.target.closest('.reel-item');
+          if (target) {
+            target.classList.remove('drag-over');
+          }
+        });
+
+        item.addEventListener('drop', async (e) => {
+          e.preventDefault();
+          const target = e.target.closest('.reel-item');
+          if (!target) return;
+
+          const targetIndex = parseInt(target.getAttribute('data-index'));
+          if (draggedIndex === null || draggedIndex === targetIndex) return;
+
+          const reels = loadLocal();
+          const draggedItem = reels[draggedIndex];
+
+          reels.splice(draggedIndex, 1);
+          reels.splice(targetIndex, 0, draggedItem);
+
+          await save(reels);
+          await render();
+        });
+      }
+
+      async function render() {
+        if (!list) return;
+        const reels = await loadReels();
+        updateCounter(reels.length);
+        if (empty) empty.style.display = reels.length ? 'none' : 'block';
+        list.innerHTML = '';
+
+        reels.forEach((reelId, index) => {
+          const item = document.createElement('article');
+          item.className = 'reel-item';
+          item.setAttribute('draggable', 'true');
+          item.setAttribute('data-index', index);
+
+          item.innerHTML = `
+            <div class="drag-handle" title="Drag to reorder" style="cursor: grab; color: var(--ink-mute); margin-right: 12px; display: flex; align-items: center; align-self: stretch; opacity: 0.4; transition: opacity 0.2s;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="9" cy="5" r="1.5"/>
+                <circle cx="9" cy="12" r="1.5"/>
+                <circle cx="9" cy="19" r="1.5"/>
+                <circle cx="15" cy="5" r="1.5"/>
+                <circle cx="15" cy="12" r="1.5"/>
+                <circle cx="15" cy="19" r="1.5"/>
+              </svg>
+            </div>
+            
+            <div class="reel-item-main">
+              <div class="reel-thumbnail">🎬</div>
+              <div class="reel-details">
+                <h3>Instagram Reel #${index + 1}</h3>
+                <span class="id-badge">ID: ${reelId}</span>
+                <a class="link" href="https://www.instagram.com/reel/${reelId}/" target="_blank" rel="noopener">https://www.instagram.com/reel/${reelId}/</a>
+              </div>
+            </div>
+
+            <div class="reel-controls">
+              <button class="reel-control-btn reel-move-up" type="button" data-index="${index}" aria-label="Move up" ${index === 0 ? 'disabled' : ''}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+              </button>
+              <button class="reel-control-btn reel-move-down" type="button" data-index="${index}" aria-label="Move down" ${index === reels.length - 1 ? 'disabled' : ''}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <button class="reel-control-btn reel-remove" type="button" data-index="${index}" aria-label="Remove reel">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+              </button>
+            </div>
+          `;
+
+          setupDragAndDrop(item);
+          list.appendChild(item);
+        });
+      }
+
+      window.renderReels = render;
+
+      if (form) {
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const rawValue = input ? input.value.trim() : '';
+          if (!rawValue) return;
+
+          const reelId = extractReelId(rawValue);
+          if (!reelId) {
+            alert('Could not parse the Reel ID from the link. Please provide a valid Instagram link or shortcode.');
+            return;
+          }
+
+          const reels = loadLocal();
+          reels.push(reelId);
+          await save(reels);
+          if (input) input.value = '';
+          await render();
+        });
+      }
+
+      if (list) {
+        list.addEventListener('click', async (e) => {
+          const btn = e.target.closest('.reel-control-btn');
+          if (!btn) return;
+
+          const index = parseInt(btn.getAttribute('data-index'));
+          const reels = loadLocal();
+
+          if (btn.classList.contains('reel-remove')) {
+            if (confirm('Are you sure you want to remove this reel?')) {
+              reels.splice(index, 1);
+              await save(reels);
+              await render();
+            }
+          } else if (btn.classList.contains('reel-move-up')) {
+            if (index > 0) {
+              const temp = reels[index];
+              reels[index] = reels[index - 1];
+              reels[index - 1] = temp;
+              await save(reels);
+              await render();
+            }
+          } else if (btn.classList.contains('reel-move-down')) {
+            if (index < reels.length - 1) {
+              const temp = reels[index];
+              reels[index] = reels[index + 1];
+              reels[index + 1] = temp;
+              await save(reels);
+              await render();
+            }
+          }
+        });
+      }
+
+      // Initial count update
+      const initialReels = loadLocal();
+      updateCounter(initialReels.length);
+    })();
+
+    /* =============================================
        Leads now go to Google Sheets directly.
        The localStorage leads dashboard has been removed.
     ============================================= */
@@ -3127,8 +3803,17 @@
       if (sessionStorage.getItem('kompetenzen_hr_staff_unlocked') === '1' && typeof window.loadApplicationsList === 'function') {
         window.loadApplicationsList();
       }
+
+      // Check URL hash for direct tab navigation (e.g. admin.html#reels)
+      const hash = (window.location.hash || '').replace('#', '');
+      if (hash && ['applications', 'jobs', 'courses', 'reels'].includes(hash)) {
+        if (typeof window.switchAdminTab === 'function') {
+          window.switchAdminTab(hash);
+        }
+      }
     });
   </script>
   <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 </body>
+
 </html>
