@@ -582,8 +582,8 @@
         const canvas = document.getElementById('spotify-placements-canvas');
         if (!container || !canvas) return;
 
-        // Configuration
-        const MESH_COUNT = 600;
+        // Configuration: 204 unique cards (1:1 with all 204 placement posters)
+        const MESH_COUNT = 204;
         const GRID_COLS = 17;
         const GRID_ROWS = 12;
         const TOTAL_ATLAS_CARDS = 204;
@@ -628,51 +628,41 @@
           attribute vec4 aTextureCoords;
 
           uniform float uTime;
-          uniform vec2 uMaxXdisplacement;
           uniform vec2 uDrag;
           uniform float uScrollY;
 
           varying float vVisibility;
+          varying float vSharpness;
           varying vec4 vTextureCoords;
-
-          float remap(float value, float originMin, float originMax) {
-              return clamp((value - originMin) / (originMax - originMin), 0.0, 1.0);
-          }
 
           void main() {
               vec3 newPosition = position + aInitialPosition;
 
-              float maxX = uMaxXdisplacement.x;
-              float maxY = uMaxXdisplacement.y;
+              // Gentle floating drift in X, Y, Z (cards stay in their assigned horizontal lanes)
+              float driftX = sin(uTime * aMeshSpeed + aInitialPosition.z * 0.12) * 0.45;
+              float driftY = cos(uTime * aMeshSpeed * 0.85 + aInitialPosition.x * 0.12) * 0.35;
+              float driftZ = sin(uTime * 0.5 + aInitialPosition.y * 0.15) * 0.4;
 
-              float maxYoffset = distance(aInitialPosition.y, maxY);
-              float minYoffset = distance(aInitialPosition.y, -maxY);
+              newPosition.x += driftX - uDrag.x;
+              newPosition.y += driftY - uDrag.y;
 
-              float maxXoffset = distance(aInitialPosition.x, maxX);
-              float minXoffset = distance(aInitialPosition.x, -maxX);
+              // Z flight path: total corridor length = 152.0 (-145.0 to +7.0)
+              float minZ = -145.0;
+              float maxZ = 7.0;
+              float totalZ = maxZ - minZ;
 
-              // Modulo continuous wrapping displacement (strictly positive for both left & right edges)
-              float totalX = maxXoffset + minXoffset;
-              float xDisplacement = mod(mod(minXoffset - uDrag.x + uTime * aMeshSpeed, totalX) + totalX, totalX) - minXoffset;
+              // Continuous non-repeating forward flight through 204 unique students
+              float zDist = aInitialPosition.z + uScrollY;
+              float zDisplaced = mod(zDist - minZ, totalZ) + minZ;
+              newPosition.z = zDisplaced + driftZ;
 
-              float totalY = maxYoffset + minYoffset;
-              float yDisplacement = mod(mod(minYoffset - uDrag.y, totalY) + totalY, totalY) - minYoffset;
+              // Dissolve smoothly near camera (z > 5.0 to 7.0) and deep in background (z < -95.0)
+              float nearFade = 1.0 - smoothstep(5.0, 7.0, newPosition.z);
+              float farFade = smoothstep(-145.0, -95.0, newPosition.z);
+              vVisibility = nearFade * farFade;
 
-              float maxZ = 12.0;
-              float minZ = -30.0;
-
-              float maxZoffset = distance(aInitialPosition.z, maxZ);
-              float minZoffset = distance(aInitialPosition.z, minZ);
-
-              float totalZ = maxZoffset + minZoffset;
-              float zDisplacement = mod(mod(uScrollY + minZoffset, totalZ) + totalZ, totalZ) - minZoffset;
-
-              newPosition.x += xDisplacement;
-              newPosition.y += yDisplacement;
-              newPosition.z += zDisplacement;
-
-              // Visibility fade at deep background bounds
-              vVisibility = remap(newPosition.z, minZ, minZ + 5.0);
+              // Atmospheric depth-of-field: crystal sharp in foreground/midground, soft bokeh in distance
+              vSharpness = clamp((newPosition.z - (-70.0)) / ((-20.0) - (-70.0)), 0.0, 1.0);
 
               vec4 modelPosition = modelMatrix * vec4(newPosition, 1.0);
               vec4 viewPosition = viewMatrix * modelPosition;
@@ -687,6 +677,7 @@
         const fragmentShader = `
           varying vec2 vUv;
           varying float vVisibility;
+          varying float vSharpness;
           varying vec4 vTextureCoords;
 
           uniform sampler2D uAtlas;
@@ -699,13 +690,16 @@
           }
 
           void main() {
+              if (vVisibility <= 0.005) discard;
+
               // Anti-aliased rounded card corners
               vec2 p = vUv - vec2(0.5);
               float cardRadius = 0.055;
               float dist = roundedBoxSDF(p, vec2(0.485, 0.485), cardRadius);
               float alpha = 1.0 - smoothstep(0.0, 0.012, dist);
 
-              if (alpha <= 0.01) discard;
+              float finalAlpha = alpha * vVisibility;
+              if (finalAlpha <= 0.005) discard;
 
               // UV coordinates from 17x12 texture atlas (1 individual placement image per frame)
               float xStart = vTextureCoords.x;
@@ -721,15 +715,15 @@
               vec4 texel = texture2D(uAtlas, atlasUV);
               vec4 blurryTexel = texture2D(uBlurryAtlas, atlasUV);
 
-              // Depth of field blend based on z-visibility
-              vec4 color = mix(blurryTexel, texel, clamp(vVisibility * 1.35, 0.0, 1.0));
+              // Depth of field blend based on z-distance
+              vec4 color = mix(blurryTexel, texel, vSharpness);
 
-              // Crisp subtle card border & dark edge contour like Spotify floater cards
+              // Crisp subtle card border & dark edge contour
               float border = smoothstep(-0.025, -0.003, dist);
               color.rgb = mix(color.rgb, vec3(0.12, 0.16, 0.28), border * 0.45);
 
               // Fade with distance
-              color.a = alpha * vVisibility;
+              color.a = finalAlpha;
 
               gl_FragColor = color;
           }
@@ -757,9 +751,6 @@
           transparent: true,
           uniforms: {
             uTime: { value: 0 },
-            uMaxXdisplacement: {
-              value: new THREE.Vector2(sizes.maxX, sizes.maxY)
-            },
             uAtlas: { value: dummyAtlas },
             uBlurryAtlas: { value: dummyBlurry },
             uScrollY: { value: 0 },
@@ -797,8 +788,7 @@
           }
         );
 
-        // Instanced Mesh Geometry
-        // 1:1 square ratio scaled to 2.7 world units for prominent card visibility
+        // Instanced Mesh Geometry: 1:1 square ratio scaled to 2.7 world units
         const geometry = new THREE.PlaneGeometry(1, 1, 1, 1);
         geometry.scale(2.7, 2.7, 2.7);
 
@@ -817,19 +807,58 @@
           });
         }
 
-        // Fill Instanced Buffer Data
+        // Categorized & Shuffled Card Indices:
+        // Center cards: 80 cards (predominantly darker themed + vibrant accents, thoroughly mixed up)
+        // Outer cards: 124 cards (medium & lighter themed certificates/posters, distributed on left/right)
+        const CENTER_CARD_INDICES = [15, 74, 64, 195, 81, 168, 17, 162, 31, 14, 53, 91, 73, 10, 202, 51, 47, 66, 72, 99, 7, 156, 46, 84, 23, 0, 56, 188, 167, 21, 55, 116, 135, 40, 61, 119, 16, 25, 151, 45, 69, 153, 24, 78, 129, 37, 94, 121, 13, 87, 113, 172, 111, 127, 164, 54, 137, 22, 161, 32, 122, 5, 1, 26, 145, 29, 126, 2, 39, 34, 41, 8, 57, 6, 49, 42, 89, 38, 159, 18];
+        const OUTER_CARD_INDICES = [160, 50, 166, 3, 203, 183, 142, 30, 181, 197, 92, 11, 131, 198, 124, 102, 155, 98, 146, 19, 130, 143, 75, 90, 67, 200, 185, 196, 110, 148, 114, 76, 180, 192, 100, 27, 138, 141, 163, 48, 179, 65, 191, 171, 157, 108, 134, 86, 59, 178, 152, 36, 144, 63, 132, 186, 35, 4, 154, 103, 68, 194, 165, 44, 118, 105, 20, 190, 62, 52, 199, 9, 28, 175, 107, 60, 106, 33, 12, 123, 184, 88, 158, 70, 104, 115, 173, 85, 170, 79, 101, 177, 58, 77, 149, 95, 109, 187, 82, 120, 182, 97, 125, 201, 83, 96, 169, 71, 133, 150, 139, 112, 176, 189, 140, 174, 93, 43, 136, 193, 80, 147, 128, 117];
+
+        // Fill Instanced Buffer Data: 204 cards with zero repeating duplicates
         const initialPositions = new Float32Array(MESH_COUNT * 3);
         const meshSpeeds = new Float32Array(MESH_COUNT);
         const aTextureCoords = new Float32Array(MESH_COUNT * 4);
 
+        let centerPtr = 0;
+        let outerPtr = 0;
+
         for (let i = 0; i < MESH_COUNT; i++) {
-          initialPositions[i * 3 + 0] = (Math.random() - 0.5) * sizes.maxX * 2.0;
-          initialPositions[i * 3 + 1] = (Math.random() - 0.5) * sizes.maxY * 2.0;
-          initialPositions[i * 3 + 2] = Math.random() * (7.0 - (-30.0)) - 30.0;
+          const t = i / (MESH_COUNT - 1);
+          // Continuous flight corridor along Z from near foreground (+4.5) to deep cosmic space (-145.0)
+          const z = 4.5 - t * 149.5;
 
-          meshSpeeds[i] = Math.random() * 0.5 + 0.5;
+          // Stagger center and outer cards (2 center, 3 outer in every 5 cards)
+          const slot = i % 5;
+          const isCenter = (slot === 1 || slot === 3) && centerPtr < CENTER_CARD_INDICES.length;
 
-          const cardIdx = i % TOTAL_ATLAS_CARDS;
+          let cardIdx;
+          let x, y;
+
+          if (isCenter) {
+            cardIdx = CENTER_CARD_INDICES[centerPtr];
+            // Center corridor: focused within central zone, organic lateral and vertical variance
+            x = (((centerPtr * 7) % 13) / 12.0 - 0.5) * (sizes.width * 0.52);
+            y = ((((centerPtr * 5) % 11) / 10.0 - 0.5) * 1.5 + Math.sin(centerPtr * 0.9) * 0.3) * (sizes.height * 0.50);
+            centerPtr++;
+          } else if (outerPtr < OUTER_CARD_INDICES.length) {
+            cardIdx = OUTER_CARD_INDICES[outerPtr];
+            // Outer zones: alternating left and right flanking bands covering full height
+            const side = (outerPtr % 2 === 0) ? -1 : 1;
+            x = side * (sizes.width * 0.24 + Math.abs(Math.sin(outerPtr * 1.9)) * (sizes.width * 0.60));
+            y = ((((outerPtr * 7) % 13) / 12.0 - 0.5) * 1.5 + Math.cos(outerPtr * 1.1) * 0.3) * (sizes.height * 0.55);
+            outerPtr++;
+          } else {
+            cardIdx = CENTER_CARD_INDICES[centerPtr % CENTER_CARD_INDICES.length];
+            x = (((centerPtr * 7) % 13) / 12.0 - 0.5) * (sizes.width * 0.52);
+            y = ((((centerPtr * 5) % 11) / 10.0 - 0.5) * 1.5 + Math.sin(centerPtr * 0.9) * 0.3) * (sizes.height * 0.50);
+            centerPtr++;
+          }
+
+          initialPositions[i * 3 + 0] = x;
+          initialPositions[i * 3 + 1] = y;
+          initialPositions[i * 3 + 2] = z;
+
+          meshSpeeds[i] = 0.5 + ((i % 7) * 0.1);
+
           const uvInfo = uvs[cardIdx];
           aTextureCoords[i * 4 + 0] = uvInfo.xStart;
           aTextureCoords[i * 4 + 1] = uvInfo.xEnd;
@@ -953,7 +982,6 @@
           camera.updateProjectionMatrix();
 
           sizes = getSizes();
-          material.uniforms.uMaxXdisplacement.value.set(sizes.maxX, sizes.maxY);
 
           renderer.setSize(width, height);
           renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -973,7 +1001,7 @@
 
           const normalizedDelta = delta / (1 / 60);
 
-          // Continuous drift with chosen speed factor
+          // Continuous gentle drift
           material.uniforms.uTime.value += normalizedDelta * 0.015 * speedMultiplier;
 
           // Smooth drag damping
@@ -989,7 +1017,7 @@
             if (totalScroll > 0) {
               const scrolled = Math.max(0, Math.min(totalScroll, -rect.top));
               const progress = scrolled / totalScroll;
-              scrollZ.target = progress * 140.0;
+              scrollZ.target = progress * 152.0;
             }
           }
 
