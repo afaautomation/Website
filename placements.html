@@ -583,7 +583,7 @@
         if (!container || !canvas) return;
 
         // Configuration
-        const MESH_COUNT = 204; // Exactly 204 instances: every card is 100% unique with zero duplicates
+        const MESH_COUNT = 600;
         const GRID_COLS = 17;
         const GRID_ROWS = 12;
         const TOTAL_ATLAS_CARDS = 204;
@@ -625,7 +625,7 @@
           varying vec2 vUv;
           attribute vec3 aInitialPosition;
           attribute float aMeshSpeed;
-          attribute float aCardIndex;
+          attribute vec4 aTextureCoords;
 
           uniform float uTime;
           uniform vec2 uMaxXdisplacement;
@@ -640,6 +640,8 @@
           }
 
           void main() {
+              vec3 newPosition = position + aInitialPosition;
+
               float maxX = uMaxXdisplacement.x;
               float maxY = uMaxXdisplacement.y;
 
@@ -665,31 +667,8 @@
               float totalZ = maxZoffset + minZoffset;
               float zDisplacement = mod(mod(uScrollY + minZoffset, totalZ) + totalZ, totalZ) - minZoffset;
 
-              // Wrap count: increments every time this instance passes the camera and wraps to background
-              float wrapCount = floor((uScrollY + minZoffset) / totalZ);
-
-              // Dynamically reorder card photo when emerging from background!
-              // 71 is coprime to 204 (gcd(71, 204) = 1), generating a complete, non-repeating permutation on every wrap
-              float currentCardIndex = mod(aCardIndex + wrapCount * 71.0, 204.0);
-
-              // Compute atlas UV coordinates dynamically for 17 columns x 12 rows grid
-              float col = mod(currentCardIndex, 17.0);
-              float row = floor(currentCardIndex / 17.0);
-
-              float xStart = col / 17.0;
-              float xEnd = (col + 1.0) / 17.0;
-              float yStart = 1.0 - (row / 12.0);
-              float yEnd = 1.0 - ((row + 1.0) / 12.0);
-
-              vTextureCoords = vec4(xStart, xEnd, yStart, yEnd);
-
-              // Subtly shift lane on each wrap so it never flies along the exact same track
-              float wrapShiftX = sin(aCardIndex * 1.618 + wrapCount * 3.7) * (maxX * 0.22);
-              float wrapShiftY = cos(aCardIndex * 2.718 + wrapCount * 2.3) * (maxY * 0.22);
-
-              vec3 newPosition = position + aInitialPosition;
-              newPosition.x += xDisplacement + wrapShiftX;
-              newPosition.y += yDisplacement + wrapShiftY;
+              newPosition.x += xDisplacement;
+              newPosition.y += yDisplacement;
               newPosition.z += zDisplacement;
 
               // Visibility fade at deep background bounds
@@ -701,6 +680,7 @@
               gl_Position = projectedPosition;
 
               vUv = uv;
+              vTextureCoords = aTextureCoords;
           }
         `;
 
@@ -727,7 +707,7 @@
 
               if (alpha <= 0.01) discard;
 
-              // UV coordinates from 6x6 texture atlas
+              // UV coordinates from 17x12 texture atlas (1 individual placement image per frame)
               float xStart = vTextureCoords.x;
               float xEnd = vTextureCoords.y;
               float yStart = vTextureCoords.z;
@@ -822,29 +802,39 @@
         const geometry = new THREE.PlaneGeometry(1, 1, 1, 1);
         geometry.scale(2.7, 2.7, 2.7);
 
-        // Fill Instanced Buffer Data with Depth Sequencing & Spatial Dispersion
-        // 1 instance per unique card (all 204 placement cards are unique with zero duplicates)
+        // Compute UV Coordinates for 17x12 Atlas (1 image per frame)
+        const uvs = [];
+        const insetX = 0.5 / 4080;
+        const insetY = 0.5 / 2880;
+        for (let i = 0; i < TOTAL_ATLAS_CARDS; i++) {
+          const col = i % GRID_COLS;
+          const row = Math.floor(i / GRID_COLS);
+          uvs.push({
+            xStart: col / GRID_COLS + insetX,
+            xEnd: (col + 1) / GRID_COLS - insetX,
+            yStart: 1.0 - (row / GRID_ROWS) - insetY,
+            yEnd: 1.0 - ((row + 1) / GRID_ROWS) + insetY
+          });
+        }
+
+        // Fill Instanced Buffer Data
         const initialPositions = new Float32Array(MESH_COUNT * 3);
         const meshSpeeds = new Float32Array(MESH_COUNT);
-        const aCardIndices = new Float32Array(MESH_COUNT);
-
-        const goldenAngle = 2.399963229728653; // PI * (3 - sqrt(5))
+        const aTextureCoords = new Float32Array(MESH_COUNT * 4);
 
         for (let i = 0; i < MESH_COUNT; i++) {
-          // Golden angle radial dispersion spreads cards across viewport without clustering
-          const angle = i * goldenAngle;
-          const radiusNorm = 0.22 + 0.78 * Math.sqrt(((i * 7) % MESH_COUNT) / MESH_COUNT);
+          initialPositions[i * 3 + 0] = (Math.random() - 0.5) * sizes.maxX * 2.0;
+          initialPositions[i * 3 + 1] = (Math.random() - 0.5) * sizes.maxY * 2.0;
+          initialPositions[i * 3 + 2] = Math.random() * (7.0 - (-30.0)) - 30.0;
 
-          initialPositions[i * 3 + 0] = Math.cos(angle) * (sizes.maxX * 0.75) * radiusNorm;
-          initialPositions[i * 3 + 1] = Math.sin(angle) * (sizes.maxY * 0.75) * radiusNorm;
+          meshSpeeds[i] = Math.random() * 0.5 + 0.5;
 
-          // Ordered depth sequence: cards are staggered from background (-30.0) to foreground (7.0)
-          // so as you scroll or fly, the diverse styles emerge in an alternating, non-repeating stream
-          const zFrac = i / MESH_COUNT;
-          initialPositions[i * 3 + 2] = -30.0 + zFrac * 37.0;
-
-          meshSpeeds[i] = 0.6 + ((i % 5) * 0.1);
-          aCardIndices[i] = i;
+          const cardIdx = i % TOTAL_ATLAS_CARDS;
+          const uvInfo = uvs[cardIdx];
+          aTextureCoords[i * 4 + 0] = uvInfo.xStart;
+          aTextureCoords[i * 4 + 1] = uvInfo.xEnd;
+          aTextureCoords[i * 4 + 2] = uvInfo.yStart;
+          aTextureCoords[i * 4 + 3] = uvInfo.yEnd;
         }
 
         geometry.setAttribute(
@@ -856,8 +846,8 @@
           new THREE.InstancedBufferAttribute(meshSpeeds, 1)
         );
         geometry.setAttribute(
-          'aCardIndex',
-          new THREE.InstancedBufferAttribute(aCardIndices, 1)
+          'aTextureCoords',
+          new THREE.InstancedBufferAttribute(aTextureCoords, 4)
         );
 
         const instancedMesh = new THREE.InstancedMesh(geometry, material, MESH_COUNT);
