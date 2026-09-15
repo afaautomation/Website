@@ -625,7 +625,8 @@
           varying vec2 vUv;
           attribute vec3 aInitialPosition;
           attribute float aMeshSpeed;
-          attribute vec4 aTextureCoords;
+          attribute float aInitialCardIndex;
+          attribute float aCardPoolType;
 
           uniform float uTime;
           uniform vec2 uMaxXdisplacement;
@@ -653,7 +654,7 @@
 
               // Modulo continuous wrapping displacement (strictly positive for both left & right edges)
               float totalX = maxXoffset + minXoffset;
-              float xDisplacement = mod(mod(minXoffset - uDrag.x + uTime * aMeshSpeed, totalX) + totalX, totalX) - minXoffset;
+              float xDisplacement = mod(mod(minXoffset - uDrag.x + uTime * aMeshSpeed * 0.25, totalX) + totalX, totalX) - minXoffset;
 
               float totalY = maxYoffset + minYoffset;
               float yDisplacement = mod(mod(minYoffset - uDrag.y, totalY) + totalY, totalY) - minYoffset;
@@ -665,7 +666,9 @@
               float minZoffset = distance(aInitialPosition.z, minZ);
 
               float totalZ = maxZoffset + minZoffset;
-              float zDisplacement = mod(mod(uScrollY + minZoffset, totalZ) + totalZ, totalZ) - minZoffset;
+              float forwardTravel = uScrollY + uTime * 1.5 + minZoffset;
+              float wrapCount = floor(forwardTravel / totalZ);
+              float zDisplacement = mod(mod(forwardTravel, totalZ) + totalZ, totalZ) - minZoffset;
 
               newPosition.x += xDisplacement;
               newPosition.y += yDisplacement;
@@ -674,13 +677,37 @@
               // Visibility fade at deep background bounds
               vVisibility = remap(newPosition.z, minZ, minZ + 5.0);
 
+              // Dynamic image change from the back on wrap:
+              // Boxes stay in their exact grid arrangement, while the image advances to the next unique photo:
+              float currentCard;
+              if (aCardPoolType > 0.5) {
+                  // Center boxes: cycle through all 80 dark-themed/accent posters (gcd(13, 80) = 1)
+                  currentCard = mod(aInitialCardIndex + wrapCount * 13.0, 80.0);
+              } else {
+                  // Outer boxes: cycle through all 124 outer certificates & posters (gcd(17, 124) = 1)
+                  currentCard = 80.0 + mod(aInitialCardIndex + wrapCount * 17.0, 124.0);
+              }
+
+              // Compute UV coordinates from 17x12 texture atlas
+              float col = mod(currentCard, 17.0);
+              float row = floor(currentCard / 17.0);
+
+              float insetX = 0.5 / 4080.0;
+              float insetY = 0.5 / 2880.0;
+
+              float xStart = col / 17.0 + insetX;
+              float xEnd = (col + 1.0) / 17.0 - insetX;
+              float yStart = 1.0 - (row / 12.0) - insetY;
+              float yEnd = 1.0 - ((row + 1.0) / 12.0) + insetY;
+
+              vTextureCoords = vec4(xStart, xEnd, yStart, yEnd);
+
               vec4 modelPosition = modelMatrix * vec4(newPosition, 1.0);
               vec4 viewPosition = viewMatrix * modelPosition;
               vec4 projectedPosition = projectionMatrix * viewPosition;
               gl_Position = projectedPosition;
 
               vUv = uv;
-              vTextureCoords = aTextureCoords;
           }
         `;
 
@@ -802,34 +829,11 @@
         const geometry = new THREE.PlaneGeometry(1, 1, 1, 1);
         geometry.scale(2.7, 2.7, 2.7);
 
-        // Compute UV Coordinates for 17x12 Atlas (1 image per frame)
-        const uvs = [];
-        const insetX = 0.5 / 4080;
-        const insetY = 0.5 / 2880;
-        for (let i = 0; i < TOTAL_ATLAS_CARDS; i++) {
-          const col = i % GRID_COLS;
-          const row = Math.floor(i / GRID_COLS);
-          uvs.push({
-            xStart: col / GRID_COLS + insetX,
-            xEnd: (col + 1) / GRID_COLS - insetX,
-            yStart: 1.0 - (row / GRID_ROWS) - insetY,
-            yEnd: 1.0 - ((row + 1) / GRID_ROWS) + insetY
-          });
-        }
-
-        // Categorized & Shuffled Card Pools:
-        // Center pool: predominantly darker-themed cards + vibrant accents, thoroughly mixed up
-        // Outer pool: lighter & medium certificates and posters, thoroughly mixed up
-        const CENTER_CARD_INDICES = [15, 74, 64, 195, 81, 168, 17, 162, 31, 14, 53, 91, 73, 10, 202, 51, 47, 66, 72, 99, 7, 156, 46, 84, 23, 0, 56, 188, 167, 21, 55, 116, 135, 40, 61, 119, 16, 25, 151, 45, 69, 153, 24, 78, 129, 37, 94, 121, 13, 87, 113, 172, 111, 127, 164, 54, 137, 22, 161, 32, 122, 5, 1, 26, 145, 29, 126, 2, 39, 34, 41, 8, 57, 6, 49, 42, 89, 38, 159, 18];
-        const OUTER_CARD_INDICES = [160, 50, 166, 3, 203, 183, 142, 30, 181, 197, 92, 11, 131, 198, 124, 102, 155, 98, 146, 19, 130, 143, 75, 90, 67, 200, 185, 196, 110, 148, 114, 76, 180, 192, 100, 27, 138, 141, 163, 48, 179, 65, 191, 171, 157, 108, 134, 86, 59, 178, 152, 36, 144, 63, 132, 186, 35, 4, 154, 103, 68, 194, 165, 44, 118, 105, 20, 190, 62, 52, 199, 9, 28, 175, 107, 60, 106, 33, 12, 123, 184, 88, 158, 70, 104, 115, 173, 85, 170, 79, 101, 177, 58, 77, 149, 95, 109, 187, 82, 120, 182, 97, 125, 201, 83, 96, 169, 71, 133, 150, 139, 112, 176, 189, 140, 174, 93, 43, 136, 193, 80, 147, 128, 117];
-
         // Fill Instanced Buffer Data: 600 cards fully spread across the entire viewport
         const initialPositions = new Float32Array(MESH_COUNT * 3);
         const meshSpeeds = new Float32Array(MESH_COUNT);
-        const aTextureCoords = new Float32Array(MESH_COUNT * 4);
-
-        let centerPtr = 0;
-        let outerPtr = 0;
+        const aInitialCardIndices = new Float32Array(MESH_COUNT);
+        const aCardPoolTypes = new Float32Array(MESH_COUNT);
 
         for (let i = 0; i < MESH_COUNT; i++) {
           // Full viewport spatial spread across maxX and maxY
@@ -843,22 +847,16 @@
 
           meshSpeeds[i] = Math.random() * 0.5 + 0.5;
 
-          // If position is on center side (|x| < 40% of maxX), mainly assign darker-themed & vibrant cards
-          // If on outer sides, assign lighter & medium cards
-          let cardIdx;
-          if (Math.abs(x) < sizes.maxX * 0.40) {
-            cardIdx = CENTER_CARD_INDICES[centerPtr % CENTER_CARD_INDICES.length];
-            centerPtr++;
+          // If position is on center side (|x| < 40% of maxX), assign to center pool (darker-themed cards)
+          // If on outer sides, assign to outer pool (lighter & medium certificates/posters)
+          const isCenter = Math.abs(x) < sizes.maxX * 0.40;
+          if (isCenter) {
+            aCardPoolTypes[i] = 1.0;
+            aInitialCardIndices[i] = Math.floor(Math.random() * 80.0);
           } else {
-            cardIdx = OUTER_CARD_INDICES[outerPtr % OUTER_CARD_INDICES.length];
-            outerPtr++;
+            aCardPoolTypes[i] = 0.0;
+            aInitialCardIndices[i] = Math.floor(Math.random() * 124.0);
           }
-
-          const uvInfo = uvs[cardIdx];
-          aTextureCoords[i * 4 + 0] = uvInfo.xStart;
-          aTextureCoords[i * 4 + 1] = uvInfo.xEnd;
-          aTextureCoords[i * 4 + 2] = uvInfo.yStart;
-          aTextureCoords[i * 4 + 3] = uvInfo.yEnd;
         }
 
         geometry.setAttribute(
@@ -870,8 +868,12 @@
           new THREE.InstancedBufferAttribute(meshSpeeds, 1)
         );
         geometry.setAttribute(
-          'aTextureCoords',
-          new THREE.InstancedBufferAttribute(aTextureCoords, 4)
+          'aInitialCardIndex',
+          new THREE.InstancedBufferAttribute(aInitialCardIndices, 1)
+        );
+        geometry.setAttribute(
+          'aCardPoolType',
+          new THREE.InstancedBufferAttribute(aCardPoolTypes, 1)
         );
 
         const instancedMesh = new THREE.InstancedMesh(geometry, material, MESH_COUNT);
