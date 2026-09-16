@@ -1920,7 +1920,7 @@
         <form class="auth-form-column" id="login-form" onsubmit="handleEmailLogin(event)">
           <div class="form-group">
             <label for="login-email">Email address</label>
-            <input type="email" id="login-email" class="form-input" placeholder="you@example.com" required />
+            <input type="email" id="login-email" class="form-input" placeholder="you@example.com" autocomplete="off" required />
           </div>
 
           <div class="form-group">
@@ -2503,9 +2503,9 @@
       switchAuthTab(tab);
 
       const loginEmail = document.getElementById('login-email');
-      if (loginEmail && !loginEmail.value.trim()) {
-        loginEmail.value = getLastKnownEmail();
-      }
+      const loginPassword = document.getElementById('login-password');
+      if (loginEmail) loginEmail.value = '';
+      if (loginPassword) loginPassword.value = '';
     }
 
     window.openResumeBuilder = function (e) {
@@ -2524,6 +2524,10 @@
       modal.classList.remove('active');
       document.body.style.overflow = '';
       hideAuthAlert();
+      const loginEmail = document.getElementById('login-email');
+      const loginPassword = document.getElementById('login-password');
+      if (loginEmail) loginEmail.value = '';
+      if (loginPassword) loginPassword.value = '';
     }
 
     function handleAuthBackdropClick(e) {

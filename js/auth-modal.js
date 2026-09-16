@@ -217,7 +217,7 @@
             <form id="login-form" onsubmit="handleLoginSubmit(event)" style="display:none; flex-direction:column; gap:0.8rem; width:100%; box-sizing:border-box;">
               <div style="display:flex; flex-direction:column; gap:0.25rem; min-width:0;">
                 <label style="font-size:0.74rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.03em;">Email Address</label>
-                <input id="login-email" type="email" required placeholder="you@example.com"
+                <input id="login-email" type="email" required placeholder="you@example.com" autocomplete="off"
                   style="width:100%; max-width:100%; min-width:0; box-sizing:border-box; padding:0.65rem 0.85rem; background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.88rem; color:#0f172a; outline:none; transition:all 0.2s;"
                   onfocus="this.style.borderColor='#1947FF'; this.style.background='#fff'" onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc'">
               </div>
@@ -295,11 +295,6 @@
       if (subtitleEl) subtitleEl.textContent = 'Log in to your student & career portal';
       if (googleText) googleText.textContent = 'Log In with Google';
       if (dividerText) dividerText.textContent = 'or continue with email';
-
-      const loginEmail = document.getElementById('login-email');
-      if (loginEmail && !loginEmail.value.trim()) {
-        loginEmail.value = getLastKnownEmail();
-      }
     } else {
       if (signupBtn) {
         signupBtn.style.background = '#1947FF';
@@ -349,12 +344,21 @@
     window._pendingAuthSection = null;
     const msgEl = document.getElementById('auth-inline-msg');
     if (msgEl) msgEl.style.display = 'none';
+    const loginEmail = document.getElementById('login-email');
+    const loginPassword = document.getElementById('login-password');
+    if (loginEmail) loginEmail.value = '';
+    if (loginPassword) loginPassword.value = '';
   };
 
   window.openAuthModal = function (mode = 'signup', redirectUrl = null) {
     ensureAuthModalDOM();
     const modal = document.getElementById('jobs-auth-modal');
     if (redirectUrl) window._pendingAuthRedirect = redirectUrl;
+
+    const loginEmail = document.getElementById('login-email');
+    const loginPassword = document.getElementById('login-password');
+    if (loginEmail) loginEmail.value = '';
+    if (loginPassword) loginPassword.value = '';
 
     // If user already registered anywhere, make "Log In" come!
     let activeMode = mode;
