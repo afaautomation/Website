@@ -96,14 +96,16 @@
     }
 
     .nav-inner {
-      max-width: 100%;
+      max-width: var(--maxw, 1400px);
+      width: 100%;
       margin: 0 auto;
-      padding: 0 40px;
+      padding: 0 clamp(24px, 5vw, 64px);
       height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 32px;
+      box-sizing: border-box;
     }
 
     .nav-left,
@@ -194,49 +196,24 @@
     }
 
     /* ===========================================================
-       STACKED SCROLL SECTIONS ENGINE (scroll.html style)
+       SECTIONS & PURE WHITE THEME (OUR STORY PAGE)
     =========================================================== */
     main > section {
       width: 100%;
       min-height: auto;
       position: relative;
-      isolation: isolate;
-      overflow: visible;
+      background: #FFFFFF;
     }
 
     .section {
       position: relative;
-      overflow: visible;
-      background: transparent;
+      background: #FFFFFF;
     }
 
-    main > *:nth-child(1) { z-index: 1; }
-    main > *:nth-child(2) { z-index: 2; }
-    main > *:nth-child(3) { z-index: 3; }
-    main > *:nth-child(4) { z-index: 4; }
-    main > *:nth-child(5) { z-index: 5; }
-    main > *:nth-child(6) { z-index: 6; }
-
-    .skew-bg {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      overflow: visible;
-      pointer-events: none;
+    .skew-bg, .bg {
+      display: none !important;
     }
 
-    .bg {
-      width: 100%;
-      height: 100%;
-      transform: none;
-      will-change: transform;
-      transform-origin: 0 0;
-      background: var(--bg);
-    }
-
-    /* ===========================================================
-       PURE WHITE THEME SCHEMES (OUR STORY PAGE)
-    =========================================================== */
     .ink, .porcelain, .ember, .forest, .steel {
       --bg: #FFFFFF;
       --fg: #02050E;
@@ -247,24 +224,38 @@
       color: #02050E !important;
     }
 
-    .skew-bg, .bg {
-      background: #FFFFFF !important;
-    }
-
     /* ===========================================================
-       HERO / INTRO SECTION
+       HERO / INTRO SECTION (TELESCOPE ZOOM)
     =========================================================== */
-    .intro {
+    .intro.telescope-hero {
+      position: relative;
+      height: 100vh;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       text-align: center;
-      padding: 160px 32px 100px;
-      min-height: 100vh;
-      position: relative;
+      overflow: hidden;
+      padding: 0 clamp(24px, 5vw, 64px);
+      --progress: 0;
       background: #FFFFFF;
       color: #02050E;
+      isolation: isolate;
+      box-sizing: border-box;
+    }
+
+    .intro-content-wrap {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      max-width: 1200px;
+      width: 100%;
+      pointer-events: auto;
     }
 
     .intro-badge {
@@ -292,16 +283,52 @@
       box-shadow: 0 0 10px rgba(25, 71, 255, 0.6);
     }
 
-    .intro h1 {
-      font-size: clamp(2.8rem, 6.5vw, 5.5rem);
-      font-weight: 400;
-      line-height: 1.22;
-      letter-spacing: -0.025em;
-      max-width: 22ch;
-      margin-bottom: 24px;
-      visibility: hidden;
-      font-family: "Plus Jakarta Sans", sans-serif;
+    .hero-zoom-title {
+      font-size: clamp(2.6rem, 5.2vw, 5.2rem);
+      font-weight: 500;
+      line-height: 1.18;
+      letter-spacing: -0.03em;
+      font-family: "Google Sans Flex", "Plus Jakarta Sans", sans-serif !important;
       color: #02050E;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 0.35em;
+      margin-bottom: 24px;
+      width: 100%;
+      visibility: hidden;
+      opacity: calc(1 - var(--progress) * 2.5);
+      pointer-events: none;
+    }
+
+    .hero-zoom-title span {
+      display: inline-block;
+      will-change: transform, opacity;
+    }
+
+    .hero-zoom-title .left {
+      transform: translate3d(calc(var(--progress) * -75vw), 0, 0);
+    }
+
+    .hero-zoom-title .right {
+      transform: translate3d(calc(var(--progress) * 75vw), 0, 0);
+    }
+
+    @media (max-width: 768px) {
+      .hero-zoom-title {
+        font-size: clamp(2rem, 7.5vw, 3.2rem);
+        flex-direction: column;
+        gap: 0.15em;
+      }
+
+      .hero-zoom-title .left {
+        transform: translate3d(calc(var(--progress) * -100vw), 0, 0);
+      }
+
+      .hero-zoom-title .right {
+        transform: translate3d(calc(var(--progress) * 100vw), 0, 0);
+      }
     }
 
     .intro p.intro-desc {
@@ -315,7 +342,7 @@
     .intro-stats {
       display: flex;
       gap: 48px;
-      margin-top: 56px;
+      margin-top: 52px;
       flex-wrap: wrap;
       justify-content: center;
       visibility: hidden;
@@ -336,16 +363,203 @@
       letter-spacing: 0.08em;
     }
 
+    /* Telescope Central Zoom Media */
+    .section__media {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      transform: scale(var(--progress));
+      will-change: transform;
+    }
+
+    .section__media .section__media__back {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .section__media img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    /* Telescope Scattered Images Gallery */
+    .section__images {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      perspective: 100vh;
+      pointer-events: none;
+      z-index: 2;
+      overflow: visible;
+    }
+
+    .section__images img {
+      position: absolute;
+      width: 10vw;
+      height: auto;
+      border-radius: 4px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
+      will-change: transform, opacity;
+    }
+
+    @media (max-width: 768px) {
+      .section__images img {
+        width: 20vw;
+      }
+    }
+
+    .section__images img:nth-of-type(1) {
+      top: 15vw;
+      left: -3vw;
+    }
+
+    .section__images img:nth-of-type(2) {
+      top: 5vw;
+      left: 20vw;
+    }
+
+    .section__images img:nth-of-type(3) {
+      top: 8vw;
+      left: 26.5vw;
+    }
+
+    @media (max-width: 768px) {
+      .section__images img:nth-of-type(3) {
+        top: 30vw;
+        left: 30vw;
+      }
+    }
+
+    .section__images img:nth-of-type(4) {
+      top: 18vw;
+      right: 18vw;
+    }
+
+    @media (max-width: 768px) {
+      .section__images img:nth-of-type(4) {
+        right: 15vw;
+        top: 30vw;
+      }
+    }
+
+    .section__images img:nth-of-type(5) {
+      top: 5vw;
+      right: 10vw;
+    }
+
+    @media (max-width: 768px) {
+      .section__images img:nth-of-type(5) {
+        top: 10vw;
+        right: 5vw;
+      }
+    }
+
+    .section__images img:nth-of-type(6) {
+      bottom: 5vw;
+      left: 10vw;
+    }
+
+    @media (max-width: 768px) {
+      .section__images img:nth-of-type(6) {
+        left: 5vw;
+      }
+    }
+
+    .section__images img:nth-of-type(7) {
+      bottom: 8vw;
+      left: 22.5vw;
+    }
+
+    @media (max-width: 768px) {
+      .section__images img:nth-of-type(7) {
+        left: 10vw;
+        bottom: 27.5vw;
+      }
+    }
+
+    .section__images img:nth-of-type(8) {
+      bottom: 3vw;
+      left: 45vw;
+    }
+
+    @media (max-width: 768px) {
+      .section__images img:nth-of-type(8) {
+        bottom: 10vw;
+        left: 35vw;
+      }
+    }
+
+    .section__images img:nth-of-type(9) {
+      bottom: 5vw;
+      right: 15vw;
+    }
+
+    @media (max-width: 768px) {
+      .section__images img:nth-of-type(9) {
+        bottom: 5vw;
+      }
+    }
+
+    .section__images img:nth-of-type(10) {
+      bottom: 9vw;
+      right: 7vw;
+    }
+
+    @media (max-width: 768px) {
+      .section__images img:nth-of-type(10) {
+        right: 3vw;
+        bottom: 22vw;
+      }
+    }
+
     /* ===========================================================
-       GENERAL SECTION LAYOUT
+       CONTAINER WRAPPER & GENERAL SECTION LAYOUT (Gaps on Both Sides)
     =========================================================== */
+    .wrap {
+      max-width: var(--maxw, 1400px);
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: clamp(24px, 5vw, 64px);
+      padding-right: clamp(24px, 5vw, 64px);
+      box-sizing: border-box;
+    }
+
     .section-content {
-      padding: 80px 0 60px;
+      max-width: var(--maxw, 1400px);
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      padding-top: 80px;
+      padding-bottom: 60px;
+      padding-left: clamp(24px, 5vw, 64px);
+      padding-right: clamp(24px, 5vw, 64px);
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
       position: relative;
       z-index: 2;
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 768px) {
+      .wrap,
+      .section-content {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
     }
 
     .section-header {
@@ -384,10 +598,50 @@
       padding-bottom: 60px;
     }
 
+    /* Alternating Left-Right-Left-Right Milestone Layout */
+    .content.reverse,
+    #year-2021 .content,
+    #year-2023 .content,
+    #year-2025 .content {
+      grid-template-columns: 1fr 300px;
+    }
+
+    .content.reverse .media,
+    #year-2021 .content .media,
+    #year-2023 .content .media,
+    #year-2025 .content .media {
+      order: 2;
+    }
+
+    .content.reverse .details,
+    #year-2021 .content .details,
+    #year-2023 .content .details,
+    #year-2025 .content .details {
+      order: 1;
+    }
+
     @media (max-width: 900px) {
-      .content {
+      .content,
+      .content.reverse,
+      #year-2021 .content,
+      #year-2023 .content,
+      #year-2025 .content {
         grid-template-columns: 1fr;
         gap: 2rem;
+      }
+
+      .content.reverse .media,
+      #year-2021 .content .media,
+      #year-2023 .content .media,
+      #year-2025 .content .media {
+        order: 0;
+      }
+
+      .content.reverse .details,
+      #year-2021 .content .details,
+      #year-2023 .content .details,
+      #year-2025 .content .details {
+        order: 1;
       }
     }
 
@@ -796,7 +1050,7 @@
     =========================================================== */
     .cta-strip {
       background: #FFFFFF;
-      padding: 60px 32px;
+      padding: 60px 0;
       border-top: 1px solid rgba(15, 23, 42, 0.08);
       text-align: center;
       position: relative;
@@ -925,34 +1179,61 @@
   </nav>
 
   <main>
-    <!-- ============ HERO INTRO ============ -->
-    <section class="intro ink">
-      <div class="intro-badge">
-        <span class="dot"></span>
-        <span>KOMPETENZEN® · OUR STORY 2020 – 2026</span>
-      </div>
-      <h1>Empowering Careers.<br />Transforming Futures.</h1>
-      <p class="intro-desc">
-        From a visionary career consulting idea in Kochi in 2020 to Kerala’s premier job-oriented skill development academy with 2,000+ placements in 2026.
-      </p>
-
-      <div class="intro-stats">
-        <div class="intro-stat-item">
-          <b>2020</b>
-          <span>Founded in Kochi</span>
-        </div>
-        <div class="intro-stat-item">
-          <b>2,000+</b><span>Successful Placements</span>
-        </div>
-        <div class="intro-stat-item">
-          <b>120+</b><span>Hiring Partners</span>
-        </div>
-        <div class="intro-stat-item">
-          <b>4.8★</b><span>Google Rating</span>
+    <!-- ============ HERO INTRO (TELESCOPE ZOOM) ============ -->
+    <section class="intro ink telescope-hero" id="hero-telescope">
+      <!-- Center Zoom Piece (img-big with layered concentric masks) -->
+      <div class="section__media">
+        <div class="section__media__back">
+          <img src="img/telescope/img-big.png" alt="Kompetenzen Team & Mentors" />
         </div>
       </div>
 
+      <!-- Peripheral Floating Images (Scattered in 3D perspective) -->
+      <div class="section__images">
+        <img src="img/telescope/img-1.webp" alt="Story Gallery 1" />
+        <img src="img/telescope/img-2.webp" alt="Story Gallery 2" />
+        <img src="img/telescope/img-3.webp" alt="Story Gallery 3" />
+        <img src="img/telescope/img-4.webp" alt="Story Gallery 4" />
+        <img src="img/telescope/img-5.webp" alt="Story Gallery 5" />
+        <img src="img/telescope/img-6.webp" alt="Story Gallery 6" />
+        <img src="img/telescope/img-7.webp" alt="Story Gallery 7" />
+        <img src="img/telescope/img-8.webp" alt="Story Gallery 8" />
+        <img src="img/telescope/img-9.webp" alt="Story Gallery 9" />
+        <img src="img/telescope/img-10.webp" alt="Story Gallery 10" />
+      </div>
 
+      <!-- Foreground Story Content -->
+      <div class="intro-content-wrap">
+        <div class="intro-badge">
+          <span class="dot"></span>
+          <span>KOMPETENZEN® · OUR STORY 2020 – 2026</span>
+        </div>
+
+        <h1 class="hero-zoom-title">
+          <span class="left">Empowering Careers.</span>
+          <span class="right">Transforming Futures.</span>
+        </h1>
+
+        <p class="intro-desc">
+          From a visionary career consulting idea in Kochi in 2020 to Kerala’s premier job-oriented skill development academy with 2,000+ placements in 2026.
+        </p>
+
+        <div class="intro-stats">
+          <div class="intro-stat-item">
+            <b>2020</b>
+            <span>Founded in Kochi</span>
+          </div>
+          <div class="intro-stat-item">
+            <b>2,000+</b><span>Successful Placements</span>
+          </div>
+          <div class="intro-stat-item">
+            <b>120+</b><span>Hiring Partners</span>
+          </div>
+          <div class="intro-stat-item">
+            <b>4.8★</b><span>Google Rating</span>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- ============ SECTION 1: ABOUT KOMPETENZEN ============ -->
@@ -1045,7 +1326,7 @@
           <span class="tag-label">2021 // MILESTONE 02</span>
           <h2 class="heading">2021 · Tech & Finishing School Launch</h2>
         </div>
-        <div class="content">
+        <div class="content reverse">
           <div class="media">
             <img src="img/2.jpg" alt="2021 Tech & Finishing School" />
           </div>
@@ -1117,7 +1398,7 @@
           <span class="tag-label" style="color: #60A5FA;">2023 // MILESTONE 04</span>
           <h2 class="heading">2023 · B-School & Corporate Division</h2>
         </div>
-        <div class="content">
+        <div class="content reverse">
           <div class="media">
             <img src="img/4.jpg" alt="2023 B-School & Corporate" />
           </div>
@@ -1189,7 +1470,7 @@
           <span class="tag-label">2025 // MILESTONE 06</span>
           <h2 class="heading">2025 · Ecosystem Landmark & Talent Hunt</h2>
         </div>
-        <div class="content">
+        <div class="content reverse">
           <div class="media">
             <img src="img/6.jpg" alt="2025 Ecosystem Landmark" />
           </div>
@@ -1438,7 +1719,7 @@
         </div>
         <div class="ft-col">
           <h4>Explore</h4>
-          <a href="index.html#placements">2000+ Placements</a>
+          <a href="placements.html">2000+ Placements</a>
           <a href="our-story.html">Our Story (2020-2026)</a>
           <a href="https://darksalmon-llama-333572.hostingersite.com/" target="_blank" onclick="openResumeBuilder(event)">Resume Builder</a>
         </div>
@@ -1518,43 +1799,106 @@
           });
         }
 
-        // Intro Hero Animations
-        const introBadge = document.querySelector(".intro-badge");
-        const introHeading = splitAndHide(document.querySelector(".intro h1"));
-        const introDesc = splitAndHide(document.querySelector(".intro p.intro-desc"));
-        const introStats = document.querySelector(".intro-stats");
-        const yearNavPills = document.querySelector(".year-nav-pills");
+        // Intro Hero Entrance & Telescope Zoom Animation
+        const heroSection = document.querySelector(".telescope-hero");
+        const introBadge = heroSection ? heroSection.querySelector(".intro-badge") : null;
+        const heroTitle = heroSection ? heroSection.querySelector(".hero-zoom-title") : null;
+        const introDesc = heroSection ? heroSection.querySelector(".intro-desc") : null;
+        const introStats = heroSection ? heroSection.querySelector(".intro-stats") : null;
+        const centerMediaBack = heroSection ? heroSection.querySelector(".section__media__back") : null;
+        const smallImages = heroSection ? heroSection.querySelectorAll(".section__images img") : [];
 
+        // Initial setup and entrance reveal
         if (introBadge) gsap.set(introBadge, { visibility: "visible", opacity: 0, y: 20 });
+        if (heroTitle) gsap.set(heroTitle, { visibility: "visible", opacity: 0, y: 24 });
+        if (introDesc) gsap.set(introDesc, { visibility: "visible", opacity: 0, y: 20 });
         if (introStats) gsap.set(introStats, { visibility: "visible", opacity: 0, y: 20 });
-        if (yearNavPills) gsap.set(yearNavPills, { visibility: "visible", opacity: 0, y: 20 });
+        if (smallImages.length) {
+          gsap.set(smallImages, {
+            transformStyle: "preserve-3d",
+            backfaceVisibility: "hidden",
+            force3D: true,
+            opacity: 0,
+            scale: 0.8
+          });
+        }
 
-        const tl = gsap.timeline();
-        if (introBadge) tl.to(introBadge, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" });
-        if (introHeading) tl.add(revealLines(introHeading), "-=0.4");
-        if (introDesc) tl.add(revealLines(introDesc), "-=0.8");
-        if (introStats) tl.to(introStats, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.6");
-        if (yearNavPills) tl.to(yearNavPills, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.4");
+        const entranceTL = gsap.timeline();
+        if (introBadge) entranceTL.to(introBadge, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" });
+        if (heroTitle) entranceTL.to(heroTitle, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.4");
+        if (introDesc) entranceTL.to(introDesc, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.5");
+        if (introStats) entranceTL.to(introStats, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, "-=0.5");
+        if (smallImages.length) {
+          entranceTL.to(smallImages, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.9,
+            ease: "power2.out",
+            stagger: { amount: 0.3, from: "center" }
+          }, "-=0.6");
+        }
 
-        // Skew Background & Section Reveal Effects (as in scroll.html)
+        // Telescope Zoom on Scroll (3D perspective warp into img-big)
+        if (heroSection) {
+          const telescopeTL = gsap.timeline({
+            scrollTrigger: {
+              trigger: heroSection,
+              start: "top top",
+              end: "+=130%",
+              scrub: 1,
+              pin: true,
+              anticipatePin: 1,
+              onUpdate: (self) => {
+                const easedProgress = gsap.parseEase("power1.inOut")(self.progress);
+                heroSection.style.setProperty("--progress", easedProgress);
+              }
+            }
+          });
+
+          // 1. Auxiliary content (badge, desc, stats) fades early
+          telescopeTL.to([introBadge, introDesc, introStats], {
+            opacity: 0,
+            y: -25,
+            duration: 0.35,
+            ease: "power1.out"
+          }, 0);
+
+          // 2. Small peripheral images fly forward in 3D perspective towards viewer
+          telescopeTL.to(smallImages, {
+            z: "100vh",
+            duration: 1,
+            ease: "power1.inOut",
+            stagger: {
+              amount: 0.2,
+              from: "center"
+            }
+          }, 0);
+
+          // Fade out small images smoothly as they pass the camera
+          telescopeTL.to(smallImages, {
+            opacity: 0,
+            duration: 0.35,
+            ease: "power1.out",
+            stagger: {
+              amount: 0.15,
+              from: "center"
+            }
+          }, 0.35);
+
+          // 3. Center media zoom smoothly into clear focus
+          if (centerMediaBack) {
+            telescopeTL.fromTo(centerMediaBack, 
+              { scale: 0.85, opacity: 0.7 },
+              { scale: 1, opacity: 1, duration: 0.8, ease: "power1.inOut" },
+              0.4
+            );
+          }
+        }
+
+        // Section Reveal Effects (Heading animations)
         document.querySelectorAll(".section").forEach((section) => {
           const heading = section.querySelector("h2.heading");
           const lines = splitAndHide(heading);
-          const bg = section.querySelector(".bg");
-
-          if (bg) {
-            gsap.to(bg, {
-              y: -80,
-              skewY: -3.5,
-              ease: "none",
-              scrollTrigger: {
-                trigger: section,
-                start: "top 95%",
-                end: "top 50%",
-                scrub: 0.5,
-              },
-            });
-          }
 
           ScrollTrigger.create({
             trigger: section,
