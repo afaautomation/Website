@@ -1919,8 +1919,8 @@
         <!-- LOG IN FORM -->
         <form class="auth-form-column" id="login-form" onsubmit="handleEmailLogin(event)">
           <div class="form-group">
-            <label for="login-email">Email address</label>
-            <input type="email" id="login-email" class="form-input" placeholder="you@example.com" autocomplete="off" required />
+            <label for="login-email">Username or Email address</label>
+            <input type="text" id="login-email" class="form-input" placeholder="Enter username or email" autocomplete="off" required />
           </div>
 
           <div class="form-group">
@@ -2651,14 +2651,15 @@
       authenticateUser(derivedName, email.toLowerCase(), true);
     }
 
-    function handleEmailLogin(e) {
+    async function handleEmailLogin(e) {
       e.preventDefault();
       hideAuthAlert();
-      const email = document.getElementById('login-email').value.trim().toLowerCase();
+      const identifier = document.getElementById('login-email').value.trim();
       const password = document.getElementById('login-password').value;
+      const submitBtn = document.getElementById('login-submit-btn');
 
-      if (!email || !email.includes('@')) {
-        showAuthAlert('Please enter a valid email address.', 'error');
+      if (!identifier) {
+        showAuthAlert('Please enter your username or email address.', 'error');
         return;
       }
       if (!password) {
@@ -2666,25 +2667,71 @@
         return;
       }
 
-      const users = getRegisteredUsers();
-      const user = users.find(u => u.email.toLowerCase() === email);
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Verifying…';
+      }
 
+      const idLower = identifier.toLowerCase();
+      const users = getRegisteredUsers();
+      let user = users.find(u => 
+        (u.email && u.email.toLowerCase() === idLower) ||
+        (u.name && u.name.trim().toLowerCase() === idLower) ||
+        (u.username && u.username.trim().toLowerCase() === idLower)
+      );
+
+      if (user) {
+        if (user.password && user.password !== password) {
+          showAuthAlert('Incorrect password. Please try again or click "Forgot password?".', 'error');
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Sign In to Apply';
+          }
+          document.getElementById('login-password').focus();
+          return;
+        }
+      } else {
+        // Query Google Sheet database (Users_Auth / Course_Login_Details / Login_Signup_Details)
+        try {
+          const verifyUrl = GOOGLE_SHEET_SCRIPT_URL + '?type=verify_user&identifier=' + encodeURIComponent(identifier) + '&email=' + encodeURIComponent(identifier) + '&password=' + encodeURIComponent(password);
+          const resp = await fetch(verifyUrl);
+          const data = await resp.json();
+          if (data && (data.status === 'invalid_password' || data.reason === 'incorrect_password')) {
+            showAuthAlert('Incorrect password. Please try again or click "Forgot password?".', 'error');
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.textContent = 'Sign In to Apply';
+            }
+            document.getElementById('login-password').focus();
+            return;
+          }
+          if (data && data.verified && data.user) {
+            user = {
+              name: data.user.name || identifier,
+              email: data.user.email || (identifier.includes('@') ? identifier : ''),
+              phone: data.user.phone || '',
+              password: password
+            };
+            saveRegisteredUser(user);
+          }
+        } catch (err) {
+          console.warn('Sheet verify error:', err);
+        }
+      }
+
+      // STRICT CHECK: Only login if user is available in sheets / registered users
       if (!user) {
-        showAuthAlert(`No account found for "${email}". Please create an account.`, 'error');
-        setTimeout(() => {
-          switchAuthTab('signup');
-          const signupEmail = document.getElementById('signup-email');
-          if (signupEmail) signupEmail.value = email;
-          const signupName = document.getElementById('signup-name');
-          if (signupName) signupName.focus();
-        }, 1200);
+        showAuthAlert(`No account found for "${identifier}". Only registered accounts available in the sheet can log in.`, 'error');
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Sign In to Apply';
+        }
         return;
       }
 
-      if (user.password && user.password !== password) {
-        showAuthAlert('Incorrect password. Please try again or click "Forgot password?".', 'error');
-        document.getElementById('login-password').focus();
-        return;
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Sign In to Apply';
       }
 
       // Record login in Google Sheet Users_Auth tab
@@ -2695,14 +2742,14 @@
         section: 'Job Listing',
         targetSheet: 'Users_Auth',
         name: user.name,
-        email: user.email,
+        email: user.email || identifier,
         phone: user.phone || '',
         password: password,
         page: window.location.href,
         timestamp: new Date().toISOString()
       });
 
-      authenticateUser(user.name, user.email, false, password);
+      authenticateUser(user.name, user.email || identifier, false, password);
     }
 
     function handleForgotPassword(e) {

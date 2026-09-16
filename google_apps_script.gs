@@ -60,27 +60,47 @@ function handleRequest(e) {
 
     // =========================================================================
     // ROUTE 0: User Verification & Authentication Query (Cross-Sheet Auth)
-    // Allows Course Details login to verify credentials against Users_Auth
+    // Allows Course Details & Website login to verify credentials against Users_Auth & sheets
     // =========================================================================
     if (type === 'verify_user' || type === 'check_auth' || type === 'get_user') {
-      var emailToCheck = String(params.email || '').trim().toLowerCase();
+      var identifierToCheck = String(params.email || params.username || params.identifier || '').trim().toLowerCase();
       var passToCheck = String(params.password || '');
       
-      var foundUser = findUserInAuthSheets(ss, emailToCheck, passToCheck);
+      var foundUser = findUserInAuthSheets(ss, identifierToCheck, passToCheck);
       if (foundUser) {
+        if (foundUser.passwordMatches === false) {
+          return createJsonResponse({
+            status: 'invalid_password',
+            verified: false,
+            reason: 'incorrect_password',
+            message: 'Incorrect password for this user'
+          });
+        }
         return createJsonResponse({
           status: 'success',
           verified: true,
-          user: foundUser,
+          user: {
+            name: foundUser.name,
+            email: foundUser.email,
+            phone: foundUser.phone,
+            sourceSheet: foundUser.sourceSheet
+          },
           message: 'User successfully verified against ' + foundUser.sourceSheet
         });
       } else {
         return createJsonResponse({
           status: 'not_found',
           verified: false,
-          message: 'User credentials not found in Users_Auth or Course_Login_Details'
+          reason: 'user_not_found',
+          message: 'User credentials not found in sheets'
         });
       }
+    } else if (type === 'get_all_users' || type === 'fetch_sheet_users') {
+      var allUsers = getAllUsersFromAuthSheets(ss);
+      return createJsonResponse({
+        status: 'success',
+        users: allUsers
+      });
     }
 
     // =========================================================================
@@ -607,11 +627,12 @@ function setupUsersAuthSheet() {
 }
 
 /**
- * Helper: Find a user across auth sheets (Users_Auth, Course_Login_Details)
- * Enables Course Details login to verify credentials against Users_Auth.
+ * Helper: Find a user across auth sheets (Users_Auth, Course_Login_Details, Login_Signup_Details)
+ * Enables Website & Course login to verify credentials against sheets by username (Full Name) or email.
  */
-function findUserInAuthSheets(ss, email, password) {
-  if (!email) return null;
+function findUserInAuthSheets(ss, identifier, password) {
+  if (!identifier) return null;
+  var target = String(identifier).trim().toLowerCase();
   var sheetsToCheck = ['Users_Auth', 'Course_Login_Details', 'Login_Signup_Details'];
   for (var s = 0; s < sheetsToCheck.length; s++) {
     var sheet = ss.getSheetByName(sheetsToCheck[s]);
@@ -620,23 +641,60 @@ function findUserInAuthSheets(ss, email, password) {
     if (lastRow <= 1) continue;
     var data = sheet.getRange(2, 1, lastRow - 1, 8).getValues();
     for (var i = data.length - 1; i >= 0; i--) {
-      var rowEmail = String(data[i][2] || '').trim().toLowerCase();
-      var rowPass = String(data[i][4] || '').trim();
       var rowName = String(data[i][1] || '').trim();
+      var rowEmail = String(data[i][2] || '').trim().toLowerCase();
       var rowPhone = String(data[i][3] || '').trim();
-      if (rowEmail === email.toLowerCase()) {
-        if (!password || !rowPass || rowPass === password) {
-          return {
-            name: rowName,
-            email: rowEmail,
-            phone: rowPhone,
-            sourceSheet: sheetsToCheck[s]
-          };
-        }
+      var rowPass = String(data[i][4] || '').trim();
+
+      var match = (rowEmail && rowEmail === target) || (rowName && rowName.toLowerCase() === target);
+      if (match) {
+        var passOk = (!password || !rowPass || rowPass === String(password).trim());
+        return {
+          name: rowName,
+          email: rowEmail,
+          phone: rowPhone,
+          passwordMatches: passOk,
+          sourceSheet: sheetsToCheck[s]
+        };
       }
     }
   }
   return null;
+}
+
+/**
+ * Helper: Get all registered users across auth sheets
+ */
+function getAllUsersFromAuthSheets(ss) {
+  var sheetsToCheck = ['Users_Auth', 'Course_Login_Details', 'Login_Signup_Details'];
+  var usersMap = {};
+  for (var s = 0; s < sheetsToCheck.length; s++) {
+    var sheet = ss.getSheetByName(sheetsToCheck[s]);
+    if (!sheet) continue;
+    var lastRow = sheet.getLastRow();
+    if (lastRow <= 1) continue;
+    var data = sheet.getRange(2, 1, lastRow - 1, 8).getValues();
+    for (var i = 1; i < data.length; i++) {
+      var rowName = String(data[i][1] || '').trim();
+      var rowEmail = String(data[i][2] || '').trim().toLowerCase();
+      var rowPhone = String(data[i][3] || '').trim();
+      var rowPass = String(data[i][4] || '').trim();
+      if (rowEmail || rowName) {
+        var key = rowEmail || rowName.toLowerCase();
+        usersMap[key] = {
+          name: rowName,
+          email: rowEmail,
+          phone: rowPhone,
+          password: rowPass
+        };
+      }
+    }
+  }
+  var list = [];
+  for (var k in usersMap) {
+    list.push(usersMap[k]);
+  }
+  return list;
 }
 
 /**

@@ -216,8 +216,8 @@
             <!-- LOG IN FORM -->
             <form id="login-form" onsubmit="handleLoginSubmit(event)" style="display:none; flex-direction:column; gap:0.8rem; width:100%; box-sizing:border-box;">
               <div style="display:flex; flex-direction:column; gap:0.25rem; min-width:0;">
-                <label style="font-size:0.74rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.03em;">Email Address</label>
-                <input id="login-email" type="email" required placeholder="you@example.com" autocomplete="off"
+                <label style="font-size:0.74rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.03em;">Username or Email Address</label>
+                <input id="login-email" type="text" required placeholder="Enter username or email" autocomplete="off"
                   style="width:100%; max-width:100%; min-width:0; box-sizing:border-box; padding:0.65rem 0.85rem; background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.88rem; color:#0f172a; outline:none; transition:all 0.2s;"
                   onfocus="this.style.borderColor='#1947FF'; this.style.background='#fff'" onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc'">
               </div>
@@ -607,20 +607,12 @@
 
   window.handleLoginSubmit = async function (e) {
     e.preventDefault();
-    const email = document.getElementById('login-email')?.value.trim().toLowerCase();
+    const identifier = document.getElementById('login-email')?.value.trim();
     const password = document.getElementById('login-password')?.value;
     const btn = document.getElementById('login-submit-btn');
 
-    if (!email || !password) {
-      window.showAuthMessage('Please enter both your email and password.', true);
-      return;
-    }
-
-    const users = getRegisteredUsers();
-    let user = users.find(u => u.email === email);
-
-    if (user && user.password && user.password !== password) {
-      window.showAuthMessage('Incorrect password. Please try again.', true);
+    if (!identifier || !password) {
+      window.showAuthMessage('Please enter both your username/email and password.', true);
       return;
     }
 
@@ -629,32 +621,74 @@
       btn.textContent = 'Verifying…';
     }
 
-    // Verify against Users_Auth sheet via Google Apps Script if not found locally
-    if (!user) {
+    const idLower = identifier.toLowerCase();
+    const users = getRegisteredUsers();
+    let user = users.find(u => 
+      (u.email && u.email.toLowerCase() === idLower) ||
+      (u.name && u.name.trim().toLowerCase() === idLower) ||
+      (u.username && u.username.trim().toLowerCase() === idLower)
+    );
+
+    // If user is found locally, verify password
+    if (user) {
+      if (user.password && user.password !== password) {
+        window.showAuthMessage('Incorrect password. Please try again.', true);
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = 'Log In →';
+        }
+        return;
+      }
+    } else {
+      // Verify against Google Sheet (Users_Auth / Course_Login_Details / Login_Signup_Details)
       try {
-        const verifyUrl = GOOGLE_SHEET_SCRIPT_URL + '?type=verify_user&email=' + encodeURIComponent(email) + '&password=' + encodeURIComponent(password);
+        const verifyUrl = GOOGLE_SHEET_SCRIPT_URL + '?type=verify_user&identifier=' + encodeURIComponent(identifier) + '&email=' + encodeURIComponent(identifier) + '&password=' + encodeURIComponent(password);
         const resp = await fetch(verifyUrl);
         const data = await resp.json();
+        if (data && (data.status === 'invalid_password' || data.reason === 'incorrect_password')) {
+          window.showAuthMessage('Incorrect password. Please try again.', true);
+          if (btn) {
+            btn.disabled = false;
+            btn.textContent = 'Log In →';
+          }
+          return;
+        }
         if (data && data.verified && data.user) {
           user = {
-            name: data.user.name || email.split('@')[0],
-            email: data.user.email || email,
+            name: data.user.name || identifier,
+            email: data.user.email || (identifier.includes('@') ? identifier : ''),
             phone: data.user.phone || '',
             password: password,
             authType: 'Direct Login'
           };
+          // Cache to local registered users
+          try {
+            const uList = getRegisteredUsers();
+            const idx = uList.findIndex(u => 
+              (u.email && user.email && u.email.toLowerCase() === user.email.toLowerCase()) || 
+              (u.name && u.name.toLowerCase() === user.name.toLowerCase())
+            );
+            if (idx >= 0) uList[idx] = { ...uList[idx], ...user };
+            else uList.push(user);
+            localStorage.setItem('kompetenzen_registered_users', JSON.stringify(uList));
+          } catch (e) {}
         }
       } catch (err) {
         console.warn('Backend verification query fallback:', err);
       }
     }
 
-    const authenticatedUser = user || {
-      name: email.split('@')[0].charAt(0).toUpperCase() + email.split('@')[0].slice(1),
-      email: email,
-      phone: '',
-      authType: 'Direct Login'
-    };
+    // STRICT CHECK: ONLY allow login if the username/email is available in the sheet / registered users!
+    if (!user) {
+      window.showAuthMessage('No account found for this username. Only registered accounts available in the sheet can log in.', true);
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = 'Log In →';
+      }
+      return;
+    }
+
+    const authenticatedUser = user;
 
     const isResume = window._pendingAuthSection === 'resume';
     const targetSheet = isResume ? 'Users_Auth' : 'Course_Login_Details';
@@ -667,7 +701,7 @@
       section: sectionName,
       targetSheet: targetSheet,
       name: authenticatedUser.name || '',
-      email: email,
+      email: authenticatedUser.email || identifier,
       phone: authenticatedUser.phone || '',
       password: password,
       page: window.location.href,
@@ -706,6 +740,26 @@
     if (!email.includes('@')) {
       alert('Please enter a valid Google email address.');
       return;
+    }
+
+    // If in Log In mode, ensure the Google user exists in the sheets / database
+    if (currentAuthMode === 'login') {
+      const users = getRegisteredUsers();
+      let existing = users.find(u => (u.email || '').toLowerCase() === email);
+      if (!existing) {
+        try {
+          const verifyUrl = GOOGLE_SHEET_SCRIPT_URL + '?type=verify_user&email=' + encodeURIComponent(email);
+          const resp = await fetch(verifyUrl);
+          const data = await resp.json();
+          if (data && data.verified && data.user) {
+            existing = data.user;
+          }
+        } catch (e) {}
+      }
+      if (!existing) {
+        window.showAuthMessage('No account found for this Google email in the sheet. Please create an account first.', true);
+        return;
+      }
     }
 
     let name = defaultName;
