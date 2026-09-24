@@ -35,12 +35,19 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
 
-    html, body {
+    html,
+    body {
       background: var(--cream);
       color: var(--ink);
       font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
       font-size: 16px;
       line-height: 1.45;
+    }
+
+    body {
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100vw;
     }
 
     /* NAV */
@@ -452,6 +459,8 @@
       .reel-controls { justify-content: flex-end; }
       .form-actions { flex-direction: column; align-items: stretch; }
     }
+
+    body { overflow-x: hidden; max-width: 100%; }
   </style>
 </head>
 
@@ -475,14 +484,18 @@
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
       </div>
       <h2>Staff access</h2>
-      <p>This page is for Kompetenzen staff only. Enter the staff access key to continue.</p>
-      <p class="gate-error" id="gate-error">That key isn't recognised. Please check with your team lead and try again.</p>
+      <p>This page is for Kompetenzen staff only. Sign in with your staff account to continue.</p>
+      <p class="gate-error" id="gate-error">Sign-in failed. Please check your details and try again.</p>
       <form id="gate-form">
         <div class="field">
-          <label for="gate-key">Staff access key <span class="req">*</span></label>
-          <input id="gate-key" type="password" autocomplete="off" placeholder="Enter access key" required />
+          <label for="gate-email">Staff email <span class="req">*</span></label>
+          <input id="gate-email" type="email" autocomplete="username" placeholder="you@kompetenzen.in" required />
         </div>
-        <button class="btn-primary" type="submit">Unlock →</button>
+        <div class="field">
+          <label for="gate-key">Password <span class="req">*</span></label>
+          <input id="gate-key" type="password" autocomplete="current-password" placeholder="Enter your password" required />
+        </div>
+        <button class="btn-primary" type="submit">Sign in →</button>
       </form>
     </div>
   </div>
@@ -537,42 +550,95 @@
 
   <script>
     /* =============================================
-       STAFF GATE
+       STAFF GATE — real authentication.
+
+       Was a plaintext passcode compared in the browser, plus a
+       sessionStorage flag anyone could set. Reels writes are now additionally
+       restricted at the database level to profiles.role = 'admin', so forcing
+       this panel open achieves nothing.
     ============================================= */
     (function () {
-      const STAFF_KEY = 'kompadmin';
-      const SESSION_FLAG = 'kompetenzen_hr_staff_unlocked';
-
       const gateScreen = document.getElementById('gate-screen');
       const adminMain = document.getElementById('admin-main');
       const gateForm = document.getElementById('gate-form');
+      const gateEmail = document.getElementById('gate-email');
       const gateInput = document.getElementById('gate-key');
       const gateError = document.getElementById('gate-error');
+
+      function showError(message) {
+        gateError.textContent = message;
+        gateError.classList.add('is-visible');
+      }
+
+      function lock() {
+        gateScreen.style.display = '';
+        adminMain.style.display = 'none';
+      }
 
       function unlock() {
         gateScreen.style.display = 'none';
         adminMain.style.display = 'block';
-        sessionStorage.setItem(SESSION_FLAG, '1');
       }
 
-      if (sessionStorage.getItem(SESSION_FLAG) === '1') {
-        unlock();
+      async function isStaff() {
+        if (typeof supabaseClient === 'undefined' || !supabaseClient) return false;
+        const { data: sessionData } = await supabaseClient.auth.getSession();
+        const user = sessionData && sessionData.session && sessionData.session.user;
+        if (!user) return false;
+
+        const { data, error } = await supabaseClient
+          .from('profiles')
+          .select('role')
+          .eq('id', user.id)
+          .maybeSingle();
+
+        if (error || !data) return false;
+        return data.role === 'admin';
       }
 
-      gateForm.addEventListener('submit', (e) => {
+      async function evaluateSession() {
+        if (await isStaff()) { unlock(); } else { lock(); }
+      }
+
+      gateForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const value = gateInput.value.trim();
+        gateError.classList.remove('is-visible');
 
-        if (value === STAFF_KEY) {
-          gateError.classList.remove('is-visible');
+        if (typeof supabaseClient === 'undefined' || !supabaseClient) {
+          showError('Authentication service is unavailable. Please try again shortly.');
+          return;
+        }
+
+        const email = gateEmail.value.trim();
+        const password = gateInput.value;
+        const submitBtn = gateForm.querySelector('button[type="submit"]');
+        if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Signing in...'; }
+
+        try {
+          const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+          if (error) throw new Error('Those credentials were not recognised.');
+
+          if (!(await isStaff())) {
+            await supabaseClient.auth.signOut();
+            throw new Error('This account does not have staff access.');
+          }
+
+          gateInput.value = '';
           unlock();
-        } else {
-          gateError.classList.add('is-visible');
-          gateInput.select();
+        } catch (err) {
+          showError(err.message);
+          gateInput.value = '';
+          gateInput.focus();
+        } finally {
+          if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Sign in →'; }
         }
       });
-    })();
 
+      evaluateSession();
+      if (typeof supabaseClient !== 'undefined' && supabaseClient) {
+        supabaseClient.auth.onAuthStateChange(() => { evaluateSession(); });
+      }
+    })();
     /* =============================================
        REELS MANAGER LOGIC
     ============================================= */

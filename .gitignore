@@ -6,12 +6,35 @@ scratch/
 .DS_Store
 Thumbs.db
 
+# Environment & Secret Credentials (CRITICAL - NEVER COMMIT)
+.env
+.env.*
+*.env
+**/.env
+**/.env.*
+*.key
+*.pem
+*.cert
+credentials.json
+service-account*.json
+
 # Dependencies & Build artifacts
 node_modules/
+**/node_modules/
 dist/
+**/dist/
+exports/
+uploads/
+logs/
+*.log
+*.db
+*.sqlite
 
 # External / Temporary tools & output
 output/
 spotify-visualiser-main/
 telescope-zoom-main/
 brain_img_big_preview.jpg
+scratch_thumb.png
+Resume/
+

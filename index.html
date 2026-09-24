@@ -71,19 +71,23 @@
     h6,
     .section-title {
       font-family: 'Inconsolata', monospace !important;
-    }/* ===========================================================
+    }
+
+    /* ===========================================================
    BACKGROUND
 =========================================================== */
     /* Make sections sit above the background layers but transparent so layers show through */
     .nav,
-section,
-footer{
+    section,
+    footer {
       position: relative;
       z-index: 2
-    }/* sections that have their own solid backgrounds should mask the bg layers */
+    }
+
+    /* sections that have their own solid backgrounds should mask the bg layers */
     #placements,
-.cta-strip,
-footer{
+    .cta-strip,
+    footer {
       isolation: isolate
     }
 
@@ -158,10 +162,14 @@ footer{
       top: 0;
       left: 0;
       right: 0;
-      z-index: 60;
-      padding: 16px 0;
+      z-index: 1000;
+      height: 64px;
+      padding: 0;
+      background: rgba(255, 255, 255, .96);
+      backdrop-filter: saturate(140%) blur(14px);
+      -webkit-backdrop-filter: saturate(140%) blur(14px);
+      border-bottom: 1px solid var(--line-soft);
       transition: background .3s ease, backdrop-filter .3s ease, border-color .3s ease, transform .4s cubic-bezier(0.16, 1, 0.3, 1);
-      border-bottom: 1px solid transparent
     }
 
     .nav.nav-hidden {
@@ -169,38 +177,81 @@ footer{
     }
 
     .nav.scrolled {
-      background: rgba(255, 255, 255, .9);
+      background: rgba(255, 255, 255, .98);
       backdrop-filter: saturate(140%) blur(14px);
-      border-bottom-color: var(--line-soft)
+      border-bottom-color: var(--line-soft);
     }
 
     .nav-inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      width: 100%
+      width: 100%;
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 0 32px;
+      height: 64px;
+      box-sizing: border-box;
     }
 
     .nav-left,
     .nav-right {
       display: flex;
       align-items: center;
-      flex: 1
+      flex: 1;
     }
 
     .nav-left {
-      justify-content: flex-start
+      justify-content: flex-start;
     }
 
     .nav-right {
-      justify-content: flex-end
+      justify-content: flex-end;
     }
 
     .nav-links {
       display: flex;
       align-items: center;
       gap: clamp(16px, 1.8vw, 30px);
-      justify-content: center
+      justify-content: center;
+    }
+
+    .mobile-services-header,
+    .nav-arrow {
+      display: none;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      margin-left: 10px;
+      z-index: 1002;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      border-radius: 2px;
+      background: var(--ink);
+      transition: all 0.25s ease;
+    }
+
+    .hamburger.active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
     }
 
     .brand {
@@ -209,13 +260,13 @@ footer{
       gap: 10px;
       font-weight: 600;
       font-size: 18px;
-      letter-spacing: -.02em
+      letter-spacing: -.02em;
     }
 
     .brand img {
       height: 38px;
       width: auto;
-      display: block
+      display: block;
     }
 
     .nav-links a {
@@ -223,11 +274,11 @@ footer{
       font-weight: 500;
       color: var(--ink);
       transition: color .2s;
-      position: relative
+      position: relative;
     }
 
     .nav-links a:hover {
-      color: var(--blue)
+      color: var(--blue);
     }
 
     .cta {
@@ -240,12 +291,12 @@ footer{
       border-radius: 99px;
       font-size: 14px;
       font-weight: 500;
-      transition: transform .25s cubic-bezier(.2, .8, .2, 1), background .25s
+      transition: transform .25s cubic-bezier(.2, .8, .2, 1), background .25s;
     }
 
     .cta:hover {
       background: var(--blue);
-      transform: translateY(-1px)
+      transform: translateY(-1px);
     }
 
     .cta .dot {
@@ -254,18 +305,12 @@ footer{
       border-radius: 99px;
       background: var(--blue);
       box-shadow: 0 0 0 4px rgba(25, 71, 255, .3);
-      animation: pulse 1.6s ease-in-out infinite
+      animation: pulse 1.6s ease-in-out infinite;
     }
 
     @keyframes pulse {
       50% {
-        box-shadow: 0 0 0 8px rgba(25, 71, 255, 0)
-      }
-    }
-
-    @media (max-width:880px) {
-      .nav-links {
-        display: none
+        box-shadow: 0 0 0 8px rgba(25, 71, 255, 0);
       }
     }
 
@@ -865,7 +910,7 @@ footer{
       opacity: 0;
       transform-origin: center top;
       transition: transform 1.25s cubic-bezier(0.16, 1, 0.3, 1),
-                  opacity 1.25s cubic-bezier(0.16, 1, 0.3, 1);
+        opacity 1.25s cubic-bezier(0.16, 1, 0.3, 1);
       will-change: transform, opacity;
       pointer-events: none;
     }
@@ -940,7 +985,9 @@ footer{
       transition: transform 1.15s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.9s cubic-bezier(0.65, 0, 0.35, 1);
       z-index: 0;
       backface-visibility: hidden;
-    }/* Incoming state: rolled under{
+    }
+
+    /* Incoming state: rolled under{
       opacity: 0;
       transform-origin: bottom center;
       transform: translateY(60px) rotateX(-110deg);
@@ -1068,9 +1115,20 @@ footer{
       border-radius: 50%;
     }
 
-    .pill-dot.blue { background: #3B82F6; box-shadow: 0 0 8px #3B82F6; }
-    .pill-dot.green { background: #10B981; box-shadow: 0 0 8px #10B981; }
-    .pill-dot.purple { background: #A855F7; box-shadow: 0 0 8px #A855F7; }
+    .pill-dot.blue {
+      background: #3B82F6;
+      box-shadow: 0 0 8px #3B82F6;
+    }
+
+    .pill-dot.green {
+      background: #10B981;
+      box-shadow: 0 0 8px #10B981;
+    }
+
+    .pill-dot.purple {
+      background: #A855F7;
+      box-shadow: 0 0 8px #A855F7;
+    }
 
     .future-actions {
       display: flex;
@@ -1117,7 +1175,9 @@ footer{
         padding: 32px 24px;
         gap: 0;
       }
-    }/* Slide 02: Bottom metric boxes - fixed margin{
+    }
+
+    /* Slide 02: Bottom metric boxes - fixed margin{
       margin-top: 116px;
       width: 100%;
     }
@@ -1385,16 +1445,19 @@ footer{
       .schools-section .wrap {
         width: calc(100% - 32px);
       }
+
       .schools-grid {
         grid-template-columns: 1fr;
         max-width: 580px;
         margin: 0 auto;
         gap: 24px;
       }
+
       .schools-header {
         margin-bottom: 26px;
         text-align: center;
       }
+
       .school-card-media {
         height: 200px;
       }
@@ -1404,6 +1467,7 @@ footer{
       .schools-section {
         padding: 60px 0 75px 0;
       }
+
       .schools-header {
         margin-bottom: 36px;
       }
@@ -1882,181 +1946,473 @@ footer{
       }
 
       /* Nav & Hamburger */
+      .nav {
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 1000 !important;
+        background: #ffffff !important;
+        border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
+        height: 64px !important;
+        padding: 0 !important;
+        overflow: visible !important;
+      }
+
       .nav-inner {
-        position: relative;
-        z-index: 1001;
+        position: relative !important;
+        padding: 0 16px !important;
+        height: 64px !important;
+        overflow: visible !important;
       }
 
-      .hamburger {
-        display: flex !important;
-        flex-direction: column;
-        gap: 6px;
-        background: transparent;
-        border: none;
-        cursor: pointer;
-        padding: 8px;
-        z-index: 1002;
+      .brand img {
+        height: 32px !important;
       }
 
-      .hamburger span {
-        display: block;
-        width: 30px;
-        height: 2px;
-        background: var(--ink);
-        transition: 0.3s;
-      }
-
-      .hamburger.active span:nth-child(1) {
-        transform: translateY(8px) rotate(45deg);
-      }
-
-      .hamburger.active span:nth-child(2) {
-        opacity: 0;
-      }
-
-      .hamburger.active span:nth-child(3) {
-        transform: translateY(-8px) rotate(-45deg);
-      }
-
-      .nav-links {
-        display: flex !important;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: var(--cream);
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 32px;
-        z-index: 1000;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
-      }
-
-      .nav-links.mobile-active {
-        opacity: 1;
-        visibility: visible;
-      }
-
-      .nav-links a {
-        font-size: 22px;
-        font-weight: 600;
-      }
-
-      /* Hide existing nav logic that overrides mobile */
       .nav-right {
         flex: 0 0 auto;
       }
 
-      /* Hero */
+      .cta {
+        padding: 8px 14px !important;
+        font-size: 13px !important;
+      }
+
+      .hamburger {
+        display: flex !important;
+      }
+
+      .nav-links {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        justify-content: flex-start !important;
+        position: absolute !important;
+        top: 64px !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        background: #ffffff !important;
+        padding: 12px 16px 20px !important;
+        gap: 3px !important;
+        border-bottom: 2px solid rgba(25, 71, 255, 0.15) !important;
+        box-shadow: 0 20px 40px -4px rgba(15, 23, 42, 0.18), 0 0 0 1px rgba(15, 23, 42, 0.05) !important;
+        max-height: calc(100vh - 72px) !important;
+        max-height: calc(100dvh - 72px) !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        z-index: 99999 !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transform: translateY(-8px) !important;
+        pointer-events: none !important;
+        transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+          transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+          visibility 0.22s ease !important;
+      }
+
+      .nav-links.mobile-active {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translateY(0) !important;
+        pointer-events: auto !important;
+      }
+
+      .mobile-services-header {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        font-size: 11px !important;
+        font-weight: 800 !important;
+        letter-spacing: 0.1em !important;
+        color: var(--blue) !important;
+        text-transform: uppercase !important;
+        padding: 6px 12px 10px !important;
+        margin-bottom: 4px !important;
+        border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
+        text-align: left !important;
+      }
+
+      .mobile-services-header::before {
+        content: '';
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--blue);
+        box-shadow: 0 0 8px var(--blue);
+      }
+
+      .nav-links a {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 11px 14px !important;
+        font-size: 15px !important;
+        font-weight: 600 !important;
+        color: var(--ink) !important;
+        text-decoration: none !important;
+        border-radius: 10px !important;
+        transition: all 0.15s ease !important;
+        white-space: nowrap !important;
+        text-align: left !important;
+      }
+
+      .nav-links a:hover,
+      .nav-links a:active {
+        background: #f8fafc !important;
+        color: var(--blue) !important;
+      }
+
+      .nav-links a.active {
+        background: rgba(25, 71, 255, 0.08) !important;
+        color: var(--blue) !important;
+        font-weight: 700 !important;
+      }
+
+      .nav-arrow {
+        display: inline-block !important;
+        font-size: 13px !important;
+        color: #94a3b8 !important;
+        transition: transform 0.15s ease !important;
+      }
+
+      .nav-links a:hover .nav-arrow,
+      .nav-links a.active .nav-arrow {
+        color: var(--blue) !important;
+        transform: translateX(3px) !important;
+      }
+
+      /* Hero - Full Screen on Mobile Phone */
+      .hero {
+        min-height: 100vh !important;
+        min-height: 100dvh !important;
+        height: 100dvh !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        padding: 96px 0 14px !important;
+        margin: 0 !important;
+        overflow: hidden !important;
+      }
+
+      /* Remove side gaps on mobile phone for hero, with elegant margin */
+      .hero .wrap,
       .hero-grid {
-        grid-template-columns: 1fr;
-        margin-top: 0;
+        grid-template-columns: 1fr !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        flex: 1 !important;
+        margin: 0 auto !important;
         text-align: center;
         overflow-x: hidden;
-        width: 100%;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 16px !important;
+        gap: 10px !important;
+        box-sizing: border-box !important;
+      }
+
+      .hero-grid>div:first-child {
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        margin-top: 8px !important;
       }
 
       .headline {
-        font-size: clamp(32px, 10vw, 54px) !important;
-        margin: 12px 0 24px;
+        font-size: clamp(52px, 14.5vw, 68px) !important;
+        margin: 4px 0 14px !important;
         white-space: normal !important;
         overflow-wrap: break-word;
+        width: 100% !important;
+        font-weight: 700 !important;
+        letter-spacing: -0.035em !important;
       }
 
       .headline .line-inner,
       .headline em {
-        font-size: clamp(32px, 10vw, 54px) !important;
-        line-height: 1.1 !important;
+        font-size: clamp(52px, 14.5vw, 68px) !important;
+        line-height: 0.98 !important;
         padding-bottom: 0 !important;
+        font-weight: 700 !important;
       }
 
       .hero-actions {
-        justify-content: center;
+        display: flex !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        margin-bottom: 4px !important;
+        width: 100% !important;
+      }
+
+      .btn-primary,
+      .btn-ghost {
+        padding: 9px 18px !important;
+        font-size: 13px !important;
+        min-height: 38px !important;
+        font-weight: 600 !important;
+      }
+
+      .btn-primary .arrow {
+        width: 18px !important;
+        height: 18px !important;
+        font-size: 10px !important;
       }
 
       .hero-meta {
-        justify-content: center;
-        flex-wrap: wrap;
+        display: flex !important;
+        justify-content: space-evenly !important;
+        align-items: center !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        flex-wrap: nowrap !important;
+        gap: 6px !important;
+        margin-top: 14px !important;
+        margin-bottom: 12px !important;
+        padding-top: 8px !important;
       }
 
+      .hero-meta .stat b {
+        font-size: 17px !important;
+      }
+
+      .hero-meta .stat span {
+        font-size: 9.5px !important;
+        white-space: nowrap !important;
+      }
+
+      /* Hero Visual Ticker - Centered in Gap, Balanced Moderate Size */
       .hero-vis {
-        height: 350px;
-        display: block;
-        margin-top: 32px;
+        flex: 0 0 auto !important;
+        height: 220px !important;
+        min-height: 200px !important;
+        max-height: 240px !important;
+        margin: auto auto !important;
+        width: 100% !important;
+        max-width: 345px !important;
+        border-radius: 13px !important;
+        display: block !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
       }
 
-      /* Hide the ticker on mobile to save space, or make it smaller */
-
-      /* Other grids to single column */
-      /* Adjusted hero-vis: 3 columns, perfectly scaled to fit mobile screen */
-      .hero-vis {
-        height: 280px !important;
-        margin-top: 20px;
+      .hero-vis .columns {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 7px !important;
+        padding: 6px !important;
+        width: 100% !important;
+        height: 100% !important;
+        box-sizing: border-box !important;
       }
 
-      .columns {
-        grid-template-columns: repeat(3, 1fr) !important;
-        gap: 8px !important;
-        padding: 8px !important;
-      }
-
-      .tcol {
-        gap: 8px !important;
-      }
-
-      .tcard {
-        padding: 8px !important;
-        min-height: 60px !important;
-        border-radius: 8px !important;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
-
-      .tname {
-        font-size: 10px !important;
-        line-height: 1.1 !important;
-        word-break: break-word;
-      }
-
-      .tag {
-        font-size: 7px !important;
-        margin-bottom: 2px !important;
-      }
-
-      .tcard .glyph {
+      /* Hide third column on mobile so the first two columns have plenty of space */
+      .hero-vis .columns .tcol.slow,
+      .hero-vis .columns .tcol:nth-child(3),
+      .columns .tcol:nth-child(3) {
         display: none !important;
       }
 
-      /* Hide large decorative icons to save space */
+      .tcol {
+        gap: 6px !important;
+      }
+
+      .tcard {
+        padding: 7px 10px !important;
+        min-height: 46px !important;
+        border-radius: 9px !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 2px;
+      }
+
+      .tname {
+        font-size: 11.5px !important;
+        font-weight: 600 !important;
+        line-height: 1.2 !important;
+        word-break: normal;
+      }
+
+      .tag {
+        font-size: 8px !important;
+        font-weight: 700 !important;
+        margin-bottom: 0 !important;
+        letter-spacing: 0.04em;
+      }
+
+      .tcard .glyph {
+        display: block !important;
+        font-size: 11px !important;
+        right: 4px !important;
+        bottom: 3px !important;
+      }
+
       .tcard.placement {
-        min-height: 70px !important;
-        padding: 8px !important;
+        min-height: 50px !important;
+        padding: 5px 10px !important;
+      }
+
+      .tcard.placement .tname {
+        font-size: 11.5px !important;
+      }
+
+      .tcard.placement .role {
+        font-size: 9px !important;
+        color: #93c5fd !important;
+      }
+
+      .tcard.placement .ph {
+        font-size: 22px !important;
       }
     }
 
-
-    /* Training Slider 9:16 mobile adjustments */
+    /* Training Showcase & Schools Section Mobile Adjustments */
     @media (max-width: 980px) {
-      .glowing-box-container {
+      #training {
+        padding: 50px 0 20px !important;
+        margin-top: 30px !important;
         height: auto !important;
-        aspect-ratio: 9 / 16 !important;
-        max-height: 85vh;
-        /* just in case */
+        min-height: auto !important;
       }
 
-      .school-slide {
-        padding: 24px 16px !important;
+      .training-sticky-inner {
+        height: auto !important;
+        position: relative !important;
+        display: block !important;
       }
 
+      .training-right {
+        margin-bottom: 0 !important;
+        width: 100% !important;
+      }
+
+      .glowing-box-container {
+        position: relative !important;
+        width: calc(100% - 40px) !important;
+        max-width: 520px !important;
+        height: auto !important;
+        min-height: auto !important;
+        max-height: none !important;
+        aspect-ratio: auto !important;
+        transform: none !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        margin: 24px auto 60px auto !important;
+        border-radius: 22px !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+      }
+
+      .glowing-box {
+        position: relative !important;
+        inset: auto !important;
+        height: auto !important;
+        background: var(--ink) !important;
+        border-radius: 21px !important;
+        padding: 30px 18px 26px !important;
+        overflow: hidden !important;
+      }
+
+      .slides-viewport {
+        position: relative !important;
+        inset: auto !important;
+        height: auto !important;
+        perspective: none !important;
+      }
+
+      /* Remove separate scrolling container - natural page flow showing all text */
       .school-slide {
-        overflow-y: auto !important;
-        justify-content: space-between !important;
-        padding-bottom: 24px !important;
+        position: relative !important;
+        inset: auto !important;
+        height: auto !important;
+        overflow-y: visible !important;
+        overflow: visible !important;
+        padding: 0 !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        transform: none !important;
+        display: block !important;
+      }
+
+      .future-content-wrapper {
+        width: 100% !important;
+        height: auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+      }
+
+      .future-title {
+        font-size: clamp(28px, 7vw, 42px) !important;
+        line-height: 1.15 !important;
+        margin-bottom: 10px !important;
+      }
+
+      .future-desc {
+        font-size: 14px !important;
+        line-height: 1.55 !important;
+        margin-bottom: 18px !important;
+        padding: 0 4px !important;
+      }
+
+      .future-pills-row {
+        gap: 8px !important;
+        margin-bottom: 20px !important;
+      }
+
+      .future-pill {
+        padding: 6px 12px !important;
+        font-size: 12px !important;
+      }
+
+      .future-btn-primary {
+        padding: 12px 24px !important;
+        font-size: 13.5px !important;
+      }
+
+      /* OUR SPECIALIZED SCHOOLS SECTION - Always visible, no clipping */
+      .schools-section {
+        position: relative !important;
+        padding: 50px 0 60px 0 !important;
+        z-index: 5 !important;
+      }
+
+      .schools-header {
+        opacity: 1 !important;
+        transform: none !important;
+        visibility: visible !important;
+        display: block !important;
+        margin-bottom: 24px !important;
+        text-align: center !important;
+      }
+
+      .schools-eyebrow {
+        display: inline-flex !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        color: #1947FF !important;
+        font-size: 12px !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.12em !important;
+        margin-bottom: 10px !important;
+      }
+
+      .schools-title {
+        font-size: clamp(24px, 6.5vw, 32px) !important;
+        line-height: 1.25 !important;
+        color: var(--ink, #02050E) !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+
+      .schools-section .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+        visibility: visible !important;
       }
     }
 
@@ -2065,8 +2421,9 @@ footer{
 
       .btn-primary,
       .btn-ghost {
-        width: 100%;
-        justify-content: center;
+        width: auto !important;
+        padding: 9px 16px !important;
+        font-size: 13px !important;
       }
 
       .nav-right .cta {
@@ -2105,24 +2462,25 @@ footer{
 
   <!-- ============ NAV ============ -->
   <nav class="nav" id="nav">
-    <div class="wrap nav-inner">
+    <div class="nav-inner">
       <div class="nav-left">
         <a href="#" class="brand"><img src="kompetenzen logo-02.png" alt="Kompetenzen" /></a>
       </div>
       <div class="nav-links">
-        <a href="career-consulting.html">Consulting</a>
-        <a href="finishing-school.html">Finishing School</a>
-        <a href="tech-school.html">Tech School</a>
-        <a href="b-school.html">B-School</a>
-        <a href="placements.html">Placements</a>
-        <a href="our-story.html">Our Story</a>
-        <a href="jobs.html">Jobs</a>
-        <a href="https://darksalmon-llama-333572.hostingersite.com/" target="_blank" onclick="openResumeBuilder(event)">Resume Builder</a>
+        <div class="mobile-services-header">Our Services &amp; Programs</div>
+        <a href="career-consulting.html"><span>Consulting</span><span class="nav-arrow">→</span></a>
+        <a href="finishing-school.html"><span>Finishing School</span><span class="nav-arrow">→</span></a>
+        <a href="tech-school.html"><span>Tech School</span><span class="nav-arrow">→</span></a>
+        <a href="b-school.html"><span>B-School</span><span class="nav-arrow">→</span></a>
+        <a href="placements.html"><span>Placements</span><span class="nav-arrow">→</span></a>
+        <a href="our-story.html"><span>Our Story</span><span class="nav-arrow">→</span></a>
+        <a href="jobs.html"><span>Jobs</span><span class="nav-arrow">→</span></a>
+        <a href="Resume/resume.html" onclick="openResumeBuilder(event)"><span>Resume Builder</span><span class="nav-arrow">↗</span></a>
       </div>
       <div class="nav-right">
         <a href="#contact" class="cta"><span class="dot"></span>Talk to us</a>
 
-        <button class="hamburger" id="hamburger-menu" style="display: none;" aria-label="Menu">
+        <button class="hamburger" id="hamburger-menu" aria-label="Menu">
           <span></span>
           <span></span>
           <span></span>
@@ -2130,6 +2488,32 @@ footer{
       </div>
     </div>
   </nav>
+  <!-- Mobile Menu Toggle -->
+  <script>
+    (function () {
+      const hamburger = document.getElementById('hamburger-menu');
+      const navLinks = document.querySelector('.nav-links');
+      if (hamburger && navLinks) {
+        hamburger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          hamburger.classList.toggle('active');
+          navLinks.classList.toggle('mobile-active');
+        });
+        navLinks.querySelectorAll('a').forEach((link) => {
+          link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('mobile-active');
+          });
+        });
+        document.addEventListener('click', (e) => {
+          if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('mobile-active');
+          }
+        });
+      }
+    })();
+  </script>
 
   <!-- ============ HERO (Career Consulting) ============ -->
   <section class="hero" id="consulting" data-screen-label="01 Career Consulting">
@@ -2405,7 +2789,8 @@ footer{
                     <div class="future-glow-line"></div>
 
                     <p class="future-desc">
-                      Bridge the gap between academic learning and industry excellence with specialized finishing schools, full-stack engineering tracks, and guaranteed placement acceleration.
+                      Bridge the gap between academic learning and industry excellence with specialized finishing
+                      schools, full-stack engineering tracks, and guaranteed placement acceleration.
                     </p>
 
                     <div class="future-pills-row">
@@ -2424,9 +2809,10 @@ footer{
                     </div>
 
                     <div class="future-actions">
-                      <button type="button" class="future-btn-primary" onclick="openVideoModal(); event.stopPropagation();">
+                      <button type="button" class="future-btn-primary"
+                        onclick="openVideoModal(); event.stopPropagation();">
                         <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
-                          <polygon points="5 3 19 12 5 21 5 3"/>
+                          <polygon points="5 3 19 12 5 21 5 3" />
                         </svg>
                         <span>Watch Program Overview</span>
                       </button>
@@ -2459,7 +2845,7 @@ footer{
           <!-- 1. Finishing School -->
           <a href="finishing-school.html" class="school-card reveal d1">
             <div class="school-card-media">
-              <img src="finishing.png" alt="Kompetenzen Finishing School" loading="lazy" />
+              <img src="finishing-school-hero-bg.png" alt="Kompetenzen Finishing School" loading="lazy" />
               <div class="school-card-media-overlay"></div>
               <div class="school-badge">
                 <span class="school-badge-dot"></span>
@@ -2469,7 +2855,8 @@ footer{
             <div class="school-card-body">
               <h4 class="school-card-title">Finishing School</h4>
               <p class="school-card-desc">
-                Bridge academia and corporate careers. Master business communication, professional etiquette, and interview confidence with personalized placement support.
+                Talk like a professional, interview like one too. Communication, etiquette, and mock interviews that
+                turn nervous graduates into confident candidates.
               </p>
               <div class="school-pills">
                 <span class="school-pill">Communication</span>
@@ -2481,7 +2868,8 @@ footer{
                 <span class="school-action-link">
                   Explore Finishing School
                   <span class="school-action-arrow">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+                      stroke-linecap="round" stroke-linejoin="round">
                       <line x1="5" y1="12" x2="19" y2="12"></line>
                       <polyline points="12 5 19 12 12 19"></polyline>
                     </svg>
@@ -2504,7 +2892,8 @@ footer{
             <div class="school-card-body">
               <h4 class="school-card-title">Tech School</h4>
               <p class="school-card-desc">
-                Master in-demand developer skills through project-driven tracks in Full-Stack Python, Java, Data Analytics, and AI engineering mentored by industry pros.
+                Code what companies are actually hiring for. Full-Stack Python, Java, Data Analytics, and AI — taught by
+                people who've shipped real products
               </p>
               <div class="school-pills">
                 <span class="school-pill">Full-Stack Python</span>
@@ -2516,7 +2905,8 @@ footer{
                 <span class="school-action-link">
                   Explore Tech School
                   <span class="school-action-arrow">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+                      stroke-linecap="round" stroke-linejoin="round">
                       <line x1="5" y1="12" x2="19" y2="12"></line>
                       <polyline points="12 5 19 12 12 19"></polyline>
                     </svg>
@@ -2539,7 +2929,8 @@ footer{
             <div class="school-card-body">
               <h4 class="school-card-title">B-School</h4>
               <p class="school-card-desc">
-                Corporate-focused management diplomas in HR Management and Sales Engineering that transform business fundamentals into high-growth corporate careers.
+                Business fundamentals that get you into HR and Sales roles fast — with the corporate polish recruiters
+                notice immediately.
               </p>
               <div class="school-pills">
                 <span class="school-pill">HR Management</span>
@@ -2551,7 +2942,8 @@ footer{
                 <span class="school-action-link">
                   Explore B-School
                   <span class="school-action-arrow">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+                      stroke-linecap="round" stroke-linejoin="round">
                       <line x1="5" y1="12" x2="19" y2="12"></line>
                       <polyline points="12 5 19 12 12 19"></polyline>
                     </svg>
@@ -2629,9 +3021,11 @@ footer{
         0% {
           box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
         }
+
         70% {
           box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
         }
+
         100% {
           box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
         }
@@ -2682,9 +3076,9 @@ footer{
         font-weight: 600;
         text-decoration: none;
         transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
-                    border-color 0.25s ease,
-                    box-shadow 0.25s ease,
-                    color 0.2s ease;
+          border-color 0.25s ease,
+          box-shadow 0.25s ease,
+          color 0.2s ease;
       }
 
       .job-role-chip .chip-tag {
@@ -2729,8 +3123,8 @@ footer{
         position: relative;
         overflow: hidden;
         transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-                    box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-                    background-color 0.25s ease;
+          box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+          background-color 0.25s ease;
       }
 
       /* Interactive Sheen sweep on hover */
@@ -2811,14 +3205,17 @@ footer{
           gap: 8px;
           margin-bottom: 28px;
         }
+
         .job-role-chip {
           font-size: 13px;
           padding: 8px 14px;
         }
+
         .job-trust-row {
           gap: 12px;
           font-size: 12px;
         }
+
         .job-trust-dot {
           display: none;
         }
@@ -2828,39 +3225,29 @@ footer{
     <div class="job-ambient-glow" aria-hidden="true"></div>
 
     <div class="wrap">
-      <!-- Live Hiring Badge -->
-      <div class="job-hiring-badge">
-        <span class="job-live-dot"></span>
-        <span>120+ Active Openings · Updated Today</span>
-      </div>
 
       <h2 class="job-title">Job Listings</h2>
 
       <p class="job-desc">
-        Connect directly with leading tech companies, startups, and MNCs hiring our academy graduates. Fast-track your interviews with 100% verified opportunities.
+        Skip the job portals. These openings are waiting for graduates like you — verified, direct, and updated daily.
       </p>
 
       <!-- In-Demand Hiring Role Chips -->
       <div class="job-roles-row">
         <a href="jobs.html" class="job-role-chip">
-          <span>💻 Full Stack Developer</span>
-          <span class="chip-tag">18 Roles</span>
+          <span>Full Stack Developer</span>
         </a>
         <a href="jobs.html" class="job-role-chip">
-          <span>🐍 Python & AI Engineer</span>
-          <span class="chip-tag">12 Roles</span>
+          <span>Python & AI Engineer</span>
         </a>
         <a href="jobs.html" class="job-role-chip">
-          <span>📊 Data Analyst</span>
-          <span class="chip-tag">9 Roles</span>
+          <span>Data Analyst</span>
         </a>
         <a href="jobs.html" class="job-role-chip">
-          <span>⚛️ React Specialist</span>
-          <span class="chip-tag">14 Roles</span>
+          <span>React Specialist</span>
         </a>
         <a href="jobs.html" class="job-role-chip">
-          <span>👔 Sales Engineer</span>
-          <span class="chip-tag">7 Roles</span>
+          <span>Sales Engineer</span>
         </a>
       </div>
 
@@ -2874,17 +3261,28 @@ footer{
         <!-- Trust Signals -->
         <div class="job-trust-row">
           <div class="job-trust-item">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
             <span>Verified Hiring Partners</span>
           </div>
           <span class="job-trust-dot"></span>
           <div class="job-trust-item">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
             <span>Direct Interview Scheduling</span>
           </div>
           <span class="job-trust-dot"></span>
           <div class="job-trust-item">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="8" r="7"></circle>
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+            </svg>
             <span>Zero Placement Charges</span>
           </div>
         </div>
@@ -2944,7 +3342,9 @@ footer{
     </style>
     <div class="resume-card-box">
       <!-- Ambient subtle blue glow inside box -->
-      <div style="position: absolute; top: -140px; left: 50%; transform: translateX(-50%); width: 700px; height: 380px; background: radial-gradient(circle, rgba(25, 71, 255, 0.22) 0%, rgba(0, 0, 0, 0) 70%); pointer-events: none;"></div>
+      <div
+        style="position: absolute; top: -140px; left: 50%; transform: translateX(-50%); width: 700px; height: 380px; background: radial-gradient(circle, rgba(25, 71, 255, 0.22) 0%, rgba(0, 0, 0, 0) 70%); pointer-events: none;">
+      </div>
 
       <div style="position: relative; z-index: 1;">
         <div
@@ -2963,8 +3363,7 @@ footer{
           experience to land your dream job.
         </p>
 
-        <button class="resume-btn"
-          onclick="openResumeBuilder(event)">
+        <button class="resume-btn" onclick="openResumeBuilder(event)">
           build your resume
         </button>
       </div>
@@ -3013,10 +3412,12 @@ footer{
         padding-top: 50px !important;
         padding-bottom: 55px !important;
       }
+
       #placements .wrap {
         width: calc(100% - 32px) !important;
       }
-      #our-services-section > div {
+
+      #our-services-section>div {
         width: calc(100% - 32px) !important;
       }
     }
@@ -3038,14 +3439,18 @@ footer{
 
         <!-- Section Heading inside the Box -->
         <div style="text-align: center; margin-bottom: 20px; position: relative; z-index: 3;">
-          <div style="display: inline-flex; align-items: center; gap: 8px; font-size: 11.5px; font-weight: 700; letter-spacing: 0.16em; color: #38BDF8; text-transform: uppercase; margin-bottom: 8px;">
-            <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #38BDF8; box-shadow: 0 0 8px #38BDF8;"></span>
+          <div
+            style="display: inline-flex; align-items: center; gap: 8px; font-size: 11.5px; font-weight: 700; letter-spacing: 0.16em; color: #38BDF8; text-transform: uppercase; margin-bottom: 8px;">
+            <span
+              style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #38BDF8; box-shadow: 0 0 8px #38BDF8;"></span>
             CAMPUS LIFE & STORIES
           </div>
-          <h2 style="font-family: 'Plus Jakarta Sans', sans-serif !important; font-size: clamp(24px, 3.2vw, 36px); font-weight: 700; color: #ffffff; letter-spacing: -0.02em; margin: 0 auto; line-height: 1.25;">
+          <h2
+            style="font-family: 'Plus Jakarta Sans', sans-serif !important; font-size: clamp(24px, 3.2vw, 36px); font-weight: 700; color: #ffffff; letter-spacing: -0.02em; margin: 0 auto; line-height: 1.25;">
             Our Instagram Feeds
           </h2>
-          <p style="color: rgba(255, 255, 255, 0.65); font-size: 14px; margin-top: 6px; font-weight: 400; max-width: 520px; margin-left: auto; margin-right: auto;">
+          <p
+            style="color: rgba(255, 255, 255, 0.65); font-size: 14px; margin-top: 6px; font-weight: 400; max-width: 520px; margin-left: auto; margin-right: auto;">
             Catch the latest student journeys, mentorship moments, and placement celebrations
           </p>
         </div>
@@ -3175,337 +3580,132 @@ footer{
 
         <style>
           .v-reel {
-              position: absolute;
-              top: 50%;
-              margin-top: -284px;
-              width: 320px;
-              height: 568px;
-              border-radius: 20px;
-              overflow: hidden;
-              box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-              background: #000;
-              transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            position: absolute;
+            top: 50%;
+            margin-top: -284px;
+            width: 320px;
+            height: 568px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            background: #000;
+            transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+          }
+
+          /* Crop the iframe to hide Instagram header, footer, and white side padding */
+          .v-reel iframe {
+            width: 500px !important;
+            height: 1000px !important;
+            border: none;
+            /* -90px left offsets the 500px width to center it in 320px */
+            /* -85px top hides the header and ensures the footer is pushed way below */
+            transform: translate(-90px, -85px);
+            background: transparent;
+          }
+
+          /* The 9 positions in the V-queue (7 visible, 2 hidden) - Scaled for compact sleek frame */
+          .v-reel.pos1 {
+            transform: translateX(0) translateZ(0) scale(0.78);
+            z-index: 5;
+            opacity: 1;
+            filter: brightness(1);
+          }
+
+          .v-reel.pos2 {
+            transform: translateX(135px) translateZ(-160px) scale(0.74);
+            z-index: 4;
+            opacity: 0.8;
+            filter: brightness(0.7);
+          }
+
+          .v-reel.pos3 {
+            transform: translateX(270px) translateZ(-320px) scale(0.7);
+            z-index: 3;
+            opacity: 0.5;
+            filter: brightness(0.4);
+          }
+
+          .v-reel.pos4 {
+            transform: translateX(395px) translateZ(-480px) scale(0.66);
+            z-index: 2;
+            opacity: 0.2;
+            filter: brightness(0.2);
+          }
+
+          .v-reel.pos9 {
+            transform: translateX(-135px) translateZ(-160px) scale(0.74);
+            z-index: 4;
+            opacity: 0.8;
+            filter: brightness(0.7);
+          }
+
+          .v-reel.pos8 {
+            transform: translateX(-270px) translateZ(-320px) scale(0.7);
+            z-index: 3;
+            opacity: 0.5;
+            filter: brightness(0.4);
+          }
+
+          .v-reel.pos7 {
+            transform: translateX(-395px) translateZ(-480px) scale(0.66);
+            z-index: 2;
+            opacity: 0.2;
+            filter: brightness(0.2);
+          }
+
+          /* Hidden back queue to smoothly cycle */
+          .v-reel.pos5,
+          .v-reel.pos6 {
+            transform: translateX(0) translateZ(-700px) scale(0.66);
+            z-index: 1;
+            opacity: 0;
+            filter: brightness(0);
+          }
+
+          /* To prevent clicks on background items */
+          .v-reel:not(.pos1) {
+            pointer-events: none;
+          }
+
+          @media (max-width: 768px) {
+            .v-slider-wrapper {
+              height: 410px !important;
             }
 
-            /* Crop the iframe to hide Instagram header, footer, and white side padding */
-            .v-reel iframe {
-              width: 500px !important;
-              height: 1000px !important;
-              border: none;
-              /* -90px left offsets the 500px width to center it in 320px */
-              /* -85px top hides the header and ensures the footer is pushed way below */
-              transform: translate(-90px, -85px);
-              background: transparent;
-            }
-
-            /* The 9 positions in the V-queue (7 visible, 2 hidden) - Scaled for compact sleek frame */
             .v-reel.pos1 {
-              transform: translateX(0) translateZ(0) scale(0.78);
-              z-index: 5;
-              opacity: 1;
-              filter: brightness(1);
+              transform: translateX(0) translateZ(0) scale(0.64) !important;
             }
 
             .v-reel.pos2 {
-              transform: translateX(135px) translateZ(-160px) scale(0.74);
-              z-index: 4;
-              opacity: 0.8;
-              filter: brightness(0.7);
+              transform: translateX(75px) translateZ(-120px) scale(0.58) !important;
             }
 
             .v-reel.pos3 {
-              transform: translateX(270px) translateZ(-320px) scale(0.7);
-              z-index: 3;
-              opacity: 0.5;
-              filter: brightness(0.4);
+              transform: translateX(150px) translateZ(-240px) scale(0.5) !important;
             }
 
             .v-reel.pos4 {
-              transform: translateX(395px) translateZ(-480px) scale(0.66);
-              z-index: 2;
-              opacity: 0.2;
-              filter: brightness(0.2);
+              transform: translateX(220px) translateZ(-360px) scale(0.42) !important;
             }
 
             .v-reel.pos9 {
-              transform: translateX(-135px) translateZ(-160px) scale(0.74);
-              z-index: 4;
-              opacity: 0.8;
-              filter: brightness(0.7);
+              transform: translateX(-75px) translateZ(-120px) scale(0.58) !important;
             }
 
             .v-reel.pos8 {
-              transform: translateX(-270px) translateZ(-320px) scale(0.7);
-              z-index: 3;
-              opacity: 0.5;
-              filter: brightness(0.4);
+              transform: translateX(-150px) translateZ(-240px) scale(0.5) !important;
             }
 
             .v-reel.pos7 {
-              transform: translateX(-395px) translateZ(-480px) scale(0.66);
-              z-index: 2;
-              opacity: 0.2;
-              filter: brightness(0.2);
+              transform: translateX(-220px) translateZ(-360px) scale(0.42) !important;
             }
+          }
+        </style>
 
-            /* Hidden back queue to smoothly cycle */
-            .v-reel.pos5,
-            .v-reel.pos6 {
-              transform: translateX(0) translateZ(-700px) scale(0.66);
-              z-index: 1;
-              opacity: 0;
-              filter: brightness(0);
-            }
+        <div class="v-slider-wrapper"
+          style="position: relative; width: 100%; height: 480px; display: flex; justify-content: center; perspective: 1400px; margin: 0 auto; overflow: hidden; max-width: 100%;">
 
-            /* To prevent clicks on background items */
-            .v-reel:not(.pos1) {
-              pointer-events: none;
-            }
-
-            @media (max-width: 768px) {
-              .v-slider-wrapper {
-                height: 410px !important;
-              }
-              .v-reel.pos1 {
-                transform: translateX(0) translateZ(0) scale(0.64) !important;
-              }
-              .v-reel.pos2 {
-                transform: translateX(75px) translateZ(-120px) scale(0.58) !important;
-              }
-              .v-reel.pos3 {
-                transform: translateX(150px) translateZ(-240px) scale(0.5) !important;
-              }
-              .v-reel.pos4 {
-                transform: translateX(220px) translateZ(-360px) scale(0.42) !important;
-              }
-              .v-reel.pos9 {
-                transform: translateX(-75px) translateZ(-120px) scale(0.58) !important;
-              }
-              .v-reel.pos8 {
-                transform: translateX(-150px) translateZ(-240px) scale(0.5) !important;
-              }
-              .v-reel.pos7 {
-                transform: translateX(-220px) translateZ(-360px) scale(0.42) !important;
-              }
-            }
-
-            /* ===========================================================
-       MOBILE COMPATIBILITY OVERRIDES (max-width: 980px)
-       =========================================================== */
-            @media (max-width: 980px) {
-
-              body {
-                overflow-x: hidden;
-                width: 100%;
-                max-width: 100vw;
-              }
-
-              .wrap {
-                padding: 0 16px;
-                overflow-x: hidden;
-              }
-
-              /* Nav & Hamburger */
-              .nav-inner {
-                position: relative;
-                z-index: 1001;
-              }
-
-              .hamburger {
-                display: flex !important;
-                flex-direction: column;
-                gap: 6px;
-                background: transparent;
-                border: none;
-                cursor: pointer;
-                padding: 8px;
-                z-index: 1002;
-              }
-
-              .hamburger span {
-                display: block;
-                width: 30px;
-                height: 2px;
-                background: var(--ink);
-                transition: 0.3s;
-              }
-
-              .hamburger.active span:nth-child(1) {
-                transform: translateY(8px) rotate(45deg);
-              }
-
-              .hamburger.active span:nth-child(2) {
-                opacity: 0;
-              }
-
-              .hamburger.active span:nth-child(3) {
-                transform: translateY(-8px) rotate(-45deg);
-              }
-
-              .nav-links {
-                display: flex !important;
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: var(--cream);
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                gap: 32px;
-                z-index: 1000;
-                opacity: 0;
-                visibility: hidden;
-                transition: opacity 0.3s ease, visibility 0.3s ease;
-              }
-
-              .nav-links.mobile-active {
-                opacity: 1;
-                visibility: visible;
-              }
-
-              .nav-links a {
-                font-size: 22px;
-                font-weight: 600;
-              }
-
-              /* Hide existing nav logic that overrides mobile */
-              .nav-right {
-                flex: 0 0 auto;
-              }
-
-              /* Hero */
-              .hero-grid {
-                grid-template-columns: 1fr;
-                margin-top: 0;
-                text-align: center;
-                overflow-x: hidden;
-                width: 100%;
-              }
-
-              .headline {
-                font-size: clamp(32px, 10vw, 54px) !important;
-                margin: 12px 0 24px;
-                white-space: normal !important;
-                overflow-wrap: break-word;
-              }
-
-              .headline .line-inner,
-              .headline em {
-                font-size: clamp(32px, 10vw, 54px) !important;
-                line-height: 1.1 !important;
-                padding-bottom: 0 !important;
-              }
-
-              .hero-actions {
-                justify-content: center;
-              }
-
-              .hero-meta {
-                justify-content: center;
-                flex-wrap: wrap;
-              }
-
-              .hero-vis {
-                height: 350px;
-                display: block;
-                margin-top: 32px;
-              }
-
-              /* Hide the ticker on mobile to save space, or make it smaller */
-
-              /* Other grids to single column */
-              /* Adjusted hero-vis: 3 columns, perfectly scaled to fit mobile screen */
-              .hero-vis {
-                height: 280px !important;
-                margin-top: 20px;
-              }
-
-              .columns {
-                grid-template-columns: repeat(3, 1fr) !important;
-                gap: 8px !important;
-                padding: 8px !important;
-              }
-
-              .tcol {
-                gap: 8px !important;
-              }
-
-              .tcard {
-                padding: 8px !important;
-                min-height: 60px !important;
-                border-radius: 8px !important;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-              }
-
-              .tname {
-                font-size: 10px !important;
-                line-height: 1.1 !important;
-                word-break: break-word;
-              }
-
-              .tag {
-                font-size: 7px !important;
-                margin-bottom: 2px !important;
-              }
-
-              .tcard .glyph {
-                display: none !important;
-              }
-
-              /* Hide large decorative icons to save space */
-              .tcard.placement {
-                min-height: 70px !important;
-                padding: 8px !important;
-              }
-
-            }
-
-
-            @media (max-width: 980px) {
-              /* Training Slider 9:16 mobile adjustments */
-              .glowing-box-container {
-                height: auto !important;
-                aspect-ratio: 9 / 16 !important;
-                max-height: 85vh;
-                /* just in case */
-              }
-
-              .school-slide {
-                padding: 24px 16px !important;
-              }
-            }
-
-            @media (max-width: 980px) {
-
-              /* B-School slide and general slide mobile fixes */
-              .school-slide {
-                overflow-y: auto !important;
-                justify-content: flex-start !important;
-                padding-bottom: 24px !important;
-              }
-            }
-
-            @media (max-width: 480px) {
-              .btn-primary,
-              .btn-ghost {
-                width: 100%;
-                justify-content: center;
-              }
-
-              .nav-right .cta {
-                display: none;
-              }
-            }
-          </style>
-
-          <div class="v-slider-wrapper"
-            style="position: relative; width: 100%; height: 480px; display: flex; justify-content: center; perspective: 1400px; margin: 0 auto;">
-
-            <div class="v-reel pos1">
+          <div class="v-reel pos1">
             <iframe src="https://www.instagram.com/reel/DYZbuipRpnn/embed" frameborder="0" scrolling="no"
               allowtransparency="true"></iframe>
           </div>
@@ -3726,1849 +3926,1260 @@ footer{
   <!-- ============ GOOGLE REVIEWS ============ -->
   <section id="reviews-section"
     style="padding: 65px 0 35px 0; overflow: hidden; background: transparent; position: relative; z-index: 2;">
-      <div class="wrap" style="text-align: center;">
-        <div class="section-tag reveal">What our students say</div>
-        <h2 class="section-title reveal d1"
-          style="font-family: 'Inter', sans-serif !important; font-weight: 500 !important; font-size: 56px; margin: 0 auto 10px; max-width: 100%; text-align: center; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 10px; letter-spacing: -0.02em;">
-          <span>Real</span>
-          <span style="display: inline-flex; align-items: center;">
-            <span style="color: #4285F4;">G</span><span style="color: #EA4335;">o</span><span
-              style="color: #FBBC05;">o</span><span style="color: #4285F4;">g</span><span
-              style="color: #34A853;">l</span><span style="color: #EA4335;">e</span>
-          </span>
-          <span>Reviews</span>
-        </h2>
-        <div class="reveal d2"
-          style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 40px;">
-          <span style="font-size: 32px; font-weight: 800; color: #1947FF;">4.8</span>
-          <div style="display: flex; gap: 4px; color: #FFB800;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-            </svg>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-            </svg>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-            </svg>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-            </svg>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-            </svg>
+    <div class="wrap" style="text-align: center;">
+      <div class="section-tag reveal">What our students say</div>
+      <h2 class="section-title reveal d1"
+        style="font-family: 'Inter', sans-serif !important; font-weight: 500 !important; font-size: 56px; margin: 0 auto 10px; max-width: 100%; text-align: center; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 10px; letter-spacing: -0.02em;">
+        <span>Real</span>
+        <span style="display: inline-flex; align-items: center;">
+          <span style="color: #4285F4;">G</span><span style="color: #EA4335;">o</span><span
+            style="color: #FBBC05;">o</span><span style="color: #4285F4;">g</span><span
+            style="color: #34A853;">l</span><span style="color: #EA4335;">e</span>
+        </span>
+        <span>Reviews</span>
+      </h2>
+      <div class="reveal d2"
+        style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 40px;">
+        <span style="font-size: 32px; font-weight: 800; color: #1947FF;">4.8</span>
+        <div style="display: flex; gap: 4px; color: #FFB800;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+          </svg>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+          </svg>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+          </svg>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+          </svg>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+          </svg>
+        </div>
+        <span style="font-size: 16px; color: var(--ink-mute);">(Based on 320+ reviews)</span>
+      </div>
+    </div>
+
+    <!-- CSS Marquee Loop -->
+    <div class="reviews-marquee-wrapper">
+      <div class="reviews-marquee-track">
+        <!-- Original Set -->
+        <div class="review-card">
+          <div class="rc-head">
+            <div class="rc-avatar" style="background: #FFD166;">S</div>
+            <div class="rc-meta">
+              <strong>Sreerag K</strong>
+              <span>★★★★★</span>
+            </div>
           </div>
-          <span style="font-size: 16px; color: var(--ink-mute);">(Based on 320+ reviews)</span>
+          <p>"The Finishing School program was a game-changer for me. It bridged the gap between my college degree and
+            what the industry actually needed. Thanks to their mock interviews, I cracked my TCS interview with
+            confidence!"</p>
+        </div>
+
+        <div class="review-card">
+          <div class="rc-head">
+            <div class="rc-avatar" style="background: #06D6A0;">A</div>
+            <div class="rc-meta">
+              <strong>Anjali Nair</strong>
+              <span>★★★★★</span>
+            </div>
+          </div>
+          <p>"Best IT training institute in Kochi. The mentors give individual attention and the focus on
+            communication skills is exactly what freshers lack today. Highly recommend their Full Stack Python
+            course."</p>
+        </div>
+
+        <div class="review-card">
+          <div class="rc-head">
+            <div class="rc-avatar" style="background: #118AB2;">R</div>
+            <div class="rc-meta">
+              <strong>Rahul Varma</strong>
+              <span>★★★★★</span>
+            </div>
+          </div>
+          <p>"The placement support is phenomenal. They don't just teach you coding; they prepare you for the
+            corporate world. From resume building to technical rounds, Kompetenzen stands with you till you get
+            placed."</p>
+        </div>
+
+        <div class="review-card">
+          <div class="rc-head">
+            <div class="rc-avatar" style="background: #EF476F;">F</div>
+            <div class="rc-meta">
+              <strong>Fathima Shirin</strong>
+              <span>★★★★★</span>
+            </div>
+          </div>
+          <p>"Joined the B-School HRCRP program and it gave me tremendous exposure. The faculties have excellent
+            corporate experience. Got placed as an HR Executive within 2 months of completing the course!"</p>
+        </div>
+
+        <div class="review-card">
+          <div class="rc-head">
+            <div class="rc-avatar" style="background: #073B4C;">N</div>
+            <div class="rc-meta">
+              <strong>Nikhil Joseph</strong>
+              <span>★★★★★</span>
+            </div>
+          </div>
+          <p>"Incredible environment for learning. The talent hunt process identified my true strengths and guided me
+            into Data Analytics. The hands-on projects were tough but definitely worth it."</p>
+        </div>
+
+        <!-- Duplicated Set for infinite loop -->
+        <div class="review-card">
+          <div class="rc-head">
+            <div class="rc-avatar" style="background: #FFD166;">S</div>
+            <div class="rc-meta">
+              <strong>Sreerag K</strong>
+              <span>★★★★★</span>
+            </div>
+          </div>
+          <p>"The Finishing School program was a game-changer for me. It bridged the gap between my college degree and
+            what the industry actually needed. Thanks to their mock interviews, I cracked my TCS interview with
+            confidence!"</p>
+        </div>
+
+        <div class="review-card">
+          <div class="rc-head">
+            <div class="rc-avatar" style="background: #06D6A0;">A</div>
+            <div class="rc-meta">
+              <strong>Anjali Nair</strong>
+              <span>★★★★★</span>
+            </div>
+          </div>
+          <p>"Best IT training institute in Kochi. The mentors give individual attention and the focus on
+            communication skills is exactly what freshers lack today. Highly recommend their Full Stack Python
+            course."</p>
+        </div>
+
+        <div class="review-card">
+          <div class="rc-head">
+            <div class="rc-avatar" style="background: #118AB2;">R</div>
+            <div class="rc-meta">
+              <strong>Rahul Varma</strong>
+              <span>★★★★★</span>
+            </div>
+          </div>
+          <p>"The placement support is phenomenal. They don't just teach you coding; they prepare you for the
+            corporate world. From resume building to technical rounds, Kompetenzen stands with you till you get
+            placed."</p>
+        </div>
+
+        <div class="review-card">
+          <div class="rc-head">
+            <div class="rc-avatar" style="background: #EF476F;">F</div>
+            <div class="rc-meta">
+              <strong>Fathima Shirin</strong>
+              <span>★★★★★</span>
+            </div>
+          </div>
+          <p>"Joined the B-School HRCRP program and it gave me tremendous exposure. The faculties have excellent
+            corporate experience. Got placed as an HR Executive within 2 months of completing the course!"</p>
+        </div>
+
+        <div class="review-card">
+          <div class="rc-head">
+            <div class="rc-avatar" style="background: #073B4C;">N</div>
+            <div class="rc-meta">
+              <strong>Nikhil Joseph</strong>
+              <span>★★★★★</span>
+            </div>
+          </div>
+          <p>"Incredible environment for learning. The talent hunt process identified my true strengths and guided me
+            into Data Analytics. The hands-on projects were tough but definitely worth it."</p>
         </div>
       </div>
+    </div>
 
-      <!-- CSS Marquee Loop -->
-      <div class="reviews-marquee-wrapper">
-        <div class="reviews-marquee-track">
-          <!-- Original Set -->
-          <div class="review-card">
-            <div class="rc-head">
-              <div class="rc-avatar" style="background: #FFD166;">S</div>
-              <div class="rc-meta">
-                <strong>Sreerag K</strong>
-                <span>★★★★★</span>
-              </div>
-            </div>
-            <p>"The Finishing School program was a game-changer for me. It bridged the gap between my college degree and
-              what the industry actually needed. Thanks to their mock interviews, I cracked my TCS interview with
-              confidence!"</p>
-          </div>
+    <div style="text-align: center; margin-top: 40px;">
+      <a href="https://www.google.com/maps/place/Kompetenzen+Technologies/@9.9687355,76.3164658,2329m/data=!3m1!1e3!4m8!3m7!1s0x3b0873afcee93855:0xd844bf7e881ff6b5!8m2!3d9.9686634!4d76.3169616!9m1!1b1!16s%2Fg%2F11rhx230cg?entry=ttu"
+        target="_blank" rel="noopener" class="btn-ghost"
+        style="border-color: #1947FF; color: #1947FF; display: inline-block;">
+        Read all reviews on Google
+      </a>
+    </div>
 
-          <div class="review-card">
-            <div class="rc-head">
-              <div class="rc-avatar" style="background: #06D6A0;">A</div>
-              <div class="rc-meta">
-                <strong>Anjali Nair</strong>
-                <span>★★★★★</span>
-              </div>
-            </div>
-            <p>"Best IT training institute in Kochi. The mentors give individual attention and the focus on
-              communication skills is exactly what freshers lack today. Highly recommend their Full Stack Python
-              course."</p>
-          </div>
+    <style>
+      #reviews-section .wrap {
+        max-width: 1420px;
+        width: calc(100% - 100px);
+        margin: 0 auto;
+        padding: 0;
+      }
 
-          <div class="review-card">
-            <div class="rc-head">
-              <div class="rc-avatar" style="background: #118AB2;">R</div>
-              <div class="rc-meta">
-                <strong>Rahul Varma</strong>
-                <span>★★★★★</span>
-              </div>
-            </div>
-            <p>"The placement support is phenomenal. They don't just teach you coding; they prepare you for the
-              corporate world. From resume building to technical rounds, Kompetenzen stands with you till you get
-              placed."</p>
-          </div>
+      .reviews-marquee-wrapper {
+        position: relative;
+        max-width: 1420px;
+        width: calc(100% - 100px);
+        margin: 0 auto;
+        overflow: hidden;
+        padding: 16px 0;
+        mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+        -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+      }
 
-          <div class="review-card">
-            <div class="rc-head">
-              <div class="rc-avatar" style="background: #EF476F;">F</div>
-              <div class="rc-meta">
-                <strong>Fathima Shirin</strong>
-                <span>★★★★★</span>
-              </div>
-            </div>
-            <p>"Joined the B-School HRCRP program and it gave me tremendous exposure. The faculties have excellent
-              corporate experience. Got placed as an HR Executive within 2 months of completing the course!"</p>
-          </div>
-
-          <div class="review-card">
-            <div class="rc-head">
-              <div class="rc-avatar" style="background: #073B4C;">N</div>
-              <div class="rc-meta">
-                <strong>Nikhil Joseph</strong>
-                <span>★★★★★</span>
-              </div>
-            </div>
-            <p>"Incredible environment for learning. The talent hunt process identified my true strengths and guided me
-              into Data Analytics. The hands-on projects were tough but definitely worth it."</p>
-          </div>
-
-          <!-- Duplicated Set for infinite loop -->
-          <div class="review-card">
-            <div class="rc-head">
-              <div class="rc-avatar" style="background: #FFD166;">S</div>
-              <div class="rc-meta">
-                <strong>Sreerag K</strong>
-                <span>★★★★★</span>
-              </div>
-            </div>
-            <p>"The Finishing School program was a game-changer for me. It bridged the gap between my college degree and
-              what the industry actually needed. Thanks to their mock interviews, I cracked my TCS interview with
-              confidence!"</p>
-          </div>
-
-          <div class="review-card">
-            <div class="rc-head">
-              <div class="rc-avatar" style="background: #06D6A0;">A</div>
-              <div class="rc-meta">
-                <strong>Anjali Nair</strong>
-                <span>★★★★★</span>
-              </div>
-            </div>
-            <p>"Best IT training institute in Kochi. The mentors give individual attention and the focus on
-              communication skills is exactly what freshers lack today. Highly recommend their Full Stack Python
-              course."</p>
-          </div>
-
-          <div class="review-card">
-            <div class="rc-head">
-              <div class="rc-avatar" style="background: #118AB2;">R</div>
-              <div class="rc-meta">
-                <strong>Rahul Varma</strong>
-                <span>★★★★★</span>
-              </div>
-            </div>
-            <p>"The placement support is phenomenal. They don't just teach you coding; they prepare you for the
-              corporate world. From resume building to technical rounds, Kompetenzen stands with you till you get
-              placed."</p>
-          </div>
-
-          <div class="review-card">
-            <div class="rc-head">
-              <div class="rc-avatar" style="background: #EF476F;">F</div>
-              <div class="rc-meta">
-                <strong>Fathima Shirin</strong>
-                <span>★★★★★</span>
-              </div>
-            </div>
-            <p>"Joined the B-School HRCRP program and it gave me tremendous exposure. The faculties have excellent
-              corporate experience. Got placed as an HR Executive within 2 months of completing the course!"</p>
-          </div>
-
-          <div class="review-card">
-            <div class="rc-head">
-              <div class="rc-avatar" style="background: #073B4C;">N</div>
-              <div class="rc-meta">
-                <strong>Nikhil Joseph</strong>
-                <span>★★★★★</span>
-              </div>
-            </div>
-            <p>"Incredible environment for learning. The talent hunt process identified my true strengths and guided me
-              into Data Analytics. The hands-on projects were tough but definitely worth it."</p>
-          </div>
-        </div>
-      </div>
-
-      <div style="text-align: center; margin-top: 40px;">
-        <a href="https://www.google.com/maps/place/Kompetenzen+Technologies/@9.9687355,76.3164658,2329m/data=!3m1!1e3!4m8!3m7!1s0x3b0873afcee93855:0xd844bf7e881ff6b5!8m2!3d9.9686634!4d76.3169616!9m1!1b1!16s%2Fg%2F11rhx230cg?entry=ttu"
-          target="_blank" rel="noopener" class="btn-ghost"
-          style="border-color: #1947FF; color: #1947FF; display: inline-block;">
-          Read all reviews on Google
-        </a>
-      </div>
-
-      <style>
+      @media (max-width: 980px) {
         #reviews-section .wrap {
-          max-width: 1420px;
-          width: calc(100% - 100px);
-          margin: 0 auto;
-          padding: 0;
+          width: calc(100% - 32px) !important;
         }
 
         .reviews-marquee-wrapper {
-          position: relative;
-          max-width: 1420px;
-          width: calc(100% - 100px);
-          margin: 0 auto;
-          overflow: hidden;
-          padding: 16px 0;
-          mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
-          -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+          width: calc(100% - 32px) !important;
+        }
+      }
+
+      .reviews-marquee-track {
+        display: flex;
+        gap: 16px;
+        width: max-content;
+        animation: scroll-reviews 35s linear infinite;
+      }
+
+      .reviews-marquee-track:hover {
+        animation-play-state: paused;
+      }
+
+      .review-card {
+        background: #fff;
+        border: 1px solid var(--line-soft);
+        border-radius: 14px;
+        padding: 14px 18px;
+        width: 265px;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
+        flex-shrink: 0;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .rc-head {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .rc-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-weight: 700;
+        font-size: 13.5px;
+        flex-shrink: 0;
+      }
+
+      .rc-meta strong {
+        display: block;
+        color: var(--ink);
+        font-size: 13.5px;
+        margin-bottom: 1px;
+      }
+
+      .rc-meta span {
+        color: #FFB800;
+        font-size: 11px;
+        letter-spacing: 1px;
+      }
+
+      .review-card p {
+        color: var(--ink-mute);
+        font-size: 12.5px;
+        line-height: 1.44;
+        margin: 0;
+      }
+
+      @keyframes scroll-reviews {
+        0% {
+          transform: translateX(0);
         }
 
-        @media (max-width: 980px) {
-          #reviews-section .wrap {
-            width: calc(100% - 32px) !important;
-          }
-          .reviews-marquee-wrapper {
-            width: calc(100% - 32px) !important;
-          }
+        100% {
+          transform: translateX(calc(-50% - 8px));
         }
 
-        .reviews-marquee-track {
-          display: flex;
-          gap: 16px;
-          width: max-content;
-          animation: scroll-reviews 35s linear infinite;
-        }
+        /* 8px accounts for half the 16px gap */
+      }
 
-        .reviews-marquee-track:hover {
-          animation-play-state: paused;
-        }
-
+      @media (max-width: 768px) {
         .review-card {
-          background: #fff;
-          border: 1px solid var(--line-soft);
-          border-radius: 14px;
-          padding: 14px 18px;
-          width: 265px;
-          box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
-          flex-shrink: 0;
-          text-align: left;
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-        }
-
-        .rc-head {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-        }
-
-        .rc-avatar {
-          width: 32px;
-          height: 32px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #fff;
-          font-weight: 700;
-          font-size: 13.5px;
-          flex-shrink: 0;
-        }
-
-        .rc-meta strong {
-          display: block;
-          color: var(--ink);
-          font-size: 13.5px;
-          margin-bottom: 1px;
-        }
-
-        .rc-meta span {
-          color: #FFB800;
-          font-size: 11px;
-          letter-spacing: 1px;
+          width: 235px;
+          padding: 12px 15px;
+          gap: 6px;
         }
 
         .review-card p {
-          color: var(--ink-mute);
-          font-size: 12.5px;
-          line-height: 1.44;
-          margin: 0;
+          font-size: 11.5px;
+          line-height: 1.4;
+        }
+      }
+    </style>
+  </section>
+
+  <!-- ============ TOOLS & SKILLS ============ -->
+  <section id="skills-section"
+    style="padding: 100px 0; background: transparent; text-align: center; position: relative; z-index: 2;">
+    <div class="wrap">
+
+
+
+      <div class="tools-box reveal" id="toolsWaveBox">
+        <div class="tools-marquee-track" id="toolsWaveTrack">
+          <div class="tool-card"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-plain.svg" alt="Python" />
+          </div>
+          <div class="tool-card"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-plain.svg" alt="Java" /></div>
+          <div class="tool-card"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" alt="React.js" />
+          </div>
+          <div class="tool-card"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/spring/spring-plain.svg"
+              alt="Spring Boot" /></div>
+          <div class="tool-card"><svg class="tool-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.5">
+              <path d="M4 14h4v7H4zM10 9h4v12h-4zM16 3h4v18h-4z" />
+            </svg></div>
+          <div class="tool-card"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-plain.svg" alt="MySQL" />
+          </div>
+          <div class="tool-card"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/django/django-plain.svg" alt="Django" />
+          </div>
+          <div class="tool-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-plain.svg"
+              alt="Git" /></div>
+          <div class="tool-card"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-plain.svg" alt="Docker" />
+          </div>
+          <div class="tool-card"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-plain.svg" alt="Node.js" />
+          </div>
+          <div class="tool-card"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-plain.svg"
+              alt="TypeScript" /></div>
+          <div class="tool-card"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-plain.svg"
+              alt="JavaScript" /></div>
+          <div class="tool-card"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-plain.svg"
+              alt="PostgreSQL" /></div>
+          <div class="tool-card"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-plain.svg" alt="MongoDB" />
+          </div>
+          <div class="tool-card"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-plain.svg" alt="HTML5" />
+          </div>
+          <div class="tool-card"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-plain.svg" alt="CSS3" /></div>
+          <div class="tool-card"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tensorflow/tensorflow-line.svg"
+              alt="TensorFlow" /></div>
+          <div class="tool-card"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-plain.svg" alt="Figma" />
+          </div>
+          <div class="tool-card"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg"
+              alt="AWS" /></div>
+          <div class="tool-card"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-plain.svg" alt="Redis" />
+          </div>
+          <div class="tool-card"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kubernetes/kubernetes-plain.svg"
+              alt="Kubernetes" /></div>
+          <div class="tool-card"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vuejs/vuejs-line.svg" alt="Vue.js" />
+          </div>
+          <div class="tool-card"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-plain.svg" alt="Next.js" />
+          </div>
+          <div class="tool-card"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/graphql/graphql-plain.svg" alt="GraphQL" />
+          </div>
+          <div class="tool-card"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linux/linux-plain.svg" alt="Linux" />
+          </div>
+          <div class="tool-card"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pandas/pandas-plain.svg" alt="Pandas" />
+          </div>
+          <div class="tool-card"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/flask/flask-original.svg" alt="Flask" />
+          </div>
+          <div class="tool-card"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/fastapi/fastapi-plain.svg" alt="FastAPI" />
+          </div>
+          <div class="tool-card"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/selenium/selenium-original.svg"
+              alt="Selenium" /></div>
+          <div class="tool-card"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg" alt="GitHub" />
+          </div>
+        </div>
+      </div>
+
+      <script>
+        /* ── Wave animation — antigravity.google style ──────────────────── */
+        (function () {
+          const track = document.getElementById('toolsWaveTrack');
+          if (!track) return;
+          const cards = Array.from(track.querySelectorAll('.tool-card'));
+          const N = cards.length;
+          const AMPLITUDE = 38;          /* px — gentle float like antigravity.google */
+          const PERIOD = 4.5;         /* seconds per full wave cycle — slow gentle float */
+          const CRESTS = 3;           /* visible wave crests across all circles */
+          const PHASE_GAP = (Math.PI * 2 * CRESTS) / N;
+          let startTime = null;
+
+          function frame(ts) {
+            if (!startTime) startTime = ts;
+            const elapsed = (ts - startTime) / 1000;
+            const t = (elapsed / PERIOD) * Math.PI * 2;
+            cards.forEach((card, i) => {
+              const y = Math.sin(t + i * PHASE_GAP) * AMPLITUDE;
+              /* translate3d triggers GPU compositing for 60fps smoothness */
+              card.style.transform = `translate3d(0,${y.toFixed(1)}px,0)`;
+            });
+            requestAnimationFrame(frame);
+          }
+          requestAnimationFrame(frame);
+        })();
+      </script>
+
+      <!-- SVG Filter for Blue Outline Only -->
+      <svg width="0" height="0" style="position: absolute; pointer-events: none;">
+        <filter id="blue-outline">
+          <feMorphology in="SourceAlpha" result="DILATED" operator="dilate" radius="1"></feMorphology>
+          <feFlood flood-color="#1947FF" flood-opacity="1" result="BLUE"></feFlood>
+          <feComposite in="BLUE" in2="DILATED" operator="in" result="OUTLINE_BLUE"></feComposite>
+          <feComposite in="OUTLINE_BLUE" in2="SourceAlpha" operator="out" result="FINAL_OUTLINE"></feComposite>
+        </filter>
+      </svg>
+
+      <style>
+        /* === Wave Animation (antigravity.google style) === */
+        .tools-box {
+          background: transparent;
+          padding: 0;
+          margin: 0 auto;
+          width: 100vw;
+          max-width: 100vw;
+          overflow: visible;
+          position: relative;
+          left: 50%;
+          margin-left: -50vw;
+          display: flex;
+          justify-content: center;
         }
 
-        @keyframes scroll-reviews {
-          0% {
-            transform: translateX(0);
-          }
+        .tools-marquee-track {
+          display: flex;
+          flex-wrap: nowrap;
+          gap: 24px;
+          width: max-content;
+          padding: 60px 60px;
+          align-items: center;
+          /* No scroll animation — wave handled by JS per-circle */
+        }
 
+
+        @keyframes floatBox {
+
+          0%,
           100% {
-            transform: translateX(calc(-50% - 8px));
+            transform: translateY(0);
           }
 
-          /* 8px accounts for half the 16px gap */
+          50% {
+            transform: translateY(-12px);
+          }
         }
 
-        @media (max-width: 768px) {
-          .review-card {
-            width: 235px;
-            padding: 12px 15px;
-            gap: 6px;
-          }
-          .review-card p {
-            font-size: 11.5px;
-            line-height: 1.4;
-          }
+
+
+        .tool-card {
+          background: #fff;
+          border: 1.5px solid rgba(10, 21, 48, 0.18);
+          border-radius: 50%;
+          width: 96px;
+          height: 96px;
+          flex: 0 0 96px;
+          padding: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 6px 20px rgba(10, 21, 48, 0.10), 0 2px 6px rgba(10, 21, 48, 0.06);
+          /* GPU compositing — prevents repaints on every wave frame */
+          will-change: transform;
+          backface-visibility: hidden;
+        }
+
+        .tool-card:hover {
+          transform: scale(1.12) !important;
+          transition: transform 0.25s ease;
+        }
+
+        .tool-card:hover {
+          animation-play-state: paused;
+          transform: scale(1.08) !important;
+        }
+
+        .tool-card img {
+          width: 44px;
+          height: 44px;
+          object-fit: contain;
+          filter: grayscale(1) brightness(0) opacity(1);
+        }
+
+        .tool-card .tool-svg {
+          width: 44px;
+          height: 44px;
+          color: rgba(2, 5, 14, 0.9);
+        }
+
+        .tool-card span {
+          font-size: 14px;
+          font-weight: 600;
+          color: #02050E;
+          text-align: center;
         }
       </style>
-    </section>
+    </div>
+  </section>
 
-    <!-- ============ TOOLS & SKILLS ============ -->
-    <section id="skills-section"
-      style="padding: 100px 0; background: transparent; text-align: center; position: relative; z-index: 2;">
-      <div class="wrap">
-
-
-
-        <div class="tools-box reveal" id="toolsWaveBox">
-          <div class="tools-marquee-track" id="toolsWaveTrack">
-            <div class="tool-card"><img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-plain.svg" alt="Python" />
-            </div>
-            <div class="tool-card"><img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-plain.svg" alt="Java" /></div>
-            <div class="tool-card"><img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg"
-                alt="React.js" /></div>
-            <div class="tool-card"><img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/spring/spring-plain.svg"
-                alt="Spring Boot" /></div>
-            <div class="tool-card"><svg class="tool-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="1.5">
-                <path d="M4 14h4v7H4zM10 9h4v12h-4zM16 3h4v18h-4z" />
-              </svg></div>
-            <div class="tool-card"><img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-plain.svg" alt="MySQL" />
-            </div>
-            <div class="tool-card"><img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/django/django-plain.svg" alt="Django" />
-            </div>
-            <div class="tool-card"><img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-plain.svg" alt="Git" /></div>
-            <div class="tool-card"><img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-plain.svg" alt="Docker" />
-            </div>
-            <div class="tool-card"><img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-plain.svg" alt="Node.js" />
-            </div>
-            <div class="tool-card"><img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-plain.svg"
-                alt="TypeScript" /></div>
-            <div class="tool-card"><img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-plain.svg"
-                alt="JavaScript" /></div>
-            <div class="tool-card"><img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-plain.svg"
-                alt="PostgreSQL" /></div>
-            <div class="tool-card"><img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-plain.svg"
-                alt="MongoDB" /></div>
-            <div class="tool-card"><img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-plain.svg" alt="HTML5" />
-            </div>
-            <div class="tool-card"><img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-plain.svg" alt="CSS3" /></div>
-            <div class="tool-card"><img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tensorflow/tensorflow-line.svg"
-                alt="TensorFlow" /></div>
-            <div class="tool-card"><img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-plain.svg" alt="Figma" />
-            </div>
-            <div class="tool-card"><img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg"
-                alt="AWS" /></div>
-            <div class="tool-card"><img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-plain.svg" alt="Redis" />
-            </div>
-            <div class="tool-card"><img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kubernetes/kubernetes-plain.svg"
-                alt="Kubernetes" /></div>
-            <div class="tool-card"><img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vuejs/vuejs-line.svg" alt="Vue.js" />
-            </div>
-            <div class="tool-card"><img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-plain.svg" alt="Next.js" />
-            </div>
-            <div class="tool-card"><img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/graphql/graphql-plain.svg"
-                alt="GraphQL" /></div>
-            <div class="tool-card"><img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linux/linux-plain.svg" alt="Linux" />
-            </div>
-            <div class="tool-card"><img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pandas/pandas-plain.svg" alt="Pandas" />
-            </div>
-            <div class="tool-card"><img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/flask/flask-original.svg" alt="Flask" />
-            </div>
-            <div class="tool-card"><img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/fastapi/fastapi-plain.svg"
-                alt="FastAPI" /></div>
-            <div class="tool-card"><img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/selenium/selenium-original.svg"
-                alt="Selenium" /></div>
-            <div class="tool-card"><img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg"
-                alt="GitHub" /></div>
-          </div>
-        </div>
-
-        <script>
-          /* ── Wave animation — antigravity.google style ──────────────────── */
-          (function () {
-            const track = document.getElementById('toolsWaveTrack');
-            if (!track) return;
-            const cards = Array.from(track.querySelectorAll('.tool-card'));
-            const N = cards.length;
-            const AMPLITUDE = 38;          /* px — gentle float like antigravity.google */
-            const PERIOD = 4.5;         /* seconds per full wave cycle — slow gentle float */
-            const CRESTS = 3;           /* visible wave crests across all circles */
-            const PHASE_GAP = (Math.PI * 2 * CRESTS) / N;
-            let startTime = null;
-
-            function frame(ts) {
-              if (!startTime) startTime = ts;
-              const elapsed = (ts - startTime) / 1000;
-              const t = (elapsed / PERIOD) * Math.PI * 2;
-              cards.forEach((card, i) => {
-                const y = Math.sin(t + i * PHASE_GAP) * AMPLITUDE;
-                /* translate3d triggers GPU compositing for 60fps smoothness */
-                card.style.transform = `translate3d(0,${y.toFixed(1)}px,0)`;
-              });
-              requestAnimationFrame(frame);
-            }
-            requestAnimationFrame(frame);
-          })();
-        </script>
-
-        <!-- SVG Filter for Blue Outline Only -->
-        <svg width="0" height="0" style="position: absolute; pointer-events: none;">
-          <filter id="blue-outline">
-            <feMorphology in="SourceAlpha" result="DILATED" operator="dilate" radius="1"></feMorphology>
-            <feFlood flood-color="#1947FF" flood-opacity="1" result="BLUE"></feFlood>
-            <feComposite in="BLUE" in2="DILATED" operator="in" result="OUTLINE_BLUE"></feComposite>
-            <feComposite in="OUTLINE_BLUE" in2="SourceAlpha" operator="out" result="FINAL_OUTLINE"></feComposite>
-          </filter>
-        </svg>
-
-        <style>
-          /* === Wave Animation (antigravity.google style) === */
-          .tools-box {
-            background: transparent;
-            padding: 0;
-            margin: 0 auto;
-            width: 100vw;
-            max-width: 100vw;
-            overflow: visible;
-            position: relative;
-            left: 50%;
-            margin-left: -50vw;
-            display: flex;
-            justify-content: center;
-          }
-
-          .tools-marquee-track {
-            display: flex;
-            flex-wrap: nowrap;
-            gap: 24px;
-            width: max-content;
-            padding: 60px 60px;
-            align-items: center;
-            /* No scroll animation — wave handled by JS per-circle */
-          }
-
-
-          @keyframes floatBox {
-
-            0%,
-            100% {
-              transform: translateY(0);
-            }
-
-            50% {
-              transform: translateY(-12px);
-            }
-          }
-
-
-
-          .tool-card {
-            background: #fff;
-            border: 1.5px solid rgba(10, 21, 48, 0.18);
-            border-radius: 50%;
-            width: 96px;
-            height: 96px;
-            flex: 0 0 96px;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 6px 20px rgba(10, 21, 48, 0.10), 0 2px 6px rgba(10, 21, 48, 0.06);
-            /* GPU compositing — prevents repaints on every wave frame */
-            will-change: transform;
-            backface-visibility: hidden;
-          }
-
-          .tool-card:hover {
-            transform: scale(1.12) !important;
-            transition: transform 0.25s ease;
-          }
-
-          .tool-card:hover {
-            animation-play-state: paused;
-            transform: scale(1.08) !important;
-          }.tool-card img{
-            width: 44px;
-            height: 44px;
-            object-fit: contain;
-            filter: grayscale(1) brightness(0) opacity(1);
-          }
-
-          .tool-card .tool-svg {
-            width: 44px;
-            height: 44px;
-            color: rgba(2, 5, 14, 0.9);
-          }
-
-          .tool-card span {
-            font-size: 14px;
-            font-weight: 600;
-            color: #02050E;
-            text-align: center;
-          }
-        </style>
+  <!-- ============ CTA ============ -->
+  <section class="cta-strip" id="contact" data-screen-label="04 Contact">
+    <div class="wrap">
+      <h2>Not getting <em>interview calls?</em><br />Let's fix that today.</h2>
+      <p>Book a free 1-to-1 career consultation with our IT placement experts. We'll find what is blocking your job
+        search, suggest the right tech stack, and guide you clearly — no hidden fees, no pressure.</p>
+      <div class="row">
+        <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="btn-primary"><span>WhatsApp
+            now</span><span class="arrow">→</span></a>
+        <a href="tel:+918590886009" class="btn-ghost">Call +91 95444 34566</a>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- ============ CTA ============ -->
-    <section class="cta-strip" id="contact" data-screen-label="04 Contact">
-      <div class="wrap">
-        <h2>Not getting <em>interview calls?</em><br />Let's fix that today.</h2>
-        <p>Book a free 1-to-1 career consultation with our IT placement experts. We'll find what is blocking your job
-          search, suggest the right tech stack, and guide you clearly — no hidden fees, no pressure.</p>
-        <div class="row">
-          <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="btn-primary"><span>WhatsApp
-              now</span><span class="arrow">→</span></a>
-          <a href="tel:+918590886009" class="btn-ghost">Call +91 95444 34566</a>
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div class="wrap">
+      <div class="giant" style="display: flex; justify-content: center;"><img src="white name.png" alt="Kompetenzen."
+          style="max-width: 100%; height: auto;" /></div>
+      <div class="ft-grid">
+        <div>
+          <div class="ft-brand"><img src="kompetenzen logo-02.png" alt="Kompetenzen"
+              style="filter:brightness(0) invert(1)" />
+          </div>
+          <p class="ft-blurb">Kerala's trusted partner for IT training, full stack development, data analytics, and
+            guaranteed placement support — since 2020.</p>
+        </div>
+        <div class="ft-col">
+          <h4>Schools</h4>
+          <a href="tech-school.html">Tech School</a>
+          <a href="finishing-school.html">Finishing School</a>
+          <a href="b-school.html">B-School</a>
+        </div>
+        <div class="ft-col">
+          <h4>Explore</h4>
+          <a href="placements.html">2000+ Placements</a>
+          <a href="Resume/resume.html" onclick="openResumeBuilder(event)">Resume Builder</a>
+        </div>
+        <div class="ft-col">
+          <h4>Contact</h4>
+          <a href="mailto:hr@kompetenzen.in">hr@kompetenzen.in</a>
+          <a href="tel:+918590886009">+91 85908 86009</a>
+          <a href="https://www.instagram.com/kompetenzen.techschool" target="_blank" rel="noopener">Instagram ↗</a>
+          <a href="#">Visit Campus</a>
         </div>
       </div>
-    </section>
 
-    <!-- ============ FOOTER ============ -->
-    <footer>
-      <div class="wrap">
-        <div class="giant" style="display: flex; justify-content: center;"><img src="white name.png" alt="Kompetenzen."
-            style="max-width: 100%; height: auto;" /></div>
-        <div class="ft-grid">
-          <div>
-            <div class="ft-brand"><img src="kompetenzen logo-02.png" alt="Kompetenzen"
-                style="filter:brightness(0) invert(1)" />
-            </div>
-            <p class="ft-blurb">Kerala's trusted partner for IT training, full stack development, data analytics, and
-              guaranteed placement support — since 2020.</p>
-          </div>
-          <div class="ft-col">
-            <h4>Schools</h4>
-            <a href="tech-school.html">Tech School</a>
-            <a href="finishing-school.html">Finishing School</a>
-            <a href="b-school.html">B-School</a>
-          </div>
-          <div class="ft-col">
-            <h4>Explore</h4>
-            <a href="placements.html">2000+ Placements</a>
-            <a href="https://darksalmon-llama-333572.hostingersite.com/" target="_blank" onclick="openResumeBuilder(event)">Resume Builder</a>
-          </div>
-          <div class="ft-col">
-            <h4>Contact</h4>
-            <a href="mailto:hr@kompetenzen.in">hr@kompetenzen.in</a>
-            <a href="tel:+918590886009">+91 85908 86009</a>
-            <a href="https://www.instagram.com/kompetenzen.techschool" target="_blank" rel="noopener">Instagram ↗</a>
-            <a href="#">Visit Campus</a>
-          </div>
-        </div>
-
-        <div class="ft-bot">
-          <span>© 2026 Kompetenzen Technologies. All rights reserved.</span>
-          <span class="mono">Made in Kochi · v2.0</span>
-        </div>
+      <div class="ft-bot">
+        <span>© 2026 Kompetenzen Technologies. All rights reserved.</span>
+        <span class="mono">Made in Kochi · v2.0</span>
       </div>
-    </footer>
+    </div>
+  </footer>
 
-    <!-- Lenis smooth scroll -->
-    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
-    <script>
-      /* Smooth scroll - Disabled on mobile for performance */
-      const isMobile = window.innerWidth <= 768 || window.matchMedia("(max-width: 768px)").matches || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  <!-- Lenis smooth scroll -->
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script>
+    /* Smooth scroll - Disabled on mobile for performance */
+    const isMobile = window.innerWidth <= 768 || window.matchMedia("(max-width: 768px)").matches || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-      if (!isMobile) {
-        window.lenis = new Lenis({
-          lerp: 0.1, /* faster, more responsive interpolation */
-          wheelMultiplier: 1.5, /* very fast wheel scroll speed */
-          smoothWheel: true,
-          smoothTouch: false,
-        });
-        const lenis = window.lenis;
-        function raf(t) { lenis.raf(t); requestAnimationFrame(raf) }
-        requestAnimationFrame(raf);
-      } else {
-        // Fallback for mobile
-        const scrollListeners = [];
-        window.lenis = {
-          scrollTo: (target, options) => {
-            const offset = options && options.offset ? options.offset : 0;
-            if (typeof target === 'number') { window.scrollTo({ top: target + offset, behavior: 'smooth' }); }
-            else if (target) {
-              const y = target.getBoundingClientRect().top + window.scrollY + offset;
-              window.scrollTo({ top: y, behavior: 'smooth' });
-            }
-          },
-          on: (event, cb) => {
-            if (event === 'scroll') scrollListeners.push(cb);
-          },
-          stop: () => { },
-          start: () => { }
-        };
-        window.addEventListener('scroll', () => {
-          scrollListeners.forEach(cb => cb({ scroll: window.scrollY }));
-        });
-      }
-
+    if (!isMobile) {
+      window.lenis = new Lenis({
+        lerp: 0.1, /* faster, more responsive interpolation */
+        wheelMultiplier: 1.5, /* very fast wheel scroll speed */
+        smoothWheel: true,
+        smoothTouch: false,
+      });
       const lenis = window.lenis;
-
-      /* Nav scroll state with premium hide-on-scroll */
-      const nav = document.getElementById('nav');
-      let lastScroll = 0;
-      lenis.on('scroll', ({ scroll }) => {
-        nav.classList.toggle('scrolled', scroll > 20);
-
-        if (scroll > lastScroll && scroll > 120) {
-          nav.classList.add('nav-hidden');
-        } else if (scroll < lastScroll) {
-          nav.classList.remove('nav-hidden');
-        }
-        lastScroll = scroll;
-      });
-
-      /* Anchor links via Lenis */
-      document.querySelectorAll('a[href^="#"]').forEach(a => {
-        a.addEventListener('click', e => {
-          const id = a.getAttribute('href');
-          if (id.length > 1) {
-            const el = document.querySelector(id);
-            if (el) { e.preventDefault(); lenis.scrollTo(el, { offset: -60, duration: 1.4 }) }
+      function raf(t) { lenis.raf(t); requestAnimationFrame(raf) }
+      requestAnimationFrame(raf);
+    } else {
+      // Fallback for mobile
+      const scrollListeners = [];
+      window.lenis = {
+        scrollTo: (target, options) => {
+          const offset = options && options.offset ? options.offset : 0;
+          if (typeof target === 'number') { window.scrollTo({ top: target + offset, behavior: 'smooth' }); }
+          else if (target) {
+            const y = target.getBoundingClientRect().top + window.scrollY + offset;
+            window.scrollTo({ top: y, behavior: 'smooth' });
           }
-        });
+        },
+        on: (event, cb) => {
+          if (event === 'scroll') scrollListeners.push(cb);
+        },
+        stop: () => { },
+        start: () => { }
+      };
+      window.addEventListener('scroll', () => {
+        scrollListeners.forEach(cb => cb({ scroll: window.scrollY }));
       });
+    }
 
-      /* Reveal on scroll */
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target) } });
-      }, { threshold: .12, rootMargin: '0px 0px -60px 0px' });
-      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    const lenis = window.lenis;
 
-      /* Counter animation (rolling odometer style) */
-      const counters = document.querySelectorAll('[data-count]');
-      const cio = new IntersectionObserver((entries) => {
-        entries.forEach(en => {
-          if (en.isIntersecting) {
-            const el = en.target;
-            const target = +el.dataset.count;
-            const fmt = n => n >= 1000 ? Math.floor(n / 100) / 10 + 'k+' : Math.floor(n) + '+';
-            const finalStr = fmt(target);
+    /* Nav scroll state with premium hide-on-scroll */
+    const nav = document.getElementById('nav');
+    let lastScroll = 0;
+    lenis.on('scroll', ({ scroll }) => {
+      nav.classList.toggle('scrolled', scroll > 20);
 
-            el.innerHTML = '';
-            const strips = [];
+      if (scroll > lastScroll && scroll > 120) {
+        nav.classList.add('nav-hidden');
+      } else if (scroll < lastScroll) {
+        nav.classList.remove('nav-hidden');
+      }
+      lastScroll = scroll;
+    });
 
-            for (let char of finalStr) {
-              if (char >= '0' && char <= '9') {
-                const digit = parseInt(char);
-                const digitWrapper = document.createElement('span');
-                digitWrapper.className = 'roll-digit';
+    /* Anchor links via Lenis */
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const id = a.getAttribute('href');
+        if (id.length > 1) {
+          const el = document.querySelector(id);
+          if (el) { e.preventDefault(); lenis.scrollTo(el, { offset: -60, duration: 1.4 }) }
+        }
+      });
+    });
 
-                const strip = document.createElement('span');
-                strip.className = 'roll-digit-strip';
+    /* Reveal on scroll */
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target) } });
+    }, { threshold: .12, rootMargin: '0px 0px -60px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-                for (let i = 0; i <= 9; i++) {
-                  const span = document.createElement('span');
-                  span.textContent = i;
-                  strip.appendChild(span);
-                }
+    /* Counter animation (rolling odometer style) */
+    const counters = document.querySelectorAll('[data-count]');
+    const cio = new IntersectionObserver((entries) => {
+      entries.forEach(en => {
+        if (en.isIntersecting) {
+          const el = en.target;
+          const target = +el.dataset.count;
+          const fmt = n => n >= 1000 ? Math.floor(n / 100) / 10 + 'k+' : Math.floor(n) + '+';
+          const finalStr = fmt(target);
 
-                digitWrapper.appendChild(strip);
-                el.appendChild(digitWrapper);
+          el.innerHTML = '';
+          const strips = [];
 
-                strips.push({ element: strip, target: digit });
-              } else {
-                const charSpan = document.createElement('span');
-                charSpan.textContent = char;
-                el.appendChild(charSpan);
+          for (let char of finalStr) {
+            if (char >= '0' && char <= '9') {
+              const digit = parseInt(char);
+              const digitWrapper = document.createElement('span');
+              digitWrapper.className = 'roll-digit';
+
+              const strip = document.createElement('span');
+              strip.className = 'roll-digit-strip';
+
+              for (let i = 0; i <= 9; i++) {
+                const span = document.createElement('span');
+                span.textContent = i;
+                strip.appendChild(span);
               }
-            }
 
-            // Trigger the roll transition on the next ticks
+              digitWrapper.appendChild(strip);
+              el.appendChild(digitWrapper);
+
+              strips.push({ element: strip, target: digit });
+            } else {
+              const charSpan = document.createElement('span');
+              charSpan.textContent = char;
+              el.appendChild(charSpan);
+            }
+          }
+
+          // Trigger the roll transition on the next ticks
+          requestAnimationFrame(() => {
             requestAnimationFrame(() => {
-              requestAnimationFrame(() => {
-                strips.forEach(s => {
-                  s.element.style.transform = `translateY(${-s.target * 10}%)`;
-                });
+              strips.forEach(s => {
+                s.element.style.transform = `translateY(${-s.target * 10}%)`;
               });
             });
+          });
 
-            cio.unobserve(el);
-          }
-        });
-      }, { threshold: .4 });
-      counters.forEach(c => cio.observe(c));
+          cio.unobserve(el);
+        }
+      });
+    }, { threshold: .4 });
+    counters.forEach(c => cio.observe(c));
 
-      /* ===== Build placement (instagram) grid ===== */
-      const placements = [
-        { name: 'Aamina AA', co: 'Cognizant', likes: 412, img: './placement-01-aamina-aa-cognizant.webp' },
-        { name: 'Adithyanath', co: 'TCS', likes: 289, img: './placement-02-adithyanath-tcs.webp' },
-        { name: 'Alfin', co: 'Aion Pixel', likes: 187, img: './placement-03-alfin-aion-pixel.webp' },
-        { name: 'Aswin', co: 'Sioniq', likes: 245, img: './placement-04-aswin-sioniq.webp' },
-        { name: 'Azra Ayisha', co: 'Neologics', likes: 310, img: './placement-05-azra-ayisha-neologics.webp' },
-        { name: 'Jisha Raj', co: 'IBS', likes: 423, img: './placement-06-jisha-raj-ibs-1.webp' },
-        { name: 'Krishnapriya RB', co: 'ISRO', likes: 1248, img: './placement-07-krishnapriya-isro.webp' },
-        { name: 'Leo Antony', co: 'Claysis', likes: 201, img: './placement-08-leo-antony-claysis.webp' },
-        { name: 'Niya Biju', co: 'Aabosoft', likes: 356, img: './placement-09-niya-biju-aabosoft.webp' },
-        { name: 'Parvathy', co: 'Neologics', likes: 278, img: './placement-10-parvathy-neologics.webp' },
-        { name: 'Samudra', co: 'Neologix', likes: 198, img: './placement-11-samudra-neologix.webp' },
-        { name: 'Shivadath', co: 'Evalogical', likes: 295, img: './placement-12-shivadath-evalogical.webp' },
-        { name: 'Thasleema Jafarr', co: 'MariApps', likes: 331, img: './placement-13-thasleema-jafarr-mariapps.webp' }
-      ];
-      const igGrid = document.getElementById('igGrid');
-      const renderPlacements = () => [...placements, ...placements].forEach((p, i) => {
-        const a = document.createElement('a');
-        a.href = 'https://www.instagram.com/kompetenzen.techschool';
-        a.target = '_blank';
-        a.rel = 'noopener';
-        a.className = 'ig-post reveal';
-        if (i % 5 === 1) a.classList.add('d1');
-        if (i % 5 === 2) a.classList.add('d2');
-        if (i % 5 === 3) a.classList.add('d3');
-        if (i % 5 === 4) a.classList.add('d4');
-        a.innerHTML = `
+    /* ===== Build placement (instagram) grid ===== */
+    const placements = [
+      { name: 'Aamina AA', co: 'Cognizant', likes: 412, img: './placement-01-aamina-aa-cognizant.webp' },
+      { name: 'Adithyanath', co: 'TCS', likes: 289, img: './placement-02-adithyanath-tcs.webp' },
+      { name: 'Alfin', co: 'Aion Pixel', likes: 187, img: './placement-03-alfin-aion-pixel.webp' },
+      { name: 'Aswin', co: 'Sioniq', likes: 245, img: './placement-04-aswin-sioniq.webp' },
+      { name: 'Azra Ayisha', co: 'Neologics', likes: 310, img: './placement-05-azra-ayisha-neologics.webp' },
+      { name: 'Jisha Raj', co: 'IBS', likes: 423, img: './placement-06-jisha-raj-ibs-1.webp' },
+      { name: 'Krishnapriya RB', co: 'ISRO', likes: 1248, img: './placement-07-krishnapriya-isro.webp' },
+      { name: 'Leo Antony', co: 'Claysis', likes: 201, img: './placement-08-leo-antony-claysis.webp' },
+      { name: 'Niya Biju', co: 'Aabosoft', likes: 356, img: './placement-09-niya-biju-aabosoft.webp' },
+      { name: 'Parvathy', co: 'Neologics', likes: 278, img: './placement-10-parvathy-neologics.webp' },
+      { name: 'Samudra', co: 'Neologix', likes: 198, img: './placement-11-samudra-neologix.webp' },
+      { name: 'Shivadath', co: 'Evalogical', likes: 295, img: './placement-12-shivadath-evalogical.webp' },
+      { name: 'Thasleema Jafarr', co: 'MariApps', likes: 331, img: './placement-13-thasleema-jafarr-mariapps.webp' }
+    ];
+    const igGrid = document.getElementById('igGrid');
+    const renderPlacements = () => [...placements, ...placements].forEach((p, i) => {
+      const a = document.createElement('a');
+      a.href = 'https://www.instagram.com/kompetenzen.techschool';
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.className = 'ig-post reveal';
+      if (i % 5 === 1) a.classList.add('d1');
+      if (i % 5 === 2) a.classList.add('d2');
+      if (i % 5 === 3) a.classList.add('d3');
+      if (i % 5 === 4) a.classList.add('d4');
+      a.innerHTML = `
     <div class="heart"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-7-10a4 4 0 018-1 4 4 0 018 1c0 5.65-7 10-7 10z"/></svg>${p.likes}</div>
     <img src="${p.img}" alt="${p.name} placed @ ${p.co}" class="ig-post-img" />
     <div class="overlay">
       <div class="open">View on Instagram <span>↗</span></div>
     </div>`;
-        igGrid.appendChild(a);
-      });
-      renderPlacements();
-      document.querySelectorAll('.ig-post.reveal').forEach(el => io.observe(el));
+      igGrid.appendChild(a);
+    });
+    renderPlacements();
+    document.querySelectorAll('.ig-post.reveal').forEach(el => io.observe(el));
 
 
 
 
 
-      /* Parallax tilt on hero illustration columns based on scroll */
-      const visCols = document.querySelectorAll('.hero-vis .tcol');
+    /* Parallax tilt on hero illustration columns based on scroll */
+    const visCols = document.querySelectorAll('.hero-vis .tcol');
 
-      const scrollBar = document.getElementById('scrollBar');
-      let maxScroll = 1;
+    const scrollBar = document.getElementById('scrollBar');
+    let maxScroll = 1;
 
-      /* Single scroll handler for everything */
-      lenis.on('scroll', ({ scroll }) => {
-        maxScroll = Math.max(maxScroll, document.documentElement.scrollHeight - window.innerHeight);
-        scrollBar.style.width = (scroll / maxScroll * 100) + '%';
-        const v = Math.min(scroll * .05, 200);
-        visCols[0] && (visCols[0].style.translate = `0 ${-v * .3}px`);
-        visCols[1] && (visCols[1].style.translate = `0 ${v * .2}px`);
-        visCols[2] && (visCols[2].style.translate = `0 ${-v * .15}px`);
+    /* Single scroll handler for everything */
+    lenis.on('scroll', ({ scroll }) => {
+      maxScroll = Math.max(maxScroll, document.documentElement.scrollHeight - window.innerHeight);
+      scrollBar.style.width = (scroll / maxScroll * 100) + '%';
+      const v = Math.min(scroll * .05, 200);
+      visCols[0] && (visCols[0].style.translate = `0 ${-v * .3}px`);
+      visCols[1] && (visCols[1].style.translate = `0 ${v * .2}px`);
+      visCols[2] && (visCols[2].style.translate = `0 ${-v * .15}px`);
 
-      });
+    });
 
-      window.scrollToTrainingSlide = function () {
-        const sec = document.getElementById('training');
-        if (sec) {
-          if (window.lenis) {
-            window.lenis.scrollTo(sec, { offset: -40, duration: 1 });
-          } else {
-            sec.scrollIntoView({ behavior: 'smooth' });
-          }
-        }
-      };
-
-      (function () {
-        const radialGlow = document.querySelector('#training .box-radial-glow');
-        if (radialGlow) {
-          radialGlow.style.setProperty('--glow-x', '50%');
-          radialGlow.style.setProperty('--glow-y', '50%');
-        }
-      })();
-    </script>
-    <!-- Video Player Modal -->
-    <div id="videoModal" class="video-modal" onclick="closeVideoModal()">
-      <div class="video-modal-content" onclick="event.stopPropagation()">
-        <button class="video-close-btn" onclick="closeVideoModal()">&times;</button>
-        <div class="video-iframe-wrapper"></div>
-      </div>
-    </div>
-
-    <script>
-      window.openVideoModal = function () {
-        const modal = document.getElementById('videoModal');
-        const wrapper = modal.querySelector('.video-iframe-wrapper');
-        wrapper.innerHTML = `<iframe src="https://www.youtube.com/embed/PMvFvScBvqU?autoplay=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
-        modal.classList.add('active');
+    window.scrollToTrainingSlide = function () {
+      const sec = document.getElementById('training');
+      if (sec) {
         if (window.lenis) {
-          window.lenis.stop();
-        }
-      };
-
-      window.closeVideoModal = function () {
-        const modal = document.getElementById('videoModal');
-        const wrapper = modal.querySelector('.video-iframe-wrapper');
-        modal.classList.remove('active');
-        setTimeout(() => {
-          wrapper.innerHTML = '';
-        }, 350);
-        if (window.lenis) {
-          window.lenis.start();
-        }
-      };
-
-    </script>
-
-
-    <!-- Mobile Menu Logic -->
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const hamburger = document.getElementById("hamburger-menu");
-        const navLinks = document.querySelector(".nav-links");
-        if (hamburger && navLinks) {
-          hamburger.addEventListener("click", () => {
-            hamburger.classList.toggle("active");
-            navLinks.classList.toggle("mobile-active");
-            document.body.style.overflow = hamburger.classList.contains("active") ? "hidden" : "auto";
-          });
-
-          // Close menu when clicking a link
-          navLinks.querySelectorAll("a").forEach(link => {
-            link.addEventListener("click", () => {
-              hamburger.classList.remove("active");
-              navLinks.classList.remove("mobile-active");
-              document.body.style.overflow = "auto";
-            });
-          });
-        }
-      });
-    </script>
-
-    <!-- FINAL MOBILE OVERRIDES: Highest priority, beats all inline styles -->
-    <style>
-      @media (max-width: 980px) {
-
-        /* Mobile Menu Overlay System */
-        #hamburger-menu {
-          display: flex !important;
-          flex-direction: column;
-          justify-content: space-between;
-          width: 32px;
-          height: 22px;
-          background: transparent;
-          border: none;
-          cursor: pointer;
-          z-index: 10001;
-          padding: 0;
-        }
-
-        #hamburger-menu span {
-          display: block;
-          width: 100%;
-          height: 2.5px;
-          background: var(--ink);
-          border-radius: 4px;
-          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        #hamburger-menu.active span:nth-child(1) {
-          transform: translateY(9.5px) rotate(45deg);
-        }
-
-        #hamburger-menu.active span:nth-child(2) {
-          opacity: 0;
-        }
-
-        #hamburger-menu.active span:nth-child(3) {
-          transform: translateY(-9.5px) rotate(-45deg);
-        }
-
-        .nav-links.mobile-active {
-          display: flex !important;
-          position: fixed !important;
-          inset: 0 !important;
-          width: 100vw !important;
-          height: 100vh !important;
-          height: 100dvh !important;
-          background: rgba(255, 255, 255, 0.98) !important;
-          backdrop-filter: blur(24px) !important;
-          -webkit-backdrop-filter: blur(24px) !important;
-          flex-direction: column !important;
-          align-items: center !important;
-          justify-content: center !important;
-          gap: 16px !important;
-          padding: 80px 24px 40px !important;
-          z-index: 10000 !important;
-          overflow-y: auto !important;
-          box-sizing: border-box !important;
-        }
-
-        .nav-links.mobile-active a {
-          font-size: 20px !important;
-          font-weight: 600 !important;
-          color: var(--ink) !important;
-          text-decoration: none !important;
-          text-align: center !important;
-        }
-
-        /* Mobile Performance GPU Hardware Acceleration */
-        * {
-          -webkit-tap-highlight-color: transparent;
-        }
-
-        /* Reduced Placements CTA Button size for Mobile */
-        .placements-cta-btn {
-          padding: 8px 16px !important;
-          font-size: 12px !important;
-          max-width: calc(100% - 32px) !important;
-          border-radius: 99px !important;
-        }
-
-        .placements-cta-btn .arrow {
-          width: 20px !important;
-          height: 20px !important;
-          font-size: 11px !important;
-          margin-left: 6px !important;
-        }
-
-        #training .glowing-box-container {
-          will-change: transform;
+          window.lenis.scrollTo(sec, { offset: -40, duration: 1 });
+        } else {
+          sec.scrollIntoView({ behavior: 'smooth' });
         }
       }
-    </style>
+    };
 
-    <!-- ===== AUTHENTICATION MODAL (Rearranged 2-Panel Landscape Layout) ===== -->
-    <div id="jobs-auth-modal"
-      style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(15,23,42,0.65); backdrop-filter:blur(8px); align-items:center; justify-content:center; padding:1rem;">
-      <div class="auth-modal-container"
-        style="background:#ffffff; border-radius:20px; width:100%; max-width:740px; overflow:hidden; box-shadow:0 25px 60px -12px rgba(15,23,42,0.35), 0 0 0 1px rgba(15,23,42,0.06); animation:authFadeIn 0.25s ease; position:relative; display:flex; flex-direction:row;">
-        
-        <!-- LEFT PANEL: Brand, Title, 1-Click Google & Trust Perks -->
-        <div class="auth-modal-left"
-          style="width:44%; background:#f8fafc; padding:2rem 1.75rem; border-right:1px solid #f1f5f9; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <img src="kompetenzen logo-02.png" alt="Kompetenzen" style="height:28px; margin-bottom:1.15rem; display:block;">
-            <h3 id="auth-modal-title" style="margin:0 0 0.4rem; font-size:1.25rem; font-weight:800; color:#0f172a; letter-spacing:-0.02em; line-height:1.25;">Create Your Account</h3>
-            <p id="auth-modal-subtitle" style="margin:0 0 1.25rem; font-size:0.82rem; color:#64748b; line-height:1.45;">Sign up to access courses, jobs & placements</p>
-            
-            <!-- Google 1-Click Button -->
-            <button type="button" id="lead-google-btn" onclick="triggerWebsiteGoogleSignIn()"
-              style="display:flex; align-items:center; justify-content:center; gap:9px; width:100%; padding:0.7rem 1rem; background:#fff; border:1.5px solid #e2e8f0; border-radius:10px; font-family:inherit; font-size:0.88rem; font-weight:600; color:#1e293b; cursor:pointer; transition:all 0.2s ease; box-shadow:0 1px 2px rgba(0,0,0,0.04);"
-              onmouseover="this.style.borderColor='#cbd5e1'; this.style.background='#f8fafc'; this.style.transform='translateY(-1px)';"
-              onmouseout="this.style.borderColor='#e2e8f0'; this.style.background='#fff'; this.style.transform='none';">
-              <svg style="width:18px; height:18px; flex-shrink:0;" viewBox="0 0 48 48">
-                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-              </svg>
-              <span id="lead-google-btn-text">Continue with Google</span>
-            </button>
+    (function () {
+      const radialGlow = document.querySelector('#training .box-radial-glow');
+      if (radialGlow) {
+        radialGlow.style.setProperty('--glow-x', '50%');
+        radialGlow.style.setProperty('--glow-y', '50%');
+      }
+    })();
+  </script>
+  <!-- Video Player Modal -->
+  <div id="videoModal" class="video-modal" onclick="closeVideoModal()">
+    <div class="video-modal-content" onclick="event.stopPropagation()">
+      <button class="video-close-btn" onclick="closeVideoModal()">&times;</button>
+      <div class="video-iframe-wrapper"></div>
+    </div>
+  </div>
 
-            <!-- Feature Perks -->
-            <div style="margin-top:1.4rem; display:flex; flex-direction:column; gap:0.6rem;">
-              <div style="display:flex; align-items:center; gap:0.55rem; font-size:0.78rem; color:#475569; font-weight:600;">
-                <span style="color:#10b981; font-weight:800;">✓</span> 1-Click instant sign-in
-              </div>
-              <div style="display:flex; align-items:center; gap:0.55rem; font-size:0.78rem; color:#475569; font-weight:600;">
-                <span style="color:#10b981; font-weight:800;">✓</span> 100% Placement assistance
-              </div>
-              <div style="display:flex; align-items:center; gap:0.55rem; font-size:0.78rem; color:#475569; font-weight:600;">
-                <span style="color:#10b981; font-weight:800;">✓</span> Industry-verified certificates
-              </div>
+  <script>
+    window.openVideoModal = function () {
+      const modal = document.getElementById('videoModal');
+      const wrapper = modal.querySelector('.video-iframe-wrapper');
+      wrapper.innerHTML = `<iframe src="https://www.youtube.com/embed/PMvFvScBvqU?autoplay=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+      modal.classList.add('active');
+      if (window.lenis) {
+        window.lenis.stop();
+      }
+    };
+
+    window.closeVideoModal = function () {
+      const modal = document.getElementById('videoModal');
+      const wrapper = modal.querySelector('.video-iframe-wrapper');
+      modal.classList.remove('active');
+      setTimeout(() => {
+        wrapper.innerHTML = '';
+      }, 350);
+      if (window.lenis) {
+        window.lenis.start();
+      }
+    };
+
+  </script>
+
+
+  <!-- FINAL MOBILE OVERRIDES -->
+  <style>
+    @media (max-width: 980px) {
+
+      /* Mobile Performance GPU Hardware Acceleration */
+      * {
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      /* Reduced Placements CTA Button size for Mobile */
+      .placements-cta-btn {
+        padding: 8px 16px !important;
+        font-size: 12px !important;
+        max-width: calc(100% - 32px) !important;
+        border-radius: 99px !important;
+      }
+
+      .placements-cta-btn .arrow {
+        width: 20px !important;
+        height: 20px !important;
+        font-size: 11px !important;
+        margin-left: 6px !important;
+      }
+
+      #training .glowing-box-container {
+        will-change: transform;
+      }
+    }
+  </style>
+
+  <!-- ===== AUTHENTICATION MODAL (Rearranged 2-Panel Landscape Layout) ===== -->
+  <div id="jobs-auth-modal"
+    style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(15,23,42,0.65); backdrop-filter:blur(8px); align-items:center; justify-content:center; padding:1rem;">
+    <div class="auth-modal-container"
+      style="background:#ffffff; border-radius:20px; width:100%; max-width:740px; overflow:hidden; box-shadow:0 25px 60px -12px rgba(15,23,42,0.35), 0 0 0 1px rgba(15,23,42,0.06); animation:authFadeIn 0.25s ease; position:relative; display:flex; flex-direction:row;">
+
+      <!-- LEFT PANEL: Brand, Title, 1-Click Google & Trust Perks -->
+      <div class="auth-modal-left"
+        style="width:44%; background:#f8fafc; padding:2rem 1.75rem; border-right:1px solid #f1f5f9; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <img src="kompetenzen logo-02.png" alt="Kompetenzen"
+            style="height:28px; margin-bottom:1.15rem; display:block;">
+          <h3 id="auth-modal-title"
+            style="margin:0 0 0.4rem; font-size:1.25rem; font-weight:800; color:#0f172a; letter-spacing:-0.02em; line-height:1.25;">
+            Create Your Account</h3>
+          <p id="auth-modal-subtitle" style="margin:0 0 1.25rem; font-size:0.82rem; color:#64748b; line-height:1.45;">
+            Sign up to access courses, jobs & placements</p>
+
+          <!-- Google 1-Click Button -->
+          <button type="button" id="lead-google-btn" onclick="triggerWebsiteGoogleSignIn()"
+            style="display:flex; align-items:center; justify-content:center; gap:9px; width:100%; padding:0.7rem 1rem; background:#fff; border:1.5px solid #e2e8f0; border-radius:10px; font-family:inherit; font-size:0.88rem; font-weight:600; color:#1e293b; cursor:pointer; transition:all 0.2s ease; box-shadow:0 1px 2px rgba(0,0,0,0.04);"
+            onmouseover="this.style.borderColor='#cbd5e1'; this.style.background='#f8fafc'; this.style.transform='translateY(-1px)';"
+            onmouseout="this.style.borderColor='#e2e8f0'; this.style.background='#fff'; this.style.transform='none';">
+            <svg style="width:18px; height:18px; flex-shrink:0;" viewBox="0 0 48 48">
+              <path fill="#EA4335"
+                d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+              <path fill="#4285F4"
+                d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
+              <path fill="#FBBC05"
+                d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
+              <path fill="#34A853"
+                d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+            </svg>
+            <span id="lead-google-btn-text">Continue with Google</span>
+          </button>
+
+          <!-- Feature Perks -->
+          <div style="margin-top:1.4rem; display:flex; flex-direction:column; gap:0.6rem;">
+            <div
+              style="display:flex; align-items:center; gap:0.55rem; font-size:0.78rem; color:#475569; font-weight:600;">
+              <span style="color:#10b981; font-weight:800;">✓</span> 1-Click instant sign-in
             </div>
-          </div>
-
-          <div style="padding-top:1.15rem; border-top:1px solid #e2e8f0; font-size:0.74rem; color:#94a3b8; display:flex; align-items:center; gap:0.4rem;">
-            <span>🎓</span> Trusted by 5,000+ students & learners
+            <div
+              style="display:flex; align-items:center; gap:0.55rem; font-size:0.78rem; color:#475569; font-weight:600;">
+              <span style="color:#10b981; font-weight:800;">✓</span> 100% Placement assistance
+            </div>
+            <div
+              style="display:flex; align-items:center; gap:0.55rem; font-size:0.78rem; color:#475569; font-weight:600;">
+              <span style="color:#10b981; font-weight:800;">✓</span> Industry-verified certificates
+            </div>
           </div>
         </div>
 
-        <!-- RIGHT PANEL: Tab Switcher, Close Button, & Email Auth Form -->
-        <div class="auth-modal-right"
-          style="width:56%; padding:1.75rem 2rem; background:#ffffff; display:flex; flex-direction:column; justify-content:space-between;">
-          
-          <!-- Top Row: Tab Switcher on Left, Close Button on Right -->
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:1rem;">
-              <div style="display:flex; background:#f1f5f9; border-radius:99px; padding:2px; border:1px solid #e2e8f0;">
-                <button type="button" id="tab-signup-btn" onclick="switchAuthTab('signup')"
-                  style="padding:5px 14px; border:none; border-radius:99px; font-weight:700; font-size:0.78rem; cursor:pointer; transition:all 0.2s; background:#1947FF; color:#ffffff; box-shadow:0 2px 6px rgba(25,71,255,0.25);">
-                  Sign Up
-                </button>
-                <button type="button" id="tab-login-btn" onclick="switchAuthTab('login')"
-                  style="padding:5px 14px; border:none; border-radius:99px; font-weight:700; font-size:0.78rem; cursor:pointer; transition:all 0.2s; background:transparent; color:#64748b;">
-                  Log In
-                </button>
-              </div>
+        <div
+          style="padding-top:1.15rem; border-top:1px solid #e2e8f0; font-size:0.74rem; color:#94a3b8; display:flex; align-items:center; gap:0.4rem;">
+          <span>🎓</span> Trusted by 5,000+ students & learners
+        </div>
+      </div>
 
-              <button type="button" onclick="closeJobsAuthModal()" aria-label="Close modal"
-                style="background:#f8fafc; border:1px solid #e2e8f0; cursor:pointer; width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#64748b; transition:all 0.2s;"
-                onmouseover="this.style.background='#fee2e2'; this.style.borderColor='#fca5a5'; this.style.color='#b91c1c'"
-                onmouseout="this.style.background='#f8fafc'; this.style.borderColor='#e2e8f0'; this.style.color='#64748b'">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
+      <!-- RIGHT PANEL: Tab Switcher, Close Button, & Email Auth Form -->
+      <div class="auth-modal-right"
+        style="width:56%; padding:1.75rem 2rem; background:#ffffff; display:flex; flex-direction:column; justify-content:space-between;">
+
+        <!-- Top Row: Tab Switcher on Left, Close Button on Right -->
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:1rem;">
+            <div style="display:flex; background:#f1f5f9; border-radius:99px; padding:2px; border:1px solid #e2e8f0;">
+              <button type="button" id="tab-signup-btn" onclick="switchAuthTab('signup')"
+                style="padding:5px 14px; border:none; border-radius:99px; font-weight:700; font-size:0.78rem; cursor:pointer; transition:all 0.2s; background:#1947FF; color:#ffffff; box-shadow:0 2px 6px rgba(25,71,255,0.25);">
+                Sign Up
+              </button>
+              <button type="button" id="tab-login-btn" onclick="switchAuthTab('login')"
+                style="padding:5px 14px; border:none; border-radius:99px; font-weight:700; font-size:0.78rem; cursor:pointer; transition:all 0.2s; background:transparent; color:#64748b;">
+                Log In
               </button>
             </div>
 
-            <!-- Divider -->
-            <div style="display:flex; align-items:center; gap:10px; margin-bottom:1rem;">
-              <div style="flex:1; height:1px; background:#f1f5f9;"></div>
-              <span id="auth-divider-text" style="font-size:0.72rem; color:#94a3b8; font-weight:700; text-transform:uppercase; letter-spacing:0.06em;">or continue with email</span>
-              <div style="flex:1; height:1px; background:#f1f5f9;"></div>
-            </div>
+            <button type="button" onclick="closeJobsAuthModal()" aria-label="Close modal"
+              style="background:#f8fafc; border:1px solid #e2e8f0; cursor:pointer; width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#64748b; transition:all 0.2s;"
+              onmouseover="this.style.background='#fee2e2'; this.style.borderColor='#fca5a5'; this.style.color='#b91c1c'"
+              onmouseout="this.style.background='#f8fafc'; this.style.borderColor='#e2e8f0'; this.style.color='#64748b'">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+          </div>
 
-            <!-- Inline Status Message -->
-            <div id="auth-inline-msg" style="display:none; padding:0.55rem 0.85rem; border-radius:8px; font-size:0.82rem; font-weight:600; margin-bottom:0.85rem; text-align:center;"></div>
+          <!-- Divider -->
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:1rem;">
+            <div style="flex:1; height:1px; background:#f1f5f9;"></div>
+            <span id="auth-divider-text"
+              style="font-size:0.72rem; color:#94a3b8; font-weight:700; text-transform:uppercase; letter-spacing:0.06em;">or
+              continue with email</span>
+            <div style="flex:1; height:1px; background:#f1f5f9;"></div>
+          </div>
 
-            <!-- SIGN UP FORM -->
-            <form id="signup-form" onsubmit="handleSignupSubmit(event)" style="display:flex; flex-direction:column; gap:0.75rem; width:100%; box-sizing:border-box;">
-              <div class="auth-fields-grid" style="display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:0.65rem 0.75rem; width:100%; box-sizing:border-box;">
-                <div style="display:flex; flex-direction:column; gap:0.25rem; min-width:0;">
-                  <label style="font-size:0.74rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.03em;">Full Name</label>
-                  <input id="signup-name" type="text" required placeholder="Enter full name"
-                    style="width:100%; max-width:100%; min-width:0; box-sizing:border-box; padding:0.6rem 0.75rem; background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.88rem; color:#0f172a; outline:none; transition:all 0.2s;"
-                    onfocus="this.style.borderColor='#1947FF'; this.style.background='#fff'" onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc'">
-                </div>
-                <div style="display:flex; flex-direction:column; gap:0.25rem; min-width:0;">
-                  <label style="font-size:0.74rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.03em;">Email Address</label>
-                  <input id="signup-email" type="email" required placeholder="you@example.com"
-                    style="width:100%; max-width:100%; min-width:0; box-sizing:border-box; padding:0.6rem 0.75rem; background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.88rem; color:#0f172a; outline:none; transition:all 0.2s;"
-                    onfocus="this.style.borderColor='#1947FF'; this.style.background='#fff'" onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc'">
-                </div>
-                <div style="display:flex; flex-direction:column; gap:0.25rem; min-width:0;">
-                  <label style="font-size:0.74rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.03em;">Phone Number</label>
-                  <input id="signup-phone" type="tel" required placeholder="+91 98765 43210"
-                    style="width:100%; max-width:100%; min-width:0; box-sizing:border-box; padding:0.6rem 0.75rem; background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.88rem; color:#0f172a; outline:none; transition:all 0.2s;"
-                    onfocus="this.style.borderColor='#1947FF'; this.style.background='#fff'" onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc'">
-                </div>
-                <div style="display:flex; flex-direction:column; gap:0.25rem; position:relative; min-width:0;">
-                  <label style="font-size:0.74rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.03em;">Password</label>
-                  <input id="signup-password" type="password" required minlength="6" placeholder="Min 6 chars"
-                    style="width:100%; max-width:100%; min-width:0; box-sizing:border-box; padding:0.6rem 2rem 0.6rem 0.75rem; background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.88rem; color:#0f172a; outline:none; transition:all 0.2s;"
-                    onfocus="this.style.borderColor='#1947FF'; this.style.background='#fff'" onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc'">
-                  <span onclick="togglePasswordVisibility('signup-password')" style="position:absolute; right:8px; top:28px; cursor:pointer; color:#94a3b8; font-size:13px; user-select:none; padding:4px;" title="Toggle password visibility">👁️</span>
-                </div>
-              </div>
-              
-              <button type="submit" id="signup-submit-btn"
-                style="background:#1947FF; color:#fff; border:none; padding:0.72rem 1rem; border-radius:10px; font-weight:700; font-size:0.9rem; cursor:pointer; transition:all 0.2s; box-shadow:0 2px 8px rgba(25,71,255,0.28); margin-top:0.35rem; width:100%; box-sizing:border-box;"
-                onmouseover="this.style.background='#0E2EC9'; this.style.transform='translateY(-1px)'" onmouseout="this.style.background='#1947FF'; this.style.transform='none'">
-                Create Account →
-              </button>
-              <p style="margin:0.2rem 0 0; font-size:0.78rem; color:#64748b; text-align:center;">
-                Already have an account? <a href="javascript:void(0)" onclick="switchAuthTab('login')" style="color:#1947FF; font-weight:700; text-decoration:none;">Log In</a>
-              </p>
-            </form>
+          <!-- Inline Status Message -->
+          <div id="auth-inline-msg"
+            style="display:none; padding:0.55rem 0.85rem; border-radius:8px; font-size:0.82rem; font-weight:600; margin-bottom:0.85rem; text-align:center;">
+          </div>
 
-            <!-- LOG IN FORM -->
-            <form id="login-form" onsubmit="handleLoginSubmit(event)" style="display:none; flex-direction:column; gap:0.8rem; width:100%; box-sizing:border-box;">
+          <!-- SIGN UP FORM -->
+          <form id="signup-form" onsubmit="handleSignupSubmit(event)"
+            style="display:flex; flex-direction:column; gap:0.75rem; width:100%; box-sizing:border-box;">
+            <div class="auth-fields-grid"
+              style="display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:0.65rem 0.75rem; width:100%; box-sizing:border-box;">
               <div style="display:flex; flex-direction:column; gap:0.25rem; min-width:0;">
-                <label style="font-size:0.74rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.03em;">Username or Email Address</label>
-                <input id="login-email" type="text" required placeholder="Enter username or email" autocomplete="off"
-                  style="width:100%; max-width:100%; min-width:0; box-sizing:border-box; padding:0.65rem 0.85rem; background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.88rem; color:#0f172a; outline:none; transition:all 0.2s;"
-                  onfocus="this.style.borderColor='#1947FF'; this.style.background='#fff'" onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc'">
+                <label
+                  style="font-size:0.74rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.03em;">Full
+                  Name</label>
+                <input id="signup-name" type="text" required placeholder="Enter full name"
+                  style="width:100%; max-width:100%; min-width:0; box-sizing:border-box; padding:0.6rem 0.75rem; background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.88rem; color:#0f172a; outline:none; transition:all 0.2s;"
+                  onfocus="this.style.borderColor='#1947FF'; this.style.background='#fff'"
+                  onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc'">
+              </div>
+              <div style="display:flex; flex-direction:column; gap:0.25rem; min-width:0;">
+                <label
+                  style="font-size:0.74rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.03em;">Email
+                  Address</label>
+                <input id="signup-email" type="email" required placeholder="you@example.com"
+                  style="width:100%; max-width:100%; min-width:0; box-sizing:border-box; padding:0.6rem 0.75rem; background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.88rem; color:#0f172a; outline:none; transition:all 0.2s;"
+                  onfocus="this.style.borderColor='#1947FF'; this.style.background='#fff'"
+                  onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc'">
+              </div>
+              <div style="display:flex; flex-direction:column; gap:0.25rem; min-width:0;">
+                <label
+                  style="font-size:0.74rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.03em;">Phone
+                  Number</label>
+                <input id="signup-phone" type="tel" required placeholder="+91 98765 43210"
+                  style="width:100%; max-width:100%; min-width:0; box-sizing:border-box; padding:0.6rem 0.75rem; background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.88rem; color:#0f172a; outline:none; transition:all 0.2s;"
+                  onfocus="this.style.borderColor='#1947FF'; this.style.background='#fff'"
+                  onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc'">
               </div>
               <div style="display:flex; flex-direction:column; gap:0.25rem; position:relative; min-width:0;">
-                <label style="font-size:0.74rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.03em;">Password</label>
-                <input id="login-password" type="password" required placeholder="Enter password"
-                  style="width:100%; max-width:100%; min-width:0; box-sizing:border-box; padding:0.65rem 2.2rem 0.65rem 0.85rem; background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.88rem; color:#0f172a; outline:none; transition:all 0.2s;"
-                  onfocus="this.style.borderColor='#1947FF'; this.style.background='#fff'" onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc'">
-                <span onclick="togglePasswordVisibility('login-password')" style="position:absolute; right:8px; top:28px; cursor:pointer; color:#94a3b8; font-size:13px; user-select:none; padding:4px;" title="Toggle password visibility">👁️</span>
+                <label
+                  style="font-size:0.74rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.03em;">Password</label>
+                <input id="signup-password" type="password" required minlength="6" placeholder="Min 6 chars"
+                  style="width:100%; max-width:100%; min-width:0; box-sizing:border-box; padding:0.6rem 2rem 0.6rem 0.75rem; background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.88rem; color:#0f172a; outline:none; transition:all 0.2s;"
+                  onfocus="this.style.borderColor='#1947FF'; this.style.background='#fff'"
+                  onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc'">
+                <span onclick="togglePasswordVisibility('signup-password')"
+                  style="position:absolute; right:8px; top:28px; cursor:pointer; color:#94a3b8; font-size:13px; user-select:none; padding:4px;"
+                  title="Toggle password visibility">👁️</span>
               </div>
-              
-              <button type="submit" id="login-submit-btn"
-                style="background:#1947FF; color:#fff; border:none; padding:0.72rem 1rem; border-radius:10px; font-weight:700; font-size:0.9rem; cursor:pointer; transition:all 0.2s; box-shadow:0 2px 8px rgba(25,71,255,0.28); margin-top:0.35rem; width:100%; box-sizing:border-box;"
-                onmouseover="this.style.background='#0E2EC9'; this.style.transform='translateY(-1px)'" onmouseout="this.style.background='#1947FF'; this.style.transform='none'">
-                Log In →
-              </button>
-              <p style="margin:0.2rem 0 0; font-size:0.78rem; color:#64748b; text-align:center;">
-                Don't have an account? <a href="javascript:void(0)" onclick="switchAuthTab('signup')" style="color:#1947FF; font-weight:700; text-decoration:none;">Sign Up</a>
-              </p>
-            </form>
+            </div>
 
-          </div>
+            <button type="submit" id="signup-submit-btn"
+              style="background:#1947FF; color:#fff; border:none; padding:0.72rem 1rem; border-radius:10px; font-weight:700; font-size:0.9rem; cursor:pointer; transition:all 0.2s; box-shadow:0 2px 8px rgba(25,71,255,0.28); margin-top:0.35rem; width:100%; box-sizing:border-box;"
+              onmouseover="this.style.background='#0E2EC9'; this.style.transform='translateY(-1px)'"
+              onmouseout="this.style.background='#1947FF'; this.style.transform='none'">
+              Create Account →
+            </button>
+            <p style="margin:0.2rem 0 0; font-size:0.78rem; color:#64748b; text-align:center;">
+              Already have an account? <a href="javascript:void(0)" onclick="switchAuthTab('login')"
+                style="color:#1947FF; font-weight:700; text-decoration:none;">Log In</a>
+            </p>
+          </form>
+
+          <!-- LOG IN FORM -->
+          <form id="login-form" onsubmit="handleLoginSubmit(event)"
+            style="display:none; flex-direction:column; gap:0.8rem; width:100%; box-sizing:border-box;">
+            <div style="display:flex; flex-direction:column; gap:0.25rem; min-width:0;">
+              <label
+                style="font-size:0.74rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.03em;">Email
+                Address</label>
+              <input id="login-email" type="email" required placeholder="Enter your email address" autocomplete="off"
+                style="width:100%; max-width:100%; min-width:0; box-sizing:border-box; padding:0.65rem 0.85rem; background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.88rem; color:#0f172a; outline:none; transition:all 0.2s;"
+                onfocus="this.style.borderColor='#1947FF'; this.style.background='#fff'"
+                onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc'">
+            </div>
+            <div style="display:flex; flex-direction:column; gap:0.25rem; position:relative; min-width:0;">
+              <label
+                style="font-size:0.74rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.03em;">Password</label>
+              <input id="login-password" type="password" required placeholder="Enter password"
+                style="width:100%; max-width:100%; min-width:0; box-sizing:border-box; padding:0.65rem 2.2rem 0.65rem 0.85rem; background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.88rem; color:#0f172a; outline:none; transition:all 0.2s;"
+                onfocus="this.style.borderColor='#1947FF'; this.style.background='#fff'"
+                onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc'">
+              <span onclick="togglePasswordVisibility('login-password')"
+                style="position:absolute; right:8px; top:28px; cursor:pointer; color:#94a3b8; font-size:13px; user-select:none; padding:4px;"
+                title="Toggle password visibility">👁️</span>
+            </div>
+
+            <button type="submit" id="login-submit-btn"
+              style="background:#1947FF; color:#fff; border:none; padding:0.72rem 1rem; border-radius:10px; font-weight:700; font-size:0.9rem; cursor:pointer; transition:all 0.2s; box-shadow:0 2px 8px rgba(25,71,255,0.28); margin-top:0.35rem; width:100%; box-sizing:border-box;"
+              onmouseover="this.style.background='#0E2EC9'; this.style.transform='translateY(-1px)'"
+              onmouseout="this.style.background='#1947FF'; this.style.transform='none'">
+              Log In →
+            </button>
+            <p style="margin:0.2rem 0 0; font-size:0.78rem; color:#64748b; text-align:center;">
+              Don't have an account? <a href="javascript:void(0)" onclick="switchAuthTab('signup')"
+                style="color:#1947FF; font-weight:700; text-decoration:none;">Sign Up</a>
+            </p>
+          </form>
+
         </div>
       </div>
     </div>
+  </div>
 
-    <style>
-      #jobs-auth-modal,
-      #jobs-auth-modal * {
-        box-sizing: border-box !important;
+  <style>
+    #jobs-auth-modal,
+    #jobs-auth-modal * {
+      box-sizing: border-box !important;
+    }
+
+    #jobs-auth-modal .auth-modal-container {
+      width: 100% !important;
+      max-width: 760px !important;
+      overflow: hidden !important;
+    }
+
+    #jobs-auth-modal .auth-modal-left {
+      flex: 0 0 44% !important;
+      min-width: 0 !important;
+    }
+
+    #jobs-auth-modal .auth-modal-right {
+      flex: 1 1 56% !important;
+      min-width: 0 !important;
+      overflow: hidden !important;
+    }
+
+    #jobs-auth-modal .auth-fields-grid {
+      display: grid !important;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+      gap: 0.65rem 0.75rem !important;
+      width: 100% !important;
+    }
+
+    #jobs-auth-modal .auth-fields-grid>div {
+      min-width: 0 !important;
+      width: 100% !important;
+    }
+
+    #jobs-auth-modal input {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      box-sizing: border-box !important;
+    }
+
+    @keyframes authFadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.96) translateY(8px);
       }
+
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    @media (max-width: 680px) {
       #jobs-auth-modal .auth-modal-container {
-        width: 100% !important;
-        max-width: 760px !important;
-        overflow: hidden !important;
+        flex-direction: column !important;
+        max-height: 90vh !important;
+        overflow-y: auto !important;
       }
+
       #jobs-auth-modal .auth-modal-left {
-        flex: 0 0 44% !important;
-        min-width: 0 !important;
+        width: 100% !important;
+        flex: none !important;
+        border-right: none !important;
+        border-bottom: 1px solid #f1f5f9 !important;
+        padding: 1.25rem 1.5rem !important;
       }
+
       #jobs-auth-modal .auth-modal-right {
-        flex: 1 1 56% !important;
-        min-width: 0 !important;
-        overflow: hidden !important;
+        width: 100% !important;
+        flex: none !important;
+        padding: 1.25rem 1.5rem !important;
       }
+
       #jobs-auth-modal .auth-fields-grid {
-        display: grid !important;
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
-        gap: 0.65rem 0.75rem !important;
-        width: 100% !important;
+        grid-template-columns: 1fr !important;
       }
-      #jobs-auth-modal .auth-fields-grid > div {
-        min-width: 0 !important;
-        width: 100% !important;
-      }
-      #jobs-auth-modal input {
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: 0 !important;
-        box-sizing: border-box !important;
-      }
-      @keyframes authFadeIn {
-        from {
-          opacity: 0;
-          transform: scale(0.96) translateY(8px);
-        }
-        to {
-          opacity: 1;
-          transform: scale(1) translateY(0);
-        }
-      }
-      @media (max-width: 680px) {
-        #jobs-auth-modal .auth-modal-container {
-          flex-direction: column !important;
-          max-height: 90vh !important;
-          overflow-y: auto !important;
-        }
-        #jobs-auth-modal .auth-modal-left {
-          width: 100% !important;
-          flex: none !important;
-          border-right: none !important;
-          border-bottom: 1px solid #f1f5f9 !important;
-          padding: 1.25rem 1.5rem !important;
-        }
-        #jobs-auth-modal .auth-modal-right {
-          width: 100% !important;
-          flex: none !important;
-          padding: 1.25rem 1.5rem !important;
-        }
-        #jobs-auth-modal .auth-fields-grid {
-          grid-template-columns: 1fr !important;
-        }
-      }
-    </style>
+    }
+  </style>
 
-    <!-- Hidden iframe: receives Apps Script form submissions silently -->
-    <iframe name="gs-lead-target" style="display:none;" aria-hidden="true"></iframe>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="js/auth-modal.js"></script>
+  <script src="js/payment-modal.js"></script>
 
-        <script>
-      // ===== GOOGLE SHEETS LEAD CONFIG =====
-      const GOOGLE_SHEET_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyXVTlB1OtcwI_erBc5OC4kl6oZTijLhri0oL97GWBwyGb-VaHHR0NHVIVjq4Bgzc3wxg/exec';
+  <!-- ============ SPREAD-OUT SWIRLING MICRO-DUST MOUSE EFFECT ============ -->
+  <canvas id="blue-cyclone-canvas"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 99999;"></canvas>
+  <script>
+    (function () {
+      const canvas = document.getElementById('blue-cyclone-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
 
-      // ===== sendLeadToSheet: sends to Google Apps Script (Course_Enrollments) =====
-      function sendLeadToSheet(fields) {
-        if (!GOOGLE_SHEET_SCRIPT_URL) return;
+      let width = canvas.width = window.innerWidth;
+      let height = canvas.height = window.innerHeight;
 
-        // Use single reliable hidden iframe form post (prevents duplicate submissions)
-        try {
-          const iframeName = 'gs-lead-' + Math.random().toString(36).substring(2, 8);
-          const ifr = document.createElement('iframe');
-          ifr.name = iframeName;
-          ifr.style.display = 'none';
-          document.body.appendChild(ifr);
-
-          const form = document.createElement('form');
-          form.method = 'POST';
-          form.action = GOOGLE_SHEET_SCRIPT_URL;
-          form.target = iframeName;
-
-          Object.entries(fields).forEach(([key, val]) => {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = key;
-            input.value = (val !== undefined && val !== null) ? String(val) : '';
-            form.appendChild(input);
-          });
-
-          document.body.appendChild(form);
-          form.submit();
-          setTimeout(() => {
-            if (form.parentNode) form.parentNode.removeChild(form);
-            if (ifr.parentNode) ifr.parentNode.removeChild(ifr);
-          }, 2500);
-        } catch (e) {
-          console.warn('Sheet submission error:', e);
-        }
-      }
-
-      // ===== SYNC TO RESUME BUILDER BACKEND (if running locally) =====
-      function syncToResumeBuilder(userData) {
-        try {
-          fetch('http://localhost:5000/api/auth/login-phone', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              phone: userData.phone || userData.email,
-              email: userData.email,
-              name: userData.name
-            })
-          }).catch(function() {});
-        } catch (e) {}
-      }
-
-      // ===== UNIFIED AUTHENTICATION & SINGLE SIGN-ON (SSO) HELPERS =====
-      const AUTH_STORAGE_KEY = 'kompetenzen_google_user';
-
-      function getStoredUser() {
-        try {
-          const raw = localStorage.getItem('kompetenzen_user') || localStorage.getItem(AUTH_STORAGE_KEY) || localStorage.getItem('user');
-          return raw ? JSON.parse(raw) : null;
-        } catch (e) {
-          return null;
-        }
-      }
-
-      function isUserLoggedIn() {
-        return !!(localStorage.getItem('token') || getStoredUser());
-      }
-
-      function getRegisteredUsers() {
-        try {
-          return JSON.parse(localStorage.getItem('kompetenzen_registered_users') || '[]');
-        } catch (e) {
-          return [];
-        }
-      }
-
-      function hasRegisteredAccount() {
-        try {
-          const users = getRegisteredUsers();
-          if (users && users.length > 0) return true;
-          if (getStoredUser() || localStorage.getItem('kompetenzen_last_auth_email')) return true;
-        } catch (e) {}
-        return false;
-      }
-
-      function getLastKnownEmail() {
-        try {
-          const stored = getStoredUser();
-          if (stored && stored.email) return stored.email;
-          const last = localStorage.getItem('kompetenzen_last_auth_email');
-          if (last) return last;
-          const users = getRegisteredUsers();
-          if (users.length > 0 && users[users.length - 1].email) return users[users.length - 1].email;
-        } catch (e) {}
-        return '';
-      }
-
-      function saveUnifiedSession(userData) {
-        const token = localStorage.getItem('token') || ('kompetenzen_jwt_' + Math.random().toString(36).substring(2) + Date.now().toString(36));
-        const userObj = {
-          name: userData.name || 'Student / Candidate',
-          email: (userData.email || '').toLowerCase(),
-          phone: userData.phone || '',
-          authType: userData.authType || 'Direct Login',
-          loginTime: new Date().toISOString()
-        };
-
-        localStorage.setItem('token', token);
-        localStorage.setItem('kompetenzen_user', JSON.stringify(userObj));
-        localStorage.setItem('user', JSON.stringify(userObj));
-        localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(userObj));
-        if (userObj.email) {
-          localStorage.setItem('kompetenzen_last_auth_email', userObj.email);
-        }
-
-        // Add or update in registered users database
-        try {
-          const users = getRegisteredUsers();
-          const idx = users.findIndex(u => (u.email || '').toLowerCase() === userObj.email);
-          if (idx >= 0) {
-            users[idx] = { ...users[idx], ...userObj, password: userData.password || users[idx].password || '' };
-          } else {
-            users.push({ ...userObj, password: userData.password || '' });
-          }
-          localStorage.setItem('kompetenzen_registered_users', JSON.stringify(users));
-        } catch (e) {}
-
-        // Sync to resume builder backend if running locally
-        syncToResumeBuilder({ name: userObj.name, email: userObj.email, phone: userObj.phone });
-
-        return userObj;
-      }
-
-      // Resume builder trigger: opens directly if logged in, or prompts for sign in (saving to Users_Auth)
-      window.openResumeBuilder = function(e) {
-        if (e && e.preventDefault) e.preventDefault();
-        const RESUME_BUILDER_URL = 'https://darksalmon-llama-333572.hostingersite.com/';
-        if (isUserLoggedIn()) {
-          window.open(RESUME_BUILDER_URL, '_blank');
-        } else {
-          window._pendingAuthSection = 'resume';
-          const initialMode = hasRegisteredAccount() ? 'login' : 'signup';
-          window.openAuthModal(initialMode, RESUME_BUILDER_URL);
-        }
-      };
-
-      // ===== AUTHENTICATION MODAL LOGIC (SIGN UP & LOG IN) =====
-      let currentAuthMode = 'signup';
-
-      function switchAuthTab(mode) {
-        currentAuthMode = mode;
-        const signupBtn = document.getElementById('tab-signup-btn');
-        const loginBtn = document.getElementById('tab-login-btn');
-        const signupForm = document.getElementById('signup-form');
-        const loginForm = document.getElementById('login-form');
-        const titleEl = document.getElementById('auth-modal-title');
-        const subtitleEl = document.getElementById('auth-modal-subtitle');
-        const googleText = document.getElementById('lead-google-btn-text');
-        const dividerText = document.getElementById('auth-divider-text');
-        const inlineMsg = document.getElementById('auth-inline-msg');
-
-        if (inlineMsg) inlineMsg.style.display = 'none';
-
-        if (mode === 'login') {
-          if (signupBtn) {
-            signupBtn.style.background = 'transparent';
-            signupBtn.style.color = '#64748b';
-            signupBtn.style.boxShadow = 'none';
-          }
-          if (loginBtn) {
-            loginBtn.style.background = '#1947FF';
-            loginBtn.style.color = '#ffffff';
-            loginBtn.style.boxShadow = '0 2px 6px rgba(25,71,255,0.25)';
-          }
-          if (signupForm) signupForm.style.display = 'none';
-          if (loginForm) loginForm.style.display = 'flex';
-          if (titleEl) titleEl.textContent = 'Welcome Back';
-          if (subtitleEl) subtitleEl.textContent = 'Log in to your student & career portal';
-          if (googleText) googleText.textContent = 'Log In with Google';
-          if (dividerText) dividerText.textContent = 'or continue with email';
-        } else {
-          if (signupBtn) {
-            signupBtn.style.background = '#1947FF';
-            signupBtn.style.color = '#ffffff';
-            signupBtn.style.boxShadow = '0 2px 6px rgba(25,71,255,0.25)';
-          }
-          if (loginBtn) {
-            loginBtn.style.background = 'transparent';
-            loginBtn.style.color = '#64748b';
-            loginBtn.style.boxShadow = 'none';
-          }
-          if (signupForm) signupForm.style.display = 'flex';
-          if (loginForm) loginForm.style.display = 'none';
-          if (titleEl) titleEl.textContent = 'Create Your Account';
-          if (subtitleEl) subtitleEl.textContent = 'Sign up to access courses, jobs & placements';
-          if (googleText) googleText.textContent = 'Continue with Google';
-          if (dividerText) dividerText.textContent = 'or continue with email';
-        }
-      }
-
-      function togglePasswordVisibility(inputId) {
-        const input = document.getElementById(inputId);
-        if (!input) return;
-        input.type = input.type === 'password' ? 'text' : 'password';
-      }
-
-      function showAuthMessage(msg, isError = false) {
-        const msgEl = document.getElementById('auth-inline-msg');
-        if (!msgEl) return;
-        msgEl.textContent = msg;
-        msgEl.style.display = 'block';
-        if (isError) {
-          msgEl.style.background = '#FEE2E2';
-          msgEl.style.color = '#B91C1C';
-          msgEl.style.border = '1px solid #FECACA';
-        } else {
-          msgEl.style.background = '#DCFCE7';
-          msgEl.style.color = '#15803D';
-          msgEl.style.border = '1px solid #BBF7D0';
-        }
-      }
-
-      function closeJobsAuthModal() {
-        const modal = document.getElementById('jobs-auth-modal');
-        if (modal) modal.style.display = 'none';
-        window._pendingAuthRedirect = null;
-        window._pendingAuthSection = null;
-        const msgEl = document.getElementById('auth-inline-msg');
-        if (msgEl) msgEl.style.display = 'none';
-        const loginEmail = document.getElementById('login-email');
-        const loginPassword = document.getElementById('login-password');
-        if (loginEmail) loginEmail.value = '';
-        if (loginPassword) loginPassword.value = '';
-      }
-
-      document.getElementById('jobs-auth-modal')?.addEventListener('click', function (e) {
-        if (e.target === this) closeJobsAuthModal();
+      window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
       });
 
-      window.openAuthModal = function(mode = 'signup', redirectUrl = null) {
-        const modal = document.getElementById('jobs-auth-modal');
-        if (redirectUrl) window._pendingAuthRedirect = redirectUrl;
+      let mouse = { x: width / 2, y: height / 2, active: false, isMoving: false, stopTimer: null };
+      let smoothMouse = { x: width / 2, y: height / 2 };
 
-        const loginEmail = document.getElementById('login-email');
-        const loginPassword = document.getElementById('login-password');
-        if (loginEmail) loginEmail.value = '';
-        if (loginPassword) loginPassword.value = '';
+      window.addEventListener('mousemove', (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+        mouse.active = true;
+        mouse.isMoving = true;
 
-        // If user already registered anywhere, make "Log In" come!
-        let activeMode = mode;
-        if (activeMode === 'signup' && hasRegisteredAccount()) {
-          activeMode = 'login';
-        }
-        switchAuthTab(activeMode);
-        if (modal) modal.style.display = 'flex';
-      };
+        clearTimeout(mouse.stopTimer);
+        mouse.stopTimer = setTimeout(() => {
+          mouse.isMoving = false;
+        }, 120); // Mouse paused -> magnetically pull back to ring
+      });
 
-      // Complete authentication session locally and across SSO
-      function completeAuthSession(userData, redirectMsg = 'Logging in…') {
-        saveUnifiedSession(userData);
-        showAuthMessage(`✓ ${redirectMsg}`, false);
+      window.addEventListener('mouseleave', () => {
+        mouse.active = false;
+        mouse.isMoving = false;
+      });
 
-        setTimeout(() => {
-          const redirect = window._pendingAuthRedirect;
-          window._pendingAuthRedirect = null;
-          const section = window._pendingAuthSection;
-          window._pendingAuthSection = null;
-
-          if (redirect) {
-            if (redirect.indexOf('http') === 0 && redirect.indexOf(window.location.host) === -1) {
-              window.open(redirect, '_blank');
-              closeJobsAuthModal();
-            } else {
-              window.location.href = redirect;
-            }
-          } else {
-            closeJobsAuthModal();
-          }
-        }, 700);
-      }
-
-      // Handle Sign Up
-      function handleSignupSubmit(e) {
-        e.preventDefault();
-        const name = document.getElementById('signup-name').value.trim();
-        const email = document.getElementById('signup-email').value.trim().toLowerCase();
-        const phone = document.getElementById('signup-phone').value.trim();
-        const password = document.getElementById('signup-password').value;
-        const btn = document.getElementById('signup-submit-btn');
-
-        if (!name || !email || !phone || !password) {
-          showAuthMessage('Please fill in all required fields.', true);
-          return;
-        }
-
-        const users = getRegisteredUsers();
-        const existing = users.find(u => u.email === email);
-        if (existing) {
-          showAuthMessage('An account with this email already exists. Please log in.', true);
-          switchAuthTab('login');
-          const loginEmail = document.getElementById('login-email');
-          if (loginEmail) loginEmail.value = email;
-          return;
-        }
-
-        if (btn) {
-          btn.disabled = true;
-          btn.textContent = 'Creating Account…';
-        }
-
-        const newUser = {
-          name: name,
-          email: email,
-          phone: phone,
-          password: password,
-          createdAt: new Date().toISOString(),
-          authType: 'Email Signup'
-        };
-
-        const isResume = window._pendingAuthSection === 'resume';
-        const targetSheet = isResume ? 'Users_Auth' : 'Course_Login_Details';
-        const sectionName = isResume ? 'Resume Builder' : 'Course Details';
-
-        // Send Signup details to Google Sheet tab
-        sendLeadToSheet({
-          type: 'signup',
-          authType: 'Email Signup',
-          action: 'Account Created',
-          section: sectionName,
-          targetSheet: targetSheet,
-          name: name,
-          email: email,
-          phone: phone,
-          password: password,
-          page: window.location.href,
-          timestamp: new Date().toISOString()
-        });
-
-        completeAuthSession(newUser, 'Account created! Welcome to Kompetenzen…');
-      }
-
-      // Handle Log In (Strictly authenticates only users that exist in the sheets / database)
-      async function handleLoginSubmit(e) {
-        e.preventDefault();
-        const identifier = document.getElementById('login-email').value.trim();
-        const password = document.getElementById('login-password').value;
-        const btn = document.getElementById('login-submit-btn');
-
-        if (!identifier || !password) {
-          showAuthMessage('Please enter both your username/email and password.', true);
-          return;
-        }
-
-        if (btn) {
-          btn.disabled = true;
-          btn.textContent = 'Verifying…';
-        }
-
-        const idLower = identifier.toLowerCase();
-        const users = getRegisteredUsers();
-        let user = users.find(u => 
-          (u.email && u.email.toLowerCase() === idLower) ||
-          (u.name && u.name.trim().toLowerCase() === idLower) ||
-          (u.username && u.username.trim().toLowerCase() === idLower)
-        );
-
-        // If user is found locally, verify password
-        if (user) {
-          if (user.password && user.password !== password) {
-            showAuthMessage('Incorrect password. Please try again.', true);
-            if (btn) {
-              btn.disabled = false;
-              btn.textContent = 'Log In →';
-            }
-            return;
-          }
-        } else {
-          // Verify against Google Sheet (Users_Auth / Course_Login_Details / Login_Signup_Details)
-          try {
-            const verifyUrl = GOOGLE_SHEET_SCRIPT_URL + '?type=verify_user&identifier=' + encodeURIComponent(identifier) + '&email=' + encodeURIComponent(identifier) + '&password=' + encodeURIComponent(password);
-            const resp = await fetch(verifyUrl);
-            const data = await resp.json();
-            if (data && (data.status === 'invalid_password' || data.reason === 'incorrect_password')) {
-              showAuthMessage('Incorrect password. Please try again.', true);
-              if (btn) {
-                btn.disabled = false;
-                btn.textContent = 'Log In →';
-              }
-              return;
-            }
-            if (data && data.verified && data.user) {
-              user = {
-                name: data.user.name || identifier,
-                email: data.user.email || (identifier.includes('@') ? identifier : ''),
-                phone: data.user.phone || '',
-                password: password,
-                authType: 'Direct Login'
-              };
-              // Cache to local registered users
-              try {
-                const uList = getRegisteredUsers();
-                const idx = uList.findIndex(u => 
-                  (u.email && user.email && u.email.toLowerCase() === user.email.toLowerCase()) || 
-                  (u.name && u.name.toLowerCase() === user.name.toLowerCase())
-                );
-                if (idx >= 0) uList[idx] = { ...uList[idx], ...user };
-                else uList.push(user);
-                localStorage.setItem('kompetenzen_registered_users', JSON.stringify(uList));
-              } catch (e) {}
-            }
-          } catch (err) {
-            console.warn('Backend verification query fallback:', err);
-          }
-        }
-
-        // STRICT CHECK: ONLY allow login if the username/email is available in the sheet / registered users!
-        if (!user) {
-          showAuthMessage('No account found for this username. Only registered accounts available in the sheet can log in.', true);
-          if (btn) {
-            btn.disabled = false;
-            btn.textContent = 'Log In →';
-          }
-          return;
-        }
-
-        const authenticatedUser = user;
-
-        const isResume = window._pendingAuthSection === 'resume';
-        const targetSheet = isResume ? 'Users_Auth' : 'Course_Login_Details';
-        const sectionName = isResume ? 'Resume Builder' : 'Course Details';
-
-        // Send Login details to Google Sheet tab
-        sendLeadToSheet({
-          type: 'login',
-          authType: 'Direct Login',
-          action: 'User Logged In',
-          section: sectionName,
-          targetSheet: targetSheet,
-          name: authenticatedUser.name || '',
-          email: authenticatedUser.email || identifier,
-          phone: authenticatedUser.phone || '',
-          password: password,
-          page: window.location.href,
-          timestamp: new Date().toISOString()
-        });
-
-        completeAuthSession(authenticatedUser, `Welcome back, ${authenticatedUser.name}! Logging you in…`);
-      }
-
-      // Handle Google Sign In
-      async function triggerWebsiteGoogleSignIn() {
-        const btn = document.getElementById('lead-google-btn');
-        const btnText = document.getElementById('lead-google-btn-text');
-
-        let defaultEmail = '';
-        let defaultName = '';
-        try {
-          const stored = getStoredUser();
-          if (stored) {
-            defaultEmail = stored.email || '';
-            defaultName = stored.name || '';
-          }
-        } catch (e) {}
-
-        let email = defaultEmail;
-        const signupEmail = document.getElementById('signup-email');
-        const loginEmail = document.getElementById('login-email');
-        if (!email && signupEmail && signupEmail.value.trim()) email = signupEmail.value.trim();
-        if (!email && loginEmail && loginEmail.value.trim()) email = loginEmail.value.trim();
-
-        if (!email || !email.includes('@')) {
-          email = prompt('Continue with Google\nEnter your Google email address:');
-          if (!email) return;
-        }
-
-        email = email.trim().toLowerCase();
-        if (!email.includes('@')) {
-          alert('Please enter a valid Google email address.');
-          return;
-        }
-
-        // If in Log In mode, ensure the Google user exists in the sheets / database
-        if (currentAuthMode === 'login') {
-          const users = getRegisteredUsers();
-          let existing = users.find(u => (u.email || '').toLowerCase() === email);
-          if (!existing) {
-            try {
-              const verifyUrl = GOOGLE_SHEET_SCRIPT_URL + '?type=verify_user&email=' + encodeURIComponent(email);
-              const resp = await fetch(verifyUrl);
-              const data = await resp.json();
-              if (data && data.verified && data.user) {
-                existing = data.user;
-              }
-            } catch (e) {}
-          }
-          if (!existing) {
-            showAuthMessage('No account found for this Google email in the sheet. Please create an account first.', true);
-            return;
-          }
-        }
-
-        let name = defaultName;
-        const signupName = document.getElementById('signup-name');
-        if (!name && signupName && signupName.value.trim()) name = signupName.value.trim();
-        if (!name) {
-          const namePart = email.split('@')[0];
-          name = namePart.charAt(0).toUpperCase() + namePart.slice(1).replace(/[._-]/g, ' ');
-        }
-
-        const phone = document.getElementById('signup-phone')?.value.trim() || '';
-
-        if (btnText) btnText.textContent = 'Connecting with Google…';
-        if (btn) btn.disabled = true;
-
-        const googleUser = {
-          name: name,
-          email: email,
-          phone: phone,
-          authType: 'Google Auth',
-          createdAt: new Date().toISOString()
-        };
-
-        const isResume = window._pendingAuthSection === 'resume';
-        const targetSheet = isResume ? 'Users_Auth' : 'Course_Login_Details';
-        const sectionName = isResume ? 'Resume Builder' : 'Course Details';
-
-        // Send Google Auth details to Google Sheet tab
-        sendLeadToSheet({
-          type: 'google_auth',
-          authType: 'Google Auth',
-          action: 'Google Sign In',
-          section: sectionName,
-          targetSheet: targetSheet,
-          name: name,
-          email: email,
-          phone: phone,
-          password: '',
-          page: window.location.href,
-          timestamp: new Date().toISOString()
-        });
-
-        completeAuthSession(googleUser, `Welcome, ${name}! Signed in with Google…`);
-      }
-
-      if (window.location.hash.startsWith('#auth-redirect=') || window.location.hash === '#jobs-auth' || window.location.hash === '#signup' || window.location.hash === '#login') {
-        window.addEventListener('DOMContentLoaded', function () {
-          const modal = document.getElementById('jobs-auth-modal');
-          if (window.location.hash.startsWith('#auth-redirect=')) {
-            window._pendingAuthRedirect = window.location.hash.replace('#auth-redirect=', '');
-          }
-          let initialMode = (window.location.hash === '#login') ? 'login' : 'signup';
-          if (initialMode === 'signup' && hasRegisteredAccount()) {
-            initialMode = 'login';
-          }
-          switchAuthTab(initialMode);
-          if (modal) modal.style.display = 'flex';
-          history.replaceState(null, '', window.location.pathname);
-        });
-      }
-    </script>
-
-    <!-- ============ SPREAD-OUT SWIRLING MICRO-DUST MOUSE EFFECT ============ -->
-    <canvas id="blue-cyclone-canvas"
-      style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 99999;"></canvas>
-    <script>
-      (function () {
-        const canvas = document.getElementById('blue-cyclone-canvas');
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-
-        let width = canvas.width = window.innerWidth;
-        let height = canvas.height = window.innerHeight;
-
-        window.addEventListener('resize', () => {
-          width = canvas.width = window.innerWidth;
-          height = canvas.height = window.innerHeight;
-        });
-
-        let mouse = { x: width / 2, y: height / 2, active: false, isMoving: false, stopTimer: null };
-        let smoothMouse = { x: width / 2, y: height / 2 };
-
-        window.addEventListener('mousemove', (e) => {
-          mouse.x = e.clientX;
-          mouse.y = e.clientY;
+      window.addEventListener('touchmove', (e) => {
+        if (e.touches.length > 0) {
+          mouse.x = e.touches[0].clientX;
+          mouse.y = e.touches[0].clientY;
           mouse.active = true;
           mouse.isMoving = true;
 
           clearTimeout(mouse.stopTimer);
           mouse.stopTimer = setTimeout(() => {
             mouse.isMoving = false;
-          }, 120); // Mouse paused -> magnetically pull back to ring
+          }, 120);
+        }
+      });
+
+      const particleCount = 320;
+      const particles = [];
+      const singleColor = '#1947FF';
+
+      for (let i = 0; i < particleCount; i++) {
+        const ringRadius = 30 + Math.random() * 12; // Sleek thin 12px ring thickness when paused
+        particles.push({
+          angle: Math.random() * Math.PI * 2,
+          orbitSpeed: (0.008 + Math.random() * 0.016) * (Math.random() > 0.5 ? 1 : -1),
+          ringRadius: ringRadius,
+          scatterRadius: ringRadius + 35 + Math.random() * 55, // Spread away distance when moving
+          size: Math.random() * 0.75 + 0.35,
+          color: singleColor,
+          wobbleSpeed: 0.015 + Math.random() * 0.025,
+          wobblePhase: Math.random() * Math.PI * 2,
+          currX: width / 2,
+          currY: height / 2,
+          targetRadius: ringRadius
         });
+      }
 
-        window.addEventListener('mouseleave', () => {
-          mouse.active = false;
-          mouse.isMoving = false;
-        });
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
 
-        window.addEventListener('touchmove', (e) => {
-          if (e.touches.length > 0) {
-            mouse.x = e.touches[0].clientX;
-            mouse.y = e.touches[0].clientY;
-            mouse.active = true;
-            mouse.isMoving = true;
+        smoothMouse.x += (mouse.x - smoothMouse.x) * 0.12;
+        smoothMouse.y += (mouse.y - smoothMouse.y) * 0.12;
 
-            clearTimeout(mouse.stopTimer);
-            mouse.stopTimer = setTimeout(() => {
-              mouse.isMoving = false;
-            }, 120);
-          }
-        });
+        if (mouse.active || Math.abs(smoothMouse.x - mouse.x) > 0.5) {
+          const mx = smoothMouse.x;
+          const my = smoothMouse.y;
 
-        const particleCount = 320;
-        const particles = [];
-        const singleColor = '#1947FF';
+          particles.forEach((p) => {
+            p.angle += p.orbitSpeed;
+            p.wobblePhase += p.wobbleSpeed;
 
-        for (let i = 0; i < particleCount; i++) {
-          const ringRadius = 30 + Math.random() * 12; // Sleek thin 12px ring thickness when paused
-          particles.push({
-            angle: Math.random() * Math.PI * 2,
-            orbitSpeed: (0.008 + Math.random() * 0.016) * (Math.random() > 0.5 ? 1 : -1),
-            ringRadius: ringRadius,
-            scatterRadius: ringRadius + 35 + Math.random() * 55, // Spread away distance when moving
-            size: Math.random() * 0.75 + 0.35,
-            color: singleColor,
-            wobbleSpeed: 0.015 + Math.random() * 0.025,
-            wobblePhase: Math.random() * Math.PI * 2,
-            currX: width / 2,
-            currY: height / 2,
-            targetRadius: ringRadius
+            // DUAL MODE: Moving -> Scatter & Spread away | Paused -> Attract to Mouse Ring
+            const idealRadius = mouse.isMoving ? p.scatterRadius : p.ringRadius;
+            p.targetRadius += (idealRadius - p.targetRadius) * (mouse.isMoving ? 0.08 : 0.06); // Magnetic attraction
+
+            const dynamicRadius = p.targetRadius + Math.sin(p.wobblePhase) * 2;
+
+            // Target orbital position around mouse
+            const targetX = mx + Math.cos(p.angle) * dynamicRadius;
+            const targetY = my + Math.sin(p.angle) * dynamicRadius;
+
+            // Smooth flow spring position update
+            p.currX += (targetX - p.currX) * (mouse.isMoving ? 0.06 : 0.1);
+            p.currY += (targetY - p.currY) * (mouse.isMoving ? 0.06 : 0.1);
+
+            // Draw Liquid Micro Dust Speck
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(p.currX, p.currY, p.size, 0, Math.PI * 2);
+            ctx.fillStyle = p.color;
+            ctx.shadowBlur = p.size * 3;
+            ctx.shadowColor = p.color;
+            ctx.globalAlpha = 0.75 + Math.sin(p.wobblePhase) * 0.2;
+            ctx.fill();
+            ctx.restore();
           });
         }
 
-        function animate() {
-          ctx.clearRect(0, 0, width, height);
+        requestAnimationFrame(animate);
+      }
 
-          smoothMouse.x += (mouse.x - smoothMouse.x) * 0.12;
-          smoothMouse.y += (mouse.y - smoothMouse.y) * 0.12;
-
-          if (mouse.active || Math.abs(smoothMouse.x - mouse.x) > 0.5) {
-            const mx = smoothMouse.x;
-            const my = smoothMouse.y;
-
-            particles.forEach((p) => {
-              p.angle += p.orbitSpeed;
-              p.wobblePhase += p.wobbleSpeed;
-
-              // DUAL MODE: Moving -> Scatter & Spread away | Paused -> Attract to Mouse Ring
-              const idealRadius = mouse.isMoving ? p.scatterRadius : p.ringRadius;
-              p.targetRadius += (idealRadius - p.targetRadius) * (mouse.isMoving ? 0.08 : 0.06); // Magnetic attraction
-
-              const dynamicRadius = p.targetRadius + Math.sin(p.wobblePhase) * 2;
-
-              // Target orbital position around mouse
-              const targetX = mx + Math.cos(p.angle) * dynamicRadius;
-              const targetY = my + Math.sin(p.angle) * dynamicRadius;
-
-              // Smooth flow spring position update
-              p.currX += (targetX - p.currX) * (mouse.isMoving ? 0.06 : 0.1);
-              p.currY += (targetY - p.currY) * (mouse.isMoving ? 0.06 : 0.1);
-
-              // Draw Liquid Micro Dust Speck
-              ctx.save();
-              ctx.beginPath();
-              ctx.arc(p.currX, p.currY, p.size, 0, Math.PI * 2);
-              ctx.fillStyle = p.color;
-              ctx.shadowBlur = p.size * 3;
-              ctx.shadowColor = p.color;
-              ctx.globalAlpha = 0.75 + Math.sin(p.wobblePhase) * 0.2;
-              ctx.fill();
-              ctx.restore();
-            });
-          }
-
-          requestAnimationFrame(animate);
-        }
-
-        animate();
-      })();
-    </script>
+      animate();
+    })();
+  </script>
 </body>
 
 </html>

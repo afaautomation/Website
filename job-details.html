@@ -1552,10 +1552,6 @@
         padding: 24px 20px;
       }
 
-      .nav-links {
-        display: none;
-      }
-
       .auth-modal-dialog {
         padding: 24px 18px;
         border-radius: 20px;
@@ -1579,6 +1575,167 @@
         width: 100%;
       }
     }
+
+    body { overflow-x: hidden; max-width: 100%; }
+
+    /* ===== Mobile Navigation Dropdown Menu ===== */
+    .mobile-services-header,
+    .nav-arrow {
+      display: none;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      margin-left: 8px;
+      z-index: 1002;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      border-radius: 2px;
+      background: #FFFFFF;
+      transition: all 0.25s ease;
+    }
+    .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (max-width: 980px) {
+      .nav {
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 1000 !important;
+        background: #090D1A !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+      }
+
+      .nav-inner {
+        position: relative !important;
+        padding: 0 16px !important;
+        height: 64px !important;
+      }
+
+      .brand img {
+        height: 32px !important;
+      }
+
+      .nav-cta {
+        padding: 8px 14px !important;
+        font-size: 13px !important;
+      }
+
+      .hamburger {
+        display: flex !important;
+      }
+
+      .nav-links {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        justify-content: flex-start !important;
+        position: absolute !important;
+        top: 64px !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        background: #090D1A !important;
+        padding: 12px 16px 20px !important;
+        gap: 3px !important;
+        border-bottom: 2px solid rgba(59, 130, 246, 0.35) !important;
+        box-shadow: 0 20px 40px -4px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.06) !important;
+        max-height: calc(100vh - 72px) !important;
+        max-height: calc(100dvh - 72px) !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        z-index: 99999 !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transform: translateY(-8px) !important;
+        pointer-events: none !important;
+        transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                    visibility 0.22s ease !important;
+      }
+
+      .nav-links.mobile-active {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translateY(0) !important;
+        pointer-events: auto !important;
+      }
+
+      .mobile-services-header {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        font-size: 11px !important;
+        font-weight: 800 !important;
+        letter-spacing: 0.1em !important;
+        color: #60A5FA !important;
+        text-transform: uppercase !important;
+        padding: 6px 12px 10px !important;
+        margin-bottom: 4px !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+        text-align: left !important;
+      }
+
+      .mobile-services-header::before {
+        content: '';
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #3B82F6;
+        box-shadow: 0 0 8px #3B82F6;
+      }
+
+      .nav-links a {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 11px 14px !important;
+        font-size: 15px !important;
+        font-weight: 600 !important;
+        color: #E2E8F0 !important;
+        text-decoration: none !important;
+        border-radius: 10px !important;
+        transition: all 0.15s ease !important;
+        white-space: nowrap !important;
+        text-align: left !important;
+      }
+
+      .nav-links a:hover,
+      .nav-links a:active {
+        background: rgba(255, 255, 255, 0.06) !important;
+        color: #60A5FA !important;
+      }
+
+      .nav-links a.active {
+        background: rgba(59, 130, 246, 0.18) !important;
+        color: #60A5FA !important;
+        font-weight: 700 !important;
+      }
+
+      .nav-arrow {
+        display: inline-block !important;
+        font-size: 13px !important;
+        color: #64748B !important;
+        transition: transform 0.15s ease !important;
+      }
+
+      .nav-links a:hover .nav-arrow,
+      .nav-links a.active .nav-arrow {
+        color: #60A5FA !important;
+        transform: translateX(3px) !important;
+      }
+    }
   </style>
 </head>
 
@@ -1596,15 +1753,15 @@
         </a>
       </div>
       <div class="nav-links">
-        <a href="career-consulting.html">Consulting</a>
-        <a href="finishing-school.html">Finishing School</a>
-        <a href="tech-school.html">Tech School</a>
-        <a href="b-school.html">B-School</a>
-        <a href="placements.html">Placements</a>
-        <a href="our-story.html">Our Story</a>
-        <a href="jobs.html" class="active">Jobs</a>
-        <a href="https://darksalmon-llama-333572.hostingersite.com/" target="_blank" onclick="openResumeBuilder(event)">Resume Builder</a>
-        <a href="#" class="logout-link" style="display: none; color: #dc2626; font-weight: 600;" onclick="event.preventDefault(); ['token', 'kompetenzen_user', 'user', 'kompetenzen_google_user', 'kompetenzen_candidate_profile'].forEach(k => localStorage.removeItem(k)); window.location.reload();">Log Out</a>
+        <div class="mobile-services-header">Our Services &amp; Programs</div>
+        <a href="career-consulting.html"><span>Consulting</span><span class="nav-arrow">→</span></a>
+        <a href="finishing-school.html"><span>Finishing School</span><span class="nav-arrow">→</span></a>
+        <a href="tech-school.html"><span>Tech School</span><span class="nav-arrow">→</span></a>
+        <a href="b-school.html"><span>B-School</span><span class="nav-arrow">→</span></a>
+        <a href="placements.html"><span>Placements</span><span class="nav-arrow">→</span></a>
+        <a href="our-story.html"><span>Our Story</span><span class="nav-arrow">→</span></a>
+        <a href="jobs.html" class="active"><span>Jobs</span><span class="nav-arrow">→</span></a>
+        <a href="Resume/resume.html" onclick="openResumeBuilder(event)"><span>Resume Builder</span><span class="nav-arrow">↗</span></a>
       </div>
       <div class="nav-right">
         <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen,%20I%20would%20like%20to%20talk%20to%20your%20team."
@@ -1634,6 +1791,11 @@
             </button>
           </div>
         </div>
+        <button class="hamburger" id="hamburger-menu" aria-label="Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
       </div>
     </div>
   </nav>
@@ -1919,8 +2081,8 @@
         <!-- LOG IN FORM -->
         <form class="auth-form-column" id="login-form" onsubmit="handleEmailLogin(event)">
           <div class="form-group">
-            <label for="login-email">Username or Email address</label>
-            <input type="text" id="login-email" class="form-input" placeholder="Enter username or email" autocomplete="off" required />
+            <label for="login-email">Email address</label>
+            <input type="email" id="login-email" class="form-input" placeholder="Enter your email address" autocomplete="off" required />
           </div>
 
           <div class="form-group">
@@ -1969,7 +2131,7 @@
         <!-- FORGOT PASSWORD FORM -->
         <form class="auth-form-column" id="forgot-form" style="display:none;" onsubmit="handleForgotPassword(event)">
           <div style="background:rgba(59,130,246,0.08); border:none; border-radius:8px; padding:12px 14px; margin-bottom:12px; font-size:12.5px; color:#93C5FD; line-height:1.5;">
-            Enter your email and create a new password to restore access to your candidate account.
+            Enter your account email and we'll send you a secure password reset link.
           </div>
 
           <div class="form-group">
@@ -1977,18 +2139,8 @@
             <input type="email" id="forgot-email" class="form-input" placeholder="you@example.com" required />
           </div>
 
-          <div class="form-group">
-            <label for="forgot-new-password">New password</label>
-            <input type="password" id="forgot-new-password" class="form-input" placeholder="At least 6 characters" minlength="6" required />
-          </div>
-
-          <div class="form-group">
-            <label for="forgot-confirm-password">Confirm new password</label>
-            <input type="password" id="forgot-confirm-password" class="form-input" placeholder="Re-enter new password" minlength="6" required />
-          </div>
-
           <button type="submit" class="btn-submit-apply" style="margin-top:4px;">
-            <span>Save New Password</span>
+            <span>Send Reset Link</span>
           </button>
 
           <p class="auth-switch-text">
@@ -2019,47 +2171,33 @@
   </footer>
 
   <script>
-    // ===== GOOGLE SHEETS INTEGRATION URL =====
-    const GOOGLE_SHEET_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyXVTlB1OtcwI_erBc5OC4kl6oZTijLhri0oL97GWBwyGb-VaHHR0NHVIVjq4Bgzc3wxg/exec';
-
-    function sendLeadToSheet(fields) {
-      if (!GOOGLE_SHEET_SCRIPT_URL || GOOGLE_SHEET_SCRIPT_URL.includes('PASTE_YOUR')) return;
+    // ===== SUBMIT JOB APPLICATION TO SUPABASE =====
+    async function sendLeadToSheet(fields) {
+      if (typeof isSupabaseConfigured !== 'function' || !isSupabaseConfigured()) {
+        console.warn('Supabase not configured; application not persisted to the cloud.');
+        return;
+      }
       try {
-        const payload = JSON.stringify(fields);
-
-        // Single submission via fetch
-        if (window.fetch) {
-          fetch(GOOGLE_SHEET_SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: payload
-          }).catch(err => console.warn('Fetch sheet error:', err));
-        } else {
-          // Fallback only if fetch is not supported
-          const form = document.createElement('form');
-          form.method = 'POST';
-          form.action = GOOGLE_SHEET_SCRIPT_URL;
-          form.target = 'gs-lead-target';
-
-          for (const [key, val] of Object.entries(fields)) {
-            if (val !== undefined && val !== null) {
-              const input = document.createElement('input');
-              input.type = 'hidden';
-              input.name = key;
-              input.value = String(val);
-              form.appendChild(input);
-            }
-          }
-
-          document.body.appendChild(form);
-          form.submit();
-          setTimeout(() => {
-            if (form.parentNode) form.parentNode.removeChild(form);
-          }, 1500);
-        }
+        const { error } = await supabaseClient.from('job_applications').insert([{
+          name: fields.name || '',
+          whatsapp: fields.phone || '',
+          email: fields.email || '',
+          degree: fields.degree || '',
+          grad_year: fields.gradYear || '',
+          is_student: fields.isStudent || 'No',
+          course_name: fields.courseName || '',
+          experience: fields.experience || '',
+          preferred_location: fields.preferredLocation || '',
+          work_mode: fields.workMode || '',
+          skills: fields.skills || '',
+          job_role: fields.jobRole || '',
+          company: fields.company || '',
+          page_url: fields.page || '',
+          resume_url: fields.resumeUrl || ''
+        }]);
+        if (error) console.error('Supabase job_applications insert error:', error);
       } catch (err) {
-        console.warn('Lead submission error:', err);
+        console.warn('Supabase job_applications insert exception:', err);
       }
     }
 
@@ -2072,37 +2210,40 @@
       const urlParams = new URLSearchParams(window.location.search);
       const jobId = urlParams.get('id');
 
-      // 1. Check custom saved drafts from Supabase or LocalStorage
+      // 1. Fetch the full listing through the subscriber-only RPC.
+      //
+      // The paid columns (description, responsibilities, requirements,
+      // about_company, apply_url) are revoked from the `authenticated` role, so
+      // a plain select cannot reach them. public.job_details() is SECURITY
+      // DEFINER and checks has_active_pass() internally: without a live pass it
+      // returns no rows, so there is nothing for the page to render.
       let customJobs = [];
-      const storeKey = 'kompetenzen_hr_draft_jobs';
-      if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
+      if (jobId && typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
         try {
-          const { data, error } = await supabaseClient.from('hr_jobs').select('*');
-          if (!error && data) {
-            customJobs = data.map(j => ({
-              id: String(j.id),
-              title: j.title,
-              company: j.company,
-              category: j.category,
-              location: j.location || 'Kochi, Kerala',
-              jobType: j.job_type || 'full-time',
-              experience: j.experience || 'Entry Level',
-              salary: j.salary || 'Competitive',
-              skills: j.skills || '',
-              description: j.description || '',
-              responsibilities: j.responsibilities || '',
-              requirements: j.requirements || '',
-              aboutCompany: j.about_company || '',
-              applyUrl: j.apply_url || '',
-              isDirectLink: j.is_direct_link || false,
-              postedText: 'Recently Posted'
-            }));
-          }
+          const { data, error } = await supabaseClient.rpc('job_details', { p_job_id: jobId });
+          if (error) throw error;
+          customJobs = (data || []).map(j => ({
+            id: String(j.id),
+            title: j.title,
+            company: j.company,
+            category: j.category,
+            location: j.location || 'Kochi, Kerala',
+            jobType: j.job_type || 'full-time',
+            experience: j.experience || 'Entry Level',
+            salary: j.salary || 'Competitive',
+            skills: j.skills || '',
+            description: j.description || '',
+            responsibilities: j.responsibilities || '',
+            requirements: j.requirements || '',
+            aboutCompany: j.about_company || '',
+            applyUrl: j.apply_url || '',
+            isDirectLink: j.is_direct_link || false,
+            postedText: 'Recently Posted'
+          }));
         } catch (err) {
-          try { customJobs = JSON.parse(localStorage.getItem(storeKey)) || []; } catch (e) {}
+          console.warn('Could not load job details:', err.message || err);
+          customJobs = [];
         }
-      } else {
-        try { customJobs = JSON.parse(localStorage.getItem(storeKey)) || []; } catch (e) {}
       }
 
       // Filter out any mock legacy jobs
@@ -2397,7 +2538,8 @@
         }
 
         if (applyNote) {
-          applyNote.innerHTML = `🔒 Connected as <strong>${escapeHtml(displayName)}</strong> • Free placement support`;
+          const proStatus = (typeof isProMember === 'function' && isProMember()) ? ' • <span style="color:#FBBF24; font-weight:800;">★ Career Pro Active</span>' : ' • <a href="javascript:void(0)" onclick="openPaymentModal(\'job_badge\')" style="color:#60A5FA; text-decoration:underline;">Upgrade to Pro (₹499)</a>';
+          applyNote.innerHTML = `🔒 Connected as <strong>${escapeHtml(displayName)}</strong>${proStatus}`;
         }
       } else {
         if (navBadge) {
@@ -2411,7 +2553,7 @@
           applyBtn.disabled = false;
         }
         if (applyNote) {
-          applyNote.innerHTML = '🔒 Quick Google / Email sign-in • No placement fee charged';
+          applyNote.innerHTML = '🔒 Quick Google / Email sign-in • Student Career Pro';
         }
       }
     }
@@ -2421,10 +2563,16 @@
       const currentJobId = currentJob ? currentJob.id : null;
 
       if (!user) {
-        // User not authenticated -> open Google / Auth modal
-        openAuthModal();
+        // User not authenticated -> open Google / Auth modal in signup mode
+        openAuthModal('signup');
       } else {
-        // User is authenticated
+        // User is authenticated -> verify Career Pro Pass status
+        if (typeof isProMember === 'function' && !isProMember()) {
+          openPaymentModal('job_application', () => {
+            handleApplyButtonClick();
+          });
+          return;
+        }
         if (currentJobId && getAppliedJobs().includes(currentJobId)) {
           const toast = document.getElementById('app-toast');
           if (toast) {
@@ -2493,13 +2641,8 @@
       if (authView) authView.style.display = 'flex';
       hideAuthAlert();
 
-      // Proactive "make login come": If user already registered anywhere, default to login
-      let tab = initialTab;
-      if (!tab) {
-        tab = hasRegisteredAccount() ? 'login' : 'login';
-      } else if (tab === 'signup' && hasRegisteredAccount()) {
-        tab = 'login';
-      }
+      // Default to signup mode
+      let tab = (initialTab === 'login') ? 'login' : 'signup';
       switchAuthTab(tab);
 
       const loginEmail = document.getElementById('login-email');
@@ -2510,12 +2653,12 @@
 
     window.openResumeBuilder = function (e) {
       if (e && e.preventDefault) e.preventDefault();
-      const resumeUrl = 'https://darksalmon-llama-333572.hostingersite.com/';
+      const resumeUrl = 'Resume/resume.html';
       if (isUserLoggedIn()) {
-        window.open(resumeUrl, '_blank', 'noopener,noreferrer');
+        window.location.href = resumeUrl;
         return;
       }
-      openAuthModal(hasRegisteredAccount() ? 'login' : 'signup');
+      openAuthModal('signup');
     };
 
     function closeAuthModal() {
@@ -2595,75 +2738,39 @@
       }
     }
 
-    function triggerGoogleSignIn() {
+    async function triggerGoogleSignIn() {
       hideAuthAlert();
-      let defaultEmail = '';
-      let defaultName = '';
-      const stored = getStoredUser();
-      if (stored) {
-        defaultEmail = stored.email || '';
-        defaultName = stored.name || '';
-      }
-
-      if (defaultEmail && defaultName) {
-        authenticateUser(defaultName, defaultEmail.toLowerCase(), true);
+      if (typeof isSupabaseConfigured !== 'function' || !isSupabaseConfigured()) {
+        showAuthAlert('Google sign-in is temporarily unavailable. Please try again shortly.', 'error');
         return;
       }
-
-      const emailField = document.getElementById('login-email');
-      const emailVal = emailField ? emailField.value.trim() : '';
-      let email = emailVal;
-
-      if (!email || !email.includes('@')) {
-        email = prompt('Continue with Google\nEnter your Google email address:');
-        if (!email) return;
+      try {
+        const currentJobId = currentJob ? currentJob.id : '';
+        if (currentJobId) localStorage.setItem('kompetenzen_pending_apply_job', currentJobId);
+        await supabaseSignInWithGoogle(window.location.href);
+        // Browser is now redirecting to Google; nothing more to do here.
+      } catch (err) {
+        showAuthAlert((err && err.message) || 'Google sign-in failed. Please try again.', 'error');
       }
-
-      if (!email.includes('@')) {
-        showAuthAlert('Please enter a valid Google email address.', 'error');
-        return;
-      }
-
-      const namePart = email.split('@')[0];
-      const derivedName = namePart.charAt(0).toUpperCase() + namePart.slice(1).replace(/[._-]/g, ' ');
-
-      // Register in database
-      saveRegisteredUser({
-        name: derivedName,
-        email: email.toLowerCase(),
-        authType: 'Google Auth',
-        registeredAt: new Date().toISOString()
-      });
-
-      // Send to Google Sheet (Users_Auth tab)
-      sendLeadToSheet({
-        type: 'auth',
-        authType: 'Google Auth',
-        action: 'Google Login',
-        section: 'Job Listing',
-        targetSheet: 'Users_Auth',
-        name: derivedName,
-        email: email.toLowerCase(),
-        page: window.location.href,
-        timestamp: new Date().toISOString()
-      });
-
-      authenticateUser(derivedName, email.toLowerCase(), true);
     }
 
     async function handleEmailLogin(e) {
       e.preventDefault();
       hideAuthAlert();
-      const identifier = document.getElementById('login-email').value.trim();
+      const email = document.getElementById('login-email').value.trim().toLowerCase();
       const password = document.getElementById('login-password').value;
       const submitBtn = document.getElementById('login-submit-btn');
 
-      if (!identifier) {
-        showAuthAlert('Please enter your username or email address.', 'error');
+      if (!email) {
+        showAuthAlert('Please enter your email address.', 'error');
         return;
       }
       if (!password) {
         showAuthAlert('Please enter your password.', 'error');
+        return;
+      }
+      if (typeof isSupabaseConfigured !== 'function' || !isSupabaseConfigured()) {
+        showAuthAlert('Log in is temporarily unavailable. Please try again shortly.', 'error');
         return;
       }
 
@@ -2672,142 +2779,43 @@
         submitBtn.textContent = 'Verifying…';
       }
 
-      const idLower = identifier.toLowerCase();
-      const users = getRegisteredUsers();
-      let user = users.find(u => 
-        (u.email && u.email.toLowerCase() === idLower) ||
-        (u.name && u.name.trim().toLowerCase() === idLower) ||
-        (u.username && u.username.trim().toLowerCase() === idLower)
-      );
-
-      if (user) {
-        if (user.password && user.password !== password) {
-          showAuthAlert('Incorrect password. Please try again or click "Forgot password?".', 'error');
-          if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Sign In to Apply';
-          }
-          document.getElementById('login-password').focus();
-          return;
-        }
-      } else {
-        // Query Google Sheet database (Users_Auth / Course_Login_Details / Login_Signup_Details)
-        try {
-          const verifyUrl = GOOGLE_SHEET_SCRIPT_URL + '?type=verify_user&identifier=' + encodeURIComponent(identifier) + '&email=' + encodeURIComponent(identifier) + '&password=' + encodeURIComponent(password);
-          const resp = await fetch(verifyUrl);
-          const data = await resp.json();
-          if (data && (data.status === 'invalid_password' || data.reason === 'incorrect_password')) {
-            showAuthAlert('Incorrect password. Please try again or click "Forgot password?".', 'error');
-            if (submitBtn) {
-              submitBtn.disabled = false;
-              submitBtn.textContent = 'Sign In to Apply';
-            }
-            document.getElementById('login-password').focus();
-            return;
-          }
-          if (data && data.verified && data.user) {
-            user = {
-              name: data.user.name || identifier,
-              email: data.user.email || (identifier.includes('@') ? identifier : ''),
-              phone: data.user.phone || '',
-              password: password
-            };
-            saveRegisteredUser(user);
-          }
-        } catch (err) {
-          console.warn('Sheet verify error:', err);
-        }
-      }
-
-      // STRICT CHECK: Only login if user is available in sheets / registered users
-      if (!user) {
-        showAuthAlert(`No account found for "${identifier}". Only registered accounts available in the sheet can log in.`, 'error');
+      try {
+        const user = await supabaseSignIn(email, password);
+        authenticateUser(user);
+      } catch (err) {
+        showAuthAlert((err && err.message) || 'Incorrect email or password.', 'error');
+        document.getElementById('login-password').focus();
+      } finally {
         if (submitBtn) {
           submitBtn.disabled = false;
           submitBtn.textContent = 'Sign In to Apply';
         }
-        return;
       }
-
-      if (submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Sign In to Apply';
-      }
-
-      // Record login in Google Sheet Users_Auth tab
-      sendLeadToSheet({
-        type: 'auth',
-        authType: 'Log In (Email)',
-        action: 'Logged In Successfully',
-        section: 'Job Listing',
-        targetSheet: 'Users_Auth',
-        name: user.name,
-        email: user.email || identifier,
-        phone: user.phone || '',
-        password: password,
-        page: window.location.href,
-        timestamp: new Date().toISOString()
-      });
-
-      authenticateUser(user.name, user.email || identifier, false, password);
     }
 
-    function handleForgotPassword(e) {
+    async function handleForgotPassword(e) {
       e.preventDefault();
       hideAuthAlert();
       const email = document.getElementById('forgot-email').value.trim().toLowerCase();
-      const newPassword = document.getElementById('forgot-new-password').value;
-      const confirmPassword = document.getElementById('forgot-confirm-password').value;
 
       if (!email || !email.includes('@')) {
         showAuthAlert('Please enter a valid email address.', 'error');
         return;
       }
-      if (!newPassword || newPassword.length < 6) {
-        showAuthAlert('Password must be at least 6 characters long.', 'error');
-        return;
-      }
-      if (newPassword !== confirmPassword) {
-        showAuthAlert('Passwords do not match. Please re-enter your password.', 'error');
-        document.getElementById('forgot-confirm-password').focus();
+      if (typeof isSupabaseConfigured !== 'function' || !isSupabaseConfigured()) {
+        showAuthAlert('Password reset is temporarily unavailable. Please try again shortly.', 'error');
         return;
       }
 
-      const users = getRegisteredUsers();
-      const userIndex = users.findIndex(u => (u.email || '').toLowerCase() === email);
-
-      if (userIndex === -1) {
-        showAuthAlert(`No account found for "${email}". Please sign up.`, 'error');
-        setTimeout(() => {
-          switchAuthTab('signup');
-          const signupEmail = document.getElementById('signup-email');
-          if (signupEmail) signupEmail.value = email;
-        }, 1200);
-        return;
+      try {
+        await supabaseResetPassword(email);
+        showAuthAlert('Reset link sent! Please check your email inbox.', 'success');
+      } catch (err) {
+        showAuthAlert((err && err.message) || 'Could not send reset link. Please try again.', 'error');
       }
-
-      // Update password in local registered users database
-      users[userIndex].password = newPassword;
-      localStorage.setItem('kompetenzen_registered_users', JSON.stringify(users));
-
-      // Record Password Reset in Google Sheet Users_Auth tab
-      sendLeadToSheet({
-        type: 'auth',
-        authType: 'Password Reset',
-        action: 'Reset Password & Logged In',
-        name: users[userIndex].name || 'Candidate',
-        email: email,
-        page: window.location.href,
-        timestamp: new Date().toISOString()
-      });
-
-      showAuthAlert('Password reset successfully! Logging you in...', 'success');
-      setTimeout(() => {
-        authenticateUser(users[userIndex].name, email, false);
-      }, 700);
     }
 
-    function handleEmailSignup(e) {
+    async function handleEmailSignup(e) {
       e.preventDefault();
       hideAuthAlert();
       const name = document.getElementById('signup-name').value.trim();
@@ -2826,62 +2834,46 @@
         showAuthAlert('Password must be at least 6 characters long.', 'error');
         return;
       }
-
-      const users = getRegisteredUsers();
-      const existing = users.find(u => u.email.toLowerCase() === email);
-      if (existing) {
-        showAuthAlert(`An account already exists for ${email}. Please sign in.`, 'error');
-        setTimeout(() => {
-          switchAuthTab('login');
-          document.getElementById('login-email').value = email;
-          document.getElementById('login-password').focus();
-        }, 1200);
+      if (typeof isSupabaseConfigured !== 'function' || !isSupabaseConfigured()) {
+        showAuthAlert('Sign up is temporarily unavailable. Please try again shortly.', 'error');
         return;
       }
 
-      // Register new user
-      saveRegisteredUser({
-        name: name,
-        email: email,
-        password: password,
-        authType: 'Email Signup',
-        registeredAt: new Date().toISOString()
-      });
-
-      // Record sign-up in Google Sheet Users_Auth tab
-      sendLeadToSheet({
-        type: 'auth',
-        authType: 'Sign Up (Email)',
-        action: 'Account Created',
-        section: 'Job Listing',
-        targetSheet: 'Users_Auth',
-        name: name,
-        email: email,
-        password: password,
-        page: window.location.href,
-        timestamp: new Date().toISOString()
-      });
-
-      authenticateUser(name, email, false, password);
+      try {
+        const user = await supabaseSignUp(name, email, '', password);
+        authenticateUser(user);
+      } catch (err) {
+        const msg = (err && err.message) || 'Could not create account. Please try again.';
+        if (/already registered|already exists/i.test(msg)) {
+          showAuthAlert(`An account already exists for ${email}. Please sign in.`, 'error');
+          setTimeout(() => {
+            switchAuthTab('login');
+            document.getElementById('login-email').value = email;
+            document.getElementById('login-password').focus();
+          }, 1200);
+        } else {
+          showAuthAlert(msg, 'error');
+        }
+      }
     }
 
-    function authenticateUser(name, email, isGoogle = true, password = '') {
+    function authenticateUser(user) {
       const token = localStorage.getItem('token') || ('kompetenzen_jwt_' + Math.random().toString(36).substring(2) + Date.now().toString(36));
-      const user = {
-        name: name || 'Candidate',
-        email: email || 'candidate@example.com',
-        isGoogle: isGoogle,
-        authType: isGoogle ? 'Google Auth' : 'Direct Login',
+      const userObj = {
+        name: user.name || 'Candidate',
+        email: (user.email || '').toLowerCase(),
+        phone: user.phone || '',
+        authType: user.authType || 'Direct Login',
         loginTime: new Date().toISOString()
       };
       localStorage.setItem('token', token);
-      localStorage.setItem('kompetenzen_user', JSON.stringify(user));
-      localStorage.setItem('user', JSON.stringify(user));
-      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(user));
-      if (email) {
-        localStorage.setItem('kompetenzen_last_auth_email', email);
+      localStorage.setItem('kompetenzen_user', JSON.stringify(userObj));
+      localStorage.setItem('user', JSON.stringify(userObj));
+      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(userObj));
+      if (userObj.email) {
+        localStorage.setItem('kompetenzen_last_auth_email', userObj.email);
       }
-      saveRegisteredUser({ ...user, password: password });
+      saveRegisteredUser(userObj);
 
       updateSidebarAuthState();
       closeAuthModal();
@@ -2892,8 +2884,18 @@
       if (!profile) {
         window.location.href = `create-profile.html?jobId=${currentJobId}`;
       } else {
-        submitDirectApplication(user, profile);
+        submitDirectApplication(userObj, profile);
       }
+    }
+
+    // Resume any pending Google OAuth redirect/session after bouncing back from Google
+    async function resumeOAuthSessionIfAny() {
+      if (typeof isSupabaseConfigured !== 'function' || !isSupabaseConfigured()) return;
+      try {
+        const user = await supabaseGetSessionUser();
+        if (!user || isUserLoggedIn()) return;
+        authenticateUser(user);
+      } catch (e) {}
     }
 
     // Direct 1-click apply when user and profile already exist
@@ -2902,7 +2904,6 @@
       const currentCompany = currentJob ? currentJob.company : 'Kompetenzen Network';
 
       sendLeadToSheet({
-        type: 'job_application',
         name: profile.name || user.name,
         phone: profile.phone || '',
         email: profile.email || user.email,
@@ -2914,11 +2915,10 @@
         preferredLocation: profile.preferredLocation || 'Kochi',
         workMode: profile.workMode || 'Hybrid',
         skills: Array.isArray(profile.skills) ? profile.skills.join(', ') : (profile.skills || ''),
+        resumeUrl: profile.resumeUrl || '',
         jobRole: currentRole,
         company: currentCompany,
-        role: `${currentRole} at ${currentCompany}`,
-        page: window.location.href,
-        timestamp: new Date().toISOString()
+        page: window.location.href
       });
 
       if (currentJob) {
@@ -2940,6 +2940,7 @@
     }
 
     function handleSignOut() {
+      if (typeof supabaseSignOut === 'function') supabaseSignOut();
       localStorage.removeItem(AUTH_STORAGE_KEY);
       localStorage.removeItem('token');
       localStorage.removeItem('kompetenzen_user');
@@ -2987,8 +2988,47 @@
         .replace(/'/g, '&#039;');
     }
 
-    document.addEventListener('DOMContentLoaded', loadJobDetails);
+    document.addEventListener('DOMContentLoaded', async function () {
+      await loadJobDetails();
+      resumeOAuthSessionIfAny();
+    });
   </script>
+  <!-- Mobile Menu Toggle -->
+  <script>
+    (function () {
+      const hamburger = document.getElementById('hamburger-menu');
+      const navLinks = document.querySelector('.nav-links');
+      if (hamburger && navLinks) {
+        hamburger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          hamburger.classList.toggle('active');
+          navLinks.classList.toggle('mobile-active');
+        });
+
+        navLinks.querySelectorAll('a').forEach((link) => {
+          link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('mobile-active');
+          });
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('mobile-active');
+          }
+        });
+      }
+    })();
+  </script>
+
+  <!-- Unified Auth Modal -->
+  <script src="js/auth-modal.js"></script>
+  <!-- Career Pro Pass Payment Modal -->
+  <script src="js/payment-modal.js"></script>
+  <!-- Subscriber-only gate. The real boundary is public.job_details() in
+       supabase_schema.sql, which returns no rows without an active pass. -->
+  <script src="js/require-login.js" data-require="pro"></script>
 </body>
 
 </html>

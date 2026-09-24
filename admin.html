@@ -50,6 +50,12 @@
       line-height: 1.45;
     }
 
+    body {
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100vw;
+    }
+
     /* NAV */
     .nav {
       position: sticky;
@@ -1569,6 +1575,8 @@
         justify-content: flex-end;
       }
     }
+
+    body { overflow-x: hidden; max-width: 100%; }
   </style>
 </head>
 
@@ -1595,15 +1603,18 @@
         </svg>
       </div>
       <h2>Staff access</h2>
-      <p>This page is for Kompetenzen HR staff only. Enter the staff access key to continue.</p>
-      <p class="gate-error" id="gate-error">That key isn't recognised. Please check with your team lead and try again.
-      </p>
+      <p>This page is for Kompetenzen HR staff only. Sign in with your staff account to continue.</p>
+      <p class="gate-error" id="gate-error">Sign-in failed. Please check your details and try again.</p>
       <form id="gate-form">
         <div class="field">
-          <label for="gate-key">Staff access key <span class="req">*</span></label>
-          <input id="gate-key" type="password" autocomplete="off" placeholder="Enter access key" required />
+          <label for="gate-email">Staff email <span class="req">*</span></label>
+          <input id="gate-email" type="email" autocomplete="username" placeholder="you@kompetenzen.in" required />
         </div>
-        <button class="btn-primary" type="submit">Unlock →</button>
+        <div class="field">
+          <label for="gate-key">Password <span class="req">*</span></label>
+          <input id="gate-key" type="password" autocomplete="current-password" placeholder="Enter your password" required />
+        </div>
+        <button class="btn-primary" type="submit">Sign in →</button>
       </form>
     </div>
   </div>
@@ -1653,6 +1664,14 @@
         </svg>
         <span>Instagram Reels</span>
         <span class="tab-badge" id="reels-counter-badge">0</span>
+      </button>
+      <button type="button" class="admin-tab-btn" onclick="switchAdminTab('payments')" id="tab-btn-payments">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+          <line x1="1" y1="10" x2="23" y2="10"/>
+        </svg>
+        <span>Student Payments (₹499)</span>
+        <span class="tab-badge" id="payments-counter-badge" style="background:#10B981; color:#fff;">0</span>
       </button>
     </div>
 
@@ -2116,56 +2135,245 @@
       </section>
     </div>
 
+    <!-- ========================================== -->
+    <!-- PANEL 5: STUDENT PAYMENTS & PRO PASSES     -->
+    <!-- ========================================== -->
+    <div id="panel-payments" class="admin-tab-panel">
+      <!-- Live Metrics Card -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; margin-bottom: 24px;">
+        <div class="admin-card" style="padding: 22px; border-left: 4px solid #10B981;">
+          <div style="font-size: 12px; font-weight: 700; color: var(--ink-mute); text-transform: uppercase;">Total Pro Revenue</div>
+          <div style="font-size: 28px; font-weight: 800; color: #10B981; margin-top: 4px;" id="metric-total-revenue">₹0</div>
+          <div style="font-size: 12px; color: var(--ink-mute); margin-top: 4px;">From ₹499 Student Career Passes</div>
+        </div>
+        <div class="admin-card" style="padding: 22px; border-left: 4px solid var(--blue);">
+          <div style="font-size: 12px; font-weight: 700; color: var(--ink-mute); text-transform: uppercase;">Active Pro Students</div>
+          <div style="font-size: 28px; font-weight: 800; color: var(--blue); margin-top: 4px;" id="metric-total-pro-students">0</div>
+          <div style="font-size: 12px; color: var(--ink-mute); margin-top: 4px;">Full access unlocked</div>
+        </div>
+        <div class="admin-card" style="padding: 22px; border-left: 4px solid #F59E0B;">
+          <div style="font-size: 12px; font-weight: 700; color: var(--ink-mute); text-transform: uppercase;">Pass Price</div>
+          <div style="font-size: 28px; font-weight: 800; color: #F59E0B; margin-top: 4px;">₹499</div>
+          <div style="font-size: 12px; color: var(--ink-mute); margin-top: 4px;">One-time all-feature pass</div>
+        </div>
+      </div>
+
+      <!-- Razorpay gateway status (configured on the server, not here) -->
+      <section class="admin-card" style="margin-bottom: 24px; border-left: 4px solid #2563EB;">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+          <div>
+            <h2>Razorpay Gateway</h2>
+            <p style="font-size: 13.5px; color: var(--ink-mute); margin-top: 6px; max-width: 62ch;">
+              Gateway credentials live in the backend environment
+              (<code>RAZORPAY_KEY_ID</code>, <code>RAZORPAY_KEY_SECRET</code>,
+              <code>RAZORPAY_WEBHOOK_SECRET</code>) and are never sent to the browser.
+              Orders are created server-side at a fixed ₹499 and every payment is
+              verified against Razorpay before a pass is activated.
+            </p>
+            <p style="font-size: 12.5px; color: var(--ink-dim); margin-top: 8px;">
+              To rotate keys, update them on the API host and redeploy — there is
+              nothing to enter on this page.
+            </p>
+          </div>
+          <a href="https://dashboard.razorpay.com/#/access/api_keys" target="_blank" rel="noopener" class="btn-secondary" style="font-size: 12.5px; padding: 6px 14px; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+            <span>Razorpay Dashboard &rarr;</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- Manual Pro Activation & Search -->
+      <section class="admin-card" style="margin-bottom: 24px;">
+        <h2>Manual Pro Member Activation</h2>
+        <p style="font-size: 13.5px; color: var(--ink-mute); margin-bottom: 16px;">
+          Grant instant Pro status to any student who paid offline, via bank transfer, or needs staff activation.
+        </p>
+        <form id="manual-pro-form" onsubmit="handleManualProSubmit(event)" style="display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end;">
+          <div class="field" style="flex: 1; min-width: 180px;">
+            <label for="m-name">Student Full Name <span class="req">*</span></label>
+            <input id="m-name" type="text" placeholder="e.g. Rahul Sharma" required />
+          </div>
+          <div class="field" style="flex: 1; min-width: 200px;">
+            <label for="m-email">Student Email Address <span class="req">*</span></label>
+            <input id="m-email" type="email" placeholder="student@example.com" required />
+          </div>
+          <div class="field" style="flex: 1; min-width: 160px;">
+            <label for="m-phone">Phone / WhatsApp</label>
+            <input id="m-phone" type="text" placeholder="+91 98765 43210" />
+          </div>
+          <div class="field" style="flex: 1; min-width: 160px;">
+            <label for="m-tx">UTR / Transaction Ref</label>
+            <input id="m-tx" type="text" placeholder="e.g. UPI-123456" />
+          </div>
+          <button class="btn-primary" type="submit" style="height: 44px; padding: 0 24px; white-space: nowrap;">
+            Grant Pro Access (₹499) →
+          </button>
+        </form>
+        <div id="manual-pro-msg" style="display:none; margin-top:12px; font-size:13px; font-weight:700;"></div>
+      </section>
+
+      <!-- Student Payments Table -->
+      <section class="admin-card">
+        <div class="drafts-head">
+          <div>
+            <h2>Student Payment Transactions</h2>
+            <p style="font-size: 13px; color: var(--ink-mute); margin-top: 4px;">
+              Live log of ₹499 Career Pro Pass purchases from Supabase and direct portal submissions.
+            </p>
+          </div>
+          <button type="button" class="btn-secondary" onclick="loadStudentPayments()" style="font-size:12px; padding:6px 14px;">
+            🔄 Refresh List
+          </button>
+        </div>
+
+        <div id="payments-empty" class="draft-empty" style="display:none;">
+          No student payments recorded yet. Newly completed payments will appear here in real-time.
+        </div>
+        
+        <div id="payments-loading" style="padding: 24px; text-align: center; color: var(--ink-mute);">
+          Loading student transactions... ⏳
+        </div>
+
+        <div class="table-wrap" id="payments-table-wrap" style="display:none; overflow-x: auto; margin-top: 14px;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 13.5px; text-align: left;">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--line); background: var(--bg-soft);">
+                <th style="padding: 12px 14px; font-weight: 700;">Student Name</th>
+                <th style="padding: 12px 14px; font-weight: 700;">Email &amp; Phone</th>
+                <th style="padding: 12px 14px; font-weight: 700;">Amount</th>
+                <th style="padding: 12px 14px; font-weight: 700;">Transaction ID / Source</th>
+                <th style="padding: 12px 14px; font-weight: 700;">Date &amp; Time</th>
+                <th style="padding: 12px 14px; font-weight: 700;">Access</th>
+                <th style="padding: 12px 14px; font-weight: 700;">Status</th>
+                <th style="padding: 12px 14px; font-weight: 700;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="payments-table-body">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
   </main>
 
   <script>
     /* =============================================
-       STAFF GATE
-       NOTE (placeholder only — not real security):
-       This is a client-side convenience gate so the page
-       isn't wide open while there's no backend. The key is
-       visible to anyone who reads this file's source, so it
-       must NOT be relied on for real protection. Replace with
-       proper backend-issued staff/HR login (session or JWT
-       from the FastAPI service) before this goes live.
+       STAFF GATE — real authentication.
+
+       This was previously a hardcoded passcode compared in the browser
+       in plain sight in this file's source) that only toggled
+       CSS display. Anyone who opened view-source, or simply set the
+       sessionStorage flag, had the whole HR console: every candidate's
+       contact details, every lead, every payment.
+
+       Now: Supabase sign-in, then a role check. Hiding the page is only
+       cosmetic — the real protection is that the database will not return
+       staff-only rows unless profiles.role = 'admin' for the signed-in user
+       (see the RLS policies in supabase_schema.sql). A visitor who forces
+       the panel open with devtools gets an empty console.
     ============================================= */
     (function () {
-      const STAFF_KEY = 'kompadmin';   // Staff access passcode
-      const SESSION_FLAG = 'kompetenzen_hr_staff_unlocked';
-
       const gateScreen = document.getElementById('gate-screen');
       const adminMain = document.getElementById('admin-main');
       const gateForm = document.getElementById('gate-form');
+      const gateEmail = document.getElementById('gate-email');
       const gateInput = document.getElementById('gate-key');
       const gateError = document.getElementById('gate-error');
+
+      function showError(message) {
+        gateError.textContent = message;
+        gateError.classList.add('is-visible');
+      }
+
+      function lock() {
+        gateScreen.style.display = '';
+        adminMain.style.display = 'none';
+      }
 
       function unlock() {
         gateScreen.style.display = 'none';
         adminMain.style.display = 'block';
-        sessionStorage.setItem(SESSION_FLAG, '1');
-        // Render candidate applications & resumes
         if (typeof window.loadApplicationsList === 'function') window.loadApplicationsList();
         if (typeof window.renderLeads === 'function') window.renderLeads();
+        if (typeof window.loadStudentPayments === 'function') window.loadStudentPayments();
       }
 
-      if (sessionStorage.getItem(SESSION_FLAG) === '1') {
-        unlock();
+      /** Confirms the signed-in user is staff. Returns false on any doubt. */
+      async function isStaff() {
+        if (typeof supabaseClient === 'undefined' || !supabaseClient) return false;
+        const { data: sessionData } = await supabaseClient.auth.getSession();
+        const user = sessionData && sessionData.session && sessionData.session.user;
+        if (!user) return false;
+
+        const { data, error } = await supabaseClient
+          .from('profiles')
+          .select('role')
+          .eq('id', user.id)
+          .maybeSingle();
+
+        if (error || !data) return false;
+        return data.role === 'admin';
       }
 
-      gateForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const value = gateInput.value.trim();
-
-        if (value === STAFF_KEY) {
-          gateError.classList.remove('is-visible');
+      async function evaluateSession() {
+        if (await isStaff()) {
           unlock();
         } else {
-          gateError.classList.add('is-visible');
-          gateInput.select();
+          lock();
+        }
+      }
+
+      gateForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        gateError.classList.remove('is-visible');
+
+        if (typeof supabaseClient === 'undefined' || !supabaseClient) {
+          showError('Authentication service is unavailable. Please try again shortly.');
+          return;
+        }
+
+        const email = gateEmail.value.trim();
+        const password = gateInput.value;
+        const submitBtn = gateForm.querySelector('button[type="submit"]');
+        if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Signing in...'; }
+
+        try {
+          const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+          if (error) throw new Error('Those credentials were not recognised.');
+
+          if (!(await isStaff())) {
+            // Authenticated, but not staff. Drop the session so a non-staff
+            // account is not left signed in on an internal page.
+            await supabaseClient.auth.signOut();
+            throw new Error('This account does not have staff access.');
+          }
+
+          gateInput.value = '';
+          unlock();
+        } catch (err) {
+          showError(err.message);
+          gateInput.value = '';
+          gateInput.focus();
+        } finally {
+          if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Sign in →'; }
         }
       });
-    })();
 
+      // Re-evaluate on load and whenever the session changes (sign-out in
+      // another tab, expiry, token refresh failure).
+      evaluateSession();
+      if (typeof supabaseClient !== 'undefined' && supabaseClient) {
+        supabaseClient.auth.onAuthStateChange(() => { evaluateSession(); });
+      }
+
+      window.adminSignOut = async function () {
+        if (typeof supabaseClient !== 'undefined' && supabaseClient) {
+          await supabaseClient.auth.signOut();
+        }
+        lock();
+      };
+    })();
     /* =============================================
        CANDIDATE APPLICATIONS & RESUME REVIEW
     ============================================= */
@@ -2193,6 +2401,8 @@
         loadApplicationsList();
       } else if (tabId === 'reels' && typeof window.renderReels === 'function') {
         window.renderReels();
+      } else if (tabId === 'payments' && typeof window.loadStudentPayments === 'function') {
+        window.loadStudentPayments();
       }
 
       try {
@@ -2398,9 +2608,9 @@
                 ` : `
                   <span style="font-size:12.5px; color:var(--ink-mute); font-style:italic;">No resume document attached</span>
                 `)}
-                <button type="button" class="btn-sync-sheet" id="btn-sync-${app.id}" onclick="handleSyncAppToSheet('${app.id}')" title="Sync this candidate and resume directly to Google Sheets">
+                <button type="button" class="btn-sync-sheet" id="btn-sync-${app.id}" onclick="handleSyncAppToSheet('${app.id}')" title="Sync this candidate and resume directly to Supabase">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
-                  <span>Sync to Sheet</span>
+                  <span>Sync to Cloud</span>
                 </button>
                 ${waLink ? `
                   <a href="${waLink}" target="_blank" rel="noopener" class="btn-whatsapp-chat" title="Chat on WhatsApp">
@@ -2426,7 +2636,7 @@
       downloadOrViewResume(app, previewOnly);
     };
 
-    // Sync candidate directly to Google Sheets
+    // Sync candidate (and resume file) directly to Supabase
     window.handleSyncAppToSheet = async function (appId) {
       const app = allCandidateApplications.find(a => String(a.id) === String(appId));
       if (!app) return;
@@ -2438,50 +2648,49 @@
         btn.innerHTML = `<span>Syncing...</span>`;
       }
 
-      let resumeBase64 = '';
-      if (app.resumeBlob) {
-        try {
-          resumeBase64 = await new Promise((resolve) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = () => resolve('');
-            reader.readAsDataURL(app.resumeBlob);
-          });
-        } catch (e) { }
+      if (typeof isSupabaseConfigured !== 'function' || !isSupabaseConfigured()) {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = origHtml;
+        }
+        alert('Supabase is not configured. Could not sync candidate.');
+        return;
       }
 
-      const payload = {
-        type: 'job_application',
-        name: app.name || '',
-        phone: app.phone || '',
-        email: app.email || '',
-        degree: app.degree || '',
-        gradYear: app.gradYear || '',
-        isStudent: app.isStudent || 'No',
-        courseName: app.courseName || '',
-        experience: app.experience || '',
-        preferredLocation: app.preferredLocation || 'Kochi',
-        workMode: app.workMode || '',
-        skills: app.skills || '',
-        resumeName: app.resumeFileName || '',
-        resumeData: resumeBase64 || '',
-        resumeFileName: app.resumeFileName || 'Resume.pdf',
-        resumeMimeType: (app.resumeBlob && app.resumeBlob.type) || 'application/pdf',
-        jobRole: app.jobRole || 'Quick Apply Candidate',
-        company: app.company || 'Kompetenzen Network',
-        page: window.location.href,
-        timestamp: app.createdAt || new Date().toISOString()
-      };
-
-      const GOOGLE_SHEET_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyXVTlB1OtcwI_erBc5OC4kl6oZTijLhri0oL97GWBwyGb-VaHHR0NHVIVjq4Bgzc3wxg/exec';
-
       try {
-        await fetch(GOOGLE_SHEET_SCRIPT_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify(payload)
-        });
+        let resumeUrl = '';
+        if (app.resumeBlob) {
+          const safeName = (app.name || 'candidate').replace(/[^a-zA-Z0-9]/g, '_');
+          const rawExt = ((app.resumeFileName || '').split('.').pop() || '').toLowerCase();
+          const ext = ['pdf', 'doc', 'docx'].includes(rawExt) ? rawExt : 'pdf';
+          const path = `applications/${safeName}_${Date.now()}.${ext}`;
+          const { error: uploadErr } = await supabaseClient.storage.from('resumes').upload(path, app.resumeBlob, {
+            contentType: app.resumeBlob.type || 'application/pdf',
+            upsert: false
+          });
+          // Store the object path; the bucket is private, so staff open it with
+          // openStoredResume() below rather than a permanent public link.
+          if (!uploadErr) resumeUrl = path;
+        }
+
+        const { error } = await supabaseClient.from('job_applications').insert([{
+          name: app.name || '',
+          whatsapp: app.phone || '',
+          email: app.email || '',
+          degree: app.degree || '',
+          grad_year: app.gradYear || '',
+          is_student: app.isStudent || 'No',
+          course_name: app.courseName || '',
+          experience: app.experience || '',
+          preferred_location: app.preferredLocation || 'Kochi',
+          work_mode: app.workMode || '',
+          skills: app.skills || '',
+          job_role: app.jobRole || 'Quick Apply Candidate',
+          company: app.company || 'Kompetenzen Network',
+          page_url: window.location.href,
+          resume_url: resumeUrl
+        }]);
+        if (error) throw error;
 
         if (btn) {
           btn.style.background = '#059669';
@@ -2492,42 +2701,32 @@
             btn.innerHTML = origHtml;
           }, 3500);
         }
-        alert(`✓ Candidate "${app.name}" sent to Google Sheets successfully! Check your Google Sheet.`);
+        alert(`✓ Candidate "${app.name}" synced to Supabase successfully!`);
       } catch (err) {
-        console.error('Manual sheet sync failed:', err);
+        console.error('Manual Supabase sync failed:', err);
         if (btn) {
           btn.disabled = false;
           btn.innerHTML = `<span>Retry Sync</span>`;
         }
-        alert('Could not sync to Google Sheets. Please check your internet connection.');
+        alert('Could not sync to Supabase. Please check your internet connection.');
       }
     };
 
-    // Delete application from internal portal AND Google Sheet database
+    // Delete application from internal portal AND Supabase database
     window.handleDeleteApp = async function (appId) {
       const app = allCandidateApplications.find(a => String(a.id) === String(appId));
       const candidateName = app ? app.name : 'this candidate';
 
-      if (!confirm(`Are you sure you want to delete "${candidateName}"?\nThis will remove the candidate from this portal and also delete their record from the Google Sheet database.`)) return;
+      if (!confirm(`Are you sure you want to delete "${candidateName}"?\nThis will remove the candidate from this portal and also delete their record from Supabase.`)) return;
 
-      // 1. Delete from Google Sheet database
+      // 1. Delete from Supabase database
       if (app) {
-        const GOOGLE_SHEET_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyXVTlB1OtcwI_erBc5OC4kl6oZTijLhri0oL97GWBwyGb-VaHHR0NHVIVjq4Bgzc3wxg/exec';
-        try {
-          fetch(GOOGLE_SHEET_SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify({
-              type: 'delete_application',
-              name: app.name || '',
-              email: app.email || '',
-              phone: app.phone || '',
-              timestamp: app.createdAt || ''
-            })
-          }).catch(err => console.warn('Could not trigger Google Sheet row deletion:', err));
-        } catch (e) {
-          console.warn('Google Sheet delete error:', e);
+        if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured() && app.email) {
+          try {
+            await supabaseClient.from('job_applications').delete().eq('email', app.email);
+          } catch (e) {
+            console.warn('Supabase delete error:', e);
+          }
         }
 
         // Clean up from registered users in localStorage so it does not reappear on refresh
@@ -3083,57 +3282,6 @@
 
       isDirectCheckbox.addEventListener('change', handleDirectToggle);
 
-      const GOOGLE_SHEET_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyXVTlB1OtcwI_erBc5OC4kl6oZTijLhri0oL97GWBwyGb-VaHHR0NHVIVjq4Bgzc3wxg/exec';
-
-      async function saveJobToGoogleSheet(data) {
-        if (!GOOGLE_SHEET_SCRIPT_URL) return;
-        try {
-          const payload = {
-            type: 'job_posting',
-            jobId: data.id,
-            title: data.title,
-            company: data.company,
-            category: categoryLabels[data.category] || data.category || 'Tech',
-            jobType: typeLabels[data.jobType] || data.jobType || 'Full-Time',
-            location: data.location || (data.isDirectLink ? 'Multiple Locations' : 'Not specified'),
-            experience: data.experience || (data.isDirectLink ? 'All Levels' : 'Not specified'),
-            salary: data.salary || 'Best in Industry',
-            skills: data.skills || '',
-            description: data.description || '',
-            applyUrl: data.applyUrl || '',
-            isDirectLink: data.isDirectLink ? 'Yes' : 'No',
-            timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
-          };
-
-          fetch(GOOGLE_SHEET_SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify(payload)
-          }).catch(err => console.warn('Google Sheet job sync error:', err));
-        } catch (e) {
-          console.warn('Google Sheet job sync exception:', e);
-        }
-      }
-
-      async function deleteJobFromGoogleSheet(id, title) {
-        if (!GOOGLE_SHEET_SCRIPT_URL) return;
-        try {
-          fetch(GOOGLE_SHEET_SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify({
-              type: 'delete_job',
-              jobId: id,
-              title: title || ''
-            })
-          }).catch(err => console.warn('Google Sheet delete job error:', err));
-        } catch (e) {
-          console.warn('Google Sheet delete job exception:', e);
-        }
-      }
-
       async function loadJobs() {
         if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
           try {
@@ -3206,7 +3354,8 @@
               salary: data.salary || '',
               skills: data.skills || '',
               description: data.description || '',
-              apply_url: data.applyUrl || ''
+              apply_url: data.applyUrl || '',
+              is_direct_link: !!data.isDirectLink
             }]);
             if (error) console.error("Supabase insert error:", error);
           } catch (e) {
@@ -3350,9 +3499,7 @@
         const removeBtn = e.target.closest('.draft-remove');
         if (removeBtn) {
           const id = removeBtn.getAttribute('data-id');
-          const jobToDelete = loadLocal().find(job => String(job.id) === String(id));
           await deleteJobFromCloud(id);
-          deleteJobFromGoogleSheet(id, jobToDelete ? jobToDelete.title : '');
           const drafts = loadLocal().filter(job => String(job.id) !== String(id));
           saveLocal(drafts);
           await render();
@@ -3414,7 +3561,6 @@
         saveLocal(drafts);
 
         await saveJobToCloud(data);
-        saveJobToGoogleSheet(data);
 
         form.reset();
         handleDirectToggle();
@@ -3794,19 +3940,251 @@
     })();
 
     /* =============================================
-       Leads now go to Google Sheets directly.
-       The localStorage leads dashboard has been removed.
+       STUDENT PAYMENTS & CAREER PRO MANAGEMENT
     ============================================= */
+    window.loadStudentPayments = async function () {
+      const loading = document.getElementById('payments-loading');
+      const empty = document.getElementById('payments-empty');
+      const wrap = document.getElementById('payments-table-wrap');
+      const tbody = document.getElementById('payments-table-body');
+      const badge = document.getElementById('payments-counter-badge');
+      const revMetric = document.getElementById('metric-total-revenue');
+      const proMetric = document.getElementById('metric-total-pro-students');
+
+      if (loading) loading.style.display = 'block';
+      if (empty) empty.style.display = 'none';
+      if (wrap) wrap.style.display = 'none';
+
+      let payments = [];
+      window.pendingUpiClaims = [];
+
+      // Single source of truth: payments_overview joins the student_payments
+      // ledger (Razorpay checkout, Razorpay webhook and staff activations, each
+      // tagged with `source`) to the subscription each payment bought. Offline
+      // UPI transfers still awaiting reconciliation come back separately.
+      //
+      // A previous version also merged in a pass read from this browser's
+      // localStorage, which showed whoever was sitting at the admin machine as
+      // a paying customer.
+      try {
+        const headers = await kompetenzenAuthHeaders();
+        if (!headers) throw new Error('Your staff session expired. Please sign in again.');
+
+        const res = await fetch(KOMPETENZEN_API_BASE + '/payments/admin/ledger', { headers });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.success) throw new Error(data.message || 'Could not load the payment ledger.');
+
+        payments = (data.payments || []).map(p => ({
+          ...p,
+          // The table below renders these field names.
+          created_at: p.paid_at,
+          status: p.payment_status
+        }));
+        window.pendingUpiClaims = data.pendingClaims || [];
+      } catch (err) {
+        console.warn('Ledger fetch failed, falling back to a direct read:', err.message);
+        // Fallback keeps the console usable if the API host is down. RLS still
+        // restricts this to staff.
+        if (typeof supabaseClient !== 'undefined' && supabaseClient) {
+          try {
+            const { data, error } = await supabaseClient
+              .from('payments_overview')
+              .select('*')
+              .order('paid_at', { ascending: false });
+            if (!error && data) {
+              payments = data.map(p => ({ ...p, created_at: p.paid_at, status: p.payment_status }));
+            }
+          } catch (e) {
+            console.warn('Direct ledger read also failed:', e);
+          }
+        }
+      }
+
+      if (loading) loading.style.display = 'none';
+
+      // Update counters & metrics
+      const totalCount = payments.length;
+      const totalRev = payments.reduce((acc, p) => acc + (Number(p.amount) || 499), 0);
+
+      if (badge) badge.textContent = totalCount;
+      if (proMetric) proMetric.textContent = totalCount;
+      if (revMetric) revMetric.textContent = '₹' + totalRev.toLocaleString('en-IN');
+
+      if (!payments || payments.length === 0) {
+        if (empty) empty.style.display = 'block';
+        if (wrap) wrap.style.display = 'none';
+        return;
+      }
+
+      if (empty) empty.style.display = 'none';
+      if (wrap) wrap.style.display = 'block';
+
+      // Which payment path each row came in through.
+      const SOURCE_LABELS = {
+        razorpay_checkout: 'Razorpay checkout',
+        razorpay_webhook: 'Razorpay webhook',
+        manual_staff_activation: 'Staff activation',
+        razorpay: 'Razorpay'
+      };
+
+      if (tbody) {
+        tbody.innerHTML = payments.map(p => {
+          const dateStr = p.created_at ? new Date(p.created_at).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', dateStyle: 'medium', timeStyle: 'short' }) : 'Recent';
+          const expiryStr = p.access_expires_at ? new Date(p.access_expires_at).toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata', dateStyle: 'medium' }) : '—';
+          const isComplete = (p.status || 'completed').toLowerCase() === 'completed';
+          return `
+            <tr style="border-bottom: 1px solid var(--line); transition: background 0.15s;">
+              <td style="padding: 12px 14px; font-weight: 700; color: var(--ink);">
+                ${escapeHtml(p.user_name || 'Candidate')}
+                <div style="font-size: 11px; font-weight: 800; color: #D97706; margin-top: 2px;">★ PRO MEMBER</div>
+              </td>
+              <td style="padding: 12px 14px;">
+                <div style="font-weight: 600; color: var(--blue);">${escapeHtml(p.user_email || '')}</div>
+                <div style="font-size: 12px; color: var(--ink-mute);">${escapeHtml(p.phone || 'No phone')}</div>
+              </td>
+              <td style="padding: 12px 14px; font-weight: 800; color: #10B981; font-size: 14.5px;">
+                ₹${p.amount || 499}
+              </td>
+              <td style="padding: 12px 14px;">
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700;">${escapeHtml(p.transaction_id || 'N/A')}</div>
+                <div style="font-size: 11px; color: var(--ink-dim);">${escapeHtml(SOURCE_LABELS[p.source] || p.payment_method || 'Unknown')}</div>
+              </td>
+              <td style="padding: 12px 14px; font-size: 12.5px; color: var(--ink-dim); font-family: 'JetBrains Mono', monospace;">
+                ${dateStr}
+              </td>
+              <td style="padding: 12px 14px; font-size: 12px;">
+                ${p.access_active
+                  ? `<span style="color:#15803D; font-weight:700;">Active</span><div style="color: var(--ink-dim); font-size: 11px;">until ${expiryStr}</div>`
+                  : `<span style="color:#B91C1C; font-weight:700;">${escapeHtml(p.subscription_status || 'none')}</span>`}
+              </td>
+              <td style="padding: 12px 14px;">
+                <span style="background: ${isComplete ? '#DCFCE7' : '#FEF3C7'}; color: ${isComplete ? '#15803D' : '#B45309'}; padding: 4px 10px; border-radius: 99px; font-size: 11.5px; font-weight: 800; text-transform: uppercase;">
+                  ${escapeHtml(p.status || 'Active')}
+                </span>
+              </td>
+              <td style="padding: 12px 14px;">
+                <button type="button" class="btn-secondary" onclick="revokeProPayment('${escapeHtml(p.user_email)}', '${escapeHtml(p.transaction_id)}')" style="font-size: 11.5px; padding: 4px 10px; color: #EF4444; border-color: rgba(239, 68, 68, 0.3);">
+                  Revoke
+                </button>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+    };
+
+    /**
+     * Manual Pro activation — now performed by the server.
+     *
+     * The previous version inserted a payment row with the public anon key and
+     * then set a Pro flag in the *admin's own* localStorage, which granted the
+     * student nothing and the admin everything. The grant endpoint is behind
+     * requireAdmin and writes the real subscription.
+     */
+    window.handleManualProSubmit = async function (e) {
+      e.preventDefault();
+      const email = document.getElementById('m-email').value.trim().toLowerCase();
+      const phone = document.getElementById('m-phone').value.trim();
+      const tx = document.getElementById('m-tx').value.trim();
+      const msgEl = document.getElementById('manual-pro-msg');
+      const form = document.getElementById('manual-pro-form');
+      const submitBtn = form ? form.querySelector('button[type="submit"]') : null;
+
+      function say(text, colour) {
+        if (!msgEl) return;
+        msgEl.style.display = 'block';
+        msgEl.style.color = colour;
+        msgEl.textContent = text;
+      }
+
+      if (!email) return;
+      if (submitBtn) { submitBtn.disabled = true; }
+
+      try {
+        const headers = await kompetenzenAuthHeaders();
+        if (!headers) throw new Error('Your staff session expired. Please sign in again.');
+
+        const res = await fetch(KOMPETENZEN_API_BASE + '/payments/admin/grant', {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({ email, reference: tx, note: phone ? ('Phone: ' + phone) : '' })
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.success) throw new Error(data.message || 'Activation failed.');
+
+        say('✓ ' + data.message, '#10B981');
+        if (form) form.reset();
+        if (typeof window.loadStudentPayments === 'function') window.loadStudentPayments();
+        setTimeout(() => { if (msgEl) msgEl.style.display = 'none'; }, 5000);
+      } catch (err) {
+        say('✕ ' + err.message, '#EF4444');
+      } finally {
+        if (submitBtn) { submitBtn.disabled = false; }
+      }
+    };
+    /**
+     * Opens a resume held in the private `resumes` bucket.
+     *
+     * The bucket used to be public, so every uploaded resume was readable by
+     * anyone who could guess or stumble on its URL. Staff now mint a signed
+     * link that expires after 60 seconds.
+     */
+    window.openStoredResume = async function (objectPath) {
+      if (!objectPath) { alert('No resume file is attached to this application.'); return; }
+
+      // Tolerate rows created before the switch, which stored a full URL.
+      if (/^https?:\/\//i.test(objectPath)) { window.open(objectPath, '_blank', 'noopener'); return; }
+
+      try {
+        const { data, error } = await supabaseClient
+          .storage.from('resumes')
+          .createSignedUrl(objectPath, 60);
+        if (error || !data) throw new Error(error ? error.message : 'Could not create a link.');
+        window.open(data.signedUrl, '_blank', 'noopener');
+      } catch (err) {
+        alert('Could not open that resume: ' + err.message);
+      }
+    };
+
+    /**
+     * Revoke a pass. Server-side, staff-only.
+     *
+     * The old version deleted the payment ledger rows with the anon key (which
+     * destroyed the financial record) and cleared the admin's own localStorage.
+     * Revoking now cancels the subscription and leaves the ledger untouched.
+     */
+    window.revokeProPayment = async function (email) {
+      if (!confirm(`Revoke Career Pro access for ${email}?\n\nThe payment record is kept for your accounts.`)) return;
+
+      try {
+        const headers = await kompetenzenAuthHeaders();
+        if (!headers) throw new Error('Your staff session expired. Please sign in again.');
+
+        const res = await fetch(KOMPETENZEN_API_BASE + '/payments/admin/revoke', {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({ email })
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.success) throw new Error(data.message || 'Revoke failed.');
+
+        alert(data.message);
+        loadStudentPayments();
+      } catch (err) {
+        alert('Could not revoke access: ' + err.message);
+      }
+    };
+
+
 
     document.addEventListener('DOMContentLoaded', () => {
       if (typeof renderSkillsOptions === 'function') renderSkillsOptions();
-      if (sessionStorage.getItem('kompetenzen_hr_staff_unlocked') === '1' && typeof window.loadApplicationsList === 'function') {
-        window.loadApplicationsList();
-      }
+      // Data loading is driven by the staff gate's own session check now; the
+      // old sessionStorage flag could be set by hand to trigger these loads.
 
-      // Check URL hash for direct tab navigation (e.g. admin.html#reels)
+      // Check URL hash for direct tab navigation (e.g. admin.html#payments)
       const hash = (window.location.hash || '').replace('#', '');
-      if (hash && ['applications', 'jobs', 'courses', 'reels'].includes(hash)) {
+      if (hash && ['applications', 'jobs', 'courses', 'reels', 'payments'].includes(hash)) {
         if (typeof window.switchAdminTab === 'function') {
           window.switchAdminTab(hash);
         }

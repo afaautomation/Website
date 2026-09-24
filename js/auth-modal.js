@@ -216,8 +216,8 @@
             <!-- LOG IN FORM -->
             <form id="login-form" onsubmit="handleLoginSubmit(event)" style="display:none; flex-direction:column; gap:0.8rem; width:100%; box-sizing:border-box;">
               <div style="display:flex; flex-direction:column; gap:0.25rem; min-width:0;">
-                <label style="font-size:0.74rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.03em;">Username or Email Address</label>
-                <input id="login-email" type="text" required placeholder="Enter username or email" autocomplete="off"
+                <label style="font-size:0.74rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.03em;">Email Address</label>
+                <input id="login-email" type="email" required placeholder="Enter your email address" autocomplete="off"
                   style="width:100%; max-width:100%; min-width:0; box-sizing:border-box; padding:0.65rem 0.85rem; background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.88rem; color:#0f172a; outline:none; transition:all 0.2s;"
                   onfocus="this.style.borderColor='#1947FF'; this.style.background='#fff'" onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc'">
               </div>
@@ -360,11 +360,8 @@
     if (loginEmail) loginEmail.value = '';
     if (loginPassword) loginPassword.value = '';
 
-    // If user already registered anywhere, make "Log In" come!
-    let activeMode = mode;
-    if (activeMode === 'signup' && hasRegisteredAccount()) {
-      activeMode = 'login';
-    }
+    // Always honor requested mode, defaulting to 'signup'
+    const activeMode = (mode === 'login') ? 'login' : 'signup';
     window.switchAuthTab(activeMode);
     if (modal) modal.style.display = 'flex';
   };
@@ -375,59 +372,31 @@
     if (isUserLoggedIn()) {
       window.location.href = url;
     } else {
-      const mode = hasRegisteredAccount() ? 'login' : 'signup';
-      window.openAuthModal(mode, url);
+      window.openAuthModal('signup', url);
+    }
+  };
+
+  // Job listing interceptor
+  window.checkAuthAndGoToJob = function (event, url) {
+    if (event && event.preventDefault) event.preventDefault();
+    if (isUserLoggedIn()) {
+      window.location.href = url;
+    } else {
+      window.openAuthModal('signup', url);
     }
   };
 
   // Resume builder trigger
   window.openResumeBuilder = function (e) {
     if (e && e.preventDefault) e.preventDefault();
-    const RESUME_BUILDER_URL = 'https://darksalmon-llama-333572.hostingersite.com/';
+    const RESUME_BUILDER_URL = 'Resume/resume.html';
     if (isUserLoggedIn()) {
-      window.open(RESUME_BUILDER_URL, '_blank');
+      window.location.href = RESUME_BUILDER_URL;
     } else {
       window._pendingAuthSection = 'resume';
-      const initialMode = hasRegisteredAccount() ? 'login' : 'signup';
-      window.openAuthModal(initialMode, RESUME_BUILDER_URL);
+      window.openAuthModal('signup', RESUME_BUILDER_URL);
     }
   };
-
-  // ===== GOOGLE SHEETS LEAD CONFIG =====
-  const GOOGLE_SHEET_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyXVTlB1OtcwI_erBc5OC4kl6oZTijLhri0oL97GWBwyGb-VaHHR0NHVIVjq4Bgzc3wxg/exec';
-
-  function sendLeadToSheet(fields) {
-    if (!GOOGLE_SHEET_SCRIPT_URL) return;
-    try {
-      const iframeName = 'gs-auth-' + Math.random().toString(36).substring(2, 8);
-      const ifr = document.createElement('iframe');
-      ifr.name = iframeName;
-      ifr.style.display = 'none';
-      document.body.appendChild(ifr);
-
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = GOOGLE_SHEET_SCRIPT_URL;
-      form.target = iframeName;
-
-      Object.entries(fields).forEach(([key, val]) => {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = (val !== undefined && val !== null) ? String(val) : '';
-        form.appendChild(input);
-      });
-
-      document.body.appendChild(form);
-      form.submit();
-      setTimeout(() => {
-        if (form.parentNode) form.parentNode.removeChild(form);
-        if (ifr.parentNode) ifr.parentNode.removeChild(ifr);
-      }, 2500);
-    } catch (e) {
-      console.warn('Sheet submission error:', e);
-    }
-  }
 
   // ===== UNIFIED AUTHENTICATION & SINGLE SIGN-ON (SSO) HELPERS =====
   const AUTH_STORAGE_KEY = 'kompetenzen_google_user';
@@ -435,15 +404,22 @@
   function getStoredUser() {
     try {
       const raw = localStorage.getItem('kompetenzen_user') || localStorage.getItem(AUTH_STORAGE_KEY) || localStorage.getItem('user');
-      return raw ? JSON.parse(raw) : null;
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      if (parsed && (parsed.email || parsed.name)) return parsed;
+      return null;
     } catch (e) {
       return null;
     }
   }
 
   function isUserLoggedIn() {
-    return !!(localStorage.getItem('token') || getStoredUser());
+    const user = getStoredUser();
+    return !!(user && (user.email || user.name));
   }
+
+  window.isUserLoggedIn = isUserLoggedIn;
+  window.getStoredUser = getStoredUser;
 
   function getRegisteredUsers() {
     try {
@@ -526,6 +502,7 @@
 
   function completeAuthSession(userData, redirectMsg = 'Logging in…') {
     saveUnifiedSession(userData);
+    updateNavBadge();
     window.showAuthMessage(`✓ ${redirectMsg}`, false);
 
     setTimeout(() => {
@@ -547,7 +524,7 @@
     }, 700);
   }
 
-  window.handleSignupSubmit = function (e) {
+  window.handleSignupSubmit = async function (e) {
     e.preventDefault();
     const name = document.getElementById('signup-name')?.value.trim();
     const email = document.getElementById('signup-email')?.value.trim().toLowerCase();
@@ -560,13 +537,8 @@
       return;
     }
 
-    const users = getRegisteredUsers();
-    const existing = users.find(u => u.email === email);
-    if (existing) {
-      window.showAuthMessage('An account with this email already exists. Please log in.', true);
-      window.switchAuthTab('login');
-      const loginEmail = document.getElementById('login-email');
-      if (loginEmail) loginEmail.value = email;
+    if (!isSupabaseConfigured()) {
+      window.showAuthMessage('Sign up is temporarily unavailable. Please try again shortly.', true);
       return;
     }
 
@@ -575,44 +547,39 @@
       btn.textContent = 'Creating Account…';
     }
 
-    const newUser = {
-      name: name,
-      email: email,
-      phone: phone,
-      password: password,
-      createdAt: new Date().toISOString(),
-      authType: 'Email Signup'
-    };
-
-    const isResume = window._pendingAuthSection === 'resume';
-    const targetSheet = isResume ? 'Users_Auth' : 'Course_Login_Details';
-    const sectionName = isResume ? 'Resume Builder' : 'Course Details';
-
-    sendLeadToSheet({
-      type: 'signup',
-      authType: 'Email Signup',
-      action: 'Account Created',
-      section: sectionName,
-      targetSheet: targetSheet,
-      name: name,
-      email: email,
-      phone: phone,
-      password: password,
-      page: window.location.href,
-      timestamp: new Date().toISOString()
-    });
-
-    completeAuthSession(newUser, 'Account created! Redirecting to course…');
+    try {
+      const newUser = await supabaseSignUp(name, email, phone, password);
+      completeAuthSession(newUser, 'Account created! Redirecting to course…');
+    } catch (err) {
+      const msg = (err && err.message) || 'Could not create account. Please try again.';
+      if (/already registered|already exists/i.test(msg)) {
+        window.showAuthMessage('An account with this email already exists. Please log in.', true);
+        window.switchAuthTab('login');
+        const loginEmail = document.getElementById('login-email');
+        if (loginEmail) loginEmail.value = email;
+      } else {
+        window.showAuthMessage(msg, true);
+      }
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = 'Create Account →';
+      }
+    }
   };
 
   window.handleLoginSubmit = async function (e) {
     e.preventDefault();
-    const identifier = document.getElementById('login-email')?.value.trim();
+    const email = document.getElementById('login-email')?.value.trim().toLowerCase();
     const password = document.getElementById('login-password')?.value;
     const btn = document.getElementById('login-submit-btn');
 
-    if (!identifier || !password) {
-      window.showAuthMessage('Please enter both your username/email and password.', true);
+    if (!email || !password) {
+      window.showAuthMessage('Please enter both your email and password.', true);
+      return;
+    }
+
+    if (!isSupabaseConfigured()) {
+      window.showAuthMessage('Log in is temporarily unavailable. Please try again shortly.', true);
       return;
     }
 
@@ -621,188 +588,58 @@
       btn.textContent = 'Verifying…';
     }
 
-    const idLower = identifier.toLowerCase();
-    const users = getRegisteredUsers();
-    let user = users.find(u => 
-      (u.email && u.email.toLowerCase() === idLower) ||
-      (u.name && u.name.trim().toLowerCase() === idLower) ||
-      (u.username && u.username.trim().toLowerCase() === idLower)
-    );
-
-    // If user is found locally, verify password
-    if (user) {
-      if (user.password && user.password !== password) {
-        window.showAuthMessage('Incorrect password. Please try again.', true);
-        if (btn) {
-          btn.disabled = false;
-          btn.textContent = 'Log In →';
-        }
-        return;
-      }
-    } else {
-      // Verify against Google Sheet (Users_Auth / Course_Login_Details / Login_Signup_Details)
-      try {
-        const verifyUrl = GOOGLE_SHEET_SCRIPT_URL + '?type=verify_user&identifier=' + encodeURIComponent(identifier) + '&email=' + encodeURIComponent(identifier) + '&password=' + encodeURIComponent(password);
-        const resp = await fetch(verifyUrl);
-        const data = await resp.json();
-        if (data && (data.status === 'invalid_password' || data.reason === 'incorrect_password')) {
-          window.showAuthMessage('Incorrect password. Please try again.', true);
-          if (btn) {
-            btn.disabled = false;
-            btn.textContent = 'Log In →';
-          }
-          return;
-        }
-        if (data && data.verified && data.user) {
-          user = {
-            name: data.user.name || identifier,
-            email: data.user.email || (identifier.includes('@') ? identifier : ''),
-            phone: data.user.phone || '',
-            password: password,
-            authType: 'Direct Login'
-          };
-          // Cache to local registered users
-          try {
-            const uList = getRegisteredUsers();
-            const idx = uList.findIndex(u => 
-              (u.email && user.email && u.email.toLowerCase() === user.email.toLowerCase()) || 
-              (u.name && u.name.toLowerCase() === user.name.toLowerCase())
-            );
-            if (idx >= 0) uList[idx] = { ...uList[idx], ...user };
-            else uList.push(user);
-            localStorage.setItem('kompetenzen_registered_users', JSON.stringify(uList));
-          } catch (e) {}
-        }
-      } catch (err) {
-        console.warn('Backend verification query fallback:', err);
-      }
-    }
-
-    // STRICT CHECK: ONLY allow login if the username/email is available in the sheet / registered users!
-    if (!user) {
-      window.showAuthMessage('No account found for this username. Only registered accounts available in the sheet can log in.', true);
+    try {
+      const authenticatedUser = await supabaseSignIn(email, password);
+      completeAuthSession(authenticatedUser, `Welcome back, ${authenticatedUser.name}! Opening course…`);
+    } catch (err) {
+      window.showAuthMessage((err && err.message) || 'Incorrect email or password.', true);
       if (btn) {
         btn.disabled = false;
         btn.textContent = 'Log In →';
       }
-      return;
     }
-
-    const authenticatedUser = user;
-
-    const isResume = window._pendingAuthSection === 'resume';
-    const targetSheet = isResume ? 'Users_Auth' : 'Course_Login_Details';
-    const sectionName = isResume ? 'Resume Builder' : 'Course Details';
-
-    sendLeadToSheet({
-      type: 'login',
-      authType: 'Direct Login',
-      action: 'User Logged In',
-      section: sectionName,
-      targetSheet: targetSheet,
-      name: authenticatedUser.name || '',
-      email: authenticatedUser.email || identifier,
-      phone: authenticatedUser.phone || '',
-      password: password,
-      page: window.location.href,
-      timestamp: new Date().toISOString()
-    });
-
-    completeAuthSession(authenticatedUser, `Welcome back, ${authenticatedUser.name}! Opening course…`);
   };
 
   window.triggerWebsiteGoogleSignIn = async function () {
-    const btn = document.getElementById('lead-google-btn');
-    const btnText = document.getElementById('lead-google-btn-text');
-
-    let defaultEmail = '';
-    let defaultName = '';
-    try {
-      const stored = getStoredUser();
-      if (stored) {
-        defaultEmail = stored.email || '';
-        defaultName = stored.name || '';
-      }
-    } catch (e) {}
-
-    let email = defaultEmail;
-    const signupEmail = document.getElementById('signup-email');
-    const loginEmail = document.getElementById('login-email');
-    if (!email && signupEmail && signupEmail.value.trim()) email = signupEmail.value.trim();
-    if (!email && loginEmail && loginEmail.value.trim()) email = loginEmail.value.trim();
-
-    if (!email || !email.includes('@')) {
-      email = prompt('Continue with Google\nEnter your Google email address:');
-      if (!email) return;
-    }
-
-    email = email.trim().toLowerCase();
-    if (!email.includes('@')) {
-      alert('Please enter a valid Google email address.');
+    if (!isSupabaseConfigured()) {
+      window.showAuthMessage('Google sign-in is temporarily unavailable. Please try again shortly.', true);
       return;
     }
 
-    // If in Log In mode, ensure the Google user exists in the sheets / database
-    if (currentAuthMode === 'login') {
-      const users = getRegisteredUsers();
-      let existing = users.find(u => (u.email || '').toLowerCase() === email);
-      if (!existing) {
-        try {
-          const verifyUrl = GOOGLE_SHEET_SCRIPT_URL + '?type=verify_user&email=' + encodeURIComponent(email);
-          const resp = await fetch(verifyUrl);
-          const data = await resp.json();
-          if (data && data.verified && data.user) {
-            existing = data.user;
-          }
-        } catch (e) {}
-      }
-      if (!existing) {
-        window.showAuthMessage('No account found for this Google email in the sheet. Please create an account first.', true);
-        return;
-      }
-    }
-
-    let name = defaultName;
-    const signupName = document.getElementById('signup-name');
-    if (!name && signupName && signupName.value.trim()) name = signupName.value.trim();
-    if (!name) {
-      const namePart = email.split('@')[0];
-      name = namePart.charAt(0).toUpperCase() + namePart.slice(1).replace(/[._-]/g, ' ');
-    }
-
-    const phone = document.getElementById('signup-phone')?.value.trim() || '';
-
+    const btn = document.getElementById('lead-google-btn');
+    const btnText = document.getElementById('lead-google-btn-text');
     if (btnText) btnText.textContent = 'Connecting with Google…';
     if (btn) btn.disabled = true;
 
-    const googleUser = {
-      name: name,
-      email: email,
-      phone: phone,
-      authType: 'Google Auth',
-      createdAt: new Date().toISOString()
-    };
-
-    const isResume = window._pendingAuthSection === 'resume';
-    const targetSheet = isResume ? 'Users_Auth' : 'Course_Login_Details';
-    const sectionName = isResume ? 'Resume Builder' : 'Course Details';
-
-    sendLeadToSheet({
-      type: 'google_auth',
-      authType: 'Google Auth',
-      action: 'Google Sign In',
-      section: sectionName,
-      targetSheet: targetSheet,
-      name: name,
-      email: email,
-      phone: phone,
-      password: '',
-      page: window.location.href,
-      timestamp: new Date().toISOString()
-    });
-
-    completeAuthSession(googleUser, `Welcome, ${name}! Signed in with Google…`);
+    try {
+      const redirect = window._pendingAuthRedirect || null;
+      const section = window._pendingAuthSection || null;
+      if (redirect) localStorage.setItem('kompetenzen_pending_auth_redirect', redirect);
+      if (section) localStorage.setItem('kompetenzen_pending_auth_section', section);
+      await supabaseSignInWithGoogle(redirect);
+      // Browser is now redirecting to Google; nothing more to do here.
+    } catch (err) {
+      window.showAuthMessage((err && err.message) || 'Google sign-in failed. Please try again.', true);
+      if (btnText) btnText.textContent = 'Continue with Google';
+      if (btn) btn.disabled = false;
+    }
   };
+
+  // Resume any pending OAuth redirect/session after Google sign-in bounces back
+  async function resumeOAuthSessionIfAny() {
+    if (!isSupabaseConfigured()) return;
+    try {
+      const user = await supabaseGetSessionUser();
+      if (!user) return;
+      if (isUserLoggedIn()) return; // already handled
+      window._pendingAuthRedirect = localStorage.getItem('kompetenzen_pending_auth_redirect') || null;
+      window._pendingAuthSection = localStorage.getItem('kompetenzen_pending_auth_section') || null;
+      localStorage.removeItem('kompetenzen_pending_auth_redirect');
+      localStorage.removeItem('kompetenzen_pending_auth_section');
+      ensureAuthModalDOM();
+      completeAuthSession(user, `Welcome, ${user.name}! Signed in with Google…`);
+    } catch (e) {}
+  }
 
   // Hash-based triggers (e.g. #auth-redirect=course-details.html, #login, #signup)
   function handleUrlHash() {
@@ -822,20 +659,61 @@
     }
   }
 
+  function updateNavBadge() {
+    const user = getStoredUser();
+    const navBadge = document.getElementById('nav-user-badge');
+    if (!navBadge) return;
+    if (user && (user.email || user.name)) {
+      const displayName = user.name || 'Candidate';
+      const displayInitial = (displayName || 'C')[0].toUpperCase();
+      const navName = document.getElementById('nav-user-name');
+      const navAvatar = document.getElementById('nav-user-avatar');
+      const menuName = document.getElementById('nav-user-menu-name');
+      const menuEmail = document.getElementById('nav-user-menu-email');
+      navBadge.style.display = 'block';
+      if (navName) navName.textContent = displayName;
+      if (navAvatar) navAvatar.textContent = displayInitial;
+      if (menuName) menuName.textContent = displayName;
+      if (menuEmail) menuEmail.textContent = user.email || '';
+    } else {
+      navBadge.style.display = 'none';
+      navBadge.classList.remove('open');
+    }
+  }
+
+  window.toggleNavUserDropdown = function (e) {
+    if (e) { e.preventDefault(); e.stopPropagation(); }
+    const navBadge = document.getElementById('nav-user-badge');
+    if (navBadge) navBadge.classList.toggle('open');
+  };
+
   function initAuthNav() {
     ensureAuthModalDOM();
     handleUrlHash();
+    resumeOAuthSessionIfAny();
+    updateNavBadge();
     if (isUserLoggedIn()) {
       document.querySelectorAll('.logout-link').forEach(l => {
         l.style.display = 'inline-block';
         l.onclick = function (e) {
           if (e && e.preventDefault) e.preventDefault();
-          ['token', 'kompetenzen_user', 'user', 'kompetenzen_google_user', 'kompetenzen_candidate_profile'].forEach(k => localStorage.removeItem(k));
-          window.location.reload();
+          window.handleSignOut();
         };
       });
     }
   }
+
+  window.handleSignOut = function (e) {
+    if (e && e.preventDefault) e.preventDefault();
+    if (typeof supabaseSignOut === 'function') supabaseSignOut();
+    ['token', 'kompetenzen_user', 'user', 'kompetenzen_google_user', 'kompetenzen_candidate_profile'].forEach(k => localStorage.removeItem(k));
+    const navBadge = document.getElementById('nav-user-badge');
+    if (navBadge) {
+      navBadge.classList.remove('open');
+      navBadge.style.display = 'none';
+    }
+    window.location.reload();
+  };
 
   // On page load
   if (document.readyState === 'loading') {

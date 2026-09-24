@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 
 <head>
@@ -159,8 +159,13 @@
 
     .nav-links a:hover,
     .nav-links a.active {
-      color: #60A5FA;
+      color: #fff;
       font-weight: 700;
+    }
+
+    .mobile-services-header,
+    .nav-arrow {
+      display: none;
     }
 
     .nav-cta {
@@ -241,6 +246,86 @@
       padding: 6px 16px;
       border-radius: 99px;
       margin-bottom: 28px;
+    }
+
+    .hero-content-wrapper {
+      position: relative;
+      z-index: 2;
+      max-width: 920px;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      box-sizing: border-box;
+    }
+
+    .hero-badge-eyebrow {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      color: #38BDF8;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .hero-main-title {
+      font-family: 'Red Hat Display', sans-serif !important;
+      font-size: clamp(32px, 4.2vw, 54px);
+      font-weight: 400;
+      line-height: 1.2;
+      color: #ffffff;
+      text-align: center;
+      letter-spacing: -0.02em;
+      margin: 0 auto 24px auto;
+      max-width: 860px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .hero-desc {
+      font-size: clamp(15px, 1.6vw, 19px);
+      color: rgba(226, 232, 240, 0.85);
+      line-height: 1.65;
+      margin: 0 auto 36px auto;
+      text-align: center;
+      max-width: 660px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .hero-cta-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+
+    .hero-explore-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: #1947FF;
+      color: #FFFFFF;
+      padding: 14px 34px;
+      border-radius: 99px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 8px 30px rgba(25, 71, 255, 0.45);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .hero-explore-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 36px rgba(25, 71, 255, 0.65);
     }
 
 
@@ -661,23 +746,451 @@
     }
 
     @media (max-width: 768px) {
-      .nav-links {
-        display: none;
+      body {
+        overflow-x: hidden;
+        width: 100%;
+        max-width: 100vw;
       }
+
+      /* Hero Section Centering & Responsiveness */
+      #techHero,
       .tech-hero {
-        padding: 60px 16px 80px !important;
+        min-height: calc(100vh - 64px) !important;
+        min-height: calc(100dvh - 64px) !important;
+        padding: 44px 20px 48px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+        box-sizing: border-box !important;
       }
-      .programs-grid,
-      .program-grid,
-      .roadmap-grid,
-      div[style*="minmax(220px"] {
+
+      .hero-content-wrapper {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        padding: 0 4px !important;
+      }
+
+      .hero-badge-eyebrow {
+        font-size: 11.5px !important;
+        letter-spacing: 0.18em !important;
+        margin: 0 auto 16px auto !important;
+        text-align: center !important;
+        display: inline-block !important;
+      }
+
+      .hero-main-title,
+      .tech-hero h1,
+      #techHero h1 {
+        font-size: clamp(28px, 7.5vw, 40px) !important;
+        line-height: 1.22 !important;
+        margin: 0 auto 18px auto !important;
+        text-align: center !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        display: block !important;
+      }
+
+      .hero-desktop-br {
+        display: none !important;
+      }
+
+      .hero-desc,
+      .tech-hero p,
+      #techHero p {
+        font-size: 15px !important;
+        line-height: 1.55 !important;
+        margin: 0 auto 28px auto !important;
+        text-align: center !important;
+        max-width: 100% !important;
+        padding: 0 4px !important;
+      }
+
+      .hero-cta-wrapper {
+        width: 100% !important;
+        justify-content: center !important;
+      }
+
+      .hero-explore-btn {
+        width: 100% !important;
+        max-width: 280px !important;
+        padding: 13px 28px !important;
+        font-size: 14.5px !important;
+        justify-content: center !important;
+        text-align: center !important;
+        box-sizing: border-box !important;
+      }
+
+      /* Programs Section on Mobile */
+      .programs-section {
+        padding: 52px clamp(30px, 9vw, 44px) 76px !important;
+        box-sizing: border-box !important;
+        width: 100% !important;
+      }
+
+      .programs-section h2 {
+        font-size: clamp(24px, 6.5vw, 34px) !important;
+        margin-top: 12px !important;
+        text-align: center !important;
+      }
+
+      .programs-grid {
         grid-template-columns: 1fr !important;
+        max-width: 380px !important;
+        width: 100% !important;
+        margin: 0 auto !important;
+        gap: 32px !important;
+        box-sizing: border-box !important;
       }
+
       .program-card {
-        padding: 24px;
+        padding: 48px 26px 40px 26px !important;
+        min-height: 560px !important;
+        border-radius: 26px !important;
+        transform: none !important;
+        opacity: 1 !important;
+        gap: 24px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        box-sizing: border-box !important;
+        width: 100% !important;
       }
+
+      .card-header {
+        gap: 16px !important;
+        margin-bottom: 6px !important;
+      }
+
+      .card-icon {
+        width: 58px !important;
+        height: 58px !important;
+        border-radius: 16px !important;
+      }
+
+      .card-icon svg:not(.card-sparkle) {
+        width: 28px !important;
+        height: 28px !important;
+      }
+
+      .program-title {
+        font-size: 21.5px !important;
+        line-height: 1.28 !important;
+      }
+
+      .program-desc {
+        font-size: 15px !important;
+        line-height: 1.7 !important;
+        color: rgba(226, 232, 240, 0.9) !important;
+        margin: 4px 0 8px 0 !important;
+      }
+
+      .skills-row {
+        font-size: 13.5px !important;
+        line-height: 1.6 !important;
+        color: #CBD5E1 !important;
+        padding: 14px 0 4px 0 !important;
+        border-top: 1px solid rgba(56, 189, 248, 0.14) !important;
+      }
+
+      .card-footer {
+        margin-top: auto !important;
+        padding-top: 28px !important;
+        width: 100% !important;
+      }
+
+      .card-footer .apply-btn {
+        width: 100% !important;
+        padding: 16px 28px !important;
+        font-size: 15.5px !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.02em !important;
+        border-radius: 99px !important;
+        box-sizing: border-box !important;
+        text-align: center !important;
+        justify-content: center !important;
+      }
+
+      /* Stats Cards Grid on Mobile */
+      .training-stats-section {
+        padding: 40px clamp(30px, 9vw, 44px) !important;
+        margin: 20px auto 60px !important;
+        box-sizing: border-box !important;
+      }
+
+      .stats-cards-grid {
+        grid-template-columns: 1fr !important;
+        max-width: 380px !important;
+        margin: 0 auto !important;
+        gap: 22px !important;
+        box-sizing: border-box !important;
+      }
+
+      .stat-card {
+        padding: 32px 26px !important;
+        gap: 24px !important;
+        border-radius: 22px !important;
+        transform: none !important;
+        opacity: 1 !important;
+        box-sizing: border-box !important;
+      }
+
+      /* Roadmap Section on Mobile */
+      .roadmap-section {
+        height: 280vh !important;
+      }
+
+      .roadmap-sticky-stage {
+        top: 64px !important;
+        height: calc(100vh - 64px) !important;
+        height: calc(100dvh - 64px) !important;
+        padding: 20px 16px 20px !important;
+      }
+
+      .roadmap-header {
+        margin-bottom: 4px !important;
+      }
+
+      .roadmap-header h2 {
+        font-size: clamp(22px, 5.5vw, 30px) !important;
+      }
+
+      .roadmap-beam {
+        margin: 6px auto 10px !important;
+      }
+
+      .roadmap-beam-line {
+        height: 22px !important;
+      }
+
+      .roadmap-cards-deck {
+        width: 100% !important;
+        max-width: calc(100vw - 32px) !important;
+        height: 195px !important;
+      }
+
+      .roadmap-stack-card {
+        padding: 14px 16px !important;
+        gap: 12px !important;
+        border-radius: 16px !important;
+      }
+
+      .roadmap-card-icon {
+        width: 40px !important;
+        height: 40px !important;
+        border-radius: 12px !important;
+      }
+
+      .roadmap-card-icon svg {
+        width: 20px !important;
+        height: 20px !important;
+      }
+
+      .roadmap-card-title {
+        font-size: 16px !important;
+      }
+
+      .roadmap-card-desc {
+        font-size: 12px !important;
+        line-height: 1.35 !important;
+      }
+
+      /* Placements Section on Mobile */
       .placements-section {
         padding: 60px 16px !important;
+      }
+
+      .placements-section h2 {
+        font-size: clamp(24px, 6vw, 32px) !important;
+        margin-bottom: 24px !important;
+      }
+
+      .placements-section ul {
+        gap: 18px !important;
+      }
+
+      .placements-section li {
+        font-size: 15px !important;
+        gap: 12px !important;
+      }
+
+      .placements-section li svg {
+        width: 22px !important;
+        height: 22px !important;
+        flex-shrink: 0 !important;
+      }
+
+      /* Site Footer on Mobile */
+      .site-footer {
+        padding: 36px 16px !important;
+        margin-top: 40px !important;
+      }
+    }
+
+    /* ===== Mobile Navigation Menu ===== */
+    /* ===== Mobile Navigation Dropdown Menu ===== */
+    .mobile-services-header,
+    .nav-arrow {
+      display: none;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      margin-left: 10px;
+      z-index: 1002;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      border-radius: 2px;
+      background: #FFFFFF;
+      transition: all 0.25s ease;
+    }
+    .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (max-width: 980px) {
+      .nav {
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 1000 !important;
+        background: #090F24 !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+      }
+
+      .nav-inner {
+        position: relative !important;
+        padding: 0 16px !important;
+        height: 64px !important;
+      }
+
+      .brand img {
+        height: 32px !important;
+      }
+
+      .nav-cta {
+        padding: 8px 14px !important;
+        font-size: 13px !important;
+      }
+
+      .hamburger {
+        display: flex !important;
+      }
+
+      .nav-links {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        justify-content: flex-start !important;
+        position: absolute !important;
+        top: 64px !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        background: #090F24 !important;
+        padding: 12px 16px 20px !important;
+        gap: 3px !important;
+        border-bottom: 2px solid rgba(59, 130, 246, 0.35) !important;
+        box-shadow: 0 20px 40px -4px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.06) !important;
+        max-height: calc(100vh - 72px) !important;
+        max-height: calc(100dvh - 72px) !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        z-index: 99999 !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transform: translateY(-8px) !important;
+        pointer-events: none !important;
+        transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                    visibility 0.22s ease !important;
+      }
+
+      .nav-links.mobile-active {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translateY(0) !important;
+        pointer-events: auto !important;
+      }
+
+      .mobile-services-header {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        font-size: 11px !important;
+        font-weight: 800 !important;
+        letter-spacing: 0.1em !important;
+        color: #60A5FA !important;
+        text-transform: uppercase !important;
+        padding: 6px 12px 10px !important;
+        margin-bottom: 4px !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+        text-align: left !important;
+      }
+
+      .mobile-services-header::before {
+        content: '';
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #3B82F6;
+        box-shadow: 0 0 8px #3B82F6;
+      }
+
+      .nav-links a {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 11px 14px !important;
+        font-size: 15px !important;
+        font-weight: 600 !important;
+        color: #E2E8F0 !important;
+        text-decoration: none !important;
+        border-radius: 10px !important;
+        transition: all 0.15s ease !important;
+        white-space: nowrap !important;
+        text-align: left !important;
+      }
+
+      .nav-links a:hover,
+      .nav-links a:active {
+        background: rgba(255, 255, 255, 0.06) !important;
+        color: #60A5FA !important;
+      }
+
+      .nav-links a.active {
+        background: rgba(59, 130, 246, 0.18) !important;
+        color: #60A5FA !important;
+        font-weight: 700 !important;
+      }
+
+      .nav-arrow {
+        display: inline-block !important;
+        font-size: 13px !important;
+        color: #64748B !important;
+        transition: transform 0.15s ease !important;
+      }
+
+      .nav-links a:hover .nav-arrow,
+      .nav-links a.active .nav-arrow {
+        color: #60A5FA !important;
+        transform: translateX(3px) !important;
       }
     }
   </style>
@@ -698,39 +1211,41 @@
         </a>
       </div>
       <div class="nav-links">
-        <a href="career-consulting.html">Consulting</a>
-        <a href="finishing-school.html">Finishing School</a>
-        <a href="tech-school.html" class="active">Tech School</a>
-        <a href="b-school.html">B-School</a>
-        <a href="placements.html">Placements</a>
-        <a href="our-story.html">Our Story</a>
-        <a href="jobs.html">Jobs</a>
-        <a href="https://darksalmon-llama-333572.hostingersite.com/" target="_blank" onclick="openResumeBuilder(event)">Resume Builder</a>
-        <a href="#" class="logout-link" style="display: none; color: #f87171; font-weight: 600;" onclick="event.preventDefault(); ['token', 'kompetenzen_user', 'user', 'kompetenzen_google_user', 'kompetenzen_candidate_profile'].forEach(k => localStorage.removeItem(k)); window.location.reload();">Log Out</a>
+        <div class="mobile-services-header">Our Services &amp; Programs</div>
+        <a href="career-consulting.html"><span>Consulting</span><span class="nav-arrow">→</span></a>
+        <a href="finishing-school.html"><span>Finishing School</span><span class="nav-arrow">→</span></a>
+        <a href="tech-school.html" class="active"><span>Tech School</span><span class="nav-arrow">→</span></a>
+        <a href="b-school.html"><span>B-School</span><span class="nav-arrow">→</span></a>
+        <a href="placements.html"><span>Placements</span><span class="nav-arrow">→</span></a>
+        <a href="our-story.html"><span>Our Story</span><span class="nav-arrow">→</span></a>
+        <a href="jobs.html"><span>Jobs</span><span class="nav-arrow">→</span></a>
+        <a href="Resume/resume.html" onclick="openResumeBuilder(event)"><span>Resume Builder</span><span class="nav-arrow">↗</span></a>
       </div>
       <div class="nav-right">
         <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="nav-cta">
           Talk to us
         </a>
+        <button class="hamburger" id="hamburger-menu" aria-label="Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
       </div>
     </div>
   </nav>
 
   <!-- HERO -->
-  <section class="tech-hero" id="techHero"
-    style="position: relative; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 100vh; background: transparent; width: 100%; max-width: 100%; padding: 120px 24px 60px;">
-    
-    <div style="position: relative; z-index: 2; max-width: 920px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center;">
-      <span style="font-size: 13px; font-weight: 700; letter-spacing: 0.22em; color: #38BDF8; text-transform: uppercase; margin-bottom: 20px; display: inline-block;">EXPLORE TECH PATHWAYS</span>
-      <h1
-        style="font-family: 'Red Hat Display', sans-serif; font-size: clamp(32px, 4.2vw, 54px); font-weight: 400; line-height: 1.2; color: #ffffff; text-align: center; letter-spacing: -0.02em; margin-bottom: 24px; max-width: 860px;">
-        AI-Integrated Tech School Programs<br><span style="color: #38BDF8;">Built for</span> Real Careers.
+  <section class="tech-hero" id="techHero">
+    <div class="hero-content-wrapper">
+      <span class="hero-badge-eyebrow">EXPLORE TECH PATHWAYS</span>
+      <h1 class="hero-main-title">
+        AI-Integrated Tech School Programs<br class="hero-desktop-br"><span style="color: #38BDF8;">Built for</span> Real Careers.
       </h1>
-      <p style="font-size: clamp(15px, 1.6vw, 19px); color: rgba(226, 232, 240, 0.85); line-height: 1.65; margin: 0 auto 36px auto; text-align: center; max-width: 660px;">
+      <p class="hero-desc">
         Hands-on, industry-mentored programs taking you from coding fundamentals to a job-ready, AI-fluent developer in six focused months.
       </p>
-      <div style="display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap;">
-        <a href="#programs" style="display: inline-flex; align-items: center; gap: 10px; background: #1947FF; color: #FFFFFF; padding: 14px 34px; border-radius: 99px; font-size: 15px; font-weight: 700; text-decoration: none; box-shadow: 0 8px 30px rgba(25, 71, 255, 0.45); transition: transform 0.2s ease, box-shadow 0.2s ease;">
+      <div class="hero-cta-wrapper">
+        <a href="#programs" class="hero-explore-btn">
           <span>Explore Programs ↓</span>
         </a>
       </div>
@@ -849,7 +1364,7 @@
   </section>
 
   <!-- TRAINING STATS -->
-  <section
+  <section class="training-stats-section"
     style="max-width: var(--maxw); margin: 40px auto 100px; padding: 40px 24px; text-align: center; font-family: 'Inter', sans-serif;">
     <h2
       style="font-size: clamp(28px, 4vw, 42px); font-weight: 500; color: #FFFFFF; margin-bottom: 56px; line-height: 1.3;">
@@ -1129,6 +1644,8 @@
     </footer>
 
   <!-- Reusable Auth Modal for School Pages -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
   <script src="js/auth-modal.js"></script>
 
   <!-- Lenis Smooth Scroll -->
@@ -1694,12 +2211,33 @@
       requestAnimationFrame(loop);
     })();
   </script>
+  <!-- Mobile Menu Toggle -->
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      if(localStorage.getItem('token')) {
-        document.querySelectorAll('.logout-link').forEach(l => l.style.display = 'inline-block');
+    (function () {
+      const hamburger = document.getElementById('hamburger-menu');
+      const navLinks = document.querySelector('.nav-links');
+      if (hamburger && navLinks) {
+        hamburger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          hamburger.classList.toggle('active');
+          navLinks.classList.toggle('mobile-active');
+        });
+
+        navLinks.querySelectorAll('a').forEach((link) => {
+          link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('mobile-active');
+          });
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('mobile-active');
+          }
+        });
       }
-    });
+    })();
   </script>
 </body>
 

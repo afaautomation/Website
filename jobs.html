@@ -470,7 +470,10 @@
     }
 
     /* JOB CARDS - Modern Dark Slate & Obsidian */
-    .job-card {
+    .job-card,
+    .job-card.sr {
+      opacity: 1 !important;
+      visibility: visible !important;
       background: linear-gradient(180deg, #101522 0%, #0A0D15 100%);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
@@ -534,12 +537,13 @@
     .job-card:hover::after  { left: 160%; }
 
     .job-card:hover {
+      opacity: 1 !important;
+      visibility: visible !important;
       border-color: rgba(56, 189, 248, 0.35);
       background: linear-gradient(180deg, #141A2B 0%, #0D111C 100%);
       box-shadow: 0 20px 48px -10px rgba(0, 0, 0, 0.8),
                   0 0 28px rgba(56, 189, 248, 0.12),
                   inset 0 1px 0 rgba(255, 255, 255, 0.15);
-      animation: none !important;
       transform: translateY(-7px) scale(1.012) !important;
     }
 
@@ -813,19 +817,163 @@
     .sr-delay-6 { transition-delay: 0.3s; }
 
     /* RESPONSIVE */
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .jobs-hero { padding: 64px 20px 80px; }
-      .hero-stats { gap: 8px; }
-      .jobs-grid { grid-template-columns: 1fr; }
-      .job-card.featured { grid-column: span 1; flex-direction: column; gap: 18px; }
-      .alert-cta { padding: 28px 24px; }
-      .float-emoji { display: none; }
+    /* ===== Mobile Navigation Dropdown Menu ===== */
+    .mobile-services-header,
+    .nav-arrow {
+      display: none;
     }
 
-    @media (max-width: 480px) {
-      .card-footer { flex-direction: column; align-items: flex-start; gap: 10px; }
-      .apply-btn { width: 100%; justify-content: center; }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      margin-left: 8px;
+      z-index: 1002;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      border-radius: 2px;
+      background: #FFFFFF;
+      transition: all 0.25s ease;
+    }
+    .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (max-width: 980px) {
+      .nav {
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 1000 !important;
+        background: #090D1A !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+      }
+
+      .nav-inner {
+        position: relative !important;
+        padding: 0 16px !important;
+        height: 64px !important;
+      }
+
+      .brand img {
+        height: 32px !important;
+      }
+
+      .nav-cta {
+        padding: 8px 14px !important;
+        font-size: 13px !important;
+      }
+
+      .hamburger {
+        display: flex !important;
+      }
+
+      .nav-links {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        justify-content: flex-start !important;
+        position: absolute !important;
+        top: 64px !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        background: #090D1A !important;
+        padding: 12px 16px 20px !important;
+        gap: 3px !important;
+        border-bottom: 2px solid rgba(59, 130, 246, 0.35) !important;
+        box-shadow: 0 20px 40px -4px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.06) !important;
+        max-height: calc(100vh - 72px) !important;
+        max-height: calc(100dvh - 72px) !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        z-index: 99999 !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transform: translateY(-8px) !important;
+        pointer-events: none !important;
+        transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                    visibility 0.22s ease !important;
+      }
+
+      .nav-links.mobile-active {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translateY(0) !important;
+        pointer-events: auto !important;
+      }
+
+      .mobile-services-header {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        font-size: 11px !important;
+        font-weight: 800 !important;
+        letter-spacing: 0.1em !important;
+        color: #60A5FA !important;
+        text-transform: uppercase !important;
+        padding: 6px 12px 10px !important;
+        margin-bottom: 4px !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+        text-align: left !important;
+      }
+
+      .mobile-services-header::before {
+        content: '';
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #3B82F6;
+        box-shadow: 0 0 8px #3B82F6;
+      }
+
+      .nav-links a {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 11px 14px !important;
+        font-size: 15px !important;
+        font-weight: 600 !important;
+        color: #E2E8F0 !important;
+        text-decoration: none !important;
+        border-radius: 10px !important;
+        transition: all 0.15s ease !important;
+        white-space: nowrap !important;
+        text-align: left !important;
+      }
+
+      .nav-links a:hover,
+      .nav-links a:active {
+        background: rgba(255, 255, 255, 0.06) !important;
+        color: #60A5FA !important;
+      }
+
+      .nav-links a.active {
+        background: rgba(59, 130, 246, 0.18) !important;
+        color: #60A5FA !important;
+        font-weight: 700 !important;
+      }
+
+      .nav-arrow {
+        display: inline-block !important;
+        font-size: 13px !important;
+        color: #64748B !important;
+        transition: transform 0.15s ease !important;
+      }
+
+      .nav-links a:hover .nav-arrow,
+      .nav-links a.active .nav-arrow {
+        color: #60A5FA !important;
+        transform: translateX(3px) !important;
+      }
     }
   </style>
 
@@ -844,15 +992,15 @@
         </a>
       </div>
       <div class="nav-links">
-        <a href="career-consulting.html">Consulting</a>
-        <a href="finishing-school.html">Finishing School</a>
-        <a href="tech-school.html">Tech School</a>
-        <a href="b-school.html">B-School</a>
-        <a href="placements.html">Placements</a>
-        <a href="our-story.html">Our Story</a>
-        <a href="jobs.html" class="active">Jobs</a>
-        <a href="https://darksalmon-llama-333572.hostingersite.com/" target="_blank" onclick="openResumeBuilder(event)">Resume Builder</a>
-        <a href="#" class="logout-link" style="display: none; color: #dc2626; font-weight: 600;" onclick="event.preventDefault(); ['token', 'kompetenzen_user', 'user', 'kompetenzen_google_user', 'kompetenzen_candidate_profile'].forEach(k => localStorage.removeItem(k)); window.location.reload();">Log Out</a>
+        <div class="mobile-services-header">Our Services &amp; Programs</div>
+        <a href="career-consulting.html"><span>Consulting</span><span class="nav-arrow">→</span></a>
+        <a href="finishing-school.html"><span>Finishing School</span><span class="nav-arrow">→</span></a>
+        <a href="tech-school.html"><span>Tech School</span><span class="nav-arrow">→</span></a>
+        <a href="b-school.html"><span>B-School</span><span class="nav-arrow">→</span></a>
+        <a href="placements.html"><span>Placements</span><span class="nav-arrow">→</span></a>
+        <a href="our-story.html"><span>Our Story</span><span class="nav-arrow">→</span></a>
+        <a href="jobs.html" class="active"><span>Jobs</span><span class="nav-arrow">→</span></a>
+        <a href="Resume/resume.html" onclick="openResumeBuilder(event)"><span>Resume Builder</span><span class="nav-arrow">↗</span></a>
       </div>
       <div class="nav-right">
         <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen,%20I%20would%20like%20to%20talk%20to%20your%20team."
@@ -877,12 +1025,21 @@
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
               <span>My Candidate Profile</span>
             </a>
+            <button type="button" class="nav-user-menu-item" onclick="openPaymentModal('nav_menu')" style="color:#FBBF24; font-weight:700;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <span>★ Career Pro Pass (₹499)</span>
+            </button>
             <button type="button" class="nav-user-menu-item logout" onclick="handleSignOut()">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
               <span>Sign Out / Switch</span>
             </button>
           </div>
         </div>
+        <button class="hamburger" id="hamburger-menu" aria-label="Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
       </div>
     </div>
   </nav>
@@ -897,13 +1054,14 @@
     </div>
 
     <h1>Find Your Next <span class="gradient-text">Career Move.</span></h1>
+    <p>Curated tech, HR, and management roles from top companies across Kerala and India. Direct hiring, zero fluff.</p>
 
 
 
 
     <div class="hero-stats">
       <div class="hero-stat">
-        <span class="val" id="hero-jobs-count">0</span>
+        <span class="val" id="hero-jobs-count">1+</span>
         <span class="lbl">Live Roles</span>
       </div>
       <div class="hero-stat">
@@ -919,6 +1077,24 @@
 
   <!-- MAIN -->
   <main class="jobs-main">
+
+    <!-- PRO PASS PROMO BANNER -->
+    <div class="pro-pass-hero-strip sr" style="background: linear-gradient(90deg, rgba(37, 99, 235, 0.15) 0%, rgba(245, 158, 11, 0.12) 100%); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 16px; padding: 16px 24px; margin-bottom: 32px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+      <div style="display: flex; align-items: center; gap: 14px;">
+        <span style="font-size: 24px;">⚡</span>
+        <div>
+          <div style="font-size: 14.5px; font-weight: 700; color: #FFFFFF;">
+            Student Career Pro Pass — <span style="color: #FBBF24;">₹499 All-Access</span>
+          </div>
+          <div style="font-size: 12.5px; color: #94A3B8;">
+            Unlock unlimited ATS Resume downloads, 1-click verified job applications, and AI interview prep.
+          </div>
+        </div>
+      </div>
+      <button type="button" onclick="openPaymentModal('jobs_banner')" class="apply-btn" style="padding: 9px 20px; font-size: 12.5px; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); border-color: rgba(245, 158, 11, 0.5); box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);">
+        Get Pro Pass (₹499) →
+      </button>
+    </div>
 
     <div class="section-head sr">
       <h2>All <span>Openings</span></h2>
@@ -973,11 +1149,25 @@
       return name.substring(0, 2).toUpperCase();
     }
 
-    function buildJobCard({ id, category, applyUrl, badgeClass, badgeText, title, company, postedText, location, experience, skills, salary, extraClass, logoInitials, brandStyle }) {
+    function buildJobCard({ id, category, badgeClass, badgeText, title, company, postedText, location, experience, skills, salary, extraClass, logoInitials, brandStyle }) {
       const card = document.createElement('a');
       card.className = ['job-card', extraClass].filter(Boolean).join(' ');
       card.setAttribute('data-category', category || 'tech');
-      card.setAttribute('href', `job-details.html?id=${id || ''}`);
+      const targetUrl = `job-details.html?id=${id || ''}`;
+      card.setAttribute('href', targetUrl);
+      // Apply -> sign in -> pay -> land on the job details page.
+      // requireProThenGo carries the destination through checkout, so a buyer
+      // is returned to this exact listing once the payment is verified.
+      card.onclick = function (e) {
+        if (typeof window.requireProThenGo === 'function') {
+          window.requireProThenGo(e, targetUrl, 'job_apply');
+        } else if (typeof checkAuthAndGoToJob === 'function') {
+          checkAuthAndGoToJob(e, targetUrl);
+        } else if (typeof openAuthModal === 'function') {
+          if (e && e.preventDefault) e.preventDefault();
+          openAuthModal('signup', targetUrl);
+        }
+      };
 
       const initials = logoInitials || getCompanyInitials(company);
       const styleAttr = brandStyle || 'background: linear-gradient(135deg, rgba(37, 99, 235, 0.25) 0%, rgba(99, 102, 241, 0.2) 100%); border: none; color: #93C5FD;';
@@ -1020,9 +1210,12 @@
       let drafts = [];
       if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
         try {
+          // Summary columns only. description / requirements / apply_url are
+          // subscriber-only (see section 10b of supabase_schema.sql) and are
+          // served by the job_details() RPC on the details page instead.
           const { data, error } = await supabaseClient
             .from('hr_jobs')
-            .select('*')
+            .select('id, title, category, company, location, job_type, experience, salary, skills, is_direct_link, created_at')
             .order('created_at', { ascending: false });
           if (!error && data) {
             drafts = data
@@ -1037,11 +1230,6 @@
                 experience: j.experience || '',
                 salary: j.salary || '',
                 skills: j.skills || '',
-                description: j.description || '',
-                responsibilities: j.responsibilities || '',
-                requirements: j.requirements || '',
-                aboutCompany: j.about_company || '',
-                applyUrl: j.apply_url || '',
                 isDirectLink: j.is_direct_link || false,
                 createdAt: j.created_at
               }));
@@ -1079,7 +1267,6 @@
             const card = buildJobCard({
               id: job.id,
               category: job.category || 'tech',
-              applyUrl: job.applyUrl,
               badgeClass: 'badge-parttime',
               badgeText: 'Official Portal',
               title: job.title,
@@ -1089,7 +1276,7 @@
               experience: job.experience || 'All Levels',
               skills: job.skills || null,
               salary: job.salary || 'Explore live openings',
-              extraClass: 'dynamic-portal-card sr sr-delay-' + ((idx % 6) + 1)
+              extraClass: 'dynamic-portal-card is-visible sr-delay-' + ((idx % 6) + 1)
             });
             jobsGrid.appendChild(card);
           } else {
@@ -1098,7 +1285,6 @@
             const card = buildJobCard({
               id: job.id,
               category: job.category || 'tech',
-              applyUrl: job.applyUrl,
               badgeClass: badgeClasses[job.jobType] || 'badge-fulltime',
               badgeText: typeLabels[job.jobType] || job.jobType || 'Full-Time',
               title: job.title,
@@ -1108,7 +1294,7 @@
               experience: job.experience || 'Entry Level',
               skills: job.skills,
               salary: job.salary || 'Competitive',
-              extraClass: 'dynamic-job-card sr sr-delay-' + ((idx % 6) + 1)
+              extraClass: 'dynamic-job-card is-visible sr-delay-' + ((idx % 6) + 1)
             });
             jobsGrid.appendChild(card);
           }
@@ -1116,6 +1302,7 @@
       }
 
       filterJobsings();
+      if (typeof initScrollReveal === 'function') initScrollReveal();
     }
 
     function filterJobsings() {
@@ -1293,5 +1480,39 @@
 
   <!-- Unified Auth Modal -->
   <script src="js/auth-modal.js"></script>
+  <!-- Career Pro Pass Payment Modal -->
+  <script src="js/payment-modal.js"></script>
+  <!-- Members-only gate. Enforced in the database by the hr_jobs RLS policy;
+       this overlay is the matching user-facing prompt. Listings stay visible to
+       any signed-in member — paying unlocks the detail page, not the list. -->
+  <script src="js/require-login.js" data-require="login"></script>
+  <!-- Mobile Menu Toggle -->
+  <script>
+    (function () {
+      const hamburger = document.getElementById('hamburger-menu');
+      const navLinks = document.querySelector('.nav-links');
+      if (hamburger && navLinks) {
+        hamburger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          hamburger.classList.toggle('active');
+          navLinks.classList.toggle('mobile-active');
+        });
+
+        navLinks.querySelectorAll('a').forEach((link) => {
+          link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('mobile-active');
+          });
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('mobile-active');
+          }
+        });
+      }
+    })();
+  </script>
 </body>
 </html>

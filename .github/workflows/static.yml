@@ -25,10 +25,34 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
+      # GitHub Pages serves whatever is uploaded, so the artifact must contain
+      # only the public site. Previously `path: '.'` published the whole repo,
+      # including the database schema (which documents every table and policy),
+      # the backend handoff notes and the local dev servers.
+      - name: Stage public site only
+        run: |
+          mkdir -p _site
+          rsync -a --delete \
+            --exclude '.git' \
+            --exclude '.github' \
+            --exclude '_site' \
+            --exclude 'Resume' \
+            --exclude 'node_modules' \
+            --exclude '*.sql' \
+            --exclude '*.md' \
+            --exclude '*.py' \
+            --exclude 'server.js' \
+            --exclude '.env*' \
+            --exclude 'output' \
+            --exclude 'logs' \
+            ./ _site/
+          echo "Published files:" && find _site -maxdepth 1 -type f | sort
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: '_site'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

@@ -16,6 +16,8 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
     rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
 
   <style>
     :root {
@@ -452,6 +454,8 @@
         font-size: 14px;
       }
     }
+
+    body { overflow-x: hidden; max-width: 100%; }
   </style>
 </head>
 
@@ -647,9 +651,6 @@
   </footer>
 
   <script>
-    // ===== GOOGLE SHEETS SCRIPT URL =====
-    const GOOGLE_SHEET_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyXVTlB1OtcwI_erBc5OC4kl6oZTijLhri0oL97GWBwyGb-VaHHR0NHVIVjq4Bgzc3wxg/exec';
-
     // Auto-select course based on URL query parameter ?course=...
     document.addEventListener("DOMContentLoaded", function() {
       const urlParams = new URLSearchParams(window.location.search);
@@ -665,51 +666,28 @@
       }
     });
 
-    // Send course enrollment to Google Sheets (routes to Course_Enrollments tab)
+    // Send course enrollment lead to Supabase (course_enrollments table)
     async function sendEnrollmentToSheet(fields) {
-      if (!GOOGLE_SHEET_SCRIPT_URL) return;
-
-      // 1. Direct fetch POST
-      try {
-        fetch(GOOGLE_SHEET_SCRIPT_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify(fields)
-        }).catch(err => console.warn('Google Sheet fetch error:', err));
-      } catch (err) {
-        console.warn('Google Sheet fetch error:', err);
+      if (typeof isSupabaseConfigured !== 'function' || !isSupabaseConfigured()) {
+        console.warn('Supabase not configured; enrollment not persisted to the cloud.');
+        return;
       }
-
-      // 2. Form submission via invisible iframe (100% reliable cross-origin fallback)
       try {
-        const iframeName = 'gs-enroll-' + Math.random().toString(36).substring(2, 8);
-        const ifr = document.createElement('iframe');
-        ifr.name = iframeName;
-        ifr.style.display = 'none';
-        document.body.appendChild(ifr);
-
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = GOOGLE_SHEET_SCRIPT_URL;
-        form.target = iframeName;
-
-        Object.entries(fields).forEach(([key, val]) => {
-          const input = document.createElement('input');
-          input.type = 'hidden';
-          input.name = key;
-          input.value = (val !== undefined && val !== null) ? String(val) : '';
-          form.appendChild(input);
-        });
-
-        document.body.appendChild(form);
-        form.submit();
-        setTimeout(() => {
-          if (form.parentNode) form.parentNode.removeChild(form);
-          if (ifr.parentNode) ifr.parentNode.removeChild(ifr);
-        }, 3000);
+        const { error } = await supabaseClient.from('course_enrollments').insert([{
+          name: fields.name || '',
+          email: fields.email || '',
+          phone: fields.phone || '',
+          enrolled_course: fields.enrolledCourse || fields.course || '',
+          qualification: fields.qualification || '',
+          learning_mode: fields.learningMode || '',
+          status: fields.status || '',
+          batch_time: fields.batchTime || '',
+          comments: fields.comments || '',
+          page_url: fields.page || ''
+        }]);
+        if (error) console.error('Supabase enrollment insert error:', error);
       } catch (e) {
-        console.warn('Google Sheet iframe submit error:', e);
+        console.warn('Supabase enrollment insert exception:', e);
       }
     }
 

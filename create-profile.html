@@ -17,6 +17,8 @@
     href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
     rel="stylesheet" />
   <script src="resume-storage.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
   <style>
     :root {
       --blue: #2563EB;
@@ -699,6 +701,8 @@
         font-size: 22px;
       }
     }
+
+    body { overflow-x: hidden; max-width: 100%; }
   </style>
 </head>
 
@@ -962,8 +966,7 @@
   </div>
 
   <script>
-    // ===== GOOGLE SHEETS & STORAGE CONFIG =====
-    const GOOGLE_SHEET_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyXVTlB1OtcwI_erBc5OC4kl6oZTijLhri0oL97GWBwyGb-VaHHR0NHVIVjq4Bgzc3wxg/exec';
+    // ===== SESSION STORAGE CONFIG =====
     const AUTH_STORAGE_KEY = 'kompetenzen_google_user';
     const PROFILE_STORAGE_KEY = 'kompetenzen_candidate_profile';
     const APPLIED_JOBS_KEY = 'kompetenzen_applied_jobs';
@@ -1141,44 +1144,64 @@
       input.value = '';
     }
 
-    // ===== READ FILE AS BASE64 HELPER =====
-    function readFileAsBase64(file) {
-      return new Promise((resolve, reject) => {
-        if (!file) return resolve(null);
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-        reader.readAsDataURL(file);
-      });
+    // ===== UPLOAD RESUME FILE TO SUPABASE STORAGE =====
+    async function uploadResumeToSupabase(file, candidateName) {
+      if (!file || typeof isSupabaseConfigured !== 'function' || !isSupabaseConfigured()) return '';
+      try {
+        const safeName = (candidateName || 'candidate').replace(/[^a-zA-Z0-9]/g, '_');
+        // Extension comes from a short allow-list, not from the filename, so a
+        // candidate cannot choose the stored object's type.
+        const rawExt = (file.name.split('.').pop() || '').toLowerCase();
+        const ext = ['pdf', 'doc', 'docx'].includes(rawExt) ? rawExt : 'pdf';
+        // The bucket is private and write-only for the public; staff open these
+        // through a signed URL. Uploading under applications/ is what the
+        // storage policy permits.
+        const path = `applications/${safeName}_${Date.now()}.${ext}`;
+        const { error } = await supabaseClient.storage.from('resumes').upload(path, file, {
+          contentType: file.type || 'application/pdf',
+          upsert: false
+        });
+        if (error) {
+          console.warn('Resume upload error:', error);
+          return '';
+        }
+        // Store the object path. getPublicUrl would return a link that no longer
+        // resolves, and publishing resumes at guessable public URLs is exactly
+        // what we are moving away from.
+        return path;
+      } catch (e) {
+        console.warn('Resume upload exception:', e);
+        return '';
+      }
     }
 
-    // ===== SEND LEAD TO GOOGLE SHEETS =====
+    // ===== SUBMIT JOB APPLICATION TO SUPABASE =====
     async function sendLeadToSheet(fields) {
-      const payload = JSON.stringify(fields);
-
+      if (typeof isSupabaseConfigured !== 'function' || !isSupabaseConfigured()) {
+        console.warn('Supabase not configured; application not persisted to the cloud.');
+        return;
+      }
       try {
-        // Fetch POST without keepalive (supports multi-megabyte resume payloads)
-        await fetch(GOOGLE_SHEET_SCRIPT_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: payload
-        });
-        console.log('Lead sent to Google Sheets successfully');
+        const { error } = await supabaseClient.from('job_applications').insert([{
+          name: fields.name || '',
+          whatsapp: fields.phone || '',
+          email: fields.email || '',
+          degree: fields.degree || '',
+          grad_year: fields.gradYear || '',
+          is_student: fields.isStudent || 'No',
+          course_name: fields.courseName || '',
+          experience: fields.experience || '',
+          preferred_location: fields.preferredLocation || '',
+          work_mode: fields.workMode || '',
+          skills: fields.skills || '',
+          job_role: fields.jobRole || '',
+          company: fields.company || '',
+          page_url: fields.page || '',
+          resume_url: fields.resumeUrl || ''
+        }]);
+        if (error) console.error('Supabase job_applications insert error:', error);
       } catch (err) {
-        console.warn('Primary fetch with resume failed, trying fallback without binary data:', err);
-        // Fallback: send all text fields without heavy base64 to ensure candidate is recorded
-        try {
-          const fallbackFields = Object.assign({}, fields, { resumeData: '' });
-          await fetch(GOOGLE_SHEET_SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify(fallbackFields)
-          });
-        } catch (fbErr) {
-          console.error('All Google Sheet fetch attempts failed:', fbErr);
-        }
+        console.warn('Supabase job_applications insert exception:', err);
       }
     }
 
@@ -1272,13 +1295,17 @@
         submitBtn.innerHTML = '<span>Uploading Resume &amp; Saving Profile...</span>';
       }
 
-      // Read Resume File as Base64 for Google Drive storage
-      let resumeBase64 = null;
+      // Upload resume file to Supabase Storage (replaces old Google Drive upload)
+      let resumeUrl = '';
       if (uploadedResumeFile) {
         try {
-          resumeBase64 = await readFileAsBase64(uploadedResumeFile);
+          resumeUrl = await uploadResumeToSupabase(uploadedResumeFile, name);
+          if (resumeUrl) {
+            profile.resumeUrl = resumeUrl;
+            localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(profile));
+          }
         } catch (fErr) {
-          console.warn('Could not encode resume to base64:', fErr);
+          console.warn('Could not upload resume to Supabase Storage:', fErr);
         }
       }
 
@@ -1309,35 +1336,9 @@
         }
       }
 
-      // Format Summary for Google Sheets
-      const studentTag = isStudent ? ` [Kompetenzen Student: ${courseName || 'Yes'}]` : '';
-      const resumeTag = uploadedResumeFile ? ` [Resume: ${uploadedResumeFile.name}]` : '';
-      const summaryRole = `${targetJob ? targetJob.title : 'Quick Apply Profile'} at ${targetJob ? targetJob.company : 'Kompetenzen'} [Degree: ${degree} (${gradYear})]${studentTag} [Exp: ${experience}] [Loc: ${selectedLocations.join(', ')}] [Skills: ${selectedSkills.join(', ')}]${resumeTag}`;
-
-      // Register candidate credentials into Users_Auth sheet for cross-site SSO
-      try {
-        sendLeadToSheet({
-          type: 'auth_signup',
-          section: 'Job Listing',
-          targetSheet: 'Users_Auth',
-          name: name,
-          email: email.toLowerCase(),
-          phone: phone,
-          authType: 'Candidate Profile',
-          role: summaryRole,
-          page: window.location.href,
-          timestamp: new Date().toISOString()
-        });
-      } catch (authErr) {
-        console.warn('Auth sheet transmission error:', authErr);
-      }
-
-      // Send to Google Sheets (Job_Applications tab) with Resume PDF data and wait for it
+      // Send application to Supabase (job_applications table) with the uploaded resume URL
       try {
         await sendLeadToSheet({
-          type: 'job_application',
-          section: 'Job Listing',
-          targetSheet: 'Job_Applications',
           name: name,
           phone: phone,
           email: email,
@@ -1349,18 +1350,13 @@
           preferredLocation: selectedLocations.join(', ') || 'Kochi',
           workMode: workMode,
           skills: selectedSkills.join(', '),
-          resumeName: uploadedResumeFile ? uploadedResumeFile.name : 'Not uploaded',
-          resumeData: resumeBase64 || '',
-          resumeFileName: uploadedResumeFile ? uploadedResumeFile.name : '',
-          resumeMimeType: uploadedResumeFile ? (uploadedResumeFile.type || 'application/pdf') : 'application/pdf',
+          resumeUrl: resumeUrl,
           jobRole: targetJob ? targetJob.title : 'Quick Apply Candidate Profile',
           company: targetJob ? targetJob.company : 'Kompetenzen Network',
-          role: summaryRole,
-          page: window.location.href,
-          timestamp: new Date().toISOString()
+          page: window.location.href
         });
       } catch (sheetErr) {
-        console.warn('Sheet transmission error:', sheetErr);
+        console.warn('Supabase transmission error:', sheetErr);
       }
 
       localStorage.removeItem('kompetenzen_user_resume_name');
