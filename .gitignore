@@ -21,7 +21,6 @@ service-account*.json
 # Dependencies & Build artifacts
 node_modules/
 **/node_modules/
-.next/
 dist/
 **/dist/
 exports/
