@@ -1,6 +1,8 @@
 /**
  * Kompetenzen Auth Modal Component
- * Displays the 2-Panel Sign Up / Log In popup on school pages and handles user authentication.
+ * Displays the NextRaise-inspired login/signup flow:
+ * Step 1: Clean choice between "Continue with Google" & "Continue with email"
+ * Step 2: When "Continue with email" is clicked, asks for full name, email, phone number & password.
  */
 (function () {
   'use strict';
@@ -14,67 +16,159 @@
       #jobs-auth-modal,
       #jobs-auth-modal * {
         box-sizing: border-box !important;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       }
-      #jobs-auth-modal .auth-modal-container {
+      #jobs-auth-modal .auth-modal-card {
         width: 100% !important;
-        max-width: 760px !important;
+        max-width: 440px !important;
+        background: #ffffff !important;
+        border-radius: 24px !important;
+        padding: 2.25rem 2rem !important;
+        box-shadow: 0 25px 60px -12px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(15, 23, 42, 0.08) !important;
+        position: relative !important;
+        animation: authModalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
         overflow: hidden !important;
       }
-      #jobs-auth-modal .auth-modal-left {
-        flex: 0 0 44% !important;
-        min-width: 0 !important;
-      }
-      #jobs-auth-modal .auth-modal-right {
-        flex: 1 1 56% !important;
-        min-width: 0 !important;
-        overflow: hidden !important;
-      }
-      #jobs-auth-modal .auth-fields-grid {
-        display: grid !important;
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
-        gap: 0.65rem 0.75rem !important;
-        width: 100% !important;
-      }
-      #jobs-auth-modal .auth-fields-grid > div {
-        min-width: 0 !important;
-        width: 100% !important;
-      }
-      #jobs-auth-modal input {
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: 0 !important;
-        box-sizing: border-box !important;
-      }
-      @keyframes authFadeIn {
+      @keyframes authModalPop {
         from {
           opacity: 0;
-          transform: scale(0.96) translateY(8px);
+          transform: scale(0.95) translateY(10px);
         }
         to {
           opacity: 1;
           transform: scale(1) translateY(0);
         }
       }
-      @media (max-width: 680px) {
-        #jobs-auth-modal .auth-modal-container {
-          flex-direction: column !important;
-          max-height: 90vh !important;
-          overflow-y: auto !important;
+      .auth-step-view {
+        animation: authStepFade 0.2s ease-in-out;
+      }
+      @keyframes authStepFade {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
         }
-        #jobs-auth-modal .auth-modal-left {
-          width: 100% !important;
-          flex: none !important;
-          border-right: none !important;
-          border-bottom: 1px solid #f1f5f9 !important;
-          padding: 1.25rem 1.5rem !important;
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
-        #jobs-auth-modal .auth-modal-right {
-          width: 100% !important;
-          flex: none !important;
-          padding: 1.25rem 1.5rem !important;
-        }
-        #jobs-auth-modal .auth-fields-grid {
-          grid-template-columns: 1fr !important;
+      }
+      .auth-pill-btn {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 10px !important;
+        width: 100% !important;
+        padding: 0.85rem 1.25rem !important;
+        border-radius: 9999px !important;
+        font-size: 0.95rem !important;
+        font-weight: 600 !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+        text-decoration: none !important;
+        outline: none !important;
+      }
+      .auth-pill-btn:hover {
+        transform: translateY(-1px) !important;
+      }
+      .auth-google-btn {
+        background: #f0f4fe !important;
+        border: 1px solid rgba(25, 71, 255, 0.12) !important;
+        color: #0f172a !important;
+      }
+      .auth-google-btn:hover {
+        background: #e4ecfc !important;
+        box-shadow: 0 4px 12px rgba(25, 71, 255, 0.1) !important;
+      }
+      .auth-email-btn {
+        background: #ffffff !important;
+        border: 1.5px solid #e2e8f0 !important;
+        color: #1e293b !important;
+      }
+      .auth-email-btn:hover {
+        background: #f8fafc !important;
+        border-color: #cbd5e1 !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+      }
+      .auth-submit-btn {
+        background: #1947FF !important;
+        border: none !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 14px rgba(25, 71, 255, 0.3) !important;
+      }
+      .auth-submit-btn:hover {
+        background: #0E2EC9 !important;
+        box-shadow: 0 6px 18px rgba(25, 71, 255, 0.4) !important;
+      }
+      .auth-input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+        margin-bottom: 0.8rem;
+        position: relative;
+      }
+      .auth-input-group label {
+        font-size: 0.76rem;
+        font-weight: 700;
+        color: #475569;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
+      .auth-input-group input {
+        width: 100% !important;
+        padding: 0.72rem 0.95rem !important;
+        background: #f8fafc !important;
+        border: 1.5px solid #e2e8f0 !important;
+        border-radius: 12px !important;
+        font-size: 0.92rem !important;
+        color: #0f172a !important;
+        outline: none !important;
+        transition: all 0.2s ease !important;
+      }
+      .auth-input-group input:focus {
+        border-color: #1947FF !important;
+        background: #ffffff !important;
+        box-shadow: 0 0 0 3px rgba(25, 71, 255, 0.1) !important;
+      }
+      .auth-close-btn {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        cursor: pointer;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #64748b;
+        transition: all 0.2s ease;
+      }
+      .auth-close-btn:hover {
+        background: #fee2e2;
+        border-color: #fca5a5;
+        color: #b91c1c;
+      }
+      .auth-back-btn {
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #64748b;
+        padding: 4px 8px;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+      }
+      .auth-back-btn:hover {
+        color: #0f172a;
+        background: #f1f5f9;
+      }
+      @media (max-width: 480px) {
+        #jobs-auth-modal .auth-modal-card {
+          padding: 1.75rem 1.25rem !important;
+          border-radius: 20px !important;
         }
       }
     `;
@@ -90,23 +184,41 @@
     const modalMarkup = `
     <div id="jobs-auth-modal"
       style="display:none; position:fixed; inset:0; z-index:99999; background:rgba(15,23,42,0.65); backdrop-filter:blur(8px); align-items:center; justify-content:center; padding:1rem; box-sizing:border-box;">
-      <div class="auth-modal-container"
-        style="background:#ffffff; border-radius:20px; width:100%; max-width:760px; overflow:hidden; box-shadow:0 25px 60px -12px rgba(15,23,42,0.35), 0 0 0 1px rgba(15,23,42,0.06); animation:authFadeIn 0.25s ease; position:relative; display:flex; flex-direction:row; box-sizing:border-box;">
+      
+      <div class="auth-modal-card">
         
-        <!-- LEFT PANEL: Brand, Title, 1-Click Google & Trust Perks -->
-        <div class="auth-modal-left"
-          style="width:44%; background:#f8fafc; padding:2rem 1.75rem; border-right:1px solid #f1f5f9; display:flex; flex-direction:column; justify-content:space-between; box-sizing:border-box; min-width:0;">
-          <div>
-            <img src="kompetenzen logo-02.png" alt="Kompetenzen" style="height:28px; margin-bottom:1.15rem; display:block;">
-            <h3 id="auth-modal-title" style="margin:0 0 0.4rem; font-size:1.25rem; font-weight:800; color:#0f172a; letter-spacing:-0.02em; line-height:1.25;">Create Your Account</h3>
-            <p id="auth-modal-subtitle" style="margin:0 0 1.25rem; font-size:0.82rem; color:#64748b; line-height:1.45;">Sign up to access courses, jobs & placements</p>
+        <!-- ========================================== -->
+        <!-- STEP 1: CHOICE SCREEN (NextRaise Style)   -->
+        <!-- ========================================== -->
+        <div id="auth-step-choice" class="auth-step-view" style="display:block;">
+          
+          <!-- Top Row: Logo & Close Button -->
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1.25rem;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <img src="kompetenzen logo-02.png" alt="Kompetenzen" style="height:26px; display:block;">
+            </div>
+            <button type="button" class="auth-close-btn" onclick="closeJobsAuthModal()" aria-label="Close modal">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Hero Text -->
+          <h2 style="font-size:1.55rem; font-weight:800; color:#0f172a; line-height:1.22; letter-spacing:-0.03em; margin:0 0 0.5rem;">
+            Find matching jobs you'll actually get <span style="color:#1947FF;">placed for.</span>
+          </h2>
+          <p style="font-size:0.88rem; color:#64748b; font-weight:500; margin:0 0 1.75rem;">
+            Free to start · no card needed
+          </p>
+
+          <!-- Action Buttons Stack -->
+          <div style="display:flex; flex-direction:column; gap:0.75rem; width:100%;">
             
-            <!-- Google 1-Click Button -->
-            <button type="button" id="lead-google-btn" onclick="triggerWebsiteGoogleSignIn()"
-              style="display:flex; align-items:center; justify-content:center; gap:9px; width:100%; padding:0.7rem 1rem; background:#fff; border:1.5px solid #e2e8f0; border-radius:10px; font-family:inherit; font-size:0.88rem; font-weight:600; color:#1e293b; cursor:pointer; transition:all 0.2s ease; box-shadow:0 1px 2px rgba(0,0,0,0.04); box-sizing:border-box;"
-              onmouseover="this.style.borderColor='#cbd5e1'; this.style.background='#f8fafc'; this.style.transform='translateY(-1px)';"
-              onmouseout="this.style.borderColor='#e2e8f0'; this.style.background='#fff'; this.style.transform='none';">
-              <svg style="width:18px; height:18px; flex-shrink:0;" viewBox="0 0 48 48">
+            <!-- 1. Continue with Google -->
+            <button type="button" id="lead-google-btn" class="auth-pill-btn auth-google-btn" onclick="triggerWebsiteGoogleSignIn()">
+              <svg style="width:19px; height:19px; flex-shrink:0;" viewBox="0 0 48 48">
                 <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
                 <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
                 <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
@@ -115,132 +227,139 @@
               <span id="lead-google-btn-text">Continue with Google</span>
             </button>
 
-            <!-- Feature Perks -->
-            <div style="margin-top:1.4rem; display:flex; flex-direction:column; gap:0.6rem;">
-              <div style="display:flex; align-items:center; gap:0.55rem; font-size:0.78rem; color:#475569; font-weight:600;">
-                <span style="color:#10b981; font-weight:800;">✓</span> 1-Click instant sign-in
-              </div>
-              <div style="display:flex; align-items:center; gap:0.55rem; font-size:0.78rem; color:#475569; font-weight:600;">
-                <span style="color:#10b981; font-weight:800;">✓</span> 100% Placement assistance
-              </div>
-              <div style="display:flex; align-items:center; gap:0.55rem; font-size:0.78rem; color:#475569; font-weight:600;">
-                <span style="color:#10b981; font-weight:800;">✓</span> Industry-verified certificates
-              </div>
-            </div>
+            <!-- 2. Continue with email -->
+            <button type="button" id="btn-continue-with-email" class="auth-pill-btn auth-email-btn" onclick="showEmailAuthStep('signup')">
+              <span>Continue with email</span>
+            </button>
           </div>
 
-          <div style="padding-top:1.15rem; border-top:1px solid #e2e8f0; font-size:0.74rem; color:#94a3b8; display:flex; align-items:center; gap:0.4rem;">
-            <span>🎓</span> Trusted by 5,000+ students & learners
+          <!-- Terms / Privacy Disclaimer -->
+          <p style="font-size:0.75rem; color:#94a3b8; line-height:1.45; text-align:center; margin:1.75rem 0 0;">
+            By continuing you agree to the <a href="javascript:void(0)" style="color:#64748b; text-decoration:underline;">Terms of Service</a> and <a href="javascript:void(0)" style="color:#64748b; text-decoration:underline;">Privacy Policy</a>
+          </p>
+
+          <!-- Existing user link -->
+          <div style="margin-top:1rem; text-align:center; font-size:0.83rem; color:#64748b;">
+            Already have an account? <a href="javascript:void(0)" onclick="showEmailAuthStep('login')" style="color:#1947FF; font-weight:700; text-decoration:none;">Log In</a>
           </div>
         </div>
 
-        <!-- RIGHT PANEL: Tab Switcher, Close Button, & Email Auth Form -->
-        <div class="auth-modal-right"
-          style="width:56%; padding:1.75rem 1.75rem; background:#ffffff; display:flex; flex-direction:column; justify-content:space-between; box-sizing:border-box; min-width:0; overflow:hidden;">
+        <!-- ========================================== -->
+        <!-- STEP 2: EMAIL & DETAILS FORM (As requested)-->
+        <!-- ========================================== -->
+        <div id="auth-step-email" class="auth-step-view" style="display:none;">
           
-          <!-- Top Row: Tab Switcher on Left, Close Button on Right -->
-          <div>
-            <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:1rem;">
-              <div style="display:flex; background:#f1f5f9; border-radius:99px; padding:2px; border:1px solid #e2e8f0;">
-                <button type="button" id="tab-signup-btn" onclick="switchAuthTab('signup')"
-                  style="padding:5px 14px; border:none; border-radius:99px; font-weight:700; font-size:0.78rem; cursor:pointer; transition:all 0.2s; background:#1947FF; color:#ffffff; box-shadow:0 2px 6px rgba(25,71,255,0.25);">
-                  Sign Up
-                </button>
-                <button type="button" id="tab-login-btn" onclick="switchAuthTab('login')"
-                  style="padding:5px 14px; border:none; border-radius:99px; font-weight:700; font-size:0.78rem; cursor:pointer; transition:all 0.2s; background:transparent; color:#64748b;">
-                  Log In
-                </button>
-              </div>
+          <!-- Top Row: Back button & Close button -->
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1.1rem;">
+            <button type="button" class="auth-back-btn" onclick="showChoiceStep()">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+              <span>Back</span>
+            </button>
 
-              <button type="button" onclick="closeJobsAuthModal()" aria-label="Close modal"
-                style="background:#f8fafc; border:1px solid #e2e8f0; cursor:pointer; width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#64748b; transition:all 0.2s;"
-                onmouseover="this.style.background='#fee2e2'; this.style.borderColor='#fca5a5'; this.style.color='#b91c1c'"
-                onmouseout="this.style.background='#f8fafc'; this.style.borderColor='#e2e8f0'; this.style.color='#64748b'">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-              </button>
-            </div>
-
-            <!-- Divider -->
-            <div style="display:flex; align-items:center; gap:10px; margin-bottom:1rem;">
-              <div style="flex:1; height:1px; background:#f1f5f9;"></div>
-              <span id="auth-divider-text" style="font-size:0.72rem; color:#94a3b8; font-weight:700; text-transform:uppercase; letter-spacing:0.06em;">or continue with email</span>
-              <div style="flex:1; height:1px; background:#f1f5f9;"></div>
-            </div>
-
-            <!-- Inline Status Message -->
-            <div id="auth-inline-msg" style="display:none; padding:0.55rem 0.85rem; border-radius:8px; font-size:0.82rem; font-weight:600; margin-bottom:0.85rem; text-align:center;"></div>
-
-            <!-- SIGN UP FORM -->
-            <form id="signup-form" onsubmit="handleSignupSubmit(event)" style="display:flex; flex-direction:column; gap:0.75rem; width:100%; box-sizing:border-box;">
-              <div class="auth-fields-grid" style="display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:0.65rem 0.75rem; width:100%; box-sizing:border-box;">
-                <div style="display:flex; flex-direction:column; gap:0.25rem; min-width:0;">
-                  <label style="font-size:0.74rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.03em;">Full Name</label>
-                  <input id="signup-name" type="text" required placeholder="Enter full name"
-                    style="width:100%; max-width:100%; min-width:0; box-sizing:border-box; padding:0.6rem 0.75rem; background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.88rem; color:#0f172a; outline:none; transition:all 0.2s;"
-                    onfocus="this.style.borderColor='#1947FF'; this.style.background='#fff'" onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc'">
-                </div>
-                <div style="display:flex; flex-direction:column; gap:0.25rem; min-width:0;">
-                  <label style="font-size:0.74rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.03em;">Email Address</label>
-                  <input id="signup-email" type="email" required placeholder="you@example.com"
-                    style="width:100%; max-width:100%; min-width:0; box-sizing:border-box; padding:0.6rem 0.75rem; background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.88rem; color:#0f172a; outline:none; transition:all 0.2s;"
-                    onfocus="this.style.borderColor='#1947FF'; this.style.background='#fff'" onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc'">
-                </div>
-                <div style="display:flex; flex-direction:column; gap:0.25rem; min-width:0;">
-                  <label style="font-size:0.74rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.03em;">Phone Number</label>
-                  <input id="signup-phone" type="tel" required placeholder="+91 98765 43210"
-                    style="width:100%; max-width:100%; min-width:0; box-sizing:border-box; padding:0.6rem 0.75rem; background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.88rem; color:#0f172a; outline:none; transition:all 0.2s;"
-                    onfocus="this.style.borderColor='#1947FF'; this.style.background='#fff'" onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc'">
-                </div>
-                <div style="display:flex; flex-direction:column; gap:0.25rem; position:relative; min-width:0;">
-                  <label style="font-size:0.74rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.03em;">Password</label>
-                  <input id="signup-password" type="password" required minlength="6" placeholder="Min 6 chars"
-                    style="width:100%; max-width:100%; min-width:0; box-sizing:border-box; padding:0.6rem 2rem 0.6rem 0.75rem; background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.88rem; color:#0f172a; outline:none; transition:all 0.2s;"
-                    onfocus="this.style.borderColor='#1947FF'; this.style.background='#fff'" onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc'">
-                  <span onclick="togglePasswordVisibility('signup-password')" style="position:absolute; right:8px; top:28px; cursor:pointer; color:#94a3b8; font-size:13px; user-select:none; padding:4px;" title="Toggle password visibility">👁️</span>
-                </div>
-              </div>
-              
-              <button type="submit" id="signup-submit-btn"
-                style="background:#1947FF; color:#fff; border:none; padding:0.72rem 1rem; border-radius:10px; font-weight:700; font-size:0.9rem; cursor:pointer; transition:all 0.2s; box-shadow:0 2px 8px rgba(25,71,255,0.28); margin-top:0.35rem; width:100%; box-sizing:border-box;"
-                onmouseover="this.style.background='#0E2EC9'; this.style.transform='translateY(-1px)'" onmouseout="this.style.background='#1947FF'; this.style.transform='none'">
-                Create Account →
-              </button>
-              <p style="margin:0.2rem 0 0; font-size:0.78rem; color:#64748b; text-align:center;">
-                Already have an account? <a href="javascript:void(0)" onclick="switchAuthTab('login')" style="color:#1947FF; font-weight:700; text-decoration:none;">Log In</a>
-              </p>
-            </form>
-
-            <!-- LOG IN FORM -->
-            <form id="login-form" onsubmit="handleLoginSubmit(event)" style="display:none; flex-direction:column; gap:0.8rem; width:100%; box-sizing:border-box;">
-              <div style="display:flex; flex-direction:column; gap:0.25rem; min-width:0;">
-                <label style="font-size:0.74rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.03em;">Email Address</label>
-                <input id="login-email" type="email" required placeholder="Enter your email address" autocomplete="off"
-                  style="width:100%; max-width:100%; min-width:0; box-sizing:border-box; padding:0.65rem 0.85rem; background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.88rem; color:#0f172a; outline:none; transition:all 0.2s;"
-                  onfocus="this.style.borderColor='#1947FF'; this.style.background='#fff'" onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc'">
-              </div>
-              <div style="display:flex; flex-direction:column; gap:0.25rem; position:relative; min-width:0;">
-                <label style="font-size:0.74rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.03em;">Password</label>
-                <input id="login-password" type="password" required placeholder="Enter password"
-                  style="width:100%; max-width:100%; min-width:0; box-sizing:border-box; padding:0.65rem 2.2rem 0.65rem 0.85rem; background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:10px; font-size:0.88rem; color:#0f172a; outline:none; transition:all 0.2s;"
-                  onfocus="this.style.borderColor='#1947FF'; this.style.background='#fff'" onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc'">
-                <span onclick="togglePasswordVisibility('login-password')" style="position:absolute; right:8px; top:28px; cursor:pointer; color:#94a3b8; font-size:13px; user-select:none; padding:4px;" title="Toggle password visibility">👁️</span>
-              </div>
-              
-              <button type="submit" id="login-submit-btn"
-                style="background:#1947FF; color:#fff; border:none; padding:0.72rem 1rem; border-radius:10px; font-weight:700; font-size:0.9rem; cursor:pointer; transition:all 0.2s; box-shadow:0 2px 8px rgba(25,71,255,0.28); margin-top:0.35rem; width:100%; box-sizing:border-box;"
-                onmouseover="this.style.background='#0E2EC9'; this.style.transform='translateY(-1px)'" onmouseout="this.style.background='#1947FF'; this.style.transform='none'">
-                Log In →
-              </button>
-              <p style="margin:0.2rem 0 0; font-size:0.78rem; color:#64748b; text-align:center;">
-                Don't have an account? <a href="javascript:void(0)" onclick="switchAuthTab('signup')" style="color:#1947FF; font-weight:700; text-decoration:none;">Sign Up</a>
-              </p>
-            </form>
-
+            <button type="button" class="auth-close-btn" onclick="closeJobsAuthModal()" aria-label="Close modal">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
           </div>
+
+          <!-- Step 2 Title & Tab Switcher -->
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:0.4rem;">
+            <h3 id="auth-modal-title" style="margin:0; font-size:1.32rem; font-weight:800; color:#0f172a; letter-spacing:-0.025em;">
+              Create Your Account
+            </h3>
+            
+            <!-- Switcher Pills -->
+            <div style="display:flex; background:#f1f5f9; border-radius:99px; padding:2px; border:1px solid #e2e8f0; flex-shrink:0;">
+              <button type="button" id="tab-signup-btn" onclick="switchAuthTab('signup')"
+                style="padding:4px 12px; border:none; border-radius:99px; font-weight:700; font-size:0.75rem; cursor:pointer; transition:all 0.2s; background:#1947FF; color:#ffffff; box-shadow:0 2px 6px rgba(25,71,255,0.25);">
+                Sign Up
+              </button>
+              <button type="button" id="tab-login-btn" onclick="switchAuthTab('login')"
+                style="padding:4px 12px; border:none; border-radius:99px; font-weight:700; font-size:0.75rem; cursor:pointer; transition:all 0.2s; background:transparent; color:#64748b;">
+                Log In
+              </button>
+            </div>
+          </div>
+
+          <p id="auth-modal-subtitle" style="margin:0 0 1.15rem; font-size:0.83rem; color:#64748b; line-height:1.4;">
+            Enter your details to access courses, jobs & placements
+          </p>
+
+          <!-- Inline Status Message -->
+          <div id="auth-inline-msg" style="display:none; padding:0.55rem 0.85rem; border-radius:10px; font-size:0.82rem; font-weight:600; margin-bottom:0.85rem; text-align:center;"></div>
+
+          <!-- SIGN UP FORM (Asks email, phone numbers & details) -->
+          <form id="signup-form" onsubmit="handleSignupSubmit(event)" style="display:flex; flex-direction:column; gap:0.2rem;">
+            
+            <div class="auth-input-group">
+              <label>Full Name</label>
+              <input id="signup-name" type="text" required placeholder="Enter your full name" autocomplete="name">
+            </div>
+
+            <div class="auth-input-group">
+              <label>Email Address</label>
+              <input id="signup-email" type="email" required placeholder="you@example.com" autocomplete="email">
+            </div>
+
+            <div class="auth-input-group">
+              <label>Phone Number</label>
+              <input id="signup-phone" type="tel" required placeholder="+91 98765 43210" autocomplete="tel">
+            </div>
+
+            <div class="auth-input-group">
+              <label>Password</label>
+              <input id="signup-password" type="password" required minlength="6" placeholder="Min 6 characters" autocomplete="new-password">
+              <span onclick="togglePasswordVisibility('signup-password')"
+                style="position:absolute; right:10px; top:31px; cursor:pointer; color:#94a3b8; font-size:14px; user-select:none; padding:4px;"
+                title="Toggle password visibility">👁️</span>
+            </div>
+
+            <button type="submit" id="signup-submit-btn" class="auth-pill-btn auth-submit-btn" style="margin-top:0.4rem;">
+              Create Account →
+            </button>
+
+            <div style="margin-top:0.85rem; text-align:center; font-size:0.8rem; color:#64748b;">
+              Already have an account? <a href="javascript:void(0)" onclick="switchAuthTab('login')" style="color:#1947FF; font-weight:700; text-decoration:none;">Log In</a>
+            </div>
+          </form>
+
+          <!-- LOG IN FORM -->
+          <form id="login-form" onsubmit="handleLoginSubmit(event)" style="display:none; flex-direction:column; gap:0.25rem;">
+            
+            <div class="auth-input-group">
+              <label>Email Address</label>
+              <input id="login-email" type="email" required placeholder="Enter your email" autocomplete="email">
+            </div>
+
+            <div class="auth-input-group">
+              <label>Password</label>
+              <input id="login-password" type="password" required placeholder="Enter your password" autocomplete="current-password">
+              <span onclick="togglePasswordVisibility('login-password')"
+                style="position:absolute; right:10px; top:31px; cursor:pointer; color:#94a3b8; font-size:14px; user-select:none; padding:4px;"
+                title="Toggle password visibility">👁️</span>
+            </div>
+
+            <button type="submit" id="login-submit-btn" class="auth-pill-btn auth-submit-btn" style="margin-top:0.5rem;">
+              Log In →
+            </button>
+
+            <div style="margin-top:0.85rem; text-align:center; font-size:0.8rem; color:#64748b;">
+              Don't have an account? <a href="javascript:void(0)" onclick="switchAuthTab('signup')" style="color:#1947FF; font-weight:700; text-decoration:none;">Sign Up</a>
+            </div>
+          </form>
+
+          <!-- Quick Return to Google Option -->
+          <div style="margin-top:0.75rem; text-align:center; font-size:0.78rem; color:#94a3b8;">
+            or <a href="javascript:void(0)" onclick="triggerWebsiteGoogleSignIn()" style="color:#1947FF; font-weight:600; text-decoration:none;">Continue with Google</a>
+          </div>
+
         </div>
+
       </div>
     </div>
     `;
@@ -260,7 +379,32 @@
     });
   }
 
-  // ===== AUTHENTICATION MODAL LOGIC =====
+  // ===== NAVIGATION & STEP TOGGLING =====
+
+  window.showChoiceStep = function () {
+    ensureAuthModalDOM();
+    const stepChoice = document.getElementById('auth-step-choice');
+    const stepEmail = document.getElementById('auth-step-email');
+    const inlineMsg = document.getElementById('auth-inline-msg');
+    if (inlineMsg) inlineMsg.style.display = 'none';
+
+    if (stepChoice) stepChoice.style.display = 'block';
+    if (stepEmail) stepEmail.style.display = 'none';
+  };
+
+  window.showEmailAuthStep = function (mode = 'signup') {
+    ensureAuthModalDOM();
+    const stepChoice = document.getElementById('auth-step-choice');
+    const stepEmail = document.getElementById('auth-step-email');
+    const inlineMsg = document.getElementById('auth-inline-msg');
+    if (inlineMsg) inlineMsg.style.display = 'none';
+
+    if (stepChoice) stepChoice.style.display = 'none';
+    if (stepEmail) stepEmail.style.display = 'block';
+
+    window.switchAuthTab(mode);
+  };
+
   let currentAuthMode = 'signup';
 
   window.switchAuthTab = function (mode) {
@@ -272,8 +416,6 @@
     const loginForm = document.getElementById('login-form');
     const titleEl = document.getElementById('auth-modal-title');
     const subtitleEl = document.getElementById('auth-modal-subtitle');
-    const googleText = document.getElementById('lead-google-btn-text');
-    const dividerText = document.getElementById('auth-divider-text');
     const inlineMsg = document.getElementById('auth-inline-msg');
 
     if (inlineMsg) inlineMsg.style.display = 'none';
@@ -292,9 +434,7 @@
       if (signupForm) signupForm.style.display = 'none';
       if (loginForm) loginForm.style.display = 'flex';
       if (titleEl) titleEl.textContent = 'Welcome Back';
-      if (subtitleEl) subtitleEl.textContent = 'Log in to your student & career portal';
-      if (googleText) googleText.textContent = 'Log In with Google';
-      if (dividerText) dividerText.textContent = 'or continue with email';
+      if (subtitleEl) subtitleEl.textContent = 'Log in with your email and password';
     } else {
       if (signupBtn) {
         signupBtn.style.background = '#1947FF';
@@ -309,9 +449,7 @@
       if (signupForm) signupForm.style.display = 'flex';
       if (loginForm) loginForm.style.display = 'none';
       if (titleEl) titleEl.textContent = 'Create Your Account';
-      if (subtitleEl) subtitleEl.textContent = 'Sign up to access courses, jobs & placements';
-      if (googleText) googleText.textContent = 'Continue with Google';
-      if (dividerText) dividerText.textContent = 'or continue with email';
+      if (subtitleEl) subtitleEl.textContent = 'Enter your details to access courses, jobs & placements';
     }
   };
 
@@ -348,6 +486,8 @@
     const loginPassword = document.getElementById('login-password');
     if (loginEmail) loginEmail.value = '';
     if (loginPassword) loginPassword.value = '';
+    // Reset to Step 1 for next open
+    window.showChoiceStep();
   };
 
   window.openAuthModal = function (mode = 'signup', redirectUrl = null) {
@@ -360,13 +500,19 @@
     if (loginEmail) loginEmail.value = '';
     if (loginPassword) loginPassword.value = '';
 
-    // Always honor requested mode, defaulting to 'signup'
-    const activeMode = (mode === 'login') ? 'login' : 'signup';
-    window.switchAuthTab(activeMode);
+    if (mode === 'direct-email' || mode === 'direct-signup') {
+      window.showEmailAuthStep('signup');
+    } else if (mode === 'direct-login') {
+      window.showEmailAuthStep('login');
+    } else {
+      // Default: show the clean NextRaise choice screen (Google & Email)
+      window.showChoiceStep();
+    }
+
     if (modal) modal.style.display = 'flex';
   };
 
-  // The primary interceptor for "View course details" buttons on school pages
+  // Interceptors for links across pages
   window.checkAuthAndGoToCourse = function (event, url) {
     if (event && event.preventDefault) event.preventDefault();
     if (isUserLoggedIn()) {
@@ -376,7 +522,6 @@
     }
   };
 
-  // Job listing interceptor
   window.checkAuthAndGoToJob = function (event, url) {
     if (event && event.preventDefault) event.preventDefault();
     if (isUserLoggedIn()) {
@@ -386,7 +531,6 @@
     }
   };
 
-  // Resume builder trigger
   window.openResumeBuilder = function (e) {
     if (e && e.preventDefault) e.preventDefault();
     const RESUME_BUILDER_URL = 'Resume/resume.html';
@@ -427,27 +571,6 @@
     } catch (e) {
       return [];
     }
-  }
-
-  function hasRegisteredAccount() {
-    try {
-      const users = getRegisteredUsers();
-      if (users && users.length > 0) return true;
-      if (getStoredUser() || localStorage.getItem('kompetenzen_last_auth_email')) return true;
-    } catch (e) {}
-    return false;
-  }
-
-  function getLastKnownEmail() {
-    try {
-      const stored = getStoredUser();
-      if (stored && stored.email) return stored.email;
-      const last = localStorage.getItem('kompetenzen_last_auth_email');
-      if (last) return last;
-      const users = getRegisteredUsers();
-      if (users.length > 0 && users[users.length - 1].email) return users[users.length - 1].email;
-    } catch (e) {}
-    return '';
   }
 
   function saveUnifiedSession(userData) {
@@ -549,7 +672,7 @@
 
     try {
       const newUser = await supabaseSignUp(name, email, phone, password);
-      completeAuthSession(newUser, 'Account created! Redirecting to course…');
+      completeAuthSession(newUser, 'Account created! Redirecting…');
     } catch (err) {
       const msg = (err && err.message) || 'Could not create account. Please try again.';
       if (/already registered|already exists/i.test(msg)) {
@@ -590,7 +713,7 @@
 
     try {
       const authenticatedUser = await supabaseSignIn(email, password);
-      completeAuthSession(authenticatedUser, `Welcome back, ${authenticatedUser.name}! Opening course…`);
+      completeAuthSession(authenticatedUser, `Welcome back, ${authenticatedUser.name}!`);
     } catch (err) {
       window.showAuthMessage((err && err.message) || 'Incorrect email or password.', true);
       if (btn) {
@@ -617,7 +740,7 @@
       if (redirect) localStorage.setItem('kompetenzen_pending_auth_redirect', redirect);
       if (section) localStorage.setItem('kompetenzen_pending_auth_section', section);
       await supabaseSignInWithGoogle(redirect);
-      // Browser is now redirecting to Google; nothing more to do here.
+      // Browser redirects to Google OAuth
     } catch (err) {
       window.showAuthMessage((err && err.message) || 'Google sign-in failed. Please try again.', true);
       if (btnText) btnText.textContent = 'Continue with Google';
@@ -631,7 +754,7 @@
     try {
       const user = await supabaseGetSessionUser();
       if (!user) return;
-      if (isUserLoggedIn()) return; // already handled
+      if (isUserLoggedIn()) return;
       window._pendingAuthRedirect = localStorage.getItem('kompetenzen_pending_auth_redirect') || null;
       window._pendingAuthSection = localStorage.getItem('kompetenzen_pending_auth_section') || null;
       localStorage.removeItem('kompetenzen_pending_auth_redirect');
