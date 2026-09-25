@@ -134,14 +134,14 @@
       : `
       <div class="kp-gate-card">
         <div class="kp-gate-icon">&#128274;</div>
-        <h2 id="kp-gate-title">Sign in to view job openings</h2>
+        <h2 id="kp-gate-title">Sign in to view job details</h2>
         <p>
-          Our live openings are available to registered Kompetenzen candidates.
+          Full job specifications, requirements and direct application access are available to registered candidates.
           Creating an account is free and takes about a minute.
         </p>
         <div class="kp-gate-actions">
           <button type="button" class="kp-gate-primary" id="kp-gate-signin">Sign in / Create account</button>
-          <a class="kp-gate-secondary" href="index.html">Back to home</a>
+          <a class="kp-gate-secondary" href="jobs.html">Back to all job openings</a>
         </div>
       </div>
     `;

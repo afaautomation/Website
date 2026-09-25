@@ -1155,17 +1155,17 @@
       card.setAttribute('data-category', category || 'tech');
       const targetUrl = `job-details.html?id=${id || ''}`;
       card.setAttribute('href', targetUrl);
-      // Apply -> sign in -> pay -> land on the job details page.
-      // requireProThenGo carries the destination through checkout, so a buyer
-      // is returned to this exact listing once the payment is verified.
+      // Public listings: clicking a job card checks authentication to view job details
       card.onclick = function (e) {
-        if (typeof window.requireProThenGo === 'function') {
-          window.requireProThenGo(e, targetUrl, 'job_apply');
-        } else if (typeof checkAuthAndGoToJob === 'function') {
+        if (typeof window.checkAuthAndGoToJob === 'function') {
           checkAuthAndGoToJob(e, targetUrl);
-        } else if (typeof openAuthModal === 'function') {
+        } else if (typeof window.isUserLoggedIn === 'function' && !window.isUserLoggedIn()) {
           if (e && e.preventDefault) e.preventDefault();
-          openAuthModal('signup', targetUrl);
+          if (typeof window.openAuthModal === 'function') {
+            window.openAuthModal('signup', targetUrl);
+          } else {
+            window.location.href = targetUrl;
+          }
         }
       };
 
@@ -1482,10 +1482,6 @@
   <script src="js/auth-modal.js"></script>
   <!-- Career Pro Pass Payment Modal -->
   <script src="js/payment-modal.js"></script>
-  <!-- Members-only gate. Enforced in the database by the hr_jobs RLS policy;
-       this overlay is the matching user-facing prompt. Listings stay visible to
-       any signed-in member — paying unlocks the detail page, not the list. -->
-  <script src="js/require-login.js" data-require="login"></script>
   <!-- Mobile Menu Toggle -->
   <script>
     (function () {

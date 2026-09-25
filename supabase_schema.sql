@@ -213,18 +213,12 @@ create table if not exists public.hr_jobs (
 
 alter table public.hr_jobs enable row level security;
 
--- Signed-in users only. This is what makes the login gate on jobs.html real
--- rather than cosmetic: a signed-out visitor who deletes the overlay in
--- devtools still gets zero rows back.
---
--- NOTE: this policy controls which ROWS a member may read. Which COLUMNS they
--- may read is narrowed further down in section 10b — the description,
--- requirements and apply URL are subscriber-only and reachable only through
--- public.job_details().
+-- Public listing view: any visitor can view the live job listings without signing in.
+-- Full details require sign-in, and applying requires the Career Pro Pass.
 drop policy if exists "Public can view jobs" on public.hr_jobs;
 drop policy if exists "Members can view jobs" on public.hr_jobs;
-create policy "Members can view jobs" on public.hr_jobs
-  for select to authenticated using (true);
+create policy "Public can view jobs" on public.hr_jobs
+  for select to public using (true);
 
 drop policy if exists "Admins can manage jobs" on public.hr_jobs;
 create policy "Admins can manage jobs" on public.hr_jobs
@@ -563,17 +557,15 @@ grant execute on function public.has_active_pass() to authenticated, service_rol
 -- filters rows, not columns; this is the reliable way to withhold specific
 -- fields from a role that can still read the row.
 revoke select on public.hr_jobs from anon, authenticated;
+-- Public summary columns for job listings (jobs.html)
 grant select (
   id, title, category, company, location, job_type,
   experience, salary, skills, is_direct_link, created_at
-) on public.hr_jobs to authenticated;
+) on public.hr_jobs to anon, authenticated;
 
 /**
- * Full listing detail, for subscribers only.
- *
- * SECURITY DEFINER so it can read the withheld columns, with an explicit
- * entitlement check inside. Returns zero rows for a caller without an active
- * pass, so the page simply has nothing to show rather than leaking fields.
+ * Full listing detail, readable by any signed-in candidate.
+ * The apply_url is withheld unless the candidate has an active Career Pro Pass.
  */
 create or replace function public.job_details(p_job_id uuid)
 returns table (
@@ -601,10 +593,12 @@ set search_path = public
 as $$
   select j.id, j.title, j.category, j.company, j.location, j.job_type,
          j.experience, j.salary, j.skills, j.description, j.responsibilities,
-         j.requirements, j.about_company, j.apply_url, j.is_direct_link, j.created_at
+         j.requirements, j.about_company,
+         case when (public.has_active_pass() or public.is_admin()) then j.apply_url else null end as apply_url,
+         j.is_direct_link, j.created_at
   from public.hr_jobs j
   where j.id = p_job_id
-    and (public.has_active_pass() or public.is_admin());
+    and (auth.uid() is not null or public.is_admin());
 $$;
 
 revoke all on function public.job_details(uuid) from public;

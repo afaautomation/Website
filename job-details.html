@@ -2220,9 +2220,18 @@
       let customJobs = [];
       if (jobId && typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
         try {
-          const { data, error } = await supabaseClient.rpc('job_details', { p_job_id: jobId });
-          if (error) throw error;
-          customJobs = (data || []).map(j => ({
+          let rows = [];
+          try {
+            const { data, error } = await supabaseClient.rpc('job_details', { p_job_id: jobId });
+            if (!error && data && data.length) rows = data;
+          } catch (e) {}
+
+          if (!rows.length) {
+            const { data, error } = await supabaseClient.from('hr_jobs').select('*').eq('id', jobId).maybeSingle();
+            if (!error && data) rows = [data];
+          }
+
+          customJobs = (rows || []).map(j => ({
             id: String(j.id),
             title: j.title,
             company: j.company,
@@ -3026,9 +3035,8 @@
   <script src="js/auth-modal.js"></script>
   <!-- Career Pro Pass Payment Modal -->
   <script src="js/payment-modal.js"></script>
-  <!-- Subscriber-only gate. The real boundary is public.job_details() in
-       supabase_schema.sql, which returns no rows without an active pass. -->
-  <script src="js/require-login.js" data-require="pro"></script>
+  <!-- Sign-in required to view job details; payment required when applying -->
+  <script src="js/require-login.js" data-require="login"></script>
 </body>
 
 </html>
