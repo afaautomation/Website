@@ -1175,34 +1175,29 @@
       }
     }
 
-    // ===== SUBMIT JOB APPLICATION TO SUPABASE =====
-    async function sendLeadToSheet(fields) {
-      if (typeof isSupabaseConfigured !== 'function' || !isSupabaseConfigured()) {
-        console.warn('Supabase not configured; application not persisted to the cloud.');
-        return;
-      }
-      try {
-        const { error } = await supabaseClient.from('job_applications').insert([{
-          name: fields.name || '',
-          whatsapp: fields.phone || '',
-          email: fields.email || '',
-          degree: fields.degree || '',
-          grad_year: fields.gradYear || '',
-          is_student: fields.isStudent || 'No',
-          course_name: fields.courseName || '',
-          experience: fields.experience || '',
-          preferred_location: fields.preferredLocation || '',
-          work_mode: fields.workMode || '',
-          skills: fields.skills || '',
-          job_role: fields.jobRole || '',
-          company: fields.company || '',
-          page_url: fields.page || '',
-          resume_url: fields.resumeUrl || ''
-        }]);
-        if (error) console.error('Supabase job_applications insert error:', error);
-      } catch (err) {
-        console.warn('Supabase job_applications insert exception:', err);
-      }
+    // ===== SAVE CANDIDATE PROFILE TO SUPABASE =====
+    // One row per account in candidate_profiles. apply_to_job() copies it into
+    // every application, so the candidate fills this form once.
+    async function saveCandidateProfile(userId, fields) {
+      const row = {
+        user_id: userId,
+        name: fields.name,
+        whatsapp: fields.phone,
+        email: fields.email || null,
+        degree: fields.degree || null,
+        grad_year: fields.gradYear || null,
+        is_student: !!fields.isStudent,
+        course_name: fields.courseName || null,
+        experience: fields.experience || null,
+        preferred_location: fields.preferredLocation || null,
+        work_mode: fields.workMode || null,
+        skills: fields.skills || null,
+        updated_at: new Date().toISOString()
+      };
+      // Only overwrite the stored resume when a new file was uploaded.
+      if (fields.resumeUrl) row.resume_url = fields.resumeUrl;
+      const { error } = await supabaseClient.from('candidate_profiles').upsert(row, { onConflict: 'user_id' });
+      if (error) throw error;
     }
 
     // ===== MARK JOB APPLIED =====
@@ -1263,31 +1258,16 @@
         updatedAt: new Date().toISOString()
       };
 
-      // Unified user object for SSO
-      const authUser = {
-        name,
-        email: email.toLowerCase(),
-        phone,
-        loginTime: new Date().toISOString(),
-        token: 'token_' + Date.now()
-      };
+      const session = await getSupabaseSession();
+      if (!session) {
+        alert('Your session has expired. Please sign in again to save your profile.');
+        redirectToSignIn();
+        return;
+      }
 
-      // Save to localStorage across all unified SSO keys
+      // Local copy only pre-fills this form next time; the database row is
+      // what applications are built from.
       localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(profile));
-      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(authUser));
-      localStorage.setItem('kompetenzen_user', JSON.stringify(authUser));
-      localStorage.setItem('user', JSON.stringify(authUser));
-      localStorage.setItem('token', authUser.token);
-      localStorage.setItem('kompetenzen_last_auth_email', authUser.email);
-
-      // Register candidate into registered users store
-      saveRegisteredUser({
-        name: name,
-        email: email.toLowerCase(),
-        phone: phone,
-        authType: 'Candidate Profile',
-        registeredAt: new Date().toISOString()
-      });
 
       const submitBtn = document.getElementById('btn-submit-quick-profile');
       if (submitBtn) {
@@ -1336,9 +1316,9 @@
         }
       }
 
-      // Send application to Supabase (job_applications table) with the uploaded resume URL
+      // Save the profile to the candidate's account
       try {
-        await sendLeadToSheet({
+        await saveCandidateProfile(session.user.id, {
           name: name,
           phone: phone,
           email: email,
@@ -1350,28 +1330,29 @@
           preferredLocation: selectedLocations.join(', ') || 'Kochi',
           workMode: workMode,
           skills: selectedSkills.join(', '),
-          resumeUrl: resumeUrl,
-          jobRole: targetJob ? targetJob.title : 'Quick Apply Candidate Profile',
-          company: targetJob ? targetJob.company : 'Kompetenzen Network',
-          page: window.location.href
+          resumeUrl: resumeUrl
         });
-      } catch (sheetErr) {
-        console.warn('Supabase transmission error:', sheetErr);
+      } catch (saveErr) {
+        console.warn('Could not save candidate profile:', saveErr);
+        alert('We could not save your profile. Please check your details and try again.');
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<span>Complete Profile &amp; Apply ➔</span>';
+        }
+        return;
       }
 
       localStorage.removeItem('kompetenzen_user_resume_name');
 
-      if (targetJobId) {
-        markJobApplied(targetJobId);
-      }
+      showToast(`🎉 Profile saved for ${name}!`);
 
-      showToast(`🎉 Quick Apply Profile created for ${name}!`);
-
+      // Back to the job page, which submits the application (and uses a free
+      // trial credit) through apply_to_job().
       setTimeout(() => {
         if (targetJobId) {
-          window.location.href = `job-details.html?id=${targetJobId}&applied=true`;
+          window.location.href = `job-details.html?id=${encodeURIComponent(targetJobId)}&apply=1`;
         } else {
-          window.location.href = 'jobs.html?applied=true';
+          window.location.href = 'jobs.html';
         }
       }, 1000);
     }
@@ -1455,6 +1436,54 @@
       });
     }
 
+    // ===== REAL SIGN-IN REQUIRED =====
+    async function getSupabaseSession() {
+      if (typeof supabaseClient === 'undefined' || !supabaseClient) return null;
+      try {
+        const { data } = await supabaseClient.auth.getSession();
+        return (data && data.session) || null;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    // job-details.html?apply=1 opens the sign-in modal and then returns here.
+    function redirectToSignIn() {
+      window.location.href = targetJobId
+        ? `job-details.html?id=${encodeURIComponent(targetJobId)}&apply=1`
+        : 'jobs.html#signup';
+    }
+
+    async function requireSessionAndPrefill() {
+      const session = await getSupabaseSession();
+      if (!session) {
+        redirectToSignIn();
+        return;
+      }
+      const emailField = document.getElementById('field-email');
+      if (emailField && !emailField.value) emailField.value = session.user.email || '';
+
+      // Pre-fill from the saved profile on the account, if there is one.
+      try {
+        const { data } = await supabaseClient.from('candidate_profiles')
+          .select('name, whatsapp, email, degree, grad_year, is_student, course_name')
+          .eq('user_id', session.user.id).maybeSingle();
+        if (data) {
+          const set = (id, v) => { const el = document.getElementById(id); if (el && v) el.value = v; };
+          set('field-name', data.name);
+          set('field-phone', data.whatsapp);
+          set('field-email', data.email);
+          set('field-degree', data.degree);
+          set('field-grad-year', data.grad_year);
+          if (data.is_student) {
+            document.getElementById('field-is-student').checked = true;
+            toggleStudentCourseInput(true);
+            set('field-course-name', data.course_name);
+          }
+        }
+      } catch (e) {}
+    }
+
     // ===== INITIALIZE PAGE =====
     function initPage() {
       const urlParams = new URLSearchParams(window.location.search);
@@ -1511,6 +1540,7 @@
 
       setupResumeDragDrop();
       removeUploadedResume();
+      requireSessionAndPrefill();
     }
 
     function showToast(text) {

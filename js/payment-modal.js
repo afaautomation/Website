@@ -10,6 +10,18 @@
   const OFFICIAL_UPI_ID = '8590886009@okbizaxis';
   const OFFICIAL_PHONE = '918590886009';
 
+  // Early synchronous check on script evaluation to prevent visual flicker
+  try {
+    const cachedPass = localStorage.getItem(PRO_PASS_KEY);
+    if (cachedPass) {
+      const parsed = JSON.parse(cachedPass);
+      if (parsed && (parsed.isPro === true || parsed.status === 'completed')) {
+        document.documentElement.classList.add('is-pro-user');
+        if (document.body) document.body.classList.add('is-pro-user');
+      }
+    }
+  } catch (e) {}
+
   // Inject CSS Styles
   function injectPaymentStyles() {
     if (document.getElementById('pro-payment-styles')) return;
@@ -305,6 +317,24 @@
         text-transform: uppercase;
         margin-left: 6px;
         box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+      /* Hide all Career Pro Pass purchase CTAs and PRO badges when user has an active pass */
+      html.is-pro-user .pro-pass-cta,
+      html.is-pro-user .pro-upgrade-btn,
+      html.is-pro-user .pro-pass-nav-btn,
+      html.is-pro-user .pro-pass-hero-strip,
+      html.is-pro-user [data-pro-hide-when-active],
+      html.is-pro-user .ai-badge-pro,
+      html.is-pro-user .nav-pro-tag,
+      html.is-pro-user [data-pro-badge],
+      body.is-pro-user .pro-pass-cta,
+      body.is-pro-user .pro-upgrade-btn,
+      body.is-pro-user .pro-pass-nav-btn,
+      body.is-pro-user .pro-pass-hero-strip,
+      body.is-pro-user [data-pro-hide-when-active],
+      body.is-pro-user .ai-badge-pro,
+      body.is-pro-user .nav-pro-tag,
+      body.is-pro-user [data-pro-badge] {
+        display: none !important;
       }
     `;
     document.head.appendChild(style);
@@ -415,21 +445,44 @@
       const headers = await authHeaders();
       if (!headers) {
         proState = { loaded: true, isPro: false, expiresAt: null };
+        updateProNavBadges();
         return proState;
       }
 
       const res = await fetch(apiBase() + '/payments/status', { method: 'GET', headers });
       if (!res.ok) {
         proState = { loaded: true, isPro: false, expiresAt: null };
+        updateProNavBadges();
         return proState;
       }
 
       const data = await res.json();
+      const isActive = data.isPro === true;
       proState = {
         loaded: true,
-        isPro: data.isPro === true,
+        isPro: isActive,
         expiresAt: data.expiresAt || null
       };
+
+      if (isActive) {
+        try {
+          localStorage.setItem(PRO_PASS_KEY, JSON.stringify({
+            isPro: true,
+            status: 'completed',
+            expiresAt: data.expiresAt || null
+          }));
+        } catch (e) {}
+      } else {
+        try {
+          const cur = localStorage.getItem(PRO_PASS_KEY);
+          if (cur) {
+            const p = JSON.parse(cur);
+            if (p.plan !== 'career_pro_test') {
+              localStorage.removeItem(PRO_PASS_KEY);
+            }
+          }
+        } catch (e) {}
+      }
     } catch (err) {
       // Fail closed: a network error must never be read as "user is Pro".
       console.warn('[Kompetenzen] Could not confirm Pro status:', err.message);
@@ -473,6 +526,13 @@
     }
 
     proState = { loaded: true, isPro: true, expiresAt: data.expiresAt || null };
+    try {
+      localStorage.setItem(PRO_PASS_KEY, JSON.stringify({
+        isPro: true,
+        status: 'completed',
+        expiresAt: data.expiresAt || null
+      }));
+    } catch (e) {}
     updateProNavBadges();
     return data;
   }
@@ -513,6 +573,10 @@
                   <div class="pro-feature-item">
                     <div class="pro-feature-icon">✓</div>
                     <div><strong>Resume Builder Pro:</strong> Unlimited high-res ATS PDF downloads & all premium templates.</div>
+                  </div>
+                  <div class="pro-feature-item">
+                    <div class="pro-feature-icon">✓</div>
+                    <div><strong>AI Write &amp; Smart Bullet Points:</strong> Instant professional summary & high-impact job role generation.</div>
                   </div>
                   <div class="pro-feature-item">
                     <div class="pro-feature-icon">✓</div>
@@ -1005,31 +1069,46 @@
     window.location.reload();
   };
 
-  // Updates Navbar Badges with the Pro Tag
+  // Updates Navbar Badges and hides purchase CTAs when user has an active pass
   function updateProNavBadges() {
     const isPro = isProMember();
 
-    // Remove any stale badges first, so a lapsed or revoked pass stops showing
-    // "Pro" the moment the server says the subscription is no longer active.
+    // Toggle html and body classes for immediate CSS-driven display toggle
+    if (isPro) {
+      document.documentElement.classList.add('is-pro-user');
+      if (document.body) document.body.classList.add('is-pro-user');
+    } else {
+      document.documentElement.classList.remove('is-pro-user');
+      if (document.body) document.body.classList.remove('is-pro-user');
+    }
+
+    // Toggle all Pro upgrade / purchase buttons and banners via direct DOM manipulation
+    const ctaSelectors = [
+      '.pro-pass-cta',
+      '.pro-upgrade-btn',
+      '.pro-pass-nav-btn',
+      '.pro-pass-hero-strip',
+      '[data-pro-hide-when-active]',
+      'button[onclick*="openPaymentModal"]',
+      'a[onclick*="openPaymentModal"]'
+    ];
+    document.querySelectorAll(ctaSelectors.join(',')).forEach((el) => {
+      // Never hide elements that belong to the checkout modal itself
+      if (el.closest('#kompetenzen-payment-modal')) return;
+      if (isPro) {
+        el.style.display = 'none';
+      } else {
+        el.style.display = '';
+      }
+    });
+
+    // Hide or show PRO badges on AI buttons & feature CTAs
+    document.querySelectorAll('.ai-badge-pro, [data-pro-badge]').forEach((el) => {
+      el.style.display = isPro ? 'none' : '';
+    });
+
+    // Remove any PRO tags so no PRO label is shown anywhere when user is Pro
     document.querySelectorAll('.nav-pro-tag').forEach((el) => el.remove());
-    if (!isPro) return;
-
-    // Update nav badge in jobs.html / admin.html / index.html
-    const navName = document.getElementById('nav-user-name');
-    if (navName && !navName.querySelector('.nav-pro-tag')) {
-      const tag = document.createElement('span');
-      tag.className = 'nav-pro-tag';
-      tag.textContent = '★ Pro';
-      navName.appendChild(tag);
-    }
-
-    const menuName = document.getElementById('nav-user-menu-name');
-    if (menuName && !menuName.querySelector('.nav-pro-tag')) {
-      const tag = document.createElement('span');
-      tag.className = 'nav-pro-tag';
-      tag.textContent = '★ Career Pro Active';
-      menuName.appendChild(tag);
-    }
   }
 
   /**
@@ -1079,10 +1158,15 @@
   window.handleTemporaryTestUnlock = handleTemporaryTestUnlock;
   window.resetProTestPass = resetProTestPass;
 
-  document.addEventListener('DOMContentLoaded', () => {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      injectPaymentStyles();
+      refreshProStatus();
+    });
+  } else {
     injectPaymentStyles();
     refreshProStatus();
-  });
+  }
 
   // Re-check whenever the Supabase session changes (sign in, sign out, refresh)
   // so entitlement follows the account rather than the browser.

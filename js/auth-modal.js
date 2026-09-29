@@ -331,24 +331,39 @@
           <!-- LOG IN FORM -->
           <form id="login-form" onsubmit="handleLoginSubmit(event)" style="display:none; flex-direction:column; gap:0.25rem;">
             
-            <div class="auth-input-group">
-              <label>Email Address</label>
-              <input id="login-email" type="email" required placeholder="Enter your email" autocomplete="email">
+            <div id="login-fields-email">
+              <div class="auth-input-group">
+                <label>Email Address</label>
+                <input id="login-email" type="email" placeholder="Enter your email" autocomplete="email">
+              </div>
+
+              <div class="auth-input-group">
+                <label>Password</label>
+                <input id="login-password" type="password" placeholder="Enter your password" autocomplete="current-password">
+                <span onclick="togglePasswordVisibility('login-password')"
+                  style="position:absolute; right:10px; top:31px; cursor:pointer; color:#94a3b8; font-size:14px; user-select:none; padding:4px;"
+                  title="Toggle password visibility">👁️</span>
+              </div>
             </div>
 
-            <div class="auth-input-group">
-              <label>Password</label>
-              <input id="login-password" type="password" required placeholder="Enter your password" autocomplete="current-password">
-              <span onclick="togglePasswordVisibility('login-password')"
-                style="position:absolute; right:10px; top:31px; cursor:pointer; color:#94a3b8; font-size:14px; user-select:none; padding:4px;"
-                title="Toggle password visibility">👁️</span>
+            <div id="login-fields-phone" style="display:none;">
+              <div class="auth-input-group">
+                <label>Mobile Number</label>
+                <input id="login-phone" type="tel" placeholder="+91 98765 43210" autocomplete="tel">
+              </div>
             </div>
 
             <button type="submit" id="login-submit-btn" class="auth-pill-btn auth-submit-btn" style="margin-top:0.5rem;">
               Log In →
             </button>
 
-            <div style="margin-top:0.85rem; text-align:center; font-size:0.8rem; color:#64748b;">
+            <div style="display:none; margin-top:0.75rem; text-align:center; font-size:0.8rem;">
+              <a href="javascript:void(0)" id="toggle-login-method-btn" onclick="toggleLoginMethod()" style="color:#1947FF; font-weight:600; text-decoration:none;">
+                📲 Log in with Mobile OTP instead
+              </a>
+            </div>
+
+            <div style="margin-top:0.6rem; text-align:center; font-size:0.8rem; color:#64748b;">
               Don't have an account? <a href="javascript:void(0)" onclick="switchAuthTab('signup')" style="color:#1947FF; font-weight:700; text-decoration:none;">Sign Up</a>
             </div>
           </form>
@@ -357,6 +372,74 @@
           <div style="margin-top:0.75rem; text-align:center; font-size:0.78rem; color:#94a3b8;">
             or <a href="javascript:void(0)" onclick="triggerWebsiteGoogleSignIn()" style="color:#1947FF; font-weight:600; text-decoration:none;">Continue with Google</a>
           </div>
+
+        </div>
+
+        <!-- ========================================== -->
+        <!-- STEP 3: MOBILE OTP VERIFICATION SCREEN    -->
+        <!-- ========================================== -->
+        <div id="auth-step-otp" class="auth-step-view" style="display:none;">
+          
+          <!-- Top Row: Back button & Close button -->
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1.1rem;">
+            <button type="button" class="auth-back-btn" onclick="showEmailAuthStep(window._otpMode === 'login' ? 'login' : 'signup')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+              <span>Back</span>
+            </button>
+
+            <button type="button" class="auth-close-btn" onclick="closeJobsAuthModal()" aria-label="Close modal">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Header & Phone icon -->
+          <div style="text-align:center; margin-bottom:1.15rem;">
+            <div style="width:52px; height:52px; border-radius:50%; background:#eff6ff; border:1px solid #bfdbfe; color:#1947FF; display:inline-flex; align-items:center; justify-content:center; margin-bottom:0.75rem;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                <line x1="12" y1="18" x2="12.01" y2="18"></line>
+              </svg>
+            </div>
+            <h3 style="margin:0 0 0.35rem; font-size:1.32rem; font-weight:800; color:#0f172a; letter-spacing:-0.025em;">
+              Verify Mobile Number
+            </h3>
+            <p style="margin:0; font-size:0.83rem; color:#64748b; line-height:1.45;">
+              We sent a 6-digit verification code to<br>
+              <strong id="otp-phone-display" style="color:#0f172a; font-weight:700;">+91</strong>
+            </p>
+          </div>
+
+          <!-- Inline Status Message -->
+          <div id="otp-inline-msg" style="display:none; padding:0.55rem 0.85rem; border-radius:10px; font-size:0.82rem; font-weight:600; margin-bottom:0.85rem; text-align:center;"></div>
+
+          <!-- OTP Input Form -->
+          <form id="otp-form" onsubmit="handleOtpSubmit(event)" style="display:flex; flex-direction:column; gap:0.65rem;">
+            <div class="auth-input-group" style="align-items:center;">
+              <label style="text-align:center; width:100%;">Enter 6-Digit Code</label>
+              <input id="otp-code-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" required
+                placeholder="• • • • • •" autocomplete="one-time-code"
+                style="text-align:center; font-size:1.55rem; font-weight:800; letter-spacing:0.35em; padding:0.72rem 1rem; border-radius:12px; font-family:monospace; width:100%; max-width:240px; margin:0 auto; background:#f8fafc; border:1.5px solid #cbd5e1; outline:none;">
+            </div>
+
+            <button type="submit" id="otp-submit-btn" class="auth-pill-btn auth-submit-btn" style="margin-top:0.25rem;">
+              Verify & Complete →
+            </button>
+
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-top:0.5rem; font-size:0.8rem; color:#64748b;">
+              <button type="button" id="otp-resend-btn" onclick="resendOtpCode()" style="background:none; border:none; color:#1947FF; font-weight:600; cursor:pointer; padding:0;" disabled>
+                Resend OTP in 30s
+              </button>
+              <a href="javascript:void(0)" onclick="editSignupPhoneNumber()" style="color:#64748b; text-decoration:underline;">
+                Edit Details
+              </a>
+            </div>
+          </form>
 
         </div>
 
@@ -385,24 +468,58 @@
     ensureAuthModalDOM();
     const stepChoice = document.getElementById('auth-step-choice');
     const stepEmail = document.getElementById('auth-step-email');
+    const stepOtp = document.getElementById('auth-step-otp');
     const inlineMsg = document.getElementById('auth-inline-msg');
+    const otpMsg = document.getElementById('otp-inline-msg');
+    const smsBanner = document.getElementById('simulated-sms-banner');
     if (inlineMsg) inlineMsg.style.display = 'none';
+    if (otpMsg) otpMsg.style.display = 'none';
+    if (smsBanner) smsBanner.style.display = 'none';
 
     if (stepChoice) stepChoice.style.display = 'block';
     if (stepEmail) stepEmail.style.display = 'none';
+    if (stepOtp) stepOtp.style.display = 'none';
   };
 
   window.showEmailAuthStep = function (mode = 'signup') {
     ensureAuthModalDOM();
     const stepChoice = document.getElementById('auth-step-choice');
     const stepEmail = document.getElementById('auth-step-email');
+    const stepOtp = document.getElementById('auth-step-otp');
     const inlineMsg = document.getElementById('auth-inline-msg');
+    const otpMsg = document.getElementById('otp-inline-msg');
+    const smsBanner = document.getElementById('simulated-sms-banner');
     if (inlineMsg) inlineMsg.style.display = 'none';
+    if (otpMsg) otpMsg.style.display = 'none';
+    if (smsBanner) smsBanner.style.display = 'none';
 
     if (stepChoice) stepChoice.style.display = 'none';
     if (stepEmail) stepEmail.style.display = 'block';
+    if (stepOtp) stepOtp.style.display = 'none';
 
     window.switchAuthTab(mode);
+  };
+
+  window.showOtpStep = function (phone, mode = 'signup') {
+    ensureAuthModalDOM();
+    window._otpMode = mode;
+    const stepChoice = document.getElementById('auth-step-choice');
+    const stepEmail = document.getElementById('auth-step-email');
+    const stepOtp = document.getElementById('auth-step-otp');
+    const phoneDisplay = document.getElementById('otp-phone-display');
+    const otpInput = document.getElementById('otp-code-input');
+    const otpMsg = document.getElementById('otp-inline-msg');
+
+    if (stepChoice) stepChoice.style.display = 'none';
+    if (stepEmail) stepEmail.style.display = 'none';
+    if (stepOtp) stepOtp.style.display = 'block';
+
+    if (phoneDisplay) phoneDisplay.textContent = phone || 'your mobile number';
+    if (otpInput) {
+      otpInput.value = '';
+      setTimeout(() => otpInput.focus(), 150);
+    }
+    if (otpMsg) otpMsg.style.display = 'none';
   };
 
   let currentAuthMode = 'signup';
@@ -475,13 +592,163 @@
     }
   };
 
+  let otpCountdownTimer = null;
+
+  function startOtpCountdown(seconds = 30) {
+    const resendBtn = document.getElementById('otp-resend-btn');
+    if (!resendBtn) return;
+    if (otpCountdownTimer) clearInterval(otpCountdownTimer);
+
+    let remaining = seconds;
+    resendBtn.disabled = true;
+    resendBtn.style.color = '#94a3b8';
+    resendBtn.style.cursor = 'default';
+    resendBtn.textContent = `Resend OTP in ${remaining}s`;
+
+    otpCountdownTimer = setInterval(() => {
+      remaining--;
+      if (remaining <= 0) {
+        clearInterval(otpCountdownTimer);
+        otpCountdownTimer = null;
+        resendBtn.disabled = false;
+        resendBtn.style.color = '#1947FF';
+        resendBtn.style.cursor = 'pointer';
+        resendBtn.textContent = 'Resend OTP';
+      } else {
+        resendBtn.textContent = `Resend OTP in ${remaining}s`;
+      }
+    }, 1000);
+  }
+
+  function showOtpInlineMessage(msg, isError = false) {
+    const el = document.getElementById('otp-inline-msg');
+    if (!el) return;
+    el.textContent = msg;
+    el.style.display = 'block';
+    if (isError) {
+      el.style.background = '#FEE2E2';
+      el.style.color = '#B91C1C';
+      el.style.border = '1px solid #FECACA';
+    } else {
+      el.style.background = '#DCFCE7';
+      el.style.color = '#15803D';
+      el.style.border = '1px solid #BBF7D0';
+    }
+  }
+
+  function otpApiBase() {
+    return (typeof KOMPETENZEN_API_BASE !== 'undefined') ? KOMPETENZEN_API_BASE : 'http://localhost:5000/api';
+  }
+
+  /**
+   * Asks the backend to generate a code and send it over WhatsApp. The code
+   * never reaches the browser — it used to be generated here, where anyone
+   * could read it from devtools, and it never matched the code actually sent.
+   */
+  async function requestOtp(phone) {
+    try {
+      const res = await fetch(otpApiBase() + '/auth/send-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone })
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.success) {
+        return { ok: false, message: data.message || 'Could not send the verification code. Please try again.' };
+      }
+      return { ok: true };
+    } catch (e) {
+      return { ok: false, message: 'Could not reach the verification service. Please try again shortly.' };
+    }
+  }
+
+  async function verifyOtp(phone, otp) {
+    try {
+      const res = await fetch(otpApiBase() + '/auth/verify-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone, otp })
+      });
+      const data = await res.json().catch(() => ({}));
+      return { ok: res.ok && !!data.success, message: data.message };
+    } catch (e) {
+      return { ok: false, message: 'Could not reach the verification service. Please try again shortly.' };
+    }
+  }
+
+  window.editSignupPhoneNumber = function () {
+    const pending = window._pendingOtpAuth;
+    window.showEmailAuthStep(pending && pending.mode === 'login' ? 'login' : 'signup');
+    if (pending && pending.mode === 'signup') {
+      if (document.getElementById('signup-name')) document.getElementById('signup-name').value = pending.name || '';
+      if (document.getElementById('signup-email')) document.getElementById('signup-email').value = pending.email || '';
+      if (document.getElementById('signup-phone')) {
+        document.getElementById('signup-phone').value = pending.phone || '';
+        document.getElementById('signup-phone').focus();
+      }
+    }
+  };
+
+  window.resendOtpCode = async function () {
+    if (!window._pendingOtpAuth) return;
+    const result = await requestOtp(window._pendingOtpAuth.cleanPhone);
+    if (!result.ok) {
+      showOtpInlineMessage(result.message, true);
+      return;
+    }
+    showOtpInlineMessage('✓ New verification code sent to your WhatsApp!', false);
+    startOtpCountdown(30);
+  };
+
+  let loginWithPhoneMode = false;
+  window.toggleLoginMethod = function () {
+    // Disabled until the backend can issue a real session for a verified phone.
+    // The toggle link is hidden; this guards any stale reference to it.
+    if (!loginWithPhoneMode) {
+      window.showAuthMessage('Please log in with Google or your email and password.', true);
+      return;
+    }
+    loginWithPhoneMode = !loginWithPhoneMode;
+    const emailFields = document.getElementById('login-fields-email');
+    const phoneFields = document.getElementById('login-fields-phone');
+    const toggleBtn = document.getElementById('toggle-login-method-btn');
+    const submitBtn = document.getElementById('login-submit-btn');
+    const subtitleEl = document.getElementById('auth-modal-subtitle');
+
+    if (loginWithPhoneMode) {
+      if (emailFields) emailFields.style.display = 'none';
+      if (phoneFields) phoneFields.style.display = 'block';
+      if (toggleBtn) toggleBtn.innerHTML = '✉️ Log in with Email & Password instead';
+      if (submitBtn) submitBtn.textContent = 'Send OTP →';
+      if (subtitleEl) subtitleEl.textContent = 'Log in with a one-time password sent to your phone';
+      const phoneInput = document.getElementById('login-phone');
+      if (phoneInput) phoneInput.focus();
+    } else {
+      if (emailFields) emailFields.style.display = 'block';
+      if (phoneFields) phoneFields.style.display = 'none';
+      if (toggleBtn) toggleBtn.innerHTML = '📲 Log in with Mobile OTP instead';
+      if (submitBtn) submitBtn.textContent = 'Log In →';
+      if (subtitleEl) subtitleEl.textContent = 'Log in with your email and password';
+    }
+  };
+
   window.closeJobsAuthModal = function () {
     const modal = document.getElementById('jobs-auth-modal');
     if (modal) modal.style.display = 'none';
     window._pendingAuthRedirect = null;
     window._pendingAuthSection = null;
+    if (otpCountdownTimer) {
+      clearInterval(otpCountdownTimer);
+      otpCountdownTimer = null;
+    }
     const msgEl = document.getElementById('auth-inline-msg');
     if (msgEl) msgEl.style.display = 'none';
+    const otpMsg = document.getElementById('otp-inline-msg');
+    if (otpMsg) otpMsg.style.display = 'none';
+    const smsBanner = document.getElementById('simulated-sms-banner');
+    if (smsBanner) smsBanner.style.display = 'none';
+    const otpInput = document.getElementById('otp-code-input');
+    if (otpInput) otpInput.value = '';
     const loginEmail = document.getElementById('login-email');
     const loginPassword = document.getElementById('login-password');
     if (loginEmail) loginEmail.value = '';
@@ -522,24 +789,15 @@
     }
   };
 
+  // Job details are public; sign-in is asked for when the candidate applies.
   window.checkAuthAndGoToJob = function (event, url) {
     if (event && event.preventDefault) event.preventDefault();
-    if (isUserLoggedIn()) {
-      window.location.href = url;
-    } else {
-      window.openAuthModal('signup', url);
-    }
+    window.location.href = url;
   };
 
   window.openResumeBuilder = function (e) {
-    if (e && e.preventDefault) e.preventDefault();
     const RESUME_BUILDER_URL = 'Resume/resume.html';
-    if (isUserLoggedIn()) {
-      window.location.href = RESUME_BUILDER_URL;
-    } else {
-      window._pendingAuthSection = 'resume';
-      window.openAuthModal('signup', RESUME_BUILDER_URL);
-    }
+    window.location.href = RESUME_BUILDER_URL;
   };
 
   // ===== UNIFIED AUTHENTICATION & SINGLE SIGN-ON (SSO) HELPERS =====
@@ -576,10 +834,11 @@
   function saveUnifiedSession(userData) {
     const token = localStorage.getItem('token') || ('kompetenzen_jwt_' + Math.random().toString(36).substring(2) + Date.now().toString(36));
     const userObj = {
+      id: userData.id || ('user_' + Math.random().toString(36).substring(2, 10)),
       name: userData.name || 'Student / Candidate',
       email: (userData.email || '').toLowerCase(),
       phone: userData.phone || '',
-      authType: userData.authType || 'Direct Login',
+      authType: userData.authType || 'Mobile OTP Verified',
       loginTime: new Date().toISOString()
     };
 
@@ -593,34 +852,20 @@
 
     try {
       const users = getRegisteredUsers();
-      const idx = users.findIndex(u => (u.email || '').toLowerCase() === userObj.email);
+      const idx = users.findIndex(u => (u.email && userObj.email && (u.email || '').toLowerCase() === userObj.email) || (u.phone && userObj.phone && u.phone === userObj.phone));
+      // Never keep passwords in browser storage; Supabase Auth holds them.
       if (idx >= 0) {
-        users[idx] = { ...users[idx], ...userObj, password: userData.password || users[idx].password || '' };
+        const { password: _dropped, ...rest } = users[idx];
+        users[idx] = { ...rest, ...userObj };
       } else {
-        users.push({ ...userObj, password: userData.password || '' });
+        users.push(userObj);
       }
       localStorage.setItem('kompetenzen_registered_users', JSON.stringify(users));
     } catch (e) {}
 
-    syncToResumeBuilder({ name: userObj.name, email: userObj.email, phone: userObj.phone });
-
     document.querySelectorAll('.logout-link').forEach(l => (l.style.display = 'inline-block'));
 
     return userObj;
-  }
-
-  function syncToResumeBuilder(userData) {
-    try {
-      fetch('http://localhost:5000/api/auth/login-phone', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          phone: userData.phone || userData.email,
-          email: userData.email,
-          name: userData.name
-        })
-      }).catch(function () {});
-    } catch (e) {}
   }
 
   function completeAuthSession(userData, redirectMsg = 'Logging in…') {
@@ -660,41 +905,124 @@
       return;
     }
 
-    if (!isSupabaseConfigured()) {
-      window.showAuthMessage('Sign up is temporarily unavailable. Please try again shortly.', true);
+    const cleanPhone = phone.replace(/[\s\-\(\)]/g, '');
+    if (cleanPhone.length < 10) {
+      window.showAuthMessage('Please enter a valid 10-digit mobile number.', true);
       return;
     }
 
     if (btn) {
       btn.disabled = true;
-      btn.textContent = 'Creating Account…';
+      btn.textContent = 'Sending Mobile OTP…';
     }
 
+    const sent = await requestOtp(cleanPhone);
+
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = 'Create Account →';
+    }
+
+    if (!sent.ok) {
+      window.showAuthMessage(sent.message, true);
+      return;
+    }
+
+    window._pendingOtpAuth = { mode: 'signup', name, email, phone, cleanPhone, password };
+
+    // Switch to Mobile Number OTP Verification View
+    window.showOtpStep(phone, 'signup');
+    startOtpCountdown(30);
+  };
+
+  window.handleOtpSubmit = async function (e) {
+    e.preventDefault();
+    const otpInput = document.getElementById('otp-code-input')?.value.trim();
+    const submitBtn = document.getElementById('otp-submit-btn');
+
+    const pending = window._pendingOtpAuth;
+    if (!pending || pending.mode !== 'signup') {
+      showOtpInlineMessage('Verification session expired. Please start again.', true);
+      return;
+    }
+    if (!otpInput) {
+      showOtpInlineMessage('Please enter the 6-digit code.', true);
+      return;
+    }
+
+    const resetBtn = () => {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Verify & Complete →';
+      }
+    };
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Verifying & Completing Setup…';
+    }
+
+    const verified = await verifyOtp(pending.cleanPhone, otpInput);
+    if (!verified.ok) {
+      showOtpInlineMessage(verified.message || 'Invalid verification code. Please check the OTP and try again.', true);
+      resetBtn();
+      return;
+    }
+    showOtpInlineMessage('✓ Mobile number verified successfully!', false);
+
+    const { name, email, phone, password } = pending;
+    if (typeof supabaseSignUp !== 'function' || !isSupabaseConfigured()) {
+      showOtpInlineMessage('Sign up is temporarily unavailable. Please try again shortly.', true);
+      resetBtn();
+      return;
+    }
+
+    // Only a real Supabase account counts — the free trial, applications and
+    // payments are all tied to it. There is no local-only fallback any more.
+    let res;
     try {
-      const newUser = await supabaseSignUp(name, email, phone, password);
-      completeAuthSession(newUser, 'Account created! Redirecting…');
-    } catch (err) {
-      const msg = (err && err.message) || 'Could not create account. Please try again.';
+      res = await supabaseSignUp(name, email, phone, password);
+    } catch (supaErr) {
+      const msg = (supaErr && supaErr.message) || '';
       if (/already registered|already exists/i.test(msg)) {
-        window.showAuthMessage('An account with this email already exists. Please log in.', true);
-        window.switchAuthTab('login');
+        window._pendingOtpAuth = null;
+        window.showEmailAuthStep('login');
+        window.showAuthMessage(`An account already exists for ${email}. Please log in.`, true);
         const loginEmail = document.getElementById('login-email');
         if (loginEmail) loginEmail.value = email;
-      } else {
-        window.showAuthMessage(msg, true);
+        return;
       }
-      if (btn) {
-        btn.disabled = false;
-        btn.textContent = 'Create Account →';
-      }
+      showOtpInlineMessage(msg || 'Could not create your account. Please try again.', true);
+      resetBtn();
+      return;
     }
+
+    window._pendingOtpAuth = null;
+    if (res && res.needsConfirmation) {
+      // Supabase is set to require email confirmation: the session starts when
+      // they click the link, which lands back on this page.
+      try {
+        if (window._pendingAuthRedirect) localStorage.setItem('kompetenzen_pending_auth_redirect', window._pendingAuthRedirect);
+      } catch (e) {}
+      showOtpInlineMessage(`✓ Almost done! We've emailed a confirmation link to ${email}. Open it to finish signing in.`, false);
+      resetBtn();
+      return;
+    }
+
+    const sessionUser = res && res.session && res.session.user;
+    completeAuthSession({
+      id: sessionUser ? sessionUser.id : undefined,
+      name, email, phone,
+      authType: 'Mobile OTP Verified'
+    }, 'Account created & mobile verified! Redirecting…');
   };
 
   window.handleLoginSubmit = async function (e) {
     e.preventDefault();
+    const btn = document.getElementById('login-submit-btn');
+
+    // Standard Email & Password Login
     const email = document.getElementById('login-email')?.value.trim().toLowerCase();
     const password = document.getElementById('login-password')?.value;
-    const btn = document.getElementById('login-submit-btn');
 
     if (!email || !password) {
       window.showAuthMessage('Please enter both your email and password.', true);
@@ -801,6 +1129,9 @@
     } else {
       navBadge.style.display = 'none';
       navBadge.classList.remove('open');
+    }
+    if (typeof updateProNavBadges === 'function') {
+      updateProNavBadges();
     }
   }
 

@@ -188,55 +188,40 @@
     .nav-user-btn {
       display: inline-flex;
       align-items: center;
-      gap: 9px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      padding: 5px 14px 5px 6px;
-      border-radius: 99px;
-      color: #FFFFFF;
-      font-family: inherit;
-      font-size: 13.5px;
-      font-weight: 600;
+      justify-content: center;
+      background: transparent;
+      border: 2px solid transparent;
+      padding: 2px;
+      border-radius: 50%;
       cursor: pointer;
       transition: all 0.2s ease;
-      backdrop-filter: blur(12px);
     }
 
     .nav-user-btn:hover {
-      background: rgba(255, 255, 255, 0.15);
       border-color: rgba(96, 165, 250, 0.5);
+      background: rgba(255, 255, 255, 0.08);
+      transform: scale(1.05);
     }
 
     .nav-user-avatar {
-      width: 28px;
-      height: 28px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       background: linear-gradient(135deg, #2563EB, #7C3AED);
       color: #FFFFFF;
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 800;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
       box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .nav-user-name {
-      max-width: 120px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      color: #F1F5F9;
-    }
-
+    .nav-user-name,
     .nav-user-chevron {
-      color: var(--ink-mute);
-      transition: transform 0.2s;
-    }
-
-    .nav-user-badge.open .nav-user-chevron {
-      transform: rotate(180deg);
+      display: none !important;
     }
 
     .nav-user-menu {
@@ -1964,7 +1949,7 @@
             </div>
             <div class="perk-item">
               <div class="perk-icon">✓</div>
-              <span>100% Free Placement Support</span>
+              <span>First 3 Applications Free — No Payment Needed</span>
             </div>
           </div>
 
@@ -2171,36 +2156,6 @@
   </footer>
 
   <script>
-    // ===== SUBMIT JOB APPLICATION TO SUPABASE =====
-    async function sendLeadToSheet(fields) {
-      if (typeof isSupabaseConfigured !== 'function' || !isSupabaseConfigured()) {
-        console.warn('Supabase not configured; application not persisted to the cloud.');
-        return;
-      }
-      try {
-        const { error } = await supabaseClient.from('job_applications').insert([{
-          name: fields.name || '',
-          whatsapp: fields.phone || '',
-          email: fields.email || '',
-          degree: fields.degree || '',
-          grad_year: fields.gradYear || '',
-          is_student: fields.isStudent || 'No',
-          course_name: fields.courseName || '',
-          experience: fields.experience || '',
-          preferred_location: fields.preferredLocation || '',
-          work_mode: fields.workMode || '',
-          skills: fields.skills || '',
-          job_role: fields.jobRole || '',
-          company: fields.company || '',
-          page_url: fields.page || '',
-          resume_url: fields.resumeUrl || ''
-        }]);
-        if (error) console.error('Supabase job_applications insert error:', error);
-      } catch (err) {
-        console.warn('Supabase job_applications insert exception:', err);
-      }
-    }
-
     // Built-in Database of default roles
     const DEFAULT_JOBS_DB = {};
 
@@ -2210,13 +2165,12 @@
       const urlParams = new URLSearchParams(window.location.search);
       const jobId = urlParams.get('id');
 
-      // 1. Fetch the full listing through the subscriber-only RPC.
+      // 1. Fetch the full listing through public.job_details().
       //
-      // The paid columns (description, responsibilities, requirements,
-      // about_company, apply_url) are revoked from the `authenticated` role, so
-      // a plain select cannot reach them. public.job_details() is SECURITY
-      // DEFINER and checks has_active_pass() internally: without a live pass it
-      // returns no rows, so there is nothing for the page to render.
+      // Listings are public so search engines can index them. The detail
+      // columns are revoked from anon/authenticated, so a plain select cannot
+      // reach them; the SECURITY DEFINER RPC returns them to everyone, and
+      // returns apply_url only once this candidate has applied (or is Pro).
       let customJobs = [];
       if (jobId && typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
         try {
@@ -2291,15 +2245,13 @@
       renderJob(foundJob);
       renderSimilarJobs(customJobs, foundJob.id);
 
-      // Handle return from separate create-profile.html page
-      if (urlParams.get('applied') === 'true' && foundJob) {
-        markJobApplied(foundJob.id);
-        const toast = document.getElementById('app-toast');
-        if (toast) {
-          toast.querySelector('span').textContent = `🎉 Application submitted successfully for ${foundJob.title}! Our team will match your profile.`;
-          toast.classList.add('is-visible');
-          setTimeout(() => toast.classList.remove('is-visible'), 5000);
-        }
+      // Returning from sign-in or from create-profile.html with ?apply=1:
+      // carry on with the application the candidate started.
+      if (urlParams.get('apply') === '1') {
+        urlParams.delete('apply');
+        const rest = urlParams.toString();
+        history.replaceState(null, '', window.location.pathname + (rest ? '?' + rest : ''));
+        handleApplyButtonClick();
       }
     }
 
@@ -2547,8 +2499,9 @@
         }
 
         if (applyNote) {
-          const proStatus = (typeof isProMember === 'function' && isProMember()) ? ' • <span style="color:#FBBF24; font-weight:800;">★ Career Pro Active</span>' : ' • <a href="javascript:void(0)" onclick="openPaymentModal(\'job_badge\')" style="color:#60A5FA; text-decoration:underline;">Upgrade to Pro (₹499)</a>';
-          applyNote.innerHTML = `🔒 Connected as <strong>${escapeHtml(displayName)}</strong>${proStatus}`;
+          // The counter span is filled from the database by js/trial.js.
+          applyNote.innerHTML = `🔒 Connected as <strong>${escapeHtml(displayName)}</strong><br><span data-trial-counter="applications" style="color:#60A5FA; font-weight:700;"></span>`;
+          if (window.KompetenzenTrial) KompetenzenTrial.status().then(KompetenzenTrial.renderCounters);
         }
       } else {
         if (navBadge) {
@@ -2562,44 +2515,95 @@
           applyBtn.disabled = false;
         }
         if (applyNote) {
-          applyNote.innerHTML = '🔒 Quick Google / Email sign-in • Student Career Pro';
+          applyNote.innerHTML = '🎁 Your first 3 applications are free • Quick Google / Email sign-in';
         }
       }
     }
 
-    function handleApplyButtonClick() {
-      const user = getStoredUser();
-      const currentJobId = currentJob ? currentJob.id : null;
+    let applyInFlight = false;
 
-      if (!user) {
-        // User not authenticated -> open Google / Auth modal in signup mode
-        openAuthModal('signup');
-      } else {
-        // User is authenticated -> verify Career Pro Pass status
-        if (typeof isProMember === 'function' && !isProMember()) {
-          openPaymentModal('job_application', () => {
-            handleApplyButtonClick();
-          });
-          return;
-        }
-        if (currentJobId && getAppliedJobs().includes(currentJobId)) {
-          const toast = document.getElementById('app-toast');
-          if (toast) {
-            toast.querySelector('span').textContent = 'You have already submitted an application for this position!';
-            toast.classList.add('is-visible');
-            setTimeout(() => toast.classList.remove('is-visible'), 4000);
-          }
-          return;
-        }
+    function showApplyToast(message, ms = 4500) {
+      const toast = document.getElementById('app-toast');
+      if (!toast) return;
+      toast.querySelector('span').textContent = message;
+      toast.classList.add('is-visible');
+      setTimeout(() => toast.classList.remove('is-visible'), ms);
+    }
 
-        const profile = getStoredProfile();
-        if (!profile) {
-          // Redirect to separate profile creation page
-          window.location.href = `create-profile.html?jobId=${currentJobId || ''}`;
-        } else {
-          // Already have profile -> 1-click instant application!
-          submitDirectApplication(user, profile);
+    function openExternalApplyUrl(url) {
+      if (!url || !/^https?:\/\//i.test(url)) return;
+      const directBtn = document.getElementById('app-direct-link');
+      if (directBtn) {
+        directBtn.href = url;
+        directBtn.style.display = 'flex';
+        directBtn.innerHTML = `<span>Visit ${escapeHtml(currentJob ? currentJob.company : 'Company')} Portal ↗</span>`;
+      }
+      setTimeout(() => window.open(url, '_blank', 'noopener'), 1000);
+    }
+
+    /**
+     * Sign-in -> profile -> free-trial credit (or Pro) -> application.
+     * Every check after sign-in happens in the database (apply_to_job()), so
+     * nothing here can be skipped by editing browser storage.
+     */
+    async function handleApplyButtonClick() {
+      if (!currentJob || applyInFlight) return;
+      const jobId = currentJob.id;
+      const returnUrl = `job-details.html?id=${encodeURIComponent(jobId)}&apply=1`;
+
+      const session = window.KompetenzenTrial ? await KompetenzenTrial.getSession() : null;
+      if (!session) {
+        openAuthModal('signup', returnUrl);
+        return;
+      }
+
+      const applyBtn = document.getElementById('sidebar-apply-btn');
+      applyInFlight = true;
+      if (applyBtn) {
+        applyBtn.disabled = true;
+        applyBtn.innerHTML = '<span>Submitting application…</span>';
+      }
+
+      let result;
+      try {
+        result = await KompetenzenTrial.applyToJob(jobId);
+      } finally {
+        applyInFlight = false;
+        updateSidebarAuthState();
+      }
+
+      switch (result && result.status) {
+        case 'applied': {
+          markJobApplied(jobId);
+          const left = result.applications_left;
+          const extra = result.is_pro || left === null || left === undefined
+            ? ''
+            : left > 0
+              ? ` ${left} free application${left === 1 ? '' : 's'} left.`
+              : ' That was your last free application.';
+          showApplyToast(`✓ Application submitted for ${currentJob.title}!${extra}`);
+          openExternalApplyUrl(result.apply_url);
+          break;
         }
+        case 'already_applied':
+          markJobApplied(jobId);
+          showApplyToast('You have already applied for this position.');
+          openExternalApplyUrl(result.apply_url);
+          break;
+        case 'profile_required':
+          window.location.href = `create-profile.html?jobId=${encodeURIComponent(jobId)}`;
+          break;
+        case 'trial_exhausted':
+          openPaymentModal('job_application', () => { handleApplyButtonClick(); });
+          break;
+        case 'auth_required':
+          openAuthModal('signup', returnUrl);
+          break;
+        case 'job_not_found':
+          showApplyToast('This opening is no longer available.');
+          break;
+        default:
+          showApplyToast('Could not submit your application. Please try again.');
       }
     }
 
@@ -2619,20 +2623,9 @@
       if (alertEl) alertEl.style.display = 'none';
     }
 
+    // Fallback only: js/auth-modal.js loads later and replaces window.openAuthModal
+    // with the shared sign-in modal used across the site.
     function openAuthModal(initialTab = null) {
-      // If user is already signed in anywhere, bypass modal directly!
-      const user = getStoredUser();
-      if (user) {
-        const profile = getStoredProfile();
-        const currentJobId = currentJob ? currentJob.id : '';
-        if (!profile) {
-          window.location.href = `create-profile.html?jobId=${currentJobId}`;
-        } else {
-          submitDirectApplication(user, profile);
-        }
-        return;
-      }
-
       const modal = document.getElementById('auth-profile-modal');
       if (!modal) return;
       modal.classList.add('active');
@@ -2661,13 +2654,8 @@
     }
 
     window.openResumeBuilder = function (e) {
-      if (e && e.preventDefault) e.preventDefault();
       const resumeUrl = 'Resume/resume.html';
-      if (isUserLoggedIn()) {
-        window.location.href = resumeUrl;
-        return;
-      }
-      openAuthModal('signup');
+      window.location.href = resumeUrl;
     };
 
     function closeAuthModal() {
@@ -2886,15 +2874,6 @@
 
       updateSidebarAuthState();
       closeAuthModal();
-
-      // Check if profile exists; if not, redirect to profile creation page
-      const profile = getStoredProfile();
-      const currentJobId = currentJob ? currentJob.id : '';
-      if (!profile) {
-        window.location.href = `create-profile.html?jobId=${currentJobId}`;
-      } else {
-        submitDirectApplication(userObj, profile);
-      }
     }
 
     // Resume any pending Google OAuth redirect/session after bouncing back from Google
@@ -2905,47 +2884,6 @@
         if (!user || isUserLoggedIn()) return;
         authenticateUser(user);
       } catch (e) {}
-    }
-
-    // Direct 1-click apply when user and profile already exist
-    function submitDirectApplication(user, profile) {
-      const currentRole = currentJob ? currentJob.title : 'Job Application';
-      const currentCompany = currentJob ? currentJob.company : 'Kompetenzen Network';
-
-      sendLeadToSheet({
-        name: profile.name || user.name,
-        phone: profile.phone || '',
-        email: profile.email || user.email,
-        degree: profile.degree || '',
-        gradYear: profile.graduationYear || '',
-        isStudent: profile.isKompetenzenStudent ? 'Yes' : 'No',
-        courseName: profile.courseName || 'N/A',
-        experience: profile.experience || 'Not specified',
-        preferredLocation: profile.preferredLocation || 'Kochi',
-        workMode: profile.workMode || 'Hybrid',
-        skills: Array.isArray(profile.skills) ? profile.skills.join(', ') : (profile.skills || ''),
-        resumeUrl: profile.resumeUrl || '',
-        jobRole: currentRole,
-        company: currentCompany,
-        page: window.location.href
-      });
-
-      if (currentJob) {
-        markJobApplied(currentJob.id);
-      }
-
-      const toast = document.getElementById('app-toast');
-      if (toast) {
-        toast.querySelector('span').textContent = `✓ 1-Click Application submitted for ${currentRole} using your saved profile!`;
-        toast.classList.add('is-visible');
-        setTimeout(() => toast.classList.remove('is-visible'), 4500);
-      }
-
-      setTimeout(() => {
-        if (currentJob && currentJob.applyUrl && currentJob.applyUrl.startsWith('http')) {
-          window.open(currentJob.applyUrl, '_blank');
-        }
-      }, 1000);
     }
 
     function handleSignOut() {
@@ -3032,11 +2970,11 @@
   </script>
 
   <!-- Unified Auth Modal -->
-  <script src="js/auth-modal.js"></script>
+  <script src="js/auth-modal.js?v=5"></script>
   <!-- Career Pro Pass Payment Modal -->
   <script src="js/payment-modal.js"></script>
-  <!-- Sign-in required to view job details; payment required when applying -->
-  <script src="js/require-login.js" data-require="login"></script>
+  <!-- Job details are public; applying needs sign-in and a free-trial credit or Pro -->
+  <script src="js/trial.js"></script>
 </body>
 
 </html>

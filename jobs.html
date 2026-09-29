@@ -181,55 +181,40 @@
     .nav-user-btn {
       display: inline-flex;
       align-items: center;
-      gap: 9px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      padding: 5px 14px 5px 6px;
-      border-radius: 99px;
-      color: #FFFFFF;
-      font-family: inherit;
-      font-size: 13.5px;
-      font-weight: 600;
+      justify-content: center;
+      background: transparent;
+      border: 2px solid transparent;
+      padding: 2px;
+      border-radius: 50%;
       cursor: pointer;
       transition: all 0.2s ease;
-      backdrop-filter: blur(12px);
     }
 
     .nav-user-btn:hover {
-      background: rgba(255, 255, 255, 0.15);
       border-color: rgba(96, 165, 250, 0.5);
+      background: rgba(255, 255, 255, 0.08);
+      transform: scale(1.05);
     }
 
     .nav-user-avatar {
-      width: 28px;
-      height: 28px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       background: linear-gradient(135deg, #2563EB, #7C3AED);
       color: #FFFFFF;
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 800;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
       box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .nav-user-name {
-      max-width: 120px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      color: #F1F5F9;
-    }
-
+    .nav-user-name,
     .nav-user-chevron {
-      color: var(--ink-mute);
-      transition: transform 0.2s;
-    }
-
-    .nav-user-badge.open .nav-user-chevron {
-      transform: rotate(180deg);
+      display: none !important;
     }
 
     .nav-user-menu {
@@ -313,6 +298,18 @@
     .nav-user-menu-item.logout:hover {
       background: rgba(239, 68, 68, 0.12);
       color: #EF4444;
+    }
+
+    /* Hide Career Pro Pass purchase CTAs when user has an active pass */
+    html.is-pro-user .pro-pass-cta,
+    html.is-pro-user .pro-upgrade-btn,
+    html.is-pro-user .pro-pass-hero-strip,
+    html.is-pro-user [data-pro-hide-when-active],
+    body.is-pro-user .pro-pass-cta,
+    body.is-pro-user .pro-upgrade-btn,
+    body.is-pro-user .pro-pass-hero-strip,
+    body.is-pro-user [data-pro-hide-when-active] {
+      display: none !important;
     }
 
     /* HERO */
@@ -1025,7 +1022,7 @@
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
               <span>My Candidate Profile</span>
             </a>
-            <button type="button" class="nav-user-menu-item" onclick="openPaymentModal('nav_menu')" style="color:#FBBF24; font-weight:700;">
+            <button type="button" class="nav-user-menu-item pro-pass-cta" data-pro-hide-when-active="true" onclick="openPaymentModal('nav_menu')" style="color:#FBBF24; font-weight:700;">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
               <span>★ Career Pro Pass (₹499)</span>
             </button>
@@ -1078,21 +1075,27 @@
   <!-- MAIN -->
   <main class="jobs-main">
 
-    <!-- PRO PASS PROMO BANNER -->
-    <div class="pro-pass-hero-strip sr" style="background: linear-gradient(90deg, rgba(37, 99, 235, 0.15) 0%, rgba(245, 158, 11, 0.12) 100%); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 16px; padding: 16px 24px; margin-bottom: 32px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+    <!-- FREE TRIAL STRIP — visitors see the free offer; the ₹499 pass is shown
+         only to signed-in candidates with at most one free application left
+         (visibility driven by js/trial.js from the database) -->
+    <div class="pro-pass-hero-strip sr" style="background: linear-gradient(90deg, rgba(37, 99, 235, 0.15) 0%, rgba(16, 185, 129, 0.12) 100%); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 16px; padding: 16px 24px; margin-bottom: 32px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
       <div style="display: flex; align-items: center; gap: 14px;">
-        <span style="font-size: 24px;">⚡</span>
+        <span style="font-size: 24px;">🎁</span>
         <div>
           <div style="font-size: 14.5px; font-weight: 700; color: #FFFFFF;">
-            Student Career Pro Pass — <span style="color: #FBBF24;">₹499 All-Access</span>
+            Your first <span style="color: #34D399;">3 job applications are free</span> — no payment needed
           </div>
           <div style="font-size: 12.5px; color: #94A3B8;">
-            Unlock unlimited ATS Resume downloads, 1-click verified job applications, and AI interview prep.
+            Read any opening below, then apply with one saved profile.
+            <span data-trial-counter="applications" style="display:none; color:#60A5FA; font-weight:700; margin-left:6px;"></span>
           </div>
         </div>
       </div>
-      <button type="button" onclick="openPaymentModal('jobs_banner')" class="apply-btn" style="padding: 9px 20px; font-size: 12.5px; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); border-color: rgba(245, 158, 11, 0.5); box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);">
-        Get Pro Pass (₹499) →
+      <button type="button" data-trial-show="anon" onclick="openAuthModal('signup')" class="apply-btn" style="padding: 9px 20px; font-size: 12.5px;">
+        Sign up free →
+      </button>
+      <button type="button" data-trial-show="low" data-pro-hide-when-active="true" onclick="openPaymentModal('jobs_banner')" class="apply-btn pro-pass-cta" style="display:none; padding: 9px 20px; font-size: 12.5px; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); border-color: rgba(245, 158, 11, 0.5); box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);">
+        Unlimited with Pro (₹499/yr) →
       </button>
     </div>
 
@@ -1154,20 +1157,8 @@
       card.className = ['job-card', extraClass].filter(Boolean).join(' ');
       card.setAttribute('data-category', category || 'tech');
       const targetUrl = `job-details.html?id=${id || ''}`;
+      // Job details are public; sign-in is asked for only when the candidate applies.
       card.setAttribute('href', targetUrl);
-      // Public listings: clicking a job card checks authentication to view job details
-      card.onclick = function (e) {
-        if (typeof window.checkAuthAndGoToJob === 'function') {
-          checkAuthAndGoToJob(e, targetUrl);
-        } else if (typeof window.isUserLoggedIn === 'function' && !window.isUserLoggedIn()) {
-          if (e && e.preventDefault) e.preventDefault();
-          if (typeof window.openAuthModal === 'function') {
-            window.openAuthModal('signup', targetUrl);
-          } else {
-            window.location.href = targetUrl;
-          }
-        }
-      };
 
       const initials = logoInitials || getCompanyInitials(company);
       const styleAttr = brandStyle || 'background: linear-gradient(135deg, rgba(37, 99, 235, 0.25) 0%, rgba(99, 102, 241, 0.2) 100%); border: none; color: #93C5FD;';
@@ -1384,6 +1375,9 @@
           }
         }
       } catch (e) {}
+      if (typeof updateProNavBadges === 'function') {
+        updateProNavBadges();
+      }
     }
 
     function toggleNavUserDropdown(e) {
@@ -1479,9 +1473,10 @@
   </script>
 
   <!-- Unified Auth Modal -->
-  <script src="js/auth-modal.js"></script>
+  <script src="js/auth-modal.js?v=5"></script>
   <!-- Career Pro Pass Payment Modal -->
   <script src="js/payment-modal.js"></script>
+  <script src="js/trial.js"></script>
   <!-- Mobile Menu Toggle -->
   <script>
     (function () {

@@ -60,16 +60,28 @@ async function kompetenzenAuthHeaders() {
  */
 
 async function supabaseSignUp(name, email, phone, password) {
+  let redirectUrl = 'http://localhost:3000/';
+  if (typeof window !== 'undefined' && window.location.protocol.startsWith('http')) {
+    redirectUrl = window.location.origin + window.location.pathname;
+  }
   const { data, error } = await supabaseClient.auth.signUp({
     email: email,
     password: password,
     options: {
-      data: { name: name, phone: phone }
+      data: { name: name, phone: phone },
+      emailRedirectTo: redirectUrl
     }
   });
   if (error) throw error;
   return data.user
-    ? { name: name, email: email, phone: phone, authType: 'Email Signup' }
+    ? {
+        name: name,
+        email: email,
+        phone: phone,
+        authType: 'Email Signup',
+        needsConfirmation: !data.session,
+        session: data.session
+      }
     : null;
 }
 
@@ -99,12 +111,73 @@ async function supabaseSignInWithGoogle(redirectUrl) {
   if (error) throw error;
 }
 
+/**
+ * Extracts access_token and refresh_token from URL hash if returning from OAuth / Email Confirmation.
+ */
+function extractTokenFromHash() {
+  try {
+    if (typeof window !== 'undefined' && window.location.hash && window.location.hash.includes('access_token=')) {
+      const hash = window.location.hash.replace(/^#/, '');
+      const params = new URLSearchParams(hash);
+      return {
+        accessToken: params.get('access_token'),
+        refreshToken: params.get('refresh_token')
+      };
+    }
+  } catch (e) {}
+  return null;
+}
+
+/**
+ * Immediately parses and persists Auth session from URL hash on script load.
+ */
+(function syncOAuthHashImmediately() {
+  const tokens = extractTokenFromHash();
+  if (tokens && tokens.accessToken) {
+    try {
+      localStorage.setItem('token', tokens.accessToken);
+      localStorage.setItem('access_token', tokens.accessToken);
+      const parts = tokens.accessToken.split('.');
+      if (parts.length === 3) {
+        const payload = JSON.parse(atob(parts[1]));
+        const meta = payload.user_metadata || {};
+        const isGoogle = (meta.provider === 'google' || (payload.app_metadata && payload.app_metadata.provider === 'google'));
+        const userObj = {
+          name: meta.name || meta.full_name || (payload.email ? payload.email.split('@')[0] : 'Candidate'),
+          email: payload.email || '',
+          phone: meta.phone || '',
+          authType: isGoogle ? 'Google Auth' : 'Email Signup',
+          loginTime: new Date().toISOString()
+        };
+        localStorage.setItem('kompetenzen_google_user', JSON.stringify(userObj));
+        localStorage.setItem('kompetenzen_user', JSON.stringify(userObj));
+        localStorage.setItem('user', JSON.stringify(userObj));
+      }
+
+      if (supabaseClient && tokens.refreshToken) {
+        supabaseClient.auth.setSession({
+          access_token: tokens.accessToken,
+          refresh_token: tokens.refreshToken
+        }).catch(() => {});
+      }
+
+      // Check for pending redirect after email verification
+      const pendingRedirect = localStorage.getItem('kompetenzen_pending_auth_redirect');
+      if (pendingRedirect) {
+        localStorage.removeItem('kompetenzen_pending_auth_redirect');
+        setTimeout(() => { window.location.href = pendingRedirect; }, 300);
+      }
+    } catch (e) {}
+  }
+})();
+
 async function supabaseGetSessionUser() {
   const { data } = await supabaseClient.auth.getSession();
   if (!data || !data.session || !data.session.user) return null;
   const user = data.session.user;
   const meta = user.user_metadata || {};
   return {
+    id: user.id,
     name: meta.name || meta.full_name || user.email,
     email: user.email,
     phone: meta.phone || '',
