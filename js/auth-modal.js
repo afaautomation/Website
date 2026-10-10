@@ -195,7 +195,7 @@
           <!-- Top Row: Logo & Close Button -->
           <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1.25rem;">
             <div style="display:flex; align-items:center; gap:8px;">
-              <img src="kompetenzen logo-02.png" alt="Kompetenzen" style="height:26px; display:block;">
+              <img src="kompetenzen logo-02.webp" alt="Kompetenzen" style="height:26px; display:block;">
             </div>
             <button type="button" class="auth-close-btn" onclick="closeJobsAuthModal()" aria-label="Close modal">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
@@ -206,10 +206,10 @@
           </div>
 
           <!-- Hero Text -->
-          <h2 style="font-size:1.55rem; font-weight:800; color:#0f172a; line-height:1.22; letter-spacing:-0.03em; margin:0 0 0.5rem;">
+          <h2 id="auth-modal-hero-title" style="font-size:1.55rem; font-weight:800; color:#0f172a; line-height:1.22; letter-spacing:-0.03em; margin:0 0 0.5rem;">
             Find matching jobs you'll actually get <span style="color:#1947FF;">placed for.</span>
           </h2>
-          <p style="font-size:0.88rem; color:#64748b; font-weight:500; margin:0 0 1.75rem;">
+          <p id="auth-modal-hero-sub" style="font-size:0.88rem; color:#64748b; font-weight:500; margin:0 0 1.75rem;">
             Free to start · no card needed
           </p>
 
@@ -328,42 +328,31 @@
             </div>
           </form>
 
-          <!-- LOG IN FORM -->
-          <form id="login-form" onsubmit="handleLoginSubmit(event)" style="display:none; flex-direction:column; gap:0.25rem;">
-            
-            <div id="login-fields-email">
-              <div class="auth-input-group">
-                <label>Email Address</label>
-                <input id="login-email" type="email" placeholder="Enter your email" autocomplete="email">
-              </div>
+          <!-- LOG IN FORM (EMAIL + PASSWORD, verified by Supabase) -->
+          <form id="login-form" onsubmit="handleLoginSubmit(event)" style="display:none; flex-direction:column; gap:0.35rem;">
 
-              <div class="auth-input-group">
-                <label>Password</label>
-                <input id="login-password" type="password" placeholder="Enter your password" autocomplete="current-password">
-                <span onclick="togglePasswordVisibility('login-password')"
-                  style="position:absolute; right:10px; top:31px; cursor:pointer; color:#94a3b8; font-size:14px; user-select:none; padding:4px;"
-                  title="Toggle password visibility">👁️</span>
-              </div>
+            <div class="auth-input-group">
+              <label for="login-email">Email Address</label>
+              <input id="login-email" type="email" required placeholder="you@example.com" autocomplete="email">
             </div>
 
-            <div id="login-fields-phone" style="display:none;">
-              <div class="auth-input-group">
-                <label>Mobile Number</label>
-                <input id="login-phone" type="tel" placeholder="+91 98765 43210" autocomplete="tel">
-              </div>
+            <div class="auth-input-group">
+              <label for="login-password">Password</label>
+              <input id="login-password" type="password" required minlength="6" placeholder="Your password" autocomplete="current-password">
+              <span onclick="togglePasswordVisibility('login-password')"
+                style="position:absolute; right:10px; top:31px; cursor:pointer; color:#94a3b8; font-size:14px; user-select:none; padding:4px;"
+                title="Toggle password visibility">👁️</span>
             </div>
 
-            <button type="submit" id="login-submit-btn" class="auth-pill-btn auth-submit-btn" style="margin-top:0.5rem;">
+            <button type="submit" id="login-submit-btn" class="auth-pill-btn auth-submit-btn" style="margin-top:0.45rem;">
               Log In →
             </button>
 
-            <div style="display:none; margin-top:0.75rem; text-align:center; font-size:0.8rem;">
-              <a href="javascript:void(0)" id="toggle-login-method-btn" onclick="toggleLoginMethod()" style="color:#1947FF; font-weight:600; text-decoration:none;">
-                📲 Log in with Mobile OTP instead
-              </a>
+            <div style="margin-top:0.5rem; text-align:right; font-size:0.78rem;">
+              <a href="javascript:void(0)" onclick="authModalForgotPassword()" style="color:#64748b; text-decoration:underline;">Forgot password?</a>
             </div>
 
-            <div style="margin-top:0.6rem; text-align:center; font-size:0.8rem; color:#64748b;">
+            <div style="margin-top:0.85rem; text-align:center; font-size:0.8rem; color:#64748b;">
               Don't have an account? <a href="javascript:void(0)" onclick="switchAuthTab('signup')" style="color:#1947FF; font-weight:700; text-decoration:none;">Sign Up</a>
             </div>
           </form>
@@ -382,7 +371,7 @@
           
           <!-- Top Row: Back button & Close button -->
           <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1.1rem;">
-            <button type="button" class="auth-back-btn" onclick="showEmailAuthStep(window._otpMode === 'login' ? 'login' : 'signup')">
+            <button type="button" class="auth-back-btn" onclick="showEmailAuthStep('signup')">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="19" y1="12" x2="5" y2="12"></line>
                 <polyline points="12 19 5 12 12 5"></polyline>
@@ -410,7 +399,7 @@
               Verify Mobile Number
             </h3>
             <p style="margin:0; font-size:0.83rem; color:#64748b; line-height:1.45;">
-              We sent a 6-digit verification code to<br>
+              We sent a 6-digit SMS verification code to<br>
               <strong id="otp-phone-display" style="color:#0f172a; font-weight:700;">+91</strong>
             </p>
           </div>
@@ -427,7 +416,7 @@
                 style="text-align:center; font-size:1.55rem; font-weight:800; letter-spacing:0.35em; padding:0.72rem 1rem; border-radius:12px; font-family:monospace; width:100%; max-width:240px; margin:0 auto; background:#f8fafc; border:1.5px solid #cbd5e1; outline:none;">
             </div>
 
-            <button type="submit" id="otp-submit-btn" class="auth-pill-btn auth-submit-btn" style="margin-top:0.25rem;">
+              <button type="submit" id="otp-submit-btn" class="auth-pill-btn auth-submit-btn" style="margin-top:0.25rem;">
               Verify & Complete →
             </button>
 
@@ -442,6 +431,9 @@
           </form>
 
         </div>
+
+        <!-- Firebase invisible reCAPTCHA container (must be outside hidden step views) -->
+        <div id="recaptcha-container"></div>
 
       </div>
     </div>
@@ -483,12 +475,13 @@
 
   window.showEmailAuthStep = function (mode = 'signup') {
     ensureAuthModalDOM();
-    const stepChoice = document.getElementById('auth-step-choice');
-    const stepEmail = document.getElementById('auth-step-email');
-    const stepOtp = document.getElementById('auth-step-otp');
-    const inlineMsg = document.getElementById('auth-inline-msg');
-    const otpMsg = document.getElementById('otp-inline-msg');
-    const smsBanner = document.getElementById('simulated-sms-banner');
+    const modal = document.getElementById('jobs-auth-modal') || document;
+    const stepChoice = modal.querySelector('#auth-step-choice');
+    const stepEmail = modal.querySelector('#auth-step-email');
+    const stepOtp = modal.querySelector('#auth-step-otp');
+    const inlineMsg = modal.querySelector('#auth-inline-msg');
+    const otpMsg = modal.querySelector('#otp-inline-msg');
+    const smsBanner = modal.querySelector('#simulated-sms-banner');
     if (inlineMsg) inlineMsg.style.display = 'none';
     if (otpMsg) otpMsg.style.display = 'none';
     if (smsBanner) smsBanner.style.display = 'none';
@@ -502,19 +495,23 @@
 
   window.showOtpStep = function (phone, mode = 'signup') {
     ensureAuthModalDOM();
-    window._otpMode = mode;
-    const stepChoice = document.getElementById('auth-step-choice');
-    const stepEmail = document.getElementById('auth-step-email');
-    const stepOtp = document.getElementById('auth-step-otp');
-    const phoneDisplay = document.getElementById('otp-phone-display');
-    const otpInput = document.getElementById('otp-code-input');
-    const otpMsg = document.getElementById('otp-inline-msg');
+    const modal = document.getElementById('jobs-auth-modal') || document;
+    const stepChoice = modal.querySelector('#auth-step-choice');
+    const stepEmail = modal.querySelector('#auth-step-email');
+    const stepOtp = modal.querySelector('#auth-step-otp');
+    const phoneDisplay = modal.querySelector('#otp-phone-display');
+    const otpInput = modal.querySelector('#otp-code-input');
+    const otpMsg = modal.querySelector('#otp-inline-msg');
+    const otpSubmitBtn = modal.querySelector('#otp-submit-btn');
 
     if (stepChoice) stepChoice.style.display = 'none';
     if (stepEmail) stepEmail.style.display = 'none';
     if (stepOtp) stepOtp.style.display = 'block';
 
     if (phoneDisplay) phoneDisplay.textContent = phone || 'your mobile number';
+    if (otpSubmitBtn) {
+      otpSubmitBtn.textContent = mode === 'login' ? 'Verify & Log In →' : 'Verify & Complete →';
+    }
     if (otpInput) {
       otpInput.value = '';
       setTimeout(() => otpInput.focus(), 150);
@@ -527,13 +524,14 @@
   window.switchAuthTab = function (mode) {
     ensureAuthModalDOM();
     currentAuthMode = mode;
-    const signupBtn = document.getElementById('tab-signup-btn');
-    const loginBtn = document.getElementById('tab-login-btn');
-    const signupForm = document.getElementById('signup-form');
-    const loginForm = document.getElementById('login-form');
-    const titleEl = document.getElementById('auth-modal-title');
-    const subtitleEl = document.getElementById('auth-modal-subtitle');
-    const inlineMsg = document.getElementById('auth-inline-msg');
+    const modal = document.getElementById('jobs-auth-modal') || document;
+    const signupBtn = modal.querySelector('#tab-signup-btn');
+    const loginBtn = modal.querySelector('#tab-login-btn');
+    const signupForm = modal.querySelector('#signup-form');
+    const loginForm = modal.querySelector('#login-form');
+    const titleEl = modal.querySelector('#auth-modal-title');
+    const subtitleEl = modal.querySelector('#auth-modal-subtitle');
+    const inlineMsg = modal.querySelector('#auth-inline-msg');
 
     if (inlineMsg) inlineMsg.style.display = 'none';
 
@@ -552,6 +550,8 @@
       if (loginForm) loginForm.style.display = 'flex';
       if (titleEl) titleEl.textContent = 'Welcome Back';
       if (subtitleEl) subtitleEl.textContent = 'Log in with your email and password';
+      const emailInput = modal.querySelector('#login-email');
+      if (emailInput) setTimeout(() => emailInput.focus(), 100);
     } else {
       if (signupBtn) {
         signupBtn.style.background = '#1947FF';
@@ -567,6 +567,8 @@
       if (loginForm) loginForm.style.display = 'none';
       if (titleEl) titleEl.textContent = 'Create Your Account';
       if (subtitleEl) subtitleEl.textContent = 'Enter your details to access courses, jobs & placements';
+      const nameInput = modal.querySelector('#signup-name');
+      if (nameInput) setTimeout(() => nameInput.focus(), 100);
     }
   };
 
@@ -636,100 +638,190 @@
     }
   }
 
-  function otpApiBase() {
-    return (typeof KOMPETENZEN_API_BASE !== 'undefined') ? KOMPETENZEN_API_BASE : 'http://localhost:5000/api';
+  // Dynamic script loader for Firebase Phone Auth
+  function loadScriptAsync(src) {
+    return new Promise((resolve, reject) => {
+      const existing = document.querySelector(`script[src="${src}"]`);
+      if (existing) {
+        if (existing.getAttribute('data-loaded') === 'true' || (window.firebase && window.firebase.auth)) return resolve();
+        existing.addEventListener('load', () => resolve());
+        existing.addEventListener('error', (e) => reject(e));
+        return;
+      }
+      const s = document.createElement('script');
+      s.src = src;
+      s.async = true;
+      s.onload = () => {
+        s.setAttribute('data-loaded', 'true');
+        resolve();
+      };
+      s.onerror = (e) => reject(new Error('Failed to load: ' + src));
+      document.head.appendChild(s);
+    });
   }
 
-  /**
-   * Asks the backend to generate a code and send it over WhatsApp. The code
-   * never reaches the browser — it used to be generated here, where anyone
-   * could read it from devtools, and it never matched the code actually sent.
-   */
-  async function requestOtp(phone) {
-    try {
-      const res = await fetch(otpApiBase() + '/auth/send-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone })
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok || !data.success) {
-        return { ok: false, message: data.message || 'Could not send the verification code. Please try again.' };
-      }
-      return { ok: true };
-    } catch (e) {
-      return { ok: false, message: 'Could not reach the verification service. Please try again shortly.' };
+  async function ensureFirebaseAuth() {
+    if (typeof window.firebase === 'undefined') {
+      await loadScriptAsync('https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js');
+    }
+    if (typeof window.firebase === 'undefined' || !window.firebase.auth) {
+      await loadScriptAsync('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js');
+    }
+    if (!window.firebase.apps || !window.firebase.apps.length) {
+      window.firebase.initializeApp(firebaseConfig);
+    }
+    return window.firebase.auth();
+  }
+
+  function formatPhoneToE164(phone) {
+    let clean = (phone || '').toString().trim().replace(/[\s\-\(\)]/g, '');
+    if (clean.startsWith('+')) return clean;
+    if (clean.length === 10) return '+91' + clean;
+    if (clean.length > 10 && clean.startsWith('91')) return '+' + clean;
+    return '+91' + clean;
+  }
+
+  function resetRecaptchaVerifier() {
+    if (window._recaptchaVerifier) {
+      try {
+        window._recaptchaVerifier.clear();
+      } catch (e) {}
+      window._recaptchaVerifier = null;
+    }
+    const oldContainer = document.getElementById('recaptcha-container');
+    if (oldContainer && oldContainer.parentNode) {
+      const fresh = document.createElement('div');
+      fresh.id = 'recaptcha-container';
+      fresh.style.cssText = oldContainer.style.cssText;
+      oldContainer.parentNode.replaceChild(fresh, oldContainer);
     }
   }
 
+  function getRecaptchaVerifier(auth) {
+    resetRecaptchaVerifier();
+
+    let container = document.getElementById('recaptcha-container');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'recaptcha-container';
+      document.body.appendChild(container);
+    }
+
+    try {
+      window._recaptchaVerifier = new window.firebase.auth.RecaptchaVerifier(container, {
+        size: 'invisible',
+        callback: function () {
+          // reCAPTCHA solved
+        },
+        'expired-callback': function () {
+          resetRecaptchaVerifier();
+        }
+      }, auth.app);
+    } catch (e) {
+      resetRecaptchaVerifier();
+      container = document.getElementById('recaptcha-container') || document.body;
+      window._recaptchaVerifier = new window.firebase.auth.RecaptchaVerifier(container, {
+        size: 'invisible',
+        callback: function () {},
+        'expired-callback': function () {
+          resetRecaptchaVerifier();
+        }
+      }, auth.app);
+    }
+
+    return window._recaptchaVerifier;
+  }
+
+  /**
+   * Sends 6-digit OTP code to the user's mobile number via Firebase Phone Auth (SMS)
+   */
+  async function requestOtp(phone) {
+    try {
+      const auth = await ensureFirebaseAuth();
+      const formattedPhone = formatPhoneToE164(phone);
+      const appVerifier = getRecaptchaVerifier(auth);
+
+      const confirmationResult = await auth.signInWithPhoneNumber(formattedPhone, appVerifier);
+      window._firebaseConfirmationResult = confirmationResult;
+      return { ok: true, formattedPhone };
+    } catch (err) {
+      console.error('Firebase send OTP error:', err);
+      resetRecaptchaVerifier();
+
+      let msg = 'Could not send SMS verification code. Please try again.';
+      const code = err && err.code ? err.code : '';
+      if (code === 'auth/invalid-phone-number') {
+        msg = 'Invalid mobile number. Please check your 10-digit number.';
+      } else if (code === 'auth/too-many-requests') {
+        msg = 'Too many attempts. Please wait a few minutes before trying again.';
+      } else if (code === 'auth/quota-exceeded') {
+        msg = 'Daily SMS quota reached. Please try again later or add phone numbers for testing in Firebase.';
+      } else if (code === 'auth/operation-not-allowed') {
+        msg = 'Phone authentication is not enabled in Firebase Console. Please enable Phone provider in Authentication > Sign-in method.';
+      } else if (code === 'auth/captcha-check-failed') {
+        if (window.location.hostname === '127.0.0.1') {
+          msg = 'Security verification failed: Please open the page via http://localhost:5500 instead of 127.0.0.1, or add 127.0.0.1 to Firebase Console > Authentication > Settings > Authorized domains.';
+        } else {
+          msg = 'Security verification failed: Please verify your domain in Firebase Console > Authentication > Settings > Authorized domains.';
+        }
+      } else if (code === 'auth/invalid-app-credential') {
+        msg = 'Verification token invalid or blocked on localhost. To test locally without SMS issues, please add your phone number to Firebase Console > Authentication > Sign-in method > Phone > "Phone numbers for testing".';
+      } else if (err && err.message) {
+        msg = err.message;
+      }
+      return { ok: false, message: msg };
+    }
+  }
+
+  /**
+   * Verifies the 6-digit SMS OTP code using Firebase
+   */
   async function verifyOtp(phone, otp) {
     try {
-      const res = await fetch(otpApiBase() + '/auth/verify-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone, otp })
-      });
-      const data = await res.json().catch(() => ({}));
-      return { ok: res.ok && !!data.success, message: data.message };
-    } catch (e) {
-      return { ok: false, message: 'Could not reach the verification service. Please try again shortly.' };
+      if (!window._firebaseConfirmationResult) {
+        return { ok: false, message: 'Verification session expired. Please request a new OTP.' };
+      }
+      const result = await window._firebaseConfirmationResult.confirm(otp);
+      return { ok: true, user: result.user };
+    } catch (err) {
+      console.error('Firebase verify OTP error:', err);
+      let msg = 'Invalid verification code. Please check the OTP and try again.';
+      const code = err && err.code ? err.code : '';
+      if (code === 'auth/invalid-verification-code') {
+        msg = 'Incorrect 6-digit OTP. Please check the code received on your phone.';
+      } else if (code === 'auth/code-expired') {
+        msg = 'This code has expired. Please click "Resend OTP".';
+      } else if (err && err.message) {
+        msg = err.message;
+      }
+      return { ok: false, message: msg };
     }
   }
 
   window.editSignupPhoneNumber = function () {
     const pending = window._pendingOtpAuth;
-    window.showEmailAuthStep(pending && pending.mode === 'login' ? 'login' : 'signup');
-    if (pending && pending.mode === 'signup') {
-      if (document.getElementById('signup-name')) document.getElementById('signup-name').value = pending.name || '';
-      if (document.getElementById('signup-email')) document.getElementById('signup-email').value = pending.email || '';
-      if (document.getElementById('signup-phone')) {
-        document.getElementById('signup-phone').value = pending.phone || '';
-        document.getElementById('signup-phone').focus();
+    window.showEmailAuthStep('signup');
+    const modal = document.getElementById('jobs-auth-modal') || document;
+    if (pending) {
+      if (modal.querySelector('#signup-name')) modal.querySelector('#signup-name').value = pending.name || '';
+      if (modal.querySelector('#signup-email')) modal.querySelector('#signup-email').value = pending.email || '';
+      if (modal.querySelector('#signup-phone')) {
+        modal.querySelector('#signup-phone').value = pending.phone || '';
+        modal.querySelector('#signup-phone').focus();
       }
     }
   };
 
   window.resendOtpCode = async function () {
     if (!window._pendingOtpAuth) return;
+    showOtpInlineMessage('Sending new verification code via SMS…', false);
     const result = await requestOtp(window._pendingOtpAuth.cleanPhone);
     if (!result.ok) {
       showOtpInlineMessage(result.message, true);
       return;
     }
-    showOtpInlineMessage('✓ New verification code sent to your WhatsApp!', false);
+    showOtpInlineMessage('✓ New verification code sent to your phone via SMS!', false);
     startOtpCountdown(30);
-  };
-
-  let loginWithPhoneMode = false;
-  window.toggleLoginMethod = function () {
-    // Disabled until the backend can issue a real session for a verified phone.
-    // The toggle link is hidden; this guards any stale reference to it.
-    if (!loginWithPhoneMode) {
-      window.showAuthMessage('Please log in with Google or your email and password.', true);
-      return;
-    }
-    loginWithPhoneMode = !loginWithPhoneMode;
-    const emailFields = document.getElementById('login-fields-email');
-    const phoneFields = document.getElementById('login-fields-phone');
-    const toggleBtn = document.getElementById('toggle-login-method-btn');
-    const submitBtn = document.getElementById('login-submit-btn');
-    const subtitleEl = document.getElementById('auth-modal-subtitle');
-
-    if (loginWithPhoneMode) {
-      if (emailFields) emailFields.style.display = 'none';
-      if (phoneFields) phoneFields.style.display = 'block';
-      if (toggleBtn) toggleBtn.innerHTML = '✉️ Log in with Email & Password instead';
-      if (submitBtn) submitBtn.textContent = 'Send OTP →';
-      if (subtitleEl) subtitleEl.textContent = 'Log in with a one-time password sent to your phone';
-      const phoneInput = document.getElementById('login-phone');
-      if (phoneInput) phoneInput.focus();
-    } else {
-      if (emailFields) emailFields.style.display = 'block';
-      if (phoneFields) phoneFields.style.display = 'none';
-      if (toggleBtn) toggleBtn.innerHTML = '📲 Log in with Mobile OTP instead';
-      if (submitBtn) submitBtn.textContent = 'Log In →';
-      if (subtitleEl) subtitleEl.textContent = 'Log in with your email and password';
-    }
   };
 
   window.closeJobsAuthModal = function () {
@@ -737,10 +829,14 @@
     if (modal) modal.style.display = 'none';
     window._pendingAuthRedirect = null;
     window._pendingAuthSection = null;
+    window._pendingPdfDownload = null;
+    window._pendingPdfName = null;
+    window._pendingPdfCourse = null;
     if (otpCountdownTimer) {
       clearInterval(otpCountdownTimer);
       otpCountdownTimer = null;
     }
+    resetRecaptchaVerifier();
     const msgEl = document.getElementById('auth-inline-msg');
     if (msgEl) msgEl.style.display = 'none';
     const otpMsg = document.getElementById('otp-inline-msg');
@@ -753,14 +849,37 @@
     const loginPassword = document.getElementById('login-password');
     if (loginEmail) loginEmail.value = '';
     if (loginPassword) loginPassword.value = '';
+
+    const heroTitle = document.getElementById('auth-modal-hero-title');
+    const heroSub = document.getElementById('auth-modal-hero-sub');
+    if (heroTitle) heroTitle.innerHTML = 'Find matching jobs you\'ll actually get <span style="color:#1947FF;">placed for.</span>';
+    if (heroSub) heroSub.innerHTML = 'Free to start · no card needed';
+
     // Reset to Step 1 for next open
     window.showChoiceStep();
   };
 
-  window.openAuthModal = function (mode = 'signup', redirectUrl = null) {
+  window.openAuthModal = function (mode = 'signup', redirectUrl = null, customText = null) {
+    if (isUserLoggedIn()) {
+      return;
+    }
     ensureAuthModalDOM();
     const modal = document.getElementById('jobs-auth-modal');
     if (redirectUrl) window._pendingAuthRedirect = redirectUrl;
+
+    const heroTitle = document.getElementById('auth-modal-hero-title');
+    const heroSub = document.getElementById('auth-modal-hero-sub');
+    if (customText && customText.title && heroTitle) {
+      heroTitle.innerHTML = customText.title;
+    } else if (heroTitle) {
+      heroTitle.innerHTML = 'Find matching jobs you\'ll actually get <span style="color:#1947FF;">placed for.</span>';
+    }
+
+    if (customText && customText.sub && heroSub) {
+      heroSub.innerHTML = customText.sub;
+    } else if (heroSub) {
+      heroSub.innerHTML = 'Free to start · no card needed';
+    }
 
     const loginEmail = document.getElementById('login-email');
     const loginPassword = document.getElementById('login-password');
@@ -779,20 +898,69 @@
     if (modal) modal.style.display = 'flex';
   };
 
-  // Interceptors for links across pages
-  window.checkAuthAndGoToCourse = function (event, url) {
-    if (event && event.preventDefault) event.preventDefault();
-    if (isUserLoggedIn()) {
-      window.location.href = url;
-    } else {
-      window.openAuthModal('signup', url);
+  window.showDownloadSuccessToast = function (courseName) {
+    let toast = document.getElementById('syllabus-download-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'syllabus-download-toast';
+      toast.style.cssText = 'position:fixed; bottom:28px; right:28px; z-index:999999; background:#0F172A; color:#FFFFFF; padding:14px 22px; border-radius:12px; border:1px solid rgba(59,130,246,0.3); box-shadow:0 12px 30px rgba(0,0,0,0.4); font-size:14px; font-weight:600; display:flex; align-items:center; gap:10px; transform:translateY(80px); opacity:0; transition:all 0.3s cubic-bezier(0.16,1,0.3,1); font-family:inherit;';
+      document.body.appendChild(toast);
     }
+    toast.innerHTML = `<span style="color:#34D399; font-size:18px;">✓</span> <span>Downloading <strong>${courseName}</strong> Syllabus PDF…</span>`;
+    setTimeout(() => { toast.style.transform = 'translateY(0)'; toast.style.opacity = '1'; }, 50);
+    setTimeout(() => { toast.style.transform = 'translateY(80px)'; toast.style.opacity = '0'; }, 4500);
   };
 
-  // Job details are public; sign-in is asked for when the candidate applies.
-  window.checkAuthAndGoToJob = function (event, url) {
+  window.downloadSyllabusWithAuth = function (event, pdfUrl, courseName) {
     if (event && event.preventDefault) event.preventDefault();
-    window.location.href = url;
+    pdfUrl = pdfUrl || 'KOMPETENZEN_FULLSTACK_.pdf';
+    courseName = courseName || 'Course';
+
+    const triggerDownload = (url, name) => {
+      const a = document.createElement('a');
+      a.href = url;
+      a.setAttribute('download', name || url.split('/').pop() || 'Kompetenzen_Syllabus.pdf');
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    };
+
+    if (window.isUserLoggedIn && window.isUserLoggedIn()) {
+      triggerDownload(pdfUrl, pdfUrl.split('/').pop());
+      window.showDownloadSuccessToast(courseName);
+
+      // Record lead in Supabase in background
+      try {
+        const u = (typeof getStoredUser === 'function' ? getStoredUser() : {}) || {};
+        if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
+          supabaseClient.from('course_enrollments').insert([{
+            name: u.name || 'Candidate',
+            email: u.email || '',
+            phone: u.phone || '',
+            enrolled_course: courseName + ' (Syllabus Download)',
+            learning_mode: 'Syllabus Download',
+            status: 'Syllabus Downloaded',
+            page_url: window.location.href
+          }]).then(() => {}).catch(() => {});
+        }
+      } catch (e) {}
+      return;
+    }
+
+    // Save pending download and prompt signup
+    window._pendingPdfDownload = pdfUrl;
+    window._pendingPdfName = pdfUrl.split('/').pop();
+    window._pendingPdfCourse = courseName;
+    try {
+      localStorage.setItem('kompetenzen_pending_pdf_download', pdfUrl);
+      localStorage.setItem('kompetenzen_pending_pdf_name', pdfUrl.split('/').pop());
+      localStorage.setItem('kompetenzen_pending_pdf_course', courseName);
+    } catch (e) {}
+
+    window.openAuthModal('signup', null, {
+      title: `Download ${courseName} <span style="color:#1947FF;">Syllabus</span>`,
+      sub: 'Sign up free to unlock & download the complete course syllabus & curriculum PDF'
+    });
   };
 
   window.openResumeBuilder = function (e) {
@@ -817,19 +985,24 @@
 
   function isUserLoggedIn() {
     const user = getStoredUser();
-    return !!(user && (user.email || user.name));
+    return !!(user && (user.email || user.name || user.phone));
   }
 
   window.isUserLoggedIn = isUserLoggedIn;
   window.getStoredUser = getStoredUser;
 
-  function getRegisteredUsers() {
-    try {
-      return JSON.parse(localStorage.getItem('kompetenzen_registered_users') || '[]');
-    } catch (e) {
-      return [];
-    }
-  }
+  // Browser storage that can hold another person's details on a shared
+  // computer (college labs). The first two are legacy lists of every account
+  // and enrollment ever used on this browser; they are no longer written and
+  // are deleted on every page load. The rest are per-user and cleared on sign-out.
+  const LEGACY_SHARED_KEYS = ['kompetenzen_registered_users', 'kompetenzen_enrollments'];
+  const PER_USER_KEYS = [
+    'token', 'access_token', 'kompetenzen_user', 'user', 'kompetenzen_google_user',
+    'kompetenzen_candidate_profile', 'kompetenzen_last_auth_email',
+    'kompetenzen_applied_jobs', 'kompetenzen_career_pass', 'kompetenzen_user_resume_name',
+    'kompetenzen_pending_auth_redirect', 'kompetenzen_pending_auth_section'
+  ];
+  try { LEGACY_SHARED_KEYS.forEach(k => localStorage.removeItem(k)); } catch (e) {}
 
   function saveUnifiedSession(userData) {
     const token = localStorage.getItem('token') || ('kompetenzen_jwt_' + Math.random().toString(36).substring(2) + Date.now().toString(36));
@@ -850,19 +1023,6 @@
       localStorage.setItem('kompetenzen_last_auth_email', userObj.email);
     }
 
-    try {
-      const users = getRegisteredUsers();
-      const idx = users.findIndex(u => (u.email && userObj.email && (u.email || '').toLowerCase() === userObj.email) || (u.phone && userObj.phone && u.phone === userObj.phone));
-      // Never keep passwords in browser storage; Supabase Auth holds them.
-      if (idx >= 0) {
-        const { password: _dropped, ...rest } = users[idx];
-        users[idx] = { ...rest, ...userObj };
-      } else {
-        users.push(userObj);
-      }
-      localStorage.setItem('kompetenzen_registered_users', JSON.stringify(users));
-    } catch (e) {}
-
     document.querySelectorAll('.logout-link').forEach(l => (l.style.display = 'inline-block'));
 
     return userObj;
@@ -873,17 +1033,84 @@
     updateNavBadge();
     window.showAuthMessage(`✓ ${redirectMsg}`, false);
 
+    // Ensure name & phone are directly saved into the public.profiles database table
+    try {
+      if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured() && userData && userData.id) {
+        supabaseClient.from('profiles').upsert({
+          id: userData.id,
+          name: userData.name || '',
+          phone: userData.phone || ''
+        }).then(() => {}).catch(() => {});
+      }
+    } catch (e) {}
+
     setTimeout(() => {
       const redirect = window._pendingAuthRedirect;
       window._pendingAuthRedirect = null;
       const section = window._pendingAuthSection;
       window._pendingAuthSection = null;
 
+      const pendingPdf = window._pendingPdfDownload || localStorage.getItem('kompetenzen_pending_pdf_download');
+      const pendingPdfName = window._pendingPdfName || localStorage.getItem('kompetenzen_pending_pdf_name') || 'Kompetenzen_Syllabus.pdf';
+      const pendingCourse = window._pendingPdfCourse || localStorage.getItem('kompetenzen_pending_pdf_course') || 'Course';
+
+      window._pendingPdfDownload = null;
+      window._pendingPdfName = null;
+      window._pendingPdfCourse = null;
+      try {
+        localStorage.removeItem('kompetenzen_pending_pdf_download');
+        localStorage.removeItem('kompetenzen_pending_pdf_name');
+        localStorage.removeItem('kompetenzen_pending_pdf_course');
+      } catch (e) {}
+
+      if (pendingPdf) {
+        window.closeJobsAuthModal();
+        const a = document.createElement('a');
+        a.href = pendingPdf;
+        a.setAttribute('download', pendingPdfName);
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+
+        // Record download lead in Supabase database
+        try {
+          if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
+            supabaseClient.from('course_enrollments').insert([{
+              name: userData.name || 'Candidate',
+              email: userData.email || '',
+              phone: userData.phone || '',
+              enrolled_course: pendingCourse + ' (Syllabus Download)',
+              learning_mode: 'Syllabus Download',
+              status: 'Syllabus Downloaded',
+              page_url: window.location.href
+            }]).then(() => {}).catch(() => {});
+          }
+        } catch (e) {}
+
+        if (typeof window.showDownloadSuccessToast === 'function') {
+          window.showDownloadSuccessToast(pendingCourse);
+        }
+        return;
+      }
+
       if (redirect) {
         if (redirect.indexOf('http') === 0 && redirect.indexOf(window.location.host) === -1) {
           window.open(redirect, '_blank');
           window.closeJobsAuthModal();
         } else {
+          try {
+            const targetUrl = new URL(redirect, window.location.href);
+            const currentUrl = new URL(window.location.href);
+            if (targetUrl.pathname === currentUrl.pathname && targetUrl.searchParams.get('id') === currentUrl.searchParams.get('id')) {
+              window.closeJobsAuthModal();
+              updateNavBadge();
+              if (typeof updateSidebarAuthState === 'function') updateSidebarAuthState();
+              if (targetUrl.searchParams.get('apply') === '1' && typeof handleApplyButtonClick === 'function') {
+                handleApplyButtonClick();
+              }
+              return;
+            }
+          } catch (e) {}
           window.location.href = redirect;
         }
       } else {
@@ -894,54 +1121,79 @@
 
   window.handleSignupSubmit = async function (e) {
     e.preventDefault();
-    const name = document.getElementById('signup-name')?.value.trim();
-    const email = document.getElementById('signup-email')?.value.trim().toLowerCase();
-    const phone = document.getElementById('signup-phone')?.value.trim();
-    const password = document.getElementById('signup-password')?.value;
-    const btn = document.getElementById('signup-submit-btn');
+    // Scope to modal container to avoid reading from hardcoded duplicate-ID inputs
+    // on pages like job-details.html that have their own signup form with the same IDs.
+    const modal = document.getElementById('jobs-auth-modal') || document;
+    const name = modal.querySelector('#signup-name')?.value.trim();
+    const email = modal.querySelector('#signup-email')?.value.trim().toLowerCase();
+    const phone = modal.querySelector('#signup-phone')?.value.trim();
+    const password = modal.querySelector('#signup-password')?.value;
+    const btn = modal.querySelector('#signup-submit-btn');
 
     if (!name || !email || !phone || !password) {
       window.showAuthMessage('Please fill in all required fields.', true);
       return;
     }
 
+    // Validate everything Supabase will check before an SMS is paid for.
     const cleanPhone = phone.replace(/[\s\-\(\)]/g, '');
-    if (cleanPhone.length < 10) {
+    if (!/^(\+?91)?[6-9]\d{9}$/.test(cleanPhone)) {
       window.showAuthMessage('Please enter a valid 10-digit mobile number.', true);
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      window.showAuthMessage('Please enter a valid email address.', true);
+      return;
+    }
+    if (password.length < 6) {
+      window.showAuthMessage('Password must be at least 6 characters.', true);
       return;
     }
 
     if (btn) {
       btn.disabled = true;
-      btn.textContent = 'Sending Mobile OTP…';
+      btn.textContent = 'Sending OTP SMS…';
     }
 
     const sent = await requestOtp(cleanPhone);
+
+    if (!sent.ok) {
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = 'Create Account →';
+      }
+      window.showAuthMessage(sent.message, true);
+      return;
+    }
 
     if (btn) {
       btn.disabled = false;
       btn.textContent = 'Create Account →';
     }
 
-    if (!sent.ok) {
-      window.showAuthMessage(sent.message, true);
-      return;
-    }
-
-    window._pendingOtpAuth = { mode: 'signup', name, email, phone, cleanPhone, password };
+    window._pendingOtpAuth = {
+      mode: 'signup',
+      name,
+      email,
+      phone,
+      cleanPhone,
+      formattedPhone: sent.formattedPhone,
+      password
+    };
 
     // Switch to Mobile Number OTP Verification View
-    window.showOtpStep(phone, 'signup');
+    window.showOtpStep(sent.formattedPhone || phone, 'signup');
     startOtpCountdown(30);
   };
 
   window.handleOtpSubmit = async function (e) {
     e.preventDefault();
-    const otpInput = document.getElementById('otp-code-input')?.value.trim();
-    const submitBtn = document.getElementById('otp-submit-btn');
+    const modal = document.getElementById('jobs-auth-modal') || document;
+    const otpInput = modal.querySelector('#otp-code-input')?.value.trim();
+    const submitBtn = modal.querySelector('#otp-submit-btn');
 
     const pending = window._pendingOtpAuth;
-    if (!pending || pending.mode !== 'signup') {
+    if (!pending) {
       showOtpInlineMessage('Verification session expired. Please start again.', true);
       return;
     }
@@ -958,7 +1210,7 @@
     };
     if (submitBtn) {
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Verifying & Completing Setup…';
+      submitBtn.textContent = 'Verifying Code…';
     }
 
     const verified = await verifyOtp(pending.cleanPhone, otpInput);
@@ -968,6 +1220,8 @@
       return;
     }
     showOtpInlineMessage('✓ Mobile number verified successfully!', false);
+    // The Firebase phone session is only a signup check; the account session comes from Supabase.
+    try { if (window.firebase && window.firebase.auth) await window.firebase.auth().signOut(); } catch (e) {}
 
     const { name, email, phone, password } = pending;
     if (typeof supabaseSignUp !== 'function' || !isSupabaseConfigured()) {
@@ -976,8 +1230,6 @@
       return;
     }
 
-    // Only a real Supabase account counts — the free trial, applications and
-    // payments are all tied to it. There is no local-only fallback any more.
     let res;
     try {
       res = await supabaseSignUp(name, email, phone, password);
@@ -986,8 +1238,8 @@
       if (/already registered|already exists/i.test(msg)) {
         window._pendingOtpAuth = null;
         window.showEmailAuthStep('login');
-        window.showAuthMessage(`An account already exists for ${email}. Please log in.`, true);
-        const loginEmail = document.getElementById('login-email');
+        window.showAuthMessage(`An account already exists for ${email}. Please log in with your email and password.`, true);
+        const loginEmail = modal.querySelector('#login-email');
         if (loginEmail) loginEmail.value = email;
         return;
       }
@@ -997,20 +1249,15 @@
     }
 
     window._pendingOtpAuth = null;
-    if (res && res.needsConfirmation) {
-      // Supabase is set to require email confirmation: the session starts when
-      // they click the link, which lands back on this page.
-      try {
-        if (window._pendingAuthRedirect) localStorage.setItem('kompetenzen_pending_auth_redirect', window._pendingAuthRedirect);
-      } catch (e) {}
-      showOtpInlineMessage(`✓ Almost done! We've emailed a confirmation link to ${email}. Open it to finish signing in.`, false);
-      resetBtn();
+    const sessionUser = res && res.session && res.session.user;
+    if (!sessionUser) {
+      // Email confirmation is on: no session until the link is clicked.
+      window.showEmailAuthStep('login');
+      window.showAuthMessage(`Account created. Check ${email} for a confirmation link, then log in.`, false);
       return;
     }
-
-    const sessionUser = res && res.session && res.session.user;
     completeAuthSession({
-      id: sessionUser ? sessionUser.id : undefined,
+      id: sessionUser.id,
       name, email, phone,
       authType: 'Mobile OTP Verified'
     }, 'Account created & mobile verified! Redirecting…');
@@ -1018,37 +1265,54 @@
 
   window.handleLoginSubmit = async function (e) {
     e.preventDefault();
-    const btn = document.getElementById('login-submit-btn');
-
-    // Standard Email & Password Login
-    const email = document.getElementById('login-email')?.value.trim().toLowerCase();
-    const password = document.getElementById('login-password')?.value;
+    const modal = document.getElementById('jobs-auth-modal') || document;
+    const email = (modal.querySelector('#login-email')?.value || '').trim().toLowerCase();
+    const password = modal.querySelector('#login-password')?.value || '';
+    const btn = modal.querySelector('#login-submit-btn');
 
     if (!email || !password) {
-      window.showAuthMessage('Please enter both your email and password.', true);
+      window.showAuthMessage('Please enter your email and password.', true);
       return;
     }
-
-    if (!isSupabaseConfigured()) {
+    if (typeof supabaseSignIn !== 'function' || !isSupabaseConfigured()) {
       window.showAuthMessage('Log in is temporarily unavailable. Please try again shortly.', true);
       return;
     }
 
     if (btn) {
       btn.disabled = true;
-      btn.textContent = 'Verifying…';
+      btn.textContent = 'Logging in…';
     }
-
     try {
-      const authenticatedUser = await supabaseSignIn(email, password);
-      completeAuthSession(authenticatedUser, `Welcome back, ${authenticatedUser.name}!`);
+      const user = await supabaseSignIn(email, password);
+      const sessionUser = await supabaseGetSessionUser();
+      completeAuthSession({ ...user, id: sessionUser && sessionUser.id },
+        `Welcome back${user.name && user.name !== email ? ', ' + user.name : ''}!`);
     } catch (err) {
-      window.showAuthMessage((err && err.message) || 'Incorrect email or password.', true);
+      const msg = (err && err.message) || '';
+      window.showAuthMessage(/email not confirmed/i.test(msg)
+        ? 'Please confirm your email first. Check your inbox for the link.'
+        : 'Incorrect email or password.', true);
+    } finally {
       if (btn) {
         btn.disabled = false;
         btn.textContent = 'Log In →';
       }
     }
+  };
+
+  window.authModalForgotPassword = async function () {
+    const modal = document.getElementById('jobs-auth-modal') || document;
+    const email = (modal.querySelector('#login-email')?.value || '').trim().toLowerCase();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      window.showAuthMessage('Enter your email address above, then click "Forgot password?".', true);
+      return;
+    }
+    try {
+      await supabaseResetPassword(email);
+    } catch (e) {}
+    // Same message either way, so the form does not reveal which emails have accounts.
+    window.showAuthMessage(`If an account exists for ${email}, a password reset link has been sent.`, false);
   };
 
   window.triggerWebsiteGoogleSignIn = async function () {
@@ -1082,7 +1346,26 @@
     try {
       const user = await supabaseGetSessionUser();
       if (!user) return;
-      if (isUserLoggedIn()) return;
+      if (isUserLoggedIn()) {
+        const pendingPdf = localStorage.getItem('kompetenzen_pending_pdf_download');
+        if (pendingPdf) {
+          const pendingPdfName = localStorage.getItem('kompetenzen_pending_pdf_name') || 'Kompetenzen_Syllabus.pdf';
+          const pendingCourse = localStorage.getItem('kompetenzen_pending_pdf_course') || 'Course';
+          localStorage.removeItem('kompetenzen_pending_pdf_download');
+          localStorage.removeItem('kompetenzen_pending_pdf_name');
+          localStorage.removeItem('kompetenzen_pending_pdf_course');
+          const a = document.createElement('a');
+          a.href = pendingPdf;
+          a.setAttribute('download', pendingPdfName);
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          if (typeof window.showDownloadSuccessToast === 'function') {
+            window.showDownloadSuccessToast(pendingCourse);
+          }
+        }
+        return;
+      }
       window._pendingAuthRedirect = localStorage.getItem('kompetenzen_pending_auth_redirect') || null;
       window._pendingAuthSection = localStorage.getItem('kompetenzen_pending_auth_section') || null;
       localStorage.removeItem('kompetenzen_pending_auth_redirect');
@@ -1094,6 +1377,7 @@
 
   // Hash-based triggers (e.g. #auth-redirect=course-details.html, #login, #signup)
   function handleUrlHash() {
+    if (isUserLoggedIn()) return;
     if (
       window.location.hash.startsWith('#auth-redirect=') ||
       window.location.hash === '#jobs-auth' ||
@@ -1130,9 +1414,6 @@
       navBadge.style.display = 'none';
       navBadge.classList.remove('open');
     }
-    if (typeof updateProNavBadges === 'function') {
-      updateProNavBadges();
-    }
   }
 
   window.toggleNavUserDropdown = function (e) {
@@ -1160,7 +1441,7 @@
   window.handleSignOut = function (e) {
     if (e && e.preventDefault) e.preventDefault();
     if (typeof supabaseSignOut === 'function') supabaseSignOut();
-    ['token', 'kompetenzen_user', 'user', 'kompetenzen_google_user', 'kompetenzen_candidate_profile'].forEach(k => localStorage.removeItem(k));
+    PER_USER_KEYS.forEach(k => { try { localStorage.removeItem(k); } catch (err) {} });
     const navBadge = document.getElementById('nav-user-badge');
     if (navBadge) {
       navBadge.classList.remove('open');

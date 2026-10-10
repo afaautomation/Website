@@ -262,11 +262,6 @@
     }
 
     /* POSTERS GRID */
-    .posters-section {
-      padding: 90px 24px;
-      max-width: var(--maxw);
-      margin: 0 auto;
-    }
 
     .section-head {
       text-align: center;
@@ -296,28 +291,6 @@
     }
 
     /* TALENT HUNT SECTION */
-    .talent-hunt-section {
-      background: #02050E;
-      color: #fff;
-      padding: 100px 24px;
-      text-align: center;
-      position: relative;
-    }
-
-    .talent-hunt-title {
-      font-size: clamp(32px, 5vw, 56px);
-      font-weight: 700;
-      margin-bottom: 16px;
-      letter-spacing: -0.02em;
-    }
-
-    .talent-hunt-desc {
-      font-size: 20px;
-      color: rgba(255, 255, 255, 0.7);
-      max-width: 640px;
-      margin: 0 auto 40px;
-      line-height: 1.5;
-    }
 
     /* PROCESS SECTION */
     .process-section {
@@ -540,22 +513,11 @@
       .stat-label {
         font-size: 12px !important;
       }
-      .posters-section {
-        padding: 50px 16px !important;
-      }
+
       .section-title {
         font-size: clamp(24px, 6vw, 34px) !important;
       }
-      .talent-hunt-section {
-        padding: 60px 16px !important;
-      }
-      .talent-hunt-title {
-        font-size: clamp(26px, 7vw, 36px) !important;
-      }
-      .talent-hunt-desc {
-        font-size: 15px !important;
-        margin-bottom: 24px !important;
-      }
+
       .process-section {
         padding: 50px 16px !important;
       }
@@ -727,6 +689,7 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="css/mobile.css" media="(max-width: 768px)" />
 </head>
 
 <body>
@@ -736,7 +699,7 @@
     <div class="nav-inner">
       <div class="nav-left">
         <a href="index.html" class="brand">
-          <img src="kompetenzen logo-02.png" alt="Kompetenzen" />
+          <img src="kompetenzen logo-02.webp" alt="Kompetenzen" />
         </a>
       </div>
       <div class="nav-links">
@@ -776,7 +739,7 @@
   <section class="stats-section">
     <div class="stats-header">
       <span class="hero-badge">2000+ Students Placed Across IT &amp; Corporate Sectors</span>
-      <h2 class="stats-title">2000+ Careers Launched.<br><span class="highlight">Real Students. Real Companies. Real Offers.</span></h2>
+      <h1 class="stats-title">2000+ Careers Launched.<br><span class="highlight">Real Students. Real Companies. Real Offers.</span></h1>
       <p class="stats-subtitle">From fresh graduates to career switchers — Kompetenzen's placement ecosystem connects trained talent directly to Kerala's top IT companies. 90%+ placement rate. 500+ hiring partners.</p>
     </div>
 
@@ -847,7 +810,7 @@
   </footer>
 
   <!-- Lenis smooth scroll -->
-  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" integrity="sha384-B2WBjDzEjJpYvhmi2UyEn7rektqkf5suS6sNoyyrf0EBAwBHdkiXxIlU0V5Ru2ed" crossorigin="anonymous"></script>
   <script>
     const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if (!isMobile) {
@@ -1346,9 +1309,10 @@
   </script>
 
   <!-- Unified Auth Modal -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
   <script src="supabase-config.js"></script>
-  <script src="js/auth-modal.js?v=5"></script>
+  <script src="firebase-config.js"></script>
+  <script src="js/auth-modal.js?v=12"></script>
 
   <!-- Mobile Menu Toggle -->
   <script>

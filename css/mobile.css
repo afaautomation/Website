@@ -1,0 +1,114 @@
+/* ===========================================================
+   MOBILE-ONLY OVERRIDES
+   Loaded with media="(max-width: 768px)" and wrapped in the same
+   query below, so nothing here ever applies on desktop.
+=========================================================== */
+@media (max-width: 768px) {
+
+  /* ---------- Global ---------- */
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  img,
+  video,
+  svg,
+  canvas,
+  iframe {
+    max-width: 100%;
+  }
+
+  /* 16px form fields stop iOS Safari from zooming in on focus */
+  html body input:not([type="radio"]):not([type="checkbox"]):not([type="range"]):not([type="hidden"]),
+  html body select,
+  html body textarea {
+    font-size: 16px !important;
+  }
+
+  /* Grids with a fixed min column wider than a phone */
+  html body .jobs-grid {
+    grid-template-columns: repeat(auto-fill, minmax(min(360px, 100%), 1fr)) !important;
+  }
+
+  html body .job-card {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  /* ---------- index.html ---------- */
+  html body .placements-cta-btn {
+    max-width: none !important;
+  }
+
+  html body .btn-primary .arrow {
+    flex-shrink: 0;
+  }
+
+  html body .ig-strip {
+    flex-wrap: wrap;
+    gap: 12px;
+    border-radius: 20px;
+    padding: 14px 16px;
+  }
+
+  html body .ig-strip .ig-cta {
+    width: 100%;
+    justify-content: center;
+  }
+
+  html body #job-listing-section {
+    padding: 64px 0 72px 0;
+  }
+
+  html body #skills-section {
+    padding-top: 48px !important;
+    padding-bottom: 48px !important;
+  }
+
+  html body #contact.cta-strip {
+    padding-top: 64px;
+    padding-bottom: 72px;
+  }
+
+  /* ---------- our-story.html ---------- */
+  html body .about-card {
+    padding: 24px 20px;
+    gap: 20px;
+  }
+
+  html body .about-row,
+  html body .details > .row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  html body .stats li {
+    gap: 16px;
+  }
+
+  html body .stats li span:last-child {
+    text-align: right;
+  }
+
+  /* ---------- admin.html ---------- */
+  html body .nav-inner:has(.nav-back) {
+    padding: 0 16px;
+    gap: 12px;
+  }
+
+  html body .brand:has(.dot) {
+    font-size: 13px;
+    min-width: 0;
+  }
+
+  html body .nav-back {
+    white-space: nowrap;
+    font-size: 12px;
+  }
+
+  html body .nav-inner:has(.nav-back) > div {
+    gap: 12px !important;
+    flex-shrink: 0;
+  }
+}

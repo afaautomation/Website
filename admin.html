@@ -14,9 +14,9 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
     rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
   <script src="supabase-config.js"></script>
-  <script src="resume-storage.js"></script>
+  <script src="js/site-content.js"></script>
 
   <style>
     :root {
@@ -152,34 +152,6 @@
     }
 
     /* PREVIEW-BUILD NOTICE */
-    .preview-notice {
-      display: flex;
-      gap: 14px;
-      align-items: flex-start;
-      background: rgba(255, 165, 0, 0.08);
-      border: 1px solid rgba(255, 165, 0, 0.3);
-      border-radius: 14px;
-      padding: 16px 20px;
-      margin-bottom: 32px;
-    }
-
-    .preview-notice .icon {
-      flex-shrink: 0;
-      width: 20px;
-      height: 20px;
-      color: #A05A00;
-      margin-top: 1px;
-    }
-
-    .preview-notice strong {
-      color: #A05A00;
-    }
-
-    .preview-notice p {
-      font-size: 13px;
-      color: var(--ink-mute);
-      line-height: 1.6;
-    }
 
     /* GATE SCREEN */
     .gate-screen {
@@ -549,6 +521,100 @@
 
     .form-grid.form-direct-active .hide-on-direct {
       display: none;
+    }
+
+    /* OPPORTUNITY TYPE SELECTOR (JOBS VS INTERNSHIPS) */
+    .opportunity-type-container {
+      margin-bottom: 22px;
+      padding: 16px;
+      background: #F8FAFC;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+    }
+
+    .opp-type-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-mute);
+      margin-bottom: 10px;
+    }
+
+    .opp-type-pills {
+      display: flex;
+      gap: 12px;
+    }
+
+    .opp-type-pill {
+      flex: 1;
+      padding: 12px 18px;
+      background: #FFFFFF;
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      color: var(--ink-mute);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      font-family: inherit;
+    }
+
+    .opp-type-pill:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+      background: var(--blue-soft);
+    }
+
+    .opp-type-pill.active {
+      border-color: var(--blue);
+      background: var(--blue);
+      color: #FFFFFF;
+      box-shadow: 0 4px 14px rgba(25, 71, 255, 0.25);
+    }
+
+    .opp-type-pill.active.opp-internship {
+      border-color: #8B5CF6;
+      background: #8B5CF6;
+      color: #FFFFFF;
+      box-shadow: 0 4px 14px rgba(139, 92, 246, 0.25);
+    }
+
+    .admin-drafts-filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .admin-filter-pill {
+      padding: 7px 16px;
+      border-radius: 99px;
+      border: 1px solid var(--line);
+      background: #FFFFFF;
+      color: var(--ink-mute);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .admin-filter-pill:hover {
+      border-color: var(--ink);
+      color: var(--ink);
+    }
+
+    .admin-filter-pill.active {
+      background: var(--ink);
+      color: #FFFFFF;
+      border-color: var(--ink);
     }
 
     /* TABS */
@@ -1356,27 +1422,6 @@
       background: #1EBE5D;
     }
 
-    .btn-sync-sheet {
-      background: #0284C7;
-      color: #FFFFFF;
-      border: none;
-      border-radius: 8px;
-      padding: 8px 14px;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-family: inherit;
-      transition: all 0.2s;
-    }
-
-    .btn-sync-sheet:hover {
-      background: #0369A1;
-      transform: translateY(-1px);
-    }
-
     .btn-delete-app {
       background: #FEF2F2;
       color: #DC2626;
@@ -1578,6 +1623,7 @@
 
     body { overflow-x: hidden; max-width: 100%; }
   </style>
+  <link rel="stylesheet" href="css/mobile.css" media="(max-width: 768px)" />
 </head>
 
 <body>
@@ -1589,6 +1635,7 @@
       <div style="display:flex; align-items:center; gap:16px; margin-left:auto;">
         <a href="index.html" class="nav-back">← Homepage</a>
         <a href="jobs.html" class="nav-back">Jobs Page →</a>
+        <button type="button" class="nav-back" id="btn-lock-console" onclick="adminSignOut()" style="display:none; background:transparent; border:none; cursor:pointer; font-family:inherit; font-size:inherit;">Lock Console 🔒</button>
       </div>
     </div>
   </nav>
@@ -1602,19 +1649,16 @@
           <path d="M7 11V7a5 5 0 0 1 10 0v4" />
         </svg>
       </div>
-      <h2>Staff access</h2>
+      <h2>Staff Access</h2>
       <p>This page is for Kompetenzen HR staff only. Sign in with your staff account to continue.</p>
-      <p class="gate-error" id="gate-error">Sign-in failed. Please check your details and try again.</p>
+      <p class="gate-error" id="gate-error">Incorrect password. Please try again.</p>
       <form id="gate-form">
-        <div class="field">
-          <label for="gate-email">Staff email <span class="req">*</span></label>
-          <input id="gate-email" type="email" autocomplete="username" placeholder="you@kompetenzen.in" required />
-        </div>
+        <div class="field"><label for="gate-email">Staff email</label><input id="gate-email" type="email" autocomplete="username" required /></div>
         <div class="field">
           <label for="gate-key">Password <span class="req">*</span></label>
-          <input id="gate-key" type="password" autocomplete="current-password" placeholder="Enter your password" required />
+          <input id="gate-key" type="password" autocomplete="current-password" placeholder="Enter your account password" required autofocus />
         </div>
-        <button class="btn-primary" type="submit">Sign in →</button>
+        <button class="btn-primary" type="submit">Unlock Console →</button>
       </form>
     </div>
   </div>
@@ -1645,7 +1689,7 @@
           <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
           <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
         </svg>
-        <span>Post &amp; Manage Jobs</span>
+        <span>Post &amp; Manage Jobs &amp; Internships</span>
       </button>
       <button type="button" class="admin-tab-btn" onclick="switchAdminTab('courses')" id="tab-btn-courses">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1664,14 +1708,6 @@
         </svg>
         <span>Instagram Reels</span>
         <span class="tab-badge" id="reels-counter-badge">0</span>
-      </button>
-      <button type="button" class="admin-tab-btn" onclick="switchAdminTab('payments')" id="tab-btn-payments">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
-          <line x1="1" y1="10" x2="23" y2="10"/>
-        </svg>
-        <span>Student Payments (₹499)</span>
-        <span class="tab-badge" id="payments-counter-badge" style="background:#10B981; color:#fff;">0</span>
       </button>
     </div>
 
@@ -1897,11 +1933,25 @@
     <div id="panel-jobs" class="admin-tab-panel">
       <!-- FORM -->
       <section class="admin-card">
-        <h2>Job details</h2>
+        <h2>Post an Opening (Job or Internship)</h2>
         <form class="form-grid" id="job-form" novalidate>
+          <!-- OPPORTUNITY TYPE SELECTOR -->
+          <div class="opportunity-type-container" style="grid-column: 1 / -1;">
+            <span class="opp-type-label">Select Opportunity Type <span class="req">*</span></span>
+            <div class="opp-type-pills">
+              <button type="button" class="opp-type-pill active" id="pill-opp-job" onclick="setAdminOpportunityType('job')">
+                💼 Full-Time / Regular Job
+              </button>
+              <button type="button" class="opp-type-pill opp-internship" id="pill-opp-internship" onclick="setAdminOpportunityType('internship')">
+                🎓 Internship
+              </button>
+            </div>
+            <input type="hidden" name="opportunityType" id="f-opportunity-type" value="job" />
+          </div>
+
           <div class="form-row">
             <div class="field">
-              <label for="f-title">Job title <span class="req">*</span></label>
+              <label for="f-title" id="lbl-title">Job title <span class="req">*</span></label>
               <input id="f-title" name="title" type="text" placeholder="e.g. Backend Engineer" required />
             </div>
             <div class="field">
@@ -1926,7 +1976,7 @@
           </div>
           <div class="form-row hide-on-direct">
             <div class="field">
-              <label for="f-type">Job type</label>
+              <label for="f-type" id="lbl-type">Job type</label>
               <select id="f-type" name="jobType">
                 <option value="full-time">Full-Time</option>
                 <option value="contract">Contract</option>
@@ -1935,11 +1985,11 @@
               </select>
             </div>
             <div class="field">
-              <label for="f-experience">Experience range</label>
+              <label for="f-experience" id="lbl-experience">Experience range</label>
               <input id="f-experience" name="experience" type="text" placeholder="e.g. 1–3 Years" />
             </div>
             <div class="field">
-              <label for="f-salary">Salary range</label>
+              <label for="f-salary" id="lbl-salary">Salary range</label>
               <input id="f-salary" name="salary" type="text" placeholder="e.g. ₹4L – ₹8L / year" />
             </div>
           </div>
@@ -1984,7 +2034,7 @@
 
           <div class="form-actions">
             <button class="btn-primary" type="submit">Save listing →</button>
-            <span class="save-status" id="save-status">✓ Listing saved as draft</span>
+            <span class="save-status" id="save-status">✓ Listing published</span>
           </div>
         </form>
       </section>
@@ -1992,11 +2042,24 @@
       <!-- DRAFTS -->
       <section>
         <div class="drafts-head">
-          <h2>Draft listings</h2>
+          <h2>Live &amp; Draft Listings</h2>
           <span class="drafts-count" id="drafts-count">0 saved</span>
         </div>
-        <div id="drafts-empty" class="draft-empty">No listings saved yet. Use the form above to add your first draft.
+
+        <!-- Filter tabs for admin draft listings -->
+        <div class="admin-drafts-filter-bar">
+          <button type="button" class="admin-filter-pill active" data-filter="all" onclick="setAdminDraftsFilter('all')">
+            All Openings (<span id="cnt-admin-all">0</span>)
+          </button>
+          <button type="button" class="admin-filter-pill" data-filter="job" onclick="setAdminDraftsFilter('job')">
+            💼 Jobs (<span id="cnt-admin-jobs">0</span>)
+          </button>
+          <button type="button" class="admin-filter-pill" data-filter="internship" onclick="setAdminDraftsFilter('internship')">
+            🎓 Internships (<span id="cnt-admin-internships">0</span>)
+          </button>
         </div>
+
+        <div id="drafts-empty" class="draft-empty">No listings saved yet. Use the form above to add your first draft.</div>
         <div id="drafts-list" class="draft-list"></div>
       </section>
     </div>
@@ -2130,249 +2193,61 @@
           </div>
           <span class="list-count" id="reels-list-count">0 reels</span>
         </div>
-        <div id="reels-list-empty" class="list-empty">No reels added yet. The homepage will display the defaults.</div>
+        <div id="reels-list-empty" class="list-empty">No reels published. Add a reel to display it on the homepage.</div>
         <div id="reels-list" class="reels-list-container"></div>
-      </section>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- PANEL 5: STUDENT PAYMENTS & PRO PASSES     -->
-    <!-- ========================================== -->
-    <div id="panel-payments" class="admin-tab-panel">
-      <!-- Live Metrics Card -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; margin-bottom: 24px;">
-        <div class="admin-card" style="padding: 22px; border-left: 4px solid #10B981;">
-          <div style="font-size: 12px; font-weight: 700; color: var(--ink-mute); text-transform: uppercase;">Total Pro Revenue</div>
-          <div style="font-size: 28px; font-weight: 800; color: #10B981; margin-top: 4px;" id="metric-total-revenue">₹0</div>
-          <div style="font-size: 12px; color: var(--ink-mute); margin-top: 4px;">From ₹499 Student Career Passes</div>
-        </div>
-        <div class="admin-card" style="padding: 22px; border-left: 4px solid var(--blue);">
-          <div style="font-size: 12px; font-weight: 700; color: var(--ink-mute); text-transform: uppercase;">Active Pro Students</div>
-          <div style="font-size: 28px; font-weight: 800; color: var(--blue); margin-top: 4px;" id="metric-total-pro-students">0</div>
-          <div style="font-size: 12px; color: var(--ink-mute); margin-top: 4px;">Full access unlocked</div>
-        </div>
-        <div class="admin-card" style="padding: 22px; border-left: 4px solid #F59E0B;">
-          <div style="font-size: 12px; font-weight: 700; color: var(--ink-mute); text-transform: uppercase;">Pass Price</div>
-          <div style="font-size: 28px; font-weight: 800; color: #F59E0B; margin-top: 4px;">₹499</div>
-          <div style="font-size: 12px; color: var(--ink-mute); margin-top: 4px;">One-time all-feature pass</div>
-        </div>
-      </div>
-
-      <!-- Razorpay gateway status (configured on the server, not here) -->
-      <section class="admin-card" style="margin-bottom: 24px; border-left: 4px solid #2563EB;">
-        <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
-          <div>
-            <h2>Razorpay Gateway</h2>
-            <p style="font-size: 13.5px; color: var(--ink-mute); margin-top: 6px; max-width: 62ch;">
-              Gateway credentials live in the backend environment
-              (<code>RAZORPAY_KEY_ID</code>, <code>RAZORPAY_KEY_SECRET</code>,
-              <code>RAZORPAY_WEBHOOK_SECRET</code>) and are never sent to the browser.
-              Orders are created server-side at a fixed ₹499 and every payment is
-              verified against Razorpay before a pass is activated.
-            </p>
-            <p style="font-size: 12.5px; color: var(--ink-dim); margin-top: 8px;">
-              To rotate keys, update them on the API host and redeploy — there is
-              nothing to enter on this page.
-            </p>
-          </div>
-          <a href="https://dashboard.razorpay.com/#/access/api_keys" target="_blank" rel="noopener" class="btn-secondary" style="font-size: 12.5px; padding: 6px 14px; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
-            <span>Razorpay Dashboard &rarr;</span>
-          </a>
-        </div>
-      </section>
-
-      <!-- Manual Pro Activation & Search -->
-      <section class="admin-card" style="margin-bottom: 24px;">
-        <h2>Manual Pro Member Activation</h2>
-        <p style="font-size: 13.5px; color: var(--ink-mute); margin-bottom: 16px;">
-          Grant instant Pro status to any student who paid offline, via bank transfer, or needs staff activation.
-        </p>
-        <form id="manual-pro-form" onsubmit="handleManualProSubmit(event)" style="display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end;">
-          <div class="field" style="flex: 1; min-width: 180px;">
-            <label for="m-name">Student Full Name <span class="req">*</span></label>
-            <input id="m-name" type="text" placeholder="e.g. Rahul Sharma" required />
-          </div>
-          <div class="field" style="flex: 1; min-width: 200px;">
-            <label for="m-email">Student Email Address <span class="req">*</span></label>
-            <input id="m-email" type="email" placeholder="student@example.com" required />
-          </div>
-          <div class="field" style="flex: 1; min-width: 160px;">
-            <label for="m-phone">Phone / WhatsApp</label>
-            <input id="m-phone" type="text" placeholder="+91 98765 43210" />
-          </div>
-          <div class="field" style="flex: 1; min-width: 160px;">
-            <label for="m-tx">UTR / Transaction Ref</label>
-            <input id="m-tx" type="text" placeholder="e.g. UPI-123456" />
-          </div>
-          <button class="btn-primary" type="submit" style="height: 44px; padding: 0 24px; white-space: nowrap;">
-            Grant Pro Access (₹499) →
-          </button>
-        </form>
-        <div id="manual-pro-msg" style="display:none; margin-top:12px; font-size:13px; font-weight:700;"></div>
-      </section>
-
-      <!-- Student Payments Table -->
-      <section class="admin-card">
-        <div class="drafts-head">
-          <div>
-            <h2>Student Payment Transactions</h2>
-            <p style="font-size: 13px; color: var(--ink-mute); margin-top: 4px;">
-              Live log of ₹499 Career Pro Pass purchases from Supabase and direct portal submissions.
-            </p>
-          </div>
-          <button type="button" class="btn-secondary" onclick="loadStudentPayments()" style="font-size:12px; padding:6px 14px;">
-            🔄 Refresh List
-          </button>
-        </div>
-
-        <div id="payments-empty" class="draft-empty" style="display:none;">
-          No student payments recorded yet. Newly completed payments will appear here in real-time.
-        </div>
-        
-        <div id="payments-loading" style="padding: 24px; text-align: center; color: var(--ink-mute);">
-          Loading student transactions... ⏳
-        </div>
-
-        <div class="table-wrap" id="payments-table-wrap" style="display:none; overflow-x: auto; margin-top: 14px;">
-          <table style="width: 100%; border-collapse: collapse; font-size: 13.5px; text-align: left;">
-            <thead>
-              <tr style="border-bottom: 2px solid var(--line); background: var(--bg-soft);">
-                <th style="padding: 12px 14px; font-weight: 700;">Student Name</th>
-                <th style="padding: 12px 14px; font-weight: 700;">Email &amp; Phone</th>
-                <th style="padding: 12px 14px; font-weight: 700;">Amount</th>
-                <th style="padding: 12px 14px; font-weight: 700;">Transaction ID / Source</th>
-                <th style="padding: 12px 14px; font-weight: 700;">Date &amp; Time</th>
-                <th style="padding: 12px 14px; font-weight: 700;">Access</th>
-                <th style="padding: 12px 14px; font-weight: 700;">Status</th>
-                <th style="padding: 12px 14px; font-weight: 700;">Actions</th>
-              </tr>
-            </thead>
-            <tbody id="payments-table-body">
-              <!-- Rendered via JS -->
-            </tbody>
-          </table>
-        </div>
       </section>
     </div>
 
   </main>
 
   <script>
-    /* =============================================
-       STAFF GATE — real authentication.
-
-       This was previously a hardcoded passcode compared in the browser
-       in plain sight in this file's source) that only toggled
-       CSS display. Anyone who opened view-source, or simply set the
-       sessionStorage flag, had the whole HR console: every candidate's
-       contact details, every lead, every payment.
-
-       Now: Supabase sign-in, then a role check. Hiding the page is only
-       cosmetic — the real protection is that the database will not return
-       staff-only rows unless profiles.role = 'admin' for the signed-in user
-       (see the RLS policies in supabase_schema.sql). A visitor who forces
-       the panel open with devtools gets an empty console.
-    ============================================= */
+    window.addEventListener('unhandledrejection', event => {
+      event.preventDefault();
+      alert('The operation could not be completed: ' + (event.reason && event.reason.message || 'Please retry.'));
+    });
+    // Staff authorization comes from the authenticated database role.
     (function () {
-      const gateScreen = document.getElementById('gate-screen');
-      const adminMain = document.getElementById('admin-main');
-      const gateForm = document.getElementById('gate-form');
-      const gateEmail = document.getElementById('gate-email');
-      const gateInput = document.getElementById('gate-key');
-      const gateError = document.getElementById('gate-error');
-
-      function showError(message) {
-        gateError.textContent = message;
-        gateError.classList.add('is-visible');
-      }
-
+      const gate = document.getElementById('gate-screen'), main = document.getElementById('admin-main');
+      const form = document.getElementById('gate-form'), input = document.getElementById('gate-key');
+      const error = document.getElementById('gate-error');
       function lock() {
-        gateScreen.style.display = '';
-        adminMain.style.display = 'none';
+        gate.style.display = ''; main.style.display = 'none'; input.value = '';
+        document.getElementById('btn-lock-console').style.display = 'none';
+        allCandidateApplications = [];
+        document.getElementById('apps-container').replaceChildren();
       }
-
-      function unlock() {
-        gateScreen.style.display = 'none';
-        adminMain.style.display = 'block';
-        if (typeof window.loadApplicationsList === 'function') window.loadApplicationsList();
-        if (typeof window.renderLeads === 'function') window.renderLeads();
-        if (typeof window.loadStudentPayments === 'function') window.loadStudentPayments();
-      }
-
-      /** Confirms the signed-in user is staff. Returns false on any doubt. */
-      async function isStaff() {
-        if (typeof supabaseClient === 'undefined' || !supabaseClient) return false;
-        const { data: sessionData } = await supabaseClient.auth.getSession();
-        const user = sessionData && sessionData.session && sessionData.session.user;
-        if (!user) return false;
-
-        const { data, error } = await supabaseClient
-          .from('profiles')
-          .select('role')
-          .eq('id', user.id)
-          .maybeSingle();
-
-        if (error || !data) return false;
-        return data.role === 'admin';
-      }
-
-      async function evaluateSession() {
-        if (await isStaff()) {
-          unlock();
-        } else {
-          lock();
-        }
-      }
-
-      gateForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        gateError.classList.remove('is-visible');
-
-        if (typeof supabaseClient === 'undefined' || !supabaseClient) {
-          showError('Authentication service is unavailable. Please try again shortly.');
-          return;
-        }
-
-        const email = gateEmail.value.trim();
-        const password = gateInput.value;
-        const submitBtn = gateForm.querySelector('button[type="submit"]');
-        if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Signing in...'; }
-
-        try {
-          const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
-          if (error) throw new Error('Those credentials were not recognised.');
-
-          if (!(await isStaff())) {
-            // Authenticated, but not staff. Drop the session so a non-staff
-            // account is not left signed in on an internal page.
-            await supabaseClient.auth.signOut();
-            throw new Error('This account does not have staff access.');
-          }
-
-          gateInput.value = '';
-          unlock();
-        } catch (err) {
-          showError(err.message);
-          gateInput.value = '';
-          gateInput.focus();
-        } finally {
-          if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Sign in →'; }
-        }
-      });
-
-      // Re-evaluate on load and whenever the session changes (sign-out in
-      // another tab, expiry, token refresh failure).
-      evaluateSession();
-      if (typeof supabaseClient !== 'undefined' && supabaseClient) {
-        supabaseClient.auth.onAuthStateChange(() => { evaluateSession(); });
-      }
-
-      window.adminSignOut = async function () {
-        if (typeof supabaseClient !== 'undefined' && supabaseClient) {
-          await supabaseClient.auth.signOut();
-        }
+      async function verify() {
         lock();
-      };
+        if (!isSupabaseConfigured()) throw new Error('Database connection is unavailable.');
+        const { data: sessionData, error: sessionError } = await supabaseClient.auth.getSession();
+        if (sessionError) throw sessionError;
+        if (!sessionData.session) return;
+        const { data: admin, error: roleError } = await supabaseClient.rpc('is_admin');
+        if (roleError) throw roleError;
+        if (!admin) throw new Error('This account does not have staff access.');
+        gate.style.display = 'none'; main.style.display = 'block';
+        document.getElementById('btn-lock-console').style.display = 'inline-flex';
+        window.loadApplicationsList();
+        if (window.renderLeads) window.renderLeads();
+        if (window.reloadAdminJobs) window.reloadAdminJobs();
+        if (window.reloadAdminContent) window.reloadAdminContent();
+        if (window.renderReels) window.renderReels();
+      }
+      function showError(err) { error.textContent = err.message || 'Sign-in failed. Please try again.'; error.classList.add('is-visible'); }
+      form.addEventListener('submit', async e => {
+        e.preventDefault(); error.classList.remove('is-visible');
+        const button = form.querySelector('button'); button.disabled = true;
+        try {
+          const { error: signInError } = await supabaseClient.auth.signInWithPassword({email: document.getElementById('gate-email').value.trim(), password: input.value});
+          if (signInError) throw signInError;
+          await verify();
+        } catch (err) { lock(); showError(err); } finally { button.disabled = false; }
+      });
+      window.adminSignOut = async function () { lock(); const { error: err } = await supabaseClient.auth.signOut(); if (err) showError(err); };
+      document.addEventListener('DOMContentLoaded', () => {
+        verify().catch(showError);
+        if (supabaseClient) supabaseClient.auth.onAuthStateChange(event => { if (event === 'SIGNED_OUT') lock(); });
+      });
     })();
     /* =============================================
        CANDIDATE APPLICATIONS & RESUME REVIEW
@@ -2397,12 +2272,11 @@
       if (activeBtn) activeBtn.classList.add('active');
       if (activePanel) activePanel.classList.add('active');
 
+      if (document.getElementById('admin-main').style.display === 'none') return;
       if (tabId === 'applications') {
         loadApplicationsList();
       } else if (tabId === 'reels' && typeof window.renderReels === 'function') {
         window.renderReels();
-      } else if (tabId === 'payments' && typeof window.loadStudentPayments === 'function') {
-        window.loadStudentPayments();
       }
 
       try {
@@ -2426,33 +2300,12 @@
       container.innerHTML = '';
 
       try {
-        let apps = [];
-        if (typeof getAllApplications === 'function') {
-          apps = await getAllApplications();
-        }
-
-        // Also check if there are users registered in USERS_DB_KEY who don't have an entry
-        try {
-          const registeredUsers = JSON.parse(localStorage.getItem('kompetenzen_registered_users') || '[]');
-          const existingEmails = new Set(apps.map(a => (a.email || '').toLowerCase()));
-          registeredUsers.forEach(u => {
-            if (u.email && !existingEmails.has(u.email.toLowerCase())) {
-              apps.push({
-                id: 'reg_' + (u.registeredAt ? new Date(u.registeredAt).getTime() : Date.now()),
-                name: u.name || 'Candidate',
-                phone: u.phone || '',
-                email: u.email || '',
-                degree: u.degree || 'Not specified',
-                gradYear: u.gradYear || '',
-                jobRole: u.jobRole || 'Candidate Registration',
-                skills: u.skills || '',
-                resumeFileName: u.resumeName || '',
-                resumeBlob: null,
-                createdAt: u.registeredAt || new Date().toISOString()
-              });
-            }
-          });
-        } catch (e) { }
+        const { data, error } = await supabaseClient.from('job_applications').select('*').order('created_at', { ascending: false });
+        if (error) throw error;
+        const apps = (data || []).map(row => ({ ...row, cloudRecord: true, phone: row.whatsapp, gradYear: row.grad_year,
+          isStudent: row.is_student, courseName: row.course_name, preferredLocation: row.preferred_location,
+          workMode: row.work_mode, jobRole: row.job_role, resumeUrl: row.resume_url,
+          resumeFileName: row.resume_url ? row.resume_url.split('/').pop() : '', createdAt: row.created_at }));
 
         // Sort newest first
         apps.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
@@ -2477,7 +2330,7 @@
       } catch (err) {
         console.error('Error loading applications:', err);
         if (loadingBox) loadingBox.style.display = 'none';
-        container.innerHTML = `<div style="color:red; padding:20px;">Could not load applications: ${err.message}</div>`;
+        container.innerHTML = `<div style="color:red; padding:20px;">Could not load applications: ${escapeHtml(err.message)}</div>`;
       }
     };
 
@@ -2497,7 +2350,7 @@
       const highlights = window._activeHighlightKeywords || new Set();
 
       container.innerHTML = apps.map((app) => {
-        const hasResume = !!app.resumeBlob || (app.resumeFileName && app.resumeFileName.length > 0);
+        const hasResume = !!app.resumeUrl || !!app.resumeBlob || (app.resumeFileName && app.resumeFileName.length > 0);
         const resumeName = app.resumeFileName || 'resume.pdf';
         const formattedDate = app.createdAt ? new Date(app.createdAt).toLocaleString('en-IN', {
           dateStyle: 'medium',
@@ -2594,7 +2447,7 @@
 
             <div class="app-card-footer">
               <div class="app-resume-actions">
-                ${app.resumeBlob ? `
+                ${(app.resumeBlob || app.resumeUrl) ? `
                   <button type="button" class="btn-download-resume" onclick="handleDownloadAppResume('${app.id}', false)" title="Download Resume">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                     <span>Download ${escapeHtml(resumeName)} ${app.resumeFileSize ? `(${escapeHtml(app.resumeFileSize)})` : ''}</span>
@@ -2608,10 +2461,6 @@
                 ` : `
                   <span style="font-size:12.5px; color:var(--ink-mute); font-style:italic;">No resume document attached</span>
                 `)}
-                <button type="button" class="btn-sync-sheet" id="btn-sync-${app.id}" onclick="handleSyncAppToSheet('${app.id}')" title="Sync this candidate and resume directly to Supabase">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
-                  <span>Sync to Cloud</span>
-                </button>
                 ${waLink ? `
                   <a href="${waLink}" target="_blank" rel="noopener" class="btn-whatsapp-chat" title="Chat on WhatsApp">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.044-1.01-.069-.242-.073-.557-.19-1.045-.4-.954-.413-1.637-1.127-2.074-1.745-.045-.064-.429-.571-.429-1.089 0-.52.271-.775.367-.88.096-.105.21-.131.281-.131.072 0 .144.001.207.004.066.003.155-.025.242.184.091.218.312.76.339.815.028.055.047.12.01.194-.037.073-.056.12-.112.185-.056.066-.118.146-.169.196-.056.056-.115.117-.05.228.065.111.288.476.618.77.426.38.784.498.895.553.111.055.176.046.241-.028.066-.074.281-.328.356-.44.075-.112.15-.093.253-.056.103.037.654.308.767.365.113.056.188.084.216.131.028.047.028.272-.116.677z"/></svg>
@@ -2627,89 +2476,21 @@
     }
 
     // Download/Preview resume trigger
-    window.handleDownloadAppResume = function (appId, previewOnly) {
+    window.handleDownloadAppResume = async function (appId, previewOnly) {
       const app = allCandidateApplications.find(a => String(a.id) === String(appId));
       if (!app) {
         alert('Application record not found.');
         return;
       }
-      downloadOrViewResume(app, previewOnly);
-    };
-
-    // Sync candidate (and resume file) directly to Supabase
-    window.handleSyncAppToSheet = async function (appId) {
-      const app = allCandidateApplications.find(a => String(a.id) === String(appId));
-      if (!app) return;
-
-      const btn = document.getElementById(`btn-sync-${appId}`);
-      const origHtml = btn ? btn.innerHTML : '';
-      if (btn) {
-        btn.disabled = true;
-        btn.innerHTML = `<span>Syncing...</span>`;
-      }
-
-      if (typeof isSupabaseConfigured !== 'function' || !isSupabaseConfigured()) {
-        if (btn) {
-          btn.disabled = false;
-          btn.innerHTML = origHtml;
-        }
-        alert('Supabase is not configured. Could not sync candidate.');
-        return;
-      }
-
-      try {
-        let resumeUrl = '';
-        if (app.resumeBlob) {
-          const safeName = (app.name || 'candidate').replace(/[^a-zA-Z0-9]/g, '_');
-          const rawExt = ((app.resumeFileName || '').split('.').pop() || '').toLowerCase();
-          const ext = ['pdf', 'doc', 'docx'].includes(rawExt) ? rawExt : 'pdf';
-          const path = `applications/${safeName}_${Date.now()}.${ext}`;
-          const { error: uploadErr } = await supabaseClient.storage.from('resumes').upload(path, app.resumeBlob, {
-            contentType: app.resumeBlob.type || 'application/pdf',
-            upsert: false
-          });
-          // Store the object path; the bucket is private, so staff open it with
-          // openStoredResume() below rather than a permanent public link.
-          if (!uploadErr) resumeUrl = path;
-        }
-
-        const { error } = await supabaseClient.from('job_applications').insert([{
-          name: app.name || '',
-          whatsapp: app.phone || '',
-          email: app.email || '',
-          degree: app.degree || '',
-          grad_year: app.gradYear || '',
-          is_student: app.isStudent || 'No',
-          course_name: app.courseName || '',
-          experience: app.experience || '',
-          preferred_location: app.preferredLocation || 'Kochi',
-          work_mode: app.workMode || '',
-          skills: app.skills || '',
-          job_role: app.jobRole || 'Quick Apply Candidate',
-          company: app.company || 'Kompetenzen Network',
-          page_url: window.location.href,
-          resume_url: resumeUrl
-        }]);
-        if (error) throw error;
-
-        if (btn) {
-          btn.style.background = '#059669';
-          btn.innerHTML = `<span>✓ Synced!</span>`;
-          setTimeout(() => {
-            btn.disabled = false;
-            btn.style.background = '';
-            btn.innerHTML = origHtml;
-          }, 3500);
-        }
-        alert(`✓ Candidate "${app.name}" synced to Supabase successfully!`);
-      } catch (err) {
-        console.error('Manual Supabase sync failed:', err);
-        if (btn) {
-          btn.disabled = false;
-          btn.innerHTML = `<span>Retry Sync</span>`;
-        }
-        alert('Could not sync to Supabase. Please check your internet connection.');
-      }
+      if (app.resumeUrl) {
+        try {
+          const { data, error } = await supabaseClient.storage.from('resumes').createSignedUrl(app.resumeUrl, 60);
+          if (error) throw error;
+          const link = document.createElement('a'); link.href = data.signedUrl; link.target = '_blank'; link.rel = 'noopener';
+          if (!previewOnly) link.download = app.resumeFileName || 'resume.pdf';
+          document.body.append(link); link.click(); link.remove();
+        } catch (err) { alert('Resume could not be opened: ' + err.message); }
+      } else alert('No resume file is attached to this application.');
     };
 
     // Delete application from internal portal AND Supabase database
@@ -2719,30 +2500,11 @@
 
       if (!confirm(`Are you sure you want to delete "${candidateName}"?\nThis will remove the candidate from this portal and also delete their record from Supabase.`)) return;
 
-      // 1. Delete from Supabase database
-      if (app) {
-        if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured() && app.email) {
-          try {
-            await supabaseClient.from('job_applications').delete().eq('email', app.email);
-          } catch (e) {
-            console.warn('Supabase delete error:', e);
-          }
-        }
-
-        // Clean up from registered users in localStorage so it does not reappear on refresh
-        try {
-          if (app.email) {
-            let regUsers = JSON.parse(localStorage.getItem('kompetenzen_registered_users') || '[]');
-            regUsers = regUsers.filter(u => (u.email || '').toLowerCase() !== app.email.toLowerCase());
-            localStorage.setItem('kompetenzen_registered_users', JSON.stringify(regUsers));
-          }
-        } catch (e) { }
-      }
-
-      // 2. Delete from internal IndexedDB & localStorage metadata
-      if (typeof deleteApplication === 'function') {
-        await deleteApplication(appId);
-      }
+      try {
+        const { data, error } = await supabaseClient.from('job_applications').delete().eq('id', appId).select('id');
+        if (error) throw error;
+        if (!data || data.length !== 1) throw new Error('Application was not deleted. Check staff access and refresh.');
+      } catch (err) { alert('Could not delete application: ' + err.message); return; }
 
       // 3. Update UI
       allCandidateApplications = allCandidateApplications.filter(a => String(a.id) !== String(appId));
@@ -2771,12 +2533,16 @@
       const currentVal = select.value;
       const jobs = getAllJobsForFilter();
 
-      let html = '<option value="all">🎯 Match Against: All Jobs / Roles</option>';
+      let html = '<option value="all">🎯 Match Against: All Openings (Jobs & Internships)</option>';
       jobs.forEach(j => {
         if (!j || !j.title) return;
+        const typeStr = String(j.jobType || j.job_type || '').toLowerCase();
+        const titleStr = String(j.title || '').toLowerCase();
+        const isIntern = typeStr.includes('intern') || titleStr.includes('intern') || j.opportunityType === 'internship';
+        const prefix = isIntern ? '🎓 [Internship] ' : '💼 [Job] ';
         const loc = j.location ? ` (${j.location})` : '';
         const comp = j.company ? ` · ${j.company}` : '';
-        html += `<option value="${j.id}">🎯 ${escapeHtml(j.title)}${escapeHtml(comp)}${escapeHtml(loc)}</option>`;
+        html += `<option value="${j.id}">${prefix}${escapeHtml(j.title)}${escapeHtml(comp)}${escapeHtml(loc)}</option>`;
       });
 
       select.innerHTML = html;
@@ -3258,12 +3024,106 @@
       const count = document.getElementById('drafts-count');
 
       const isDirectCheckbox = form.querySelector('[name="isDirectLink"]');
-      const titleLabel = document.querySelector('label[for="f-title"]');
+      const titleLabel = document.getElementById('lbl-title') || document.querySelector('label[for="f-title"]');
       const titleInput = document.getElementById('f-title');
       const locationInput = document.getElementById('f-location');
 
+      let currentOppType = 'job';
+      let currentAdminDraftsFilter = 'all';
+
       const categoryLabels = { tech: 'Tech', hr: 'HR & Management', sales: 'Sales' };
-      const typeLabels = { 'full-time': 'Full-Time', contract: 'Contract', 'part-time': 'Part-Time', remote: 'Remote' };
+      const typeLabels = {
+        'full-time': 'Full-Time',
+        'contract': 'Contract',
+        'part-time': 'Part-Time',
+        'remote': 'Remote',
+        'internship': 'Internship',
+        'internship-fulltime': 'Full-Time Intern',
+        'internship-parttime': 'Part-Time Intern',
+        'internship-remote': 'Remote Intern'
+      };
+
+      function isInternshipJob(j) {
+        if (!j) return false;
+        const type = String(j.jobType || j.job_type || '').toLowerCase();
+        const title = String(j.title || '').toLowerCase();
+        return type.includes('intern') || title.includes('intern') || j.opportunityType === 'internship';
+      }
+
+      window.setAdminOpportunityType = function (type) {
+        currentOppType = type;
+        const hiddenInput = document.getElementById('f-opportunity-type');
+        if (hiddenInput) hiddenInput.value = type;
+
+        const pillJob = document.getElementById('pill-opp-job');
+        const pillIntern = document.getElementById('pill-opp-internship');
+        if (pillJob && pillIntern) {
+          if (type === 'internship') {
+            pillJob.classList.remove('active');
+            pillIntern.classList.add('active');
+          } else {
+            pillJob.classList.add('active');
+            pillIntern.classList.remove('active');
+          }
+        }
+
+        const typeSelect = document.getElementById('f-type');
+        const expLabel = document.getElementById('lbl-experience') || document.querySelector('label[for="f-experience"]');
+        const expInput = document.getElementById('f-experience');
+        const salLabel = document.getElementById('lbl-salary') || document.querySelector('label[for="f-salary"]');
+        const salInput = document.getElementById('f-salary');
+        const descInput = document.getElementById('f-description');
+        const respInput = document.getElementById('f-responsibilities');
+        const reqInput = document.getElementById('f-requirements');
+
+        if (type === 'internship') {
+          if (titleLabel) titleLabel.innerHTML = isDirectCheckbox.checked ? 'Portal / Page Title <span class="req">*</span>' : 'Internship title <span class="req">*</span>';
+          if (titleInput) titleInput.placeholder = isDirectCheckbox.checked ? 'e.g. Internship Portal or Student Opportunities' : 'e.g. Full Stack Developer Intern / HR Operations Intern';
+          if (expLabel) expLabel.textContent = 'Duration / Eligibility';
+          if (expInput) expInput.placeholder = 'e.g. 3–6 Months (Freshers / Students)';
+          if (salLabel) salLabel.textContent = 'Stipend / Allowance';
+          if (salInput) salInput.placeholder = 'e.g. ₹15,000 / month (or Unpaid / Certificate)';
+          if (descInput) descInput.placeholder = 'Overview of the internship, mentor guidance, project exposure, and learning objectives...';
+          if (respInput) respInput.placeholder = '• Assist the engineering team with module implementation\n• Write clean, documented code and unit tests\n• Participate in daily standups and sprint reviews';
+          if (reqInput) reqInput.placeholder = '• Enrolled in or recently graduated with CS / IT / Engineering degree\n• Basic foundation in programming and Git\n• Passion for learning and collaborative mindset';
+
+          if (typeSelect) {
+            typeSelect.innerHTML = `
+              <option value="internship" selected>Internship (Standard)</option>
+              <option value="internship-fulltime">Full-Time Internship</option>
+              <option value="internship-parttime">Part-Time Internship</option>
+              <option value="internship-remote">Remote / Virtual Internship</option>
+            `;
+          }
+        } else {
+          if (titleLabel) titleLabel.innerHTML = isDirectCheckbox.checked ? 'Portal / Page Title <span class="req">*</span>' : 'Job title <span class="req">*</span>';
+          if (titleInput) titleInput.placeholder = isDirectCheckbox.checked ? 'e.g. Careers Portal or Global Careers' : 'e.g. Backend Engineer';
+          if (expLabel) expLabel.textContent = 'Experience range';
+          if (expInput) expInput.placeholder = 'e.g. 1–3 Years';
+          if (salLabel) salLabel.textContent = 'Salary range';
+          if (salInput) salInput.placeholder = 'e.g. ₹4L – ₹8L / year';
+          if (descInput) descInput.placeholder = 'Brief summary of the role, team context, and main objectives...';
+          if (respInput) respInput.placeholder = '• Build scalable microservices and APIs\n• Collaborate with frontend and DevOps engineers\n• Optimize database queries and system performance';
+          if (reqInput) reqInput.placeholder = '• 1–3 years hands-on experience in software development\n• Strong problem-solving and debugging skills\n• Bachelor\'s degree in CS, IT, or equivalent engineering';
+
+          if (typeSelect) {
+            typeSelect.innerHTML = `
+              <option value="full-time" selected>Full-Time</option>
+              <option value="contract">Contract</option>
+              <option value="part-time">Part-Time</option>
+              <option value="remote">Remote</option>
+            `;
+          }
+        }
+      };
+
+      window.setAdminDraftsFilter = function (filter) {
+        currentAdminDraftsFilter = filter;
+        document.querySelectorAll('.admin-filter-pill').forEach(btn => {
+          btn.classList.toggle('active', btn.getAttribute('data-filter') === filter);
+        });
+        render();
+      };
 
       function handleDirectToggle() {
         const isDirect = isDirectCheckbox.checked;
@@ -3274,8 +3134,8 @@
           locationInput.removeAttribute('required');
         } else {
           form.classList.remove('form-direct-active');
-          titleLabel.innerHTML = 'Job title <span class="req">*</span>';
-          titleInput.placeholder = 'e.g. Backend Engineer';
+          titleLabel.innerHTML = (currentOppType === 'internship' ? 'Internship title' : 'Job title') + ' <span class="req">*</span>';
+          titleInput.placeholder = currentOppType === 'internship' ? 'e.g. Full Stack Developer Intern' : 'e.g. Backend Engineer';
           locationInput.setAttribute('required', 'required');
         }
       }
@@ -3285,11 +3145,9 @@
       async function loadJobs() {
         if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
           try {
-            const { data, error } = await supabaseClient
-              .from('hr_jobs')
-              .select('*')
-              .order('created_at', { ascending: false });
-            if (!error && data && data.length > 0) {
+            const { data, error } = await supabaseClient.rpc('admin_jobs');
+            if (error) throw error;
+            if (Array.isArray(data)) {
               const items = data
                 .filter(j => j && !String(j.id).startsWith('def-'))
                 .map(j => ({
@@ -3303,6 +3161,9 @@
                   salary: j.salary || '',
                   skills: j.skills || '',
                   description: j.description || '',
+                  responsibilities: j.responsibilities || '',
+                  requirements: j.requirements || '',
+                  aboutCompany: j.about_company || '',
                   applyUrl: j.apply_url || '',
                   isDirectLink: j.is_direct_link || false,
                   createdAt: j.created_at
@@ -3311,7 +3172,7 @@
               return items;
             }
           } catch (e) {
-            console.warn("Supabase fetch error, using local fallback:", e);
+            throw e;
           }
         }
         return loadLocal();
@@ -3342,36 +3203,22 @@
       }
 
       async function saveJobToCloud(data) {
-        if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
-          try {
-            const { error } = await supabaseClient.from('hr_jobs').insert([{
-              title: data.title,
-              category: data.category,
-              company: data.company,
-              location: data.location || '',
-              job_type: data.jobType || 'full-time',
-              experience: data.experience || '',
-              salary: data.salary || '',
-              skills: data.skills || '',
-              description: data.description || '',
-              apply_url: data.applyUrl || '',
-              is_direct_link: !!data.isDirectLink
-            }]);
-            if (error) console.error("Supabase insert error:", error);
-          } catch (e) {
-            console.warn("Cloud save error:", e);
-          }
-        }
+        if (!isSupabaseConfigured()) throw new Error('Database connection is unavailable.');
+        const { error } = await supabaseClient.from('hr_jobs').insert([{
+          title: data.title, category: data.category, company: data.company, location: data.location || '',
+          job_type: data.jobType || (data.opportunityType === 'internship' ? 'internship' : 'full-time'),
+          experience: data.experience || '', salary: data.salary || '', skills: data.skills || '',
+          description: data.description || '', responsibilities: data.responsibilities || '',
+          requirements: data.requirements || '', about_company: data.aboutCompany || '',
+          apply_url: data.applyUrl || '', is_direct_link: !!data.isDirectLink
+        }]);
+        if (error) throw error;
       }
-
       async function deleteJobFromCloud(id) {
-        if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
-          try {
-            await supabaseClient.from('hr_jobs').delete().eq('id', id);
-          } catch (e) {
-            console.warn("Cloud delete error:", e);
-          }
-        }
+        if (!isSupabaseConfigured()) throw new Error('Database connection is unavailable.');
+        const { data, error } = await supabaseClient.from('hr_jobs').delete().eq('id', id).select('id');
+        if (error) throw error;
+        if (!data || data.length !== 1) throw new Error('Listing was not deleted. Refresh and check staff access.');
       }
 
       function escapeHtml(str) {
@@ -3433,12 +3280,37 @@
       }
 
       async function render() {
-        const drafts = await loadJobs();
-        count.textContent = drafts.length + (drafts.length === 1 ? ' saved' : ' saved');
-        empty.style.display = drafts.length ? 'none' : 'block';
+        const allDrafts = await loadJobs();
+        const totalCount = allDrafts.length;
+        const internshipsCount = allDrafts.filter(isInternshipJob).length;
+        const jobsCount = totalCount - internshipsCount;
+
+        const cntAll = document.getElementById('cnt-admin-all');
+        const cntJobs = document.getElementById('cnt-admin-jobs');
+        const cntInternships = document.getElementById('cnt-admin-internships');
+        if (cntAll) cntAll.textContent = totalCount;
+        if (cntJobs) cntJobs.textContent = jobsCount;
+        if (cntInternships) cntInternships.textContent = internshipsCount;
+
+        let filteredDrafts = allDrafts;
+        if (currentAdminDraftsFilter === 'job') {
+          filteredDrafts = allDrafts.filter(j => !isInternshipJob(j));
+        } else if (currentAdminDraftsFilter === 'internship') {
+          filteredDrafts = allDrafts.filter(isInternshipJob);
+        }
+
+        const label = currentAdminDraftsFilter === 'internship' ? 'internship' : (currentAdminDraftsFilter === 'job' ? 'job' : 'opening');
+        count.textContent = `${filteredDrafts.length} ${label}${filteredDrafts.length === 1 ? '' : 's'} shown (${totalCount} total)`;
+        empty.style.display = filteredDrafts.length ? 'none' : 'block';
+        empty.textContent = filteredDrafts.length === 0
+          ? (totalCount === 0 ? 'No listings saved yet. Use the form above to add your first draft.' : `No ${currentAdminDraftsFilter} listings found.`)
+          : '';
+
         list.innerHTML = '';
 
-        drafts.forEach((job, index) => {
+        filteredDrafts.forEach((job) => {
+          const isIntern = isInternshipJob(job);
+          const index = allDrafts.indexOf(job);
           const item = document.createElement('article');
           item.className = 'draft-item';
           item.setAttribute('draggable', 'true');
@@ -3447,6 +3319,10 @@
           const skillsLine = job.skills
             ? job.skills.split(',').map(s => s.trim()).filter(Boolean).join(' · ')
             : '';
+
+          const oppBadge = isIntern
+            ? `<span class="draft-tag" style="background: rgba(139, 92, 246, 0.12); color: #8B5CF6; border: 1px solid rgba(139, 92, 246, 0.3);">🎓 ${escapeHtml(typeLabels[job.jobType] || 'Internship')}</span>`
+            : `<span class="draft-tag" style="background: rgba(16, 185, 129, 0.12); color: #059669; border: 1px solid rgba(16, 185, 129, 0.3);">💼 ${escapeHtml(typeLabels[job.jobType] || 'Full-Time')}</span>`;
 
           item.innerHTML = `
             <div class="drag-handle" title="Drag to reorder" style="cursor: grab; color: var(--ink-mute); margin-right: 12px; display: flex; align-items: center; align-self: stretch; opacity: 0.4; transition: opacity 0.2s;">
@@ -3461,19 +3337,20 @@
             </div>
             <div class="draft-item-main" style="flex: 1;">
               <span class="draft-tag">${escapeHtml(categoryLabels[job.category] || job.category || 'General')}</span>
+              ${oppBadge}
               ${job.isDirectLink ? `<span class="draft-tag" style="background: rgba(25, 71, 255, 0.08); border: 1px solid rgba(25, 71, 255, 0.2); color: var(--blue); margin-left: 6px;">Direct Company Link</span>` : ''}
               <h3 style="margin-top:8px;">${escapeHtml(job.title)}</h3>
               <div class="meta">
                 <span>🏢 ${escapeHtml(job.company)}</span>
                 ${(!job.isDirectLink && job.location) ? `<span>📍 ${escapeHtml(job.location)}</span>` : ''}
                 ${job.isDirectLink ? '' : `<span>🕒 ${escapeHtml(typeLabels[job.jobType] || job.jobType || '')}</span>`}
-                ${(!job.isDirectLink && job.experience) ? `<span>📈 ${escapeHtml(job.experience)}</span>` : ''}
-                ${(!job.isDirectLink && job.salary) ? `<span>💰 ${escapeHtml(job.salary)}</span>` : ''}
+                ${(!job.isDirectLink && job.experience) ? `<span>${isIntern ? '⏳' : '📈'} ${escapeHtml(job.experience)}</span>` : ''}
+                ${(!job.isDirectLink && job.salary) ? `<span>${isIntern ? '💵' : '💰'} ${escapeHtml(job.salary)}</span>` : ''}
               </div>
               ${(!job.isDirectLink && skillsLine) ? `<p class="desc"><strong>Skills:</strong> ${escapeHtml(skillsLine)}</p>` : ''}
               ${(!job.isDirectLink && job.description) ? `<p class="desc">${escapeHtml(job.description)}</p>` : ''}
               <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-top:8px;">
-                <a class="apply-link" href="job-details.html?id=${job.id}" target="_blank" style="color:var(--blue); font-weight:700;">View Job Details Page ↗</a>
+                <a class="apply-link" href="job-details.html?id=${job.id}" target="_blank" style="color:var(--blue); font-weight:700;">View Details Page ↗</a>
                 ${job.applyUrl ? `<a class="apply-link" href="${escapeHtml(job.applyUrl)}" target="_blank" rel="noopener">Direct Link: ${escapeHtml(job.applyUrl)}</a>` : ''}
               </div>
             </div>
@@ -3481,10 +3358,10 @@
               <button class="draft-control-btn draft-move-up" type="button" data-index="${index}" aria-label="Move listing up" ${index === 0 ? 'disabled' : ''}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
               </button>
-              <button class="draft-control-btn draft-move-down" type="button" data-index="${index}" aria-label="Move listing down" ${index === drafts.length - 1 ? 'disabled' : ''}>
+              <button class="draft-control-btn draft-move-down" type="button" data-index="${index}" aria-label="Move listing down" ${index === allDrafts.length - 1 ? 'disabled' : ''}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
-              <button class="draft-control-btn draft-remove" type="button" data-id="${job.id}" aria-label="Remove this draft listing">
+              <button class="draft-control-btn draft-remove" type="button" data-id="${job.id}" aria-label="Remove this listing">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
               </button>
             </div>
@@ -3499,7 +3376,7 @@
         const removeBtn = e.target.closest('.draft-remove');
         if (removeBtn) {
           const id = removeBtn.getAttribute('data-id');
-          await deleteJobFromCloud(id);
+          try { await deleteJobFromCloud(id); } catch (err) { alert('Could not delete listing: ' + err.message); return; }
           const drafts = loadLocal().filter(job => String(job.id) !== String(id));
           saveLocal(drafts);
           await render();
@@ -3544,6 +3421,10 @@
         data.id = Date.now();
         data.createdAt = new Date().toISOString();
         data.applyUrl = data.applyUrl || '';
+        data.opportunityType = currentOppType;
+        if (!data.jobType) {
+          data.jobType = currentOppType === 'internship' ? 'internship' : 'full-time';
+        }
 
         if (data.isDirectLink) {
           data.location = '';
@@ -3556,13 +3437,15 @@
           data.aboutCompany = '';
         }
 
-        const drafts = loadLocal();
-        drafts.unshift(data);
-        saveLocal(drafts);
-
-        await saveJobToCloud(data);
+        const button = form.querySelector('[type="submit"]');
+        if (button.disabled) return;
+        button.disabled = true;
+        try { await saveJobToCloud(data); }
+        catch (err) { alert('Listing was not published: ' + err.message); return; }
+        finally { button.disabled = false; }
 
         form.reset();
+        window.setAdminOpportunityType('job');
         handleDirectToggle();
         await render();
 
@@ -3571,7 +3454,7 @@
         status._hideTimer = setTimeout(() => status.classList.remove('is-visible'), 2600);
       });
 
-      render();
+      window.reloadAdminJobs = render;
     })();
     /* =============================================
        COURSE START DATES & PLACED CANDIDATES ADMIN
@@ -3591,16 +3474,16 @@
       if (existingDates.hr) document.getElementById('date-hr').value = existingDates.hr;
       if (existingDates.sales) document.getElementById('date-sales').value = existingDates.sales;
 
-      datesForm.addEventListener('submit', (e) => {
+      datesForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const payload = {
-          python: document.getElementById('date-python').value.trim() || 'September 15, 2026',
-          java: document.getElementById('date-java').value.trim() || 'September 15, 2026',
-          analytics: document.getElementById('date-analytics').value.trim() || 'September 15, 2026',
-          hr: document.getElementById('date-hr').value.trim() || 'September 15, 2026',
-          sales: document.getElementById('date-sales').value.trim() || 'September 15, 2026',
+          python: document.getElementById('date-python').value.trim(),
+          java: document.getElementById('date-java').value.trim(),
+          analytics: document.getElementById('date-analytics').value.trim(),
+          hr: document.getElementById('date-hr').value.trim(),
+          sales: document.getElementById('date-sales').value.trim(),
         };
-        localStorage.setItem(DATES_KEY, JSON.stringify(payload));
+        try { await siteContent.save(DATES_KEY, payload); } catch (err) { alert('Dates were not published: ' + err.message); return; }
 
         datesStatus.classList.add('is-visible');
         setTimeout(() => datesStatus.classList.remove('is-visible'), 2500);
@@ -3617,8 +3500,8 @@
         return JSON.parse(localStorage.getItem(STUDENTS_KEY) || '[]');
       }
 
-      function saveStudents(arr) {
-        localStorage.setItem(STUDENTS_KEY, JSON.stringify(arr));
+      async function saveStudents(arr) {
+        await siteContent.save(STUDENTS_KEY, arr);
         renderStudents();
       }
 
@@ -3632,11 +3515,11 @@
         studentsList.innerHTML = students.map((s, idx) => `
           <div style="background: #F8FAFC; border: 1px solid var(--line-soft); border-radius: 10px; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; gap: 16px;">
             <div style="display: flex; align-items: center; gap: 14px;">
-              <img src="${s.photo || 'student_python.jpg'}" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;" />
+              <img src="${escapeHtml(s.photo || 'student_python.jpg')}" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;" />
               <div>
-                <strong style="font-size: 15px; color: var(--ink); display: block;">${s.name}</strong>
-                <span style="font-size: 13px; color: var(--blue); font-weight: 600;">${s.role}</span> @ ${s.company}
-                <span style="font-size: 12px; color: var(--ink-mute); display: block;">Course: ${s.course.toUpperCase()} • ${s.badge}</span>
+                <strong style="font-size: 15px; color: var(--ink); display: block;">${escapeHtml(s.name)}</strong>
+                <span style="font-size: 13px; color: var(--blue); font-weight: 600;">${escapeHtml(s.role)}</span> @ ${escapeHtml(s.company)}
+                <span style="font-size: 12px; color: var(--ink-mute); display: block;">Course: ${escapeHtml(s.course.toUpperCase())} • ${escapeHtml(s.badge)}</span>
               </div>
             </div>
             <button onclick="deleteStudent(${idx})" style="background: #FEF2F2; color: #DC2626; border: 1px solid #FCA5A5; padding: 6px 14px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer;">Delete</button>
@@ -3644,13 +3527,13 @@
         `).join('');
       }
 
-      window.deleteStudent = function (idx) {
+      window.deleteStudent = async function (idx) {
         const students = getStudents();
         students.splice(idx, 1);
-        saveStudents(students);
+        try { await saveStudents(students); } catch (err) { alert('Student was not removed: ' + err.message); }
       };
 
-      studentForm.addEventListener('submit', (e) => {
+      studentForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const newStudent = {
           course: document.getElementById('st-course').value,
@@ -3663,14 +3546,21 @@
 
         const students = getStudents();
         students.unshift(newStudent);
-        saveStudents(students);
+        try { await saveStudents(students); } catch (err) { alert('Student was not published: ' + err.message); return; }
 
         studentForm.reset();
         stStatus.classList.add('is-visible');
         setTimeout(() => stStatus.classList.remove('is-visible'), 2500);
       });
 
-      renderStudents();
+      window.reloadAdminContent = async function () {
+        try {
+          const [dates, students] = await Promise.all([siteContent.read(DATES_KEY, existingDates), siteContent.read(STUDENTS_KEY, getStudents())]);
+          localStorage.setItem(STUDENTS_KEY, JSON.stringify(students));
+          for (const key of ['python', 'java', 'analytics', 'hr', 'sales']) document.getElementById('date-' + key).value = dates[key] || '';
+          renderStudents();
+        } catch (err) { alert('Published content could not be loaded: ' + err.message); }
+      };
     })();
 
     /* =============================================
@@ -3712,7 +3602,7 @@
               .from('reels')
               .select('*')
               .order('sort_order', { ascending: true });
-            if (!error && data && data.length > 0) {
+            if (!error && Array.isArray(data)) {
               const reelList = data.map(r => r.reel_id);
               localStorage.setItem(STORE_KEY, JSON.stringify(reelList));
               updateCounter(reelList.length);
@@ -3743,19 +3633,11 @@
       }
 
       async function save(reels) {
+        if (!isSupabaseConfigured()) throw new Error('Database connection is unavailable.');
+        const { error } = await supabaseClient.rpc('replace_reels', { p_reels: reels });
+        if (error) { alert('Reels were not published: ' + error.message); throw error; }
         localStorage.setItem(STORE_KEY, JSON.stringify(reels));
-        showSaveStatus();
-        updateCounter(reels.length);
-
-        if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
-          try {
-            await supabaseClient.from('reels').delete().neq('id', '00000000-0000-0000-0000-000000000000');
-            const insertRows = reels.map((rId, idx) => ({ reel_id: rId, sort_order: idx }));
-            await supabaseClient.from('reels').insert(insertRows);
-          } catch (e) {
-            console.warn("Cloud reels save error:", e);
-          }
-        }
+        showSaveStatus(); updateCounter(reels.length);
       }
 
       function showSaveStatus() {
@@ -3939,259 +3821,21 @@
       updateCounter(initialReels.length);
     })();
 
-    /* =============================================
-       STUDENT PAYMENTS & CAREER PRO MANAGEMENT
-    ============================================= */
-    window.loadStudentPayments = async function () {
-      const loading = document.getElementById('payments-loading');
-      const empty = document.getElementById('payments-empty');
-      const wrap = document.getElementById('payments-table-wrap');
-      const tbody = document.getElementById('payments-table-body');
-      const badge = document.getElementById('payments-counter-badge');
-      const revMetric = document.getElementById('metric-total-revenue');
-      const proMetric = document.getElementById('metric-total-pro-students');
-
-      if (loading) loading.style.display = 'block';
-      if (empty) empty.style.display = 'none';
-      if (wrap) wrap.style.display = 'none';
-
-      let payments = [];
-      window.pendingUpiClaims = [];
-
-      // Single source of truth: payments_overview joins the student_payments
-      // ledger (Razorpay checkout, Razorpay webhook and staff activations, each
-      // tagged with `source`) to the subscription each payment bought. Offline
-      // UPI transfers still awaiting reconciliation come back separately.
-      //
-      // A previous version also merged in a pass read from this browser's
-      // localStorage, which showed whoever was sitting at the admin machine as
-      // a paying customer.
-      try {
-        const headers = await kompetenzenAuthHeaders();
-        if (!headers) throw new Error('Your staff session expired. Please sign in again.');
-
-        const res = await fetch(KOMPETENZEN_API_BASE + '/payments/admin/ledger', { headers });
-        const data = await res.json().catch(() => ({}));
-        if (!res.ok || !data.success) throw new Error(data.message || 'Could not load the payment ledger.');
-
-        payments = (data.payments || []).map(p => ({
-          ...p,
-          // The table below renders these field names.
-          created_at: p.paid_at,
-          status: p.payment_status
-        }));
-        window.pendingUpiClaims = data.pendingClaims || [];
-      } catch (err) {
-        console.warn('Ledger fetch failed, falling back to a direct read:', err.message);
-        // Fallback keeps the console usable if the API host is down. RLS still
-        // restricts this to staff.
-        if (typeof supabaseClient !== 'undefined' && supabaseClient) {
-          try {
-            const { data, error } = await supabaseClient
-              .from('payments_overview')
-              .select('*')
-              .order('paid_at', { ascending: false });
-            if (!error && data) {
-              payments = data.map(p => ({ ...p, created_at: p.paid_at, status: p.payment_status }));
-            }
-          } catch (e) {
-            console.warn('Direct ledger read also failed:', e);
-          }
-        }
-      }
-
-      if (loading) loading.style.display = 'none';
-
-      // Update counters & metrics
-      const totalCount = payments.length;
-      const totalRev = payments.reduce((acc, p) => acc + (Number(p.amount) || 499), 0);
-
-      if (badge) badge.textContent = totalCount;
-      if (proMetric) proMetric.textContent = totalCount;
-      if (revMetric) revMetric.textContent = '₹' + totalRev.toLocaleString('en-IN');
-
-      if (!payments || payments.length === 0) {
-        if (empty) empty.style.display = 'block';
-        if (wrap) wrap.style.display = 'none';
-        return;
-      }
-
-      if (empty) empty.style.display = 'none';
-      if (wrap) wrap.style.display = 'block';
-
-      // Which payment path each row came in through.
-      const SOURCE_LABELS = {
-        razorpay_checkout: 'Razorpay checkout',
-        razorpay_webhook: 'Razorpay webhook',
-        manual_staff_activation: 'Staff activation',
-        razorpay: 'Razorpay'
-      };
-
-      if (tbody) {
-        tbody.innerHTML = payments.map(p => {
-          const dateStr = p.created_at ? new Date(p.created_at).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', dateStyle: 'medium', timeStyle: 'short' }) : 'Recent';
-          const expiryStr = p.access_expires_at ? new Date(p.access_expires_at).toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata', dateStyle: 'medium' }) : '—';
-          const isComplete = (p.status || 'completed').toLowerCase() === 'completed';
-          return `
-            <tr style="border-bottom: 1px solid var(--line); transition: background 0.15s;">
-              <td style="padding: 12px 14px; font-weight: 700; color: var(--ink);">
-                ${escapeHtml(p.user_name || 'Candidate')}
-                <div style="font-size: 11px; font-weight: 800; color: #D97706; margin-top: 2px;">★ PRO MEMBER</div>
-              </td>
-              <td style="padding: 12px 14px;">
-                <div style="font-weight: 600; color: var(--blue);">${escapeHtml(p.user_email || '')}</div>
-                <div style="font-size: 12px; color: var(--ink-mute);">${escapeHtml(p.phone || 'No phone')}</div>
-              </td>
-              <td style="padding: 12px 14px; font-weight: 800; color: #10B981; font-size: 14.5px;">
-                ₹${p.amount || 499}
-              </td>
-              <td style="padding: 12px 14px;">
-                <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700;">${escapeHtml(p.transaction_id || 'N/A')}</div>
-                <div style="font-size: 11px; color: var(--ink-dim);">${escapeHtml(SOURCE_LABELS[p.source] || p.payment_method || 'Unknown')}</div>
-              </td>
-              <td style="padding: 12px 14px; font-size: 12.5px; color: var(--ink-dim); font-family: 'JetBrains Mono', monospace;">
-                ${dateStr}
-              </td>
-              <td style="padding: 12px 14px; font-size: 12px;">
-                ${p.access_active
-                  ? `<span style="color:#15803D; font-weight:700;">Active</span><div style="color: var(--ink-dim); font-size: 11px;">until ${expiryStr}</div>`
-                  : `<span style="color:#B91C1C; font-weight:700;">${escapeHtml(p.subscription_status || 'none')}</span>`}
-              </td>
-              <td style="padding: 12px 14px;">
-                <span style="background: ${isComplete ? '#DCFCE7' : '#FEF3C7'}; color: ${isComplete ? '#15803D' : '#B45309'}; padding: 4px 10px; border-radius: 99px; font-size: 11.5px; font-weight: 800; text-transform: uppercase;">
-                  ${escapeHtml(p.status || 'Active')}
-                </span>
-              </td>
-              <td style="padding: 12px 14px;">
-                <button type="button" class="btn-secondary" onclick="revokeProPayment('${escapeHtml(p.user_email)}', '${escapeHtml(p.transaction_id)}')" style="font-size: 11.5px; padding: 4px 10px; color: #EF4444; border-color: rgba(239, 68, 68, 0.3);">
-                  Revoke
-                </button>
-              </td>
-            </tr>
-          `;
-        }).join('');
-      }
-    };
-
-    /**
-     * Manual Pro activation — now performed by the server.
-     *
-     * The previous version inserted a payment row with the public anon key and
-     * then set a Pro flag in the *admin's own* localStorage, which granted the
-     * student nothing and the admin everything. The grant endpoint is behind
-     * requireAdmin and writes the real subscription.
-     */
-    window.handleManualProSubmit = async function (e) {
-      e.preventDefault();
-      const email = document.getElementById('m-email').value.trim().toLowerCase();
-      const phone = document.getElementById('m-phone').value.trim();
-      const tx = document.getElementById('m-tx').value.trim();
-      const msgEl = document.getElementById('manual-pro-msg');
-      const form = document.getElementById('manual-pro-form');
-      const submitBtn = form ? form.querySelector('button[type="submit"]') : null;
-
-      function say(text, colour) {
-        if (!msgEl) return;
-        msgEl.style.display = 'block';
-        msgEl.style.color = colour;
-        msgEl.textContent = text;
-      }
-
-      if (!email) return;
-      if (submitBtn) { submitBtn.disabled = true; }
-
-      try {
-        const headers = await kompetenzenAuthHeaders();
-        if (!headers) throw new Error('Your staff session expired. Please sign in again.');
-
-        const res = await fetch(KOMPETENZEN_API_BASE + '/payments/admin/grant', {
-          method: 'POST',
-          headers,
-          body: JSON.stringify({ email, reference: tx, note: phone ? ('Phone: ' + phone) : '' })
-        });
-        const data = await res.json().catch(() => ({}));
-        if (!res.ok || !data.success) throw new Error(data.message || 'Activation failed.');
-
-        say('✓ ' + data.message, '#10B981');
-        if (form) form.reset();
-        if (typeof window.loadStudentPayments === 'function') window.loadStudentPayments();
-        setTimeout(() => { if (msgEl) msgEl.style.display = 'none'; }, 5000);
-      } catch (err) {
-        say('✕ ' + err.message, '#EF4444');
-      } finally {
-        if (submitBtn) { submitBtn.disabled = false; }
-      }
-    };
-    /**
-     * Opens a resume held in the private `resumes` bucket.
-     *
-     * The bucket used to be public, so every uploaded resume was readable by
-     * anyone who could guess or stumble on its URL. Staff now mint a signed
-     * link that expires after 60 seconds.
-     */
-    window.openStoredResume = async function (objectPath) {
-      if (!objectPath) { alert('No resume file is attached to this application.'); return; }
-
-      // Tolerate rows created before the switch, which stored a full URL.
-      if (/^https?:\/\//i.test(objectPath)) { window.open(objectPath, '_blank', 'noopener'); return; }
-
-      try {
-        const { data, error } = await supabaseClient
-          .storage.from('resumes')
-          .createSignedUrl(objectPath, 60);
-        if (error || !data) throw new Error(error ? error.message : 'Could not create a link.');
-        window.open(data.signedUrl, '_blank', 'noopener');
-      } catch (err) {
-        alert('Could not open that resume: ' + err.message);
-      }
-    };
-
-    /**
-     * Revoke a pass. Server-side, staff-only.
-     *
-     * The old version deleted the payment ledger rows with the anon key (which
-     * destroyed the financial record) and cleared the admin's own localStorage.
-     * Revoking now cancels the subscription and leaves the ledger untouched.
-     */
-    window.revokeProPayment = async function (email) {
-      if (!confirm(`Revoke Career Pro access for ${email}?\n\nThe payment record is kept for your accounts.`)) return;
-
-      try {
-        const headers = await kompetenzenAuthHeaders();
-        if (!headers) throw new Error('Your staff session expired. Please sign in again.');
-
-        const res = await fetch(KOMPETENZEN_API_BASE + '/payments/admin/revoke', {
-          method: 'POST',
-          headers,
-          body: JSON.stringify({ email })
-        });
-        const data = await res.json().catch(() => ({}));
-        if (!res.ok || !data.success) throw new Error(data.message || 'Revoke failed.');
-
-        alert(data.message);
-        loadStudentPayments();
-      } catch (err) {
-        alert('Could not revoke access: ' + err.message);
-      }
-    };
-
-
-
     document.addEventListener('DOMContentLoaded', () => {
       if (typeof renderSkillsOptions === 'function') renderSkillsOptions();
       // Data loading is driven by the staff gate's own session check now; the
       // old sessionStorage flag could be set by hand to trigger these loads.
 
-      // Check URL hash for direct tab navigation (e.g. admin.html#payments)
+      // Check URL hash for direct tab navigation (e.g. admin.html#reels)
       const hash = (window.location.hash || '').replace('#', '');
-      if (hash && ['applications', 'jobs', 'courses', 'reels', 'payments'].includes(hash)) {
+      if (hash && ['applications', 'jobs', 'courses', 'reels'].includes(hash)) {
         if (typeof window.switchAdminTab === 'function') {
           window.switchAdminTab(hash);
         }
       }
     });
   </script>
-  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js" integrity="sha384-EnyY0/GSHQGSxSgMwaIPzSESbqoOLSexfnSMN2AP+39Ckmn92stwABZynq1JyzdT" crossorigin="anonymous"></script>
 </body>
 
 </html>

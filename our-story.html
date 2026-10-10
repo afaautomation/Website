@@ -71,12 +71,6 @@
       object-fit: cover;
     }
 
-    .serif {
-      font-family: "Instrument Serif", serif;
-      font-style: italic;
-      font-weight: 400;
-    }
-
     .mono {
       font-family: "JetBrains Mono", monospace;
     }
@@ -729,15 +723,6 @@
       font-weight: 700;
     }
 
-    .year-nav-pills {
-      display: flex;
-      gap: 10px;
-      margin-top: 32px;
-      flex-wrap: wrap;
-      justify-content: center;
-      visibility: hidden;
-    }
-
     .year-pill {
       display: inline-flex;
       align-items: center;
@@ -842,61 +827,6 @@
     /* ===========================================================
        SECTION 2: JOURNEY 2020 - 2026 TIMELINE
     =========================================================== */
-    .timeline-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 24px;
-      margin-top: 20px;
-    }
-
-    .timeline-card {
-      background: var(--card-bg);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 32px;
-      position: relative;
-      transition: transform 0.3s ease, border-color 0.3s ease;
-      backdrop-filter: blur(10px);
-    }
-
-    .timeline-card:hover {
-      transform: translateY(-6px);
-      border-color: var(--blue);
-    }
-
-    .timeline-year {
-      font-family: "JetBrains Mono", monospace;
-      font-size: 1.8rem;
-      font-weight: 800;
-      color: #1947FF;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .timeline-year .badge {
-      font-size: 0.75rem;
-      padding: 4px 10px;
-      border-radius: 99px;
-      background: rgba(25, 71, 255, 0.08);
-      border: 1px solid rgba(25, 71, 255, 0.2);
-      color: #1947FF;
-      font-weight: 600;
-    }
-
-    .timeline-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      margin-bottom: 12px;
-      color: #02050E;
-    }
-
-    .timeline-desc {
-      font-size: 0.95rem;
-      color: var(--fg-soft);
-      line-height: 1.6;
-    }
 
     /* ===========================================================
        SECTION 3: OUR STAFFS & LEADERSHIP
@@ -1326,6 +1256,7 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="css/mobile.css" media="(max-width: 768px)" />
 </head>
 
 <body>
@@ -1335,7 +1266,7 @@
     <div class="nav-inner">
       <div class="nav-left">
         <a href="index.html" class="brand">
-          <img src="kompetenzen logo-02.png" alt="Kompetenzen" />
+          <img src="kompetenzen logo-02.webp" alt="Kompetenzen" />
         </a>
       </div>
       <div class="nav-links">
@@ -1368,7 +1299,7 @@
       <!-- Center Zoom Piece (img-big with layered concentric masks) -->
       <div class="section__media">
         <div class="section__media__back">
-          <img src="img/telescope/img-big.png" alt="Kompetenzen Team & Mentors" />
+          <img src="img/telescope/img-big.webp" alt="Kompetenzen Team & Mentors" />
         </div>
       </div>
 
@@ -1884,12 +1815,12 @@
   <footer>
     <div class="wrap">
       <div class="giant" style="display: flex; justify-content: center;">
-        <img src="white name.png" alt="Kompetenzen." style="max-width: 100%; height: auto;" />
+        <img src="white name.webp" alt="Kompetenzen." style="max-width: 100%; height: auto;" />
       </div>
       <div class="ft-grid">
         <div>
           <div class="ft-brand">
-            <img src="kompetenzen logo-02.png" alt="Kompetenzen" style="height: 38px; width: auto; filter: brightness(0) invert(1);" />
+            <img src="kompetenzen logo-02.webp" alt="Kompetenzen" style="height: 38px; width: auto; filter: brightness(0) invert(1);" />
           </div>
           <p class="ft-blurb">
             Kerala's trusted partner for career consulting, IT training, full stack development, data analytics, and guaranteed placement support — since 2020.
@@ -1924,10 +1855,10 @@
   </footer>
 
   <!-- ============ SCRIPTS (GSAP + ScrollTrigger + SplitText + Lenis) ============ -->
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" integrity="sha384-HOvlOYPIs/zjoIkWUGXkVmXsjr8GuZLV+Q+rcPwmJOVZVpvTSXQChiN4t9Euv9Vc" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" integrity="sha384-P8VzCVnT9NBUkMrpcIZrJbA7EBjJvh/fJS6PmP+4nLIM284DtsImIv8D0fFjIkeh" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js" integrity="sha384-xb96EMJeax+NLXMC88ZBa1xAeAW+kn+horHh/zFlbMLG2UPWhMJJSlv7fi57hS+Q" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js" integrity="sha384-FKTX0CNJ8ngN1oGMBReVu7mvjTJyjFiD5etb1NKnYxc+8eFI2O0KWnksTN+oTFcu" crossorigin="anonymous"></script>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -2103,9 +2034,10 @@
     });
   </script>
   <!-- Unified Auth Modal -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
   <script src="supabase-config.js"></script>
-  <script src="js/auth-modal.js?v=5"></script>
+  <script src="firebase-config.js"></script>
+  <script src="js/auth-modal.js?v=12"></script>
   <!-- Mobile Menu Toggle -->
   <script>
     (function () {

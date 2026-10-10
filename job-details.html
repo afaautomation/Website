@@ -16,7 +16,7 @@
     href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet" />
   <link href="https://fonts.cdnfonts.com/css/google-sans" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
   <script src="supabase-config.js"></script>
 
   <style>
@@ -422,6 +422,13 @@
       border: none;
     }
 
+    .badge-internship {
+      background: rgba(168, 85, 247, 0.16) !important;
+      color: #C084FC !important;
+      border: 1px solid rgba(192, 132, 252, 0.35) !important;
+      box-shadow: 0 2px 10px rgba(168, 85, 247, 0.18);
+    }
+
     .posted-tag {
       font-size: 12.5px;
       color: var(--ink-dim);
@@ -739,24 +746,6 @@
     }
 
     /* Auth Screen Styles */
-    .auth-brand-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      padding: 5px 12px;
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.05);
-      border: none;
-      font-size: 12px;
-      font-weight: 600;
-      color: #CBD5E1;
-      margin-bottom: 16px;
-      align-self: flex-start;
-    }
-
-    .auth-brand-badge svg {
-      color: #3B82F6;
-    }
 
     .auth-title {
       font-size: 22px;
@@ -775,37 +764,6 @@
     }
 
     /* Google Sign In Button */
-    .btn-google-auth {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      width: 100%;
-      padding: 11px 16px;
-      background: #FFFFFF;
-      border: none;
-      border-radius: 10px;
-      font-family: inherit;
-      font-size: 14px;
-      font-weight: 600;
-      color: #1E293B;
-      cursor: pointer;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
-      transition: all 0.2s ease;
-      position: relative;
-    }
-
-    .btn-google-auth:hover {
-      background: #F8FAFC;
-      transform: translateY(-1px);
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
-    }
-
-    .google-icon-svg {
-      width: 20px;
-      height: 20px;
-      flex-shrink: 0;
-    }
 
     /* Auth Tabs (Log In / Sign Up) */
     .auth-tabs {
@@ -815,63 +773,6 @@
       padding: 3px;
       margin-bottom: 16px;
       border: none;
-    }
-
-    .auth-tab-btn {
-      flex: 1;
-      padding: 8px 14px;
-      border: none;
-      background: transparent;
-      border-radius: 7px;
-      font-size: 13.5px;
-      font-weight: 600;
-      color: #94A3B8;
-      cursor: pointer;
-      font-family: inherit;
-      transition: all 0.2s ease;
-      text-align: center;
-    }
-
-    .auth-tab-btn.active {
-      background: #2563EB;
-      color: #FFFFFF;
-      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
-    }
-
-    .auth-form-column {
-      display: flex;
-      flex-direction: column;
-      gap: 13px;
-      animation: viewFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .auth-form-column .form-group label {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      color: #E2E8F0;
-      margin-bottom: 5px;
-      text-transform: none;
-      letter-spacing: normal;
-    }
-
-    .auth-form-column .form-input {
-      width: 100%;
-      padding: 10px 14px;
-      background: #141A29;
-      border: 1px solid #1E293B;
-      border-radius: 8px;
-      font-size: 14px;
-      color: #F8FAFC;
-      font-family: inherit;
-      outline: none;
-      transition: all 0.2s ease;
-    }
-
-    .auth-form-column .form-input:focus {
-      border-color: #3B82F6;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-      background: #161D2E;
     }
 
     .btn-submit-apply {
@@ -897,23 +798,6 @@
       box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
     }
 
-    .auth-switch-text {
-      text-align: center;
-      font-size: 13px;
-      color: #94A3B8;
-      margin-top: 8px;
-    }
-
-    .auth-switch-text a {
-      color: #60A5FA;
-      font-weight: 600;
-      text-decoration: none;
-    }
-
-    .auth-switch-text a:hover {
-      text-decoration: underline;
-    }
-
     .auth-divider {
       text-align: center;
       margin: 16px 0 14px;
@@ -926,18 +810,6 @@
     .auth-divider::before,
     .auth-divider::after {
       display: none;
-    }
-
-    .auth-security-notice {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      margin-top: 18px;
-      font-size: 12px;
-      color: #64748B;
-      text-align: center;
-      line-height: 1.4;
     }
 
     .auth-inline-alert {
@@ -957,104 +829,9 @@
       color: #FCA5A5;
     }
 
-    .auth-inline-alert.success {
-      background: rgba(16, 185, 129, 0.12);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      color: #6EE7B7;
-    }
-
     /* Profile View Styles */
-    .profile-top-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-bottom: 16px;
-      margin-bottom: 20px;
-      border-bottom: none;
-    }
-
-    .profile-user-chip {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .profile-user-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: #1947FF;
-      color: #FFFFFF;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 13px;
-      flex-shrink: 0;
-    }
-
-    .profile-user-name {
-      font-size: 13.5px;
-      font-weight: 700;
-      color: #FFFFFF;
-      line-height: 1.2;
-    }
-
-    .profile-user-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 11px;
-      font-weight: 700;
-      color: #34D399;
-    }
-
-
-    .profile-section-title {
-      font-size: 14.5px;
-      font-weight: 800;
-      color: #FFFFFF;
-      margin: 18px 0 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .profile-section-title svg {
-      color: #60A5FA;
-    }
 
     /* Interactive Pill Selection */
-    .pill-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 4px;
-    }
-
-    .choice-pill {
-      padding: 7px 14px;
-      border-radius: 99px;
-      border: none;
-      background: rgba(255, 255, 255, 0.05);
-      color: #CBD5E1;
-      font-size: 12.5px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      user-select: none;
-    }
-
-    .choice-pill:hover {
-      background: rgba(59, 130, 246, 0.15);
-      color: #93C5FD;
-    }
-
-    .choice-pill.selected {
-      background: #1947FF;
-      color: #FFFFFF;
-      box-shadow: 0 2px 10px rgba(25, 71, 255, 0.4);
-    }
 
     .skill-chip {
       padding: 6px 13px;
@@ -1081,110 +858,9 @@
       font-weight: 700;
     }
 
-    .custom-skill-input-row {
-      display: flex;
-      gap: 8px;
-      margin-top: 10px;
-    }
-
-    .custom-skill-input-row input {
-      flex: 1;
-      padding: 8px 12px;
-      font-size: 13px;
-      border: 1px solid #1E293B;
-    }
-
-    .btn-add-skill {
-      padding: 8px 14px;
-      background: rgba(255, 255, 255, 0.06);
-      border: none;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 700;
-      color: #E2E8F0;
-      cursor: pointer;
-      font-family: inherit;
-    }
-
-    .btn-add-skill:hover {
-      background: rgba(255, 255, 255, 0.12);
-      color: #FFFFFF;
-    }
-
     /* Modal Action Bar */
-    .profile-actions-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-top: 24px;
-      padding-top: 18px;
-      border-top: none;
-    }
-
-
-    .profile-actions-bar .btn-submit-apply {
-      flex: 1;
-      max-width: 320px;
-      margin-top: 0;
-    }
 
     /* Sidebar Authenticated Banner */
-    .sidebar-user-card {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(255, 255, 255, 0.04);
-      border: none;
-      border-radius: 12px;
-      padding: 12px 14px;
-      margin-bottom: 16px;
-    }
-
-    .sidebar-user-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .sidebar-user-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: #1947FF;
-      color: #FFFFFF;
-      font-weight: 700;
-      font-size: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .sidebar-user-text {
-      font-size: 12.5px;
-      color: #FFFFFF;
-      line-height: 1.3;
-    }
-
-    .sidebar-user-text strong {
-      display: block;
-      font-weight: 700;
-    }
-
-    .btn-switch-account {
-      background: none;
-      border: none;
-      color: #60A5FA;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      padding: 4px;
-      font-family: inherit;
-    }
-
-    .btn-switch-account:hover {
-      text-decoration: underline;
-    }
 
     .apply-card-head {
       margin-bottom: 20px;
@@ -1208,137 +884,6 @@
       display: flex;
       flex-direction: column;
       gap: 14px;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .form-group label {
-      font-size: 12.5px;
-      font-weight: 700;
-      color: #CBD5E1;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    .form-group label span {
-      color: #EF4444;
-    }
-
-    .form-input {
-      width: 100%;
-      padding: 11px 14px;
-      border: 1px solid #1E293B;
-      border-radius: var(--radius-sm);
-      font-size: 14px;
-      font-family: inherit;
-      color: #FFFFFF;
-      background: rgba(14, 18, 29, 0.85);
-      transition: all 0.2s;
-      outline: none;
-    }
-
-    .form-input:focus {
-      background: rgba(18, 24, 38, 0.95);
-      border-color: #3B82F6;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-    }
-
-    .form-textarea {
-      min-height: 80px;
-      resize: vertical;
-    }
-
-    .file-upload-wrapper {
-      position: relative;
-      width: 100%;
-    }
-
-    .form-file-input {
-      position: absolute;
-      width: 0.1px;
-      height: 0.1px;
-      opacity: 0;
-      overflow: hidden;
-      z-index: -1;
-    }
-
-    .file-upload-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      width: 100%;
-      padding: 13px 16px;
-      background: rgba(59, 130, 246, 0.12);
-      border: 1.5px dashed rgba(96, 165, 250, 0.4);
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      font-size: 13.5px;
-      font-weight: 700;
-      color: #93C5FD !important;
-      transition: all 0.2s ease;
-      text-align: center;
-    }
-
-    .file-upload-btn svg {
-      color: #93C5FD !important;
-      flex-shrink: 0;
-    }
-
-    .file-upload-btn span {
-      color: #93C5FD !important;
-    }
-
-    .file-upload-btn:hover {
-      background: rgba(59, 130, 246, 0.2);
-      border-color: #3B82F6;
-      transform: translateY(-1px);
-    }
-
-    .file-upload-btn.has-file {
-      background: rgba(16, 185, 129, 0.12);
-      border-color: #10B981;
-      border-style: solid;
-      color: #34D399 !important;
-    }
-
-    .file-upload-btn.has-file svg,
-    .file-upload-btn.has-file span {
-      color: #34D399 !important;
-    }
-
-    .resume-builder-hint {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 4px;
-      margin-top: 6px;
-      padding: 6px 10px;
-      background: rgba(255, 255, 255, 0.03);
-      border: none;
-      border-radius: 8px;
-      font-size: 12px;
-      color: var(--ink-mute);
-    }
-
-    .resume-builder-hint a {
-      color: #60A5FA;
-      font-weight: 700;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-      transition: color 0.2s;
-    }
-
-    .resume-builder-hint a:hover {
-      color: #93C5FD;
-      text-decoration: underline;
     }
 
     .btn-submit-apply {
@@ -1543,22 +1088,6 @@
         max-height: 96vh;
       }
 
-      .profile-top-bar {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-      }
-
-
-      .profile-actions-bar {
-        flex-direction: column-reverse;
-        gap: 10px;
-      }
-
-      .profile-actions-bar .btn-submit-apply {
-        max-width: 100%;
-        width: 100%;
-      }
     }
 
     body { overflow-x: hidden; max-width: 100%; }
@@ -1722,6 +1251,7 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="css/mobile.css" media="(max-width: 768px)" />
 </head>
 
 <body>
@@ -1734,7 +1264,7 @@
     <div class="nav-inner">
       <div class="nav-left">
         <a href="index.html" class="brand">
-          <img src="kompetenzen logo-02.png" alt="Kompetenzen" />
+          <img src="kompetenzen logo-02.webp" alt="Kompetenzen" />
         </a>
       </div>
       <div class="nav-links">
@@ -1949,7 +1479,7 @@
             </div>
             <div class="perk-item">
               <div class="perk-icon">✓</div>
-              <span>First 3 Applications Free — No Payment Needed</span>
+              <span>Free to Apply — No Payment, No Limits</span>
             </div>
           </div>
 
@@ -2010,136 +1540,6 @@
 
   </main>
 
-  <!-- GOOGLE AUTH & JOB MATCHING PROFILE MODAL -->
-  <div class="auth-modal-backdrop" id="auth-profile-modal" onclick="handleAuthBackdropClick(event)">
-    <div class="auth-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-flow-title">
-      <button type="button" class="auth-modal-close" onclick="closeAuthModal()" aria-label="Close modal">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-      </button>
-
-      <!-- VIEW 1: AUTHENTICATION (SIGN UP & LOGIN) -->
-      <div id="auth-view" class="auth-modal-view">
-        <div class="auth-brand-badge">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
-            <path d="M6 12v5c3 3 9 3 12 0v-5"/>
-          </svg>
-          <span>Kompetenzen Careers</span>
-        </div>
-
-        <h3 class="auth-title" id="modal-flow-title">Sign in to apply</h3>
-        <p class="auth-desc" id="auth-sub-desc">
-          Sign in to submit your application and track your progress.
-        </p>
-
-        <!-- Inline feedback message -->
-        <div id="auth-inline-alert" class="auth-inline-alert"></div>
-
-        <!-- Official Google Sign In Button -->
-        <button type="button" class="btn-google-auth" id="btn-google-login" onclick="triggerGoogleSignIn()">
-          <svg class="google-icon-svg" viewBox="0 0 48 48">
-            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-          </svg>
-          <span id="google-btn-label">Continue with Google</span>
-        </button>
-
-        <div class="auth-divider">
-          <span>or continue with email</span>
-        </div>
-
-        <!-- Segmented Tab Selector -->
-        <div class="auth-tabs">
-          <button type="button" class="auth-tab-btn active" id="tab-login-btn" onclick="switchAuthTab('login')">
-            Sign In
-          </button>
-          <button type="button" class="auth-tab-btn" id="tab-signup-btn" onclick="switchAuthTab('signup')">
-            Create Account
-          </button>
-        </div>
-
-        <!-- LOG IN FORM -->
-        <form class="auth-form-column" id="login-form" onsubmit="handleEmailLogin(event)">
-          <div class="form-group">
-            <label for="login-email">Email address</label>
-            <input type="email" id="login-email" class="form-input" placeholder="Enter your email address" autocomplete="off" required />
-          </div>
-
-          <div class="form-group">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
-              <label for="login-password" style="margin-bottom:0;">Password</label>
-              <a href="javascript:void(0)" onclick="switchAuthTab('forgot')" style="font-size:12.5px; color:#60A5FA; text-decoration:none; font-weight:500;">Forgot password?</a>
-            </div>
-            <input type="password" id="login-password" class="form-input" placeholder="Enter your password" required />
-          </div>
-
-          <button type="submit" class="btn-submit-apply" style="margin-top:4px;">
-            <span>Sign In</span>
-          </button>
-
-          <p class="auth-switch-text">
-            Don't have an account? <a href="javascript:void(0)" onclick="switchAuthTab('signup')">Sign up</a>
-          </p>
-        </form>
-
-        <!-- SIGN UP FORM -->
-        <form class="auth-form-column" id="signup-form" style="display:none;" onsubmit="handleEmailSignup(event)">
-          <div class="form-group">
-            <label for="signup-name">Full name</label>
-            <input type="text" id="signup-name" class="form-input" placeholder="Enter your full name" required />
-          </div>
-
-          <div class="form-group">
-            <label for="signup-email">Email address</label>
-            <input type="email" id="signup-email" class="form-input" placeholder="you@example.com" required />
-          </div>
-
-          <div class="form-group">
-            <label for="signup-password">Password</label>
-            <input type="password" id="signup-password" class="form-input" placeholder="At least 6 characters" minlength="6" required />
-          </div>
-
-          <button type="submit" class="btn-submit-apply" style="margin-top:4px;">
-            <span>Create Account</span>
-          </button>
-
-          <p class="auth-switch-text">
-            Already have an account? <a href="javascript:void(0)" onclick="switchAuthTab('login')">Sign in</a>
-          </p>
-        </form>
-
-        <!-- FORGOT PASSWORD FORM -->
-        <form class="auth-form-column" id="forgot-form" style="display:none;" onsubmit="handleForgotPassword(event)">
-          <div style="background:rgba(59,130,246,0.08); border:none; border-radius:8px; padding:12px 14px; margin-bottom:12px; font-size:12.5px; color:#93C5FD; line-height:1.5;">
-            Enter your account email and we'll send you a secure password reset link.
-          </div>
-
-          <div class="form-group">
-            <label for="forgot-email">Account email</label>
-            <input type="email" id="forgot-email" class="form-input" placeholder="you@example.com" required />
-          </div>
-
-          <button type="submit" class="btn-submit-apply" style="margin-top:4px;">
-            <span>Send Reset Link</span>
-          </button>
-
-          <p class="auth-switch-text">
-            Remember your password? <a href="javascript:void(0)" onclick="switchAuthTab('login')">Back to sign in</a>
-          </p>
-        </form>
-
-        <div class="auth-security-notice">
-          <span>By signing in, you agree to Kompetenzen's Terms of Service &amp; Privacy Policy.</span>
-        </div>
-      </div>
-
-      </div>
-    </div>
   </div>
 
   <!-- SUCCESS TOAST -->
@@ -2170,7 +1570,7 @@
       // Listings are public so search engines can index them. The detail
       // columns are revoked from anon/authenticated, so a plain select cannot
       // reach them; the SECURITY DEFINER RPC returns them to everyone, and
-      // returns apply_url only once this candidate has applied (or is Pro).
+      // returns apply_url only once this candidate has applied.
       let customJobs = [];
       if (jobId && typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
         try {
@@ -2268,8 +1668,24 @@
       document.getElementById('j-posted-time').textContent = job.postedText ? `Posted ${job.postedText}` : 'Active Opening';
 
       // Badges
-      const typeLabels = { 'full-time': 'Full-Time', 'contract': 'Contract', 'part-time': 'Part-Time', 'remote': 'Remote' };
-      document.getElementById('j-badge-type').textContent = typeLabels[job.jobType] || job.jobType || 'Full-Time';
+      const typeLabels = {
+        'full-time': 'Full-Time',
+        'contract': 'Contract',
+        'part-time': 'Part-Time',
+        'remote': 'Remote',
+        'internship': 'Internship',
+        'internship-fulltime': 'Full-Time Intern',
+        'internship-parttime': 'Part-Time Intern',
+        'internship-remote': 'Virtual Intern'
+      };
+      const isIntern = (job.jobType || '').toLowerCase().includes('intern') || (job.title || '').toLowerCase().includes('intern');
+      const badgeTypeEl = document.getElementById('j-badge-type');
+      if (badgeTypeEl) {
+        badgeTypeEl.textContent = (isIntern ? '🎓 ' : '') + (typeLabels[job.jobType] || job.jobType || 'Full-Time');
+        if (isIntern) {
+          badgeTypeEl.className = 'badge badge-internship';
+        }
+      }
       document.getElementById('j-badge-cat').textContent = (job.category || 'General').toUpperCase();
 
       if (job.isDirectLink) {
@@ -2328,10 +1744,19 @@
       // Summary Sidebar
       document.getElementById('sum-company').textContent = job.company;
       document.getElementById('sum-location').textContent = job.location || 'Multiple';
-      document.getElementById('sum-type').textContent = typeLabels[job.jobType] || job.jobType || 'Full-Time';
-      document.getElementById('sum-exp').textContent = job.experience || 'Open';
-      document.getElementById('sum-salary').textContent = job.salary || 'Best in Industry';
+      document.getElementById('sum-type').textContent = (isIntern ? '🎓 ' : '') + (typeLabels[job.jobType] || job.jobType || 'Full-Time');
+      document.getElementById('sum-exp').textContent = job.experience || (isIntern ? 'Freshers / Students' : 'Open');
+      document.getElementById('sum-salary').textContent = job.salary || (isIntern ? 'Stipend Available' : 'Best in Industry');
       document.getElementById('sum-category').textContent = (job.category || 'General').toUpperCase();
+
+      if (isIntern) {
+        const sumExpLabel = document.querySelector('#sum-exp')?.previousElementSibling;
+        if (sumExpLabel) sumExpLabel.textContent = 'Duration / Eligibility';
+        const sumSalLabel = document.querySelector('#sum-salary')?.previousElementSibling;
+        if (sumSalLabel) sumSalLabel.textContent = 'Stipend / Allowance';
+        const applyTitle = document.querySelector('.apply-card-head h3');
+        if (applyTitle) applyTitle.textContent = 'Apply for Internship';
+      }
       updateSidebarAuthState();
     }
 
@@ -2356,20 +1781,6 @@
       `).join('');
     }
 
-    function updateResumeFileName(input) {
-      const label = document.getElementById('resume-file-label');
-      const text = document.getElementById('resume-filename-text');
-      if (input.files && input.files[0]) {
-        const file = input.files[0];
-        const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
-        text.textContent = `✓ ${file.name} (${sizeMb} MB)`;
-        label.classList.add('has-file');
-      } else {
-        text.textContent = 'Choose Resume File (PDF / DOCX)';
-        label.classList.remove('has-file');
-      }
-    }
-
     // ===== MODAL & 2-STEP APPLICATION LOGIC =====
     let currentModalStep = 1;
 
@@ -2377,27 +1788,6 @@
     const AUTH_STORAGE_KEY = 'kompetenzen_google_user';
     const PROFILE_STORAGE_KEY = 'kompetenzen_candidate_profile';
     const APPLIED_JOBS_KEY = 'kompetenzen_applied_jobs';
-    const USERS_DB_KEY = 'kompetenzen_registered_users';
-
-    function getRegisteredUsers() {
-      try {
-        const data = localStorage.getItem(USERS_DB_KEY);
-        return data ? JSON.parse(data) : [];
-      } catch (e) {
-        return [];
-      }
-    }
-
-    function saveRegisteredUser(user) {
-      const users = getRegisteredUsers();
-      const index = users.findIndex(u => u.email.toLowerCase() === user.email.toLowerCase());
-      if (index >= 0) {
-        users[index] = { ...users[index], ...user };
-      } else {
-        users.push(user);
-      }
-      localStorage.setItem(USERS_DB_KEY, JSON.stringify(users));
-    }
 
     function getStoredUser() {
       try {
@@ -2409,28 +1799,8 @@
     }
 
     function isUserLoggedIn() {
-      return !!(localStorage.getItem('token') || getStoredUser());
-    }
-
-    function hasRegisteredAccount() {
-      try {
-        const users = getRegisteredUsers();
-        if (users && users.length > 0) return true;
-        if (getStoredUser() || localStorage.getItem('kompetenzen_last_auth_email')) return true;
-      } catch (e) {}
-      return false;
-    }
-
-    function getLastKnownEmail() {
-      try {
-        const stored = getStoredUser();
-        if (stored && stored.email) return stored.email;
-        const last = localStorage.getItem('kompetenzen_last_auth_email');
-        if (last) return last;
-        const users = getRegisteredUsers();
-        if (users.length > 0 && users[users.length - 1].email) return users[users.length - 1].email;
-      } catch (e) {}
-      return '';
+      const u = getStoredUser();
+      return !!(localStorage.getItem('token') || (u && (u.email || u.phone || u.name)));
     }
 
     function getStoredProfile() {
@@ -2485,6 +1855,9 @@
         if (menuName) menuName.textContent = displayName;
         if (menuEmail) menuEmail.textContent = user.email || '';
 
+        const isIntern = currentJob && ((currentJob.jobType || '').toLowerCase().includes('intern') || (currentJob.title || '').toLowerCase().includes('intern'));
+        const targetWord = isIntern ? 'Internship' : 'Position';
+
         if (applyBtn) {
           if (hasApplied) {
             applyBtn.innerHTML = '<span>✓ Application Submitted</span>';
@@ -2492,16 +1865,14 @@
             applyBtn.disabled = true;
           } else {
             const prof = getStoredProfile();
-            applyBtn.innerHTML = prof ? '<span>1-Click Apply for this Position →</span>' : '<span>Complete Profile & Apply →</span>';
+            applyBtn.innerHTML = prof ? `<span>1-Click Apply for ${targetWord} →</span>` : `<span>Complete Profile & Apply →</span>`;
             applyBtn.style.background = 'var(--blue)';
             applyBtn.disabled = false;
           }
         }
 
         if (applyNote) {
-          // The counter span is filled from the database by js/trial.js.
-          applyNote.innerHTML = `🔒 Connected as <strong>${escapeHtml(displayName)}</strong><br><span data-trial-counter="applications" style="color:#60A5FA; font-weight:700;"></span>`;
-          if (window.KompetenzenTrial) KompetenzenTrial.status().then(KompetenzenTrial.renderCounters);
+          applyNote.innerHTML = `🔒 Connected as <strong>${escapeHtml(displayName)}</strong><br><span style="color:#60A5FA; font-weight:700;">Applying is free — no limits</span>`;
         }
       } else {
         if (navBadge) {
@@ -2509,13 +1880,16 @@
           navBadge.style.display = 'none';
         }
 
+        const isIntern = currentJob && ((currentJob.jobType || '').toLowerCase().includes('intern') || (currentJob.title || '').toLowerCase().includes('intern'));
+        const targetWord = isIntern ? 'Internship' : 'Position';
+
         if (applyBtn) {
-          applyBtn.innerHTML = '<span>Apply for this Position →</span>';
+          applyBtn.innerHTML = `<span>Apply for ${targetWord} →</span>`;
           applyBtn.style.background = 'var(--blue)';
           applyBtn.disabled = false;
         }
         if (applyNote) {
-          applyNote.innerHTML = '🎁 Your first 3 applications are free • Quick Google / Email sign-in';
+          applyNote.innerHTML = '🎁 Applying is 100% free • Quick Google / Email sign-in';
         }
       }
     }
@@ -2542,17 +1916,34 @@
     }
 
     /**
-     * Sign-in -> profile -> free-trial credit (or Pro) -> application.
-     * Every check after sign-in happens in the database (apply_to_job()), so
-     * nothing here can be skipped by editing browser storage.
+     * Submits an application through apply_to_job(). Resolves to
+     * { status, apply_url? } — status: applied | already_applied |
+     * profile_required | auth_required | job_not_found | error
+     */
+    async function submitApplication(jobId) {
+      try {
+        const { data, error } = await supabaseClient.rpc('apply_to_job', { p_job_id: jobId });
+        if (error) {
+          // A duplicate submission racing this one raises inside the function.
+          if (/already submitted/i.test(error.message || '')) return { status: 'already_applied' };
+          console.error('apply_to_job failed:', error);
+          return { status: 'error', message: error.message };
+        }
+        return data || { status: 'error' };
+      } catch (e) {
+        return { status: 'error', message: e && e.message };
+      }
+    }
+
+    /**
+     * Sign-in -> profile -> application. Applying is free.
      */
     async function handleApplyButtonClick() {
       if (!currentJob || applyInFlight) return;
       const jobId = currentJob.id;
       const returnUrl = `job-details.html?id=${encodeURIComponent(jobId)}&apply=1`;
 
-      const session = window.KompetenzenTrial ? await KompetenzenTrial.getSession() : null;
-      if (!session) {
+      if (!isUserLoggedIn()) {
         openAuthModal('signup', returnUrl);
         return;
       }
@@ -2564,93 +1955,45 @@
         applyBtn.innerHTML = '<span>Submitting application…</span>';
       }
 
-      let result;
+      let result = null;
       try {
-        result = await KompetenzenTrial.applyToJob(jobId);
+        result = await submitApplication(jobId);
+      } catch (e) {
+        console.warn('submitApplication error:', e);
       } finally {
         applyInFlight = false;
         updateSidebarAuthState();
       }
 
-      switch (result && result.status) {
-        case 'applied': {
-          markJobApplied(jobId);
-          const left = result.applications_left;
-          const extra = result.is_pro || left === null || left === undefined
-            ? ''
-            : left > 0
-              ? ` ${left} free application${left === 1 ? '' : 's'} left.`
-              : ' That was your last free application.';
-          showApplyToast(`✓ Application submitted for ${currentJob.title}!${extra}`);
-          openExternalApplyUrl(result.apply_url);
-          break;
+      if (result && (result.status === 'applied' || result.status === 'already_applied')) {
+        markJobApplied(jobId);
+        showApplyToast(result.status === 'already_applied' ? 'You have already applied for this position.' : `✓ Application submitted for ${currentJob.title}!`);
+        if (result.apply_url || currentJob.applyUrl) {
+          openExternalApplyUrl(result.apply_url || currentJob.applyUrl);
         }
-        case 'already_applied':
-          markJobApplied(jobId);
-          showApplyToast('You have already applied for this position.');
-          openExternalApplyUrl(result.apply_url);
-          break;
-        case 'profile_required':
-          window.location.href = `create-profile.html?jobId=${encodeURIComponent(jobId)}`;
-          break;
-        case 'trial_exhausted':
-          openPaymentModal('job_application', () => { handleApplyButtonClick(); });
-          break;
-        case 'auth_required':
-          openAuthModal('signup', returnUrl);
-          break;
-        case 'job_not_found':
-          showApplyToast('This opening is no longer available.');
-          break;
-        default:
-          showApplyToast('Could not submit your application. Please try again.');
-      }
-    }
-
-    function showAuthAlert(msg, type = 'error') {
-      const alertEl = document.getElementById('auth-inline-alert');
-      if (!alertEl) {
-        alert(msg);
         return;
       }
-      alertEl.className = `auth-inline-alert ${type}`;
-      alertEl.innerHTML = `<span>${escapeHtml(msg)}</span>`;
-      alertEl.style.display = 'flex';
-    }
 
-    function hideAuthAlert() {
-      const alertEl = document.getElementById('auth-inline-alert');
-      if (alertEl) alertEl.style.display = 'none';
-    }
-
-    // Fallback only: js/auth-modal.js loads later and replaces window.openAuthModal
-    // with the shared sign-in modal used across the site.
-    function openAuthModal(initialTab = null) {
-      const modal = document.getElementById('auth-profile-modal');
-      if (!modal) return;
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-
-      const authView = document.getElementById('auth-view');
-      const subDesc = document.getElementById('auth-sub-desc');
-
-      if (currentJob && currentJob.title && subDesc) {
-        subDesc.innerHTML = `Continue to apply for <strong>${escapeHtml(currentJob.title)}</strong> at <strong>${escapeHtml(currentJob.company)}</strong>.`;
-      } else if (subDesc) {
-        subDesc.textContent = 'Sign in to submit your application and track your progress.';
+      if (result && result.status === 'profile_required') {
+        window.location.href = `create-profile.html?jobId=${encodeURIComponent(jobId)}`;
+        return;
       }
 
-      if (authView) authView.style.display = 'flex';
-      hideAuthAlert();
-
-      // Default to signup mode
-      let tab = (initialTab === 'login') ? 'login' : 'signup';
-      switchAuthTab(tab);
-
-      const loginEmail = document.getElementById('login-email');
-      const loginPassword = document.getElementById('login-password');
-      if (loginEmail) loginEmail.value = '';
-      if (loginPassword) loginPassword.value = '';
+      // Only the database decides whether an application was recorded.
+      let hasSession = false;
+      try { hasSession = !!(await supabaseClient.auth.getSession()).data.session; } catch (e) {}
+      if ((result && result.status === 'auth_required') || !hasSession) {
+        // The browser looked signed in but there is no valid account session.
+        ['token', 'access_token', 'kompetenzen_user', 'user', AUTH_STORAGE_KEY].forEach(k => localStorage.removeItem(k));
+        updateSidebarAuthState();
+        openAuthModal('direct-login', returnUrl);
+        return;
+      }
+      if (result && result.status === 'job_not_found') {
+        showApplyToast('This opening is no longer available.');
+        return;
+      }
+      showApplyToast('Your application could not be submitted. Please try again.');
     }
 
     window.openResumeBuilder = function (e) {
@@ -2659,199 +2002,7 @@
     };
 
     function closeAuthModal() {
-      const modal = document.getElementById('auth-profile-modal');
-      if (!modal) return;
-      modal.classList.remove('active');
-      document.body.style.overflow = '';
-      hideAuthAlert();
-      const loginEmail = document.getElementById('login-email');
-      const loginPassword = document.getElementById('login-password');
-      if (loginEmail) loginEmail.value = '';
-      if (loginPassword) loginPassword.value = '';
-    }
-
-    function handleAuthBackdropClick(e) {
-      if (e.target && e.target.id === 'auth-profile-modal') {
-        closeAuthModal();
-      }
-    }
-
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        closeAuthModal();
-      }
-    });
-
-    function switchAuthTab(tab) {
-      const loginBtn = document.getElementById('tab-login-btn');
-      const signupBtn = document.getElementById('tab-signup-btn');
-      const authTabs = document.querySelector('.auth-tabs');
-      const loginForm = document.getElementById('login-form');
-      const signupForm = document.getElementById('signup-form');
-      const forgotForm = document.getElementById('forgot-form');
-      const titleEl = document.getElementById('modal-flow-title');
-      const descEl = document.getElementById('auth-sub-desc');
-      hideAuthAlert();
-
-      if (tab === 'signup') {
-        if (authTabs) authTabs.style.display = 'flex';
-        if (signupBtn) signupBtn.classList.add('active');
-        if (loginBtn) loginBtn.classList.remove('active');
-        if (signupForm) signupForm.style.display = 'flex';
-        if (loginForm) loginForm.style.display = 'none';
-        if (forgotForm) forgotForm.style.display = 'none';
-        if (titleEl) titleEl.textContent = 'Create your account';
-        if (descEl) descEl.textContent = 'Enter your details to create your profile and start applying.';
-        const nameInput = document.getElementById('signup-name');
-        if (nameInput) nameInput.focus();
-      } else if (tab === 'forgot') {
-        if (authTabs) authTabs.style.display = 'none';
-        if (loginForm) loginForm.style.display = 'none';
-        if (signupForm) signupForm.style.display = 'none';
-        if (forgotForm) forgotForm.style.display = 'flex';
-        if (titleEl) titleEl.textContent = 'Reset your password';
-        if (descEl) descEl.textContent = 'Enter your registered email and set a new password.';
-        const loginEmail = document.getElementById('login-email') ? document.getElementById('login-email').value.trim() : '';
-        const forgotEmail = document.getElementById('forgot-email');
-        if (forgotEmail) {
-          if (loginEmail) forgotEmail.value = loginEmail;
-          forgotEmail.focus();
-        }
-      } else {
-        if (authTabs) authTabs.style.display = 'flex';
-        if (loginBtn) loginBtn.classList.add('active');
-        if (signupBtn) signupBtn.classList.remove('active');
-        if (loginForm) loginForm.style.display = 'flex';
-        if (signupForm) signupForm.style.display = 'none';
-        if (forgotForm) forgotForm.style.display = 'none';
-        if (titleEl) titleEl.textContent = 'Sign in to apply';
-        if (currentJob && currentJob.title && descEl) {
-          descEl.innerHTML = `Continue to apply for <strong>${escapeHtml(currentJob.title)}</strong> at <strong>${escapeHtml(currentJob.company)}</strong>.`;
-        } else if (descEl) {
-          descEl.textContent = 'Sign in to submit your application and track your progress.';
-        }
-        const emailInput = document.getElementById('login-email');
-        if (emailInput) emailInput.focus();
-      }
-    }
-
-    async function triggerGoogleSignIn() {
-      hideAuthAlert();
-      if (typeof isSupabaseConfigured !== 'function' || !isSupabaseConfigured()) {
-        showAuthAlert('Google sign-in is temporarily unavailable. Please try again shortly.', 'error');
-        return;
-      }
-      try {
-        const currentJobId = currentJob ? currentJob.id : '';
-        if (currentJobId) localStorage.setItem('kompetenzen_pending_apply_job', currentJobId);
-        await supabaseSignInWithGoogle(window.location.href);
-        // Browser is now redirecting to Google; nothing more to do here.
-      } catch (err) {
-        showAuthAlert((err && err.message) || 'Google sign-in failed. Please try again.', 'error');
-      }
-    }
-
-    async function handleEmailLogin(e) {
-      e.preventDefault();
-      hideAuthAlert();
-      const email = document.getElementById('login-email').value.trim().toLowerCase();
-      const password = document.getElementById('login-password').value;
-      const submitBtn = document.getElementById('login-submit-btn');
-
-      if (!email) {
-        showAuthAlert('Please enter your email address.', 'error');
-        return;
-      }
-      if (!password) {
-        showAuthAlert('Please enter your password.', 'error');
-        return;
-      }
-      if (typeof isSupabaseConfigured !== 'function' || !isSupabaseConfigured()) {
-        showAuthAlert('Log in is temporarily unavailable. Please try again shortly.', 'error');
-        return;
-      }
-
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Verifying…';
-      }
-
-      try {
-        const user = await supabaseSignIn(email, password);
-        authenticateUser(user);
-      } catch (err) {
-        showAuthAlert((err && err.message) || 'Incorrect email or password.', 'error');
-        document.getElementById('login-password').focus();
-      } finally {
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'Sign In to Apply';
-        }
-      }
-    }
-
-    async function handleForgotPassword(e) {
-      e.preventDefault();
-      hideAuthAlert();
-      const email = document.getElementById('forgot-email').value.trim().toLowerCase();
-
-      if (!email || !email.includes('@')) {
-        showAuthAlert('Please enter a valid email address.', 'error');
-        return;
-      }
-      if (typeof isSupabaseConfigured !== 'function' || !isSupabaseConfigured()) {
-        showAuthAlert('Password reset is temporarily unavailable. Please try again shortly.', 'error');
-        return;
-      }
-
-      try {
-        await supabaseResetPassword(email);
-        showAuthAlert('Reset link sent! Please check your email inbox.', 'success');
-      } catch (err) {
-        showAuthAlert((err && err.message) || 'Could not send reset link. Please try again.', 'error');
-      }
-    }
-
-    async function handleEmailSignup(e) {
-      e.preventDefault();
-      hideAuthAlert();
-      const name = document.getElementById('signup-name').value.trim();
-      const email = document.getElementById('signup-email').value.trim().toLowerCase();
-      const password = document.getElementById('signup-password').value;
-
-      if (!name) {
-        showAuthAlert('Please enter your full name.', 'error');
-        return;
-      }
-      if (!email || !email.includes('@')) {
-        showAuthAlert('Please enter a valid email address.', 'error');
-        return;
-      }
-      if (!password || password.length < 6) {
-        showAuthAlert('Password must be at least 6 characters long.', 'error');
-        return;
-      }
-      if (typeof isSupabaseConfigured !== 'function' || !isSupabaseConfigured()) {
-        showAuthAlert('Sign up is temporarily unavailable. Please try again shortly.', 'error');
-        return;
-      }
-
-      try {
-        const user = await supabaseSignUp(name, email, '', password);
-        authenticateUser(user);
-      } catch (err) {
-        const msg = (err && err.message) || 'Could not create account. Please try again.';
-        if (/already registered|already exists/i.test(msg)) {
-          showAuthAlert(`An account already exists for ${email}. Please sign in.`, 'error');
-          setTimeout(() => {
-            switchAuthTab('login');
-            document.getElementById('login-email').value = email;
-            document.getElementById('login-password').focus();
-          }, 1200);
-        } else {
-          showAuthAlert(msg, 'error');
-        }
-      }
+      if (typeof window.closeJobsAuthModal === 'function') window.closeJobsAuthModal();
     }
 
     function authenticateUser(user) {
@@ -2870,7 +2021,6 @@
       if (userObj.email) {
         localStorage.setItem('kompetenzen_last_auth_email', userObj.email);
       }
-      saveRegisteredUser(userObj);
 
       updateSidebarAuthState();
       closeAuthModal();
@@ -2970,11 +2120,8 @@
   </script>
 
   <!-- Unified Auth Modal -->
-  <script src="js/auth-modal.js?v=5"></script>
-  <!-- Career Pro Pass Payment Modal -->
-  <script src="js/payment-modal.js"></script>
-  <!-- Job details are public; applying needs sign-in and a free-trial credit or Pro -->
-  <script src="js/trial.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="js/auth-modal.js?v=12"></script>
 </body>
 
 </html>

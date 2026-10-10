@@ -1,0 +1,26 @@
+# Cloudflare Pages response headers (replaces the Apache .htaccess rules).
+/*
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(self)
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+
+# Never cache or index the staff console.
+/admin*
+  Cache-Control: no-store, no-cache, must-revalidate, private
+  X-Robots-Tag: noindex, nofollow
+
+# Images, video and the syllabus PDF rarely change; let browsers keep them for 30 days.
+/*.webp
+  Cache-Control: public, max-age=2592000
+/*.jpg
+  Cache-Control: public, max-age=2592000
+/*.png
+  Cache-Control: public, max-age=2592000
+/*.ico
+  Cache-Control: public, max-age=2592000
+/*.mp4
+  Cache-Control: public, max-age=2592000
+/*.pdf
+  Cache-Control: public, max-age=2592000

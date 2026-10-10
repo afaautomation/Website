@@ -692,6 +692,7 @@
         align-items: flex-start;
         gap: 8px;
       }
+    }
 
     body { overflow-x: hidden; max-width: 100%; }
 
@@ -854,6 +855,7 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="css/mobile.css" media="(max-width: 768px)" />
 </head>
 
 <body>
@@ -863,7 +865,7 @@
     <div class="nav-inner">
       <div class="nav-left">
         <a href="index.html" class="brand">
-          <img src="kompetenzen logo-02.png" alt="Kompetenzen" />
+          <img src="kompetenzen logo-02.webp" alt="Kompetenzen" />
         </a>
       </div>
       <div class="nav-links">
@@ -1032,7 +1034,7 @@
             <h2 class="section-title" style="margin-bottom: 4px;">Curriculum & Syllabus</h2>
             <p style="color: var(--text-muted); font-size: 15px;">Structured 6-month enterprise Java learning roadmap.</p>
           </div>
-          <a href="https://wa.me/918590886009?text=Send%20Java%20Syllabus%20PDF" target="_blank" class="btn-outline" style="font-size: 13px;">Request PDF Syllabus &rarr;</a>
+          <a href="KOMPETENZEN_FULLSTACK_.pdf" class="btn-outline" style="font-size: 13px;" onclick="downloadSyllabusWithAuth(event, 'KOMPETENZEN_FULLSTACK_.pdf', 'Full Stack Java Enterprise')">Download PDF Syllabus &rarr;</a>
         </div>
 
         <div class="curriculum-container">
@@ -1185,32 +1187,7 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // SYNC DYNAMIC BATCH DATES & PLACED STUDENTS FROM ADMIN LOCALSTORAGE
-    (function syncDynamicData() {
-      const courseKey = 'java';
-      const storedDates = JSON.parse(localStorage.getItem('kompetenzen_batch_dates') || '{}');
-      if (storedDates[courseKey]) {
-        const batchEl = document.querySelector('.meta-line span:nth-child(1) strong');
-        if (batchEl) batchEl.textContent = storedDates[courseKey];
-      }
 
-      const storedStudents = JSON.parse(localStorage.getItem('kompetenzen_placed_students') || '[]');
-      const courseStudents = storedStudents.filter(s => s.course === courseKey);
-      if (courseStudents.length > 0) {
-        const container = document.getElementById('placed-students-container');
-        if (container) {
-          container.innerHTML = courseStudents.map(s => `
-            <div class="student-card">
-              <img src="${s.photo || 'student_python.jpg'}" alt="${s.name}" class="student-photo" />
-              <h4 class="student-name">${s.name}</h4>
-              <div class="student-role">${s.role}</div>
-              <span class="student-company">${s.company}</span>
-              <div class="student-badge">${s.badge || 'Placed Candidate'}</div>
-            </div>
-          `).join('');
-        }
-      }
-    })();
   </script>
   <!-- Mobile Menu Toggle -->
   <script>
@@ -1238,9 +1215,11 @@
       }
     })();
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
   <script src="supabase-config.js"></script>
-  <script src="js/auth-modal.js?v=5"></script>
+  <script src="js/site-content.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="js/auth-modal.js?v=12"></script>
 </body>
 
 </html>

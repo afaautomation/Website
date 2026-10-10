@@ -1194,6 +1194,7 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="css/mobile.css" media="(max-width: 768px)" />
 </head>
 
 <body>
@@ -1207,7 +1208,7 @@
     <div class="nav-inner">
       <div class="nav-left">
         <a href="index.html" class="brand">
-          <img src="kompetenzen logo-02.png" alt="Kompetenzen" />
+          <img src="kompetenzen logo-02.webp" alt="Kompetenzen" />
         </a>
       </div>
       <div class="nav-links">
@@ -1290,7 +1291,7 @@
           <span style="font-weight: 600;">If you like:</span> Python, Django, React + MUI, n8n, AI Integration
         </div>
         <div class="card-footer">
-          <a href="course-details.html" onclick="checkAuthAndGoToCourse(event, 'course-details.html')" class="apply-btn">
+          <a href="course-details.html" class="apply-btn">
             View course details
           </a>
         </div>
@@ -1322,7 +1323,7 @@
           <span style="font-weight: 600;">If you like:</span> Java, Spring Boot, React + MUI, n8n, GenAI
         </div>
         <div class="card-footer">
-          <a href="java-course-details.html" onclick="checkAuthAndGoToCourse(event, 'java-course-details.html')" class="apply-btn">
+          <a href="java-course-details.html" class="apply-btn">
             View course details
           </a>
         </div>
@@ -1354,7 +1355,7 @@
           <span style="font-weight: 600;">If you like:</span> Excel, SQL, Python, Power BI, Tableau, GenAI
         </div>
         <div class="card-footer">
-          <a href="data-analytics-course-details.html" onclick="checkAuthAndGoToCourse(event, 'data-analytics-course-details.html')" class="apply-btn">
+          <a href="data-analytics-course-details.html" class="apply-btn">
             View course details
           </a>
         </div>
@@ -1644,12 +1645,13 @@
     </footer>
 
   <!-- Reusable Auth Modal for School Pages -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
   <script src="supabase-config.js"></script>
-  <script src="js/auth-modal.js?v=5"></script>
+  <script src="firebase-config.js"></script>
+  <script src="js/auth-modal.js?v=12"></script>
 
   <!-- Lenis Smooth Scroll -->
-  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" integrity="sha384-B2WBjDzEjJpYvhmi2UyEn7rektqkf5suS6sNoyyrf0EBAwBHdkiXxIlU0V5Ru2ed" crossorigin="anonymous"></script>
   <script>
     (function () {
       if (typeof Lenis !== 'undefined') {

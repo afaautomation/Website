@@ -15,17 +15,44 @@ const MIME_TYPES = {
   '.webp': 'image/webp',
   '.svg': 'image/svg+xml',
   '.pdf': 'application/pdf',
+  '.mp4': 'video/mp4',
   '.json': 'application/json',
   '.ico': 'image/x-icon'
 };
 
+// Local development only: never serve files outside the site, private folders, or dotfiles.
+const BLOCKED = /(^|[\\/])(\.|node_modules([\\/]|$)|Resume[\\/]backend([\\/]|$))|\.(sql|md|py|env|log)$/i;
+
+function notFound(res) {
+  res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+  res.end('<h1>404 Not Found</h1>');
+}
+
 const server = http.createServer((req, res) => {
-  let reqPath = decodeURIComponent(req.url.split('?')[0]);
+  if (req.method !== 'GET' && req.method !== 'HEAD') {
+    res.writeHead(405, { 'Allow': 'GET, HEAD' });
+    res.end();
+    return;
+  }
+
+  let reqPath;
+  try {
+    reqPath = decodeURIComponent(req.url.split('?')[0]);
+  } catch (e) {
+    res.writeHead(400, { 'Content-Type': 'text/plain' });
+    res.end('Bad Request');
+    return;
+  }
   if (reqPath === '/') {
     reqPath = '/index.html';
   }
 
-  let filePath = path.join(PUBLIC_DIR, reqPath);
+  const filePath = path.resolve(PUBLIC_DIR, '.' + path.posix.normalize('/' + reqPath));
+  const relative = path.relative(PUBLIC_DIR, filePath);
+  if (reqPath.includes('\0') || relative.startsWith('..') || path.isAbsolute(relative) || BLOCKED.test(relative) || relative === 'server.js') {
+    notFound(res);
+    return;
+  }
 
   fs.stat(filePath, (err, stats) => {
     if (!err && stats.isFile()) {
@@ -40,8 +67,7 @@ const server = http.createServer((req, res) => {
         return;
       }
 
-      res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
-      res.end('<h1>404 Not Found</h1>');
+      notFound(res);
     });
   });
 });
@@ -58,13 +84,14 @@ function serveFile(filePath, res) {
     }
     res.writeHead(200, {
       'Content-Type': contentType,
-      'Access-Control-Allow-Origin': '*',
+      'X-Content-Type-Options': 'nosniff',
       'Cache-Control': 'no-cache'
     });
     res.end(data);
   });
 }
 
-server.listen(PORT, '0.0.0.0', () => {
+// Bound to this computer only; other devices on the network cannot reach it.
+server.listen(PORT, '127.0.0.1', () => {
   console.log(`Server running at http://localhost:${PORT}/`);
 });

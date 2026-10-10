@@ -6,7 +6,6 @@ create table if not exists public.profiles (
 );
 
 alter table public.profiles add column if not exists avatar_url text;
-alter table public.profiles add column if not exists plan text not null default 'free';
 alter table public.profiles add column if not exists role text not null default 'user';
 
 create or replace function public.is_admin()
@@ -94,6 +93,87 @@ drop policy if exists "Admins can delete enrollments" on public.course_enrollmen
 create policy "Admins can delete enrollments" on public.course_enrollments
   for delete using (public.is_admin());
 
+create index if not exists idx_course_enrollments_created
+  on public.course_enrollments(created_at desc);
+
+create table if not exists public.enrollment_rate (
+  ip text not null,
+  at timestamptz not null default now()
+);
+create index if not exists idx_enrollment_rate_ip_at on public.enrollment_rate(ip, at);
+alter table public.enrollment_rate enable row level security;
+revoke all on public.enrollment_rate from anon, authenticated;
+
+create or replace function public.guard_course_enrollment()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_phone text := right(regexp_replace(coalesce(new.phone, ''), '\D', '', 'g'), 10);
+  v_email text := lower(trim(coalesce(new.email, '')));
+  v_headers json := nullif(current_setting('request.headers', true), '')::json;
+  v_ip text := coalesce(split_part(v_headers->>'x-forwarded-for', ',', 1), v_headers->>'cf-connecting-ip', 'unknown');
+begin
+  new.created_at := now();
+
+  if coalesce(trim(new.name), '') = '' or (v_phone = '' and v_email = '') then
+    raise exception 'Name and a phone number or email are required.';
+  end if;
+
+  if coalesce(new.phone, '') <> '' and coalesce(new.phone, '') !~ '^[0-9+()\s-]{7,30}$' then
+    raise exception 'Please enter a valid phone number.';
+  end if;
+
+  if char_length(coalesce(new.name, '')) > 200
+     or char_length(coalesce(new.email, '')) > 320
+     or char_length(coalesce(new.phone, '')) > 30
+     or char_length(coalesce(new.enrolled_course, '')) > 200
+     or char_length(coalesce(new.qualification, '')) > 200
+     or char_length(coalesce(new.learning_mode, '')) > 50
+     or char_length(coalesce(new.status, '')) > 100
+     or char_length(coalesce(new.batch_time, '')) > 100
+     or char_length(coalesce(new.comments, '')) > 2000
+     or char_length(coalesce(new.page_url, '')) > 500 then
+    raise exception 'Some fields are too long. Please shorten them and try again.';
+  end if;
+
+  if public.is_admin() then
+    return new;
+  end if;
+
+  if exists (
+    select 1 from public.course_enrollments e
+    where e.created_at > now() - interval '10 minutes'
+      and ((v_phone <> '' and right(regexp_replace(coalesce(e.phone, ''), '\D', '', 'g'), 10) = v_phone)
+        or (v_email <> '' and lower(trim(coalesce(e.email, ''))) = v_email))
+  ) then
+    raise exception 'You have already submitted an application. Our team will contact you soon.';
+  end if;
+
+  delete from public.enrollment_rate where at < now() - interval '1 hour';
+  if (select count(*) from public.enrollment_rate r
+      where r.ip = v_ip and r.at > now() - interval '10 minutes') >= 5 then
+    raise exception 'Too many applications from your network. Please try again in a few minutes.';
+  end if;
+  insert into public.enrollment_rate(ip) values (v_ip);
+
+  -- Wide safety net against a distributed flood.
+  if (select count(*) from public.course_enrollments e
+      where e.created_at > now() - interval '1 minute') >= 300 then
+    raise exception 'Too many applications are being submitted right now. Please try again in a minute.';
+  end if;
+
+  return new;
+end;
+$$;
+
+drop trigger if exists guard_course_enrollment on public.course_enrollments;
+create trigger guard_course_enrollment
+  before insert on public.course_enrollments
+  for each row execute function public.guard_course_enrollment();
+
 create table if not exists public.job_applications (
   id uuid primary key default gen_random_uuid(),
   name text,
@@ -141,7 +221,7 @@ create policy "Admins can delete applications" on public.job_applications
   for delete using (public.is_admin());
 
 drop policy if exists "Public can delete applications" on public.job_applications;
-drop policy if exists "Public can delete jobs" on public.hr_jobs;
+
 
 create table if not exists public.hr_jobs (
   id uuid primary key default gen_random_uuid(),
@@ -169,6 +249,9 @@ alter table public.hr_jobs add column if not exists apply_url text;
 alter table public.hr_jobs add column if not exists is_direct_link boolean not null default false;
 
 alter table public.hr_jobs enable row level security;
+revoke insert, update, delete, truncate on public.hr_jobs, public.reels from anon;
+
+drop policy if exists "Public can delete jobs" on public.hr_jobs;
 
 drop policy if exists "Public can view jobs" on public.hr_jobs;
 drop policy if exists "Members can view jobs" on public.hr_jobs;
@@ -177,7 +260,7 @@ create policy "Public can view jobs" on public.hr_jobs
 
 drop policy if exists "Admins can manage jobs" on public.hr_jobs;
 create policy "Admins can manage jobs" on public.hr_jobs
-  for all using (public.is_admin()) with check (public.is_admin());
+  for all to authenticated using (public.is_admin()) with check (public.is_admin());
 
 create table if not exists public.reels (
   id uuid primary key default gen_random_uuid(),
@@ -196,11 +279,16 @@ create policy "Public can view reels" on public.reels
 
 drop policy if exists "Admins can manage reels" on public.reels;
 create policy "Admins can manage reels" on public.reels
-  for all using (public.is_admin()) with check (public.is_admin());
+  for all to authenticated using (public.is_admin()) with check (public.is_admin());
 
 insert into storage.buckets (id, name, public)
 values ('resumes', 'resumes', false)
 on conflict (id) do update set public = false;
+update storage.buckets
+set file_size_limit = 5242880,
+    allowed_mime_types = array['application/pdf', 'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
+where id = 'resumes';
 
 drop policy if exists "Public can upload resumes" on storage.objects;
 drop policy if exists "Public can read resumes" on storage.objects;
@@ -323,132 +411,6 @@ drop policy if exists "Public can view tips" on public.writing_tips;
 create policy "Public can view tips" on public.writing_tips
   for select using (true);
 
-create table if not exists public.payment_orders (
-  id uuid primary key default gen_random_uuid(),
-  razorpay_order_id text not null unique,
-  user_id uuid not null references auth.users(id) on delete cascade,
-  user_email text,
-  amount_paise integer not null,
-  currency text not null default 'INR',
-  status text not null default 'created',
-  receipt text,
-  created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
-);
-create index if not exists idx_payment_orders_user on public.payment_orders(user_id);
-
-alter table public.payment_orders enable row level security;
-
-drop policy if exists "Users view own orders" on public.payment_orders;
-create policy "Users view own orders" on public.payment_orders
-  for select using (auth.uid() = user_id);
-
-create table if not exists public.student_payments (
-  id uuid primary key default gen_random_uuid(),
-  user_name text not null,
-  user_email text not null,
-  phone text,
-  amount numeric not null default 499,
-  payment_method text not null default 'upi',
-  transaction_id text not null,
-  status text not null default 'completed',
-  features_unlocked text[] default array['resume_pro', 'jobs_unlimited', 'ai_scan', 'interview_prep'],
-  page_source text,
-  notes text,
-  created_at timestamptz not null default now()
-);
-
-alter table public.student_payments add column if not exists user_id uuid references auth.users(id) on delete set null;
-alter table public.student_payments add column if not exists razorpay_order_id text;
-
-create unique index if not exists uq_student_payments_txn
-  on public.student_payments(transaction_id);
-
-alter table public.student_payments enable row level security;
-
-drop policy if exists "Public can submit payments" on public.student_payments;
-drop policy if exists "Public can view payments" on public.student_payments;
-drop policy if exists "Public can update payments" on public.student_payments;
-drop policy if exists "Public can delete payments" on public.student_payments;
-
-drop policy if exists "Users view own payments" on public.student_payments;
-create policy "Users view own payments" on public.student_payments
-  for select using (auth.uid() = user_id);
-
-drop policy if exists "Admins view all payments" on public.student_payments;
-create policy "Admins view all payments" on public.student_payments
-  for select using (public.is_admin());
-
-create table if not exists public.manual_payment_claims (
-  id uuid primary key default gen_random_uuid(),
-  user_id uuid not null references auth.users(id) on delete cascade,
-  user_email text,
-  user_name text,
-  phone text,
-  reference text not null,
-  status text not null default 'pending',
-  reviewed_by uuid references auth.users(id),
-  reviewed_at timestamptz,
-  notes text,
-  created_at timestamptz not null default now()
-);
-create unique index if not exists uq_manual_claim_reference
-  on public.manual_payment_claims(reference);
-create index if not exists idx_manual_claims_status
-  on public.manual_payment_claims(status);
-
-alter table public.manual_payment_claims enable row level security;
-
-drop policy if exists "Users view own claims" on public.manual_payment_claims;
-create policy "Users view own claims" on public.manual_payment_claims
-  for select using (auth.uid() = user_id);
-
-drop policy if exists "Admins view all claims" on public.manual_payment_claims;
-create policy "Admins view all claims" on public.manual_payment_claims
-  for select using (public.is_admin());
-
-create table if not exists public.subscriptions (
-  id uuid primary key default gen_random_uuid(),
-  user_id uuid not null unique references auth.users(id) on delete cascade,
-  plan text not null default 'career_pro',
-  status text not null default 'active',
-  started_at timestamptz not null default now(),
-  expires_at timestamptz not null,
-  last_payment_id text,
-  amount numeric not null default 499,
-  created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
-);
-create index if not exists idx_subscriptions_user on public.subscriptions(user_id);
-
-alter table public.subscriptions enable row level security;
-
-drop policy if exists "Users view own subscription" on public.subscriptions;
-create policy "Users view own subscription" on public.subscriptions
-  for select using (auth.uid() = user_id);
-
-drop policy if exists "Admins view all subscriptions" on public.subscriptions;
-create policy "Admins view all subscriptions" on public.subscriptions
-  for select using (public.is_admin());
-
-create or replace function public.has_active_pass()
-returns boolean
-language sql
-stable
-security definer
-set search_path = public
-as $$
-  select exists (
-    select 1 from public.subscriptions s
-    where s.user_id = auth.uid()
-      and s.status = 'active'
-      and s.expires_at > now()
-  );
-$$;
-
-revoke all on function public.has_active_pass() from public;
-grant execute on function public.has_active_pass() to authenticated, service_role;
-
 revoke select on public.hr_jobs from anon, authenticated;
 grant select (
   id, title, category, company, location, job_type,
@@ -483,8 +445,7 @@ as $$
          j.experience, j.salary, j.skills, j.description, j.responsibilities,
          j.requirements, j.about_company,
          case when (
-           public.has_active_pass()
-           or public.is_admin()
+           public.is_admin()
            or exists (
              select 1 from public.job_applications a
              where a.user_id = auth.uid() and a.job_id = j.id
@@ -497,50 +458,6 @@ $$;
 
 revoke all on function public.job_details(uuid) from public;
 grant execute on function public.job_details(uuid) to anon, authenticated, service_role;
-
-alter table public.student_payments
-  add column if not exists source text not null default 'razorpay';
-
-create index if not exists idx_student_payments_created
-  on public.student_payments(created_at desc);
-create index if not exists idx_student_payments_email
-  on public.student_payments(user_email);
-
-create or replace view public.payments_overview
-with (security_invoker = true)
-as
-  select
-    p.id,
-    p.user_id,
-    p.user_name,
-    p.user_email,
-    p.phone,
-    p.amount,
-    p.source,
-    p.payment_method,
-    p.transaction_id,
-    p.razorpay_order_id,
-    p.status            as payment_status,
-    p.notes,
-    p.created_at        as paid_at,
-    s.status            as subscription_status,
-    s.expires_at        as access_expires_at,
-    (s.status = 'active' and s.expires_at > now()) as access_active
-  from public.student_payments p
-  left join public.subscriptions s on s.user_id = p.user_id
-  order by p.created_at desc;
-
-grant select on public.payments_overview to authenticated;
-
-create or replace view public.my_subscription
-with (security_invoker = true)
-as
-  select user_id, plan, status, started_at, expires_at,
-         (status = 'active' and expires_at > now()) as is_active
-  from public.subscriptions
-  where user_id = auth.uid();
-
-grant select on public.my_subscription to authenticated;
 
 create table if not exists public.candidate_profiles (
   user_id uuid primary key references auth.users(id) on delete cascade,
@@ -578,82 +495,6 @@ drop policy if exists "Admins view all candidate profiles" on public.candidate_p
 create policy "Admins view all candidate profiles" on public.candidate_profiles
   for select using (public.is_admin());
 
-create table if not exists public.trial_usage (
-  user_id uuid not null references auth.users(id) on delete cascade,
-  feature text not null check (feature in ('job_application', 'resume_download')),
-  used integer not null default 0 check (used >= 0),
-  updated_at timestamptz not null default now(),
-  primary key (user_id, feature)
-);
-
-alter table public.trial_usage enable row level security;
-
-drop policy if exists "Users view own trial usage" on public.trial_usage;
-create policy "Users view own trial usage" on public.trial_usage
-  for select using (auth.uid() = user_id);
-
-drop policy if exists "Admins view all trial usage" on public.trial_usage;
-create policy "Admins view all trial usage" on public.trial_usage
-  for select using (public.is_admin());
-
-create or replace function public.trial_limit(p_feature text)
-returns integer
-language sql
-immutable
-as $$
-  select 3;
-$$;
-
-create or replace function public.consume_trial_credit(p_user_id uuid, p_feature text)
-returns integer
-language plpgsql
-security definer
-set search_path = public
-as $$
-declare
-  v_used integer;
-begin
-  insert into public.trial_usage as t (user_id, feature, used, updated_at)
-  values (p_user_id, p_feature, 1, now())
-  on conflict (user_id, feature) do update
-    set used = t.used + 1, updated_at = now()
-    where t.used < public.trial_limit(p_feature)
-  returning used into v_used;
-
-  if v_used is null then
-    return -1;
-  end if;
-  return public.trial_limit(p_feature) - v_used;
-end;
-$$;
-
-revoke all on function public.consume_trial_credit(uuid, text) from public, anon, authenticated;
-grant execute on function public.consume_trial_credit(uuid, text) to service_role;
-
-create or replace function public.trial_status()
-returns jsonb
-language sql
-stable
-security definer
-set search_path = public
-as $$
-  select case when auth.uid() is null then null else jsonb_build_object(
-    'is_pro', public.has_active_pass(),
-    'limit', public.trial_limit('job_application'),
-    'applications_left', greatest(0, public.trial_limit('job_application') - coalesce(
-      (select u.used from public.trial_usage u
-        where u.user_id = auth.uid() and u.feature = 'job_application'), 0)),
-    'downloads_left', greatest(0, public.trial_limit('resume_download') - coalesce(
-      (select u.used from public.trial_usage u
-        where u.user_id = auth.uid() and u.feature = 'resume_download'), 0)),
-    'has_profile', exists (
-      select 1 from public.candidate_profiles p where p.user_id = auth.uid())
-  ) end;
-$$;
-
-revoke all on function public.trial_status() from public;
-grant execute on function public.trial_status() to anon, authenticated, service_role;
-
 create or replace function public.apply_to_job(p_job_id uuid)
 returns jsonb
 language plpgsql
@@ -664,8 +505,6 @@ declare
   v_uid uuid := auth.uid();
   v_job public.hr_jobs%rowtype;
   v_profile public.candidate_profiles%rowtype;
-  v_is_pro boolean;
-  v_left integer;
   v_application_id uuid;
 begin
   if v_uid is null then
@@ -685,14 +524,6 @@ begin
   select * into v_profile from public.candidate_profiles where user_id = v_uid;
   if not found then
     return jsonb_build_object('status', 'profile_required');
-  end if;
-
-  v_is_pro := public.has_active_pass() or public.is_admin();
-  if not v_is_pro then
-    v_left := public.consume_trial_credit(v_uid, 'job_application');
-    if v_left < 0 then
-      return jsonb_build_object('status', 'trial_exhausted', 'applications_left', 0);
-    end if;
   end if;
 
   insert into public.job_applications (
@@ -717,9 +548,7 @@ begin
 
   return jsonb_build_object(
     'status', 'applied',
-    'apply_url', v_job.apply_url,
-    'is_pro', v_is_pro,
-    'applications_left', case when v_is_pro then null else v_left end
+    'apply_url', v_job.apply_url
   );
 end;
 $$;
@@ -727,5 +556,67 @@ $$;
 revoke all on function public.apply_to_job(uuid) from public, anon;
 grant execute on function public.apply_to_job(uuid) to authenticated, service_role;
 
+-- ─── Remove the old payment / free-trial system ──────────────────────────────
+-- Everything on the site is free now. These drops are safe to re-run. They run
+-- after job_details() and apply_to_job() above have been replaced, because the
+-- old versions of those called has_active_pass() and consume_trial_credit().
+-- Views and functions go first, since they depend on the tables.
+drop view if exists public.payments_overview;
+drop view if exists public.my_subscription;
+drop function if exists public.trial_status();
+drop function if exists public.consume_trial_credit(uuid, text);
+drop function if exists public.trial_limit(text);
+drop function if exists public.has_active_pass();
+drop table if exists public.trial_usage;
+drop table if exists public.manual_payment_claims;
+drop table if exists public.payment_orders;
+drop table if exists public.student_payments;
+drop table if exists public.subscriptions;
+alter table public.profiles drop column if exists plan;
+
 update public.profiles set role = 'admin'
 where id = (select id from auth.users where email = 'afaautomations@gmail.com');
+
+
+-- Shared admin publishing workflows
+begin;
+create table if not exists public.site_content (
+  key text primary key check (key in ('kompetenzen_batch_dates', 'kompetenzen_placed_students')),
+  value jsonb not null,
+  updated_at timestamptz not null default now()
+);
+alter table public.site_content enable row level security;
+grant select on public.site_content to anon, authenticated;
+grant insert, update, delete on public.site_content to authenticated;
+drop policy if exists "Read published content" on public.site_content;
+create policy "Read published content" on public.site_content for select using (true);
+drop policy if exists "Admins publish content" on public.site_content;
+create policy "Admins publish content" on public.site_content for all to authenticated
+  using (public.is_admin()) with check (public.is_admin());
+
+create or replace function public.admin_jobs()
+returns setof public.hr_jobs language plpgsql security definer set search_path = public as $$
+begin
+  if not public.is_admin() then raise exception 'Admin access required' using errcode = '42501'; end if;
+  return query select * from public.hr_jobs order by created_at desc;
+end;
+$$;
+revoke all on function public.admin_jobs() from public;
+grant execute on function public.admin_jobs() to authenticated;
+
+create or replace function public.replace_reels(p_reels text[])
+returns void language plpgsql security definer set search_path = public as $$
+begin
+  if not public.is_admin() then raise exception 'Admin access required' using errcode = '42501'; end if;
+  if p_reels is null or exists (select 1 from unnest(p_reels) r where r is null or r !~ '^[A-Za-z0-9_-]{6,64}$')
+    then raise exception 'Invalid reel ID'; end if;
+  -- Serialize complete replacements; an insert failure rolls back the delete.
+  lock table public.reels in exclusive mode;
+  delete from public.reels;
+  insert into public.reels(reel_id, sort_order)
+    select r, (ordinality - 1)::int from unnest(p_reels) with ordinality as t(r, ordinality);
+end;
+$$;
+revoke all on function public.replace_reels(text[]) from public;
+grant execute on function public.replace_reels(text[]) to authenticated;
+commit;

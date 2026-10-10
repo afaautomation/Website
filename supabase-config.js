@@ -23,37 +23,6 @@ function isSupabaseConfigured() {
 }
 
 /**
- * Kompetenzen API base.
- *
- * All money and all entitlement decisions happen here, on the server. The
- * Razorpay Key ID is issued per-checkout by POST /api/payments/create-order —
- * it is deliberately NOT stored in the browser any more. The previous version
- * read it from localStorage and fell back to a prompt(), which let a visitor
- * substitute their own Razorpay account and "pay" themselves into Pro.
- */
-const KOMPETENZEN_API_BASE = (function () {
-  const host = window.location.hostname || '';
-  const isLocalDev = host === 'localhost' || host === '127.0.0.1' ||
-    host.startsWith('192.168.') || host.startsWith('10.');
-  if (isLocalDev) return 'http://localhost:5000/api';
-  return 'https://afaautomation-resume.hf.space/api';
-})();
-
-/**
- * Attaches the caller's Supabase access token to an API request.
- * Returns null when nobody is signed in — callers must treat that as "not Pro"
- * rather than falling back to any locally cached claim.
- */
-async function kompetenzenAuthHeaders() {
-  if (!supabaseClient) return null;
-  const { data } = await supabaseClient.auth.getSession();
-  const token = data && data.session && data.session.access_token;
-  if (!token) return null;
-  return { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' };
-}
-
-
-/**
  * ===== Shared Auth Helpers (Supabase Auth) =====
  * Used by js/auth-modal.js and the inline auth implementations
  * on index.html and job-details.html.
@@ -121,7 +90,8 @@ function extractTokenFromHash() {
       const params = new URLSearchParams(hash);
       return {
         accessToken: params.get('access_token'),
-        refreshToken: params.get('refresh_token')
+        refreshToken: params.get('refresh_token'),
+        type: params.get('type')
       };
     }
   } catch (e) {}
@@ -133,6 +103,15 @@ function extractTokenFromHash() {
  */
 (function syncOAuthHashImmediately() {
   const tokens = extractTokenFromHash();
+  if (tokens && tokens.accessToken && tokens.type === 'recovery') {
+    // Password-reset link: sign in with the link's session, then ask for a new password.
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+    const sessionReady = (supabaseClient && tokens.refreshToken)
+      ? supabaseClient.auth.setSession({ access_token: tokens.accessToken, refresh_token: tokens.refreshToken }).catch(() => {})
+      : Promise.resolve();
+    showPasswordRecoveryForm(sessionReady);
+    return;
+  }
   if (tokens && tokens.accessToken) {
     try {
       localStorage.setItem('token', tokens.accessToken);
@@ -170,6 +149,43 @@ function extractTokenFromHash() {
     } catch (e) {}
   }
 })();
+
+/**
+ * Shown after a password-reset email link: lets the user choose a new password.
+ */
+function showPasswordRecoveryForm(sessionReady) {
+  const render = () => {
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:2147483000;background:rgba(15,23,42,0.6);display:flex;align-items:center;justify-content:center;padding:16px;';
+    overlay.innerHTML =
+      '<form style="background:#fff;color:#0f172a;border-radius:16px;padding:24px;width:100%;max-width:380px;font-family:inherit;display:flex;flex-direction:column;gap:10px;">' +
+      '<h3 style="margin:0;font-size:1.2rem;">Set a new password</h3>' +
+      '<label for="recovery-password" style="font-size:0.85rem;font-weight:600;">New password (min 6 characters)</label>' +
+      '<input id="recovery-password" type="password" minlength="6" required autocomplete="new-password" style="padding:10px;border:1px solid #cbd5e1;border-radius:10px;font-size:1rem;">' +
+      '<p id="recovery-msg" role="alert" style="margin:0;font-size:0.85rem;min-height:1.2em;"></p>' +
+      '<button type="submit" style="padding:11px;border:0;border-radius:999px;background:#1947FF;color:#fff;font-weight:700;cursor:pointer;">Save password</button>' +
+      '</form>';
+    document.body.appendChild(overlay);
+    const form = overlay.querySelector('form'), msg = overlay.querySelector('#recovery-msg');
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const password = overlay.querySelector('#recovery-password').value;
+      form.querySelector('button').disabled = true;
+      msg.style.color = '#64748b';
+      msg.textContent = 'Saving…';
+      await Promise.race([sessionReady, new Promise(r => setTimeout(r, 8000))]);
+      const { data: current } = await supabaseClient.auth.getSession();
+      const { error } = current && current.session
+        ? await supabaseClient.auth.updateUser({ password })
+        : { error: new Error('This reset link has expired. Please request a new one.') };
+      form.querySelector('button').disabled = false;
+      msg.style.color = error ? '#B91C1C' : '#15803D';
+      msg.textContent = error ? error.message : 'Password updated. You are signed in.';
+      if (!error) setTimeout(() => overlay.remove(), 1500);
+    });
+  };
+  if (document.body) render(); else document.addEventListener('DOMContentLoaded', render);
+}
 
 async function supabaseGetSessionUser() {
   const { data } = await supabaseClient.auth.getSession();

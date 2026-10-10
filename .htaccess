@@ -25,6 +25,15 @@
 
 RewriteEngine On
 
+# 0a. Force HTTPS (HSTS above only takes effect once the browser has reached HTTPS).
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+# 0b. Hide dotfiles/folders (.git, .env, ...) and server-side code, but keep
+#     .well-known reachable for SSL certificate renewal.
+RewriteRule (^|/)\.(?!well-known/) - [F,L]
+RewriteRule ^(server\.js|Resume/backend(/|$)) - [F,L]
+
 # 1. Redirect external requests with .html extension to clean extensionless URLs (301 Permanent Redirect)
 RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[\s?] [NC]
 RewriteRule ^ /%1 [R=301,L]

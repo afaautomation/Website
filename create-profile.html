@@ -16,8 +16,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
     rel="stylesheet" />
-  <script src="resume-storage.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
   <script src="supabase-config.js"></script>
   <style>
     :root {
@@ -462,6 +461,7 @@
       display: flex;
       align-items: center;
       gap: 12px;
+      margin-top: 28px;
     }
 
     .btn-step-back {
@@ -528,6 +528,7 @@
       border: 1.5px dashed rgba(255, 255, 255, 0.16);
       border-radius: var(--radius-md);
       padding: 24px 20px;
+      margin-bottom: 24px;
       text-align: center;
       cursor: pointer;
       transition: all 0.25s ease;
@@ -704,6 +705,7 @@
 
     body { overflow-x: hidden; max-width: 100%; }
   </style>
+  <link rel="stylesheet" href="css/mobile.css" media="(max-width: 768px)" />
 </head>
 
 <body>
@@ -715,7 +717,7 @@
   <header class="top-header">
     <div class="header-inner">
       <a href="jobs.html" class="brand-logo">
-        <img src="kompetenzen logo-02.png" alt="Kompetenzen Technologies" />
+        <img src="kompetenzen logo-02.webp" alt="Kompetenzen Technologies" />
       </a>
       <div class="header-right">
         <div class="user-pill" id="nav-user-pill">
@@ -970,20 +972,6 @@
     const AUTH_STORAGE_KEY = 'kompetenzen_google_user';
     const PROFILE_STORAGE_KEY = 'kompetenzen_candidate_profile';
     const APPLIED_JOBS_KEY = 'kompetenzen_applied_jobs';
-    const USERS_DB_KEY = 'kompetenzen_registered_users';
-
-    function saveRegisteredUser(user) {
-      try {
-        const users = JSON.parse(localStorage.getItem(USERS_DB_KEY) || '[]');
-        const index = users.findIndex(u => u.email.toLowerCase() === user.email.toLowerCase());
-        if (index >= 0) {
-          users[index] = { ...users[index], ...user };
-        } else {
-          users.push(user);
-        }
-        localStorage.setItem(USERS_DB_KEY, JSON.stringify(users));
-      } catch (e) {}
-    }
 
     let currentStep = 1;
     let targetJob = null;
@@ -1186,7 +1174,7 @@
         email: fields.email || null,
         degree: fields.degree || null,
         grad_year: fields.gradYear || null,
-        is_student: !!fields.isStudent,
+        is_student: fields.isStudent === true || fields.isStudent === 'Yes',
         course_name: fields.courseName || null,
         experience: fields.experience || null,
         preferred_location: fields.preferredLocation || null,
@@ -1289,33 +1277,11 @@
         }
       }
 
-      // Save full application and actual resume file to internal IndexedDB
-      if (typeof saveCandidateApplication === 'function') {
-        try {
-          await saveCandidateApplication({
-            name: name,
-            phone: phone,
-            email: email,
-            degree: degree,
-            gradYear: gradYear,
-            isStudent: isStudent ? 'Yes' : 'No',
-            courseName: courseName || 'N/A',
-            experience: experience || 'Fresher / Graduate',
-            preferredLocation: selectedLocations.join(', ') || 'Anywhere in India',
-            workMode: workMode,
-            skills: selectedSkills.join(', '),
-            jobRole: targetJob ? targetJob.title : 'Quick Apply Profile',
-            company: targetJob ? targetJob.company : 'Kompetenzen Network',
-            resumeFileName: uploadedResumeFile ? uploadedResumeFile.name : '',
-            resumeFileSize: uploadedResumeFile ? `${Math.round(uploadedResumeFile.size / 1024)} KB` : '',
-            resumeFileType: uploadedResumeFile ? (uploadedResumeFile.type || 'application/pdf') : '',
-            resumeBlob: uploadedResumeFile || null
-          });
-        } catch (err) {
-          console.warn('Could not save to internal storage:', err);
-        }
+      if (uploadedResumeFile && !resumeUrl) {
+        alert('Your resume could not be uploaded. Please retry before submitting.');
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = '<span>Save Profile</span>'; }
+        return;
       }
-
       // Save the profile to the candidate's account
       try {
         await saveCandidateProfile(session.user.id, {
@@ -1346,8 +1312,8 @@
 
       showToast(`🎉 Profile saved for ${name}!`);
 
-      // Back to the job page, which submits the application (and uses a free
-      // trial credit) through apply_to_job().
+      // Back to the job page, which submits the application through
+      // apply_to_job().
       setTimeout(() => {
         if (targetJobId) {
           window.location.href = `job-details.html?id=${encodeURIComponent(targetJobId)}&apply=1`;

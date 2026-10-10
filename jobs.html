@@ -17,7 +17,7 @@
     href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet" />
   <link href="https://fonts.cdnfonts.com/css/google-sans" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
   <script src="supabase-config.js"></script>
 
   <style>
@@ -300,18 +300,6 @@
       color: #EF4444;
     }
 
-    /* Hide Career Pro Pass purchase CTAs when user has an active pass */
-    html.is-pro-user .pro-pass-cta,
-    html.is-pro-user .pro-upgrade-btn,
-    html.is-pro-user .pro-pass-hero-strip,
-    html.is-pro-user [data-pro-hide-when-active],
-    body.is-pro-user .pro-pass-cta,
-    body.is-pro-user .pro-upgrade-btn,
-    body.is-pro-user .pro-pass-hero-strip,
-    body.is-pro-user [data-pro-hide-when-active] {
-      display: none !important;
-    }
-
     /* HERO */
     .jobs-hero {
       position: relative; z-index: 1;
@@ -388,57 +376,6 @@
     .hero-stat .lbl { font-size: 12px; color: var(--ink-mute); font-weight: 600; letter-spacing: 0.04em; }
 
     /* SEARCH */
-    .hero-search-container { position: relative; z-index: 3; max-width: 600px; margin: 20px auto 0; }
-
-    .hero-search-wrapper {
-      display: flex; align-items: center;
-      background: rgba(14, 18, 29, 0.75);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid var(--border);
-      border-radius: 18px; padding: 12px 16px 12px 22px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .hero-search-wrapper:focus-within {
-      border-color: #3B82F6;
-      box-shadow: 0 4px 24px rgba(37, 99, 235, 0.3), 0 0 0 3px rgba(59, 130, 246, 0.2);
-      transform: translateY(-2px);
-    }
-
-    .hero-search-icon { width: 20px; height: 20px; color: var(--ink-mute); margin-right: 12px; flex-shrink: 0; }
-
-    .hero-search-input {
-      border: none; outline: none; width: 100%;
-      font-size: 15px; font-weight: 600; font-family: inherit;
-      color: #FFFFFF; background: transparent;
-    }
-
-    .hero-search-input::placeholder { color: var(--ink-dim); font-weight: 500; }
-
-    .hero-search-clear {
-      background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12);
-      cursor: pointer; color: #FFFFFF; font-size: 12px; font-weight: 800;
-      width: 26px; height: 26px; display: none; align-items: center; justify-content: center;
-      border-radius: 50%; margin-right: 8px; transition: all 0.15s;
-    }
-
-    .hero-search-clear:hover { background: #1947FF; border-color: #1947FF; color: #fff; }
-
-    .search-tags { display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
-
-    .search-tag-label { font-size: 11px; font-weight: 800; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.08em; }
-
-    .search-tag-chip {
-      padding: 5px 14px; background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border);
-      border-radius: 99px; font-size: 12px; font-weight: 700; color: var(--ink-mute);
-      cursor: pointer; transition: all 0.2s; font-family: inherit;
-    }
-
-    .search-tag-chip:hover { border-color: #3B82F6; color: #93C5FD; background: rgba(59, 130, 246, 0.12); }
-
-    .search-tag-chip.active { background: #1947FF; color: #fff; border-color: #1947FF; box-shadow: 0 4px 16px rgba(25, 71, 255, 0.45); }
 
     /* MAIN */
     .jobs-main { position: relative; z-index: 1; max-width: var(--maxw); margin: 0 auto; padding: 44px 36px 100px; }
@@ -456,6 +393,73 @@
       font-size: 12px; font-weight: 800;
       background: rgba(59, 130, 246, 0.12); border: 1px solid rgba(96, 165, 250, 0.25);
       color: #93C5FD; padding: 5px 14px; border-radius: 99px; letter-spacing: 0.04em;
+    }
+
+    /* JOBS & INTERNSHIPS CONTROLS BAR */
+    .jobs-controls-container {
+      margin-bottom: 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .jobs-type-tabs {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .type-tab-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--ink-mute);
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .type-tab-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #FFFFFF;
+      border-color: rgba(255, 255, 255, 0.16);
+    }
+
+    .type-tab-btn.active {
+      background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+      border-color: rgba(96, 165, 250, 0.5);
+      color: #FFFFFF;
+      box-shadow: 0 4px 18px rgba(37, 99, 235, 0.35);
+    }
+
+    .type-tab-btn.active[data-type="internship"] {
+      background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+      border-color: rgba(192, 132, 252, 0.5);
+      box-shadow: 0 4px 18px rgba(139, 92, 246, 0.35);
+    }
+
+    .type-tab-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px 8px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 800;
+      background: rgba(255, 255, 255, 0.1);
+      color: inherit;
+    }
+
+    .type-tab-btn.active .type-tab-badge {
+      background: rgba(255, 255, 255, 0.25);
     }
 
     /* GRID */
@@ -497,12 +501,6 @@
     }
 
     /* Staggered entrance */
-    .sr-delay-1.job-card { animation: card-pop-in 0.4s 0.04s cubic-bezier(0.16, 1, 0.3, 1) both; }
-    .sr-delay-2.job-card { animation: card-pop-in 0.4s 0.08s cubic-bezier(0.16, 1, 0.3, 1) both; }
-    .sr-delay-3.job-card { animation: card-pop-in 0.4s 0.12s cubic-bezier(0.16, 1, 0.3, 1) both; }
-    .sr-delay-4.job-card { animation: card-pop-in 0.4s 0.16s cubic-bezier(0.16, 1, 0.3, 1) both; }
-    .sr-delay-5.job-card { animation: card-pop-in 0.4s 0.20s cubic-bezier(0.16, 1, 0.3, 1) both; }
-    .sr-delay-6.job-card { animation: card-pop-in 0.4s 0.24s cubic-bezier(0.16, 1, 0.3, 1) both; }
 
     @keyframes card-pop-in {
       0%   { opacity: 0; transform: translateY(18px) scale(0.98); }
@@ -590,6 +588,7 @@
     .badge-contract { background: rgba(245, 158, 11, 0.12); color: #FBBF24; border: 1px solid rgba(245, 158, 11, 0.32); box-shadow: 0 2px 8px rgba(245, 158, 11, 0.12); }
     .badge-parttime, .badge-portal { background: rgba(59, 130, 246, 0.12); color: #93C5FD; border: 1px solid rgba(96, 165, 250, 0.32); box-shadow: 0 2px 8px rgba(59, 130, 246, 0.12); }
     .badge-remote   { background: rgba(139, 92, 246, 0.12); color: #C4B5FD; border: 1px solid rgba(139, 92, 246, 0.32); box-shadow: 0 2px 8px rgba(139, 92, 246, 0.12); }
+    .badge-internship { background: rgba(168, 85, 247, 0.16); color: #C084FC; border: 1px solid rgba(192, 132, 252, 0.35); box-shadow: 0 2px 10px rgba(168, 85, 247, 0.18); }
     .badge-dot      { width: 6px; height: 6px; border-radius: 50%; background: currentColor; box-shadow: 0 0 6px currentColor; }
 
     .card-title-block {
@@ -737,14 +736,6 @@
     .job-card.featured:hover { border-color: rgba(56, 189, 248, 0.45); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7); }
     .job-card.featured .job-title { font-size: 22px; }
     .job-card.featured .apply-btn { background: linear-gradient(135deg, #38BDF8, #2563EB); box-shadow: 0 4px 16px rgba(56, 189, 248, 0.4); }
-    .featured-tag {
-      position: absolute; top: 18px; right: 18px;
-      background: linear-gradient(135deg, #38BDF8, #2563EB); color: #fff;
-      font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em;
-      padding: 4px 10px; border-radius: 99px;
-      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.35);
-    }
-    .featured-content { flex: 1; display: flex; flex-direction: column; gap: 14px; }
 
     /* CTA BANNER */
     .alert-cta {
@@ -806,12 +797,6 @@
       transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .sr.is-visible { opacity: 1; transform: translate(0) scale(1); }
-    .sr-delay-1 { transition-delay: 0.05s; }
-    .sr-delay-2 { transition-delay: 0.1s; }
-    .sr-delay-3 { transition-delay: 0.15s; }
-    .sr-delay-4 { transition-delay: 0.25s; }
-    .sr-delay-5 { transition-delay: 0.25s; }
-    .sr-delay-6 { transition-delay: 0.3s; }
 
     /* RESPONSIVE */
     /* ===== Mobile Navigation Dropdown Menu ===== */
@@ -974,6 +959,7 @@
     }
   </style>
 
+  <link rel="stylesheet" href="css/mobile.css" media="(max-width: 768px)" />
 </head>
 
 <body>
@@ -985,7 +971,7 @@
     <div class="nav-inner">
       <div class="nav-left">
         <a href="index.html" class="brand">
-          <img src="kompetenzen logo-02.png" alt="Kompetenzen" />
+          <img src="kompetenzen logo-02.webp" alt="Kompetenzen" />
         </a>
       </div>
       <div class="nav-links">
@@ -1022,10 +1008,6 @@
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
               <span>My Candidate Profile</span>
             </a>
-            <button type="button" class="nav-user-menu-item pro-pass-cta" data-pro-hide-when-active="true" onclick="openPaymentModal('nav_menu')" style="color:#FBBF24; font-weight:700;">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-              <span>★ Career Pro Pass (₹499)</span>
-            </button>
             <button type="button" class="nav-user-menu-item logout" onclick="handleSignOut()">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
               <span>Sign Out / Switch</span>
@@ -1050,11 +1032,8 @@
       Live Opportunities
     </div>
 
-    <h1>Find Your Next <span class="gradient-text">Career Move.</span></h1>
-    <p>Curated tech, HR, and management roles from top companies across Kerala and India. Direct hiring, zero fluff.</p>
-
-
-
+    <h1>Find Your Next <span class="gradient-text">Job or Internship.</span></h1>
+    <p>Curated tech, HR, and management roles and internships from top companies across Kerala and India. Direct hiring, zero fluff.</p>
 
     <div class="hero-stats">
       <div class="hero-stat">
@@ -1075,33 +1054,42 @@
   <!-- MAIN -->
   <main class="jobs-main">
 
-    <!-- FREE TRIAL STRIP — visitors see the free offer; the ₹499 pass is shown
-         only to signed-in candidates with at most one free application left
-         (visibility driven by js/trial.js from the database) -->
-    <div class="pro-pass-hero-strip sr" style="background: linear-gradient(90deg, rgba(37, 99, 235, 0.15) 0%, rgba(16, 185, 129, 0.12) 100%); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 16px; padding: 16px 24px; margin-bottom: 32px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+    <!-- FREE STRIP — applying is free; the sign-up button hides once signed in -->
+    <div class="free-apply-strip sr" style="background: linear-gradient(90deg, rgba(37, 99, 235, 0.15) 0%, rgba(16, 185, 129, 0.12) 100%); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 16px; padding: 16px 24px; margin-bottom: 32px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
       <div style="display: flex; align-items: center; gap: 14px;">
         <span style="font-size: 24px;">🎁</span>
         <div>
           <div style="font-size: 14.5px; font-weight: 700; color: #FFFFFF;">
-            Your first <span style="color: #34D399;">3 job applications are free</span> — no payment needed
+            Applying to jobs is <span style="color: #34D399;">100% free</span> — no payment, no limits
           </div>
           <div style="font-size: 12.5px; color: #94A3B8;">
             Read any opening below, then apply with one saved profile.
-            <span data-trial-counter="applications" style="display:none; color:#60A5FA; font-weight:700; margin-left:6px;"></span>
           </div>
         </div>
       </div>
-      <button type="button" data-trial-show="anon" onclick="openAuthModal('signup')" class="apply-btn" style="padding: 9px 20px; font-size: 12.5px;">
+      <button type="button" id="free-strip-signup" onclick="openAuthModal('signup')" class="apply-btn" style="padding: 9px 20px; font-size: 12.5px;">
         Sign up free →
-      </button>
-      <button type="button" data-trial-show="low" data-pro-hide-when-active="true" onclick="openPaymentModal('jobs_banner')" class="apply-btn pro-pass-cta" style="display:none; padding: 9px 20px; font-size: 12.5px; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); border-color: rgba(245, 158, 11, 0.5); box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);">
-        Unlimited with Pro (₹499/yr) →
       </button>
     </div>
 
+    <!-- FILTER CONTROLS: JOBS & INTERNSHIPS -->
+    <div class="jobs-controls-container sr">
+      <!-- Opportunity Type Tabs: Jobs and Internships -->
+      <div class="jobs-type-tabs" role="tablist" aria-label="Opportunity Type">
+        <button type="button" class="type-tab-btn active" data-type="job" onclick="setTypeFilter('job')" role="tab" aria-selected="true">
+          <span>💼 Jobs</span>
+          <span class="type-tab-badge" id="tab-count-jobs">0</span>
+        </button>
+        <button type="button" class="type-tab-btn" data-type="internship" onclick="setTypeFilter('internship')" role="tab" aria-selected="false">
+          <span>🎓 Internships</span>
+          <span class="type-tab-badge" id="tab-count-internships">0</span>
+        </button>
+      </div>
+    </div>
+
     <div class="section-head sr">
-      <h2>All <span>Openings</span></h2>
-      <span class="jobs-count" id="jobs-count">0 Openings Available</span>
+      <h2 id="section-head-title">Available <span>Jobs</span></h2>
+      <span class="jobs-count" id="jobs-count">0 Jobs Available</span>
     </div>
 
     <div class="jobs-grid" id="jobs-grid">
@@ -1128,8 +1116,70 @@
   </footer>
 
   <script>
+    let activeType = 'job';
     let activeCategory = 'all';
     let searchQuery = '';
+    let totalAllCount = 0;
+    let totalJobsCount = 0;
+    let totalInternshipsCount = 0;
+
+    const typeLabels = {
+      'full-time': 'Full-Time',
+      'contract': 'Contract',
+      'part-time': 'Part-Time',
+      'remote': 'Remote',
+      'internship': 'Internship',
+      'internship-fulltime': 'Full-Time Intern',
+      'internship-parttime': 'Part-Time Intern',
+      'internship-remote': 'Virtual Intern'
+    };
+
+    const badgeClasses = {
+      'full-time': 'badge-fulltime',
+      'contract': 'badge-contract',
+      'part-time': 'badge-parttime',
+      'remote': 'badge-remote',
+      'internship': 'badge-internship',
+      'internship-fulltime': 'badge-internship',
+      'internship-parttime': 'badge-internship',
+      'internship-remote': 'badge-internship'
+    };
+
+    function isInternshipJob(job) {
+      if (!job) return false;
+      const type = String(job.jobType || '').toLowerCase();
+      const title = String(job.title || '').toLowerCase();
+      return type.includes('intern') || title.includes('intern');
+    }
+
+    function setTypeFilter(type) {
+      activeType = type;
+      document.querySelectorAll('.type-tab-btn').forEach(btn => {
+        const isMatch = btn.getAttribute('data-type') === type;
+        btn.classList.toggle('active', isMatch);
+        btn.setAttribute('aria-selected', isMatch ? 'true' : 'false');
+      });
+      filterJobsings();
+    }
+
+    function resetAllFilters() {
+      activeType = 'job';
+      activeCategory = 'all';
+      searchQuery = '';
+      document.querySelectorAll('.type-tab-btn').forEach(btn => {
+        const isMatch = btn.getAttribute('data-type') === 'job';
+        btn.classList.toggle('active', isMatch);
+        btn.setAttribute('aria-selected', isMatch ? 'true' : 'false');
+      });
+      document.querySelectorAll('.domain-pill').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-cat') === 'all');
+      });
+      const input = document.getElementById('jobs-search-input');
+      if (input) input.value = '';
+      const clearBtn = document.getElementById('jobs-search-clear');
+      if (clearBtn) clearBtn.style.display = 'none';
+      filterJobsings();
+    }
 
     function getPostedTime(isoString) {
       if (!isoString) return 'recently';
@@ -1152,45 +1202,57 @@
       return name.substring(0, 2).toUpperCase();
     }
 
-    function buildJobCard({ id, category, badgeClass, badgeText, title, company, postedText, location, experience, skills, salary, extraClass, logoInitials, brandStyle }) {
+    function escapeHtml(value) {
+      return String(value == null ? '' : value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+    }
+
+    function buildJobCard({ id, category, badgeClass, badgeText, title, company, postedText, location, experience, skills, salary, extraClass, logoInitials, brandStyle, isInternship }) {
       const card = document.createElement('a');
       card.className = ['job-card', extraClass].filter(Boolean).join(' ');
       card.setAttribute('data-category', category || 'tech');
-      const targetUrl = `job-details.html?id=${id || ''}`;
-      // Job details are public; sign-in is asked for only when the candidate applies.
+      card.setAttribute('data-type', isInternship ? 'internship' : 'job');
+      const targetUrl = `job-details.html?id=${encodeURIComponent(id || '')}`;
       card.setAttribute('href', targetUrl);
 
       const initials = logoInitials || getCompanyInitials(company);
-      const styleAttr = brandStyle || 'background: linear-gradient(135deg, rgba(37, 99, 235, 0.25) 0%, rgba(99, 102, 241, 0.2) 100%); border: none; color: #93C5FD;';
+      const styleAttr = brandStyle || (isInternship 
+        ? 'background: linear-gradient(135deg, rgba(139, 92, 246, 0.25) 0%, rgba(99, 102, 241, 0.2) 100%); border: none; color: #C4B5FD;'
+        : 'background: linear-gradient(135deg, rgba(37, 99, 235, 0.25) 0%, rgba(99, 102, 241, 0.2) 100%); border: none; color: #93C5FD;');
 
       const skillsHtml = skills 
-        ? skills.split(',').map(s => `<span class="skill-chip">${s.trim()}</span>`).join('') 
+        ? skills.split(',').map(s => `<span class="skill-chip">${escapeHtml(s.trim())}</span>`).join('') 
         : `<span class="skill-chip" style="opacity:0.9;">Verified Opening</span>`;
+
+      const expIcon = isInternship
+        ? `<svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`
+        : `<svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
+
+      const applyLabel = isInternship ? 'Apply for Internship' : 'Apply';
 
       card.innerHTML = `
         <div class="card-header">
-          <div class="company-avatar" style="${styleAttr}">${initials}</div>
-          <span class="job-type-badge ${badgeClass}"><span class="badge-dot"></span>${badgeText}</span>
+          <div class="company-avatar" style="${styleAttr}">${escapeHtml(initials)}</div>
+          <span class="job-type-badge ${badgeClass}"><span class="badge-dot"></span>${escapeHtml(badgeText)}</span>
         </div>
         <div class="card-title-block">
-          <div class="job-title">${title}</div>
-          <div class="company-name">at <strong>${company}</strong></div>
-          <div class="posted-time">${postedText ? `Posted ${postedText}` : '&nbsp;'}</div>
+          <div class="job-title">${escapeHtml(title)}</div>
+          <div class="company-name">at <strong>${escapeHtml(company)}</strong></div>
+          <div class="posted-time">${postedText ? `Posted ${escapeHtml(postedText)}` : '&nbsp;'}</div>
         </div>
         <div class="job-meta">
           <div class="meta-item">
             <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            ${location}
+            ${escapeHtml(location)}
           </div>
           <div class="meta-item">
-            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            ${experience}
+            ${expIcon}
+            ${escapeHtml(experience)}
           </div>
         </div>
         <div class="skills-row">${skillsHtml}</div>
         <div class="card-footer">
-          <div class="salary-range">${salary}</div>
-          <span class="apply-btn">Apply <span class="btn-arrow">→</span></span>
+          <div class="salary-range">${escapeHtml(salary)}</div>
+          <span class="apply-btn">${applyLabel} <span class="btn-arrow">→</span></span>
         </div>
       `;
       return card;
@@ -1201,16 +1263,13 @@
       let drafts = [];
       if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
         try {
-          // Summary columns only. description / requirements / apply_url are
-          // subscriber-only (see section 10b of supabase_schema.sql) and are
-          // served by the job_details() RPC on the details page instead.
           const { data, error } = await supabaseClient
             .from('hr_jobs')
             .select('id, title, category, company, location, job_type, experience, salary, skills, is_direct_link, created_at')
             .order('created_at', { ascending: false });
           if (!error && data) {
             drafts = data
-              .filter(j => j && !String(j.id).startsWith('def-'))
+              .filter(j => j && j.title && !String(j.id).startsWith('def-'))
               .map(j => ({
                 id: j.id,
                 title: j.title,
@@ -1236,6 +1295,26 @@
       // Purge any legacy hardcoded mock jobs
       drafts = drafts.filter(j => j && !String(j.id).startsWith('def-') && !['fs-dev','py-ai','java-dev','data-analyst','hr-exec','hr-mgr','sales-exec','sales-mgr'].includes(String(j.id)));
 
+      // Update counters on type tabs
+      totalAllCount = drafts.length;
+      totalInternshipsCount = drafts.filter(isInternshipJob).length;
+      totalJobsCount = totalAllCount - totalInternshipsCount;
+
+      const cntJobs = document.getElementById('tab-count-jobs');
+      const cntIntern = document.getElementById('tab-count-internships');
+      if (cntJobs) cntJobs.textContent = totalJobsCount;
+      if (cntIntern) cntIntern.textContent = totalInternshipsCount;
+
+      // If no regular jobs exist but internships are available, switch to internships tab
+      if (totalJobsCount === 0 && totalInternshipsCount > 0 && activeType === 'job') {
+        activeType = 'internship';
+        document.querySelectorAll('.type-tab-btn').forEach(btn => {
+          const isMatch = btn.getAttribute('data-type') === 'internship';
+          btn.classList.toggle('active', isMatch);
+          btn.setAttribute('aria-selected', isMatch ? 'true' : 'false');
+        });
+      }
+
       const jobsGrid = document.getElementById('jobs-grid');
       jobsGrid.innerHTML = '';
 
@@ -1243,17 +1322,18 @@
         jobsGrid.innerHTML = `
           <div class="empty-jobs-notice" style="grid-column: 1/-1; text-align: center; padding: 72px 24px; background: rgba(14, 18, 29, 0.6); border-radius: var(--radius-lg); backdrop-filter: blur(16px); border: none;">
             <div style="font-size: 42px; margin-bottom: 14px;">💼</div>
-            <h3 style="font-size: 22px; font-weight: 700; color: #FFFFFF; margin-bottom: 8px;">No Job Openings Available Right Now</h3>
+            <h3 style="font-size: 22px; font-weight: 700; color: #FFFFFF; margin-bottom: 8px;">No Openings Available Right Now</h3>
             <p style="color: var(--ink-mute); font-size: 14.5px; max-width: 480px; margin: 0 auto 24px; line-height: 1.6;">
-              Our placement team is actively updating opening requirements. New roles posted through the admin portal will appear here automatically.
+              Our placement team is actively updating opening requirements. New jobs and internships posted through the admin portal will appear here automatically.
             </p>
-            <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen,%20please%20notify%20me%20when%20new%20job%20openings%20are%20posted." target="_blank" rel="noopener" class="apply-btn" style="display:inline-flex; width:auto; padding:12px 28px; font-size:13.5px;">
+            <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen,%20please%20notify%20me%20when%20new%20job%20or%20internship%20openings%20are%20posted." target="_blank" rel="noopener" class="apply-btn" style="display:inline-flex; width:auto; padding:12px 28px; font-size:13.5px;">
               Notify Me When Openings Drop →
             </a>
           </div>
         `;
       } else {
         drafts.forEach((job, idx) => {
+          const isIntern = isInternshipJob(job);
           if (job.isDirectLink) {
             const card = buildJobCard({
               id: job.id,
@@ -1264,28 +1344,30 @@
               company: job.company,
               postedText: '',
               location: job.location || 'Multiple Locations',
-              experience: job.experience || 'All Levels',
+              experience: job.experience || (isIntern ? 'All Students / Freshers' : 'All Levels'),
               skills: job.skills || null,
-              salary: job.salary || 'Explore live openings',
-              extraClass: 'dynamic-portal-card is-visible sr-delay-' + ((idx % 6) + 1)
+              salary: job.salary || (isIntern ? 'Explore Internship Openings' : 'Explore Live Openings'),
+              extraClass: 'dynamic-portal-card is-visible sr-delay-' + ((idx % 6) + 1),
+              isInternship: isIntern
             });
             jobsGrid.appendChild(card);
           } else {
-            const badgeClasses = { 'full-time': 'badge-fulltime', 'contract': 'badge-contract', 'part-time': 'badge-parttime', 'remote': 'badge-remote' };
-            const typeLabels = { 'full-time': 'Full-Time', 'contract': 'Contract', 'part-time': 'Part-Time', 'remote': 'Remote' };
+            const badgeClass = badgeClasses[job.jobType] || (isIntern ? 'badge-internship' : 'badge-fulltime');
+            const badgeText = (isIntern ? '🎓 ' : '') + (typeLabels[job.jobType] || (isIntern ? 'Internship' : 'Full-Time'));
             const card = buildJobCard({
               id: job.id,
               category: job.category || 'tech',
-              badgeClass: badgeClasses[job.jobType] || 'badge-fulltime',
-              badgeText: typeLabels[job.jobType] || job.jobType || 'Full-Time',
+              badgeClass: badgeClass,
+              badgeText: badgeText,
               title: job.title,
               company: job.company,
               postedText: getPostedTime(job.createdAt),
               location: job.location || 'Location',
-              experience: job.experience || 'Entry Level',
+              experience: job.experience || (isIntern ? 'Freshers / Students' : 'Entry Level'),
               skills: job.skills,
-              salary: job.salary || 'Competitive',
-              extraClass: 'dynamic-job-card is-visible sr-delay-' + ((idx % 6) + 1)
+              salary: job.salary || (isIntern ? 'Stipend Available' : 'Competitive'),
+              extraClass: 'dynamic-job-card is-visible sr-delay-' + ((idx % 6) + 1),
+              isInternship: isIntern
             });
             jobsGrid.appendChild(card);
           }
@@ -1302,53 +1384,55 @@
       let visibleCount = 0;
 
       cards.forEach(card => {
-        const category = card.getAttribute('data-category');
-        const matchesCategory = activeCategory === 'all' || category === activeCategory;
+        const category = card.getAttribute('data-category') || 'tech';
+        const type = card.getAttribute('data-type') || 'job';
+
+        const matchesType = (type === activeType);
+        const matchesCategory = (activeCategory === 'all') || (category === activeCategory);
         let matchesSearch = true;
         if (query !== '') matchesSearch = card.textContent.toLowerCase().includes(query);
-        const show = matchesCategory && matchesSearch;
+
+        const show = matchesType && matchesCategory && matchesSearch;
         card.style.display = show ? '' : 'none';
         if (show) visibleCount++;
       });
 
-      document.getElementById('jobs-count').textContent = visibleCount + ' Opening' + (visibleCount !== 1 ? 's' : '') + ' Available';
-      const heroCount = document.getElementById('hero-jobs-count');
-      if (heroCount) heroCount.textContent = visibleCount > 0 ? (visibleCount + '+') : '0';
-    }
-
-    function handleSearchInput(value) {
-      searchQuery = value;
-      const clearBtn = document.getElementById('jobs-search-clear');
-      if (clearBtn) clearBtn.style.display = value.trim() !== '' ? 'flex' : 'none';
-      filterJobsings();
-    }
-
-    function clearSearch() {
-      const input = document.getElementById('jobs-search-input');
-      if (input) input.value = '';
-      searchQuery = '';
-      const clearBtn = document.getElementById('jobs-search-clear');
-      if (clearBtn) clearBtn.style.display = 'none';
-      document.querySelectorAll('.search-tag-chip').forEach(c => c.classList.remove('active'));
-      filterJobsings();
-    }
-
-    function handleTagClick(tagText, chipElement) {
-      const input = document.getElementById('jobs-search-input');
-      const clearBtn = document.getElementById('jobs-search-clear');
-      const isAlreadyActive = chipElement.classList.contains('active');
-      document.querySelectorAll('.search-tag-chip').forEach(c => c.classList.remove('active'));
-      if (isAlreadyActive) {
-        if (input) input.value = '';
-        searchQuery = '';
-        if (clearBtn) clearBtn.style.display = 'none';
-      } else {
-        chipElement.classList.add('active');
-        if (input) input.value = tagText;
-        searchQuery = tagText;
-        if (clearBtn) clearBtn.style.display = 'flex';
+      // Update Section Title & Count text
+      const titleEl = document.getElementById('section-head-title');
+      if (titleEl) {
+        if (activeType === 'internship') {
+          titleEl.innerHTML = 'Internship <span>Openings</span>';
+        } else {
+          titleEl.innerHTML = 'Job <span>Openings</span>';
+        }
       }
-      filterJobsings();
+
+      const countLabel = activeType === 'internship' ? 'Internship' : 'Job';
+      const countEl = document.getElementById('jobs-count');
+      if (countEl) {
+        countEl.textContent = visibleCount + ' ' + countLabel + (visibleCount !== 1 ? 's' : '') + ' Available';
+      }
+
+      const heroCount = document.getElementById('hero-jobs-count');
+      if (heroCount) heroCount.textContent = totalAllCount > 0 ? (totalAllCount + '+') : '0';
+
+      // Check for zero matching results when total cards exist
+      const existingFilterMsg = document.getElementById('no-filter-match-box');
+      if (existingFilterMsg) existingFilterMsg.remove();
+
+      if (cards.length > 0 && visibleCount === 0) {
+        const jobsGrid = document.getElementById('jobs-grid');
+        const emptyBox = document.createElement('div');
+        emptyBox.id = 'no-filter-match-box';
+        emptyBox.style.cssText = 'grid-column: 1/-1; text-align: center; padding: 56px 24px; background: rgba(14, 18, 29, 0.5); border-radius: 18px; border: 1px dashed rgba(255, 255, 255, 0.12); margin-top: 10px;';
+        emptyBox.innerHTML = `
+          <div style="font-size: 36px; margin-bottom: 12px;">🔍</div>
+          <h4 style="font-size: 19px; font-weight: 700; color: #FFFFFF; margin-bottom: 6px;">No ${activeType === 'internship' ? 'internships' : (activeType === 'job' ? 'jobs' : 'openings')} match your search</h4>
+          <p style="color: var(--ink-mute); font-size: 14px; margin-bottom: 18px;">Try clearing filters or search keywords to see all available roles.</p>
+          <button type="button" class="apply-btn" onclick="resetAllFilters()" style="cursor: pointer; padding: 8px 22px; font-size: 12.5px;">Reset All Filters ↺</button>
+        `;
+        jobsGrid.appendChild(emptyBox);
+      }
     }
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -1372,12 +1456,11 @@
             document.getElementById('nav-user-avatar').textContent = displayInitial;
             document.getElementById('nav-user-menu-name').textContent = displayName;
             document.getElementById('nav-user-menu-email').textContent = user.email || '';
+            const stripSignup = document.getElementById('free-strip-signup');
+            if (stripSignup) stripSignup.style.display = 'none';
           }
         }
       } catch (e) {}
-      if (typeof updateProNavBadges === 'function') {
-        updateProNavBadges();
-      }
     }
 
     function toggleNavUserDropdown(e) {
@@ -1447,7 +1530,7 @@
   </script>
 
   <!-- Lenis smooth scroll -->
-  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" integrity="sha384-B2WBjDzEjJpYvhmi2UyEn7rektqkf5suS6sNoyyrf0EBAwBHdkiXxIlU0V5Ru2ed" crossorigin="anonymous"></script>
   <script>
     const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if (!isMobile) {
@@ -1473,10 +1556,8 @@
   </script>
 
   <!-- Unified Auth Modal -->
-  <script src="js/auth-modal.js?v=5"></script>
-  <!-- Career Pro Pass Payment Modal -->
-  <script src="js/payment-modal.js"></script>
-  <script src="js/trial.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="js/auth-modal.js?v=12"></script>
   <!-- Mobile Menu Toggle -->
   <script>
     (function () {

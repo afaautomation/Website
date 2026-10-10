@@ -16,7 +16,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
     rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
   <script src="supabase-config.js"></script>
 
   <style>
@@ -389,24 +389,6 @@
       line-height: 1.5;
     }
 
-    .whatsapp-direct-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: #25D366;
-      color: #FFFFFF;
-      font-weight: 700;
-      font-size: 16px;
-      padding: 14px 28px;
-      border-radius: 8px;
-      text-decoration: none;
-      transition: background 0.2s;
-    }
-
-    .whatsapp-direct-btn:hover {
-      background: #1DA851;
-    }
-
     /* MOBILE RESPONSIVE OPTIMIZATION */
     @media (max-width: 768px) {
       .coursera-nav-inner {
@@ -447,16 +429,11 @@
         grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
       }
 
-      .whatsapp-direct-btn {
-        width: 100%;
-        justify-content: center;
-        padding: 14px 16px;
-        font-size: 14px;
-      }
     }
 
     body { overflow-x: hidden; max-width: 100%; }
   </style>
+  <link rel="stylesheet" href="css/mobile.css" media="(max-width: 768px)" />
 </head>
 
 <body>
@@ -465,7 +442,7 @@
   <nav class="coursera-nav">
     <div class="coursera-nav-inner">
       <a href="index.html" class="brand">
-        <img src="kompetenzen logo-02.png" alt="Kompetenzen Logo" loading="lazy" decoding="async" />
+        <img src="kompetenzen logo-02.webp" alt="Kompetenzen Logo" loading="lazy" decoding="async" />
       </a>
       <a href="index.html" class="nav-back-link">
         ← Back to Courses
@@ -542,7 +519,7 @@
 
           <div class="form-group">
             <label for="phone">Phone / WhatsApp Number <span class="required">*</span></label>
-            <input type="tel" id="phone" class="form-control" placeholder="e.g. +91 98765 43210" required />
+            <input type="tel" id="phone" class="form-control" placeholder="e.g. +91 98765 43210" required pattern="[0-9+\(\)\s\-]{10,20}" title="Enter a valid phone number (digits, spaces, + or -)" />
           </div>
 
           <div class="form-group">
@@ -623,6 +600,14 @@
             <textarea id="comments" class="form-control" placeholder="Any specific requirements, scholarship queries, or target joining date..."></textarea>
           </div>
 
+          <!-- Spam trap: hidden from people, filled in by bots -->
+          <div aria-hidden="true" style="position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;">
+            <label for="website">Website</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <p id="enrollError" role="alert" style="display:none; margin:0 0 12px; padding:10px 14px; border-radius:10px; background:#FEE2E2; color:#B91C1C; font-size:14px;"></p>
+
           <button type="submit" class="submit-btn" id="enrollSubmitBtn">
             Submit Joining Application →
           </button>
@@ -666,11 +651,16 @@
       }
     });
 
-    // Send course enrollment lead to Supabase (course_enrollments table)
+    // When the form was opened; bots submit within a second or two.
+    const ENROLL_FORM_OPENED_AT = Date.now();
+
+    // Send course enrollment lead to Supabase (course_enrollments table).
+    // The database rejects repeats from the same phone/email within 10 minutes
+    // and floods of submissions (see guard_course_enrollment() in
+    // supabase_schema.sql). Resolves to an error message, or null on success.
     async function sendEnrollmentToSheet(fields) {
       if (typeof isSupabaseConfigured !== 'function' || !isSupabaseConfigured()) {
-        console.warn('Supabase not configured; enrollment not persisted to the cloud.');
-        return;
+        return 'Enrollment is temporarily unavailable. Please try again shortly.';
       }
       try {
         const { error } = await supabaseClient.from('course_enrollments').insert([{
@@ -685,75 +675,99 @@
           comments: fields.comments || '',
           page_url: fields.page || ''
         }]);
-        if (error) console.error('Supabase enrollment insert error:', error);
+        if (error) {
+          console.error('Supabase enrollment insert error:', error);
+          // Messages raised by the database guard are written for people.
+          return (error.message && /already submitted|too many|required|too long/i.test(error.message))
+            ? error.message
+            : 'We could not submit your application. Please try again.';
+        }
+        return null;
       } catch (e) {
         console.warn('Supabase enrollment insert exception:', e);
+        return 'We could not submit your application. Please check your connection and try again.';
       }
     }
 
-    function handleEnrollmentSubmit(e) {
+    function showEnrollError(message) {
+      const el = document.getElementById('enrollError');
+      if (!el) return;
+      el.textContent = message;
+      el.style.display = message ? 'block' : 'none';
+    }
+
+    function showEnrollSuccess(name, courseText) {
+      document.getElementById('resName').textContent = name;
+      const resCourseEl = document.getElementById('resCourse');
+      if (resCourseEl) resCourseEl.textContent = courseText;
+
+      document.getElementById('formCard').style.display = 'none';
+      document.getElementById('successCard').style.display = 'block';
+
+      const enrollHeader = document.querySelector('.enroll-header');
+      if (enrollHeader) {
+        enrollHeader.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    async function handleEnrollmentSubmit(e) {
       e.preventDefault();
+      showEnrollError('');
 
       const submitBtn = document.getElementById('enrollSubmitBtn') || e.target.querySelector('button[type="submit"]');
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = 'Submitting Application... ⏳';
-      }
-      
+      const originalBtnHtml = submitBtn ? submitBtn.innerHTML : '';
+
       const name = document.getElementById('fullName').value.trim();
       const email = document.getElementById('email').value.trim();
       const phone = document.getElementById('phone').value.trim();
       const courseSelect = document.getElementById('course');
       const courseText = courseSelect.options[courseSelect.selectedIndex] ? courseSelect.options[courseSelect.selectedIndex].text : courseSelect.value;
-      const courseVal = courseSelect.value;
       const qualification = document.getElementById('qualification').value;
       const mode = document.querySelector('input[name="learningMode"]:checked')?.value || 'Offline';
       const status = document.getElementById('currentStatus').value;
       const batch = document.querySelector('input[name="batchTime"]:checked')?.value || 'Weekday';
       const comments = document.getElementById('comments').value.trim();
-      const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
 
-      // Build payload for Google Sheets with enrolled course
-      const enrollmentPayload = {
-        type: 'course_enrollment',
-        enrolledCourse: courseText, // Explicit column for enrolled course
-        course: courseText,         // Also populated for standard lead mapping
-        courseId: courseVal,
-        name: name,
-        email: email,
-        phone: phone,
-        qualification: qualification,
-        learningMode: mode,
-        status: status,
-        batchTime: batch,
-        comments: comments,
-        page: window.location.href,
-        timestamp: timestamp
-      };
-
-      // 1. Sync directly to Google Sheets
-      sendEnrollmentToSheet(enrollmentPayload);
-
-      // 2. Also cache enrollment in localStorage for browser persistence
-      try {
-        const storedEnrollments = JSON.parse(localStorage.getItem('kompetenzen_enrollments') || '[]');
-        storedEnrollments.unshift(enrollmentPayload);
-        localStorage.setItem('kompetenzen_enrollments', JSON.stringify(storedEnrollments.slice(0, 50)));
-      } catch (err) {}
-
-      // 3. Update UI to success state
-      document.getElementById('resName').textContent = name;
-      const resCourseEl = document.getElementById('resCourse');
-      if (resCourseEl) resCourseEl.textContent = courseText;
-      
-      document.getElementById('formCard').style.display = 'none';
-      document.getElementById('successCard').style.display = 'block';
-
-      // Scroll smoothly to success notice
-      const enrollHeader = document.querySelector('.enroll-header');
-      if (enrollHeader) {
-        enrollHeader.scrollIntoView({ behavior: 'smooth' });
+      // Bots fill the hidden field or submit instantly. Show them the normal
+      // success screen so they learn nothing, but save nothing.
+      const trap = document.getElementById('website');
+      if ((trap && trap.value) || Date.now() - ENROLL_FORM_OPENED_AT < 3000) {
+        showEnrollSuccess(name, courseText);
+        return;
       }
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Submitting Application... ⏳';
+      }
+
+      const error = await sendEnrollmentToSheet({
+        enrolledCourse: courseText,
+        name,
+        email,
+        phone,
+        qualification,
+        learningMode: mode,
+        status,
+        batchTime: batch,
+        comments,
+        page: window.location.href
+      });
+
+      if (error) {
+        showEnrollError(error);
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnHtml;
+        }
+        return;
+      }
+
+      // Enrollments are no longer copied into browser storage: on a shared
+      // computer the next person could read everyone's name, email and phone.
+      try { localStorage.removeItem('kompetenzen_enrollments'); } catch (err) {}
+
+      showEnrollSuccess(name, courseText);
     }
   </script>
 </body>
