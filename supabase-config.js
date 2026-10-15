@@ -102,7 +102,13 @@ function extractTokenFromHash() {
  * Immediately parses and persists Auth session from URL hash on script load.
  */
 (function syncOAuthHashImmediately() {
+  // This page owns invitation/recovery handling; avoid competing session setup.
+  if (/\/admin-password(?:\.html)?\/?$/.test(window.location.pathname)) return;
   const tokens = extractTokenFromHash();
+  if (tokens && tokens.type === 'invite') {
+    window.location.replace(new URL('admin-password.html', window.location.href).pathname + window.location.hash);
+    return;
+  }
   if (tokens && tokens.accessToken && tokens.type === 'recovery') {
     // Password-reset link: sign in with the link's session, then ask for a new password.
     history.replaceState(null, '', window.location.pathname + window.location.search);

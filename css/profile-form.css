@@ -1,0 +1,125 @@
+/* Profile onboarding: calm surfaces, clear grouping, consistent focus states. */
+:root { color-scheme: dark; --ink-dim: #9aa9bf; }
+body { background: #0c111b; }
+.apply-container { max-width: 880px; padding-left: 32px; padding-right: 32px; }
+.form-card-container { padding: 12px 0 0; background: transparent; border: 0; border-radius: 0; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
+.stepper-bar-segment.active, .stepper-bar-segment.completed { box-shadow: none; }
+.section-tag-label::before { box-shadow: none; }
+.background-heading { padding: 0 0 26px; margin: 30px 0; background: transparent; border: 0; border-bottom: 1px solid #28303e; border-radius: 0; }
+.background-eyebrow { display: block; color: #9db4d3; font-size: 10px; font-weight: 600; letter-spacing: 1.8px; margin-bottom: 12px; }
+.background-heading h2 { color: #f1f3f7; font-size: clamp(26px, 3vw, 32px); font-weight: 600; line-height: 1.25; letter-spacing: -.8px; margin-bottom: 12px; }
+.background-heading p { color: #a5afbf; font-size: 14px; line-height: 1.7; max-width: 600px; }
+.education-grid { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); column-gap: 24px; align-items: start; }
+.education-grid > * { min-width: 0; }
+.stage-block[data-stage="graduated"] .education-grid > .form-group:has(#f-grad-qualification),
+.stage-block[data-stage="graduated"] .education-grid > .form-group:has(#college-search) { grid-column: 1 / -1; }
+.form-label { font-size: 13px; line-height: 1.55; flex-wrap: wrap; }
+.form-input-box { font-size: 14px; border-radius: 8px; background-color: #121925; border-color: #333d4c; box-shadow: none; }
+.form-input-box:hover { border-color: #536075; }
+.form-input-box:focus { background-color: #151e2b; border-color: #88a9d4; box-shadow: none; }
+.form-input-box:disabled { cursor: not-allowed; color: #94a3b8; opacity: .65; }
+.form-input-box[aria-invalid="true"] { border-color: #f87171; }
+.form-input-box:focus-visible { outline: 2px solid #72a8ff; outline-offset: 2px; }
+.other-field { margin-top: 12px; padding: 14px; background: #172238; border-radius: 10px; border-left: 2px solid #6099f8; }
+.other-field .form-label { color: #c1d4f0; }
+.college-combobox { position: relative; }
+.college-combobox::after { content: '⌄'; position: absolute; right: 18px; top: 12px; color: #94a3b8; pointer-events: none; }
+.college-combobox input { padding-right: 42px; }
+.college-options { position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 20; max-height: 280px; overflow-y: auto; overscroll-behavior: contain; background: #142035; border: 1px solid #405577; border-radius: 10px; box-shadow: 0 12px 30px #0006; padding: 6px; }
+.college-option { padding: 11px 12px; border-radius: 6px; font-size: 14px; line-height: 1.5; cursor: pointer; overflow-wrap: anywhere; }
+.college-option:hover, .college-option[aria-selected="true"] { background: #244f91; color: #fff; }
+#college-results { margin-top: 8px; color: #aabbd1; }
+.background-subheading { border-top: 1px solid #29374b; padding-top: 24px; margin: 2px 0 22px; font-size: 16px; font-weight: 700; }
+.choice-pill-btn { font-size: 12px; padding: 9px 14px; box-shadow: none; }
+.choice-pill-btn.selected { box-shadow: none; background: #244f91; border-color: #6ba3ff; }
+.stage-card { box-shadow: none; }
+.stage-card:has(input:checked) { box-shadow: none; background: #172b49; }
+.step-actions-footer { padding-top: 24px; border-top: 1px solid #29374b; }
+.btn-step-next { box-shadow: none; }
+[hidden] { display: none !important; }
+.career-skill-dropdown { border: 1px solid #333d4c; background: #121925; border-radius: 8px; }
+.career-skill-dropdown summary { padding: 10px 14px; cursor: pointer; font-size: 14px; }
+.career-checks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 12px; border-top: 1px solid #344258; }
+.career-check { display: flex; align-items: center; gap: 10px; padding: 10px; font-size: 13px; cursor: pointer; border-radius: 6px; }
+.career-check:has(input:checked) { background: #1d3557; }
+.career-check input, .career-choice input { accent-color: #6ba3ff; flex-shrink: 0; width: 18px; height: 18px; }
+.career-choices { display: grid; gap: 8px; margin-top: 10px; }
+.career-choice { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; border: 1px solid #303a48; border-radius: 8px; background: #121925; cursor: pointer; transition: border-color .15s, background-color .15s; }
+.career-choice:hover { border-color: #536075; }
+.career-choice:has(input:checked) { border-color: #88a9d4; background: #1b293b; }
+.career-choice:focus-within, .career-skill-dropdown summary:focus-visible { outline: 2px solid #72a8ff; outline-offset: 2px; }
+.career-choice input { margin-top: 3px; }
+.career-choice strong { display: block; font-size: 14px; margin-bottom: 1px; }
+.career-choice span span { display: block; font-size: 13px; color: #b1bfd2; line-height: 1.45; }
+#career-field-questions .form-label,
+label[for="career-area"], label[for="career-field"],
+legend.form-label:has(#challenge-question) { font-size: 17px; line-height: 1.45; }
+#career-area, #career-field { padding: 10px 14px; min-height: 44px; }
+#pills-challenge .choice-pill-btn { padding: 7px 12px; }
+#career-field-questions { margin-bottom: 30px; }
+.section-tag-label { color: #a6b9d3; font-size: 11px; font-weight: 600; letter-spacing: 1.4px; }
+.section-tag-label::before { display: none; }
+.required-badge, .section-indicator { background: transparent; border: 0; padding: 0; color: #98a6ba; font-size: 11px; font-weight: 400; }
+.field-note { color: #9daabe; font-size: 12px; line-height: 1.6; margin-top: 8px; }
+.field-hint { color: #9daabe; font-size: 13px; }
+.form-label { font-weight: 600; color: #e5e9ef; }
+.form-label .sub { color: #9daabe; font-weight: 400; }
+.form-group { margin-bottom: 28px; }
+#career-field-questions > fieldset + fieldset { padding-top: 8px; }
+#career-field-questions > fieldset:has(.career-choices) { border-top: 1px solid #28303e; padding-top: 24px; margin-top: 32px; }
+.choice-pill-btn { background: #141c28; border-color: #333d4c; color: #bfc8d5; border-radius: 8px; font-weight: 500; }
+.choice-pill-btn.selected { background: #1b293b; border-color: #88a9d4; color: #ecf2fa; }
+.stepper-bars { gap: 6px; }
+.stepper-bar-segment { height: 3px; }
+.stepper-bar-segment.active, .stepper-bar-segment.completed { background: #88a9d4; }
+.step-count { font-size: 12px; color: #9daabe; }
+.btn-step-next { border-radius: 8px; background: #dce8f8; color: #132237; font-weight: 600; }
+.btn-step-next:hover { background: #edf4ff; color: #132237; box-shadow: none; transform: none; }
+.btn-step-back { background: transparent; border-color: #333d4c; border-radius: 8px; }
+.step-actions-footer { margin-top: 32px; padding-top: 24px; border-color: #28303e; }
+.top-header { background: rgba(12,17,27,.94); border-bottom: 1px solid #ffffff0d; }
+.header-inner { max-width: 1100px; min-height: 84px; padding: 20px 32px; }
+.brand-logo { gap: 24px; }
+.brand-logo img { height: 32px; }
+.brand-context { border-left: 1px solid #354052; padding-left: 24px; font-size: 12px; font-weight: 500; letter-spacing: .4px; color: #9daabe; }
+.user-pill { padding: 6px 12px 6px 6px; gap: 10px; background: #ffffff03; border-color: #ffffff14; font-size: 12px; font-weight: 500; box-shadow: none; max-width: 240px; }
+.user-meta-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.user-avatar { width: 28px; height: 28px; flex-shrink: 0; background: #253349; border: 1px solid #40516a; color: #dce8f8; font-weight: 500; }
+.form-header-center { text-align: left; padding: 16px 0 12px; margin-bottom: 38px; }
+.main-title { font-size: clamp(34px,4.4vw,50px); font-weight: 500; letter-spacing: -1.9px; line-height: 1.15; margin-bottom: 20px; }
+.profile-title-dot { color: #96b4dc; }
+.time-badge { background: transparent; border: 0; border-radius: 0; box-shadow: none; color: #a6b9d3; padding: 0; font-size: 10px; letter-spacing: 2px; font-weight: 600; gap: 12px; margin-bottom: 22px; }
+.profile-eyebrow-rule { display: block; width: 28px; height: 1px; background: #96b4dc; }
+.target-job-badge { background: #121925; border-color: #333d4c; border-radius: 8px; box-shadow: none; color: #c4d3e7; }
+.main-subtitle { color: #a5afbf; font-size: 15px; line-height: 1.8; margin: 0; max-width: 560px; }
+.stage-card { background: #121925; border-color: #333d4c; border-radius: 8px; padding: 16px 18px; gap: 14px; }
+.stage-card:hover { background: #161f2d; border-color: #536075; }
+.stage-card:has(input:checked) { background: #1b293b; border-color: #88a9d4; }
+.stage-card-icon { display: none; }
+.stage-card-title { font-weight: 600; }
+.form-section-divider { background: #28303e; }
+.other-field { background: transparent; border: 0; border-left: 1px solid #536075; border-radius: 0; padding: 4px 0 4px 16px; }
+@media (max-width: 620px) {
+  .header-inner { min-height: 70px; padding: 16px; gap: 12px; }
+  .brand-logo { gap: 12px; }
+  .brand-logo img { height: 27px; }
+  .brand-context { display: none; }
+  .user-pill { max-width: 150px; }
+  .form-header-center { padding-top: 12px; margin-bottom: 28px; }
+  .main-title { font-size: 34px; letter-spacing: -1.2px; }
+  .main-subtitle { font-size: 14px; }
+  .career-checks { grid-template-columns: minmax(0, 1fr); }
+  .apply-container { padding: 24px 16px 40px; }
+  .form-card-container { padding: 8px 0 0; border-radius: 0; }
+  .education-grid { grid-template-columns: minmax(0,1fr); }
+  .background-heading { padding: 0 0 22px; margin: 24px 0; }
+  .background-heading h2 { font-size: 26px; }
+  .form-input-box { font-size: 16px; }
+  .stage-card { padding: 16px; gap: 12px; }
+  .stage-card-title { font-size: 15px; }
+  .stage-card-desc { font-size: 12px; }
+  .stage-card-icon { width: 38px; height: 38px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}

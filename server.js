@@ -29,6 +29,13 @@ function notFound(res) {
 }
 
 const server = http.createServer((req, res) => {
+  // Retired public staff-registration endpoint: never creates or resets accounts.
+  if (req.url.split('?')[0] === '/api/auth/staff-signup') {
+    res.writeHead(410, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ success: false, message: 'Staff access is invitation-only. Contact the owner.' }));
+    return;
+  }
+
   if (req.method !== 'GET' && req.method !== 'HEAD') {
     res.writeHead(405, { 'Allow': 'GET, HEAD' });
     res.end();

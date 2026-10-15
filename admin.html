@@ -17,6 +17,8 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
   <script src="supabase-config.js"></script>
   <script src="js/site-content.js"></script>
+  <script src="js/career-catalog.js"></script>
+  <script src="js/applicant-matching.js"></script>
 
   <style>
     :root {
@@ -204,6 +206,70 @@
       margin-bottom: 14px;
     }
 
+    .gate-tabs {
+      display: flex;
+      gap: 6px;
+      background: #f1f5f9;
+      padding: 4px;
+      border-radius: 12px;
+      border: 1.5px solid #000;
+      margin-bottom: 20px;
+    }
+
+    .gate-tab-btn {
+      flex: 1;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      font-family: inherit;
+      border: none;
+      background: transparent;
+      color: var(--ink-mute);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .gate-tab-btn.active {
+      background: #000;
+      color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .gate-tab-btn:hover:not(.active) {
+      color: var(--ink);
+      background: rgba(0, 0, 0, 0.04);
+    }
+
+    .gate-toggle-footer {
+      margin-top: 18px;
+      font-size: 12.5px;
+      color: var(--ink-mute);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .gate-toggle-footer button {
+      background: none;
+      border: none;
+      color: var(--blue);
+      font-weight: 700;
+      font-size: 12.5px;
+      cursor: pointer;
+      text-decoration: underline;
+      font-family: inherit;
+      padding: 0;
+    }
+
+    .gate-card .field-hint {
+      display: block;
+      font-size: 11px;
+      color: var(--ink-dim);
+      margin-top: 4px;
+    }
+
     .gate-error {
       display: none;
       font-size: 12.5px;
@@ -217,6 +283,22 @@
     }
 
     .gate-error.is-visible {
+      display: block;
+    }
+
+    .gate-success {
+      display: none;
+      font-size: 12.5px;
+      color: #15803D;
+      background: rgba(22, 163, 74, 0.08);
+      border: 1px solid rgba(22, 163, 74, 0.2);
+      border-radius: 10px;
+      padding: 9px 14px;
+      margin-bottom: 14px;
+      text-align: left;
+    }
+
+    .gate-success.is-visible {
       display: block;
     }
 
@@ -519,6 +601,424 @@
       background: rgba(179, 38, 30, 0.06);
     }
 
+    .req-box {
+      grid-column: 1 / -1;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px 18px 4px;
+      background: rgba(25, 71, 255, 0.03);
+      min-width: 0;
+    }
+
+    .req-box legend {
+      padding: 0 6px;
+      font-size: 13.5px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .req-box-hint {
+      font-size: 12.5px;
+      color: var(--ink-mute);
+      margin: 2px 0 12px;
+      line-height: 1.5;
+    }
+
+    .req-checks {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 8px 18px;
+      margin-bottom: 14px;
+    }
+
+    .req-check {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--ink-2);
+      cursor: pointer;
+    }
+
+    .req-check input {
+      margin-top: 3px;
+      accent-color: var(--blue);
+    }
+
+    /* AUTOMATIC APPLICANT FILTERING (js/applicant-matching.js) */
+    .mc-box {
+      padding: 18px 20px;
+    }
+
+    .mc-box:has(#enable-matching:not(:checked)) #matching-config {
+      display: none;
+    }
+
+    .mc-switch {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+    }
+
+    .mc-switch input {
+      position: absolute;
+      opacity: 0;
+      width: 1px;
+      height: 1px;
+    }
+
+    .mc-switch-track {
+      flex: none;
+      position: relative;
+      width: 44px;
+      height: 24px;
+      border-radius: 999px;
+      background: rgba(10, 21, 48, 0.18);
+      transition: background 0.2s;
+    }
+
+    .mc-switch-track::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+      transition: transform 0.2s;
+    }
+
+    .mc-switch input:checked + .mc-switch-track {
+      background: var(--blue);
+    }
+
+    .mc-switch input:checked + .mc-switch-track::after {
+      transform: translateX(20px);
+    }
+
+    .mc-switch input:focus-visible + .mc-switch-track {
+      box-shadow: 0 0 0 3px rgba(25, 71, 255, 0.25);
+    }
+
+    .mc-switch-text strong {
+      display: block;
+      font-size: 14.5px;
+      color: var(--ink);
+    }
+
+    .mc-switch-text small {
+      display: block;
+      font-size: 12.5px;
+      color: var(--ink-mute);
+      margin-top: 2px;
+    }
+
+    .mc {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .mc-howto {
+      border: 1px solid rgba(25, 71, 255, 0.18);
+      background: var(--blue-soft);
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: var(--ink-2);
+    }
+
+    .mc-howto summary {
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--blue);
+    }
+
+    .mc-howto ol {
+      margin: 10px 0 2px 18px;
+      display: grid;
+      gap: 6px;
+      line-height: 1.5;
+    }
+
+    .mc-section {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px 20px 20px;
+      box-shadow: 0 1px 2px rgba(10, 21, 48, 0.04);
+    }
+
+    .mc-section-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .mc-section-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .mc-section-sub {
+      font-size: 12.5px;
+      color: var(--ink-mute);
+      margin-top: 3px;
+      line-height: 1.5;
+    }
+
+    .mc-count {
+      flex: none;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--line-soft);
+      color: var(--ink-mute);
+      white-space: nowrap;
+    }
+
+    .mc-count.is-active {
+      background: rgba(16, 185, 129, 0.12);
+      color: #047857;
+    }
+
+    .mc-count.is-error {
+      background: rgba(220, 38, 38, 0.1);
+      color: #B91C1C;
+    }
+
+    .mc-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px 18px;
+    }
+
+    .mc-grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .mc-field.mc-wide {
+      grid-column: 1 / -1;
+    }
+
+    .mc-skill-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 10px;
+      align-items: start;
+    }
+
+    .mc .mc-skill {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #FBFCFE;
+      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    }
+
+    .mc .mc-skill:hover {
+      border-color: rgba(25, 71, 255, 0.35);
+      background: var(--paper);
+    }
+
+    .mc .mc-skill.is-on {
+      background: var(--paper);
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(25, 71, 255, 0.08);
+    }
+
+    .mc .mc-skill.is-essential {
+      border-color: #7C3AED;
+      box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+    }
+
+    .mc .mc-skill-name {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0;
+      padding: 11px 14px;
+      font-size: 13.5px;
+      font-weight: 600;
+      text-transform: none;
+      letter-spacing: 0;
+      color: var(--ink-2);
+      cursor: pointer;
+    }
+
+    .mc .mc-skill.is-on .mc-skill-name {
+      color: var(--ink);
+    }
+
+    .mc .mc-skill-name input {
+      flex: none;
+      width: 17px;
+      height: 17px;
+      margin: 0;
+      accent-color: var(--blue);
+    }
+
+    .mc .mc-skill-name span {
+      flex: 1;
+      min-width: 0;
+      overflow-wrap: break-word;
+      word-break: normal;
+    }
+
+    /* Controls appear only once the skill is ticked */
+    .mc .mc-skill-controls {
+      display: none;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px 12px;
+      border-top: 1px solid var(--line-soft);
+    }
+
+    .mc .mc-skill.is-on .mc-skill-controls {
+      display: grid;
+    }
+
+    .mc .mc-skill-controls select,
+    .mc .mc-importance input {
+      width: 100%;
+      min-height: 34px;
+      font: inherit;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--ink);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 6px 8px;
+    }
+
+    .mc .mc-importance {
+      display: flex;
+      margin: 0;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--ink-mute);
+    }
+
+    .mc .mc-importance input {
+      width: 64px;
+    }
+
+    .mc-skill-controls :disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .mc-skill-controls select:focus,
+    .mc-importance input:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(25, 71, 255, 0.12);
+    }
+
+    .mc-empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 22px 16px;
+      font-size: 13px;
+      color: var(--ink-mute);
+      border: 1px dashed var(--line);
+      border-radius: 12px;
+    }
+
+    .mc-dialog {
+      max-width: 820px;
+      width: calc(100% - 32px);
+      max-height: 88vh;
+      overflow: auto;
+      padding: 28px;
+      border: none;
+      border-radius: 18px;
+      box-shadow: 0 24px 60px rgba(2, 5, 14, 0.25);
+    }
+
+    .mc-dialog::backdrop {
+      background: rgba(2, 5, 14, 0.45);
+    }
+
+    .mc-dialog h2 {
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .mc-dialog-error {
+      color: #B91C1C;
+      font-size: 13px;
+      margin-top: 14px;
+    }
+
+    .mc-dialog-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .mc-dialog-actions .btn-primary {
+      width: auto;
+    }
+
+    @media (max-width: 640px) {
+      .mc-grid,
+      .mc-grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .mc-skill-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .mc-section {
+        padding: 16px;
+      }
+    }
+
+    .app-screening {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: rgba(25, 71, 255, 0.04);
+      border: 1px solid var(--line-soft);
+      font-size: 13px;
+      color: var(--ink-2);
+      display: grid;
+      gap: 6px;
+    }
+
+    .app-screening strong {
+      color: var(--ink);
+    }
+
+    .app-screening a {
+      color: var(--blue);
+      word-break: break-all;
+    }
+
     .form-grid.form-direct-active .hide-on-direct {
       display: none;
     }
@@ -689,6 +1189,184 @@
       }
     }
 
+    /* APPLICATIONS: JOB PICKER */
+    .jobs-overview-summary {
+      font-size: 13.5px;
+      color: var(--ink-mute);
+      margin: -6px 0 16px;
+    }
+
+    .job-type-toggle {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .job-type-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 42px;
+      padding: 9px 20px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      color: var(--ink-mute);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .job-type-pill:hover {
+      border-color: var(--blue);
+      color: var(--ink);
+    }
+
+    .job-type-pill span {
+      font-size: 12px;
+      padding: 1px 8px;
+      border-radius: 999px;
+      background: var(--line-soft);
+    }
+
+    .job-type-pill.active {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #FFFFFF;
+      box-shadow: 0 6px 18px rgba(25, 71, 255, 0.28);
+    }
+
+    .job-type-pill.active span {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .job-pick-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .job-pick-card {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      text-align: left;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px;
+      font-family: inherit;
+      color: var(--ink);
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+
+    .job-pick-card:hover,
+    .job-pick-card:focus-visible {
+      border-color: var(--blue);
+      box-shadow: 0 8px 24px rgba(25, 71, 255, 0.12);
+      transform: translateY(-2px);
+      outline: none;
+    }
+
+    .job-pick-card.is-other {
+      border-style: dashed;
+    }
+
+    .job-pick-type {
+      align-self: flex-start;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(16, 185, 129, 0.12);
+      color: #059669;
+    }
+
+    .job-pick-type.is-intern {
+      background: rgba(139, 92, 246, 0.12);
+      color: #8B5CF6;
+    }
+
+    .job-pick-type.is-other {
+      background: var(--blue-soft);
+      color: var(--blue);
+    }
+
+    .job-pick-title {
+      font-size: 17px;
+      font-weight: 800;
+      line-height: 1.3;
+    }
+
+    .job-pick-meta {
+      font-size: 13px;
+      color: var(--ink-mute);
+    }
+
+    .job-pick-foot {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px solid var(--line-soft);
+    }
+
+    .job-pick-count {
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .job-pick-count small {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-mute);
+      margin-top: 4px;
+    }
+
+    .job-pick-cta {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--blue);
+      white-space: nowrap;
+    }
+
+    .job-pick-empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 40px 16px;
+      color: var(--ink-mute);
+      border: 1px dashed var(--line);
+      border-radius: 14px;
+    }
+
+    .job-detail-head {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .job-detail-title h2 {
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    .job-detail-title span {
+      font-size: 13.5px;
+      color: var(--ink-mute);
+    }
+
     /* APPLICATIONS TOOLBAR */
     .apps-toolbar {
       display: flex;
@@ -752,442 +1430,24 @@
       background: #F8FAFC;
     }
 
-    /* FILTRATION PANEL & CHIPS — LIGHT BLUE THEME */
-    .apps-filter-panel {
-      background: linear-gradient(135deg, #F0F6FF 0%, #E2EEFC 50%, #ECF4FD 100%);
-      border: 1px solid #BFDBFE;
-      border-radius: 18px;
-      padding: 24px;
-      margin-bottom: 24px;
-      box-shadow: 0 12px 32px -4px rgba(37, 99, 235, 0.08), 0 0 0 1px rgba(191, 219, 254, 0.4);
-      color: #0F172A;
-      position: relative;
-    }
+    .applicant-sections { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:16px; }
+    .applicant-sections button { flex:1 1 180px; padding:16px; border:1px solid #CBD5E1; border-radius:12px; background:#fff; color:#334155; font:inherit; font-weight:700; cursor:pointer; }
+    .applicant-sections button[aria-pressed="true"] { background:#EFF6FF; border-color:#2563EB; color:#1D4ED8; box-shadow:0 0 0 1px #2563EB; }
+    .applicant-sections button:focus-visible { outline:3px solid #2563EB; outline-offset:3px; }
+    .applicant-sections span { display:inline-block; padding:2px 8px; margin-left:6px; background:#E2E8F0; border-radius:20px; }
 
-    .apps-filter-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding-bottom: 18px;
-      margin-bottom: 18px;
-      border-bottom: 1px solid rgba(191, 219, 254, 0.6);
-      flex-wrap: wrap;
-    }
-
-    .apps-filter-header-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .filter-icon-badge {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #2563EB, #38BDF8);
-      color: #FFFFFF;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
-      flex-shrink: 0;
-    }
-
-    .filter-header-title-text {
-      font-size: 15.5px;
-      font-weight: 800;
-      color: #0F172A;
-      letter-spacing: -0.01em;
-    }
-
-    .filter-header-subtitle {
-      font-size: 12.5px;
-      color: #475569;
-      margin-top: 2px;
-    }
-
-    .filter-count-indicator {
-      background: #DBEAFE;
-      border: 1px solid #93C5FD;
-      color: #1D4ED8;
-      font-size: 12px;
-      font-weight: 700;
-      padding: 6px 14px;
-      border-radius: 99px;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .apps-filter-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
-      margin-bottom: 18px;
-    }
-
-    @media (max-width: 860px) {
-      .apps-filter-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 560px) {
-      .apps-filter-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .apps-filter-card {
-      background: #FFFFFF;
-      border: 1px solid #BFDBFE;
-      border-radius: 12px;
-      padding: 12px 14px;
-      transition: all 0.2s ease;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.04);
-    }
-
-    .apps-filter-card:hover {
-      background: #FFFFFF;
-      border-color: #60A5FA;
-      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.12);
-    }
-
-    .apps-filter-label {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      color: #1E3A8A;
-      margin-bottom: 8px;
-    }
-
-    .field-icon {
-      font-size: 13px;
-    }
-
-    .apps-filter-select {
-      width: 100%;
-      min-height: 42px;
-      padding: 9px 12px;
-      font-size: 13.5px;
-      font-weight: 600;
-      border-radius: 8px;
-      border: 1px solid #CBD5E1;
-      background: #F8FAFC;
-      color: #0F172A;
-      cursor: pointer;
-      font-family: inherit;
-      outline: none;
-      transition: all 0.2s ease;
-    }
-
-    .apps-filter-select:hover {
-      border-color: #60A5FA;
-      background: #F0F7FF;
-    }
-
-    .apps-filter-select:focus {
-      border-color: #2563EB;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-      background: #FFFFFF;
-    }
-
-    .apps-filter-select option {
-      background: #FFFFFF;
-      color: #0F172A;
-      padding: 8px;
-    }
-
-    /* MULTI-SELECT SKILLS DROPDOWN */
-    .apps-multi-select-container {
-      position: relative;
-    }
-
-    .apps-multi-select-btn {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      text-align: left;
-      user-select: none;
-      white-space: nowrap;
-      overflow: hidden;
-      width: 100%;
-      min-height: 42px;
-      padding: 9px 12px;
-      font-size: 13.5px;
-      font-weight: 600;
-      border-radius: 8px;
-      border: 1px solid #CBD5E1;
-      background: #F8FAFC;
-      color: #0F172A;
-      cursor: pointer;
-      font-family: inherit;
-      transition: all 0.2s ease;
-    }
-
-    .apps-multi-select-btn:hover {
-      border-color: #60A5FA;
-      background: #F0F7FF;
-    }
-
-    .apps-multi-btn-text {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      flex: 1;
-      padding-right: 6px;
-      color: #0F172A;
-    }
-
-    .apps-filter-count-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: #2563EB;
-      color: #FFFFFF;
-      border-radius: 99px;
-      font-size: 10px;
-      font-weight: 700;
-      padding: 1px 6px;
-      margin-left: 4px;
-      vertical-align: middle;
-    }
-
-    .apps-multi-chevron {
-      color: #64748B;
-      transition: transform 0.2s;
-      flex-shrink: 0;
-    }
-
-    .apps-multi-select-container.open .apps-multi-chevron {
-      transform: rotate(180deg);
-    }
-
-    .apps-multi-dropdown {
-      position: absolute;
-      top: calc(100% + 6px);
-      left: 0;
-      width: 100%;
-      min-width: 280px;
-      max-width: 95vw;
-      background: #FFFFFF;
-      border: 1px solid #BFDBFE;
-      border-radius: 12px;
-      box-shadow: 0 16px 36px rgba(37, 99, 235, 0.16);
-      z-index: 120;
-      padding: 10px;
-      color: #0F172A;
-      animation: tabFadeIn 0.15s ease;
-    }
-
-    .apps-multi-search-row {
-      margin-bottom: 6px;
-    }
-
-    .apps-multi-search-input {
-      width: 100%;
-      padding: 8px 10px;
-      font-size: 12.5px;
-      border-radius: 6px;
-      border: 1px solid #CBD5E1;
-      background: #F8FAFC;
-      color: #0F172A;
-      font-family: inherit;
-      outline: none;
-    }
-
-    .apps-multi-search-input:focus {
-      border-color: #2563EB;
-      background: #FFFFFF;
-    }
-
-    .apps-multi-actions-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 6px;
-      padding: 4px 2px 8px;
-      border-bottom: 1px solid #E2E8F0;
-      margin-bottom: 6px;
-    }
-
-    .apps-multi-mode-toggle {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 11px;
-    }
-
-    .apps-multi-mode-toggle .mode-label {
-      color: #64748B;
-      font-weight: 600;
-    }
-
-    .btn-mode-pill {
-      background: #F1F5F9;
-      border: 1px solid #CBD5E1;
-      color: #475569;
-      border-radius: 6px;
-      padding: 2px 7px;
-      font-size: 11px;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: inherit;
-      transition: all 0.15s;
-    }
-
-    .btn-mode-pill.active {
-      background: #2563EB;
-      color: #FFFFFF;
-      border-color: #2563EB;
-    }
-
-    .btn-clear-skills-text {
-      background: none;
-      border: none;
-      color: #EF4444;
-      font-size: 11px;
-      font-weight: 600;
-      cursor: pointer;
-      padding: 2px 6px;
-      font-family: inherit;
-      border-radius: 4px;
-    }
-
-    .btn-clear-skills-text:hover {
-      background: #FEE2E2;
-    }
-
-    .apps-multi-options-list {
-      max-height: 200px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .apps-multi-option-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 8px;
-      border-radius: 6px;
-      font-size: 12.5px;
-      color: #1E293B;
-      cursor: pointer;
-      transition: background 0.15s;
-      user-select: none;
-    }
-
-    .apps-multi-option-item:hover {
-      background: #EFF6FF;
-      color: #1D4ED8;
-    }
-
-    .apps-multi-option-item input[type="checkbox"] {
-      width: 15px;
-      height: 15px;
-      border-radius: 4px;
-      accent-color: #2563EB;
-      cursor: pointer;
-    }
-
-    .apps-chips-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      padding-top: 16px;
-      border-top: 1px solid rgba(191, 219, 254, 0.6);
-      margin-bottom: 14px;
-    }
-
-    .apps-chip-label {
-      font-size: 11.5px;
-      font-weight: 800;
-      color: #1E3A8A;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-right: 4px;
-    }
-
-    .apps-filter-chip {
-      padding: 5px 13px;
-      font-size: 12px;
-      font-weight: 600;
-      border-radius: 100px;
-      border: 1px solid #BFDBFE;
-      background: #FFFFFF;
-      color: #1E40AF;
-      cursor: pointer;
-      transition: all 0.15s ease;
-      user-select: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-family: inherit;
-    }
-
-    .apps-filter-chip:hover {
-      border-color: #60A5FA;
-      background: #DBEAFE;
-      color: #1D4ED8;
-    }
-
-    .apps-filter-chip.active {
-      background: #2563EB;
-      color: #FFFFFF;
-      border-color: #2563EB;
-      font-weight: 700;
-      box-shadow: 0 2px 10px rgba(37, 99, 235, 0.35);
-    }
-
-    .apps-filter-status-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 10px 16px;
-      background: #DBEAFE;
-      border: 1px solid #BFDBFE;
-      border-radius: 10px;
-      font-size: 12.5px;
-      color: #1E3A8A;
-      flex-wrap: wrap;
-    }
-
-    .apps-filter-status-bar strong {
-      color: #1D4ED8;
-      font-weight: 800;
-    }
-
-    .btn-clear-filters {
-      background: #FEE2E2;
-      border: 1px solid #FECACA;
-      color: #DC2626;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 4px 10px;
-      border-radius: 6px;
-      transition: all 0.15s ease;
-      font-family: inherit;
-    }
-
-    .btn-clear-filters:hover {
-      background: #FCA5A5;
-      color: #991B1B;
-    }
+    .app-compact { display:flex; align-items:center; justify-content:space-between; gap:18px; padding:18px 22px; }
+    .app-compact-actions { display:flex; align-items:center; gap:22px; flex-shrink:0; }
+    .app-match-percent { display:flex; flex-direction:column; text-align:center; color:#1D4ED8; }
+    .app-match-percent strong { font-size:24px; }
+    .app-match-percent span { font-size:12px; color:var(--ink-mute); }
+    .applicant-details-dialog { width:min(1000px,94vw); max-height:90vh; margin:auto; padding:22px; border:1px solid #CBD5E1; border-radius:18px; color:var(--ink); background:#fff; }
+    .applicant-details-dialog::backdrop { background:rgba(15,23,42,.55); }
+    .applicant-dialog-header { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:18px; }
+    .applicant-dialog-header h2 { font-size:20px; }
+    .applicant-details-dialog .app-card { box-shadow:none; padding:16px; }
+    .applicant-details-dialog .app-detail-item span { overflow-wrap:anywhere; }
+    @media(max-width:600px) { .app-compact { align-items:stretch; flex-direction:column; } .app-compact-actions { justify-content:space-between; } .applicant-details-dialog { padding:12px; } }
 
     /* MATCH BANNER & HIGHLIGHT PILLS */
     .app-match-banner {
@@ -1650,16 +1910,28 @@
         </svg>
       </div>
       <h2>Staff Access</h2>
-      <p>This page is for Kompetenzen HR staff only. Sign in with your staff account to continue.</p>
-      <p class="gate-error" id="gate-error">Incorrect password. Please try again.</p>
+      <p id="gate-desc">Sign in with your approved staff email and password.</p>
+
+      <p class="gate-error" id="gate-error" role="alert">Incorrect password. Please try again.</p>
+      <p class="gate-success" id="gate-success" role="status"></p>
+
+      <!-- LOGIN FORM -->
       <form id="gate-form">
-        <div class="field"><label for="gate-email">Staff email</label><input id="gate-email" type="email" autocomplete="username" required /></div>
+        <div class="field">
+          <label for="gate-email">Staff email <span class="req">*</span></label>
+          <input id="gate-email" type="email" autocomplete="username" placeholder="you@example.com" required />
+        </div>
         <div class="field">
           <label for="gate-key">Password <span class="req">*</span></label>
           <input id="gate-key" type="password" autocomplete="current-password" placeholder="Enter your account password" required autofocus />
         </div>
-        <button class="btn-primary" type="submit">Unlock Console →</button>
+        <button class="btn-primary" type="submit" id="btn-gate-login">Unlock Console →</button>
       </form>
+
+      <div class="gate-toggle-footer">
+        <button type="button" id="gate-forgot-password">Forgot password?</button>
+        <p>Access is by invitation only. Contact the owner to request access.</p>
+      </div>
     </div>
   </div>
 
@@ -1715,6 +1987,47 @@
     <!-- PANEL 1: CANDIDATE APPLICATIONS & RESUMES  -->
     <!-- ========================================== -->
     <div id="panel-applications" class="admin-tab-panel active">
+      <!-- Level 1: listed jobs -->
+      <div id="apps-jobs-view">
+        <div class="apps-toolbar">
+          <div class="apps-search-wrap">
+            <svg class="apps-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <input type="text" id="apps-jobs-search" class="apps-search-input"
+              placeholder="Search jobs by title, company or location..." oninput="renderJobsOverview()" />
+          </div>
+          <div class="apps-actions">
+            <button type="button" class="btn-secondary" onclick="loadApplicationsList()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="23 4 23 10 17 10" />
+                <polyline points="1 20 1 14 7 14" />
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+              </svg>
+              <span>Refresh</span>
+            </button>
+          </div>
+        </div>
+        <p class="jobs-overview-summary" id="apps-jobs-summary"></p>
+        <div id="apps-jobs-grid"></div>
+      </div>
+
+      <!-- Level 2: applicants for the selected job -->
+      <div id="apps-job-detail" style="display:none;">
+      <div class="job-detail-head">
+        <button type="button" class="btn-secondary" onclick="showJobsList()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+          <span>All jobs</span>
+        </button>
+        <div class="job-detail-title">
+          <h2 id="apps-job-title">Job</h2>
+          <span id="apps-job-meta"></span>
+        </div>
+      </div>
       <div class="apps-toolbar">
         <div class="apps-search-wrap">
           <svg class="apps-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -1723,7 +2036,7 @@
             <line x1="21" y1="21" x2="16.65" y2="16.65" />
           </svg>
           <input type="text" id="apps-search-input" class="apps-search-input"
-            placeholder="Search keywords across skills, location, degree, role, experience, year, name..."
+            placeholder="Find by name, email or phone on this page"
             oninput="filterApplications()" />
         </div>
         <div class="apps-actions">
@@ -1733,7 +2046,7 @@
               <polyline points="7 10 12 15 17 10" />
               <line x1="12" y1="15" x2="12" y2="3" />
             </svg>
-            <span>Export CSV</span>
+            <span>Export current page CSV</span>
           </button>
           <button type="button" class="btn-secondary" onclick="loadApplicationsList()">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1746,185 +2059,31 @@
         </div>
       </div>
 
-      <!-- ADVANCED KEYWORD & CRITERIA FILTRATION PANEL -->
-      <div class="apps-filter-panel">
-        <!-- Panel Header -->
-        <div class="apps-filter-header">
-          <div class="apps-filter-header-left">
-            <div class="filter-icon-badge">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-              </svg>
-            </div>
-            <div>
-              <div class="filter-header-title-text">Candidate Smart Filtration</div>
-              <div class="filter-header-subtitle">Filter applicants by matching role, required stack, location &amp;
-                experience</div>
-            </div>
-          </div>
-          <div class="apps-filter-header-right">
-            <span class="filter-count-indicator" id="filter-active-count-indicator">All Candidates</span>
-          </div>
-        </div>
-
-        <div class="apps-filter-grid">
-          <!-- 1. Match with Job Details -->
-          <div class="apps-filter-card">
-            <label class="apps-filter-label" for="apps-filter-job">
-              <span class="field-icon">🎯</span> Match with Job Details
-            </label>
-            <select id="apps-filter-job" class="apps-filter-select" onchange="filterApplications()">
-              <option value="all">All Jobs / Roles</option>
-            </select>
-          </div>
-
-          <!-- 2. Multi-Select Skills Filter -->
-          <div class="apps-filter-card apps-multi-select-container" id="apps-skills-container">
-            <label class="apps-filter-label" for="skills-multi-btn">
-              <span class="field-icon">⚡</span> Key Skills <span id="skills-selected-count"
-                class="apps-filter-count-badge" style="display:none;">0</span>
-            </label>
-            <button type="button" id="skills-multi-btn" class="apps-filter-select apps-multi-select-btn"
-              onclick="toggleSkillsDropdown(event)" aria-haspopup="listbox" aria-expanded="false">
-              <span id="skills-btn-text" class="apps-multi-btn-text">All Skills</span>
-              <svg class="apps-multi-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2.5">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </button>
-            <div id="skills-multi-dropdown" class="apps-multi-dropdown" style="display:none;">
-              <div class="apps-multi-search-row">
-                <input type="text" id="skills-search-input" class="apps-multi-search-input"
-                  placeholder="Search skill..." oninput="filterSkillsList(this.value)" autocomplete="off">
-              </div>
-              <div class="apps-multi-actions-row">
-                <div class="apps-multi-mode-toggle">
-                  <span class="mode-label">Match:</span>
-                  <button type="button" class="btn-mode-pill active" id="skill-mode-any"
-                    onclick="setSkillMatchMode('any', event)">Any</button>
-                  <button type="button" class="btn-mode-pill" id="skill-mode-all"
-                    onclick="setSkillMatchMode('all', event)">All</button>
-                </div>
-                <button type="button" class="btn-clear-skills-text" onclick="clearSelectedSkills(event)">Clear</button>
-              </div>
-              <div class="apps-multi-options-list" id="skills-options-list">
-                <!-- Checkboxes populated via JS -->
-              </div>
-            </div>
-          </div>
-
-          <!-- 3. Preferred Location -->
-          <div class="apps-filter-card">
-            <label class="apps-filter-label" for="apps-filter-location">
-              <span class="field-icon">📍</span> Location
-            </label>
-            <select id="apps-filter-location" class="apps-filter-select" onchange="filterApplications()">
-              <option value="all">All Locations</option>
-              <option value="Kochi">Kochi</option>
-              <option value="Trivandrum">Trivandrum</option>
-              <option value="Bengaluru">Bengaluru</option>
-              <option value="Chennai">Chennai</option>
-              <option value="Remote">Remote</option>
-              <option value="Anywhere in India">Anywhere in India</option>
-              <option value="UAE / GCC">UAE / GCC</option>
-            </select>
-          </div>
-
-          <!-- 4. Experience Level -->
-          <div class="apps-filter-card">
-            <label class="apps-filter-label" for="apps-filter-experience">
-              <span class="field-icon">💼</span> Experience Level
-            </label>
-            <select id="apps-filter-experience" class="apps-filter-select" onchange="filterApplications()">
-              <option value="all">All Experience</option>
-              <option value="Fresher">Fresher / Graduate</option>
-              <option value="0–1">0–1 Year</option>
-              <option value="1–3">1–3 Years</option>
-              <option value="3+">3+ Years</option>
-            </select>
-          </div>
-
-          <!-- 5. Graduation Year -->
-          <div class="apps-filter-card">
-            <label class="apps-filter-label" for="apps-filter-gradyear">
-              <span class="field-icon">🎓</span> Graduation Year
-            </label>
-            <select id="apps-filter-gradyear" class="apps-filter-select" onchange="filterApplications()">
-              <option value="all">All Grad Years</option>
-              <option value="2027">2027</option>
-              <option value="2026">2026</option>
-              <option value="2025">2025</option>
-              <option value="2024">2024</option>
-              <option value="prior">2023 &amp; Prior</option>
-            </select>
-          </div>
-
-          <!-- 6. Resume Status -->
-          <div class="apps-filter-card">
-            <label class="apps-filter-label" for="apps-filter-resume">
-              <span class="field-icon">📄</span> Resume Status
-            </label>
-            <select id="apps-filter-resume" class="apps-filter-select" onchange="filterApplications()">
-              <option value="all">All Candidates</option>
-              <option value="with_resume">With Resume Only</option>
-              <option value="without_resume">Without Resume</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Quick Keyword Chips -->
-        <div class="apps-chips-row">
-          <span class="apps-chip-label">Quick Keywords:</span>
-          <button type="button" class="apps-filter-chip" data-val="Fresher"
-            onclick="toggleFilterChip(this)">Fresher</button>
-          <button type="button" class="apps-filter-chip" data-val="0–1" onclick="toggleFilterChip(this)">0–1 Yr</button>
-          <button type="button" class="apps-filter-chip" data-val="1–3" onclick="toggleFilterChip(this)">1–3
-            Yrs</button>
-          <button type="button" class="apps-filter-chip" data-val="Kochi"
-            onclick="toggleFilterChip(this)">Kochi</button>
-          <button type="button" class="apps-filter-chip" data-val="Bengaluru"
-            onclick="toggleFilterChip(this)">Bengaluru</button>
-          <button type="button" class="apps-filter-chip" data-val="Remote"
-            onclick="toggleFilterChip(this)">Remote</button>
-          <button type="button" class="apps-filter-chip" data-val="2025" onclick="toggleFilterChip(this)">2025</button>
-          <button type="button" class="apps-filter-chip" data-val="2026" onclick="toggleFilterChip(this)">2026</button>
-          <button type="button" class="apps-filter-chip" data-val="Python"
-            onclick="toggleFilterChip(this)">Python</button>
-          <button type="button" class="apps-filter-chip" data-val="React"
-            onclick="toggleFilterChip(this)">React.js</button>
-          <button type="button" class="apps-filter-chip" data-val="SQL" onclick="toggleFilterChip(this)">SQL</button>
-          <button type="button" class="apps-filter-chip" data-val="with_resume" onclick="toggleFilterChip(this)">With
-            Resume</button>
-        </div>
-
-        <!-- Filter Status & Active Summary Bar -->
-        <div class="apps-filter-status-bar" id="apps-filter-status-bar">
-          <div id="apps-filter-status-text">Showing all candidates</div>
-          <button type="button" class="btn-clear-filters" id="btn-clear-filters" onclick="clearAllFilters()"
-            style="display:none;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-            <span>Reset All Filters</span>
-          </button>
-        </div>
-      </div>
-
       <div id="apps-loading" style="display:none; text-align:center; padding:40px; color:var(--ink-mute);">Loading
         candidate applications...</div>
+
+      <div class="req-box">
+        <input type="hidden" id="matching-status" value="matched" />
+        <nav class="applicant-sections" aria-label="Applicant sections">
+          <button type="button" data-applicant-section="matched" aria-pressed="true" onclick="selectApplicantSection('matched')">Matched applicants <span id="matched-section-count">0</span></button>
+          <button type="button" data-applicant-section="all" aria-pressed="false" onclick="selectApplicantSection('all')">All applicants <span id="all-section-count">0</span></button>
+          <button type="button" data-applicant-section="not_matched" aria-pressed="false" onclick="selectApplicantSection('not_matched')">Rejected applicants <span id="rejected-section-count">0</span></button>
+        </nav>
+        <p id="matching-counts" aria-live="polite"></p><button type="button" onclick="editMatchingRules()">Edit this job’s matching rules</button>
+        <p>Matched applicants are ranked strongest first. Rejected applicants explicitly fail an essential job requirement. Applicants needing information or awaiting matching remain in All applicants. Search finds people on the current page.</p>
+      </div>
       <div id="apps-empty" class="draft-empty" style="display:none;">
         <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="var(--ink-mute)" stroke-width="1.5"
           style="margin:0 auto 12px; display:block;">
           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
           <polyline points="14 2 14 8 20 8" />
         </svg>
-        <strong>No candidate applications received yet.</strong>
-        <p style="font-size:13px; color:var(--ink-mute); margin-top:4px;">When candidates submit their profile and
-          upload their resume, they will appear here with one-click download &amp; preview buttons.</p>
+        <strong>No applicants to show.</strong>
+        <p style="font-size:13px; color:var(--ink-mute); margin-top:4px;">No applicants are available in this view. Choose All applicants to review every application for this job, including applicants needing information or awaiting matching.</p>
       </div>
 
-      <div id="apps-container"></div>
+      <div id="apps-container"></div><div class="req-box"><button id="matching-prev" type="button" onclick="loadMatchingPage(matchingOffset-25)">Previous</button> <span id="matching-page" aria-live="polite"></span> <button id="matching-next" type="button" onclick="loadMatchingPage(matchingOffset+25)">Next</button></div>
+      </div>
     </div>
 
     <!-- ========================================== -->
@@ -1994,11 +2153,6 @@
             </div>
           </div>
           <div class="field hide-on-direct">
-            <label for="f-skills">Key skills <span class="field-hint"
-                style="display:inline; text-transform:none; letter-spacing:0; font-weight:500; color:var(--ink-mute);">(comma-separated)</span></label>
-            <input id="f-skills" name="skills" type="text" placeholder="e.g. React.js, Python, PostgreSQL, AWS" />
-          </div>
-          <div class="field hide-on-direct">
             <label for="f-description">About the role / Overview</label>
             <textarea id="f-description" name="description"
               placeholder="Brief summary of the role, team context, and main objectives..."></textarea>
@@ -2024,6 +2178,34 @@
             <textarea id="f-about-company" name="aboutCompany"
               placeholder="Brief overview of the hiring company, culture, and achievements..."></textarea>
           </div>
+          <fieldset class="req-box hide-on-direct mc-box">
+            <legend>Automatic applicant filtering</legend>
+            <label class="mc-switch">
+              <input type="checkbox" id="enable-matching" />
+              <span class="mc-switch-track" aria-hidden="true"></span>
+              <span class="mc-switch-text"><strong>Enable eligibility checks and ranking</strong>
+                <small>Screen out applicants who miss essential requirements and rank the rest by job fit.</small></span>
+            </label>
+            <div id="matching-config"></div>
+          </fieldset>
+          <!-- APPLICATION FORM REQUIREMENTS (jobs and internships) -->
+          <fieldset class="req-box hide-on-direct" id="internship-requirements">
+            <legend>Application form: what should candidates provide?</legend>
+            <p class="req-box-hint">Name, mobile number, email and course are always collected. Tick only what this opening needs; candidates who have not given it yet are asked when they apply, and nothing else.</p>
+            <div class="req-checks">
+              <label class="req-check"><input type="checkbox" name="reqResume" /> Resume is required</label>
+              <label class="req-check"><input type="checkbox" name="reqCollege" /> College name (relevant to eligibility)</label>
+              <label class="req-check"><input type="checkbox" name="reqAvailability" /> Availability / notice period: when can they join?</label>
+              <label class="req-check"><input type="checkbox" name="reqPortfolio" /> Portfolio / project link (e.g. design, software)</label>
+              <label class="req-check"><input type="checkbox" name="reqSalary" /> Expected salary / stipend</label>
+              <label class="req-check"><input type="checkbox" name="reqLocation" /> Current location and willingness to relocate</label>
+            </div>
+            <div class="field">
+              <label for="f-req-questions">Additional questions <span class="field-hint" style="display:inline; text-transform:none; letter-spacing:0; font-weight:500; color:var(--ink-mute);">(one per line, up to 5; only if needed to shortlist)</span></label>
+              <textarea id="f-req-questions" name="reqQuestions" placeholder="e.g. Why are you interested in this internship?"></textarea>
+            </div>
+          </fieldset>
+
           <div class="field" style="display: flex; align-items: center; gap: 8px; margin-top: 8px;">
             <input id="f-direct" name="isDirectLink" type="checkbox" style="width: auto; cursor: pointer;" />
             <label for="f-direct"
@@ -2209,44 +2391,138 @@
     (function () {
       const gate = document.getElementById('gate-screen'), main = document.getElementById('admin-main');
       const form = document.getElementById('gate-form'), input = document.getElementById('gate-key');
+      const emailInput = document.getElementById('gate-email');
       const error = document.getElementById('gate-error');
-      function lock() {
-        gate.style.display = ''; main.style.display = 'none'; input.value = '';
-        document.getElementById('btn-lock-console').style.display = 'none';
-        allCandidateApplications = [];
-        document.getElementById('apps-container').replaceChildren();
+      const success = document.getElementById('gate-success');
+      let verificationVersion = 0;
+
+      function clearNotices() {
+        if (error) {
+          error.textContent = '';
+          if (error.classList && typeof error.classList.remove === 'function') {
+            error.classList.remove('is-visible');
+          }
+        }
+        if (success) {
+          success.textContent = '';
+          if (success.classList && typeof success.classList.remove === 'function') {
+            success.classList.remove('is-visible');
+          }
+        }
       }
+
+      function lock() {
+        verificationVersion++;
+        gate.style.display = ''; main.style.display = 'none';
+        if (input) input.value = '';
+        const lockBtn = document.getElementById('btn-lock-console');
+        if (lockBtn) lockBtn.style.display = 'none';
+        allCandidateApplications = [];
+        const apps = document.getElementById('apps-container');
+        if (apps) apps.replaceChildren();
+      }
+
       async function verify() {
         lock();
+        const version = verificationVersion;
         if (!isSupabaseConfigured()) throw new Error('Database connection is unavailable.');
         const { data: sessionData, error: sessionError } = await supabaseClient.auth.getSession();
         if (sessionError) throw sessionError;
         if (!sessionData.session) return;
         const { data: admin, error: roleError } = await supabaseClient.rpc('is_admin');
+        if (version !== verificationVersion) return;
         if (roleError) throw roleError;
-        if (!admin) throw new Error('This account does not have staff access.');
+        if (admin !== true) throw new Error('This account does not have staff access. Contact the owner for an invitation.');
         gate.style.display = 'none'; main.style.display = 'block';
-        document.getElementById('btn-lock-console').style.display = 'inline-flex';
-        window.loadApplicationsList();
+        const lockBtn = document.getElementById('btn-lock-console');
+        if (lockBtn) lockBtn.style.display = 'inline-flex';
+        if (window.loadApplicationsList) window.loadApplicationsList();
         if (window.renderLeads) window.renderLeads();
         if (window.reloadAdminJobs) window.reloadAdminJobs();
         if (window.reloadAdminContent) window.reloadAdminContent();
         if (window.renderReels) window.renderReels();
       }
-      function showError(err) { error.textContent = err.message || 'Sign-in failed. Please try again.'; error.classList.add('is-visible'); }
-      form.addEventListener('submit', async e => {
-        e.preventDefault(); error.classList.remove('is-visible');
-        const button = form.querySelector('button'); button.disabled = true;
+
+      function showError(err) {
+        clearNotices();
+        if (error) {
+          error.textContent = (err && err.message) || err || 'Sign-in failed. Please try again.';
+          error.classList.add('is-visible');
+        }
+      }
+
+      function showSuccess(msg) {
+        clearNotices();
+        if (success) {
+          success.textContent = msg;
+          success.classList.add('is-visible');
+        }
+      }
+
+      // LOGIN (Existing Staff)
+      if (form) {
+        form.addEventListener('submit', async e => {
+          e.preventDefault();
+          clearNotices();
+          const email = (emailInput ? emailInput.value : '').trim().toLowerCase();
+          const password = input ? input.value : '';
+          const button = form.querySelector('button');
+          if (button) button.disabled = true;
+
+          try {
+            const { error: signInError } = await supabaseClient.auth.signInWithPassword({
+              email,
+              password
+            });
+            if (signInError) throw signInError;
+            await verify();
+          } catch (err) {
+            lock();
+            showError(err);
+          } finally {
+            if (button) button.disabled = false;
+          }
+        });
+      }
+
+      const forgot = document.getElementById('gate-forgot-password');
+      let recoveryAfter = 0;
+      forgot.addEventListener('click', async () => {
+        clearNotices();
+        if (!emailInput.reportValidity() || !emailInput.value.trim()) return;
+        if (Date.now() < recoveryAfter) { showError('Please wait a minute before requesting another link.'); return; }
+        forgot.disabled = true;
+        recoveryAfter = Date.now() + 60000;
         try {
-          const { error: signInError } = await supabaseClient.auth.signInWithPassword({email: document.getElementById('gate-email').value.trim(), password: input.value});
-          if (signInError) throw signInError;
-          await verify();
-        } catch (err) { lock(); showError(err); } finally { button.disabled = false; }
+          const { error: resetError } = await supabaseClient.auth.resetPasswordForEmail(emailInput.value.trim(), {
+            redirectTo: new URL('admin-password.html', window.location.href).href
+          });
+          if (resetError) throw resetError;
+          showSuccess('If this email has an account, a password reset link will arrive shortly.');
+        } catch (err) {
+          showError('Unable to send a reset link right now. Please wait and try again.');
+        } finally { forgot.disabled = false; }
       });
-      window.adminSignOut = async function () { lock(); const { error: err } = await supabaseClient.auth.signOut(); if (err) showError(err); };
+
+      window.adminSignOut = async function () {
+        lock();
+        if (supabaseClient) {
+          const { error: err } = await supabaseClient.auth.signOut();
+          if (err) showError(err);
+        }
+      };
+
       document.addEventListener('DOMContentLoaded', () => {
         verify().catch(showError);
-        if (supabaseClient) supabaseClient.auth.onAuthStateChange(event => { if (event === 'SIGNED_OUT') lock(); });
+        if (supabaseClient) {
+          supabaseClient.auth.onAuthStateChange(event => {
+            if (event === 'SIGNED_OUT') lock();
+            // Keep Supabase calls outside the auth event callback.
+            if (event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED') {
+              setTimeout(() => verify().catch(showError), 0);
+            }
+          });
+        }
       });
     })();
     /* =============================================
@@ -2260,6 +2536,129 @@
     window.escapeHtml = escapeHtml;
 
     let allCandidateApplications = [];
+    let hrJobs = [];
+    let matchingOffset = 0, matchingRequest = 0, overviewTotal = 0, overviewOther = 0;
+    let selectedJobId = null; // null = jobs list; a job id or OTHER_APPS = that job's applicants
+    const OTHER_APPS = '__other__';
+    let jobsOverviewType = 'job'; // 'job' | 'internship' | 'other'
+
+    window.setJobsOverviewType = function (type) {
+      jobsOverviewType = type;
+      renderJobsOverview();
+    };
+
+    function isInternshipListing(j) {
+      const type = String(j.jobType || '').toLowerCase();
+      return type.includes('intern') || String(j.title || '').toLowerCase().includes('intern');
+    }
+
+    function appsForJob(jobId) {
+      if (jobId === OTHER_APPS) {
+        const ids = new Set(hrJobs.map(j => String(j.id)));
+        return allCandidateApplications.filter(a => !a.job_id || !ids.has(String(a.job_id)));
+      }
+      return allCandidateApplications.filter(a => String(a.job_id) === String(jobId));
+    }
+
+    function currentJobApps() {
+      return selectedJobId ? appsForJob(selectedJobId) : allCandidateApplications;
+    }
+
+    window.renderJobsOverview = function () {
+      const grid = document.getElementById('apps-jobs-grid');
+      const summary = document.getElementById('apps-jobs-summary');
+      if (!grid) return;
+      const q = (document.getElementById('apps-jobs-search')?.value || '').trim().toLowerCase();
+      const latest = apps => apps.reduce((max, a) => (a.createdAt && a.createdAt > max ? a.createdAt : max), '');
+      const fmt = iso => new Date(iso).toLocaleDateString('en-IN', { dateStyle: 'medium' });
+
+      const card = job => {
+          const apps = { length: job.applicantCount || 0 };
+          const intern = isInternshipListing(job);
+          const last = '';
+          const meta = [job.company, job.location].filter(Boolean).join(' · ');
+          return `
+            <button type="button" class="job-pick-card" onclick="openJobApplicants('${escapeHtml(String(job.id))}')">
+              <span class="job-pick-type ${intern ? 'is-intern' : ''}">${intern ? '🎓 Internship' : '💼 Job'}${job.isDirectLink ? ' · Direct link' : ''}</span>
+              <span class="job-pick-title">${escapeHtml(job.title || 'Untitled listing')}</span>
+              ${meta ? `<span class="job-pick-meta">${escapeHtml(meta)}</span>` : ''}
+              <span class="job-pick-foot">
+                <span class="job-pick-count">${apps.length}<small>applicant${apps.length === 1 ? '' : 's'}${last ? ' · latest ' + escapeHtml(fmt(last)) : ''}</small></span>
+                <span class="job-pick-cta">${job.matchedCount || 0} matched · ${job.needsInformationCount || 0} need information →</span>
+              </span>
+            </button>`;
+      };
+      const shown = hrJobs.filter(j => !q || [j.title, j.company, j.location].join(' ').toLowerCase().includes(q));
+      const jobs = shown.filter(j => !isInternshipListing(j));
+      const internships = shown.filter(isInternshipListing);
+      const other = { length: overviewOther };
+      if (jobsOverviewType === 'other' && !other.length) jobsOverviewType = 'job';
+
+      const pill = (type, label, count) => `
+        <button type="button" class="job-type-pill ${jobsOverviewType === type ? 'active' : ''}" role="tab"
+          aria-selected="${jobsOverviewType === type}" onclick="setJobsOverviewType('${type}')">
+          ${label} <span>${count}</span>
+        </button>`;
+      const toggle = `<div class="job-type-toggle" role="tablist">
+          ${pill('job', '💼 Jobs', jobs.length)}
+          ${pill('internship', '🎓 Internships', internships.length)}
+          ${other.length ? pill('other', '📥 Other', other.length) : ''}
+        </div>`;
+
+      let html = '';
+      if (jobsOverviewType === 'other') {
+        html = `
+          <button type="button" class="job-pick-card is-other" onclick="openJobApplicants('${OTHER_APPS}')">
+            <span class="job-pick-type is-other">📥 Not linked to a listing</span>
+            <span class="job-pick-title">Other applications</span>
+            <span class="job-pick-meta">Quick applies and applications to removed listings</span>
+            <span class="job-pick-foot">
+              <span class="job-pick-count">${other.length}<small>applicant${other.length === 1 ? '' : 's'}</small></span>
+              <span class="job-pick-cta">View applicants →</span>
+            </span>
+          </button>`;
+      } else {
+        const list = jobsOverviewType === 'internship' ? internships : jobs;
+        html = list.map(card).join('');
+      }
+
+      const noun = jobsOverviewType === 'internship' ? 'internships' : 'jobs';
+      const empty = q ? `No ${noun} match your search.` : `No ${noun} listed yet. Post one in the <strong>Post &amp; Manage Jobs</strong> tab.`;
+      grid.innerHTML = toggle + (html ? `<div class="job-pick-grid">${html}</div>` : `<div class="job-pick-empty">${empty}</div>`);
+      if (summary) {
+        summary.textContent = `${hrJobs.length} listing${hrJobs.length === 1 ? '' : 's'} · ${overviewTotal} applicant${overviewTotal === 1 ? '' : 's'} in total. Click a job to see who applied.`;
+      }
+    };
+
+    window.openJobApplicants = async function (jobId) {
+      selectedJobId = jobId;
+      const job = hrJobs.find(j => String(j.id) === String(jobId));
+      const count = job ? job.applicantCount : overviewOther;
+      const title = document.getElementById('apps-job-title');
+      const meta = document.getElementById('apps-job-meta');
+      if (title) title.textContent = job ? job.title : 'Other applications';
+      if (meta) {
+        const parts = job ? [job.company, job.location] : ['Not linked to a current listing'];
+        parts.push(`${count} applicant${count === 1 ? '' : 's'}`);
+        meta.textContent = parts.filter(Boolean).join(' · ');
+      }
+      document.getElementById('apps-jobs-view').style.display = 'none';
+      document.getElementById('apps-job-detail').style.display = 'block';
+      document.getElementById('matching-status').value = job ? 'matched' : 'all';
+      ['matched-section-count', 'all-section-count', 'rejected-section-count'].forEach(id => {
+        document.getElementById(id).textContent = '…';
+      });
+      clearAllFilters();
+      await loadMatchingPage(0);
+    };
+
+    window.showJobsList = function () {
+      ++matchingRequest;
+      selectedJobId = null;
+      document.getElementById('apps-job-detail').style.display = 'none';
+      document.getElementById('apps-jobs-view').style.display = 'block';
+      renderJobsOverview();
+    };
 
     // Tab switcher
     window.switchAdminTab = function (tabId) {
@@ -2295,48 +2694,65 @@
 
       if (!container) return;
 
+      const jobsGrid = document.getElementById('apps-jobs-grid');
       if (loadingBox) loadingBox.style.display = 'block';
       if (emptyBox) emptyBox.style.display = 'none';
+      if (jobsGrid && !selectedJobId) jobsGrid.innerHTML = '<div class="job-pick-empty">Loading jobs and applicants...</div>';
       container.innerHTML = '';
 
       try {
-        const { data, error } = await supabaseClient.from('job_applications').select('*').order('created_at', { ascending: false });
+        const { data: overview, error } = await supabaseClient.rpc('admin_matching_overview');
         if (error) throw error;
-        const apps = (data || []).map(row => ({ ...row, cloudRecord: true, phone: row.whatsapp, gradYear: row.grad_year,
-          isStudent: row.is_student, courseName: row.course_name, preferredLocation: row.preferred_location,
-          workMode: row.work_mode, jobRole: row.job_role, resumeUrl: row.resume_url,
-          resumeFileName: row.resume_url ? row.resume_url.split('/').pop() : '', createdAt: row.created_at }));
-
-        // Sort newest first
-        apps.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
-
-        allCandidateApplications = apps;
-
-        if (counterBadge) counterBadge.textContent = apps.length;
+        overviewTotal = overview.total; overviewOther = overview.other;
+        hrJobs = (overview.jobs || []).map(j => ({ ...j,
+          title: j.title, jobType: j.job_type, isDirectLink: j.is_direct_link,
+          applicantCount: j.applicant_count, matchedCount: j.matched_count, needsInformationCount: j.needs_information_count,
+          applicationRequirements: j.application_requirements || {}
+        }));
+        allCandidateApplications = [];
+        if (counterBadge) counterBadge.textContent = overviewTotal;
 
         if (loadingBox) loadingBox.style.display = 'none';
 
-        populateJobFilterOptions();
-        renderSkillsOptions();
 
-        if (apps.length === 0) {
-          if (emptyBox) emptyBox.style.display = 'block';
-          const statusText = document.getElementById('apps-filter-status-text');
-          if (statusText) statusText.textContent = 'Showing 0 candidates';
-          return;
+        // Stay on the open job after a refresh, unless it was removed
+        if (selectedJobId && (selectedJobId === OTHER_APPS || hrJobs.some(j => String(j.id) === String(selectedJobId)))) {
+          openJobApplicants(selectedJobId);
+        } else {
+          showJobsList();
         }
-
-        filterApplications();
       } catch (err) {
         console.error('Error loading applications:', err);
         if (loadingBox) loadingBox.style.display = 'none';
-        container.innerHTML = `<div style="color:red; padding:20px;">Could not load applications: ${escapeHtml(err.message)}</div>`;
+        const msg = `<div style="color:red; padding:20px;">Could not load applications: ${escapeHtml(err.message)}</div>`;
+        container.innerHTML = msg;
+        if (jobsGrid) jobsGrid.innerHTML = msg;
       }
     };
 
-    function renderApplications(apps) {
-      const container = document.getElementById('apps-container');
-      const emptyBox = document.getElementById('apps-empty');
+    // Answers to the listing's own application questions.
+    function screeningHtml(app) {
+      const attr = v => escapeHtml(v).replace(/"/g, '&quot;');
+      const rows = [];
+      if (app.college) rows.push('<div><strong>College:</strong> ' + escapeHtml(app.college) + '</div>');
+      if (app.availability) rows.push('<div><strong>Can join:</strong> ' + escapeHtml(app.availability) + '</div>');
+      if (app.portfolio_url && /^https?:\/\//i.test(app.portfolio_url)) {
+        rows.push('<div><strong>Portfolio / project:</strong> <a href="' + attr(app.portfolio_url) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(app.portfolio_url) + '</a></div>');
+      }
+      if (app.expected_salary) rows.push('<div><strong>Expected salary:</strong> ' + escapeHtml(app.expected_salary) + '</div>');
+      if (app.current_location) {
+        const relocate = app.willing_to_relocate === true ? ' (willing to relocate)' : app.willing_to_relocate === false ? ' (not willing to relocate)' : '';
+        rows.push('<div><strong>Current location:</strong> ' + escapeHtml(app.current_location + relocate) + '</div>');
+      }
+      (Array.isArray(app.screening_answers) ? app.screening_answers : []).forEach(qa => {
+        if (qa && qa.question) rows.push('<div><strong>' + escapeHtml(qa.question) + '</strong><br>' + escapeHtml(qa.answer || '') + '</div>');
+      });
+      return rows.length ? '<div class="app-screening">' + rows.join('') + '</div>' : '';
+    }
+
+    function renderApplications(apps, detailContainer = null) {
+      const container = detailContainer || document.getElementById('apps-container');
+      const emptyBox = detailContainer ? null : document.getElementById('apps-empty');
       if (!container) return;
 
       if (apps.length === 0) {
@@ -2360,24 +2776,28 @@
         const cleanPhone = (app.phone || '').replace(/[^0-9]/g, '');
         const waLink = cleanPhone ? `https://wa.me/${cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone}?text=Hello%20${encodeURIComponent(app.name || 'Candidate')},%20we%20reviewed%20your%20application%20at%20Kompetenzen.` : null;
 
-        const skills = (app.skills || '').split(',').map(s => s.trim()).filter(Boolean);
+        const career = app.matching_evidence?.career || {};
+        const skills = (Array.isArray(career.skills) ? career.skills : []).filter(s => s !== "I don't know yet");
 
         // Match banner if matching against a job
         const matchInfo = app._matchInfo;
-        const matchBannerHtml = matchInfo ? `
-          <div class="app-match-banner ${matchInfo.score >= 70 ? 'high' : (matchInfo.score >= 45 ? 'medium' : 'low')}">
-            <div style="display:flex; align-items:center; gap:8px;">
-              <span style="font-size:15px;">🎯</span>
-              <div>
-                <strong>${matchInfo.score}% Fit for ${escapeHtml(matchInfo.jobTitle)}</strong>
-                <span style="font-weight:400; opacity:0.9; margin-left:6px;">
-                  ${matchInfo.matchedDetails.length > 0 ? `· Matched: ${escapeHtml(matchInfo.matchedDetails.join(' · '))}` : '· Profile Match'}
-                </span>
-              </div>
+        const rankLabel = document.getElementById('matching-status').value === 'matched'
+          ? '<p><strong>Rank ' + (matchingOffset + allCandidateApplications.indexOf(app) + 1) + '</strong></p>' : '';
+        const matchBannerHtml = rankLabel + ApplicantMatching.banner(app.match_result, escapeHtml);
+
+        if (!detailContainer) {
+          const result = app.match_result || { status: 'pending' };
+          const scored = result.status === 'matched' && typeof result.score === 'number' && Number.isFinite(result.score);
+          return `<article class="app-card app-compact">
+            <div class="app-candidate-title"><div class="app-candidate-avatar">${escapeHtml((app.name || 'C')[0].toUpperCase())}</div>
+              <div><h3 class="app-candidate-name">${escapeHtml(app.name || 'Candidate')}</h3>
+                <div class="app-date">${escapeHtml(app.degree || 'Qualification not provided')} · ${escapeHtml(formattedDate)}</div>
+                <div class="app-date">${escapeHtml(ApplicantMatching.labels[result.status] || result.status)}</div></div>
             </div>
-            <span style="font-size:11px; padding:2px 8px; border-radius:10px; background:rgba(255,255,255,0.8); font-weight:700;">Score ${matchInfo.score}/100</span>
-          </div>
-        ` : '';
+            <div class="app-compact-actions"><div class="app-match-percent"><strong>${scored ? result.score + '%' : 'Not scored'}</strong><span>Job match</span></div>
+              <button type="button" class="btn-secondary" data-view-app="${escapeHtml(String(app.id))}">View details</button>
+            </div></article>`;
+        }
 
         // Highlight matching skills
         const skillPillsHtml = skills.map(s => {
@@ -2388,7 +2808,8 @@
 
         return `
           <div class="app-card" id="app-card-${app.id}">
-            ${matchBannerHtml}
+            <h3>Filtering results</h3>
+            ${matchBannerHtml.replace('<details>', '<details open>')}
             <div class="app-card-head">
               <div class="app-candidate-title">
                 <div class="app-candidate-avatar">${escapeHtml((app.name || 'C')[0].toUpperCase())}</div>
@@ -2428,17 +2849,29 @@
               </div>
               <div class="app-detail-item">
                 <strong>Experience</strong>
-                <span>${escapeHtml(app.experience || 'Fresher')}</span>
+                <span>${escapeHtml(app.experience || 'Not provided')}</span>
               </div>
               <div class="app-detail-item">
                 <strong>Preferred Location</strong>
-                <span>${escapeHtml(app.preferredLocation || 'Kochi')}</span>
+                <span>${escapeHtml(app.preferredLocation || 'Not provided')}</span>
               </div>
+            </div>
+            <div class="app-details-grid">
+              <div class="app-detail-item"><strong>Career interest</strong><span>${escapeHtml(career.area || 'Not provided')}</span></div>
+              <div class="app-detail-item"><strong>Career field</strong><span>${escapeHtml(career.field || 'Not provided')}</span></div>
+              <div class="app-detail-item"><strong>Soft skills</strong><span>${escapeHtml(Array.isArray(career.softSkills) ? career.softSkills.join(', ') : 'Not provided')}</span></div>
+            </div>
+            ${screeningHtml(app)}
+            <div class="app-details-grid">
+              <div class="app-detail-item"><strong>Matching qualification</strong><span>${escapeHtml(app.matching_evidence?.qualification || 'Not provided')}</span></div>
+              <div class="app-detail-item"><strong>Specialisation</strong><span>${escapeHtml(app.matching_evidence?.specialisation || 'Not provided')}</span></div>
+              <div class="app-detail-item"><strong>Relevant experience reported</strong><span>${app.matching_evidence?.relevantMonths != null ? escapeHtml(String(app.matching_evidence.relevantMonths)) + ' months' : 'Not provided'}</span></div>
+              <div class="app-detail-item"><strong>Experience criterion</strong><span>${escapeHtml(app.match_result?.rules?.experienceScope || 'No experience preference configured')}</span></div>
             </div>
 
             ${skills.length > 0 ? `
               <div>
-                <strong style="font-size:11px; text-transform:uppercase; letter-spacing:0.5px; color:var(--ink-mute); display:block; margin-bottom:6px;">Key Skills</strong>
+                <strong style="font-size:11px; text-transform:uppercase; letter-spacing:0.5px; color:var(--ink-mute); display:block; margin-bottom:6px;">Technical skills</strong>
                 <div class="app-skills-row">
                   ${skillPillsHtml}
                 </div>
@@ -2473,7 +2906,47 @@
           </div>
         `;
       }).join('');
+      container.querySelectorAll('[data-view-app]').forEach(button => {
+        button.addEventListener('click', () => viewApplicantDetails(button.dataset.viewApp));
+      });
     }
+
+    window.viewApplicantDetails = function(appId) {
+      const app = allCandidateApplications.find(a => String(a.id) === String(appId));
+      if (!app) return;
+      document.getElementById('applicant-details-dialog')?.close();
+      const dialog = document.createElement('dialog');
+      dialog.id = 'applicant-details-dialog'; dialog.className = 'applicant-details-dialog';
+      dialog.setAttribute('aria-labelledby', 'applicant-details-title');
+      const header = document.createElement('div'); header.className = 'applicant-dialog-header';
+      const title = document.createElement('h2'); title.id = 'applicant-details-title'; title.textContent = 'Applicant details — ' + (app.name || 'Candidate');
+      const close = document.createElement('button'); close.type = 'button'; close.className = 'btn-secondary'; close.textContent = 'Close'; close.autofocus = true;
+      close.onclick = () => dialog.close(); header.append(title, close);
+      const body = document.createElement('div');
+      dialog.append(header, body); document.body.append(dialog);
+      renderApplications([app], body);
+      const statusLabel = document.createElement('label'); statusLabel.textContent = 'HR application status';
+      const statusSelect = document.createElement('select'); statusSelect.setAttribute('aria-label', 'HR application status');
+      for (const [value, label] of Object.entries({received:'Received',under_review:'Under review',shortlisted:'Shortlisted',interview:'Interview',selected:'Selected',rejected:'Rejected by HR'})) {
+        const option = document.createElement('option'); option.value = value; option.textContent = label; statusSelect.append(option);
+      }
+      statusSelect.value = app.hr_status || 'received';
+      const saveStatus = document.createElement('button'); saveStatus.type = 'button'; saveStatus.className = 'btn-secondary'; saveStatus.textContent = 'Save HR status';
+      const statusFeedback = document.createElement('p'); statusFeedback.setAttribute('role','status');
+      saveStatus.onclick = async () => {
+        saveStatus.disabled = true;
+        try {
+          const { data, error } = await supabaseClient.from('job_applications').update({hr_status:statusSelect.value}).eq('id',app.id).select('id,hr_status');
+          if (error || !data || data.length !== 1) throw new Error('Status could not be saved. Check access and the notification migration.');
+          app.hr_status = data[0].hr_status;
+          statusFeedback.textContent = 'Status saved. Notifications will be queued for enabled channels.';
+        } catch (error) { statusFeedback.textContent = error.message; }
+        finally { saveStatus.disabled = false; }
+      };
+      statusLabel.append(statusSelect); body.append(statusLabel,saveStatus,statusFeedback);
+      dialog.addEventListener('close', () => dialog.remove());
+      dialog.showModal();
+    };
 
     // Download/Preview resume trigger
     window.handleDownloadAppResume = async function (appId, previewOnly) {
@@ -2507,14 +2980,16 @@
       } catch (err) { alert('Could not delete application: ' + err.message); return; }
 
       // 3. Update UI
+      document.getElementById('applicant-details-dialog')?.close();
       allCandidateApplications = allCandidateApplications.filter(a => String(a.id) !== String(appId));
       const counterBadge = document.getElementById('app-counter-badge');
       if (counterBadge) counterBadge.textContent = allCandidateApplications.length;
-      filterApplications();
+      await loadApplicationsList();
     };
 
     // ===== JOB MATCHING & ADVANCED KEYWORD FILTRATION =====
     function getAllJobsForFilter() {
+      if (hrJobs.length) return hrJobs;
       try {
         const stored = localStorage.getItem('kompetenzen_hr_draft_jobs');
         if (stored) {
@@ -2527,461 +3002,103 @@
       return [];
     }
 
-    function populateJobFilterOptions() {
-      const select = document.getElementById('apps-filter-job');
-      if (!select) return;
-      const currentVal = select.value;
-      const jobs = getAllJobsForFilter();
+    window.selectApplicantSection = async function(status) {
+      if (!['matched', 'all', 'not_matched'].includes(status)) return;
+      document.getElementById('matching-status').value = status;
+      const search = document.getElementById('apps-search-input');
+      if (search) search.value = '';
+      await loadMatchingPage(0);
+    };
 
-      let html = '<option value="all">🎯 Match Against: All Openings (Jobs & Internships)</option>';
-      jobs.forEach(j => {
-        if (!j || !j.title) return;
-        const typeStr = String(j.jobType || j.job_type || '').toLowerCase();
-        const titleStr = String(j.title || '').toLowerCase();
-        const isIntern = typeStr.includes('intern') || titleStr.includes('intern') || j.opportunityType === 'internship';
-        const prefix = isIntern ? '🎓 [Internship] ' : '💼 [Job] ';
-        const loc = j.location ? ` (${j.location})` : '';
-        const comp = j.company ? ` · ${j.company}` : '';
-        html += `<option value="${j.id}">${prefix}${escapeHtml(j.title)}${escapeHtml(comp)}${escapeHtml(loc)}</option>`;
+    // Matching is calculated and sorted by the database, never by browser heuristics.
+    window.loadMatchingPage = async function(offset = 0) {
+      if (!selectedJobId) return;
+      const request = ++matchingRequest;
+      const status = document.getElementById('matching-status').value;
+      document.querySelectorAll('[data-applicant-section]').forEach(button => {
+        button.setAttribute('aria-pressed', String(button.dataset.applicantSection === status));
       });
-
-      select.innerHTML = html;
-      if (currentVal && Array.from(select.options).some(o => o.value === currentVal)) {
-        select.value = currentVal;
-      }
-    }
-
-    function calculateJobMatch(app, job) {
-      if (!job || !job.title) return null;
-
-      let score = 0;
-      const matchedDetails = [];
-
-      // A. Skills Match (up to 50 points)
-      const jobSkillText = `${job.skills || ''} ${job.title || ''} ${job.description || ''}`.toLowerCase();
-      const candSkills = (app.skills || '').split(',').map(s => s.trim()).filter(Boolean);
-      const matchedSkillList = [];
-
-      if (candSkills.length > 0) {
-        candSkills.forEach(skill => {
-          const sLower = skill.toLowerCase();
-          if (jobSkillText.includes(sLower) || (sLower.length > 3 && jobSkillText.includes(sLower.slice(0, 4)))) {
-            matchedSkillList.push(skill);
-          }
-        });
-        const hitCount = matchedSkillList.length;
-        const skillScore = Math.min(50, Math.round((hitCount / Math.max(1, Math.min(candSkills.length, 4))) * 50));
-        score += skillScore;
-        if (hitCount > 0) {
-          matchedDetails.push(`Skills: ${matchedSkillList.slice(0, 4).join(', ')}${hitCount > 4 ? ` +${hitCount - 4}` : ''}`);
-        }
-      }
-
-      // B. Location Match (up to 25 points)
-      const jobLoc = (job.location || '').toLowerCase();
-      const candLoc = (app.preferredLocation || '').toLowerCase();
-      if (jobLoc && candLoc) {
-        const candLocs = candLoc.split(',').map(l => l.trim()).filter(Boolean);
-        const locHit = candLocs.find(l => jobLoc.includes(l.toLowerCase()) || l.toLowerCase().includes('remote') || l.toLowerCase().includes('anywhere') || jobLoc.includes('remote'));
-        if (locHit) {
-          score += 25;
-          matchedDetails.push(`Location: ${locHit}`);
-        } else {
-          score += 10;
-        }
-      } else {
-        score += 15;
-      }
-
-      // C. Experience Match (up to 25 points)
-      const jobExp = (job.experience || '').toLowerCase();
-      const candExp = (app.experience || '').toLowerCase();
-      if (jobExp && candExp) {
-        if (
-          (jobExp.includes('fresher') && candExp.includes('fresher')) ||
-          (jobExp.includes('0') && (candExp.includes('0') || candExp.includes('fresher'))) ||
-          (jobExp.includes('1') && (candExp.includes('1') || candExp.includes('0'))) ||
-          (jobExp.includes('3') && (candExp.includes('3') || candExp.includes('1')))
-        ) {
-          score += 25;
-          matchedDetails.push(`Experience: ${app.experience}`);
-        } else {
-          score += 10;
-        }
-      } else {
-        score += 15;
-      }
-
-      const finalScore = Math.min(100, Math.max(15, score));
-      return {
-        score: finalScore,
-        matchedDetails: matchedDetails,
-        matchedSkills: matchedSkillList,
-        jobTitle: job.title,
-        jobCompany: job.company
+      document.getElementById('matching-page').textContent = 'Loading…';
+      allCandidateApplications = []; renderApplications([]);
+      const {data, error} = await supabaseClient.rpc('admin_matched_applicants', {
+        p_job_id: selectedJobId === OTHER_APPS ? null : selectedJobId, p_status: status, p_offset: Math.max(0,offset), p_limit:25
+      });
+      if(request !== matchingRequest) return;
+      if(error) { document.getElementById('matching-page').textContent = 'Could not load results: ' + error.message; return; }
+      matchingOffset = Math.max(0,offset);
+      allCandidateApplications = data.rows.map(row => ({ ...row, phone:row.whatsapp, gradYear:row.grad_year,
+        isStudent:row.is_student, courseName:row.course_name, preferredLocation:row.preferred_location,
+        workMode:row.work_mode, jobRole:row.job_role, resumeUrl:row.resume_url,
+        resumeFileName:row.resume_url ? row.resume_url.split('/').pop() : '', createdAt:row.created_at }));
+      const counts = data.counts || {};
+      document.getElementById('matched-section-count').textContent = counts.matched || 0;
+      document.getElementById('all-section-count').textContent = Object.values(counts).reduce((sum, n) => sum + Number(n), 0);
+      document.getElementById('rejected-section-count').textContent = counts.not_matched || 0;
+      document.getElementById('matching-counts').textContent = counts.needs_information ? counts.needs_information + ' applicant(s) need information and can be found in All applicants.' : '';
+      document.getElementById('matching-page').textContent = data.total ? (matchingOffset+1) + '–' + (matchingOffset+data.rows.length) + ' of ' + data.total : 'No applicants in this view';
+      document.getElementById('matching-prev').disabled = matchingOffset === 0;
+      document.getElementById('matching-next').disabled = matchingOffset+25 >= data.total;
+      filterApplications();
+    };
+    window.editMatchingRules = function() {
+      const job = hrJobs.find(j => String(j.id) === String(selectedJobId));
+      if(!job) return;
+      const dialog = document.createElement('dialog');
+      dialog.className = 'mc-dialog';
+      const form = document.createElement('form');
+      const title = document.createElement('h2'); title.textContent = 'Matching rules — ' + job.title;
+      const fields = document.createElement('div'); ApplicantMatching.mount(fields, job.applicationRequirements.matching);
+      const save = document.createElement('button'); save.type = 'submit'; save.className = 'btn-primary'; save.textContent = 'Save and recalculate applicants';
+      const cancel = document.createElement('button'); cancel.type = 'button'; cancel.className = 'btn-secondary'; cancel.textContent = 'Cancel'; cancel.onclick = () => dialog.close();
+      const errorBox = document.createElement('p'); errorBox.className = 'mc-dialog-error'; errorBox.setAttribute('role','alert');
+      const actions = document.createElement('div'); actions.className = 'mc-dialog-actions'; actions.append(cancel,save);
+      form.append(title,fields,errorBox,actions); dialog.append(form); document.body.append(dialog);
+      dialog.addEventListener('close',()=>dialog.remove()); dialog.showModal();
+      form.onsubmit = async event => {
+        event.preventDefault(); save.disabled = true;
+        try {
+          const matching = ApplicantMatching.read(fields);
+          const requirements = {...job.applicationRequirements, matching};
+          const {data,error} = await supabaseClient.from('hr_jobs').update({application_requirements:requirements}).eq('id',job.id).select('id');
+          if(error) throw error;
+          if(!data?.length) throw Error('Rules were not saved. Check staff access.');
+          dialog.close(); await loadApplicationsList();
+        } catch(error) { errorBox.textContent = error.message; }
+        finally { save.disabled = false; }
       };
-    }
-
-    // ==========================================
-    // MULTI-SELECT SKILLS FILTER STATE & LOGIC
-    // ==========================================
-    const DEFAULT_SKILL_OPTIONS = [
-      'Python', 'JavaScript', 'React', 'Node', 'SQL',
-      'Django', 'FastAPI', 'Java', 'HTML / CSS', 'Git & GitHub',
-      'AWS', 'Docker', 'Figma / UI Design', 'Excel',
-      'Digital Marketing', 'Tally', 'C++', 'C#',
-      'Machine Learning', 'Communication', 'HR / Management'
-    ];
-
-    let selectedFilterSkills = [];
-    let skillMatchMode = 'any'; // 'any' (OR) or 'all' (AND)
-
-    window.toggleSkillsDropdown = function (e) {
-      if (e) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-      const container = document.getElementById('apps-skills-container');
-      const dropdown = document.getElementById('skills-multi-dropdown');
-      if (!container || !dropdown) return;
-
-      const isOpen = container.classList.contains('open');
-      if (isOpen) {
-        container.classList.remove('open');
-        dropdown.style.display = 'none';
-      } else {
-        container.classList.add('open');
-        dropdown.style.display = 'block';
-        const searchInput = document.getElementById('skills-search-input');
-        if (searchInput) {
-          searchInput.value = '';
-          filterSkillsList('');
-          setTimeout(() => searchInput.focus(), 60);
-        }
-      }
     };
+    document.addEventListener('DOMContentLoaded', () => ApplicantMatching.mount(document.getElementById('matching-config')));
 
-    window.setSkillMatchMode = function (mode, e) {
-      if (e) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-      skillMatchMode = mode;
-      document.getElementById('skill-mode-any')?.classList.toggle('active', mode === 'any');
-      document.getElementById('skill-mode-all')?.classList.toggle('active', mode === 'all');
-      filterApplications();
-    };
-
-    window.clearSelectedSkills = function (e) {
-      if (e) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-      selectedFilterSkills = [];
-      updateSkillsUI();
-      filterApplications();
-    };
-
-    window.toggleSkillSelection = function (skillName, isChecked) {
-      if (isChecked) {
-        if (!selectedFilterSkills.includes(skillName)) {
-          selectedFilterSkills.push(skillName);
-        }
-      } else {
-        selectedFilterSkills = selectedFilterSkills.filter(s => s !== skillName);
-      }
-      updateSkillsUI();
-      filterApplications();
-    };
-
-    function updateSkillsUI() {
-      const btnText = document.getElementById('skills-btn-text');
-      const badge = document.getElementById('skills-selected-count');
-      const count = selectedFilterSkills.length;
-
-      if (count === 0) {
-        if (btnText) btnText.textContent = 'All Skills';
-        if (badge) badge.style.display = 'none';
-      } else if (count === 1) {
-        if (btnText) btnText.textContent = selectedFilterSkills[0];
-        if (badge) {
-          badge.textContent = '1';
-          badge.style.display = 'inline-flex';
-        }
-      } else if (count === 2) {
-        if (btnText) btnText.textContent = `${selectedFilterSkills[0]}, ${selectedFilterSkills[1]}`;
-        if (badge) {
-          badge.textContent = '2';
-          badge.style.display = 'inline-flex';
-        }
-      } else {
-        if (btnText) btnText.textContent = `${selectedFilterSkills[0]}, ${selectedFilterSkills[1]} +${count - 2}`;
-        if (badge) {
-          badge.textContent = String(count);
-          badge.style.display = 'inline-flex';
-        }
-      }
-
-      // Sync checkbox checked states in dropdown
-      const list = document.getElementById('skills-options-list');
-      if (list) {
-        const checkboxes = list.querySelectorAll('input[type="checkbox"]');
-        checkboxes.forEach(cb => {
-          cb.checked = selectedFilterSkills.includes(cb.value);
-        });
-      }
-    }
-
-    window.filterSkillsList = function (query) {
-      const q = (query || '').trim().toLowerCase();
-      const list = document.getElementById('skills-options-list');
-      if (!list) return;
-      const items = list.querySelectorAll('.apps-multi-option-item');
-      items.forEach(item => {
-        const text = item.getAttribute('data-skill')?.toLowerCase() || '';
-        item.style.display = text.includes(q) ? 'flex' : 'none';
-      });
-    };
-
-    function renderSkillsOptions() {
-      const list = document.getElementById('skills-options-list');
-      if (!list) return;
-
-      // Extract any unique skills from candidate applications
-      const skillSet = new Set(DEFAULT_SKILL_OPTIONS);
-      if (Array.isArray(allCandidateApplications)) {
-        allCandidateApplications.forEach(app => {
-          if (app.skills) {
-            app.skills.split(/[,/|•]+/).forEach(s => {
-              const clean = s.trim();
-              if (clean.length >= 2 && clean.length <= 25) skillSet.add(clean);
-            });
-          }
-        });
-      }
-
-      const allSkills = Array.from(skillSet).sort((a, b) => a.localeCompare(b));
-      list.innerHTML = allSkills.map(skill => {
-        const isChecked = selectedFilterSkills.includes(skill);
-        const safeSkill = escapeHtml(skill);
-        return `
-          <label class="apps-multi-option-item" data-skill="${safeSkill}">
-            <input type="checkbox" value="${safeSkill}" ${isChecked ? 'checked' : ''} onchange="toggleSkillSelection('${safeSkill}', this.checked)">
-            <span>${safeSkill}</span>
-          </label>
-        `;
-      }).join('');
-      updateSkillsUI();
-    }
-
-    // Close multi-select dropdown when clicking outside
-    document.addEventListener('click', (e) => {
-      const container = document.getElementById('apps-skills-container');
-      if (container && !container.contains(e.target)) {
-        container.classList.remove('open');
-        const dropdown = document.getElementById('skills-multi-dropdown');
-        if (dropdown) dropdown.style.display = 'none';
-      }
-    });
-
-    // Toggle Quick Filter Chip
-    window.toggleFilterChip = function (btn) {
-      btn.classList.toggle('active');
-      filterApplications();
-    };
-
-    // Clear all filters back to clean state
+    // Eligibility and ranking come from the database. Search only locates people
+    // within the current results page and never changes their scores or order.
     window.clearAllFilters = function () {
       const search = document.getElementById('apps-search-input');
       if (search) search.value = '';
-      const job = document.getElementById('apps-filter-job');
-      if (job) job.value = 'all';
-      clearSelectedSkills();
-      const loc = document.getElementById('apps-filter-location');
-      if (loc) loc.value = 'all';
-      const exp = document.getElementById('apps-filter-experience');
-      if (exp) exp.value = 'all';
-      const grad = document.getElementById('apps-filter-gradyear');
-      if (grad) grad.value = 'all';
-      const resume = document.getElementById('apps-filter-resume');
-      if (resume) resume.value = 'all';
-
-      document.querySelectorAll('.apps-filter-chip').forEach(c => c.classList.remove('active'));
       filterApplications();
     };
 
-    // Master Filter Applications Function
     window.filterApplications = function () {
-      const rawQuery = (document.getElementById('apps-search-input')?.value || '').trim().toLowerCase();
-      const jobFilter = document.getElementById('apps-filter-job')?.value || 'all';
-      const locFilter = document.getElementById('apps-filter-location')?.value || 'all';
-      const expFilter = document.getElementById('apps-filter-experience')?.value || 'all';
-      const gradFilter = document.getElementById('apps-filter-gradyear')?.value || 'all';
-      const resumeFilter = document.getElementById('apps-filter-resume')?.value || 'all';
-
-      const activeChips = Array.from(document.querySelectorAll('.apps-filter-chip.active')).map(c => c.getAttribute('data-val'));
-
-      const allJobs = getAllJobsForFilter();
-      const selectedJob = (jobFilter !== 'all') ? allJobs.find(j => String(j.id) === String(jobFilter)) : null;
-
-      // Keywords to highlight visually
-      const highlightKeywords = new Set();
-      selectedFilterSkills.forEach(s => highlightKeywords.add(s.toLowerCase()));
-      if (locFilter !== 'all') highlightKeywords.add(locFilter.toLowerCase());
-      if (expFilter !== 'all') highlightKeywords.add(expFilter.toLowerCase());
-      activeChips.forEach(chip => {
-        if (chip !== 'with_resume') highlightKeywords.add(chip.toLowerCase());
-      });
-
-      // Split query terms (support multi-word: "Python Kochi 2026")
-      const searchTerms = rawQuery ? rawQuery.split(/[\s,]+/).filter(Boolean) : [];
-      searchTerms.forEach(t => highlightKeywords.add(t));
-
-      const filtered = allCandidateApplications.filter(app => {
-        // 1. Resume Filter
-        const hasResume = !!app.resumeBlob || (app.resumeFileName && app.resumeFileName.length > 0);
-        if (resumeFilter === 'with_resume' && !hasResume) return false;
-        if (resumeFilter === 'without_resume' && hasResume) return false;
-
-        // 2. Multi-Select Skills Filter
-        if (selectedFilterSkills.length > 0) {
-          const candSkills = (app.skills || '').toLowerCase();
-          const candAllText = [app.skills, app.courseName, app.degree, app.jobRole].join(' ').toLowerCase();
-
-          if (skillMatchMode === 'all') {
-            const hasAll = selectedFilterSkills.every(s => candAllText.includes(s.toLowerCase()));
-            if (!hasAll) return false;
-          } else {
-            const hasAny = selectedFilterSkills.some(s => candAllText.includes(s.toLowerCase()));
-            if (!hasAny) return false;
-          }
-        }
-
-        // 3. Location Filter Dropdown
-        if (locFilter !== 'all') {
-          const candLoc = (app.preferredLocation || '').toLowerCase();
-          if (!candLoc.includes(locFilter.toLowerCase())) return false;
-        }
-
-        // 4. Experience Filter Dropdown
-        if (expFilter !== 'all') {
-          const candExp = (app.experience || '').toLowerCase();
-          if (!candExp.includes(expFilter.toLowerCase())) return false;
-        }
-
-        // 5. Graduation Year Filter Dropdown
-        if (gradFilter !== 'all') {
-          const candGrad = String(app.gradYear || '');
-          const candDegree = String(app.degree || '');
-          if (gradFilter === 'prior') {
-            const y = parseInt(candGrad, 10);
-            if (y && y >= 2024) return false;
-          } else {
-            if (!candGrad.includes(gradFilter) && !candDegree.includes(gradFilter)) return false;
-          }
-        }
-
-        // 6. Active Quick Filter Chips
-        for (const chip of activeChips) {
-          if (chip === 'with_resume') {
-            if (!hasResume) return false;
-          } else {
-            const chipLower = chip.toLowerCase();
-            const candBlob = [
-              app.skills || '',
-              app.preferredLocation || '',
-              app.experience || '',
-              app.gradYear || '',
-              app.degree || '',
-              app.jobRole || '',
-              app.name || ''
-            ].join(' ').toLowerCase();
-
-            if (!candBlob.includes(chipLower)) return false;
-          }
-        }
-
-        // 7. Multi-keyword search across student entered details + job details
-        if (searchTerms.length > 0) {
-          const searchableBlob = [
-            app.name || '',
-            app.email || '',
-            app.phone || '',
-            app.skills || '',
-            app.preferredLocation || '',
-            app.experience || '',
-            app.degree || '',
-            app.gradYear || '',
-            app.courseName || '',
-            app.jobRole || '',
-            app.company || '',
-            app.resumeFileName || ''
-          ].join(' ').toLowerCase();
-
-          const allMatch = searchTerms.every(term => searchableBlob.includes(term));
-          if (!allMatch) return false;
-        }
-
-        // 8. Match info if job is selected
-        if (selectedJob) {
-          app._matchInfo = calculateJobMatch(app, selectedJob);
-          if (app._matchInfo && app._matchInfo.matchedSkills) {
-            app._matchInfo.matchedSkills.forEach(ms => highlightKeywords.add(ms.toLowerCase()));
-          }
-        } else {
-          app._matchInfo = null;
-        }
-
-        return true;
-      });
-
-      // If matching against a job, sort candidates by highest match score
-      if (selectedJob) {
-        filtered.sort((a, b) => ((b._matchInfo?.score || 0) - (a._matchInfo?.score || 0)));
-      }
-
-      // Update Filter Status Bar
-      const isFiltered = (
-        rawQuery.length > 0 ||
-        jobFilter !== 'all' ||
-        selectedFilterSkills.length > 0 ||
-        locFilter !== 'all' ||
-        expFilter !== 'all' ||
-        gradFilter !== 'all' ||
-        resumeFilter !== 'all' ||
-        activeChips.length > 0
-      );
-
-      const statusText = document.getElementById('apps-filter-status-text');
-      const clearBtn = document.getElementById('btn-clear-filters');
-      const headerIndicator = document.getElementById('filter-active-count-indicator');
-      if (headerIndicator) {
-        headerIndicator.textContent = isFiltered ? `${filtered.length} of ${allCandidateApplications.length} Matches` : `All Candidates (${allCandidateApplications.length})`;
-      }
-      if (statusText) {
-        if (isFiltered) {
-          statusText.innerHTML = `Showing <strong>${filtered.length}</strong> of <strong>${allCandidateApplications.length}</strong> candidate${allCandidateApplications.length === 1 ? '' : 's'} matching active filters`;
-        } else {
-          statusText.textContent = `Showing all ${allCandidateApplications.length} candidate${allCandidateApplications.length === 1 ? '' : 's'}`;
-        }
-      }
-      if (clearBtn) {
-        clearBtn.style.display = isFiltered ? 'inline-flex' : 'none';
-      }
-
-      window._activeHighlightKeywords = highlightKeywords;
-      renderApplications(filtered);
+      const query = (document.getElementById('apps-search-input')?.value || '').trim().toLowerCase();
+      const apps = currentJobApps();
+      const shown = query ? apps.filter(app =>
+        [app.name, app.email, app.phone].some(value => String(value || '').toLowerCase().includes(query))
+      ) : apps;
+      window._activeHighlightKeywords = new Set();
+      renderApplications(shown);
     };
 
     // Export to CSV with full candidate details
     window.exportApplicationsToCSV = function () {
-      if (allCandidateApplications.length === 0) {
+      const exportApps = currentJobApps();
+      const job = hrJobs.find(j => String(j.id) === String(selectedJobId));
+      const slug = job ? '_' + String(job.title || '').replace(/[^a-z0-9]+/gi, '_').replace(/^_|_$/g, '') : '';
+      if (exportApps.length === 0) {
         alert('No applications to export.');
         return;
       }
 
       const headers = ['Full Name', 'Phone', 'Email', 'Degree', 'Grad Year', 'Experience', 'Preferred Location', 'Job Role', 'Skills', 'Resume File', 'Submitted At'];
-      const rows = allCandidateApplications.map(a => [
+      const rows = exportApps.map(a => [
         `"${(a.name || '').replace(/"/g, '""')}"`,
         `"${(a.phone || '').replace(/"/g, '""')}"`,
         `"${(a.email || '').replace(/"/g, '""')}"`,
@@ -2990,7 +3107,7 @@
         `"${(a.experience || '').replace(/"/g, '""')}"`,
         `"${(a.preferredLocation || '').replace(/"/g, '""')}"`,
         `"${(a.jobRole || '').replace(/"/g, '""')}"`,
-        `"${(a.skills || '').replace(/"/g, '""')}"`,
+        `"${(Array.isArray(a.matching_evidence?.career?.skills) ? a.matching_evidence.career.skills.join(', ') : '').replace(/"/g, '""')}"`,
         `"${(a.resumeFileName || (a.resumeBlob ? 'Attached' : 'None')).replace(/"/g, '""')}"`,
         `"${a.createdAt || ''}"`
       ]);
@@ -2999,7 +3116,7 @@
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement('a');
       link.setAttribute('href', encodedUri);
-      link.setAttribute('download', `Kompetenzen_Candidate_Applications_${new Date().toISOString().split('T')[0]}.csv`);
+      link.setAttribute('download', `Kompetenzen_Applicants${slug}_${new Date().toISOString().split('T')[0]}.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -3042,6 +3159,15 @@
         'internship-parttime': 'Part-Time Intern',
         'internship-remote': 'Remote Intern'
       };
+
+      function requirementsSummary(req) {
+        if (!req) return '';
+        const parts = [['resume', 'Resume'], ['college', 'College'], ['availability', 'Availability'], ['skills', 'Skills check'], ['portfolio', 'Portfolio link'], ['salary', 'Expected salary'], ['location', 'Location']]
+          .filter(([key]) => req[key]).map(([, label]) => label);
+        const n = Array.isArray(req.questions) ? req.questions.length : 0;
+        if (n) parts.push(n === 1 ? '1 question' : n + ' questions');
+        return parts.join(' · ');
+      }
 
       function isInternshipJob(j) {
         if (!j) return false;
@@ -3166,6 +3292,7 @@
                   aboutCompany: j.about_company || '',
                   applyUrl: j.apply_url || '',
                   isDirectLink: j.is_direct_link || false,
+                  applicationRequirements: j.application_requirements || {},
                   createdAt: j.created_at
                 }));
               localStorage.setItem(STORE_KEY, JSON.stringify(items));
@@ -3210,7 +3337,8 @@
           experience: data.experience || '', salary: data.salary || '', skills: data.skills || '',
           description: data.description || '', responsibilities: data.responsibilities || '',
           requirements: data.requirements || '', about_company: data.aboutCompany || '',
-          apply_url: data.applyUrl || '', is_direct_link: !!data.isDirectLink
+          apply_url: data.applyUrl || '', is_direct_link: !!data.isDirectLink,
+          application_requirements: data.applicationRequirements || {}
         }]);
         if (error) throw error;
       }
@@ -3349,6 +3477,7 @@
               </div>
               ${(!job.isDirectLink && skillsLine) ? `<p class="desc"><strong>Skills:</strong> ${escapeHtml(skillsLine)}</p>` : ''}
               ${(!job.isDirectLink && job.description) ? `<p class="desc">${escapeHtml(job.description)}</p>` : ''}
+              ${requirementsSummary(job.applicationRequirements) ? `<p class="desc"><strong>Application asks for:</strong> ${escapeHtml(requirementsSummary(job.applicationRequirements))}</p>` : ''}
               <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-top:8px;">
                 <a class="apply-link" href="job-details.html?id=${job.id}" target="_blank" style="color:var(--blue); font-weight:700;">View Details Page ↗</a>
                 ${job.applyUrl ? `<a class="apply-link" href="${escapeHtml(job.applyUrl)}" target="_blank" rel="noopener">Direct Link: ${escapeHtml(job.applyUrl)}</a>` : ''}
@@ -3422,6 +3551,20 @@
         data.createdAt = new Date().toISOString();
         data.applyUrl = data.applyUrl || '';
         data.opportunityType = currentOppType;
+        // What the application form asks for (enforced by apply_to_job()).
+        const questions = String(data.reqQuestions || '').split('\n').map(q => q.trim()).filter(Boolean);
+        if (questions.length > 5) { alert('Please keep additional questions to 5 or fewer.'); return; }
+        if (questions.some(q => q.length > 300)) { alert('Each additional question must be under 300 characters.'); return; }
+        data.applicationRequirements = !data.isDirectLink ? {
+          resume: data.reqResume === 'on', college: data.reqCollege === 'on', availability: data.reqAvailability === 'on',
+          skills: false, portfolio: data.reqPortfolio === 'on', salary: data.reqSalary === 'on',
+          location: data.reqLocation === 'on', questions
+        } : {};
+        if (!data.isDirectLink && document.getElementById('enable-matching').checked) {
+          try { data.applicationRequirements.matching = ApplicantMatching.read(document.getElementById('matching-config')); }
+          catch (error) { alert(error.message); return; }
+        }
+        ['reqResume', 'reqCollege', 'reqAvailability', 'reqSkills', 'reqPortfolio', 'reqSalary', 'reqLocation', 'reqQuestions'].forEach(k => delete data[k]);
         if (!data.jobType) {
           data.jobType = currentOppType === 'internship' ? 'internship' : 'full-time';
         }
@@ -3822,7 +3965,6 @@
     })();
 
     document.addEventListener('DOMContentLoaded', () => {
-      if (typeof renderSkillsOptions === 'function') renderSkillsOptions();
       // Data loading is driven by the staff gate's own session check now; the
       // old sessionStorage flag could be set by hand to trigger these loads.
 

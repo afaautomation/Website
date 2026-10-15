@@ -1250,8 +1250,169 @@
         transform: translateX(3px) !important;
       }
     }
+
+    /* ===== INTERNSHIP APPLICATION QUESTIONS ===== */
+    .req-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(2, 6, 18, 0.72);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .req-dialog {
+      width: 100%;
+      max-width: 520px;
+      max-height: calc(100vh - 32px);
+      overflow-y: auto;
+      background: var(--surface);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 24px 22px 20px;
+      color: var(--ink);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .req-dialog h3 {
+      margin: 0 0 6px;
+      font-size: 19px;
+      font-weight: 800;
+    }
+
+    .req-intro,
+    .req-hint {
+      margin: 0 0 14px;
+      font-size: 13px;
+      color: var(--ink-mute);
+      line-height: 1.5;
+    }
+
+    .req-hint {
+      margin: -2px 0 8px;
+      font-size: 12px;
+    }
+
+    .req-field {
+      margin-bottom: 16px;
+    }
+
+    .req-label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--ink-2);
+    }
+
+    .req-field input[type="text"],
+    .req-field input[type="url"],
+    .req-field select,
+    .req-field textarea {
+      width: 100%;
+      box-sizing: border-box;
+      background: var(--surface-2);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      color: var(--ink);
+      font: inherit;
+      font-size: 14px;
+      padding: 11px 12px;
+    }
+
+    .req-field input[type="file"] {
+      color: var(--ink-mute);
+      font-size: 13px;
+    }
+
+    .req-field input:focus,
+    .req-field select:focus,
+    .req-field textarea:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+    }
+
+    .req-fieldset {
+      border: 0;
+      padding: 0;
+      min-width: 0;
+    }
+
+    .req-checks {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 8px 14px;
+    }
+
+    .req-check {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13.5px;
+      color: var(--ink-2);
+      cursor: pointer;
+    }
+
+    .req-check input {
+      width: 17px;
+      height: 17px;
+      accent-color: var(--blue);
+    }
+
+    .req-error {
+      margin: 6px 0 0;
+      font-size: 12.5px;
+      color: #F87171;
+    }
+
+    .req-error:empty {
+      display: none;
+    }
+
+    .req-summary {
+      margin: 0 0 14px;
+    }
+
+    .req-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .req-cancel,
+    .req-submit {
+      height: 46px;
+      border-radius: 8px;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .req-cancel {
+      padding: 0 18px;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: var(--ink-mute);
+    }
+
+    .req-submit {
+      flex: 1;
+      border: 0;
+      background: var(--blue-mid);
+      color: #FFFFFF;
+    }
+
+    .req-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
   </style>
   <link rel="stylesheet" href="css/mobile.css" media="(max-width: 768px)" />
+  <link rel="stylesheet" href="css/job-details.css" />
 </head>
 
 <body>
@@ -1343,7 +1504,7 @@
       <h1 class="job-main-title" id="j-title">Job Title</h1>
       <div class="job-company-subtitle">
         at <strong id="j-company">Hiring Company</strong>
-        <span id="j-company-extra" style="color:var(--ink-dim);">• Verified Hiring Partner</span>
+        <span id="j-company-extra" style="color:var(--ink-dim);"></span>
       </div>
 
       <div class="job-quick-meta">
@@ -1462,24 +1623,24 @@
 
         <!-- Apply CTA Card -->
         <div class="apply-card apply-cta-card">
-          <div class="apply-badge-tag">⚡ Fast-Track Hiring</div>
+          <div class="apply-badge-tag">YOUR NEXT STEP</div>
           <div class="apply-card-head" style="text-align:left; margin-bottom:14px;">
-            <h3 style="font-size:22px; font-weight:800; color:var(--ink); margin-bottom:6px;">Apply for this Position</h3>
-            <p style="font-size:13.5px; color:var(--ink-mute);">Fast-track your application directly with the Kompetenzen placement team.</p>
+            <h3>Make your next move.</h3>
+            <p>Share your profile with the Kompetenzen placement team for this opportunity.</p>
           </div>
 
           <div class="apply-perks-list">
             <div class="perk-item">
               <div class="perk-icon">✓</div>
-              <span>Direct Hiring Partner Referral</span>
+              <span>Apply with your career profile</span>
             </div>
             <div class="perk-item">
               <div class="perk-icon">✓</div>
-              <span>Priority Resume Shortlisting</span>
+              <span>Include your skills and experience</span>
             </div>
             <div class="perk-item">
               <div class="perk-icon">✓</div>
-              <span>Free to Apply — No Payment, No Limits</span>
+              <span>No application fee</span>
             </div>
           </div>
 
@@ -1601,6 +1762,7 @@
             aboutCompany: j.about_company || '',
             applyUrl: j.apply_url || '',
             isDirectLink: j.is_direct_link || false,
+            applicationRequirements: j.application_requirements || {},
             postedText: 'Recently Posted'
           }));
         } catch (err) {
@@ -1665,7 +1827,7 @@
       document.getElementById('j-location').textContent = job.location || 'Kochi / Remote';
       document.getElementById('j-exp').textContent = job.experience || 'All Levels';
       document.getElementById('j-salary').textContent = job.salary || 'Competitive';
-      document.getElementById('j-posted-time').textContent = job.postedText ? `Posted ${job.postedText}` : 'Active Opening';
+      document.getElementById('j-posted-time').textContent = job.postedText ? (/posted/i.test(job.postedText) ? job.postedText : `Posted ${job.postedText}`) : 'Active opening';
 
       // Badges
       const typeLabels = {
@@ -1917,12 +2079,14 @@
 
     /**
      * Submits an application through apply_to_job(). Resolves to
-     * { status, apply_url? } — status: applied | already_applied |
-     * profile_required | auth_required | job_not_found | error
+     * { status, apply_url?, missing? } — status: applied | already_applied |
+     * profile_required | responses_required | auth_required | job_not_found | error
      */
-    async function submitApplication(jobId) {
+    async function submitApplication(jobId, responses) {
       try {
-        const { data, error } = await supabaseClient.rpc('apply_to_job', { p_job_id: jobId });
+        const args = { p_job_id: jobId };
+        if (responses) args.p_responses = responses;
+        const { data, error } = await supabaseClient.rpc('apply_to_job', args);
         if (error) {
           // A duplicate submission racing this one raises inside the function.
           if (/already submitted/i.test(error.message || '')) return { status: 'already_applied' };
@@ -1938,7 +2102,7 @@
     /**
      * Sign-in -> profile -> application. Applying is free.
      */
-    async function handleApplyButtonClick() {
+    async function handleApplyButtonClick(responses) {
       if (!currentJob || applyInFlight) return;
       const jobId = currentJob.id;
       const returnUrl = `job-details.html?id=${encodeURIComponent(jobId)}&apply=1`;
@@ -1957,7 +2121,7 @@
 
       let result = null;
       try {
-        result = await submitApplication(jobId);
+        result = await submitApplication(jobId, responses);
       } catch (e) {
         console.warn('submitApplication error:', e);
       } finally {
@@ -1966,8 +2130,9 @@
       }
 
       if (result && (result.status === 'applied' || result.status === 'already_applied')) {
+        closeRequirementsForm();
         markJobApplied(jobId);
-        showApplyToast(result.status === 'already_applied' ? 'You have already applied for this position.' : `✓ Application submitted for ${currentJob.title}!`);
+        showApplyToast(result.status === 'already_applied' ? 'You have already applied for this position.' : 'Application submitted. You can update your profile at any time.');
         if (result.apply_url || currentJob.applyUrl) {
           openExternalApplyUrl(result.apply_url || currentJob.applyUrl);
         }
@@ -1976,6 +2141,13 @@
 
       if (result && result.status === 'profile_required') {
         window.location.href = `create-profile.html?jobId=${encodeURIComponent(jobId)}`;
+        return;
+      }
+
+      // The listing needs answers the candidate has not given yet (internships).
+      if (result && result.status === 'responses_required') {
+        if (result.matching_rules) currentJob.applicationRequirements = { ...currentJob.applicationRequirements, matching: result.matching_rules };
+        openRequirementsForm(result.missing || [], responses || null);
         return;
       }
 
@@ -1994,6 +2166,195 @@
         return;
       }
       showApplyToast('Your application could not be submitted. Please try again.');
+    }
+
+    // ===== JOB-SPECIFIC APPLICATION QUESTIONS =====
+    // Shown only for what this listing requires and the candidate has not
+    // given yet. apply_to_job() checks the answers again on the server.
+    const AVAILABILITY_OPTIONS = ['Immediately', 'Within 1 week', 'Within 2 weeks', 'Within 1 month', 'After 1 month'];
+
+    function buildEl(tag, attrs, ...children) {
+      const node = document.createElement(tag);
+      Object.entries(attrs || {}).forEach(([key, value]) => {
+        if (key === 'text') node.textContent = value;
+        else if (key === 'className') node.className = value;
+        else if (value === true) node.setAttribute(key, '');
+        else if (value !== false && value != null) node.setAttribute(key, value);
+      });
+      children.flat().forEach(child => { if (child) node.append(child); });
+      return node;
+    }
+
+    function closeRequirementsForm() {
+      const overlay = document.getElementById('req-overlay');
+      if (overlay) overlay.remove();
+      document.body.style.overflow = '';
+    }
+
+    async function openRequirementsForm(missing, previous) {
+      closeRequirementsForm();
+      const isRetry = !!previous;
+      const prev = previous || {};
+      const req = (currentJob && currentJob.applicationRequirements) || {};
+      const isIntern = /intern/i.test(currentJob.jobType || '') || /intern/i.test(currentJob.title || '');
+      let profile = {};
+      try {
+        const { data: auth } = await supabaseClient.auth.getSession();
+        if (auth && auth.session) {
+          const { data } = await supabaseClient.from('candidate_profiles').select('institution, career_preferences').eq('user_id', auth.session.user.id).maybeSingle();
+          profile = data || {};
+        }
+      } catch (e) {}
+
+      const field = (key, label, input, hint) => buildEl('div', { className: 'req-field' },
+        buildEl('label', { className: 'req-label', for: input.id, text: label }),
+        hint ? buildEl('p', { className: 'req-hint', text: hint }) : null,
+        input,
+        buildEl('p', { className: 'req-error', id: 'req-err-' + key, role: 'alert' }));
+      const form = buildEl('form', { className: 'req-form', novalidate: true });
+
+      const matchRules = req.matching;
+      if (missing.includes('matching') && matchRules) {
+        const group = buildEl('div', {id:'req-matching'});
+        const career = profile.career_preferences || {};
+        group.append(buildEl('p',{text:'Matching uses the career interest, field, technical skills and soft skills saved in your profile.'}));
+        for (const [label,value] of [['Interest',career.area],['Field',career.field],['Technical skills',(career.skills || []).join(', ')],['Soft skills',(career.softSkills || []).join(', ')]]) {
+          group.append(buildEl('p',{text:label + ': ' + (value || 'Not provided')}));
+        }
+        group.append(buildEl('a',{href:'create-profile.html?jobId=' + encodeURIComponent(currentJob.id),text:'Update these details in my profile'}));
+        if (matchRules.minimumMonths > 0 || matchRules.preferredMonths > 0) {
+          group.append(field('relevant-months','Relevant experience in months',buildEl('input',{id:'req-relevant-months',type:'number',min:'0',max:'600',step:'1',value:prev.matching?.relevantMonths ?? ''}),matchRules.experienceScope + '. Count overlapping periods only once.'));
+        }
+        group.append(buildEl('label',{className:'req-check'},buildEl('input',{id:'req-match-confirm',type:'checkbox'}),'I confirm that my career details shown above are up to date.'));
+        form.append(field('matching','Job matching information',group));
+      }
+      if (missing.includes('college')) {
+        form.append(field('college', 'College name', buildEl('input', { id: 'req-college', type: 'text', maxlength: '200', autocomplete: 'organization', value: prev.college || profile.institution || '' })));
+      }
+      if (missing.includes('availability')) {
+        const select = buildEl('select', { id: 'req-availability' }, buildEl('option', { value: '', text: 'Select' }), AVAILABILITY_OPTIONS.map(o => buildEl('option', { value: o, text: o })));
+        select.value = prev.availability || '';
+        form.append(field('availability', 'When can you join?', select));
+      }
+      if (missing.includes('skills')) {
+        const wanted = String(currentJob.skills || '').split(',').map(x => x.trim()).filter(Boolean).slice(0, 30);
+        const have = String((profile.career_preferences?.skills || []).join(', ')).toLowerCase().split(',').map(x => x.trim());
+        const group = buildEl('div', { className: 'req-checks', id: 'req-skills', role: 'group' },
+          wanted.map((skill, i) => buildEl('label', { className: 'req-check' },
+            buildEl('input', { type: 'checkbox', value: skill, checked: Array.isArray(prev.matched_skills) ? prev.matched_skills.includes(skill) : have.includes(skill.toLowerCase()), 'data-skill': true, id: 'req-skill-' + i }), skill)),
+          buildEl('label', { className: 'req-check' }, buildEl('input', { type: 'checkbox', id: 'req-skill-none' }), 'None of these yet'));
+        form.append(field('skills', 'Which of these required skills do you have?', group, 'Tick all that apply.'));
+        group.addEventListener('change', e => {
+          if (e.target.id === 'req-skill-none' && e.target.checked) group.querySelectorAll('[data-skill]').forEach(c => { c.checked = false; });
+          else if (e.target.hasAttribute('data-skill') && e.target.checked) document.getElementById('req-skill-none').checked = false;
+        });
+      }
+      if (missing.includes('portfolio')) {
+        form.append(field('portfolio', 'Portfolio or project link', buildEl('input', { id: 'req-portfolio', type: 'url', maxlength: '500', placeholder: 'https://', inputmode: 'url', value: prev.portfolio_url || '' }), 'For example GitHub, Behance, Dribbble or a live project.'));
+      }
+      if (missing.includes('salary')) {
+        form.append(field('salary', isIntern ? 'Expected stipend' : 'Expected salary', buildEl('input', { id: 'req-salary', type: 'text', maxlength: '100', placeholder: isIntern ? 'e.g. ₹10,000 / month' : 'e.g. ₹4 LPA', value: prev.expected_salary || '' })));
+      }
+      if (missing.includes('location')) {
+        form.append(field('location', 'Where are you currently based?', buildEl('input', { id: 'req-location', type: 'text', maxlength: '120', autocomplete: 'address-level2', placeholder: 'City, e.g. Kochi', value: prev.current_location || '' })));
+        const choice = (value, label) => buildEl('label', { className: 'req-check' },
+          buildEl('input', { type: 'radio', name: 'req-relocate', value, checked: String(prev.willing_to_relocate) === value }), label);
+        form.append(buildEl('fieldset', { className: 'req-field req-fieldset' },
+          buildEl('legend', { className: 'req-label', text: `Are you willing to relocate to ${currentJob.location || 'the job location'}?` }),
+          buildEl('div', { className: 'req-checks' }, choice('true', 'Yes'), choice('false', 'No')),
+          buildEl('p', { className: 'req-error', id: 'req-err-relocate', role: 'alert' })));
+      }
+      if (missing.includes('resume')) {
+        form.append(field('resume', 'Resume', buildEl('input', { id: 'req-resume', type: 'file', accept: '.pdf,.doc,.docx' }), `Required for this ${isIntern ? 'internship' : 'job'}. PDF, DOC or DOCX, up to 5 MB. It is also saved to your profile.`));
+      }
+      if (missing.includes('questions')) {
+        (Array.isArray(req.questions) ? req.questions : []).forEach((q, i) => {
+          form.append(field('q' + i, q, buildEl('textarea', { id: 'req-q-' + i, maxlength: '1000', rows: '3' }, (prev.answers && prev.answers[i]) || '')));
+        });
+      }
+
+      const submitBtn = buildEl('button', { type: 'submit', className: 'req-submit', text: 'Submit Application' });
+      form.append(buildEl('div', { className: 'req-actions' },
+        buildEl('button', { type: 'button', className: 'req-cancel', text: 'Cancel', onclick: null }), submitBtn));
+
+      const dialog = buildEl('div', { className: 'req-dialog', role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': 'req-title' },
+        buildEl('h3', { id: 'req-title', text: `A few questions for this ${isIntern ? 'internship' : 'job'}` }),
+        buildEl('p', { className: 'req-intro', text: `${currentJob.company} asks for these to consider your application for ${currentJob.title}.` }),
+        isRetry ? buildEl('p', { className: 'req-error req-summary', role: 'alert', text: 'Some answers were missing or not valid. Please check the highlighted fields.' }) : null,
+        form);
+      const overlay = buildEl('div', { className: 'req-overlay', id: 'req-overlay' }, dialog);
+      document.body.append(overlay);
+      document.body.style.overflow = 'hidden';
+      overlay.querySelector('.req-cancel').addEventListener('click', closeRequirementsForm);
+      overlay.addEventListener('click', e => { if (e.target === overlay) closeRequirementsForm(); });
+      overlay.addEventListener('keydown', e => { if (e.key === 'Escape') closeRequirementsForm(); });
+      if (isRetry) missing.forEach(key => { const err = document.getElementById('req-err-' + (key === 'questions' ? 'q0' : key)); if (err) err.textContent = 'Please check this answer.'; });
+      const first = form.querySelector('input, select, textarea');
+      if (first) first.focus();
+
+      form.addEventListener('submit', async e => {
+        e.preventDefault();
+        form.querySelectorAll('.req-error').forEach(x => { x.textContent = ''; });
+        const fail = (key, msg) => { const err = document.getElementById('req-err-' + key); if (err) err.textContent = msg; return false; };
+        // Start from earlier answers so a re-asked field does not drop the rest.
+        const responses = Object.assign({}, prev);
+        let ok = true;
+        const text = id => (document.getElementById(id) ? document.getElementById(id).value.trim() : '');
+        if (missing.includes('matching') && matchRules) {
+          const rawMonths = text('req-relevant-months');
+          if (!document.getElementById('req-match-confirm').checked) ok = fail('matching','Please confirm your saved career details.');
+          if (rawMonths !== '' && (!Number.isInteger(Number(rawMonths)) || Number(rawMonths)<0 || Number(rawMonths)>600)) ok = fail('relevant-months','Enter whole months from 0 to 600, or leave blank if unknown.');
+          responses.matching = {confirmed:true,rules:matchRules,selectedSkills:[...form.querySelectorAll('[data-match-skill]:checked')].map(x=>x.dataset.matchSkill),relevantMonths:rawMonths === '' ? null : Number(rawMonths)};
+        }
+        if (missing.includes('college')) { responses.college = text('req-college'); if (!responses.college) ok = fail('college', 'Please enter your college name.'); }
+        if (missing.includes('availability')) { responses.availability = text('req-availability'); if (!responses.availability) ok = fail('availability', 'Please choose when you can join.'); }
+        if (missing.includes('skills')) {
+          responses.matched_skills = [...form.querySelectorAll('[data-skill]:checked')].map(c => c.value);
+          if (!responses.matched_skills.length && !document.getElementById('req-skill-none').checked) ok = fail('skills', 'Tick the skills you have, or "None of these yet".');
+        }
+        if (missing.includes('portfolio')) { responses.portfolio_url = text('req-portfolio'); if (!/^https?:\/\/\S+$/i.test(responses.portfolio_url)) ok = fail('portfolio', 'Please enter a full link starting with https://'); }
+        if (missing.includes('questions')) {
+          responses.answers = (Array.isArray(req.questions) ? req.questions : []).map((q, i) => text('req-q-' + i));
+          responses.answers.forEach((a, i) => { if (!a) ok = fail('q' + i, 'Please answer this question.'); });
+        }
+        if (missing.includes('salary')) { responses.expected_salary = text('req-salary'); if (!responses.expected_salary) ok = fail('salary', isIntern ? 'Please enter your expected stipend.' : 'Please enter your expected salary.'); }
+        if (missing.includes('location')) {
+          responses.current_location = text('req-location');
+          const pick = form.querySelector('input[name="req-relocate"]:checked');
+          responses.willing_to_relocate = pick ? pick.value === 'true' : null;
+          if (!responses.current_location) ok = fail('location', 'Please enter the city you live in now.');
+          if (!pick) ok = fail('relocate', 'Please choose Yes or No.');
+        }
+        let resumeFile = null;
+        if (missing.includes('resume')) {
+          resumeFile = document.getElementById('req-resume').files[0];
+          if (!resumeFile) ok = fail('resume', 'Please attach your resume.');
+          else if (!/\.(pdf|docx?)$/i.test(resumeFile.name)) ok = fail('resume', 'Please upload a PDF, DOC or DOCX file.');
+          else if (resumeFile.size > 5 * 1024 * 1024) ok = fail('resume', 'The file is larger than 5 MB.');
+        }
+        if (!ok) { const firstErr = form.querySelector('.req-error:not(:empty)'); if (firstErr) firstErr.parentElement.querySelector('input, select, textarea')?.focus(); return; }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting…';
+        let session = null;
+        try { session = (await supabaseClient.auth.getSession()).data.session; } catch (err) {}
+        if (resumeFile) {
+          const ext = resumeFile.name.split('.').pop().toLowerCase();
+          const storagePath = `applications/candidate_${Date.now()}.${ext}`;
+          const { error } = await supabaseClient.storage.from('resumes').upload(storagePath, resumeFile, { contentType: resumeFile.type || 'application/pdf', upsert: false });
+          if (error) { fail('resume', 'Your resume could not be uploaded. Please try again.'); submitBtn.disabled = false; submitBtn.textContent = 'Submit Application'; return; }
+          responses.resume_url = storagePath;
+        }
+        // Reuse on later applications: keep the resume and college on the profile too.
+        if (session && (responses.resume_url || responses.college)) {
+          const update = {};
+          if (responses.resume_url) update.resume_url = responses.resume_url;
+          if (responses.college) update.institution = responses.college;
+          try { await supabaseClient.from('candidate_profiles').update(update).eq('user_id', session.user.id); } catch (err) {}
+        }
+        closeRequirementsForm();
+        await handleApplyButtonClick(responses);
+      });
     }
 
     window.openResumeBuilder = function (e) {
