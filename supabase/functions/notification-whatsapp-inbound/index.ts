@@ -1,24 +1,36 @@
-// Twilio request signing prevents forged opt-out requests.
+// WhatsApp Cloud API webhook. Meta's X-Hub-Signature-256 prevents forged opt-out requests.
+import { validSignature, optOutSenders, failedDeliveries } from '../_shared/whatsapp.mjs';
+
+const env=(key:string)=>Deno.env.get(key)||'';
+async function db(path:string,body:unknown) {
+  const service=env('SUPABASE_SERVICE_ROLE_KEY');
+  const r=await fetch(`${env('SUPABASE_URL')}/rest/v1/${path}`,{method:'PATCH',headers:{apikey:service,Authorization:`Bearer ${service}`,'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(!r.ok) throw new Error(`Database operation failed (${r.status})`);
+}
+
 Deno.serve(async request => {
-  if(request.method!=='POST') return new Response('Method not allowed',{status:405});
-  const token=Deno.env.get('TWILIO_AUTH_TOKEN');
-  const publicUrl=Deno.env.get('TWILIO_INBOUND_URL');
-  if(!token || !publicUrl) return new Response('Not configured',{status:503});
-  const params=new URLSearchParams(await request.text());
-  const signed=publicUrl+[...new Set(params.keys())].sort().map(k=>k+params.get(k)).join('');
-  const key=await crypto.subtle.importKey('raw',new TextEncoder().encode(token),{name:'HMAC',hash:'SHA-1'},false,['sign']);
-  const bytes=new Uint8Array(await crypto.subtle.sign('HMAC',key,new TextEncoder().encode(signed)));
-  const expected=btoa(String.fromCharCode(...bytes));
-  const actual=request.headers.get('x-twilio-signature')||'';
-  let difference=expected.length^actual.length;
-  for(let i=0;i<expected.length;i++) difference|=expected.charCodeAt(i)^(actual.charCodeAt(i)||0);
-  if(difference) return new Response('Invalid signature',{status:403});
-  if(/^(stop|unsubscribe|cancel|end|quit)$/i.test((params.get('Body')||'').trim())) {
-    const phone=(params.get('From')||'').replace(/^whatsapp:/,'');
-    if(!/^\+[1-9]\d{7,14}$/.test(phone)) return new Response('Invalid sender',{status:400});
-    const service=Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')||'';
-    const response=await fetch(`${Deno.env.get('SUPABASE_URL')}/rest/v1/notification_preferences?whatsapp_number=eq.${encodeURIComponent(phone)}`,{method:'PATCH',headers:{apikey:service,Authorization:`Bearer ${service}`,'Content-Type':'application/json'},body:JSON.stringify({whatsapp_enabled:false})});
-    if(!response.ok) return new Response('Try again',{status:500});
+  // One-time subscription check when the webhook URL is saved in the Meta app dashboard.
+  if(request.method==='GET') {
+    const q=new URL(request.url).searchParams;
+    const token=env('WHATSAPP_VERIFY_TOKEN');
+    if(token && q.get('hub.mode')==='subscribe' && q.get('hub.verify_token')===token) return new Response(q.get('hub.challenge')||'');
+    return new Response('Forbidden',{status:403});
   }
-  return new Response('<Response/>',{headers:{'Content-Type':'text/xml'}});
+  if(request.method!=='POST') return new Response('Method not allowed',{status:405});
+  if(!env('WHATSAPP_APP_SECRET')) return new Response('Not configured',{status:503});
+  const raw=await request.text();
+  if(!await validSignature(env('WHATSAPP_APP_SECRET'),raw,request.headers.get('x-hub-signature-256')||'')) return new Response('Invalid signature',{status:403});
+  let payload:unknown;
+  try { payload=JSON.parse(raw); } catch { return new Response('Bad request',{status:400}); }
+  try {
+    // STOP and similar replies disable WhatsApp for that number. Re-enabling requires website consent.
+    for(const phone of optOutSenders(payload)) {
+      await db(`notification_preferences?whatsapp_number=eq.${encodeURIComponent(phone)}`,{whatsapp_enabled:false});
+    }
+    // "accepted" only meant Meta took the message; record later delivery failures.
+    for(const {id,code} of failedDeliveries(payload)) {
+      await db(`notification_queue?provider_id=eq.${encodeURIComponent(id)}&state=eq.accepted`,{state:'failed',last_error:`WhatsApp delivery failed${code?` (code ${code})`:''}`});
+    }
+  } catch(error) { console.error(String(error)); return new Response('Try again',{status:500}); }
+  return new Response('OK');
 });

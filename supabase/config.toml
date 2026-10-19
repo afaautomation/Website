@@ -1,5 +1,8 @@
 [functions.notification-worker]
 verify_jwt = false
 
+[functions.phone-signup]
+verify_jwt = false
+
 [functions.notification-whatsapp-inbound]
 verify_jwt = false

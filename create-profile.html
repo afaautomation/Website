@@ -14,12 +14,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.cdnfonts.com/css/google-sans" rel="stylesheet" />
   <link
-    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
     rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
   <script src="supabase-config.js"></script>
   <style>
     :root {
+      --font-display: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+      --font-body: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       --blue: #2563EB;
       --blue-light: #3B82F6;
       --blue-hover: #1D4ED8;
@@ -52,7 +54,7 @@
     input,
     select,
     textarea {
-      font-family: "Plus Jakarta Sans", "Google Sans", "Product Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+      font-family: var(--font-body) !important;
     }
 
     body {
@@ -1136,20 +1138,7 @@
 
     <!-- FORM START -->
     <div class="form-card-container">
-    <details id="notification-preferences" style="margin:24px 0;padding:20px 0;border-block:1px solid #263449">
-      <summary style="cursor:pointer;font-weight:600">Email &amp; WhatsApp notifications <span style="font-weight:400;color:#94a3b8">— optional</span></summary>
-      <p>Choose how Kompetenzen sends application receipts, matching results and HR updates. Change these choices here at any time.</p>
-      <label style="display:block;margin:12px 0"><input type="checkbox" id="notify-email"> Send updates to my verified account email</label>
-      <label style="display:block;margin:12px 0"><input type="checkbox" id="notify-whatsapp"> I agree to receive these updates from Kompetenzen on WhatsApp</label>
-      <label for="notify-phone">WhatsApp number, including country code</label>
-      <input id="notify-phone" type="tel" placeholder="+919876543210" maxlength="16" autocomplete="tel" style="display:block;margin:8px 0 16px">
-      <label for="notify-digest">New jobs matching my profile</label>
-      <select id="notify-digest" style="display:block;margin:8px 0 16px"><option value="off">Off — application updates only</option><option value="daily">Daily digest</option><option value="weekly">Weekly digest</option></select>
-      <p>Digests use your enabled channels. Matching does not mean shortlisted or selected. Uncheck a channel and save to stop its messages, or reply STOP on WhatsApp.</p>
-      <button type="button" class="btn-step-secondary" id="save-notifications" disabled>Save notification preferences</button>
-      <p id="notification-feedback" role="status" aria-live="polite"></p>
-    </details>
-    <form id="quick-apply-form" novalidate onsubmit="event.preventDefault();">
+ <form id="quick-apply-form" novalidate onsubmit="event.preventDefault();">
 
       <!-- ========================================== -->
       <!-- STEP 1: CONTACT + CAREER STAGE             -->
@@ -1188,7 +1177,7 @@
         </div>
 
         <fieldset class="plain-fieldset form-group">
-          <legend class="form-label" style="font-size: 16px; margin-bottom: 14px;">Which stage of your career are you in? <span class="req">*</span></legend>
+          <legend class="form-label stage-legend">Which stage of your career are you in? <span class="req">*</span></legend>
           <div class="stage-cards" id="stage-cards">
             <label class="stage-card">
               <input type="radio" name="career-stage" value="studying" />
@@ -1472,7 +1461,7 @@
           <div class="resume-upload-wrap in-details">
             <label class="form-label" style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
               <span>Resume <span class="sub">required · PDF, DOC, DOCX</span></span>
-              <span style="font-size:11.5px; color:var(--ink-mute); font-weight:500;">Max 5MB</span>
+              <span style="font-size:13px; color:var(--ink-mute); font-weight:600;">Max 5MB</span>
             </label>
             <p class="field-hint" id="resume-hint">Upload your resume to complete your profile.</p>
 
@@ -1533,6 +1522,22 @@
           </div>
         </div>
 
+        <section id="notification-preferences" class="notification-consent" aria-labelledby="notification-title">
+          <div class="notification-heading"><div><span class="notification-eyebrow">STAY INFORMED</span><h2 id="notification-title">Your application updates</h2></div><span class="notification-private">Your choice, always</span></div>
+          <p class="notification-description">Choose where we can send receipts, matching results and updates from HR.</p>
+          <fieldset id="notification-channels" disabled>
+            <legend class="notification-sr-only">Permission to send notifications</legend>
+            <div class="notification-channels">
+              <label class="notification-channel"><input type="checkbox" id="notify-email"><span><strong>Email</strong><small>I agree to receive application updates at my verified email.</small></span></label>
+              <label class="notification-channel"><input type="checkbox" id="notify-whatsapp"><span><strong>WhatsApp</strong><small>I agree to receive application updates on WhatsApp.</small></span></label>
+            </div>
+            <div id="notify-phone-row" class="notification-phone" hidden><label for="notify-phone">Confirm your WhatsApp number</label><input id="notify-phone" class="form-input-box" type="tel" placeholder="+919876543210" maxlength="16" autocomplete="tel"><small>Include your country code.</small></div>
+            <details class="notification-alerts"><summary>New job alerts</summary><label for="notify-digest">Also send suitable openings through my selected channels</label><select id="notify-digest" class="form-input-box"><option value="off">No job alerts</option><option value="daily">Daily summary</option><option value="weekly">Weekly summary</option></select></details>
+          </fieldset>
+          <p class="notification-footnote">We only send notifications with your permission. You can change your choices anytime.</p>
+          <button type="button" class="btn-step-secondary" id="save-notifications" hidden disabled>Save preferences</button>
+          <p id="notification-feedback" role="status" aria-live="polite"></p>
+        </section>
         <p class="field-error" id="err-step-3" role="alert"></p>
         <p class="privacy-note">We use your profile to match you with jobs and share it only with employers whose jobs you apply for. We'll contact you about your applications; we won't send training or promotional messages without your permission.</p>
 
@@ -2005,10 +2010,11 @@
       }
 
       try {
+        await window.NotificationPreferences.save();
         await saveCandidateProfile(session.user.id, Object.assign({}, profile, { email: profile.email || session.user.email || '', resumeUrl }));
       } catch (saveErr) {
         console.warn('Could not save candidate profile:', saveErr);
-        alert('We could not save your profile. Please check your details and try again.');
+        alert(saveErr.notificationPreference ? saveErr.message : 'We could not save your profile. Please check your details and try again.');
         restore();
         return;
       }

@@ -55,10 +55,12 @@ async function supabaseSignUp(name, email, phone, password) {
 }
 
 async function supabaseSignIn(email, password) {
-  const { data, error } = await supabaseClient.auth.signInWithPassword({
-    email: email,
-    password: password
-  });
+  const identifier = email.trim();
+  let phone = identifier.replace(/[\s()-]/g, '');
+  if (/^[6-9]\d{9}$/.test(phone)) phone = '+91' + phone;
+  else if (/^91\d{10}$/.test(phone)) phone = '+' + phone;
+  const credentials = identifier.includes('@') ? { email: identifier, password } : { phone, password };
+  const { data, error } = await supabaseClient.auth.signInWithPassword(credentials);
   if (error) throw error;
   const meta = (data.user && data.user.user_metadata) || {};
   return {
@@ -67,6 +69,18 @@ async function supabaseSignIn(email, password) {
     phone: meta.phone || '',
     authType: 'Direct Login'
   };
+}
+
+async function supabasePhoneSignUp(name, email, password, firebaseToken) {
+  const response = await fetch(SUPABASE_URL + '/functions/v1/phone-signup', {
+    method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY },
+    body: JSON.stringify({ name, email, password, firebaseToken })
+  });
+  const result = await response.json().catch(() => null);
+  if (!response.ok || !result?.session) throw new Error(result?.error || 'Phone signup is unavailable. Please retry shortly.');
+  const { data, error } = await supabaseClient.auth.setSession(result.session);
+  if (error || !data.session) throw new Error('Could not save your sign-in session. Please retry.');
+  return data;
 }
 
 async function supabaseSignInWithGoogle(redirectUrl) {

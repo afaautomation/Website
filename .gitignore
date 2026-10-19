@@ -38,4 +38,6 @@ brain_img_big_preview.jpg
 scratch_thumb.png
 Resume/
 tmp/
+.temp/
+**/.temp/
 

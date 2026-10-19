@@ -69,3 +69,23 @@ test('database consent, atomic queueing, deduplication, status events and claim 
     assert.equal(await count(),before,'opt-out stops future queueing');
   } finally {await db.close();}
 });
+test('WhatsApp Cloud API messages, rate limits, signatures and webhook parsing',async()=>{
+  const wa=await import('../supabase/functions/_shared/whatsapp.mjs');
+  const body=wa.templateMessage('+919876543210','application_received','en','Data\nAnalyst','Line one\n\nLine   two\tend');
+  assert.equal(body.to,'919876543210');
+  assert.equal(body.template.name,'application_received');
+  assert.deepEqual(body.template.components[0].parameters.map(p=>p.text),['Data Analyst','Line one Line two end']);
+  assert.equal(wa.effectiveStatus(400,130429),429);
+  assert.equal(wa.effectiveStatus(400,131026),400);
+  const crypto=require('node:crypto');
+  const raw=JSON.stringify({entry:[{changes:[{value:{
+    messages:[{from:'919876543210',type:'text',text:{body:' STOP '}},{from:'919800000000',type:'text',text:{body:'hello'}},{from:'919811111111',type:'button',button:{text:'Unsubscribe'}}],
+    statuses:[{id:'wamid.A',status:'failed',errors:[{code:131026}]},{id:'wamid.B',status:'delivered'}]}}]}]});
+  const sig='sha256='+crypto.createHmac('sha256','app-secret').update(raw).digest('hex');
+  assert.equal(await wa.validSignature('app-secret',raw,sig),true);
+  assert.equal(await wa.validSignature('app-secret',raw+' ',sig),false);
+  assert.equal(await wa.validSignature('',raw,sig),false);
+  const payload=JSON.parse(raw);
+  assert.deepEqual(wa.optOutSenders(payload),['+919876543210','+919811111111']);
+  assert.deepEqual(wa.failedDeliveries(payload),[{id:'wamid.A',code:131026}]);
+});

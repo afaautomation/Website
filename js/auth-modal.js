@@ -332,8 +332,8 @@
           <form id="login-form" onsubmit="handleLoginSubmit(event)" style="display:none; flex-direction:column; gap:0.35rem;">
 
             <div class="auth-input-group">
-              <label for="login-email">Email Address</label>
-              <input id="login-email" type="email" required placeholder="you@example.com" autocomplete="email">
+              <label for="login-email">Email or mobile number</label>
+              <input id="login-email" type="text" required placeholder="Email or verified mobile number" autocomplete="username">
             </div>
 
             <div class="auth-input-group">
@@ -549,7 +549,7 @@
       if (signupForm) signupForm.style.display = 'none';
       if (loginForm) loginForm.style.display = 'flex';
       if (titleEl) titleEl.textContent = 'Welcome Back';
-      if (subtitleEl) subtitleEl.textContent = 'Log in with your email and password';
+      if (subtitleEl) subtitleEl.textContent = 'Log in with your email or verified mobile number and password';
       const emailInput = modal.querySelector('#login-email');
       if (emailInput) setTimeout(() => emailInput.focus(), 100);
     } else {
@@ -642,20 +642,18 @@
   function loadScriptAsync(src) {
     return new Promise((resolve, reject) => {
       const existing = document.querySelector(`script[src="${src}"]`);
-      if (existing) {
-        if (existing.getAttribute('data-loaded') === 'true' || (window.firebase && window.firebase.auth)) return resolve();
-        existing.addEventListener('load', () => resolve());
-        existing.addEventListener('error', (e) => reject(e));
-        return;
-      }
-      const s = document.createElement('script');
+      if (existing && existing.getAttribute('data-loaded') === 'true') return resolve();
+      const s = existing || document.createElement('script');
+      let timer;
+      const cleanup = () => { clearTimeout(timer); s.removeEventListener('load', loaded); s.removeEventListener('error', failed); };
+      const loaded = () => { cleanup(); s.setAttribute('data-loaded', 'true'); resolve(); };
+      const failed = () => { cleanup(); s.remove(); reject(new Error('Could not load phone verification. Check your connection or browser blocking, then try again.')); };
+      s.addEventListener('load', loaded);
+      s.addEventListener('error', failed);
+      timer = setTimeout(failed, 20000);
+      if (existing) return;
       s.src = src;
       s.async = true;
-      s.onload = () => {
-        s.setAttribute('data-loaded', 'true');
-        resolve();
-      };
-      s.onerror = (e) => reject(new Error('Failed to load: ' + src));
       document.head.appendChild(s);
     });
   }
@@ -757,15 +755,19 @@
       } else if (code === 'auth/quota-exceeded') {
         msg = 'Daily SMS quota reached. Please try again later or add phone numbers for testing in Firebase.';
       } else if (code === 'auth/operation-not-allowed') {
-        msg = 'Phone authentication is not enabled in Firebase Console. Please enable Phone provider in Authentication > Sign-in method.';
+        msg = 'SMS verification is unavailable. Check that Firebase Phone sign-in is enabled and the SMS region policy allows India.';
+      } else if (code === 'auth/billing-not-enabled') {
+        msg = 'SMS verification requires billing to be enabled on the Firebase project. Use a configured fictional test number during development.';
+      } else if (code === 'auth/unauthorized-domain' || code === 'auth/app-not-authorized') {
+        msg = 'This website is not authorised for phone verification. Add the hosted website domain in Firebase Authentication settings and check API-key restrictions.';
       } else if (code === 'auth/captcha-check-failed') {
-        if (window.location.hostname === '127.0.0.1') {
-          msg = 'Security verification failed: Please open the page via http://localhost:5500 instead of 127.0.0.1, or add 127.0.0.1 to Firebase Console > Authentication > Settings > Authorized domains.';
+        if (['127.0.0.1', 'localhost', '[::1]'].includes(window.location.hostname)) {
+          msg = 'Real SMS verification is not supported on localhost. Test on an authorised HTTPS website, or use a fictional phone number configured for testing in Firebase.';
         } else {
           msg = 'Security verification failed: Please verify your domain in Firebase Console > Authentication > Settings > Authorized domains.';
         }
       } else if (code === 'auth/invalid-app-credential') {
-        msg = 'Verification token invalid or blocked on localhost. To test locally without SMS issues, please add your phone number to Firebase Console > Authentication > Sign-in method > Phone > "Phone numbers for testing".';
+        msg = 'Phone security verification failed. For real SMS, use an authorised HTTPS website and check Firebase billing, SMS region settings and browser blocking. For local development, use a fictional test number configured in Firebase; no SMS is sent to test numbers.';
       } else if (err && err.message) {
         msg = err.message;
       }
@@ -814,6 +816,7 @@
 
   window.resendOtpCode = async function () {
     if (!window._pendingOtpAuth) return;
+    window._pendingOtpAuth.verifiedUser = null;
     showOtpInlineMessage('Sending new verification code via SMS…', false);
     const result = await requestOtp(window._pendingOtpAuth.cleanPhone);
     if (!result.ok) {
@@ -1213,54 +1216,27 @@
       submitBtn.textContent = 'Verifying Code…';
     }
 
-    const verified = await verifyOtp(pending.cleanPhone, otpInput);
+    // Keep the verified Firebase user for a safe retry if account creation temporarily fails.
+    const verified = pending.verifiedUser ? { ok: true, user: pending.verifiedUser } : await verifyOtp(pending.cleanPhone, otpInput);
     if (!verified.ok) {
-      showOtpInlineMessage(verified.message || 'Invalid verification code. Please check the OTP and try again.', true);
+      showOtpInlineMessage(verified.message || 'Please check your OTP and try again.', true);
       resetBtn();
       return;
     }
-    showOtpInlineMessage('✓ Mobile number verified successfully!', false);
-    // The Firebase phone session is only a signup check; the account session comes from Supabase.
-    try { if (window.firebase && window.firebase.auth) await window.firebase.auth().signOut(); } catch (e) {}
-
-    const { name, email, phone, password } = pending;
-    if (typeof supabaseSignUp !== 'function' || !isSupabaseConfigured()) {
-      showOtpInlineMessage('Sign up is temporarily unavailable. Please try again shortly.', true);
-      resetBtn();
-      return;
-    }
-
-    let res;
+    pending.verifiedUser = verified.user;
+    showOtpInlineMessage('Mobile verified. Finishing your account…', false);
     try {
-      res = await supabaseSignUp(name, email, phone, password);
-    } catch (supaErr) {
-      const msg = (supaErr && supaErr.message) || '';
-      if (/already registered|already exists/i.test(msg)) {
-        window._pendingOtpAuth = null;
-        window.showEmailAuthStep('login');
-        window.showAuthMessage(`An account already exists for ${email}. Please log in with your email and password.`, true);
-        const loginEmail = modal.querySelector('#login-email');
-        if (loginEmail) loginEmail.value = email;
-        return;
-      }
-      showOtpInlineMessage(msg || 'Could not create your account. Please try again.', true);
+      const token = await verified.user.getIdToken(true);
+      const result = await supabasePhoneSignUp(pending.name, pending.email, pending.password, token);
+      const user = result.session.user;
+      window._pendingOtpAuth = null;
+      try { await window.firebase.auth().signOut(); } catch (_) {}
+      completeAuthSession({ id: user.id, name: user.user_metadata?.name || pending.name,
+        email: user.email, phone: user.phone, authType: 'Mobile OTP Verified' }, 'Account created! You’re signed in.');
+    } catch (error) {
+      showOtpInlineMessage(error.message || 'Could not finish signup. Please try again.', true);
       resetBtn();
-      return;
     }
-
-    window._pendingOtpAuth = null;
-    const sessionUser = res && res.session && res.session.user;
-    if (!sessionUser) {
-      // Email confirmation is on: no session until the link is clicked.
-      window.showEmailAuthStep('login');
-      window.showAuthMessage(`Account created. Check ${email} for a confirmation link, then log in.`, false);
-      return;
-    }
-    completeAuthSession({
-      id: sessionUser.id,
-      name, email, phone,
-      authType: 'Mobile OTP Verified'
-    }, 'Account created & mobile verified! Redirecting…');
   };
 
   window.handleLoginSubmit = async function (e) {
@@ -1271,7 +1247,7 @@
     const btn = modal.querySelector('#login-submit-btn');
 
     if (!email || !password) {
-      window.showAuthMessage('Please enter your email and password.', true);
+      window.showAuthMessage('Please enter your email or mobile number and password.', true);
       return;
     }
     if (typeof supabaseSignIn !== 'function' || !isSupabaseConfigured()) {
@@ -1291,8 +1267,8 @@
     } catch (err) {
       const msg = (err && err.message) || '';
       window.showAuthMessage(/email not confirmed/i.test(msg)
-        ? 'Please confirm your email first. Check your inbox for the link.'
-        : 'Incorrect email or password.', true);
+        ? 'Your email is not verified yet. Use your verified mobile number and password, or confirm your email.'
+        : 'Incorrect email, mobile number or password.', true);
     } finally {
       if (btn) {
         btn.disabled = false;
