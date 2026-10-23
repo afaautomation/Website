@@ -96,6 +96,13 @@ test('database matching: eligibility, ranking, security, snapshots and stable pa
     const careerRules = {...rules,careerArea:'Technology & Data',careerField:'Software Development',softSkills:[{name:'Communication',essential:true,importance:1}]};
     const career = {area:'Technology & Data',field:'Software Development',skills:['Python','SQL','Git'],softSkills:['Communication']};
     const careerEvidence = {...evidence,career};
+    // Works on the existing production matcher, before the newer score migration.
+    const accepted = Matching.parse({...values,qualifications:'BSc, BTech, BCA',specialisations:'Computer Science, Artificial Intelligence, Artificial Intelligence and Machine Learning'});
+    for (const [qualification,specialisation] of [['B.Sc.','Artificial Intelligence'],['B.Tech','Artificial Intelligence and Machine Learning']]) {
+      assert.equal((await evaluate({...careerEvidence,qualification,specialisation},accepted)).status,'matched');
+    }
+    assert.equal((await evaluate({...careerEvidence,qualification:'MBA',specialisation:'Artificial Intelligence'},accepted)).status,'not_matched');
+    assert.equal((await evaluate({...careerEvidence,qualification:'B.Sc.',specialisation:'Physics'},accepted)).status,'not_matched');
     assert.equal((await evaluate(careerEvidence,careerRules)).score,98);
     assert.equal((await evaluate({...evidence,skills:['Python','SQL','Git']},careerRules)).status,'needs_information','Legacy skill evidence is ignored');
     assert.equal((await evaluate({...careerEvidence,career:{...career,field:'Data Analytics'}},careerRules)).status,'not_matched');
@@ -110,6 +117,31 @@ test('database matching: eligibility, ranking, security, snapshots and stable pa
     assert.deepEqual((await page()).rows[0].match_result,beforeLegacy);
     await db.query('update public.candidate_profiles set career_preferences=$1 where user_id=$2',[JSON.stringify({...career,field:'Data Analytics'}),uid]);
     assert.equal((await page('not_matched')).total,1);
+    // Local scoring keeps fit separate from eligibility and upgrades existing rows.
+    const migration=fs.readFileSync('migrations/20261020_local_profile_scoring.sql','utf8');
+    await db.exec(migration); await db.exec(migration);
+    const partial=await evaluate({...careerEvidence,qualification:'MBA',career:{...career,field:'Data Analytics'}},careerRules);
+    assert.equal(partial.status,'not_matched'); assert.equal(partial.score,78);
+    assert.equal(partial.components.skills.points,70);
+    const unknown=await evaluate({...careerEvidence,career:{...career,skills:[]}},careerRules);
+    assert.equal(unknown.status,'needs_information'); assert.ok(Number.isFinite(unknown.score));
+    assert.equal((await evaluate({...careerEvidence,qualification:'B.C.A.'},careerRules)).score,98);
+    const intake={...careerRules,semesters:['4'],graduationYears:['2028']};
+    assert.equal((await evaluate({...careerEvidence,semester:'4',graduationYear:'2028'},intake)).status,'matched');
+    const wrongYear=await evaluate({...careerEvidence,semester:'4',graduationYear:'2029'},intake);
+    assert.equal(wrongYear.status,'not_matched'); assert.equal(wrongYear.score,98);
+    assert.equal((await evaluate(careerEvidence,intake)).status,'needs_information');
+    await assert.rejects(evaluate(careerEvidence,{...intake,semesters:['invalid']}),/Invalid semester/);
+    assert.deepEqual(await evaluate({...careerEvidence,college:'Another college'},careerRules),await evaluate(careerEvidence,careerRules));
+    assert.match(Matching.banner(partial,x=>String(x)),/78% job match/);
+    assert.match(Matching.banner({...partial,score:0},x=>String(x)),/0% job match/);
+    await db.query('update public.hr_jobs set application_requirements=$1 where id=$2',[JSON.stringify({matching:intake}),job]);
+    await db.query('update public.candidate_profiles set career_preferences=$1,semester=$2,grad_year=$3 where user_id=$4',[JSON.stringify(career),'4','2028',uid]);
+    assert.equal((await page()).total,1);
+    await db.query('update public.candidate_profiles set grad_year=$1 where user_id=$2',['2029',uid]);
+    assert.equal((await page('not_matched')).total,1);
+    assert.equal((await page('not_matched')).rows[0].matching_evidence.graduationYear,'2029');
+    assert.deepEqual((await db.query('select submitted_matching_evidence from public.job_applications where user_id=$1',[uid])).rows[0].submitted_matching_evidence,original);
   } finally { await db.close(); }
 });
 

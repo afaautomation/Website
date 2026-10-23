@@ -5,6 +5,16 @@ const env=k=>config[k]||'';
 const delivery={sender:config.GMAIL_SENDER_EMAIL,destination:'applicant@example.test',subject:'Application received — മലയാളം',text:'Hello Anjali,\nYour application is saved. <script>bad()</script>'};
 const json=(body,status=200,headers={})=>new Response(JSON.stringify(body),{status,headers});
 const token=()=>json({access_token:'private-access',expires_in:3600});
+test('Gmail permission diagnostics expose only known categories',async()=>{
+  const {createGmailSender}=await import('../supabase/functions/notification-worker/gmail.mjs');
+  for(const [reason,expected] of [['SERVICE_DISABLED',/API is disabled/],['ACCESS_TOKEN_SCOPE_INSUFFICIENT',/lacks gmail.send/]]){
+    const send=createGmailSender(env,async url=>url.includes('oauth2')?token():json({error:{message:'private-account-data',details:[{reason}]}},403));
+    const result=await send(delivery,'queue-test',new Date().toISOString(),1);
+    assert.equal(result.state,'failed');
+    assert.match(result.last_error,expected);
+    assert.doesNotMatch(result.last_error,/private-account-data/);
+  }
+});
 test('Gmail MIME supports Unicode, escapes HTML, and rejects injected addresses',async()=>{
   const {gmailRaw,emailProvider,gmailConfigured}=await import('../supabase/functions/notification-worker/gmail.mjs');
   const raw=gmailRaw(delivery,'queue-123','2026-10-17T00:00:00Z');
@@ -66,8 +76,9 @@ test('worker routes email to Gmail, records acceptance, and protects old-provide
   const {stripTypeScriptTypes}=require('node:module');
   const gmail=await import('../supabase/functions/notification-worker/gmail.mjs');
   const messages=await import('../supabase/functions/notification-worker/messages.mjs');
+  const policy=await import('../supabase/functions/notification-worker/email-policy.mjs');
   const source=stripTypeScriptTypes(fs.readFileSync('supabase/functions/notification-worker/index.ts','utf8').replace(/^import .*;\r?\n/gm,''));
-  for(const scenario of ['normal','optout','previous-provider']) {
+  for(const scenario of ['normal','phone-only','unverified','optout','previous-provider']) {
     const queue={id:'queue-1',user_id:'user-1',channel:'email',created_at:new Date().toISOString(),first_attempt_at:new Date().toISOString(),attempts:1,payload:{event:'received',title:'Engineer'}};
     if(scenario==='previous-provider') queue.delivery={destination:delivery.destination,subject:'Old',text:'Old'};
     let handler,claimed=false,googleCalls=0; const updates=[];
@@ -75,19 +86,20 @@ test('worker routes email to Gmail, records acceptance, and protects old-provide
       if(url.includes('/rpc/queue_job_digests'))return json(null);
       if(url.includes('/rpc/claim_notification')) {if(claimed)return json([]);claimed=true;return json([queue]);}
       if(url.includes('/notification_preferences')) return json([{email_enabled:scenario!=='optout'}]);
-      if(url.includes('/auth/v1/admin/users'))return json({email:delivery.destination,email_confirmed_at:new Date().toISOString()});
+      if(url.includes('/auth/v1/admin/users'))return json({email:delivery.destination,email_confirmed_at:['phone-only','unverified'].includes(scenario)?null:new Date().toISOString(),phone_confirmed_at:scenario==='phone-only'?new Date().toISOString():null});
       if(url.includes('/notification_queue?')) {updates.push(JSON.parse(init.body));return json([]);}
       if(url.includes('oauth2.googleapis.com')) {googleCalls++;return token();}
       if(url.includes('gmail.googleapis.com')) {googleCalls++;return json({id:'gmail-message-id'});}
       throw new Error('Unexpected request');
     };
     const settings={...config,SUPABASE_URL:'https://database.example.test',SUPABASE_SERVICE_ROLE_KEY:'service-test',SITE_URL:'https://example.test',NOTIFICATION_WORKER_SECRET:'worker-test'};
-    vm.runInNewContext(source,{...messages,...gmail,createGmailSender:e=>gmail.createGmailSender(e,fakeFetch),DEFAULT_TEMPLATES:{},Deno:{env:{get:k=>settings[k]},serve:fn=>handler=fn},fetch:fakeFetch,Response,AbortSignal,URLSearchParams,console});
+    vm.runInNewContext(source,{...messages,...gmail,...policy,createGmailSender:e=>gmail.createGmailSender(e,fakeFetch),DEFAULT_TEMPLATES:{},Deno:{env:{get:k=>settings[k]},serve:fn=>handler=fn},fetch:fakeFetch,Response,AbortSignal,URLSearchParams,console});
     assert.equal((await handler(new Request('https://worker.example.test',{method:'POST'}))).status,401);
     const response=await handler(new Request('https://worker.example.test',{method:'POST',headers:{'x-worker-secret':'worker-test'},body:'{}'}));
     assert.equal(response.status,200);
-    assert.equal(updates.at(-1).state,scenario==='normal'?'accepted':scenario==='optout'?'cancelled':'review');
-    assert.equal(googleCalls,scenario==='normal'?2:0);
-    if(scenario==='normal') {assert.equal(updates[0].delivery.provider,'gmail');assert.equal(updates.at(-1).provider_id,'gmail-message-id');}
+    const sends=['normal','phone-only'].includes(scenario);
+    assert.equal(updates.at(-1).state,sends?'accepted':['optout','unverified'].includes(scenario)?'cancelled':'review');
+    assert.equal(googleCalls,sends?2:0);
+    if(sends) {assert.equal(updates[0].delivery.provider,'gmail');assert.equal(updates.at(-1).provider_id,'gmail-message-id');assert.doesNotMatch(updates[0].delivery.text,/Engineer/);}
   }
 });

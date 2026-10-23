@@ -1,5 +1,23 @@
 # Admin workflow update
 
+## Local profile scoring (2026-10-20)
+
+Apply `20261020_local_profile_scoring.sql` after the career matching and profile education migrations, then publish `admin.html` and `js/applicant-matching.js`. This change is prepared locally; it has not been applied to production.
+
+The local expert rules engine uses no AI API, external model, or training data. It computes an explainable fit score for every applicant to a configured job, including applicants with unmet requirements or missing information. Eligibility and fit are separate: a high score does not override a missing essential requirement, and neither result makes a hiring decision. Unconfigured jobs still show no score rather than an invented assessment.
+
+Career area and field determine eligibility. Technical and soft skills share weighted skill points. Required and preferred course/specialisation groups now share academic points equally. Explicitly scoped relevant experience retains its existing weight. Unavailable evidence earns no points; missing essential evidence remains “Needs information.” Optional accepted semesters and completion years filter intake eligibility without adding points. College is retained and displayed as context, with no prestige scoring. Experience stage and career priority remain excluded.
+
+Common dotted course spellings such as `B.Tech` and `BTech` match. There is no inferred degree equivalence or fuzzy skill matching. Existing jobs retain their configured weights; academic scores can change because required academic groups now contribute. Review the configured requirements before using the results.
+
+The migration recalculates existing applications, preserves original submitted evidence, and refreshes results when relevant profile fields or job rules change. Regression coverage runs the migration twice and checks non-selected/unknown scores, intake filters, course normalization, profile refreshes, snapshots, staff access, and existing admin workflows:
+
+```text
+node --test tests/applicant-matching.test.cjs tests/admin-workflows.test.cjs
+```
+
+The sections below describe earlier versions; the scoring behavior above supersedes the earlier eligible-only scoring policy.
+
 ## Career-based matching (2026-10-15, latest)
 
 After `20261015_applicant_matching.sql`, run **`20261015_career_matching.sql`** in Supabase SQL Editor. This switches existing results to the four approved career fields and recalculates them. Publish `create-profile.html`, `job-details.html`, `admin.html`, `js/career-catalog.js`, `js/career-preferences.js`, and `js/applicant-matching.js` together. The new migration has not been applied to production by this task.

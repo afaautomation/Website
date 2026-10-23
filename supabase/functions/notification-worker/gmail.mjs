@@ -65,6 +65,18 @@ export function createGmailSender(env,fetcher=fetch,now=()=>Date.now()) {
       const seconds=value && /^\d+$/.test(value)?Number(value):value?Math.ceil((Date.parse(value)-now())/1000):0;
       return failure(attempts>=6?'failed':'pending','Gmail quota/rate limit reached',Math.max(3600,Number.isFinite(seconds)?seconds:0));
     }
+    // Return only known diagnostic categories, never Google's full response or account data.
+    const detailReasons=(result?.error?.details||[]).map(e=>e.reason);
+    if(response.status===403) {
+      if(reasons.includes('accessNotConfigured') || detailReasons.includes('SERVICE_DISABLED'))
+        return failure('failed','Gmail API is disabled in the OAuth Google Cloud project');
+      if(reasons.includes('insufficientPermissions') || detailReasons.includes('ACCESS_TOKEN_SCOPE_INSUFFICIENT'))
+        return failure('failed','Gmail OAuth token lacks gmail.send permission; reauthorize the sender');
+      if(reasons.includes('domainPolicy'))
+        return failure('failed','Google Workspace policy blocks Gmail API access; contact the Workspace administrator');
+      if(reasons.includes('forbidden'))
+        return failure('failed','Gmail sender access denied; check that the refresh token belongs to the configured sender');
+    }
     return failure('failed',`Gmail rejected message (HTTP ${response.status}); check sender access and Gmail API configuration`);
   };
 }

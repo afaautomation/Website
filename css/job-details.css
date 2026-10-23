@@ -55,6 +55,43 @@ body { background: #0c111b; }
 .similar-head h3 { font-size: 24px; font-weight: 500; }
 .similar-grid .detail-card { background: #141d2b; border: 1px solid #303c4e; border-radius: 10px; padding: 24px; box-shadow: none; }
 a:focus-visible, button:focus-visible { outline: 2px solid #96b4dc; outline-offset: 4px; }
+/* Application review: structured profile details and comfortable form controls. */
+.req-overlay { background: rgba(3, 8, 18, .8); backdrop-filter: blur(6px); }
+.req-dialog { max-width: 600px; padding: 30px; background: #111a28; border-color: #334155; border-radius: 18px; color-scheme: dark; }
+.req-heading { padding-bottom: 23px; margin-bottom: 23px; border-bottom: 1px solid #2b384b; }
+.req-eyebrow { margin: 0 0 10px; color: #9ebbe2; font-size: 10px; font-weight: 600; letter-spacing: 1.8px; }
+.req-dialog h3 { margin-bottom: 9px; font-size: 25px; font-weight: 600; letter-spacing: -.6px; line-height: 1.25; }
+.req-intro { margin: 0; font-size: 13px; color: #a9b8cb; overflow-wrap: anywhere; }
+.req-section-title { margin: 0 0 7px; font-size: 15px; font-weight: 600; color: #e7edf6; }
+.req-profile-intro { margin: 0 0 16px; font-size: 13px; line-height: 1.7; color: #a9b8cb; }
+.req-profile-summary { margin: 0; padding: 4px 18px; background: #162131; border: 1px solid #2c3b50; border-radius: 10px; }
+.req-profile-row { display: grid; grid-template-columns: 116px minmax(0, 1fr); align-items: start; gap: 14px; padding: 13px 0; }
+.req-profile-row + .req-profile-row { border-top: 1px solid #2b384b; }
+.req-profile-row dt { font-size: 12px; line-height: 1.8; color: #9eadc2; }
+.req-profile-row dd { margin: 0; font-size: 13px; line-height: 1.7; color: #e1e9f5; overflow-wrap: anywhere; }
+.req-skill-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.req-skill-chip { padding: 2px 8px; border: 1px solid #3b4c63; border-radius: 5px; background: #1e2c3f; font-size: 11px; }
+.req-profile-edit { display: inline-block; margin: 12px 0 24px; color: #a9ccff; font-size: 12px; text-decoration: none; }
+.req-profile-edit:hover { color: #dceaff; text-decoration: underline; }
+.req-label { font-size: 13px; font-weight: 600; }
+.req-hint { color: #a9b8cb; line-height: 1.7; }
+.req-field input[type="number"] { width: 100%; box-sizing: border-box; min-height: 46px; padding: 11px 14px; border: 1px solid #42546e; border-radius: 8px; background: #0d1522; color: #edf3fc; font: inherit; font-size: 14px; }
+.req-field input::placeholder { color: #899bb3; }
+.req-confirm { align-items: flex-start; gap: 11px; padding: 15px; margin-top: 20px; border: 1px solid #2c3b50; border-radius: 9px; background: #162131; font-size: 12px; line-height: 1.7; }
+.req-check input { flex-shrink: 0; margin-top: 2px; }
+.req-actions { padding-top: 21px; margin-top: 23px; border-top: 1px solid #2b384b; gap: 12px; }
+.req-cancel, .req-submit { font-size: 13px; font-weight: 600; }
+.req-cancel { color: #c0cddd; border-color: #42516a; padding: 0 23px; }
+.req-cancel:hover { background: #1d2b3e; }
+.req-submit { background: #2864e8; }
+.req-submit:hover:not(:disabled) { background: #3575f5; }
+@media (max-width: 520px) {
+  .req-overlay { padding: 12px; }
+  .req-dialog { padding: 23px 18px; max-height: calc(100dvh - 24px); border-radius: 14px; }
+  .req-dialog h3 { font-size: 22px; }
+  .req-profile-summary { padding: 2px 13px; }
+  .req-profile-row { grid-template-columns: minmax(0, 1fr); gap: 5px; }
+}
 @media (max-width: 1000px) {
   .content-grid { grid-template-columns: minmax(0,1fr) 310px; gap: 32px; }
 }

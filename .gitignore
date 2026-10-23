@@ -41,3 +41,7 @@ tmp/
 .temp/
 **/.temp/
 
+# Reproducible local AI assets: install with scripts/setup-local-ai.cjs.
+js/models/
+js/vendor/local-ai/
+

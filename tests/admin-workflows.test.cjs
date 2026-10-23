@@ -9,17 +9,23 @@ const read = file => fs.readFileSync(path.join(root, file), 'utf8').replace(/\r\
 const admin = read('admin.html');
 const profile = read('create-profile.html');
 
-test('three applicant sections query the selected job and preserve all status counts', async () => {
+test('integrated applicant tabs use AI scores and preserve counts across the whole job', async () => {
+  const AI = require('../js/local-ai-ui.js');
   const els = {};
-  const element = id => els[id] ||= { value: '', textContent: '', disabled: false };
+  const element = id => els[id] ||= { value: '', textContent: '', disabled: false, style: {}, close() {} };
+  element('ai-match-minimum').value = '60';
   const buttons = ['matched', 'all', 'not_matched'].map(status => ({ dataset: { applicantSection: status }, setAttribute(key, value) { this[key] = value; } }));
   const requests = [];
+  const rows = ['matched','matched','not_matched','needs_information','needs_information','needs_information','pending']
+    .map((status, i) => ({id: String(i),job_id:'job-one',match_result:{status},ai_result:{score:90-i}}));
   const ctx = vm.createContext({ selectedJobId: 'job-one', OTHER_APPS: '__other__', matchingRequest: 0,
+    hrJobs: [{id:'job-one',applicationRequirements:{matching:{skills:[]}}}],
     matchingOffset: 25, allCandidateApplications: [], renderApplications: () => {}, filterApplications: () => {},
+    LocalApplicantAI: AI,
+    loadAutomaticJob: async id => {requests.push({p_job_id:id,p_status:'all',p_limit:100});return rows;},
     document: { getElementById: element, querySelectorAll: () => buttons },
     supabaseClient: { rpc: async (name, args) => {
-      requests.push({name, ...args});
-      return { data: { rows: [], total: 0, counts: {matched: 2, not_matched: 1, needs_information: 3, pending: 1} }, error: null };
+      requests.push({name, ...args}); return {data:{rows,total:rows.length},error:null};
     } }
   });
   ctx.window = ctx;
@@ -29,20 +35,69 @@ test('three applicant sections query the selected job and preserve all status co
     await ctx.selectApplicantSection(status);
     const request = requests.at(-1);
     assert.equal(request.p_job_id, 'job-one');
-    assert.equal(request.p_status, status);
-    assert.equal(request.p_offset, 0);
+    assert.equal(request.p_status, 'all', 'AI must analyse the whole job before filtering');
+    assert.equal(request.p_limit, 100);
     assert.equal(element('apps-search-input').value, '');
     assert.equal(buttons.find(b => b.dataset.applicantSection === status)['aria-pressed'], 'true');
+    assert.ok(ctx.allCandidateApplications.every(a => status === 'all' || a.ai_review.status === status));
   }
   assert.equal(element('all-section-count').textContent, 7);
   assert.equal(element('matched-section-count').textContent, 2);
   assert.equal(element('rejected-section-count').textContent, 1);
+  assert.doesNotMatch(admin, /onclick="editMatchingRules\(\)"|id="ai-match-minimum"|>Reanalyse applicants</);
 });
+
 function extract(source, from, to) {
   const start = source.indexOf(from), end = source.indexOf(to, start);
   assert.ok(start >= 0 && end > start, 'Source function found');
   return source.slice(start, end);
 }
+
+test('a new applicant is discovered and scored by the automatic timer without a job click',async()=>{
+  const {createAutomaticReview}=await import('../js/automatic-applicants.mjs');
+  const engine=createAutomaticReview(),timers=[],elements={};
+  const profiles=[{id:'first',job_id:'job',skills:'Python'}];
+  const element=id=>elements[id] ||= {style:{},innerHTML:'',textContent:''};
+  const ctx=vm.createContext({engine,Promise,console,matchingRequest:0,selectedJobId:null,hrJobs:[],allCandidateApplications:[],overviewTotal:0,overviewOther:0,OTHER_APPS:'__other__',
+    document:{getElementById:element},escapeHtml:String,renderJobsOverview:()=>{},showJobsList:()=>{},
+    openJobApplicants:()=>{throw Error('Automatic scoring must not require opening a job');},
+    LocalApplicantAI:require('../js/local-ai-ui.js'),setTimeout:fn=>{timers.push(fn);return timers.length;},clearTimeout:()=>{},
+    supabaseClient:{rpc:async(name,args)=>({data:name==='admin_matching_overview'?{total:profiles.length,other:0,jobs:[{id:'job',title:'Python',skills:'Python',applicant_count:profiles.length}]}:
+      {total:profiles.length,rows:profiles.slice(args.p_offset,args.p_offset+args.p_limit)}})}});
+  ctx.window=ctx;
+  vm.runInContext(extract(admin,'// Fetch fresh staff-only data','// Answers to the listing')+
+    ';automaticEngine=engine;automaticEnginePromise=Promise.resolve(engine);',ctx);
+  const waitForScan=async n=>{for(let i=0;i<100 && timers.length<n;i++)await new Promise(r=>setImmediate(r));assert.equal(timers.length,n);};
+  await ctx.loadApplicationsList();await waitForScan(1);
+  assert.equal(ctx.hrJobs[0].matchedCount,1);
+  profiles.push({id:'new-applicant',job_id:'job',skills:'Python'});
+  await timers[0]();await waitForScan(2);
+  assert.equal(ctx.hrJobs[0].applicantCount,2);assert.equal(ctx.hrJobs[0].matchedCount,2);
+  const rows=await ctx.loadAutomaticJob('job');
+  assert.equal(rows.find(r=>r.id==='new-applicant').ai_result.score,100);
+  ctx.stopAutomaticApplicantReview();
+});
+
+test('admin startup scans every job without opening a card, retries failures and cancels on lock',async()=>{
+  const calls=[],scheduled=[];
+  const ctx=vm.createContext({hrJobs:[{id:'one'},{id:'two'}],overviewOther:1,OTHER_APPS:'__other__',
+    loadAutomaticJob:async id=>{calls.push(id);if(id==='one')throw Error('Temporary error');return [{ai_result:{score:100},match_result:{status:'matched'}}];},
+    LocalApplicantAI:require('../js/local-ai-ui.js'),renderJobsOverview:()=>{},
+    setTimeout:(fn,ms)=>{scheduled.push({fn,ms});return 10;},clearTimeout:id=>{ctx.cancelled=id;},
+    loadApplicationsList:()=>{ctx.refreshed=true;}});
+  ctx.window=ctx;
+  vm.runInContext(extract(admin,'let automaticVersion =','window.loadAutomaticJob =')+
+    extract(admin,'async function startAutomaticApplicantReview(run)','// Answers to the listing')+
+    ';this.version=()=>automaticVersion;',ctx);
+  await ctx.startAutomaticApplicantReview(ctx.version());
+  assert.deepEqual(calls,['one','two','__other__']);
+  assert.equal(ctx.hrJobs[0].automaticState,'error');assert.equal(ctx.hrJobs[1].matchedCount,1);
+  assert.equal(scheduled[0].ms,60000);
+  scheduled[0].fn();assert.equal(ctx.refreshed,true);
+  const old=ctx.version();ctx.stopAutomaticApplicantReview();
+  assert.equal(ctx.cancelled,10);await ctx.startAutomaticApplicantReview(old);
+  assert.equal(calls.length,3,'A cancelled scan cannot fetch more private profiles');
+});
 test('job publishing preserves all details and rejects a failed database save', async () => {
   let payload, fail = false;
   const ctx = vm.createContext({ isSupabaseConfigured: () => true, supabaseClient: { from: () => ({ insert: async rows => {
@@ -111,7 +166,7 @@ test('a signed-in non-admin cannot unlock the staff page', async () => {
   const elements = new Map();
   const element = id => { if (!elements.has(id)) elements.set(id, { style: {}, value: '', replaceChildren() {}, addEventListener() {}, classList: { add() {} } }); return elements.get(id); };
   let onReady, loads = 0;
-  const ctx = vm.createContext({ window: { loadApplicationsList: () => { loads++; } }, allCandidateApplications: [],
+  const ctx = vm.createContext({ window: { loadApplicationsList: () => { loads++; } }, allCandidateApplications: [], matchingRequest: 0,
     document: { getElementById: element, addEventListener: (event, fn) => { onReady = fn; } },
     isSupabaseConfigured: () => true, supabaseClient: { auth: { getSession: async () => ({ data: { session: { user: { id: 'synthetic' } } } }), onAuthStateChange: () => {} }, rpc: async () => ({ data: false, error: null }) } });
   vm.runInContext(extract(admin, '// Staff authorization comes', '/* =============================================\n       CANDIDATE APPLICATIONS'), ctx);

@@ -18,7 +18,9 @@
   <script src="supabase-config.js"></script>
   <script src="js/site-content.js"></script>
   <script src="js/career-catalog.js"></script>
+  <script src="js/matching-terms.js"></script>
   <script src="js/applicant-matching.js"></script>
+  <script src="js/local-ai-ui.js"></script>
 
   <style>
     :root {
@@ -2067,10 +2069,9 @@
         <nav class="applicant-sections" aria-label="Applicant sections">
           <button type="button" data-applicant-section="matched" aria-pressed="true" onclick="selectApplicantSection('matched')">Matched applicants <span id="matched-section-count">0</span></button>
           <button type="button" data-applicant-section="all" aria-pressed="false" onclick="selectApplicantSection('all')">All applicants <span id="all-section-count">0</span></button>
-          <button type="button" data-applicant-section="not_matched" aria-pressed="false" onclick="selectApplicantSection('not_matched')">Rejected applicants <span id="rejected-section-count">0</span></button>
+          <button type="button" data-applicant-section="not_matched" aria-pressed="false" onclick="selectApplicantSection('not_matched')">Not matched <span id="rejected-section-count">0</span></button>
         </nav>
-        <p id="matching-counts" aria-live="polite"></p><button type="button" onclick="editMatchingRules()">Edit this job’s matching rules</button>
-        <p>Matched applicants are ranked strongest first. Rejected applicants explicitly fail an essential job requirement. Applicants needing information or awaiting matching remain in All applicants. Search finds people on the current page.</p>
+        <p id="applicant-analysis-status" role="status" aria-live="polite"></p>
       </div>
       <div id="apps-empty" class="draft-empty" style="display:none;">
         <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="var(--ink-mute)" stroke-width="1.5"
@@ -2083,6 +2084,7 @@
       </div>
 
       <div id="apps-container"></div><div class="req-box"><button id="matching-prev" type="button" onclick="loadMatchingPage(matchingOffset-25)">Previous</button> <span id="matching-page" aria-live="polite"></span> <button id="matching-next" type="button" onclick="loadMatchingPage(matchingOffset+25)">Next</button></div>
+
       </div>
     </div>
 
@@ -2412,6 +2414,10 @@
       }
 
       function lock() {
+        window.stopAutomaticApplicantReview?.();
+        window.LocalApplicantAI?.reset();
+        document.getElementById('applicant-details-dialog')?.close?.();
+        if (typeof matchingRequest !== 'undefined') ++matchingRequest;
         verificationVersion++;
         gate.style.display = ''; main.style.display = 'none';
         if (input) input.value = '';
@@ -2584,7 +2590,7 @@
               ${meta ? `<span class="job-pick-meta">${escapeHtml(meta)}</span>` : ''}
               <span class="job-pick-foot">
                 <span class="job-pick-count">${apps.length}<small>applicant${apps.length === 1 ? '' : 's'}${last ? ' · latest ' + escapeHtml(fmt(last)) : ''}</small></span>
-                <span class="job-pick-cta">${job.matchedCount || 0} matched · ${job.needsInformationCount || 0} need information →</span>
+                <span class="job-pick-cta">${job.automaticState === 'pending' ? 'Scoring automatically…' : job.automaticState === 'error' ? 'Analysis unavailable — retrying automatically' : (job.matchedCount || 0) + ' matched · ' + (job.needsInformationCount || 0) + ' need information →'}</span>
               </span>
             </button>`;
       };
@@ -2644,7 +2650,7 @@
       }
       document.getElementById('apps-jobs-view').style.display = 'none';
       document.getElementById('apps-job-detail').style.display = 'block';
-      document.getElementById('matching-status').value = job ? 'matched' : 'all';
+      document.getElementById('matching-status').value = 'all';
       ['matched-section-count', 'all-section-count', 'rejected-section-count'].forEach(id => {
         document.getElementById(id).textContent = '…';
       });
@@ -2685,8 +2691,12 @@
       } catch (e) {}
     };
 
-    // Load applications from IndexedDB + localStorage fallback
-    window.loadApplicationsList = async function () {
+    // Fetch fresh staff-only data and start every job's review without opening cards.
+    window.loadApplicationsList = async function ({background = false} = {}) {
+      window.stopAutomaticApplicantReview();
+      const automaticRequest = automaticVersion;
+      window.LocalApplicantAI?.reset();
+      ++matchingRequest;
       const container = document.getElementById('apps-container');
       const emptyBox = document.getElementById('apps-empty');
       const loadingBox = document.getElementById('apps-loading');
@@ -2702,33 +2712,80 @@
 
       try {
         const { data: overview, error } = await supabaseClient.rpc('admin_matching_overview');
+        if(automaticRequest !== automaticVersion) return;
         if (error) throw error;
         overviewTotal = overview.total; overviewOther = overview.other;
         hrJobs = (overview.jobs || []).map(j => ({ ...j,
           title: j.title, jobType: j.job_type, isDirectLink: j.is_direct_link,
-          applicantCount: j.applicant_count, matchedCount: j.matched_count, needsInformationCount: j.needs_information_count,
+          applicantCount: j.applicant_count, matchedCount: 0, needsInformationCount: 0, automaticState: 'pending',
           applicationRequirements: j.application_requirements || {}
         }));
         allCandidateApplications = [];
         if (counterBadge) counterBadge.textContent = overviewTotal;
 
         if (loadingBox) loadingBox.style.display = 'none';
-
+        startAutomaticApplicantReview(automaticRequest);
 
         // Stay on the open job after a refresh, unless it was removed
         if (selectedJobId && (selectedJobId === OTHER_APPS || hrJobs.some(j => String(j.id) === String(selectedJobId)))) {
-          openJobApplicants(selectedJobId);
+          if(background) loadMatchingPage(matchingOffset);
+          else openJobApplicants(selectedJobId);
         } else {
           showJobsList();
         }
       } catch (err) {
+        if(automaticRequest !== automaticVersion) return;
         console.error('Error loading applications:', err);
         if (loadingBox) loadingBox.style.display = 'none';
         const msg = `<div style="color:red; padding:20px;">Could not load applications: ${escapeHtml(err.message)}</div>`;
         container.innerHTML = msg;
         if (jobsGrid) jobsGrid.innerHTML = msg;
+        automaticTimer = setTimeout(() => loadApplicationsList({background:true}), 60000);
       }
     };
+
+    let automaticVersion = 0, automaticTimer = null, automaticEngine = null;
+    let automaticEnginePromise = null;
+    window.stopAutomaticApplicantReview = function() {
+      ++automaticVersion;
+      clearTimeout(automaticTimer); automaticTimer = null;
+      automaticEngine?.reset();
+    };
+    window.loadAutomaticJob = async function(jobId, onProgress = () => {}) {
+      const run = automaticVersion;
+      automaticEnginePromise ||= import('./js/automatic-applicants.mjs').then(module => {
+        automaticEngine = module.createAutomaticReview(); return automaticEngine;
+      }).catch(error => { automaticEnginePromise = null; throw error; });
+      const engine = await automaticEnginePromise;
+      if(run !== automaticVersion) throw Error('Review cancelled');
+      const job = hrJobs.find(j=>String(j.id)===String(jobId)) || {};
+      return engine.load({key:String(jobId),job,onProgress,fetchPage:async offset=>{
+        const {data,error} = await supabaseClient.rpc('admin_matched_applicants', {
+          p_job_id:jobId===OTHER_APPS?null:jobId,p_status:'all',p_offset:offset,p_limit:100
+        });
+        if(error) throw Error('Could not load applicants: '+error.message);
+        return data;
+      }});
+    };
+    async function startAutomaticApplicantReview(run) {
+      const ids = hrJobs.map(j=>j.id);
+      if(overviewOther) ids.push(OTHER_APPS);
+      for(const id of ids) {
+        if(run !== automaticVersion) return;
+        const job = hrJobs.find(j=>String(j.id)===String(id));
+        try {
+          const rows = await loadAutomaticJob(id);
+          if(run !== automaticVersion) return;
+          const {counts} = LocalApplicantAI.page(rows);
+          if(job) Object.assign(job,{applicantCount:counts.all,matchedCount:counts.matched,needsInformationCount:counts.needs_information,automaticState:'complete'});
+        } catch(error) {
+          if(run !== automaticVersion) return;
+          if(job) job.automaticState='error';
+        }
+        renderJobsOverview();
+      }
+      if(run === automaticVersion) automaticTimer=setTimeout(()=>loadApplicationsList({background:true}),60000);
+    }
 
     // Answers to the listing's own application questions.
     function screeningHtml(app) {
@@ -2783,18 +2840,18 @@
         const matchInfo = app._matchInfo;
         const rankLabel = document.getElementById('matching-status').value === 'matched'
           ? '<p><strong>Rank ' + (matchingOffset + allCandidateApplications.indexOf(app) + 1) + '</strong></p>' : '';
-        const matchBannerHtml = rankLabel + ApplicantMatching.banner(app.match_result, escapeHtml);
+        const matchBannerHtml = rankLabel + LocalApplicantAI.banner(app, escapeHtml);
 
         if (!detailContainer) {
-          const result = app.match_result || { status: 'pending' };
-          const scored = result.status === 'matched' && typeof result.score === 'number' && Number.isFinite(result.score);
+          const result = app.ai_review || LocalApplicantAI.review(app);
+          const scored = typeof result.score === 'number' && Number.isFinite(result.score);
           return `<article class="app-card app-compact">
             <div class="app-candidate-title"><div class="app-candidate-avatar">${escapeHtml((app.name || 'C')[0].toUpperCase())}</div>
               <div><h3 class="app-candidate-name">${escapeHtml(app.name || 'Candidate')}</h3>
                 <div class="app-date">${escapeHtml(app.degree || 'Qualification not provided')} · ${escapeHtml(formattedDate)}</div>
-                <div class="app-date">${escapeHtml(ApplicantMatching.labels[result.status] || result.status)}</div></div>
+                <div class="app-date">${escapeHtml(result.label)}</div><div class="app-date">${escapeHtml(result.explanation)}</div></div>
             </div>
-            <div class="app-compact-actions"><div class="app-match-percent"><strong>${scored ? result.score + '%' : 'Not scored'}</strong><span>Job match</span></div>
+            <div class="app-compact-actions"><div class="app-match-percent"><strong>${scored ? result.score + '/100' : 'Review needed'}</strong><span>Keyword match</span></div>
               <button type="button" class="btn-secondary" data-view-app="${escapeHtml(String(app.id))}">View details</button>
             </div></article>`;
         }
@@ -2864,6 +2921,9 @@
             ${screeningHtml(app)}
             <div class="app-details-grid">
               <div class="app-detail-item"><strong>Matching qualification</strong><span>${escapeHtml(app.matching_evidence?.qualification || 'Not provided')}</span></div>
+              <div class="app-detail-item"><strong>College (context only)</strong><span>${escapeHtml(app.matching_evidence?.college || 'Not provided')}</span></div>
+              <div class="app-detail-item"><strong>Current semester</strong><span>${escapeHtml(app.matching_evidence?.semester || 'Not provided')}</span></div>
+              <div class="app-detail-item"><strong>Course completion year</strong><span>${escapeHtml(app.matching_evidence?.graduationYear || 'Not provided')}</span></div>
               <div class="app-detail-item"><strong>Specialisation</strong><span>${escapeHtml(app.matching_evidence?.specialisation || 'Not provided')}</span></div>
               <div class="app-detail-item"><strong>Relevant experience reported</strong><span>${app.matching_evidence?.relevantMonths != null ? escapeHtml(String(app.matching_evidence.relevantMonths)) + ' months' : 'Not provided'}</span></div>
               <div class="app-detail-item"><strong>Experience criterion</strong><span>${escapeHtml(app.match_result?.rules?.experienceScope || 'No experience preference configured')}</span></div>
@@ -2936,10 +2996,16 @@
       saveStatus.onclick = async () => {
         saveStatus.disabled = true;
         try {
+          if (statusSelect.value === (app.hr_status || 'received')) {
+            statusFeedback.textContent = 'Status unchanged. No new notification was queued.';
+            return;
+          }
           const { data, error } = await supabaseClient.from('job_applications').update({hr_status:statusSelect.value}).eq('id',app.id).select('id,hr_status');
           if (error || !data || data.length !== 1) throw new Error('Status could not be saved. Check access and the notification migration.');
           app.hr_status = data[0].hr_status;
-          statusFeedback.textContent = 'Status saved. Notifications will be queued for enabled channels.';
+          LocalApplicantAI.setHRStatus(app.id, app.hr_status);
+          automaticEngine?.setHRStatus(app.id, app.hr_status);
+          statusFeedback.textContent = 'Status saved. Email delivery is not confirmed here. Notifications require candidate opt-in and a working email sender.';
         } catch (error) { statusFeedback.textContent = error.message; }
         finally { saveStatus.disabled = false; }
       };
@@ -3010,35 +3076,48 @@
       await loadMatchingPage(0);
     };
 
-    // Matching is calculated and sorted by the database, never by browser heuristics.
+    // Job views consume the automatic session cache; clicks only change the view.
     window.loadMatchingPage = async function(offset = 0) {
       if (!selectedJobId) return;
-      const request = ++matchingRequest;
+      const request = ++matchingRequest, jobId = selectedJobId;
       const status = document.getElementById('matching-status').value;
+      const minimum = 60;
       document.querySelectorAll('[data-applicant-section]').forEach(button => {
         button.setAttribute('aria-pressed', String(button.dataset.applicantSection === status));
       });
-      document.getElementById('matching-page').textContent = 'Loading…';
+      document.getElementById('matching-page').textContent = 'Analysing…';
+      document.getElementById('matching-prev').disabled = true;
+      document.getElementById('matching-next').disabled = true;
+      ['matched-section-count','all-section-count','rejected-section-count'].forEach(id => document.getElementById(id).textContent = '…');
       allCandidateApplications = []; renderApplications([]);
-      const {data, error} = await supabaseClient.rpc('admin_matched_applicants', {
-        p_job_id: selectedJobId === OTHER_APPS ? null : selectedJobId, p_status: status, p_offset: Math.max(0,offset), p_limit:25
-      });
-      if(request !== matchingRequest) return;
-      if(error) { document.getElementById('matching-page').textContent = 'Could not load results: ' + error.message; return; }
-      matchingOffset = Math.max(0,offset);
-      allCandidateApplications = data.rows.map(row => ({ ...row, phone:row.whatsapp, gradYear:row.grad_year,
-        isStudent:row.is_student, courseName:row.course_name, preferredLocation:row.preferred_location,
-        workMode:row.work_mode, jobRole:row.job_role, resumeUrl:row.resume_url,
-        resumeFileName:row.resume_url ? row.resume_url.split('/').pop() : '', createdAt:row.created_at }));
-      const counts = data.counts || {};
-      document.getElementById('matched-section-count').textContent = counts.matched || 0;
-      document.getElementById('all-section-count').textContent = Object.values(counts).reduce((sum, n) => sum + Number(n), 0);
-      document.getElementById('rejected-section-count').textContent = counts.not_matched || 0;
-      document.getElementById('matching-counts').textContent = counts.needs_information ? counts.needs_information + ' applicant(s) need information and can be found in All applicants.' : '';
-      document.getElementById('matching-page').textContent = data.total ? (matchingOffset+1) + '–' + (matchingOffset+data.rows.length) + ' of ' + data.total : 'No applicants in this view';
-      document.getElementById('matching-prev').disabled = matchingOffset === 0;
-      document.getElementById('matching-next').disabled = matchingOffset+25 >= data.total;
-      filterApplications();
+      document.getElementById('apps-empty').style.display = 'none';
+      try {
+        const rows = await loadAutomaticJob(jobId, text => {
+            if (selectedJobId === jobId) document.getElementById('applicant-analysis-status').textContent = text;
+        });
+        if (request !== matchingRequest || selectedJobId !== jobId) return;
+        const data = LocalApplicantAI.page(rows, {status, minimum, offset});
+        matchingOffset = data.offset;
+        allCandidateApplications = data.rows.map(row => ({ ...row, phone:row.whatsapp, gradYear:row.grad_year,
+          isStudent:row.is_student, courseName:row.course_name, preferredLocation:row.preferred_location,
+          workMode:row.work_mode, jobRole:row.job_role, resumeUrl:row.resume_url,
+          resumeFileName:row.resume_url ? row.resume_url.split('/').pop() : '', createdAt:row.created_at }));
+        const counts = data.counts;
+        document.getElementById('matched-section-count').textContent = counts.matched;
+        document.getElementById('all-section-count').textContent = counts.all;
+        document.getElementById('rejected-section-count').textContent = counts.not_matched;
+        const error = rows.find(a => a.ai_error)?.ai_error;
+        document.getElementById('applicant-analysis-status').textContent = error ||
+          (rows.length ? (jobId === OTHER_APPS ? 'A linked job is needed to calculate keyword scores.' : 'Automatically scored against job keywords · Updates every minute · Match threshold 60/100') : 'No applicants for this job yet.');
+        document.getElementById('matching-page').textContent = data.total ? (matchingOffset+1) + '–' + (matchingOffset+data.rows.length) + ' of ' + data.total : 'No applicants in this view';
+        document.getElementById('matching-prev').disabled = matchingOffset === 0;
+        document.getElementById('matching-next').disabled = matchingOffset+25 >= data.total;
+        filterApplications();
+      } catch (error) {
+        if (request !== matchingRequest || selectedJobId !== jobId) return;
+        document.getElementById('matching-page').textContent = 'Could not load analysis';
+        document.getElementById('applicant-analysis-status').textContent = error.message;
+      }
     };
     window.editMatchingRules = function() {
       const job = hrJobs.find(j => String(j.id) === String(selectedJobId));
@@ -3069,8 +3148,7 @@
     };
     document.addEventListener('DOMContentLoaded', () => ApplicantMatching.mount(document.getElementById('matching-config')));
 
-    // Eligibility and ranking come from the database. Search only locates people
-    // within the current results page and never changes their scores or order.
+    // Search applies to the current page of the integrated AI-ranked list.
     window.clearAllFilters = function () {
       const search = document.getElementById('apps-search-input');
       if (search) search.value = '';
@@ -3097,7 +3175,7 @@
         return;
       }
 
-      const headers = ['Full Name', 'Phone', 'Email', 'Degree', 'Grad Year', 'Experience', 'Preferred Location', 'Job Role', 'Skills', 'Resume File', 'Submitted At'];
+      const headers = ['Full Name', 'Phone', 'Email', 'Degree', 'Grad Year', 'Experience', 'Preferred Location', 'Job Role', 'Skills', 'Resume File', 'Submitted At', 'Keyword Match', 'Match Suggestion', 'Match Reason'];
       const rows = exportApps.map(a => [
         `"${(a.name || '').replace(/"/g, '""')}"`,
         `"${(a.phone || '').replace(/"/g, '""')}"`,
@@ -3109,7 +3187,10 @@
         `"${(a.jobRole || '').replace(/"/g, '""')}"`,
         `"${(Array.isArray(a.matching_evidence?.career?.skills) ? a.matching_evidence.career.skills.join(', ') : '').replace(/"/g, '""')}"`,
         `"${(a.resumeFileName || (a.resumeBlob ? 'Attached' : 'None')).replace(/"/g, '""')}"`,
-        `"${a.createdAt || ''}"`
+        `"${a.createdAt || ''}"`,
+        `"${a.ai_review?.score ?? ''}"`,
+        `"${(a.ai_review?.label || '').replace(/"/g, '""')}"`,
+        `"${(a.ai_review?.explanation || '').replace(/"/g, '""')}"`
       ]);
 
       const csvContent = 'data:text/csv;charset=utf-8,\uFEFF' + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');

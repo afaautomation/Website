@@ -10,6 +10,10 @@ const PUBLIC_EXT = /\.(html|webp|png|jpe?g|ico|svg|mp4|pdf)$/i;
 const PUBLIC_FILES = ['supabase-config.js', 'firebase-config.js', '_headers'];
 const PUBLIC_DIRS = ['css', 'js', 'img'];
 
+// Assets are not committed to Git; every build verifies the pinned model hashes
+// and bundles the browser runtime before publishing the staff console.
+require('child_process').execFileSync(process.execPath, [path.join(__dirname, 'setup-local-ai.cjs')], { stdio: 'inherit' });
+if (path.dirname(OUT) !== ROOT || path.basename(OUT) !== 'dist') throw Error('Unsafe build output path');
 fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(OUT);
 

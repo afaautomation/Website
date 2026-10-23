@@ -6,7 +6,7 @@ The code is implemented locally. It does not send messages until the migration, 
 
 Run `migrations/20261015_notifications.sql` in the Supabase SQL Editor **after** the existing application requirements, applicant matching and career matching migrations. It adds preferences, an outbox, application event triggers, HR status, and service-only queue functions. It does not send historical application receipts.
 
-Application changes and outbox inserts commit together. The application request never calls an email or WhatsApp API. Sending failures cannot roll back a saved application. Candidates choose channel consent in the final profile step; changed choices save with the profile before application submission. Nothing is opted in by default. If settings cannot load, existing choices are preserved and profile saving remains available; a failed attempt to save changed consent asks for a retry. Email links to `create-profile.html#notification-preferences` open a focused preferences section with its own save button, allowing opt-out without profile validation. Email goes only to the authenticated account's verified email, not an arbitrary profile email.
+Application changes and outbox inserts commit together. The application request never calls an email or WhatsApp API. Sending failures cannot roll back a saved application. Candidates choose channel consent in the final profile step; changed choices save with the profile before application submission. Nothing is opted in by default. If settings cannot load, existing choices are preserved and profile saving remains available; a failed attempt to save changed consent asks for a retry. Email links to `create-profile.html#notification-preferences` open a focused preferences section with its own save button, allowing opt-out without profile validation. Email goes only to the authenticated account email, never an arbitrary profile email. Phone-verified applicants may receive brief application updates without email verification. These messages omit job titles, matching results and personal details. Job digests still require a verified email. Email ownership is never marked verified by phone OTP.
 
 ## 2. Providers and secrets
 
@@ -24,7 +24,7 @@ Set these Edge Function secrets (the sender must be the mailbox that authorized 
 | `GMAIL_REFRESH_TOKEN` | Offline refresh token authorized for `gmail.send` |
 | `GMAIL_SENDER_EMAIL` | Authorized company mailbox, without display name or brackets |
 
-Keep `SITE_URL` and `NOTIFICATION_WORKER_SECRET` configured as below. Resend secrets are not required for Gmail. Enable Gmail API in Google Cloud and configure the internal company OAuth app. The function refreshes access tokens server-side and sends a private multipart HTML/plain-text email per recipient. It does not request inbox-reading permission. Applicants still need to opt into email and have a verified account email.
+Keep `SITE_URL` and `NOTIFICATION_WORKER_SECRET` configured as below. Resend secrets are not required for Gmail. Enable Gmail API in Google Cloud and configure the internal company OAuth app. The function refreshes access tokens server-side and sends a private multipart HTML/plain-text email per recipient. It does not request inbox-reading permission. Applicants still need to opt into email. Application updates require a verified phone or email; job digests require a verified email.
 
 Deploy the changed worker from the website directory:
 
@@ -89,6 +89,8 @@ Provider references: [Resend idempotency](https://resend.com/changelog/idempoten
 **Sending limits.** A new number can message about 250 unique people per 24 hours. Meta raises this automatically (1K → 10K → 100K → unlimited) while the number's quality rating stays high. Opt-in only, relevant messages keep the rating up; blocks and reports lower it. Check the rating in WhatsApp Manager → Phone numbers.
 
 ## 3. Deploy and schedule
+
+The `scripts/enable-notification-scheduler.ps1` setup script enables `pg_cron` and `pg_net`, stores a fresh worker secret in Edge Function secrets and Vault, and schedules `kompetenzen-notification-worker` every minute. Run only when ready to send opted-in pending notifications. It rotates worker authentication, so any separately configured caller must be updated. It removes its temporary credential files after execution.
 
 From the website folder, using the Supabase CLI linked to the correct project:
 

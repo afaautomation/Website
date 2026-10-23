@@ -1,4 +1,5 @@
 import { messageFor, failureState } from './messages.mjs';
+import { emailDestination, applicationEmail } from './email-policy.mjs';
 import { emailProvider, gmailConfigured, createGmailSender } from './gmail.mjs';
 import { DEFAULT_TEMPLATES, templateMessage, effectiveStatus } from '../_shared/whatsapp.mjs';
 
@@ -32,12 +33,13 @@ Deno.serve(async request=>{
       let destination=p.whatsapp_number;
       if(q.channel==='email') {
         const r=await fetch(`${base}/auth/v1/admin/users/${q.user_id}`,{headers:{apikey:service,Authorization:`Bearer ${service}`}});
-        if(!r.ok) throw new Error('Could not load verified email');
-        const user=await r.json(); destination=user.email_confirmed_at?user.email:'';
+        if(!r.ok) throw new Error('Could not load account email');
+        const user=await r.json(); destination=emailDestination(user,q.payload.event);
       }
       if(!destination || (q.delivery && q.delivery.destination!==destination)) {await update(q.id,{state:'cancelled',last_error:'Recipient unavailable or changed'});continue;}
-      if(!q.delivery && q.payload.event==='not_matched') q.payload.alternatives=await db('rpc/notification_alternatives','POST',{p_user:q.user_id,p_exclude:q.payload.job_id});
-      const delivery=q.delivery || {destination,...messageFor(q.payload,site),...(q.channel==='email'?{provider,sender:provider==='gmail'?env('GMAIL_SENDER_EMAIL'):env('EMAIL_FROM')}:{})};
+      if(!q.delivery && q.channel!=='email' && q.payload.event==='not_matched') q.payload.alternatives=await db('rpc/notification_alternatives','POST',{p_user:q.user_id,p_exclude:q.payload.job_id});
+      const content=q.channel==='email'?applicationEmail(q.payload.event,site):null;
+      const delivery=q.delivery || {destination,...(content || messageFor(q.payload,site)),...(q.channel==='email'?{provider,sender:provider==='gmail'?env('GMAIL_SENDER_EMAIL'):env('EMAIL_FROM')}:{})};
       if(provider==='gmail' && delivery.sender!==env('GMAIL_SENDER_EMAIL')) {await update(q.id,{state:'review',last_error:'Gmail sender changed; reconcile previous send before retrying'});continue;}
       if(!q.delivery) await update(q.id,{delivery});
       if(provider==='gmail') {
