@@ -1,5 +1,6 @@
 import { env, pipeline } from './vendor/local-ai/transformers.web.js';
 import { MODEL_ID, scoreProfile } from './local-ai-core.mjs';
+import { semanticReview } from './applicant-agent.mjs';
 
 const localFetch = self.fetch.bind(self);
 self.fetch = (input, options) => {
@@ -26,8 +27,17 @@ async function embed(text) {
   }
   return cache.get(text);
 }
-self.onmessage = async ({ data }) => {
+let queue=Promise.resolve();
+self.onmessage = ({data}) => { queue=queue.then(()=>handle(data)); };
+async function handle(data) {
   try {
+    if(data.type==='agent-review') {
+      self.postMessage({type:'status',taskId:data.taskId,text:'Local AI is comparing related skill evidence…'});
+      extractor ||= await pipeline('feature-extraction',MODEL_ID,{dtype:'q8',device:'wasm',local_files_only:true});
+      const results=await semanticReview(data.items,embed);
+      self.postMessage({type:'agent-complete',taskId:data.taskId,results});
+      return;
+    }
     if (data.type !== 'score') return;
     self.postMessage({ type: 'status', text: 'Loading the local AI model…' });
     extractor ||= await pipeline('feature-extraction', MODEL_ID, { dtype: 'q8', device: 'wasm',
@@ -40,6 +50,9 @@ self.onmessage = async ({ data }) => {
     }
     self.postMessage({ type: 'complete', results });
   } catch (error) {
+    if(data.type==='agent-review') {
+      self.postMessage({type:'agent-error',taskId:data.taskId,message:'Local AI comparison unavailable: '+error.message});return;
+    }
     self.postMessage({ type: 'error', message: 'Local model could not run. Check that its files are installed. ' + error.message });
   }
-};
+}

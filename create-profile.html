@@ -1432,11 +1432,6 @@
             <p class="field-note">Select all that apply, or choose “I don't know yet”.</p>
           </fieldset>
           <fieldset class="plain-fieldset form-group">
-            <legend class="form-label" id="field-experience-title">How would you describe your experience in this field?</legend>
-            <p class="field-note">Pick one. Every starting point is welcome.</p>
-            <div id="career-experience" class="career-choices"></div>
-          </fieldset>
-          <fieldset class="plain-fieldset form-group">
             <legend class="form-label" id="field-offer-title">A role in this field is offered this month. Which offer would you accept?</legend>
             <p class="field-note">Pick the one that best reflects your priorities.</p>
             <div id="career-offer" class="career-choices"></div>
@@ -1824,7 +1819,6 @@
         [p.field, 'career-field', 'Choose a field to explore.'],
         [p.skills.length, 'career-skills-summary', 'Select your technical skills or choose “I don’t know yet”.'],
         [p.softSkills.length, 'career-soft-skills-summary', 'Select your soft skills or choose “I don’t know yet”.'],
-        [p.experience, 'career-experience', 'Choose your experience in this field.'],
         [p.offerPreference, 'career-offer', 'Choose the offer you would accept.'],
         [!state.challenges.includes('other') || val('f-challenge-other'), 'f-challenge-other', 'Describe your other career challenge.'],
         [uploadedResumeFile || existingResumeUrl, 'resume-drop-zone', 'Upload your resume.'],

@@ -738,6 +738,34 @@ legend.form-label,
   transition: background 0.15s ease;
 }
 
+.career-add-skill {
+  display: flex;
+  gap: 8px;
+  padding: 0 14px 14px;
+}
+
+.career-add-skill .form-input-box {
+  flex: 1;
+  min-width: 0;
+}
+
+.career-add-skill-btn {
+  flex-shrink: 0;
+  padding: 0 18px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  color: #FFFFFF;
+  background: #2563EB;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.career-add-skill-btn:hover {
+  background: #1D4ED8;
+}
+
 .career-check:hover {
   background: rgba(255, 255, 255, 0.05);
 }

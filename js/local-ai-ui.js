@@ -72,8 +72,10 @@
       status = 'unconfigured'; explanation = 'Configure this job’s requirements to analyse its applicants.';
     } else if (eligibility === 'not_matched' || failed.length) {
       status = 'not_matched'; explanation = failed.length ? failed.slice(0,2).map(c=>c.reason).join(' ') : storedFailures.slice(0,2).join(' ') || 'An essential job requirement is not met. Open the analysis to review the configured criteria.';
-    } else if (eligibility !== 'matched' || missing.length || ai?.hasEvidence === false) {
-      status = 'needs_information'; explanation = missing.length ? missing.slice(0,2).map(c=>c.reason).join(' ') : 'Required evidence is missing or eligibility has not been confirmed.';
+    } else if(ai?.agent?.reviewNeeded) {
+      status='needs_information';explanation=ai.agent.concerns.slice(0,2).join(' ');
+    } else if (eligibility !== 'matched' || missing.length || ai?.hasEvidence === false || ai?.missingEvidence?.length) {
+      status = 'needs_information'; explanation = missing.length ? missing.slice(0,2).map(c=>c.reason).join(' ') : ai?.missingEvidence?.length ? 'Profile evidence is missing for: '+ai.missingEvidence.slice(0,3).join(', ')+'. Career interests and degree titles do not prove these skills.' : 'Required evidence is missing or eligibility has not been confirmed.';
     } else if (score === null) {
       status = 'needs_information'; explanation = app.ai_error ? 'Analysis is unavailable. It will retry automatically.' : 'Not enough job information to calculate a keyword score.';
     } else if (score < cutoff) {
@@ -98,9 +100,15 @@
   function banner(app, escape) {
     const r = app.ai_review || review(app), ai = app.ai_result;
     if(ai?.engine === 'keywords') {
-      const list = ai.details.map(d=>`<li>${escape(d.target)} — ${d.exact ? 'found in: '+escape(d.closest) : 'not found'} (${d.exact?d.weight:0}/${d.weight} keyword points; ${escape(d.source)})</li>`).join('');
+      const agent=ai.agent;
+      const agentPanel=agent ? `<section><h4>Applicant review</h4><p>${escape(agent.summary)}</p>${agent.concerns.length?'<ul>'+agent.concerns.map(s=>'<li>'+escape(s)+'</li>').join('')+'</ul>':''}
+        ${agent.strengths.length?'<p><strong>Evidence found</strong></p><ul>'+agent.strengths.map(s=>'<li>'+escape(s.requirement)+' — '+escape(s.evidence)+'</li>').join('')+'</ul>':''}
+        ${agent.semanticHints.length?'<p><strong>Related evidence suggested by local AI — verify before accepting</strong></p><ul>'+agent.semanticHints.map(h=>'<li>'+escape(h.requirement)+' ↔ '+escape(h.evidence)+' ('+escape(String(h.similarity))+'/100 text similarity; no score points added)</li>').join('')+'</ul>':''}
+        ${agent.semanticStatus==='unavailable'?'<p>'+escape(agent.semanticError)+'</p>':''}
+        ${agent.questions.length?'<p><strong>Suggested follow-up questions</strong></p><ul>'+agent.questions.map(q=>'<li>'+escape(q)+'</li>').join('')+'</ul>':''}</section>` : '';
+      const list = ai.details.map(d=>`<li>${escape(d.target)} — ${d.exact ? 'found in: '+escape(d.closest) : d.unknown ? 'profile evidence missing' : 'not found'} (${d.exact?Number(d.weight.toFixed(2)):0}/${Number(d.weight.toFixed(2))} keyword points; ${escape(d.source)})</li>`).join('');
       const checks = ai.checks.map(c=>`<li>${escape(c.label)}: ${escape(c.status)} — ${escape(c.reason)}</li>`).join('');
-      return `<div class="app-match-banner ${r.status === 'matched' ? 'high' : 'medium'}" style="display:block"><strong>${escape(r.label)}${r.score===null?'':' — '+r.score+'/100 keyword match'}</strong><p>${escape(r.explanation)}</p><details open><summary>Matched and missing keywords</summary><ul>${list}</ul>${checks?'<p>Configured requirements</p><ul>'+checks+'</ul>':''}<p>Score = matched keyword points ÷ all job keyword points × 100. Listed skills and requirements carry more weight than description words. This measures profile text overlap, not verified ability. HR makes the hiring decision.</p></details></div>`;
+      return `<div class="app-match-banner ${r.status === 'matched' ? 'high' : 'medium'}" style="display:block"><strong>${escape(r.label)}${r.score===null?'':' — '+r.score+'/100 keyword match'}</strong><p>${escape(r.explanation)}</p>${agentPanel}<details open><summary>Matched and missing keywords</summary><ul>${list}</ul>${checks?'<p>Configured requirements</p><ul>'+checks+'</ul>':''}<p>Simple OR alternatives count as one requirement. Skill criteria use declared skills, not career interests. When explicit criteria exist, job-title and description context contributes at most 20%. Score = matched points ÷ total points × 100. Missing evidence needs review; this is not verified ability. HR makes the hiring decision.</p></details></div>`;
     }
     const reasons = [r.explanation, ...(app.match_result?.reasons || [])];
     if (app.ai_error) reasons.push(app.ai_error);

@@ -28,4 +28,5 @@ const UI=require('../js/local-ai-ui.js');
     results,passed:results.filter(r=>r.passed).length,total:results.length,
     loadTest:{profiles:scored.length,allScored:scored.every(r=>r.ai_result.score===100),elapsedMs:Math.round(performance.now()-started)},
     careerFields:Object.values(globalThis.CareerCatalog.areas).reduce((n,a)=>n+Object.keys(a).length,0)},null,2));
+  if(results.some(r=>!r.passed)) process.exitCode=1;
 })().catch(e=>{console.error(e);process.exitCode=1;});

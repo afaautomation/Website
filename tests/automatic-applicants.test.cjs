@@ -54,6 +54,31 @@ test('job keyword weights are independent of applicant pool and repeated text',a
   assert.ok(keywordScore(job,applicant(['Python'])).score>keywordScore(job,applicant(['SQL'])).score);
 });
 
+test('local analysis handles alternatives, negative evidence and independent required skills',async()=>{
+  const {keywordScore}=await core;
+  for(const source of ['skills','requirements']) {
+    for(const option of ['Python','Java']) assert.equal(keywordScore({[source]:'Python or Java'},applicant([option])).score,100);
+    assert.equal(keywordScore({[source]:'.NET or Java'},applicant(['.NET'])).score,100);
+    assert.equal(keywordScore({[source]:'C++ or C#'},applicant(['C#'])).score,100);
+    assert.equal(keywordScore({[source]:'Python or Java, SQL'},applicant(['Python'])).score,50);
+    assert.equal(keywordScore({[source]:'Python and SQL'},applicant(['Python','SQL'])).score,100);
+  }
+  for(const negative of ['I have never used Python',"I don't know Python",'Python: no experience']) {
+    assert.equal(keywordScore({skills:'Python'},applicant([negative])).score,0);
+  }
+  assert.equal(keywordScore({skills:'SQL'},applicant(['Never used Python but SQL is familiar'])).score,100);
+});
+
+test('local analysis distinguishes unknown skills from interests and limits contextual prose',async()=>{
+  const {keywordScore}=await core;
+  for(const profile of [applicant([],{qualification:'B.Sc.'}),{matching_evidence:{career:{skills:[],field:'Python'}}}]) {
+    const ai_result=keywordScore({skills:'Python'},profile);
+    assert.equal(ai_result.score,0);assert.equal(UI.review({ai_result}).status,'needs_information');
+  }
+  const scored=keywordScore({skills:'Python',description:'Build scalable reliable maintainable services deliver innovative solutions collaborate stakeholders'},applicant(['Python']));
+  assert.equal(scored.score,80);assert.equal(UI.review({ai_result:scored}).status,'matched');
+});
+
 test('legacy null career fields preserve saved skills and split course from specialisation',async()=>{
   const {professionalEvidence,keywordScore}=await core;
   const app={degree:'B.Sc. · Artificial Intelligence',course_name:null,skills:'HTML / CSS, Python, SQL, Testing',

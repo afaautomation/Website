@@ -163,6 +163,12 @@ test('real downloaded model runs offline and ranks related evidence above unrela
     const unrelated = await scoreProfile(rules, { career: { skills: ['Food preparation'] } }, embed);
     const exact = await scoreProfile(rules, { career: { skills: ['Software testing'] } }, embed);
     assert.equal(exact.score, 100);
+    const {semanticReview}=await import('../js/applicant-agent.mjs');
+    const hints=await semanticReview([{id:0,skills:['Quality assurance testing'],criteria:[{target:'Software testing'}]},
+      {id:1,skills:['Never used software testing'],criteria:[{target:'Software testing'}]}],embed);
+    assert.equal(hints[0].hints.length,1);
+    assert.equal(hints[0].hints[0].evidence,'Quality assurance testing');
+    assert.equal(hints[1].hints.length,0);
     assert.ok(related.details[0].similarity > unrelated.details[0].similarity + 15, JSON.stringify({ related, unrelated }));
     assert.equal(related.score, 0, 'Semantic similarity cannot prove an unreported skill');
     assert.equal(unrelated.score, 0);

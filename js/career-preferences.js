@@ -4,13 +4,6 @@
   const unknown = "I don't know yet";
   const areas = window.CareerCatalog.areas;
   const softSkills = [...window.CareerCatalog.softSkills, unknown];
-  const levels = [
-    ['exploring', 'Exploring', 'I’m curious and still deciding if this is for me.'],
-    ['learning', 'Learning', 'I’ve studied or taken a course in it.'],
-    ['practising', 'Practising', 'I’ve built or done something real in it, like a project, internship or freelance work.'],
-    ['working', 'Working', 'I’ve done this as paid work.'],
-    ['leading', 'Leading', 'I’ve owned results in it or guided others.']
-  ];
   const offers = [
     ['learn_first', 'Learn-first', 'The right field, lower pay, a strong mentor.'],
     ['earn_first', 'Earn-first', 'Higher pay, a role slightly outside my field.'],
@@ -22,19 +15,47 @@
   function selectOptions(id, values, placeholder) {
     $(id).replaceChildren(new Option(placeholder, ''), ...values.map(v => new Option(v,v)));
   }
-  function checks(id, values, chosen = []) {
-    $(id).replaceChildren(...values.map(value => {
-      const label = document.createElement('label'); label.className = 'career-check';
-      const input = document.createElement('input'); input.type = 'checkbox'; input.value = value; input.checked = chosen.includes(value);
-      input.addEventListener('change', () => {
-        if (input.checked) $(id).querySelectorAll('input').forEach(other => {
-          if (other !== input && (value === unknown || other.value === unknown)) other.checked = false;
-        });
-        updateCount(id);
+  function check(id, value, checked) {
+    const label = document.createElement('label'); label.className = 'career-check';
+    const input = document.createElement('input'); input.type = 'checkbox'; input.value = value; input.checked = checked;
+    input.addEventListener('change', () => {
+      if (input.checked) $(id).querySelectorAll('input').forEach(other => {
+        if (other !== input && (value === unknown || other.value === unknown)) other.checked = false;
       });
-      label.append(input, document.createTextNode(value)); return label;
-    }));
+      updateCount(id);
+    });
+    label.append(input, document.createTextNode(value)); return label;
+  }
+  function checks(id, values, chosen = []) {
+    // Skills the candidate typed in earlier are kept as extra options, ahead of "I don't know yet".
+    const custom = chosen.filter(v => typeof v === 'string' && v.trim() && !values.includes(v));
+    const all = values.includes(unknown) ? [...values.filter(v => v !== unknown), ...custom, unknown] : [...values, ...custom];
+    $(id).replaceChildren(...all.map(value => check(id, value, chosen.includes(value))));
     updateCount(id);
+  }
+  function addSkill(id, raw) {
+    const value = raw.replace(/\s+/g, ' ').trim().slice(0, 60);
+    if (!value || value.toLowerCase() === unknown.toLowerCase()) return false;
+    const inputs = [...$(id).querySelectorAll('input')];
+    const existing = inputs.find(el => el.value.toLowerCase() === value.toLowerCase());
+    const target = existing || check(id, value, false).querySelector('input');
+    if (!existing) {
+      const unknownLabel = inputs.find(el => el.value === unknown)?.closest('label');
+      $(id).insertBefore(target.closest('label'), unknownLabel || null);
+    }
+    if (!target.checked) { target.checked = true; target.dispatchEvent(new Event('change')); }
+    return true;
+  }
+  function addSkillControl(id, placeholder) {
+    const row = document.createElement('div'); row.className = 'career-add-skill';
+    const input = document.createElement('input'); input.type = 'text'; input.className = 'form-input-box'; input.maxLength = 60;
+    input.placeholder = placeholder; input.setAttribute('aria-label', placeholder);
+    const button = document.createElement('button'); button.type = 'button'; button.className = 'career-add-skill-btn'; button.textContent = '+ Add';
+    const submit = () => { if (addSkill(id, input.value)) input.value = ''; input.focus(); };
+    button.addEventListener('click', submit);
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); submit(); } });
+    row.append(input, button);
+    $(id).after(row);
   }
   function updateCount(id) {
     const values = selected(id);
@@ -51,14 +72,12 @@
   function updateField(chosenSkills = []) {
     const field = $('career-field').value;
     checks('career-skills', (areas[$('career-area').value]?.[field] || []).concat(unknown), chosenSkills);
-    $('field-experience-title').textContent = `How would you describe your experience in ${field || 'this field'}?`;
     $('field-offer-title').textContent = `A role in ${field || 'this field'} is offered this month. Which offer would you accept?`;
     $('career-field-questions').hidden = !field;
   }
   function updateArea() {
     selectOptions('career-field', Object.keys(areas[$('career-area').value] || {}), 'Select a field to explore');
     $('career-field').disabled = !$('career-area').value;
-    $('career-experience').querySelectorAll('input').forEach(el => el.checked = false);
     $('career-offer').querySelectorAll('input').forEach(el => el.checked = false);
     updateField();
   }
@@ -73,7 +92,6 @@
     area: $('career-area').value, field: $('career-field').value,
     skills: $('career-field').value ? selected('career-skills') : [],
     softSkills: selected('career-soft-skills'),
-    experience: $('career-field').value ? selected('career-experience')[0] || '' : '',
     offerPreference: $('career-field').value ? selected('career-offer')[0] || '' : '',
     offerOrder: offerOrder.slice()
   });
@@ -86,19 +104,18 @@
     updateField(safeSkills(data.skills));
     checks('career-soft-skills', softSkills, safeSkills(data.softSkills));
     if (Array.isArray(data.offerOrder) && data.offerOrder.length === offers.length && new Set(data.offerOrder).size === offers.length && data.offerOrder.every(code => offers.some(o => o[0] === code))) offerOrder = data.offerOrder;
-    radios('career-experience', levels, $('career-field').value ? data.experience : '');
     radios('career-offer', offerOrder.map(code => offers.find(o => o[0] === code)), $('career-field').value ? data.offerPreference : '');
   };
   window.initCareerPreferences = () => {
     selectOptions('career-area', Object.keys(areas), 'Select a career area');
     offerOrder = shuffledOffers();
-    radios('career-experience', levels);
     radios('career-offer', offerOrder.map(code => offers.find(o => o[0] === code)));
     checks('career-soft-skills', softSkills);
+    addSkillControl('career-skills', 'Add more skills, e.g. TensorFlow');
+    addSkillControl('career-soft-skills', 'Add more soft skills, e.g. Negotiation');
     updateArea();
     $('career-area').addEventListener('change', updateArea);
     $('career-field').addEventListener('change', () => {
-      $('career-experience').querySelectorAll('input').forEach(el => el.checked = false);
       $('career-offer').querySelectorAll('input').forEach(el => el.checked = false);
       updateField();
     });

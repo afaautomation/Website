@@ -1,5 +1,4 @@
 // Read-only diagnostics. Never prints credentials, recipient addresses or message bodies.
-const fs=require('node:fs');
 const {getSupabaseAdmin}=require('./supabase-admin.cjs');
 async function main(){
   const sb=getSupabaseAdmin();
@@ -16,7 +15,5 @@ async function main(){
   for(const origin of ['http://127.0.0.1:5500','https://kompetenzen.in']){
     try{const r=await fetch(origin+'/create-profile.html',{signal:AbortSignal.timeout(8000)});const body=await r.text();console.log(JSON.stringify({origin,status:r.status,notificationUI:body.includes('id="notification-preferences"'),notificationScript:body.includes('js/notification-preferences.js')}));}catch{console.log(JSON.stringify({origin,reachable:false}));}
   }
-  const source=fs.readFileSync('firebase-config.js','utf8');const key=source.match(/apiKey:\s*"([^"]+)"/)[1];
-  try{const r=await fetch('https://identitytoolkit.googleapis.com/v1/projects?key='+key,{signal:AbortSignal.timeout(8000)});const data=await r.json();console.log(JSON.stringify({firebaseConfigStatus:r.status,authorizedDomains:data.authorizedDomains,error:data.error?.message}));}catch{console.log('Firebase configuration check unreachable');}
 }
 main().catch(()=>{console.error('Diagnostic request failed; check network access and local configuration');process.exitCode=1;});

@@ -399,7 +399,7 @@
               Verify Mobile Number
             </h3>
             <p style="margin:0; font-size:0.83rem; color:#64748b; line-height:1.45;">
-              We sent a 6-digit SMS verification code to<br>
+              We sent a 6-digit code on WhatsApp to<br>
               <strong id="otp-phone-display" style="color:#0f172a; font-weight:700;">+91</strong>
             </p>
           </div>
@@ -431,9 +431,6 @@
           </form>
 
         </div>
-
-        <!-- Firebase invisible reCAPTCHA container (must be outside hidden step views) -->
-        <div id="recaptcha-container"></div>
 
       </div>
     </div>
@@ -638,165 +635,25 @@
     }
   }
 
-  // Dynamic script loader for Firebase Phone Auth
-  function loadScriptAsync(src) {
-    return new Promise((resolve, reject) => {
-      const existing = document.querySelector(`script[src="${src}"]`);
-      if (existing && existing.getAttribute('data-loaded') === 'true') return resolve();
-      const s = existing || document.createElement('script');
-      let timer;
-      const cleanup = () => { clearTimeout(timer); s.removeEventListener('load', loaded); s.removeEventListener('error', failed); };
-      const loaded = () => { cleanup(); s.setAttribute('data-loaded', 'true'); resolve(); };
-      const failed = () => { cleanup(); s.remove(); reject(new Error('Could not load phone verification. Check your connection or browser blocking, then try again.')); };
-      s.addEventListener('load', loaded);
-      s.addEventListener('error', failed);
-      timer = setTimeout(failed, 20000);
-      if (existing) return;
-      s.src = src;
-      s.async = true;
-      document.head.appendChild(s);
-    });
-  }
-
-  async function ensureFirebaseAuth() {
-    if (typeof window.firebase === 'undefined') {
-      await loadScriptAsync('https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js');
-    }
-    if (typeof window.firebase === 'undefined' || !window.firebase.auth) {
-      await loadScriptAsync('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js');
-    }
-    if (!window.firebase.apps || !window.firebase.apps.length) {
-      window.firebase.initializeApp(firebaseConfig);
-    }
-    return window.firebase.auth();
-  }
-
   function formatPhoneToE164(phone) {
-    let clean = (phone || '').toString().trim().replace(/[\s\-\(\)]/g, '');
-    if (clean.startsWith('+')) return clean;
-    if (clean.length === 10) return '+91' + clean;
-    if (clean.length > 10 && clean.startsWith('91')) return '+' + clean;
+    const clean = (phone || '').toString().trim().replace(/[\s\-\(\)]/g, '');
+    if (/^\+91[6-9]\d{9}$/.test(clean)) return clean;
+    if (/^91[6-9]\d{9}$/.test(clean)) return '+' + clean;
     return '+91' + clean;
   }
 
-  function resetRecaptchaVerifier() {
-    if (window._recaptchaVerifier) {
-      try {
-        window._recaptchaVerifier.clear();
-      } catch (e) {}
-      window._recaptchaVerifier = null;
-    }
-    const oldContainer = document.getElementById('recaptcha-container');
-    if (oldContainer && oldContainer.parentNode) {
-      const fresh = document.createElement('div');
-      fresh.id = 'recaptcha-container';
-      fresh.style.cssText = oldContainer.style.cssText;
-      oldContainer.parentNode.replaceChild(fresh, oldContainer);
-    }
-  }
-
-  function getRecaptchaVerifier(auth) {
-    resetRecaptchaVerifier();
-
-    let container = document.getElementById('recaptcha-container');
-    if (!container) {
-      container = document.createElement('div');
-      container.id = 'recaptcha-container';
-      document.body.appendChild(container);
-    }
-
-    try {
-      window._recaptchaVerifier = new window.firebase.auth.RecaptchaVerifier(container, {
-        size: 'invisible',
-        callback: function () {
-          // reCAPTCHA solved
-        },
-        'expired-callback': function () {
-          resetRecaptchaVerifier();
-        }
-      }, auth.app);
-    } catch (e) {
-      resetRecaptchaVerifier();
-      container = document.getElementById('recaptcha-container') || document.body;
-      window._recaptchaVerifier = new window.firebase.auth.RecaptchaVerifier(container, {
-        size: 'invisible',
-        callback: function () {},
-        'expired-callback': function () {
-          resetRecaptchaVerifier();
-        }
-      }, auth.app);
-    }
-
-    return window._recaptchaVerifier;
-  }
-
   /**
-   * Sends 6-digit OTP code to the user's mobile number via Firebase Phone Auth (SMS)
+   * Sends a 6-digit code to the user's WhatsApp via the whatsapp-otp Edge Function
    */
   async function requestOtp(phone) {
-    try {
-      const auth = await ensureFirebaseAuth();
-      const formattedPhone = formatPhoneToE164(phone);
-      const appVerifier = getRecaptchaVerifier(auth);
-
-      const confirmationResult = await auth.signInWithPhoneNumber(formattedPhone, appVerifier);
-      window._firebaseConfirmationResult = confirmationResult;
-      return { ok: true, formattedPhone };
-    } catch (err) {
-      console.error('Firebase send OTP error:', err);
-      resetRecaptchaVerifier();
-
-      let msg = 'Could not send SMS verification code. Please try again.';
-      const code = err && err.code ? err.code : '';
-      if (code === 'auth/invalid-phone-number') {
-        msg = 'Invalid mobile number. Please check your 10-digit number.';
-      } else if (code === 'auth/too-many-requests') {
-        msg = 'Too many attempts. Please wait a few minutes before trying again.';
-      } else if (code === 'auth/quota-exceeded') {
-        msg = 'Daily SMS quota reached. Please try again later or add phone numbers for testing in Firebase.';
-      } else if (code === 'auth/operation-not-allowed') {
-        msg = 'SMS verification is unavailable. Check that Firebase Phone sign-in is enabled and the SMS region policy allows India.';
-      } else if (code === 'auth/billing-not-enabled') {
-        msg = 'SMS verification requires billing to be enabled on the Firebase project. Use a configured fictional test number during development.';
-      } else if (code === 'auth/unauthorized-domain' || code === 'auth/app-not-authorized') {
-        msg = 'This website is not authorised for phone verification. Add the hosted website domain in Firebase Authentication settings and check API-key restrictions.';
-      } else if (code === 'auth/captcha-check-failed') {
-        if (['127.0.0.1', 'localhost', '[::1]'].includes(window.location.hostname)) {
-          msg = 'Real SMS verification is not supported on localhost. Test on an authorised HTTPS website, or use a fictional phone number configured for testing in Firebase.';
-        } else {
-          msg = 'Security verification failed: Please verify your domain in Firebase Console > Authentication > Settings > Authorized domains.';
-        }
-      } else if (code === 'auth/invalid-app-credential') {
-        msg = 'Phone security verification failed. For real SMS, use an authorised HTTPS website and check Firebase billing, SMS region settings and browser blocking. For local development, use a fictional test number configured in Firebase; no SMS is sent to test numbers.';
-      } else if (err && err.message) {
-        msg = err.message;
-      }
-      return { ok: false, message: msg };
+    if (typeof supabaseSendWhatsAppOtp !== 'function' || !isSupabaseConfigured()) {
+      return { ok: false, message: 'Mobile verification is temporarily unavailable. Please try again shortly.' };
     }
-  }
-
-  /**
-   * Verifies the 6-digit SMS OTP code using Firebase
-   */
-  async function verifyOtp(phone, otp) {
     try {
-      if (!window._firebaseConfirmationResult) {
-        return { ok: false, message: 'Verification session expired. Please request a new OTP.' };
-      }
-      const result = await window._firebaseConfirmationResult.confirm(otp);
-      return { ok: true, user: result.user };
+      const result = await supabaseSendWhatsAppOtp(formatPhoneToE164(phone));
+      return { ok: true, formattedPhone: result.phone };
     } catch (err) {
-      console.error('Firebase verify OTP error:', err);
-      let msg = 'Invalid verification code. Please check the OTP and try again.';
-      const code = err && err.code ? err.code : '';
-      if (code === 'auth/invalid-verification-code') {
-        msg = 'Incorrect 6-digit OTP. Please check the code received on your phone.';
-      } else if (code === 'auth/code-expired') {
-        msg = 'This code has expired. Please click "Resend OTP".';
-      } else if (err && err.message) {
-        msg = err.message;
-      }
-      return { ok: false, message: msg };
+      return { ok: false, message: (err && err.message) || 'Could not send the WhatsApp code. Please try again.' };
     }
   }
 
@@ -816,14 +673,13 @@
 
   window.resendOtpCode = async function () {
     if (!window._pendingOtpAuth) return;
-    window._pendingOtpAuth.verifiedUser = null;
-    showOtpInlineMessage('Sending new verification code via SMS…', false);
+    showOtpInlineMessage('Sending a new code on WhatsApp…', false);
     const result = await requestOtp(window._pendingOtpAuth.cleanPhone);
     if (!result.ok) {
       showOtpInlineMessage(result.message, true);
       return;
     }
-    showOtpInlineMessage('✓ New verification code sent to your phone via SMS!', false);
+    showOtpInlineMessage('✓ New code sent to your WhatsApp!', false);
     startOtpCountdown(30);
   };
 
@@ -839,7 +695,6 @@
       clearInterval(otpCountdownTimer);
       otpCountdownTimer = null;
     }
-    resetRecaptchaVerifier();
     const msgEl = document.getElementById('auth-inline-msg');
     if (msgEl) msgEl.style.display = 'none';
     const otpMsg = document.getElementById('otp-inline-msg');
@@ -1138,7 +993,7 @@
       return;
     }
 
-    // Validate everything Supabase will check before an SMS is paid for.
+    // Validate everything Supabase will check before a WhatsApp message is paid for.
     const cleanPhone = phone.replace(/[\s\-\(\)]/g, '');
     if (!/^(\+?91)?[6-9]\d{9}$/.test(cleanPhone)) {
       window.showAuthMessage('Please enter a valid 10-digit mobile number.', true);
@@ -1155,7 +1010,7 @@
 
     if (btn) {
       btn.disabled = true;
-      btn.textContent = 'Sending OTP SMS…';
+      btn.textContent = 'Sending WhatsApp code…';
     }
 
     const sent = await requestOtp(cleanPhone);
@@ -1200,7 +1055,7 @@
       showOtpInlineMessage('Verification session expired. Please start again.', true);
       return;
     }
-    if (!otpInput) {
+    if (!/^\d{6}$/.test(otpInput || '')) {
       showOtpInlineMessage('Please enter the 6-digit code.', true);
       return;
     }
@@ -1216,21 +1071,11 @@
       submitBtn.textContent = 'Verifying Code…';
     }
 
-    // Keep the verified Firebase user for a safe retry if account creation temporarily fails.
-    const verified = pending.verifiedUser ? { ok: true, user: pending.verifiedUser } : await verifyOtp(pending.cleanPhone, otpInput);
-    if (!verified.ok) {
-      showOtpInlineMessage(verified.message || 'Please check your OTP and try again.', true);
-      resetBtn();
-      return;
-    }
-    pending.verifiedUser = verified.user;
-    showOtpInlineMessage('Mobile verified. Finishing your account…', false);
+    // The server checks the code; a correct code can be retried until it expires if account creation fails.
     try {
-      const token = await verified.user.getIdToken(true);
-      const result = await supabasePhoneSignUp(pending.name, pending.email, pending.password, token);
+      const result = await supabasePhoneSignUp(pending.name, pending.email, pending.password, pending.formattedPhone, otpInput);
       const user = result.session.user;
       window._pendingOtpAuth = null;
-      try { await window.firebase.auth().signOut(); } catch (_) {}
       completeAuthSession({ id: user.id, name: user.user_metadata?.name || pending.name,
         email: user.email, phone: user.phone, authType: 'Mobile OTP Verified' }, 'Account created! You’re signed in.');
     } catch (error) {

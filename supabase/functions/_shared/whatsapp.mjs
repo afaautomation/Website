@@ -29,6 +29,23 @@ export function templateMessage(destination, templateName, language, title, text
   };
 }
 
+// Authentication template with a copy-code button: the code fills body {{1}} and the button.
+export function otpMessage(destination, templateName, language, code) {
+  return {
+    messaging_product: 'whatsapp',
+    to: String(destination).replace(/^\+/, ''),
+    type: 'template',
+    template: {
+      name: templateName,
+      language: { code: language },
+      components: [
+        { type: 'body', parameters: [{ type: 'text', text: code }] },
+        { type: 'button', sub_type: 'url', index: '0', parameters: [{ type: 'text', text: code }] }
+      ]
+    }
+  };
+}
+
 // Meta reports throttling as HTTP 400/429 with these error codes; treat them as an explicit
 // rate-limit rejection (safe to retry). Anything else keeps its real HTTP status.
 const RATE_LIMIT_CODES = new Set([4, 80007, 130429, 131056]);

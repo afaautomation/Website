@@ -122,7 +122,7 @@ Redeploy after adding them (Deployments → latest → Retry deployment).
 
 - **Supabase → Authentication → URL Configuration:** Site URL `https://kompetenzen.in`; add `https://kompetenzen.in/**` and `https://*.pages.dev/**` (preview links) to Redirect URLs.
 - **Supabase:** upgrade to **Pro** (daily backups); set **custom SMTP** (Authentication → Emails) before turning on **Confirm email**.
-- **Firebase → Authentication → Settings → Authorized domains:** add `kompetenzen.in`, `www.kompetenzen.in` and your `<project>.pages.dev` domain. Turn on **App Check** and restrict SMS regions to India.
+- **Signup OTP:** codes go over WhatsApp (Meta Cloud API), not Firebase SMS. Run `migrations/20261024_whatsapp_otp.sql`, approve the `verification_code` authentication template and deploy the `whatsapp-otp` and `phone-signup` functions; see `PHONE_SIGNUP_SETUP.md`.
 
 ---
 

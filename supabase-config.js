@@ -71,10 +71,20 @@ async function supabaseSignIn(email, password) {
   };
 }
 
-async function supabasePhoneSignUp(name, email, password, firebaseToken) {
+async function supabaseSendWhatsAppOtp(phone) {
+  const response = await fetch(SUPABASE_URL + '/functions/v1/whatsapp-otp', {
+    method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY },
+    body: JSON.stringify({ phone })
+  });
+  const result = await response.json().catch(() => null);
+  if (!response.ok || !result?.sent) throw new Error(result?.error || 'Could not send the WhatsApp code. Please retry shortly.');
+  return result;
+}
+
+async function supabasePhoneSignUp(name, email, password, phone, code) {
   const response = await fetch(SUPABASE_URL + '/functions/v1/phone-signup', {
     method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY },
-    body: JSON.stringify({ name, email, password, firebaseToken })
+    body: JSON.stringify({ name, email, password, phone, code })
   });
   const result = await response.json().catch(() => null);
   if (!response.ok || !result?.session) throw new Error(result?.error || 'Phone signup is unavailable. Please retry shortly.');

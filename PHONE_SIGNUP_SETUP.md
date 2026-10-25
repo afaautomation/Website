@@ -1,21 +1,35 @@
-# Signup completed by mobile OTP
+# Signup completed by WhatsApp OTP
 
-New applicants verify their phone with Firebase, then the `phone-signup` Edge Function verifies that signed Firebase token server-side (correct project, issuer, RS256 signature, phone provider and authentication within ten minutes). Only that verified number is saved as confirmed. The function creates the Supabase account and returns a genuine session; the browser persists it and continues to the original destination without a login form.
+New applicants enter name, email, mobile and password. The `whatsapp-otp` Edge Function sends a 6-digit code through the company's WhatsApp Cloud API number (Meta authentication template). The `phone-signup` Edge Function checks the code, creates the Supabase account with that phone marked confirmed, and returns a genuine session; the browser persists it and continues to the original destination without a login form. Firebase and SMS are no longer used.
 
-Deploy the frontend changes and the new function:
+## Deploy
+
+1. Run `migrations/20261024_whatsapp_otp.sql` in the Supabase SQL Editor (after `20261015_notifications.sql`).
+2. In WhatsApp Manager → Message templates, create an **Authentication** template named `verification_code`, language English (`en`), with a **Copy code** button. Meta supplies the body text ("{{1}} is your verification code."); add the optional security disclaimer and a 10-minute expiry. Use another name only if you set `WHATSAPP_TEMPLATE_OTP`.
+3. Deploy both functions. They use the WhatsApp secrets already set for notifications (`WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_ACCESS_TOKEN`, optional `WHATSAPP_TEMPLATE_LANGUAGE` / `WHATSAPP_API_VERSION`; see `NOTIFICATIONS_SETUP.md`):
 
 ```powershell
+npx supabase functions deploy whatsapp-otp --project-ref xgnluardsgflfxttvgwc
 npx supabase functions deploy phone-signup --project-ref xgnluardsgflfxttvgwc
 ```
 
-In Supabase Authentication, the Phone provider must be enabled for phone/password sessions. Firebase still sends the OTP; this endpoint does not call Supabase SMS sending. Email confirmation must remain enabled. The endpoint checks the phone provider before creating any account and reports a setup error if disabled.
+4. Publish the website (the Firebase script and `firebase-config.js` are removed). The Firebase project can then be deleted or its Phone provider disabled.
 
-No new SQL migration or Firebase service-account secret is needed. Firebase public signing keys verify the ID token. Supabase supplies its service-role key to the function; this key is never sent to browsers. The JWT gateway is disabled only for this endpoint because applicants have a Firebase token, not yet a Supabase token. The function itself verifies Firebase proof before any account creation.
+In Supabase Authentication, the Phone provider must stay enabled so users can sign in with phone and password; Supabase never sends SMS for this flow. Email confirmation must remain enabled. `phone-signup` checks the provider before creating any account.
 
-Phone verification does not verify email ownership. The email stays unconfirmed until separately verified. Users can later sign in with their verified phone and password; email login and email notifications requiring a verified address remain unavailable until email verification. Existing accounts from the old email-signup flow are not automatically linked or confirmed based on a newly supplied phone number. Those users must use the existing sign-in/recovery flow. No old account, password or role is overwritten.
+## Security
 
-The original signup password and Firebase token are used only for the HTTPS exchange, never logged. If a response is lost, retrying with the same verified phone, Firebase UID, email and correct password can recover the session without creating another account.
+- Codes are generated server-side, stored only as an HMAC (keyed with the service-role key), expire after 10 minutes and allow 5 guesses. A new code replaces the old one.
+- Limits: one send per number per 30 seconds, 5 per number per hour, 10 per client IP per hour. Only Indian mobile numbers (`+91` 6–9…) are accepted. Browsers cannot read the OTP tables or call the database functions; only the Edge Functions (service role) can.
+- Both endpoints run without the Supabase JWT gateway because applicants have no account yet; the OTP check is the proof.
+- WhatsApp verification does not verify email ownership. The email stays unconfirmed until separately verified; application updates may use the confirmed phone (see `NOTIFICATIONS_SETUP.md`).
+- Existing accounts are never linked, confirmed or overwritten. If a response is lost, retrying with the same code, email and password returns the session while the code is still valid; after success the code is deleted.
+- Passwords and codes are used only for the HTTPS exchange and never logged.
 
-Allowed browser origins include `https://kompetenzen.pages.dev`, the company domain, localhost port 5500, and the configured `SITE_URL`. Real SMS still requires an authorized hosted Firebase domain. CORS does not substitute for token verification.
+Allowed browser origins: `https://kompetenzen.pages.dev`, the company domain, localhost port 5500, and the configured `SITE_URL`.
 
-Tests: `node --test tests/phone-signup.test.cjs tests/admin-login.test.cjs tests/admin-workflows.test.cjs`
+## Cost and limits
+
+Each code is one Meta authentication message (about ₹0.115 in India for an Indian business account; check Meta's current rate card). Resends cost the same. New numbers can message a limited number of unique people per 24 hours until Meta raises the tier, and OTPs count toward it; keep the number's quality rating high.
+
+Tests: `node --test tests/phone-signup.test.cjs`
