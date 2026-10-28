@@ -4,8 +4,8 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 const path = require('node:path');
 const read = file => fs.readFileSync(path.join(__dirname, '..', file), 'utf8').replace(/\r\n/g, '\n');
-const admin = read('admin.html');
-const gate = admin.slice(admin.indexOf('// Staff authorization comes'), admin.indexOf('/* =============================================\n       CANDIDATE APPLICATIONS'));
+// Shared by admin.html (HR) and marketing.html (Marketing).
+const gate = read('js/staff-gate.js');
 const flush = () => new Promise(resolve => setImmediate(resolve));
 function elements() {
   const nodes = new Map();

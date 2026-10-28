@@ -93,10 +93,35 @@ async function supabasePhoneSignUp(name, email, password, phone, code) {
   return data;
 }
 
-async function supabaseSignInWithGoogle(redirectUrl) {
+// Where to go after a sign-in started on this page (e.g. a job's apply link).
+// Saved with a timestamp and always replaced by the next sign-in attempt, so an
+// abandoned sign-in (Google page closed, email link opened much later) cannot
+// redirect the visitor into a job application days afterwards.
+const PENDING_AUTH_REDIRECT_KEY = 'kompetenzen_pending_auth_redirect';
+const PENDING_AUTH_REDIRECT_MAX_AGE_MS = 30 * 60 * 1000;
+
+function savePendingAuthRedirect(url) {
   try {
-    if (redirectUrl) localStorage.setItem('kompetenzen_pending_auth_redirect', redirectUrl);
+    if (url) localStorage.setItem(PENDING_AUTH_REDIRECT_KEY, JSON.stringify({ url, at: Date.now() }));
+    else localStorage.removeItem(PENDING_AUTH_REDIRECT_KEY);
   } catch (e) {}
+}
+
+// Returns the saved redirect once, or null if there is none or it has expired.
+function takePendingAuthRedirect() {
+  try {
+    const raw = localStorage.getItem(PENDING_AUTH_REDIRECT_KEY);
+    localStorage.removeItem(PENDING_AUTH_REDIRECT_KEY);
+    const saved = raw && JSON.parse(raw);
+    const fresh = saved && typeof saved.url === 'string' && Date.now() - saved.at < PENDING_AUTH_REDIRECT_MAX_AGE_MS;
+    return fresh ? saved.url : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+async function supabaseSignInWithGoogle(redirectUrl) {
+  savePendingAuthRedirect(redirectUrl);
   const { error } = await supabaseClient.auth.signInWithOAuth({
     provider: 'google',
     options: { redirectTo: window.location.href }
@@ -171,9 +196,8 @@ function extractTokenFromHash() {
       }
 
       // Check for pending redirect after email verification
-      const pendingRedirect = localStorage.getItem('kompetenzen_pending_auth_redirect');
+      const pendingRedirect = takePendingAuthRedirect();
       if (pendingRedirect) {
-        localStorage.removeItem('kompetenzen_pending_auth_redirect');
         setTimeout(() => { window.location.href = pendingRedirect; }, 300);
       }
     } catch (e) {}

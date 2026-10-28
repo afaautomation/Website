@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Work+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;500&family=Michroma&family=Montserrat:wght@400;600;800&family=Inconsolata:wght@400;700&family=Open+Sans:wght@300;400;500;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Work+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;500&family=Michroma&family=Montserrat:wght@400;600;800&family=Inconsolata:wght@400;600;700&family=Open+Sans:wght@300;400;500;600&display=swap"
     rel="stylesheet" />
 
   <style>
@@ -400,6 +400,102 @@
       color: var(--blue)
     }
 
+    .headline.headline-future {
+      /* Overrides the site-wide monospace h1 font */
+      font-family: "Plus Jakarta Sans", "Inter", sans-serif !important;
+      font-size: clamp(48px, 6.6vw, 108px);
+      font-weight: 800;
+      letter-spacing: -.045em;
+      gap: 0;
+      margin: 18px 0 26px
+    }
+
+    /* Bottom padding keeps descenders (the g in "Design") inside the clipped typing box */
+    .headline.headline-future .line-inner {
+      line-height: 1;
+      padding-bottom: .2em
+    }
+
+    /* Space between "Design Your" and "Future" */
+    .headline.headline-future .line:nth-child(3) {
+      margin-top: .02em
+    }
+
+    /* Sit the hero text a little above centre on desktop */
+    @media (min-width:981px) {
+      .hero-grid>div:first-child {
+        transform: translateY(-48px)
+      }
+    }
+
+    .headline.headline-future em {
+      font-weight: 800
+    }
+
+    .headline.headline-future .lets {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-style: italic;
+      font-weight: 400;
+      letter-spacing: 0;
+      color: var(--blue);
+      padding-right: .1em
+    }
+
+    .headline.headline-future .line:nth-child(1) .line-inner {
+      animation: typeIn .5s steps(5, end) .15s forwards;
+    }
+
+    .headline.headline-future .line:nth-child(2) .line-inner {
+      animation: typeIn 1s steps(11, end) .7s forwards;
+    }
+
+    .headline.headline-future .line:nth-child(3) .line-inner {
+      animation: typeIn .6s steps(6, end) 1.7s forwards;
+    }
+
+    .headline.headline-future .line-lets .line-inner {
+      font-size: .42em !important;
+      line-height: 1 !important;
+      padding-bottom: 0 !important;
+      margin-bottom: .1em
+    }
+
+    .hero-tracks {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px;
+      font-family: 'Inconsolata', monospace;
+      font-size: clamp(14px, 1.25vw, 17px);
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--ink-mute);
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: fade .9s 2.1s cubic-bezier(.2, .8, .2, 1) forwards
+    }
+
+    .hero-tracks::before {
+      content: "";
+      width: 32px;
+      height: 1.5px;
+      background: var(--blue);
+      margin-right: 4px
+    }
+
+    .hero-tracks .dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--blue);
+      font-size: 0
+    }
+
+    .hero-sub:empty {
+      display: none
+    }
+
     .hero-sub {
       font-size: clamp(15px, 1.4vw, 18px);
       color: var(--ink-mute);
@@ -491,6 +587,22 @@
     .btn-ghost:hover {
       border-color: var(--ink);
       background: var(--paper)
+    }
+
+    .hero-actions .btn-primary {
+      padding: 12px 14px 12px 20px;
+      font-size: 14px
+    }
+
+    .hero-actions .btn-primary .arrow {
+      width: 20px;
+      height: 20px;
+      font-size: 11px
+    }
+
+    .hero-actions .btn-ghost {
+      padding: 12px 20px;
+      font-size: 14px
     }
 
     .hero-meta {
@@ -1461,7 +1573,11 @@
       background: var(--ink-mute)
     }
 
+    /* Same bold sans as the rest of the heading, in brand blue */
     #placements .section-title em {
+      font-family: inherit;
+      font-style: normal;
+      font-weight: inherit;
       color: var(--blue)
     }
 
@@ -1747,6 +1863,7 @@
       gap: 12px;
       flex-wrap: wrap;
       justify-content: center;
+      margin-top: 36px;
       position: relative
     }
 
@@ -2116,6 +2233,29 @@
         font-weight: 700 !important;
       }
 
+      .headline.headline-future,
+      .headline.headline-future .line-inner,
+      .headline.headline-future em {
+        font-size: clamp(40px, 12.5vw, 58px) !important;
+        font-weight: 800 !important;
+      }
+
+      .headline.headline-future .line:not(.line-lets) .line-inner {
+        padding-bottom: .2em !important;
+      }
+
+      .hero-tracks {
+        justify-content: center;
+        gap: 10px;
+        font-size: 12px;
+        letter-spacing: .14em;
+        margin-bottom: 28px;
+      }
+
+      .hero-tracks::before {
+        display: none;
+      }
+
       .hero-actions {
         display: flex !important;
         justify-content: center !important;
@@ -2422,6 +2562,41 @@
     href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="css/mobile.css" media="(max-width: 768px)" />
+  <style>
+    /* Top bar has nine links since Internships was added: keep each label on one
+       line and tighten spacing on narrower desktops, above the mobile-menu breakpoint. */
+    .nav .nav-links a,
+    .nav .nav-cta,
+    .nav .cta {
+      white-space: nowrap;
+    }
+
+    @media (min-width: 993px) {
+      .nav .nav-left {
+        min-width: max-content;
+      }
+    }
+
+    @media (min-width: 993px) and (max-width: 1280px) {
+      .nav .nav-links {
+        gap: 16px;
+      }
+
+      .nav .nav-links a {
+        font-size: 13px;
+      }
+    }
+
+    @media (min-width: 993px) and (max-width: 1120px) {
+      .nav .nav-links {
+        gap: 12px;
+      }
+
+      .nav .nav-links a {
+        font-size: 12.5px;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -2451,7 +2626,9 @@
         <a href="placements.html"><span>Placements</span><span class="nav-arrow">→</span></a>
         <a href="our-story.html"><span>Our Story</span><span class="nav-arrow">→</span></a>
         <a href="jobs.html"><span>Jobs</span><span class="nav-arrow">→</span></a>
-        <a href="Resume/resume.html" onclick="openResumeBuilder(event)"><span>Resume Builder</span><span class="nav-arrow">↗</span></a>
+        <a href="internships.html"><span>Internships</span><span class="nav-arrow">→</span></a>
+        <a href="Resume/resume.html" onclick="openResumeBuilder(event)"><span>Resume Builder</span><span
+            class="nav-arrow">↗</span></a>
       </div>
       <div class="nav-right">
         <a href="#contact" class="cta"><span class="dot"></span>Talk to us</a>
@@ -2495,14 +2672,15 @@
   <section class="hero" id="consulting" data-screen-label="01 Career Consulting">
     <div class="wrap hero-grid">
       <div>
-        <h1 class="headline stack">
-          <span class="line"><span class="line-inner"
-              style="line-height: 1.1; padding-bottom: 0.12em; font-size: 95px">Consulting</span></span>
-          <span class="line"><span class="line-inner"
-              style="font-size: 95px; line-height: 1.1; padding-bottom: 0.12em">Training</span></span>
-          <span class="line"><span class="line-inner"
-              style="line-height: 1.1; padding-bottom: 0.12em"><em>Placements</em></span></span>
+        <h1 class="headline stack headline-future">
+          <span class="line line-lets"><span class="line-inner"><span class="lets">Let's</span></span></span>
+          <span class="line"><span class="line-inner">Design Your</span></span>
+          <span class="line"><span class="line-inner"><em>Future</em></span></span>
         </h1>
+        <div class="hero-tracks">
+          <span>Consulting</span><span class="dot">·</span><span>Training</span><span
+            class="dot">·</span><span>Placements</span>
+        </div>
         <p class="hero-sub"></p>
         <div class="hero-actions">
           <a href="career-consulting.html" class="btn-primary"><span>Book Consulting</span><span
@@ -2933,377 +3111,6 @@
     </div>
   </section>
 
-  <!-- ============ JOB LISTING ============ -->
-  <section id="job-listing-section" class="job-listing-section">
-    <style>
-      .job-listing-section {
-        padding: clamp(90px, 12vh, 140px) 0 clamp(100px, 14vh, 160px) 0;
-        background: transparent;
-        text-align: center;
-        position: relative;
-        z-index: 2;
-        overflow: hidden;
-      }
-
-      /* Subtle ambient radial glow conforming to website theme */
-      .job-ambient-glow {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 800px;
-        height: 480px;
-        background: radial-gradient(ellipse at center, rgba(25, 71, 255, 0.05) 0%, rgba(25, 71, 255, 0.01) 50%, transparent 70%);
-        pointer-events: none;
-        z-index: -1;
-        filter: blur(40px);
-      }
-
-      /* Hiring pill beacon */
-
-      @keyframes jobDotPulse {
-        0% {
-          box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
-        }
-
-        70% {
-          box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
-        }
-
-        100% {
-          box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
-        }
-      }
-
-      .job-title {
-        font-family: 'Inria Sans', sans-serif !important;
-        font-size: clamp(42px, 5.8vw, 80px);
-        color: var(--ink, #02050E);
-        margin-bottom: 20px;
-        letter-spacing: -0.03em;
-        font-weight: 700;
-        line-height: 1.08;
-      }
-
-      .job-desc {
-        font-family: 'Inria Sans', sans-serif !important;
-        max-width: 740px;
-        margin: 0 auto 36px auto;
-        color: var(--ink-mute, #474F66);
-        font-size: clamp(16px, 1.8vw, 19px);
-        line-height: 1.62;
-        font-weight: 400;
-      }
-
-      /* In-demand Job Category Chips */
-      .job-roles-row {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 12px;
-        max-width: 920px;
-        margin: 0 auto 38px auto;
-      }
-
-      .job-role-chip {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 9px 18px;
-        border-radius: 99px;
-        background: #FFFFFF;
-        border: 1px solid var(--line, rgba(10, 21, 48, 0.12));
-        box-shadow: 0 4px 14px rgba(10, 21, 48, 0.04);
-        color: var(--ink, #02050E);
-        font-family: 'Inria Sans', sans-serif;
-        font-size: 14px;
-        font-weight: 600;
-        text-decoration: none;
-        transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
-          border-color 0.25s ease,
-          box-shadow 0.25s ease,
-          color 0.2s ease;
-      }
-
-      .job-role-chip:hover {
-        transform: translateY(-3px) scale(1.02);
-        border-color: var(--blue, #1947FF);
-        box-shadow: 0 10px 24px rgba(25, 71, 255, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04);
-        color: var(--blue, #1947FF);
-      }
-
-      /* Magnetic Main Action Button */
-      .job-cta-wrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-      }
-
-      .job-btn-primary {
-        display: inline-flex;
-        align-items: center;
-        gap: 12px;
-        padding: 16px 36px;
-        background: var(--ink, #02050E);
-        color: #FFFFFF;
-        font-family: 'Inria Sans', sans-serif !important;
-        font-size: 16px;
-        font-weight: 700;
-        letter-spacing: 0.01em;
-        border-radius: 99px;
-        text-decoration: none;
-        box-shadow: 0 8px 24px rgba(2, 5, 14, 0.18), 0 0 0 1px rgba(2, 5, 14, 0.05);
-        position: relative;
-        overflow: hidden;
-        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-          box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-          background-color 0.25s ease;
-      }
-
-      /* Interactive Sheen sweep on hover */
-      .job-btn-primary::after {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -60%;
-        width: 40%;
-        height: 200%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
-        transform: rotate(25deg);
-        transition: left 0.75s ease;
-        pointer-events: none;
-      }
-
-      .job-btn-primary:hover::after {
-        left: 140%;
-      }
-
-      .job-btn-primary:hover {
-        transform: translateY(-2px) scale(1.02);
-        box-shadow: 0 16px 36px rgba(25, 71, 255, 0.22), 0 4px 12px rgba(2, 5, 14, 0.12);
-        background: var(--ink-2, #0D1630);
-      }
-
-      .job-btn-primary .arrow-circle {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 28px;
-        height: 28px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.14);
-        font-size: 14px;
-        transition: transform 0.25s ease, background 0.25s ease;
-      }
-
-      .job-btn-primary:hover .arrow-circle {
-        transform: translateX(4px);
-        background: var(--blue, #1947FF);
-      }
-
-      /* Trust & Guarantee Indicators */
-      .job-trust-row {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: center;
-        gap: 24px;
-        color: var(--ink-mute, #64748B);
-        font-family: 'Inria Sans', sans-serif;
-        font-size: 13.5px;
-        font-weight: 500;
-        margin-top: 8px;
-      }
-
-      .job-trust-item {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-      }
-
-      .job-trust-item svg {
-        color: var(--blue, #1947FF);
-        flex-shrink: 0;
-      }
-
-      .job-trust-dot {
-        width: 4px;
-        height: 4px;
-        border-radius: 50%;
-        background: var(--line, rgba(10, 21, 48, 0.2));
-      }
-
-      @media (max-width: 640px) {
-        .job-roles-row {
-          gap: 8px;
-          margin-bottom: 28px;
-        }
-
-        .job-role-chip {
-          font-size: 13px;
-          padding: 8px 14px;
-        }
-
-        .job-trust-row {
-          gap: 12px;
-          font-size: 12px;
-        }
-
-        .job-trust-dot {
-          display: none;
-        }
-      }
-    </style>
-
-    <div class="job-ambient-glow" aria-hidden="true"></div>
-
-    <div class="wrap">
-
-      <h2 class="job-title">Job Listings</h2>
-
-      <p class="job-desc">
-        Skip the job portals. These openings are waiting for graduates like you — verified, direct, and updated daily.
-      </p>
-
-      <!-- In-Demand Hiring Role Chips -->
-      <div class="job-roles-row">
-        <a href="jobs.html" class="job-role-chip">
-          <span>Full Stack Developer</span>
-        </a>
-        <a href="jobs.html" class="job-role-chip">
-          <span>Python & AI Engineer</span>
-        </a>
-        <a href="jobs.html" class="job-role-chip">
-          <span>Data Analyst</span>
-        </a>
-        <a href="jobs.html" class="job-role-chip">
-          <span>React Specialist</span>
-        </a>
-        <a href="jobs.html" class="job-role-chip">
-          <span>Sales Engineer</span>
-        </a>
-      </div>
-
-      <!-- Action Button -->
-      <div class="job-cta-wrapper">
-        <a href="jobs.html" class="job-btn-primary">
-          <span>Check Available Jobs</span>
-          <span class="arrow-circle">→</span>
-        </a>
-
-        <!-- Trust Signals -->
-        <div class="job-trust-row">
-          <div class="job-trust-item">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-              stroke-linecap="round" stroke-linejoin="round">
-              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-              <polyline points="22 4 12 14.01 9 11.01"></polyline>
-            </svg>
-            <span>Verified Hiring Partners</span>
-          </div>
-          <span class="job-trust-dot"></span>
-          <div class="job-trust-item">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-              stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-            </svg>
-            <span>Direct Interview Scheduling</span>
-          </div>
-          <span class="job-trust-dot"></span>
-          <div class="job-trust-item">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-              stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="8" r="7"></circle>
-              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
-            </svg>
-            <span>Zero Placement Charges</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ AI RESUME BUILDER ============ -->
-  <section id="ai-resume-builder"
-    style="padding: clamp(30px, 5vw, 60px) 0; margin-bottom: clamp(60px, 8vw, 100px); background: transparent; text-align: center; position: relative; z-index: 2;">
-    <style>
-      .resume-card-box {
-        max-width: 1420px;
-        width: calc(100% - 100px);
-        margin: 0 auto;
-        background: #000000;
-        border-radius: clamp(24px, 3.5vw, 36px);
-        padding: clamp(80px, 10vw, 125px) clamp(24px, 5vw, 80px);
-        position: relative;
-        overflow: hidden;
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        box-shadow: 0 30px 80px -15px rgba(0, 0, 0, 0.45), 0 0 50px rgba(25, 71, 255, 0.12);
-        text-align: center;
-      }
-
-      @media (max-width: 980px) {
-        .resume-card-box {
-          width: calc(100% - 32px) !important;
-          padding: 60px 20px !important;
-        }
-      }
-
-      .resume-btn {
-        font-family: 'Inconsolata', monospace;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 12px;
-        background: var(--blue);
-        color: rgba(255, 255, 255, 0.95);
-        padding: 18px 42px;
-        border-radius: 14px;
-        font-size: 17px;
-        font-weight: 500;
-        border: none;
-        cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-        box-shadow: 0 10px 20px rgba(25, 71, 255, 0.3);
-      }
-
-      .resume-btn:hover {
-        transform: translateY(-2px);
-        background: var(--blue-hover, #0E2EC9);
-        box-shadow: 0 15px 30px rgba(25, 71, 255, 0.45);
-        color: #ffffff;
-      }
-    </style>
-    <div class="resume-card-box">
-      <!-- Ambient subtle blue glow inside box -->
-      <div
-        style="position: absolute; top: -140px; left: 50%; transform: translateX(-50%); width: 700px; height: 380px; background: radial-gradient(circle, rgba(25, 71, 255, 0.22) 0%, rgba(0, 0, 0, 0) 70%); pointer-events: none;">
-      </div>
-
-      <div style="position: relative; z-index: 1;">
-        <div
-          style="display: inline-block; font-family: 'Inconsolata', monospace; font-weight: 400; background: rgba(25, 71, 255, 0.1); color: #7B92FF; font-size: 13px; padding: 8px 20px; border-radius: 50px; border: 1px solid rgba(25, 71, 255, 0.3); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 24px;">
-          AI-Powered
-        </div>
-
-        <h2
-          style="font-family: 'Inconsolata', monospace; font-weight: 400; font-size: clamp(32px, 4.2vw, 52px); color: #ffffff; margin: 0 auto 24px; max-width: 900px; line-height: 1.22; text-transform: capitalize;">
-          build your resume with kompetenzen ai resume builder
-        </h2>
-
-        <p
-          style="font-family: 'Inconsolata', monospace; font-weight: 400; color: rgba(255, 255, 255, 0.75); max-width: 680px; margin: 0 auto 42px; font-size: 17px; line-height: 1.65;">
-          Create a professional, ATS-friendly resume in minutes. Let our AI highlight your strengths and tailor your
-          experience to land your dream job.
-        </p>
-
-        <button class="resume-btn" onclick="openResumeBuilder(event)">
-          build your resume
-        </button>
-      </div>
-    </div>
-  </section>
-
   <!-- ============ PLACEMENTS (Instagram grid) ============ -->
   <section id="placements" data-screen-label="03 Placements">
     <div class="wrap">
@@ -3311,7 +3118,7 @@
         style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
         <div style="display: flex; flex-direction: column; align-items: center;">
           <h2 class="section-title reveal d1"
-            style="text-align: center; font-family: 'Open Sans', sans-serif !important; font-weight: 300 !important; font-size: clamp(38px, 4.8vw, 62px) !important; letter-spacing: -0.025em; line-height: 1.16; max-width: 100%;">
+            style="text-align: center; font-family: 'Plus Jakarta Sans', sans-serif !important; font-weight: 700 !important; font-size: clamp(32px, 4.2vw, 54px) !important; letter-spacing: -0.03em; line-height: 1.16; max-width: 100%;">
             Recent Placements <em>Success Stories.</em></h2>
 
           <div style="text-align: center; margin-top: 24px;" class="reveal d2">
@@ -3694,10 +3501,15 @@
             } catch (err) { console.warn('Published reels could not be loaded:', err); }
 
             const reels = document.querySelectorAll('.v-reel');
-            let positions = Array.from(reels).map((_, i) => `pos${(i % 9) + 1}`);
-            if (positions.length === 0) {
-              positions = ['pos1', 'pos2', 'pos3', 'pos4', 'pos5', 'pos6', 'pos7', 'pos8', 'pos9'];
-            }
+            // Spread reels around the centre (pos1): the first half to the right (pos2-4),
+            // the rest wrap to the left (pos9-7), so both sides fill for any count.
+            // Reels more than 3 places from the centre wait hidden (pos5).
+            const SLOT = { 0: 'pos1', 1: 'pos2', 2: 'pos3', 3: 'pos4', '-1': 'pos9', '-2': 'pos8', '-3': 'pos7' };
+            let positions = Array.from(reels).map((_, i, all) => {
+              const offset = i <= Math.floor((all.length - 1) / 2) ? i : i - all.length;
+              return SLOT[offset] || 'pos5';
+            });
+            updateReels();
 
             let autoRotateInterval;
             let isDragging = false;
@@ -3848,6 +3660,378 @@
       </div>
     </div>
   </section>
+
+  <!-- ============ JOB LISTING ============ -->
+  <section id="job-listing-section" class="job-listing-section">
+    <style>
+      .job-listing-section {
+        padding: clamp(90px, 12vh, 140px) 0 clamp(100px, 14vh, 160px) 0;
+        background: transparent;
+        text-align: center;
+        position: relative;
+        z-index: 2;
+        overflow: hidden;
+      }
+
+      /* Subtle ambient radial glow conforming to website theme */
+      .job-ambient-glow {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 800px;
+        height: 480px;
+        background: radial-gradient(ellipse at center, rgba(25, 71, 255, 0.05) 0%, rgba(25, 71, 255, 0.01) 50%, transparent 70%);
+        pointer-events: none;
+        z-index: -1;
+        filter: blur(40px);
+      }
+
+      /* Hiring pill beacon */
+
+      @keyframes jobDotPulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+        }
+
+        70% {
+          box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+        }
+
+        100% {
+          box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+        }
+      }
+
+      .job-title {
+        font-family: 'Inria Sans', sans-serif !important;
+        font-size: clamp(42px, 5.8vw, 80px);
+        color: var(--ink, #02050E);
+        margin-bottom: 20px;
+        letter-spacing: -0.03em;
+        font-weight: 700;
+        line-height: 1.08;
+      }
+
+      .job-desc {
+        font-family: 'Inria Sans', sans-serif !important;
+        max-width: 740px;
+        margin: 0 auto 36px auto;
+        color: var(--ink-mute, #474F66);
+        font-size: clamp(16px, 1.8vw, 19px);
+        line-height: 1.62;
+        font-weight: 400;
+      }
+
+      /* In-demand Job Category Chips */
+      .job-roles-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+        max-width: 920px;
+        margin: 0 auto 38px auto;
+      }
+
+      .job-role-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 18px;
+        border-radius: 99px;
+        background: #FFFFFF;
+        border: 1px solid var(--line, rgba(10, 21, 48, 0.12));
+        box-shadow: 0 4px 14px rgba(10, 21, 48, 0.04);
+        color: var(--ink, #02050E);
+        font-family: 'Inria Sans', sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+          border-color 0.25s ease,
+          box-shadow 0.25s ease,
+          color 0.2s ease;
+      }
+
+      .job-role-chip:hover {
+        transform: translateY(-3px) scale(1.02);
+        border-color: var(--blue, #1947FF);
+        box-shadow: 0 10px 24px rgba(25, 71, 255, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04);
+        color: var(--blue, #1947FF);
+      }
+
+      /* Magnetic Main Action Button */
+      .job-cta-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .job-btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 36px;
+        background: var(--ink, #02050E);
+        color: #FFFFFF;
+        font-family: 'Inria Sans', sans-serif !important;
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        border-radius: 99px;
+        text-decoration: none;
+        box-shadow: 0 8px 24px rgba(2, 5, 14, 0.18), 0 0 0 1px rgba(2, 5, 14, 0.05);
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+          box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+          background-color 0.25s ease;
+      }
+
+      /* Interactive Sheen sweep on hover */
+      .job-btn-primary::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -60%;
+        width: 40%;
+        height: 200%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+        transform: rotate(25deg);
+        transition: left 0.75s ease;
+        pointer-events: none;
+      }
+
+      .job-btn-primary:hover::after {
+        left: 140%;
+      }
+
+      .job-btn-primary:hover {
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 16px 36px rgba(25, 71, 255, 0.22), 0 4px 12px rgba(2, 5, 14, 0.12);
+        background: var(--ink-2, #0D1630);
+      }
+
+      .job-btn-primary .arrow-circle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.14);
+        font-size: 14px;
+        transition: transform 0.25s ease, background 0.25s ease;
+      }
+
+      .job-btn-primary:hover .arrow-circle {
+        transform: translateX(4px);
+        background: var(--blue, #1947FF);
+      }
+
+      /* Trust & Guarantee Indicators */
+      .job-trust-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+        color: var(--ink-mute, #64748B);
+        font-family: 'Inria Sans', sans-serif;
+        font-size: 13.5px;
+        font-weight: 500;
+        margin-top: 8px;
+      }
+
+      .job-trust-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .job-trust-item svg {
+        color: var(--blue, #1947FF);
+        flex-shrink: 0;
+      }
+
+      .job-trust-dot {
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: var(--line, rgba(10, 21, 48, 0.2));
+      }
+
+      @media (max-width: 640px) {
+        .job-roles-row {
+          gap: 8px;
+          margin-bottom: 28px;
+        }
+
+        .job-role-chip {
+          font-size: 13px;
+          padding: 8px 14px;
+        }
+
+        .job-trust-row {
+          gap: 12px;
+          font-size: 12px;
+        }
+
+        .job-trust-dot {
+          display: none;
+        }
+      }
+    </style>
+
+    <div class="job-ambient-glow" aria-hidden="true"></div>
+
+    <div class="wrap">
+
+      <h2 class="job-title">Job Listings</h2>
+
+      <p class="job-desc">
+        Skip the job portals. These openings are waiting for graduates like you — verified, direct, and updated daily.
+      </p>
+
+      <!-- In-Demand Hiring Role Chips -->
+      <div class="job-roles-row">
+        <a href="jobs.html" class="job-role-chip">
+          <span>Full Stack Developer</span>
+        </a>
+        <a href="jobs.html" class="job-role-chip">
+          <span>Python & AI Engineer</span>
+        </a>
+        <a href="jobs.html" class="job-role-chip">
+          <span>Data Analyst</span>
+        </a>
+        <a href="jobs.html" class="job-role-chip">
+          <span>React Specialist</span>
+        </a>
+        <a href="jobs.html" class="job-role-chip">
+          <span>Sales Engineer</span>
+        </a>
+      </div>
+
+      <!-- Action Button -->
+      <div class="job-cta-wrapper">
+        <a href="jobs.html" class="job-btn-primary">
+          <span>Check Available Jobs</span>
+          <span class="arrow-circle">→</span>
+        </a>
+
+        <!-- Trust Signals -->
+        <div class="job-trust-row">
+          <div class="job-trust-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            <span>Verified Hiring Partners</span>
+          </div>
+          <span class="job-trust-dot"></span>
+          <div class="job-trust-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+            <span>Direct Interview Scheduling</span>
+          </div>
+          <span class="job-trust-dot"></span>
+          <div class="job-trust-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="8" r="7"></circle>
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+            </svg>
+            <span>Zero Placement Charges</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ AI RESUME BUILDER ============ -->
+  <section id="ai-resume-builder"
+    style="padding: clamp(30px, 5vw, 60px) 0; margin-bottom: clamp(60px, 8vw, 100px); background: transparent; text-align: center; position: relative; z-index: 2;">
+    <style>
+      .resume-card-box {
+        max-width: 1420px;
+        width: calc(100% - 100px);
+        margin: 0 auto;
+        background: #000000;
+        border-radius: clamp(24px, 3.5vw, 36px);
+        padding: clamp(80px, 10vw, 125px) clamp(24px, 5vw, 80px);
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 30px 80px -15px rgba(0, 0, 0, 0.45), 0 0 50px rgba(25, 71, 255, 0.12);
+        text-align: center;
+      }
+
+      @media (max-width: 980px) {
+        .resume-card-box {
+          width: calc(100% - 32px) !important;
+          padding: 60px 20px !important;
+        }
+      }
+
+      .resume-btn {
+        font-family: 'Inconsolata', monospace;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        background: var(--blue);
+        color: rgba(255, 255, 255, 0.95);
+        padding: 18px 42px;
+        border-radius: 14px;
+        font-size: 17px;
+        font-weight: 500;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+        box-shadow: 0 10px 20px rgba(25, 71, 255, 0.3);
+      }
+
+      .resume-btn:hover {
+        transform: translateY(-2px);
+        background: var(--blue-hover, #0E2EC9);
+        box-shadow: 0 15px 30px rgba(25, 71, 255, 0.45);
+        color: #ffffff;
+      }
+    </style>
+    <div class="resume-card-box">
+      <!-- Ambient subtle blue glow inside box -->
+      <div
+        style="position: absolute; top: -140px; left: 50%; transform: translateX(-50%); width: 700px; height: 380px; background: radial-gradient(circle, rgba(25, 71, 255, 0.22) 0%, rgba(0, 0, 0, 0) 70%); pointer-events: none;">
+      </div>
+
+      <div style="position: relative; z-index: 1;">
+        <div
+          style="display: inline-block; font-family: 'Inconsolata', monospace; font-weight: 400; background: rgba(25, 71, 255, 0.1); color: #7B92FF; font-size: 13px; padding: 8px 20px; border-radius: 50px; border: 1px solid rgba(25, 71, 255, 0.3); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 24px;">
+          AI-Powered
+        </div>
+
+        <h2
+          style="font-family: 'Inconsolata', monospace; font-weight: 400; font-size: clamp(32px, 4.2vw, 52px); color: #ffffff; margin: 0 auto 24px; max-width: 900px; line-height: 1.22; text-transform: capitalize;">
+          build your resume with kompetenzen ai resume builder
+        </h2>
+
+        <p
+          style="font-family: 'Inconsolata', monospace; font-weight: 400; color: rgba(255, 255, 255, 0.75); max-width: 680px; margin: 0 auto 42px; font-size: 17px; line-height: 1.65;">
+          Create a professional, ATS-friendly resume in minutes. Let our AI highlight your strengths and tailor your
+          experience to land your dream job.
+        </p>
+
+        <button class="resume-btn" onclick="openResumeBuilder(event)">
+          build your resume
+        </button>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ GOOGLE REVIEWS ============ -->
   <section id="reviews-section"
     style="padding: 65px 0 35px 0; overflow: hidden; background: transparent; position: relative; z-index: 2;">
@@ -3855,7 +4039,6 @@
       <div class="section-tag reveal">What our students say</div>
       <h2 class="section-title reveal d1"
         style="font-family: 'Inter', sans-serif !important; font-weight: 500 !important; font-size: 56px; margin: 0 auto 10px; max-width: 100%; text-align: center; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 10px; letter-spacing: -0.02em;">
-        <span>Real</span>
         <span style="display: inline-flex; align-items: center;">
           <span style="color: #4285F4;">G</span><span style="color: #EA4335;">o</span><span
             style="color: #FBBC05;">o</span><span style="color: #4285F4;">g</span><span
@@ -4163,7 +4346,8 @@
           <div class="tool-card"><img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/java/java-plain.svg" alt="Java" /></div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/react/react-original.svg" alt="React.js" />
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/react/react-original.svg"
+              alt="React.js" />
           </div>
           <div class="tool-card"><img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/spring/spring-original.svg"
@@ -4196,7 +4380,8 @@
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/postgresql/postgresql-plain.svg"
               alt="PostgreSQL" /></div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/mongodb/mongodb-plain.svg" alt="MongoDB" />
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/mongodb/mongodb-plain.svg"
+              alt="MongoDB" />
           </div>
           <div class="tool-card"><img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/html5/html5-plain.svg" alt="HTML5" />
@@ -4225,7 +4410,8 @@
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/nextjs/nextjs-plain.svg" alt="Next.js" />
           </div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/graphql/graphql-plain.svg" alt="GraphQL" />
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/graphql/graphql-plain.svg"
+              alt="GraphQL" />
           </div>
           <div class="tool-card"><img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/linux/linux-plain.svg" alt="Linux" />
@@ -4237,13 +4423,15 @@
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/flask/flask-original.svg" alt="Flask" />
           </div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/fastapi/fastapi-plain.svg" alt="FastAPI" />
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/fastapi/fastapi-plain.svg"
+              alt="FastAPI" />
           </div>
           <div class="tool-card"><img
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/selenium/selenium-original.svg"
               alt="Selenium" /></div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/github/github-original.svg" alt="GitHub" />
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/github/github-original.svg"
+              alt="GitHub" />
           </div>
         </div>
       </div>
@@ -4385,12 +4573,9 @@
   <section class="cta-strip" id="contact" data-screen-label="04 Contact">
     <div class="wrap">
       <h2>Not getting <em>interview calls?</em><br />Let's fix that today.</h2>
-      <p>Book a free 1-to-1 career consultation with our IT placement experts. We'll find what is blocking your job
-        search, suggest the right tech stack, and guide you clearly — no hidden fees, no pressure.</p>
       <div class="row">
-        <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="btn-primary"><span>WhatsApp
-            now</span><span class="arrow">→</span></a>
-        <a href="tel:+918590886009" class="btn-ghost">Call +91 95444 34566</a>
+        <a href="jobs.html" class="btn-primary"><span>Apply for Jobs</span><span class="arrow">→</span></a>
+        <a href="Resume/resume.html" onclick="openResumeBuilder(event)" class="btn-ghost">Build Resume</a>
       </div>
     </div>
   </section>
@@ -4436,7 +4621,9 @@
   </footer>
 
   <!-- Lenis smooth scroll -->
-  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" integrity="sha384-B2WBjDzEjJpYvhmi2UyEn7rektqkf5suS6sNoyyrf0EBAwBHdkiXxIlU0V5Ru2ed" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"
+    integrity="sha384-B2WBjDzEjJpYvhmi2UyEn7rektqkf5suS6sNoyyrf0EBAwBHdkiXxIlU0V5Ru2ed"
+    crossorigin="anonymous"></script>
   <script>
     /* Smooth scroll - Disabled on mobile for performance */
     const isMobile = window.innerWidth <= 768 || window.matchMedia("(max-width: 768px)").matches || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -4692,9 +4879,11 @@
     }
   </style>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js"
+    integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP"
+    crossorigin="anonymous"></script>
   <script src="supabase-config.js"></script>
-  <script src="js/auth-modal.js?v=12"></script>
+  <script src="js/auth-modal.js?v=13"></script>
 
   <!-- ============ SPREAD-OUT SWIRLING MICRO-DUST MOUSE EFFECT ============ -->
   <canvas id="blue-cyclone-canvas"

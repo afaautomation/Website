@@ -544,7 +544,7 @@ begin
     then raise exception 'Invalid reel ID'; end if;
   -- Serialize complete replacements; an insert failure rolls back the delete.
   lock table public.reels in exclusive mode;
-  delete from public.reels;
+  delete from public.reels where true;
   insert into public.reels(reel_id, sort_order)
     select r, (ordinality - 1)::int from unnest(p_reels) with ordinality as t(r, ordinality);
 end;
@@ -1306,4 +1306,13 @@ begin
 end; $$;
 revoke all on function public.enqueue_notification(uuid,text,jsonb),public.application_notifications(),public.queue_job_digests(),public.claim_notification() from public,anon,authenticated;
 grant execute on function public.queue_job_digests(),public.claim_notification() to service_role;
+commit;
+
+-- Internship profile answers (migrations/20261027_internship_profile.sql)
+begin;
+alter table public.candidate_profiles
+  add column if not exists internship_preferences jsonb not null default '{}'::jsonb;
+alter table public.candidate_profiles drop constraint if exists candidate_profiles_internship_preferences_check;
+alter table public.candidate_profiles add constraint candidate_profiles_internship_preferences_check
+  check (jsonb_typeof(internship_preferences) = 'object' and octet_length(internship_preferences::text) <= 4000);
 commit;

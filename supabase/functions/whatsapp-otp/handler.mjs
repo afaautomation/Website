@@ -24,7 +24,14 @@ export function whatsappOtpHandler({env,fetcher=fetch,code=newCode}) {
       const sent=await fetcher(`https://graph.facebook.com/${env('WHATSAPP_API_VERSION')||'v23.0'}/${env('WHATSAPP_PHONE_NUMBER_ID')}/messages`,{method:'POST',signal:AbortSignal.timeout(15000),
         headers:{Authorization:`Bearer ${env('WHATSAPP_ACCESS_TOKEN')}`,'Content-Type':'application/json'},
         body:JSON.stringify(otpMessage(phone,env('WHATSAPP_TEMPLATE_OTP')||'verification_code',env('WHATSAPP_TEMPLATE_LANGUAGE')||'en',otp))});
-      if(!sent.ok)return respond({error:'Could not send the code on WhatsApp. Check that this number uses WhatsApp, then retry in 30 seconds.'},502);
+      if(!sent.ok) {
+        const failure=await sent.json().catch(()=>null);
+        const providerCode=Number.isSafeInteger(failure?.error?.code)?failure.error.code:null;
+        // Do not log Meta's response text: it can contain recipients or credentials.
+        console.error(JSON.stringify({event:'whatsapp_otp_rejected',status:sent.status,code:providerCode}));
+        const reference=providerCode===null?`HTTP ${sent.status}`:`Meta ${providerCode}`;
+        return respond({error:`WhatsApp could not send the verification code. Please contact support with reference ${reference}, or use Continue with Google.`},502);
+      }
       return respond({sent:true,phone});
     }catch{return respond({error:'Could not send a code right now. Please retry shortly.'},503);}
   };

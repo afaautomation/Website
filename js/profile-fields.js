@@ -1,7 +1,8 @@
-/* Dependent fields shared by all three career stages. */
+/* Dependent fields shared by all three career stages. A page may omit a stage
+   (internship-profile.html has no experienced block); missing fields are skipped. */
 (() => {
   const get = id => document.getElementById(id);
-  const prefixes = ['study', 'grad', 'exp'];
+  const prefixes = ['study', 'grad', 'exp'].filter(p => get(`f-${p}-qualification`));
   const otherIds = ['f-institution', ...prefixes.flatMap(p => [`f-${p}-qualification`, `f-${p}-specialisation`]), 'f-industry', 'f-recent-role'];
   const fieldIds = [...otherIds, 'f-study-semester', 'f-study-year', 'f-grad-year'];
   const options = window.PROFILE_OPTIONS;
@@ -37,6 +38,7 @@
   }
   function jobs(preserve) {
     const industry = get('f-industry');
+    if (!industry) return;
     populate('f-recent-role', options.industries[industry.value] || [], industry.value ? 'Select job title' : 'Select an industry first', true, preserve);
     get('f-recent-role').disabled = industry.disabled || !industry.value;
     toggleOther('f-recent-role');
@@ -116,7 +118,7 @@
     restoreOne('f-recent-role', fields['f-recent-role']);
     ['f-study-semester','f-study-year','f-grad-year'].forEach(id => restoreOne(id, fields[id]));
     otherIds.forEach(id => {
-      if (Object.hasOwn(fields, id + '-other')) get(id + '-other').value = fields[id + '-other'] || '';
+      if (Object.hasOwn(fields, id + '-other') && get(id + '-other')) get(id + '-other').value = fields[id + '-other'] || '';
       toggleOther(id);
     });
     const college = get('f-institution').value;
@@ -135,9 +137,11 @@
       el.add(new Option('Other','Other'));
       el.addEventListener('change', () => streams(prefix, false));
     });
-    populate('f-industry', Object.keys(options.industries), 'Select your industry');
-    get('f-industry').addEventListener('change', () => jobs(false));
-    otherIds.forEach(id => get(id).addEventListener('change', () => toggleOther(id)));
+    if (get('f-industry')) {
+      populate('f-industry', Object.keys(options.industries), 'Select your industry');
+      get('f-industry').addEventListener('change', () => jobs(false));
+    }
+    otherIds.forEach(id => get(id)?.addEventListener('change', () => toggleOther(id)));
     populate('f-institution', window.KERALA_COLLEGES, 'Select your college');
     const search = get('college-search');
     search.addEventListener('input', () => {

@@ -124,6 +124,22 @@
         outline: none !important;
         transition: all 0.2s ease !important;
       }
+      .auth-phone-field {
+        position: relative;
+      }
+      .auth-phone-prefix {
+        position: absolute;
+        left: 0.95rem;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 0.92rem;
+        font-weight: 600;
+        color: #475569;
+        pointer-events: none;
+      }
+      .auth-input-group .auth-phone-field input {
+        padding-left: 3rem !important;
+      }
       .auth-input-group input:focus {
         border-color: #1947FF !important;
         background: #ffffff !important;
@@ -307,8 +323,13 @@
             </div>
 
             <div class="auth-input-group">
-              <label>Phone Number</label>
-              <input id="signup-phone" type="tel" required placeholder="+91 98765 43210" autocomplete="tel">
+              <label for="signup-phone">Mobile Number</label>
+              <div class="auth-phone-field">
+                <span class="auth-phone-prefix" aria-hidden="true">+91</span>
+                <input id="signup-phone" type="tel" required inputmode="numeric" pattern="[6-9][0-9]{9}"
+                  title="10-digit Indian mobile number" placeholder="98765 43210" autocomplete="tel-national"
+                  oninput="normalizeSignupPhoneInput(this)">
+              </div>
             </div>
 
             <div class="auth-input-group">
@@ -657,6 +678,14 @@
     }
   }
 
+  // Keeps the signup field to the 10-digit national number; +91 is shown as a fixed prefix.
+  // Pasted "+91 98765 43210" or "098765 43210" is trimmed to the last 10 digits.
+  window.normalizeSignupPhoneInput = function (input) {
+    let digits = input.value.replace(/\D/g, '');
+    if (digits.length > 10) digits = digits.replace(/^(91|0)/, '');
+    input.value = digits.slice(0, 10);
+  };
+
   window.editSignupPhoneNumber = function () {
     const pending = window._pendingOtpAuth;
     window.showEmailAuthStep('signup');
@@ -994,9 +1023,9 @@
     }
 
     // Validate everything Supabase will check before a WhatsApp message is paid for.
-    const cleanPhone = phone.replace(/[\s\-\(\)]/g, '');
-    if (!/^(\+?91)?[6-9]\d{9}$/.test(cleanPhone)) {
-      window.showAuthMessage('Please enter a valid 10-digit mobile number.', true);
+    const cleanPhone = phone.replace(/\D/g, '');
+    if (!/^[6-9]\d{9}$/.test(cleanPhone)) {
+      window.showAuthMessage('Please enter a valid 10-digit mobile number (starting with 6, 7, 8 or 9).', true);
       return;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -1150,8 +1179,9 @@
     try {
       const redirect = window._pendingAuthRedirect || null;
       const section = window._pendingAuthSection || null;
-      if (redirect) localStorage.setItem('kompetenzen_pending_auth_redirect', redirect);
+      // supabaseSignInWithGoogle() saves (or clears) the redirect; the section follows suit.
       if (section) localStorage.setItem('kompetenzen_pending_auth_section', section);
+      else localStorage.removeItem('kompetenzen_pending_auth_section');
       await supabaseSignInWithGoogle(redirect);
       // Browser redirects to Google OAuth
     } catch (err) {
@@ -1187,9 +1217,9 @@
         }
         return;
       }
-      window._pendingAuthRedirect = localStorage.getItem('kompetenzen_pending_auth_redirect') || null;
-      window._pendingAuthSection = localStorage.getItem('kompetenzen_pending_auth_section') || null;
-      localStorage.removeItem('kompetenzen_pending_auth_redirect');
+      // Expired or missing → null: restoring a session never starts an old job application.
+      window._pendingAuthRedirect = typeof takePendingAuthRedirect === 'function' ? takePendingAuthRedirect() : null;
+      window._pendingAuthSection = window._pendingAuthRedirect ? localStorage.getItem('kompetenzen_pending_auth_section') : null;
       localStorage.removeItem('kompetenzen_pending_auth_section');
       ensureAuthModalDOM();
       completeAuthSession(user, `Welcome, ${user.name}! Signed in with Google…`);
@@ -1259,9 +1289,11 @@
     }
   }
 
-  window.handleSignOut = function (e) {
+  window.handleSignOut = async function (e) {
     if (e && e.preventDefault) e.preventDefault();
-    if (typeof supabaseSignOut === 'function') supabaseSignOut();
+    // Wait for Supabase to drop its session; reloading first let the next page
+    // find the old session and sign the user straight back in.
+    if (typeof supabaseSignOut === 'function') await supabaseSignOut();
     PER_USER_KEYS.forEach(k => { try { localStorage.removeItem(k); } catch (err) {} });
     const navBadge = document.getElementById('nav-user-badge');
     if (navBadge) {

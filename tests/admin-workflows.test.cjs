@@ -7,6 +7,8 @@ const root = path.join(__dirname, '..');
 // Git may check files out with CRLF on Windows; markers below use \n.
 const read = file => fs.readFileSync(path.join(root, file), 'utf8').replace(/\r\n/g, '\n');
 const admin = read('admin.html');
+const marketing = read('marketing.html');
+const staffGate = read('js/staff-gate.js');
 const profile = read('create-profile.html');
 
 test('integrated applicant tabs use AI scores and preserve counts across the whole job', async () => {
@@ -150,7 +152,7 @@ test('reel replacement uses one database transaction and does not cache a failed
   const ctx = vm.createContext({ isSupabaseConfigured: () => true, alert: () => {},
     supabaseClient: { rpc: async (name, args) => { rpcName = name; assert.equal(args.p_reels[0], 'ABCDEF'); return { error: fail ? new Error('Denied') : null }; } },
     localStorage: { setItem: () => { cached = true; } }, STORE_KEY: 'reels', showSaveStatus: () => {}, updateCounter: () => {} });
-  vm.runInContext(extract(admin, 'async function save(reels)', 'function showSaveStatus()'), ctx);
+  vm.runInContext(extract(marketing, 'async function save(reels)', 'function showSaveStatus()'), ctx);
   await assert.rejects(ctx.save(['ABCDEF']), /Denied/); assert.equal(cached, false); assert.equal(rpcName, 'replace_reels');
   fail = false; await ctx.save(['ABCDEF']); assert.equal(cached, true);
 });
@@ -169,14 +171,15 @@ test('a signed-in non-admin cannot unlock the staff page', async () => {
   const ctx = vm.createContext({ window: { loadApplicationsList: () => { loads++; } }, allCandidateApplications: [], matchingRequest: 0,
     document: { getElementById: element, addEventListener: (event, fn) => { onReady = fn; } },
     isSupabaseConfigured: () => true, supabaseClient: { auth: { getSession: async () => ({ data: { session: { user: { id: 'synthetic' } } } }), onAuthStateChange: () => {} }, rpc: async () => ({ data: false, error: null }) } });
-  vm.runInContext(extract(admin, '// Staff authorization comes', '/* =============================================\n       CANDIDATE APPLICATIONS'), ctx);
+  vm.runInContext(staffGate, ctx);
   onReady(); await new Promise(resolve => setImmediate(resolve));
   assert.equal(element('admin-main').style.display, 'none'); assert.equal(loads, 0);
   assert.match(element('gate-error').textContent, /does not have staff access/);
 });
 test('staff login has no public account creation or password-reset bypass', () => {
-  assert.doesNotMatch(admin, /gate-signup|auth\.signUp|staff-signup|switchGateMode/);
-  assert.match(admin, /resetPasswordForEmail/);
+  for (const page of [admin, marketing, staffGate]) assert.doesNotMatch(page, /gate-signup|auth\.signUp|staff-signup|switchGateMode/);
+  assert.match(staffGate, /resetPasswordForEmail/);
+  for (const page of [admin, marketing]) assert.match(page, /<script src="js\/staff-gate\.js"><\/script>/);
   assert.doesNotMatch(read('server.js'), /auth\.admin\.(createUser|updateUserById)/);
   assert.doesNotMatch(read('Resume/backend/src/controllers/authController.js'), /auth\.admin\.(createUser|updateUserById)/);
 });

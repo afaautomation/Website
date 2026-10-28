@@ -690,6 +690,22 @@
     }
   </style>
   <link rel="stylesheet" href="css/mobile.css" media="(max-width: 768px)" />
+  <style>
+    /* Top bar has nine links since Internships was added: keep each label on one
+       line and tighten spacing on narrower desktops, above the mobile-menu breakpoint. */
+    .nav .nav-links a, .nav .nav-cta, .nav .cta { white-space: nowrap; }
+    @media (min-width: 993px) {
+      .nav .nav-left { min-width: max-content; }
+    }
+    @media (min-width: 993px) and (max-width: 1280px) {
+      .nav .nav-links { gap: 16px; }
+      .nav .nav-links a { font-size: 13px; }
+    }
+    @media (min-width: 993px) and (max-width: 1120px) {
+      .nav .nav-links { gap: 12px; }
+      .nav .nav-links a { font-size: 12.5px; }
+    }
+  </style>
 </head>
 
 <body>
@@ -711,6 +727,7 @@
         <a href="placements.html" class="active"><span>Placements</span><span class="nav-arrow">→</span></a>
         <a href="our-story.html"><span>Our Story</span><span class="nav-arrow">→</span></a>
         <a href="jobs.html"><span>Jobs</span><span class="nav-arrow">→</span></a>
+        <a href="internships.html"><span>Internships</span><span class="nav-arrow">→</span></a>
         <a href="Resume/resume.html" onclick="openResumeBuilder(event)"><span>Resume Builder</span><span class="nav-arrow">↗</span></a>
       </div>
       <div class="nav-right">
@@ -1311,7 +1328,7 @@
   <!-- Unified Auth Modal -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
   <script src="supabase-config.js"></script>
-  <script src="js/auth-modal.js?v=12"></script>
+  <script src="js/auth-modal.js?v=13"></script>
 
   <!-- Mobile Menu Toggle -->
   <script>

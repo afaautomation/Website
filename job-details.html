@@ -1413,6 +1413,22 @@
   </style>
   <link rel="stylesheet" href="css/mobile.css" media="(max-width: 768px)" />
   <link rel="stylesheet" href="css/job-details.css" />
+  <style>
+    /* Top bar has nine links since Internships was added: keep each label on one
+       line and tighten spacing on narrower desktops, above the mobile-menu breakpoint. */
+    .nav .nav-links a, .nav .nav-cta, .nav .cta { white-space: nowrap; }
+    @media (min-width: 993px) {
+      .nav .nav-left { min-width: max-content; }
+    }
+    @media (min-width: 993px) and (max-width: 1280px) {
+      .nav .nav-links { gap: 16px; }
+      .nav .nav-links a { font-size: 13px; }
+    }
+    @media (min-width: 993px) and (max-width: 1120px) {
+      .nav .nav-links { gap: 12px; }
+      .nav .nav-links a { font-size: 12.5px; }
+    }
+  </style>
 </head>
 
 <body>
@@ -1437,6 +1453,7 @@
         <a href="placements.html"><span>Placements</span><span class="nav-arrow">→</span></a>
         <a href="our-story.html"><span>Our Story</span><span class="nav-arrow">→</span></a>
         <a href="jobs.html" class="active"><span>Jobs</span><span class="nav-arrow">→</span></a>
+        <a href="internships.html"><span>Internships</span><span class="nav-arrow">→</span></a>
         <a href="Resume/resume.html" onclick="openResumeBuilder(event)"><span>Resume Builder</span><span class="nav-arrow">↗</span></a>
       </div>
       <div class="nav-right">
@@ -1817,6 +1834,13 @@
       }
     }
 
+    // Internship applicants complete internship-profile.html; it saves to the same
+    // candidate_profiles row as create-profile.html.
+    function profileFormFor(job) {
+      const intern = job && (/intern/i.test(job.jobType || '') || /intern/i.test(job.title || ''));
+      return intern ? 'internship-profile.html' : 'create-profile.html';
+    }
+
     function renderJob(job) {
       document.getElementById('page-title').textContent = `${job.title} at ${job.company} — Kompetenzen Careers`;
       document.getElementById('bc-title').textContent = job.title;
@@ -1847,6 +1871,15 @@
         if (isIntern) {
           badgeTypeEl.className = 'badge badge-internship';
         }
+      }
+      // Internships have their own listing page and profile form.
+      if (isIntern) {
+        document.querySelectorAll('a[href="jobs.html"]').forEach(a => {
+          if (a.closest('.nav-links')) { a.classList.remove('active'); return; }
+          a.href = 'internships.html';
+          a.textContent = a.textContent.replace(/Jobs|Openings/, 'Internships');
+        });
+        document.querySelector('.nav-links a[href="internships.html"]')?.classList.add('active');
       }
       document.getElementById('j-badge-cat').textContent = (job.category || 'General').toUpperCase();
 
@@ -2140,7 +2173,7 @@
       }
 
       if (result && result.status === 'profile_required') {
-        window.location.href = `create-profile.html?jobId=${encodeURIComponent(jobId)}`;
+        window.location.href = `${profileFormFor(currentJob)}?jobId=${encodeURIComponent(jobId)}`;
         return;
       }
 
@@ -2229,7 +2262,7 @@
           summary.append(buildEl('div',{className:'req-profile-row'},buildEl('dt',{text:label}),detail));
         }
         group.append(summary);
-        group.append(buildEl('a',{className:'req-profile-edit',href:'create-profile.html?jobId=' + encodeURIComponent(currentJob.id),text:'Edit career profile →'}));
+        group.append(buildEl('a',{className:'req-profile-edit',href:profileFormFor(currentJob) + '?jobId=' + encodeURIComponent(currentJob.id),text:'Edit career profile →'}));
         if (matchRules.minimumMonths > 0 || matchRules.preferredMonths > 0) {
           group.append(field('relevant-months','Relevant experience (months)',buildEl('input',{id:'req-relevant-months',type:'number',min:'0',max:'600',step:'1',placeholder:'e.g. 12',inputmode:'numeric',value:prev.matching?.relevantMonths ?? ''}),[matchRules.experienceScope, 'Count overlapping periods only once. Leave blank if unknown.'].filter(Boolean).join('. ')));
         }
@@ -2493,7 +2526,7 @@
   </script>
 
   <!-- Unified Auth Modal -->
-  <script src="js/auth-modal.js?v=12"></script>
+  <script src="js/auth-modal.js?v=13"></script>
 </body>
 
 </html>

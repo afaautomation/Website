@@ -10,7 +10,7 @@ async function sender(overrides={}){
   const handler=whatsappOtpHandler({env,code:()=>'470183',fetcher:async(url,options)=>{
     calls.push({url,options:{...options,body:JSON.parse(options.body)}});
     if(url.includes('/rpc/issue_phone_otp'))return response(overrides.state||'ok');
-    return response({},overrides.metaStatus||200);
+    return response(overrides.metaBody||{},overrides.metaStatus||200);
   }});
   return {calls,run:(value={phone})=>handler(post(value))};
 }
@@ -27,6 +27,19 @@ test('invalid numbers and rate limits never reach WhatsApp',async()=>{
   for(const value of [{phone:'+15551234567'},{phone:'9876543210'},{phone:'+915876543210'},{}]){const t=await sender();assert.equal((await t.run(value)).status,400);assert.equal(t.calls.length,0);}
   for(const state of ['cooldown','limited']){const t=await sender({state});assert.equal((await t.run()).status,429);assert.equal(t.calls.length,1);}
   const failed=await sender({metaStatus:400});assert.equal((await failed.run()).status,502);
+});
+
+test('provider rejection exposes a numeric reference without leaking Meta response details',async()=>{
+  const t=await sender({metaStatus:400,metaBody:{error:{code:190,message:'private-token-and-phone'}}});
+  const r=await t.run();
+  assert.equal(r.status,502);
+  const text=await r.text();
+  assert.match(text,/Meta 190/);
+  assert.doesNotMatch(text,/private-token-and-phone|Check that this number/);
+  const malformed=await sender({metaStatus:403,metaBody:{error:{code:'private-token'}}});
+  const fallback=await(await malformed.run()).text();
+  assert.match(fallback,/HTTP 403/);
+  assert.doesNotMatch(fallback,/private-token/);
 });
 
 async function signup(overrides={}){

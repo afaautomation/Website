@@ -1,7 +1,7 @@
 (function () {
   const el = id => document.getElementById(id);
   const panel=el('notification-preferences'), button=el('save-notifications'), feedback=el('notification-feedback');
-  let loaded=false, initial=null;
+  let loaded=false, initial=null, existingDigest='off';
   function phoneVisibility() {
     el('notify-phone-row').hidden=!el('notify-whatsapp').checked;
     if(el('notify-whatsapp').checked && !el('notify-phone').value) {
@@ -11,7 +11,7 @@
       el('notify-phone').value=value;
     }
   }
-  function values() {return {p_email:el('notify-email').checked,p_whatsapp:el('notify-whatsapp').checked,p_number:el('notify-phone').value.replace(/[\s()-]/g,''),p_digest:el('notify-email').checked||el('notify-whatsapp').checked?el('notify-digest').value:'off'};}
+  function values() {return {p_email:el('notify-email').checked,p_whatsapp:el('notify-whatsapp').checked,p_number:el('notify-phone').value.replace(/[\s()-]/g,''),p_digest:(el('notify-email').checked||el('notify-whatsapp').checked)?existingDigest:'off'};}
   function problem(message) {feedback.textContent=message; const error=new Error(message);error.notificationPreference=true;return error;}
   const ready=(async()=>{
     try {
@@ -19,7 +19,7 @@
       if(authError||!session) throw new Error('Sign in to manage notifications.');
       const {data,error}=await supabaseClient.from('notification_preferences').select('*').eq('user_id',session.user.id).maybeSingle();
       if(error) throw new Error('Notification settings are unavailable. Your profile can still be saved; existing choices will be preserved.');
-      if(data) {el('notify-email').checked=data.email_enabled;el('notify-whatsapp').checked=data.whatsapp_enabled;el('notify-phone').value=data.whatsapp_number;el('notify-digest').value=data.job_digest;}
+      if(data) {el('notify-email').checked=data.email_enabled;el('notify-whatsapp').checked=data.whatsapp_enabled;el('notify-phone').value=data.whatsapp_number;existingDigest=data.job_digest||'off';}
       loaded=true;phoneVisibility();initial=JSON.stringify(values());el('notification-channels').disabled=false;button.disabled=false;
     } catch(error) {feedback.textContent=error.message;}
   })();

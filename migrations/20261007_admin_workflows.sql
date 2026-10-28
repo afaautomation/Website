@@ -31,7 +31,7 @@ begin
     then raise exception 'Invalid reel ID'; end if;
   -- Serialize complete replacements; an insert failure rolls back the delete.
   lock table public.reels in exclusive mode;
-  delete from public.reels;
+  delete from public.reels where true;
   insert into public.reels(reel_id, sort_order)
     select r, (ordinality - 1)::int from unnest(p_reels) with ordinality as t(r, ordinality);
 end;

@@ -6,8 +6,11 @@
   Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(self)
   Strict-Transport-Security: max-age=31536000; includeSubDomains
 
-# Never cache or index the staff console.
+# Never cache or index the staff consoles (HR and Marketing).
 /admin*
+  Cache-Control: no-store, no-cache, must-revalidate, private
+  X-Robots-Tag: noindex, nofollow
+/marketing*
   Cache-Control: no-store, no-cache, must-revalidate, private
   X-Robots-Tag: noindex, nofollow
 

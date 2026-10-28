@@ -1,0 +1,2088 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Internship Profile — Kompetenzen</title>
+  <meta name="description"
+    content="Fill once and apply to any internship. Student internship profile for tech, HR and management internships with Kompetenzen hiring partners." />
+  <link rel="icon" type="image/png" href="icon.png?v=2" />
+  <link rel="shortcut icon" href="favicon.ico?v=2" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.cdnfonts.com/css/google-sans" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js"
+    integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP"
+    crossorigin="anonymous"></script>
+  <script src="supabase-config.js"></script>
+  <style>
+    :root {
+      --font-display: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+      --font-body: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --blue: #2563EB;
+      --blue-light: #3B82F6;
+      --blue-hover: #1D4ED8;
+      --blue-subtle: rgba(37, 99, 235, 0.15);
+      --bg: #07090E;
+      --card-bg: #0E1424;
+      --card-border: rgba(255, 255, 255, 0.08);
+      --input-bg: #111827;
+      --input-border: rgba(255, 255, 255, 0.12);
+      --ink: #FFFFFF;
+      --ink-2: #F1F5F9;
+      --ink-mute: #94A3B8;
+      --ink-dim: #64748B;
+      --green: #10B981;
+      --radius-sm: 10px;
+      --radius-md: 14px;
+      --radius-lg: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    html,
+    body,
+    button,
+    input,
+    select,
+    textarea {
+      font-family: var(--font-body) !important;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 120px, rgba(37, 99, 235, 0.12) 0%, rgba(15, 23, 42, 0) 65%), var(--bg);
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow-x: hidden;
+      max-width: 100%;
+    }
+
+    /* TOP HEADER */
+    .top-header {
+      background: rgba(7, 9, 14, 0.85);
+      border-bottom: 1px solid var(--card-border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    .header-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 16px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .brand-logo:hover {
+      opacity: 0.9;
+    }
+
+    .brand-logo img {
+      height: 36px;
+      width: auto;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink-2);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .user-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #3B82F6, #8B5CF6);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11.5px;
+      font-weight: 800;
+    }
+
+    /* MAIN CONTAINER */
+    .apply-container {
+      max-width: 760px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 44px 24px 72px;
+      flex: 1;
+    }
+
+    /* TARGET JOB BANNER */
+    .target-job-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(37, 99, 235, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.35);
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-size: 13.5px;
+      color: #93C5FD;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 16px rgba(37, 99, 235, 0.15);
+    }
+
+    /* FORM HEADER */
+    .form-header-center {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .time-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #93C5FD;
+      background: rgba(37, 99, 235, 0.14);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      padding: 6px 16px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+      letter-spacing: 0.2px;
+      box-shadow: 0 2px 14px rgba(37, 99, 235, 0.16);
+    }
+
+    .time-badge svg {
+      flex-shrink: 0;
+    }
+
+    .main-title {
+      font-size: 32px;
+      font-weight: 800;
+      color: #FFFFFF;
+      letter-spacing: -0.6px;
+      line-height: 1.25;
+      margin-bottom: 10px;
+    }
+
+    .main-subtitle {
+      font-size: 15.5px;
+      color: var(--ink-mute);
+      line-height: 1.6;
+      max-width: 540px;
+      margin: 0 auto;
+    }
+
+    /* STEP PROGRESS BAR */
+    .stepper-bars {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .stepper-bar-segment {
+      flex: 1;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      transition: all 0.35s ease;
+      position: relative;
+    }
+
+    .stepper-bar-segment.active {
+      background: linear-gradient(90deg, #2563EB, #3B82F6);
+      box-shadow: 0 0 14px rgba(59, 130, 246, 0.6);
+    }
+
+    .stepper-bar-segment.completed {
+      background: var(--green);
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+    }
+
+    .step-count {
+      text-align: center;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--ink-mute);
+      margin: 0 0 28px;
+    }
+
+    /* ELEVATED FORM CARD CONTAINER */
+    .form-card-container {
+      background: linear-gradient(180deg, rgba(17, 24, 39, 0.85) 0%, rgba(13, 18, 31, 0.95) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-lg);
+      padding: 42px 46px;
+      box-shadow: 0 24px 64px -12px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+    }
+
+    /* SECTION LABEL & HEADERS */
+    .section-badge-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .section-tag-label {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: #38BDF8;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-tag-label::before {
+      content: "";
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #38BDF8;
+      box-shadow: 0 0 8px #38BDF8;
+    }
+
+    .section-indicator,
+    .required-badge {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-dim);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 3px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .required-badge {
+      color: #93C5FD;
+      background: rgba(37, 99, 235, 0.14);
+      border-color: rgba(59, 130, 246, 0.28);
+    }
+
+    .field-hint {
+      font-size: 14.5px;
+      color: var(--ink-mute);
+      line-height: 1.55;
+      margin-bottom: 22px;
+    }
+
+    .form-section-divider {
+      border: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.09) 20%, rgba(255, 255, 255, 0.09) 80%, transparent);
+      margin: 34px 0 28px;
+    }
+
+    /* STEP SECTIONS */
+    .step-section {
+      display: none;
+      animation: fadeInStep 0.28s ease-out;
+    }
+
+    .step-section.active {
+      display: block;
+    }
+
+    @keyframes fadeInStep {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* FORM ROWS & GROUPS */
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 22px;
+    }
+
+    .form-group {
+      margin-bottom: 22px;
+    }
+
+    .form-label {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink-2);
+      margin-bottom: 9px;
+      letter-spacing: -0.1px;
+    }
+
+    .form-label span.req {
+      color: #EF4444;
+      margin-left: 3px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .form-label span.sub {
+      color: var(--ink-dim);
+      font-weight: normal;
+      font-size: 13px;
+      margin-left: 8px;
+    }
+
+    .form-input-box {
+      width: 100%;
+      height: 52px;
+      background: var(--input-bg);
+      border: 1.5px solid var(--input-border);
+      border-radius: var(--radius-md);
+      color: #FFFFFF;
+      font-size: 15.5px;
+      padding: 0 18px;
+      outline: none;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .form-input-box:focus {
+      border-color: var(--blue-light);
+      background: #151F33;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.24);
+    }
+
+    .form-input-box:hover:not(:focus) {
+      border-color: rgba(255, 255, 255, 0.22);
+    }
+
+    .form-input-box::placeholder {
+      color: #64748B;
+      font-size: 14.5px;
+    }
+
+    select.form-input-box {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 18px center;
+      padding-right: 44px;
+      cursor: pointer;
+    }
+
+    select.form-input-box option {
+      background: #0D121F;
+      color: #FFFFFF;
+      padding: 12px;
+    }
+
+    /* STAGE CARDS */
+    .plain-fieldset {
+      border: 0;
+      padding: 0;
+      min-width: 0;
+    }
+
+    legend.form-label {
+      padding: 0;
+    }
+
+    .stage-cards {
+      display: grid;
+      gap: 14px;
+    }
+
+    .stage-card {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 20px 22px;
+      background: rgba(19, 26, 43, 0.7);
+      border: 1.5px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .stage-card:hover {
+      border-color: rgba(59, 130, 246, 0.45);
+      background: rgba(26, 36, 58, 0.85);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.35);
+    }
+
+    .stage-card:has(input:checked) {
+      border-color: var(--blue-light);
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.16) 0%, rgba(30, 58, 138, 0.26) 100%);
+      box-shadow: 0 10px 28px -4px rgba(37, 99, 235, 0.28);
+    }
+
+    .stage-card:has(input:focus-visible) {
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
+    }
+
+    .stage-card-icon {
+      order: 1;
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.25s ease;
+    }
+
+    .stage-icon-study {
+      background: rgba(59, 130, 246, 0.12);
+      border-color: rgba(59, 130, 246, 0.25);
+    }
+
+    .stage-icon-grad {
+      background: rgba(168, 85, 247, 0.12);
+      border-color: rgba(168, 85, 247, 0.25);
+    }
+
+    .stage-icon-exp {
+      background: rgba(16, 185, 129, 0.12);
+      border-color: rgba(16, 185, 129, 0.25);
+    }
+
+    .stage-card:has(input:checked) .stage-card-icon {
+      transform: scale(1.06);
+      box-shadow: 0 0 16px rgba(59, 130, 246, 0.3);
+    }
+
+    .stage-card-content {
+      order: 2;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .stage-card-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: -0.2px;
+    }
+
+    .stage-card-desc {
+      font-size: 14px;
+      color: #CBD5E1;
+      line-height: 1.55;
+    }
+
+    /* Custom Radio circle */
+    .stage-card input[type="radio"] {
+      order: 3;
+      margin-left: auto;
+      appearance: none;
+      -webkit-appearance: none;
+      width: 22px;
+      height: 22px;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      border-radius: 50%;
+      outline: none;
+      background: rgba(15, 23, 42, 0.7);
+      flex-shrink: 0;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      display: grid;
+      place-content: center;
+    }
+
+    .stage-card input[type="radio"]::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      transform: scale(0);
+      transition: 0.2s transform ease-in-out;
+      background: #FFFFFF;
+      box-shadow: 0 0 6px #60A5FA;
+    }
+
+    .stage-card input[type="radio"]:checked {
+      border-color: var(--blue-light);
+      background: var(--blue);
+      box-shadow: 0 0 12px rgba(37, 99, 235, 0.6);
+    }
+
+    .stage-card input[type="radio"]:checked::before {
+      transform: scale(1);
+    }
+
+    /* KOMPETENZEN STUDENT TOGGLE CARD */
+    .toggle-card-box {
+      background: rgba(19, 26, 43, 0.7);
+      border: 1.5px solid var(--input-border);
+      border-radius: var(--radius-md);
+      padding: 18px 22px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      transition: border-color 0.2s ease;
+    }
+
+    .toggle-card-box:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .toggle-card-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink-2);
+    }
+
+    /* Modern Switch */
+    .switch-wrap {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 26px;
+      flex-shrink: 0;
+    }
+
+    .switch-wrap input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider-toggle {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #2D3748;
+      transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      border-radius: 999px;
+    }
+
+    .slider-toggle:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      border-radius: 50%;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    input:checked+.slider-toggle {
+      background-color: var(--blue);
+      box-shadow: 0 0 12px rgba(37, 99, 235, 0.5);
+    }
+
+    input:checked+.slider-toggle:before {
+      transform: translateX(22px);
+    }
+
+    .student-course-reveal {
+      display: none;
+      margin-top: 12px;
+    }
+
+    /* PILL BUTTONS / CHIPS (TAPS) */
+    .pills-row-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .choice-pill-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      color: #CBD5E1;
+      font-size: 14.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      user-select: none;
+      font-family: inherit;
+    }
+
+    .choice-pill-btn:hover {
+      border-color: rgba(255, 255, 255, 0.25);
+      color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateY(-1px);
+    }
+
+    .choice-pill-btn.selected {
+      background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+      border-color: #3B82F6;
+      color: #FFFFFF;
+      font-weight: 700;
+      box-shadow: 0 4px 18px rgba(37, 99, 235, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .choice-pill-btn:focus-visible,
+    .resume-drop-zone:focus-visible {
+      outline: 2px solid var(--blue-light);
+      outline-offset: 2px;
+    }
+
+    /* CUSTOM SKILL ROW */
+    .custom-skill-input-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .btn-add-tag {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1.5px solid rgba(255, 255, 255, 0.14);
+      color: var(--ink-2);
+      padding: 0 22px;
+      border-radius: var(--radius-md);
+      font-size: 14.5px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .btn-add-tag:hover {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+    }
+
+    /* FOOTER NAVIGATION BUTTONS */
+    .step-actions-footer {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .btn-step-back {
+      height: 52px;
+      padding: 0 24px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--ink-2);
+      font-size: 15px;
+      font-weight: 700;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-step-back:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #FFFFFF;
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-1px);
+    }
+
+    .btn-step-next {
+      flex: 1;
+      height: 52px;
+      background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+      border: none;
+      color: #FFFFFF;
+      font-size: 16px;
+      font-weight: 700;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 6px 22px rgba(37, 99, 235, 0.35);
+      letter-spacing: 0.1px;
+    }
+
+    .btn-step-next:hover {
+      background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(37, 99, 235, 0.5);
+    }
+
+    .btn-step-next:active {
+      transform: translateY(0);
+    }
+
+    .btn-step-next:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-step-secondary {
+      height: 52px;
+      padding: 0 22px;
+      background: transparent;
+      border: 1.5px solid rgba(59, 130, 246, 0.55);
+      color: #93C5FD;
+      font-size: 15px;
+      font-weight: 700;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-step-secondary:hover {
+      background: rgba(37, 99, 235, 0.15);
+      border-color: #3B82F6;
+      color: #FFFFFF;
+      transform: translateY(-1px);
+    }
+
+    .btn-step-secondary:focus-visible {
+      outline: 2px solid var(--blue-light);
+      outline-offset: 2px;
+    }
+
+    /* RESUME UPLOAD */
+    .resume-upload-wrap {
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .resume-upload-wrap.in-details {
+      margin: 4px 0 14px;
+      padding-top: 0;
+      border-top: 0;
+    }
+
+    .resume-drop-zone {
+      background: rgba(19, 26, 43, 0.5);
+      border: 2px dashed rgba(59, 130, 246, 0.3);
+      border-radius: var(--radius-lg);
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .resume-drop-zone:hover,
+    .resume-drop-zone.dragover {
+      background: rgba(37, 99, 235, 0.1);
+      border-color: #3B82F6;
+      box-shadow: 0 0 28px rgba(59, 130, 246, 0.2);
+    }
+
+    .resume-drop-empty {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+    }
+
+    #resume-hint:empty {
+      display: none;
+    }
+
+    #pills-location {
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    #pills-location .choice-pill-btn {
+      padding: 7px 14px;
+      font-size: 13.5px;
+    }
+
+    .resume-upload-icon-circle {
+      width: 38px;
+      height: 38px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: rgba(59, 130, 246, 0.14);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      color: #60A5FA;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.25s ease;
+    }
+
+    .resume-drop-zone:hover .resume-upload-icon-circle {
+      transform: translateY(-3px) scale(1.05);
+      background: rgba(59, 130, 246, 0.25);
+    }
+
+    .resume-drop-main {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    .resume-drop-sub {
+      font-size: 12.5px;
+      color: var(--ink-mute);
+    }
+
+    /* Selected state */
+    .resume-file-info {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 14px 18px;
+      border-radius: var(--radius-md);
+    }
+
+    .resume-file-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .resume-file-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: rgba(16, 185, 129, 0.18);
+      color: #10B981;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .resume-file-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      min-width: 0;
+    }
+
+    .resume-filename {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #FFFFFF;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 380px;
+    }
+
+    .resume-filesize {
+      font-size: 12.5px;
+      color: #6EE7B7;
+      font-weight: 600;
+    }
+
+    .btn-remove-resume {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #F87171;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .btn-remove-resume:hover {
+      background: rgba(239, 68, 68, 0.3);
+      color: #FFFFFF;
+      transform: scale(1.05);
+    }
+
+    /* ERROR & VALIDATION */
+    .field-error {
+      color: #F87171;
+      font-size: 13px;
+      font-weight: 500;
+      margin: 6px 0 0;
+    }
+
+    .field-error:empty {
+      display: none;
+    }
+
+    .form-input-box[aria-invalid="true"] {
+      border-color: #EF4444;
+      background: rgba(239, 68, 68, 0.05);
+    }
+
+    .field-note {
+      font-size: 13px;
+      color: var(--green);
+      margin: 6px 0 0;
+      font-weight: 500;
+    }
+
+    .form-input-box[readonly] {
+      opacity: 0.75;
+      cursor: not-allowed;
+    }
+
+    .other-input {
+      margin-top: 12px;
+    }
+
+    .more-details {
+      margin-top: 22px;
+      scroll-margin-top: 90px;
+    }
+
+    .profile-consent {
+      margin-top: 20px;
+    }
+
+    .profile-consent label {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      color: var(--ink-2);
+      font-size: 13px;
+      line-height: 1.7;
+      cursor: pointer;
+    }
+
+    .profile-consent input {
+      flex: 0 0 18px;
+      width: 18px;
+      height: 18px;
+      margin-top: 3px;
+      accent-color: var(--blue);
+    }
+
+    .profile-consent input:focus-visible {
+      outline: 2px solid var(--blue-light);
+      outline-offset: 4px;
+    }
+
+    /* TOAST NOTIFICATION */
+    .success-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #064E3B;
+      color: #ECFDF5;
+      border: 1px solid #10B981;
+      border-radius: var(--radius-md);
+      padding: 14px 22px;
+      box-shadow: 0 10px 32px rgba(0, 0, 0, 0.6);
+      font-weight: 700;
+      font-size: 14.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 1000;
+      transform: translateY(120px);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .success-toast.is-visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* RESPONSIVE DESIGN */
+    @media (max-width: 680px) {
+      .apply-container {
+        padding: 24px 16px 48px;
+      }
+
+      .form-card-container {
+        padding: 26px 18px;
+        border-radius: 18px;
+      }
+
+      .main-title {
+        font-size: 25px;
+      }
+
+      .main-subtitle {
+        font-size: 14.5px;
+      }
+
+      .form-row-2 {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .stage-card {
+        padding: 16px 16px;
+        gap: 14px;
+      }
+
+      .stage-card-icon {
+        width: 42px;
+        height: 42px;
+        font-size: 20px;
+      }
+
+      .stage-card-title {
+        font-size: 15.5px;
+      }
+
+      .stage-card-desc {
+        font-size: 13px;
+      }
+
+      .final-actions {
+        flex-wrap: wrap;
+      }
+
+      .final-actions .btn-step-next {
+        order: -1;
+        flex: 1 1 100%;
+      }
+
+      .final-actions .btn-step-secondary {
+        flex: 1;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="css/mobile.css" media="(max-width: 768px)" />
+  <link rel="stylesheet" href="css/profile-form.css" />
+  <style>
+    .inline-link { color: var(--blue-light); text-decoration: underline; text-underline-offset: 3px; }
+    .intern-textarea { resize: vertical; min-height: 88px; font-family: inherit; line-height: 1.5; }
+    .form-row-2 .plain-fieldset { margin-bottom: 0; }
+  </style>
+</head>
+
+<body>
+
+  <!-- TOP HEADER -->
+  <header class="top-header">
+    <div class="header-inner">
+      <a href="internships.html" class="brand-logo">
+        <img src="kompetenzen logo-02.webp" alt="Kompetenzen Technologies" />
+        <span class="brand-context">Internships</span>
+      </a>
+      <div class="header-right">
+        <div class="user-pill" id="nav-user-pill">
+          <div class="user-avatar" id="nav-user-avatar">G</div>
+          <span class="user-meta-name" id="nav-user-name">Candidate</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="apply-container">
+
+    <!-- Target Internship Pill (if directed from a specific listing) -->
+    <div class="target-job-badge" id="target-job-banner" style="display:none;">
+      <span>Applying for:</span>
+      <strong id="target-job-title-text">—</strong>
+    </div>
+
+    <div class="form-header-center">
+      <div class="time-badge">
+        <span class="profile-eyebrow-rule" aria-hidden="true"></span>
+        <span>YOUR FIRST STEP INTO INDUSTRY</span>
+      </div>
+      <h1 class="main-title">Your internship profile<span class="profile-title-dot">.</span></h1>
+      <p class="main-subtitle">Fill it once and use it for every internship you apply to.<br>
+        Your answers are shared with your <a href="create-profile.html" class="inline-link">career profile</a>, so you never type them twice.</p>
+    </div>
+
+    <div class="stepper-bars" aria-hidden="true">
+      <div class="stepper-bar-segment active" id="step-bar-1"></div>
+      <div class="stepper-bar-segment" id="step-bar-2"></div>
+      <div class="stepper-bar-segment" id="step-bar-3"></div>
+    </div>
+    <p class="step-count" id="step-count" aria-live="polite">Step 1 of 3</p>
+
+    <div class="form-card-container">
+      <form id="quick-apply-form" novalidate onsubmit="event.preventDefault();">
+
+        <!-- ========================================== -->
+        <!-- STEP 1: CONTACT + STUDY STATUS             -->
+        <!-- ========================================== -->
+        <section class="step-section active" id="step-section-1">
+          <div class="section-badge-header">
+            <span class="section-tag-label">YOUR DETAILS</span>
+            <span class="section-indicator">Step 1 of 3</span>
+          </div>
+          <p class="field-hint">Companies you apply to use these details to contact you.</p>
+          <div class="form-group">
+            <label class="form-label" for="field-name">Full Name <span class="req">*</span></label>
+            <input type="text" id="field-name" class="form-input-box" placeholder="Enter your full name" maxlength="120"
+              autocomplete="name" />
+            <p class="field-error" id="err-name" role="alert"></p>
+          </div>
+          <div class="form-row-2">
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label" for="field-phone">WhatsApp Number <span class="req">*</span></label>
+              <input type="tel" id="field-phone" class="form-input-box" placeholder="+91 98765 43210" maxlength="20"
+                autocomplete="tel" inputmode="tel" />
+              <p class="field-note" id="phone-verified-note" hidden>Verified when you signed up.</p>
+              <p class="field-error" id="err-phone" role="alert"></p>
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label" for="field-email">Email <span class="req">*</span></label>
+              <input type="email" id="field-email" class="form-input-box" placeholder="you@example.com" maxlength="320"
+                autocomplete="email" inputmode="email" />
+              <p class="field-error" id="err-email" role="alert"></p>
+            </div>
+          </div>
+
+          <div class="form-section-divider"></div>
+
+          <fieldset class="plain-fieldset form-group">
+            <legend class="form-label stage-legend">Where are you in your studies? <span class="req">*</span></legend>
+            <div class="stage-cards" id="stage-cards">
+              <label class="stage-card">
+                <input type="radio" name="career-stage" value="studying" />
+                <div class="stage-card-icon stage-icon-study">🎓</div>
+                <div class="stage-card-content">
+                  <span class="stage-card-title">Currently Studying</span>
+                  <span class="stage-card-desc">Pursuing a degree or diploma and looking for an internship alongside
+                    or after my course.</span>
+                </div>
+              </label>
+              <label class="stage-card">
+                <input type="radio" name="career-stage" value="graduated" />
+                <div class="stage-card-icon stage-icon-grad">💼</div>
+                <div class="stage-card-content">
+                  <span class="stage-card-title">Recently Graduated</span>
+                  <span class="stage-card-desc">Completed my qualification and looking for an internship to gain
+                    industry experience.</span>
+                </div>
+              </label>
+            </div>
+            <p class="field-note" id="stage-experienced-note" hidden>Your career profile currently says
+              <strong>Experienced Professional</strong>. Choosing an option here updates it.</p>
+            <p class="field-error" id="err-stage" role="alert"></p>
+          </fieldset>
+
+          <div class="step-actions-footer">
+            <button type="button" class="btn-step-next" onclick="goToStep(2)"><span>Next →</span></button>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- STEP 2: EDUCATION                          -->
+        <!-- ========================================== -->
+        <section class="step-section" id="step-section-2">
+          <div class="section-badge-header">
+            <span class="section-tag-label">YOUR EDUCATION</span>
+            <span class="section-indicator">Step 2 of 3</span>
+          </div>
+          <p class="field-hint">Companies use your course to shortlist interns. Fields marked * are required.</p>
+
+          <div class="stage-block" data-stage="studying" hidden>
+            <div class="background-heading"><span class="background-eyebrow">YOUR COURSE</span>
+              <h2>Tell us what you are studying</h2>
+              <p>Your course, stream and semester decide which internships you are eligible for.</p>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="college-search">College name <span class="req">*</span></label>
+              <div class="college-combobox">
+                <input type="text" id="college-search" class="form-input-box" role="combobox" autocomplete="off"
+                  placeholder="Search and select your college…" aria-autocomplete="list" aria-expanded="false"
+                  aria-controls="college-options" aria-required="true"
+                  aria-describedby="err-institution college-results" />
+                <div id="college-options" class="college-options" role="listbox" aria-label="Matching colleges" hidden>
+                </div>
+              </div>
+              <select id="f-institution" hidden aria-hidden="true" tabindex="-1"></select>
+              <p class="field-note" id="college-results" role="status"></p>
+              <p class="field-error" id="err-institution" role="alert"></p>
+              <div id="f-institution-other-wrap" class="other-field" hidden>
+                <label class="form-label" for="f-institution-other">Please specify college name</label>
+                <input id="f-institution-other" class="form-input-box" maxlength="200" placeholder="Enter your answer"
+                  aria-describedby="err-institution-other" />
+                <p class="field-error" id="err-institution-other" role="alert"></p>
+              </div>
+            </div>
+            <div class="education-grid">
+              <div class="form-group">
+                <label class="form-label" for="f-study-qualification">Course <span class="req">*</span></label>
+                <select id="f-study-qualification" class="form-input-box" aria-required="true"
+                  aria-describedby="err-study-qualification"></select>
+                <p class="field-error" id="err-study-qualification" role="alert"></p>
+                <div id="f-study-qualification-other-wrap" class="other-field" hidden>
+                  <label class="form-label" for="f-study-qualification-other">Please specify course</label>
+                  <input id="f-study-qualification-other" class="form-input-box" maxlength="120"
+                    placeholder="Enter your answer" aria-describedby="err-study-qualification-other" />
+                  <p class="field-error" id="err-study-qualification-other" role="alert"></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="f-study-specialisation">Specialisation / stream <span
+                    class="req">*</span></label>
+                <select id="f-study-specialisation" class="form-input-box" aria-required="true"
+                  aria-describedby="err-study-specialisation"></select>
+                <p class="field-error" id="err-study-specialisation" role="alert"></p>
+                <div id="f-study-specialisation-other-wrap" class="other-field" hidden>
+                  <label class="form-label" for="f-study-specialisation-other">Please specify specialisation /
+                    stream</label>
+                  <input id="f-study-specialisation-other" class="form-input-box" maxlength="120"
+                    placeholder="Enter your answer" aria-describedby="err-study-specialisation-other" />
+                  <p class="field-error" id="err-study-specialisation-other" role="alert"></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="f-study-semester">Current semester <span class="req">*</span></label>
+                <select id="f-study-semester" class="form-input-box" aria-required="true"
+                  aria-describedby="err-study-semester"></select>
+                <p class="field-error" id="err-study-semester" role="alert"></p>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="f-study-year">Which year will you complete your course? <span
+                    class="req">*</span></label>
+                <select id="f-study-year" class="form-input-box" aria-required="true" aria-describedby="err-study-year"
+                  data-years="future"></select>
+                <p class="field-error" id="err-study-year" role="alert"></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="stage-block" data-stage="graduated" hidden>
+            <div class="background-heading"><span class="background-eyebrow">YOUR QUALIFICATION</span>
+              <h2>Tell us what you completed</h2>
+              <p>Your qualification and stream decide which internships you are eligible for.</p>
+            </div>
+            <div class="education-grid">
+              <div class="form-group">
+                <label class="form-label" for="f-grad-qualification">Highest qualification <span
+                    class="req">*</span></label>
+                <select id="f-grad-qualification" class="form-input-box" aria-required="true"
+                  aria-describedby="err-grad-qualification"></select>
+                <p class="field-error" id="err-grad-qualification" role="alert"></p>
+                <div id="f-grad-qualification-other-wrap" class="other-field" hidden>
+                  <label class="form-label" for="f-grad-qualification-other">Please specify highest
+                    qualification</label>
+                  <input id="f-grad-qualification-other" class="form-input-box" maxlength="120"
+                    placeholder="Enter your answer" aria-describedby="err-grad-qualification-other" />
+                  <p class="field-error" id="err-grad-qualification-other" role="alert"></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="f-grad-specialisation">Specialisation / stream <span
+                    class="req">*</span></label>
+                <select id="f-grad-specialisation" class="form-input-box" aria-required="true"
+                  aria-describedby="err-grad-specialisation"></select>
+                <p class="field-error" id="err-grad-specialisation" role="alert"></p>
+                <div id="f-grad-specialisation-other-wrap" class="other-field" hidden>
+                  <label class="form-label" for="f-grad-specialisation-other">Please specify specialisation /
+                    stream</label>
+                  <input id="f-grad-specialisation-other" class="form-input-box" maxlength="120"
+                    placeholder="Enter your answer" aria-describedby="err-grad-specialisation-other" />
+                  <p class="field-error" id="err-grad-specialisation-other" role="alert"></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="f-grad-year">Graduation year <span class="req">*</span></label>
+                <select id="f-grad-year" class="form-input-box" aria-required="true" aria-describedby="err-grad-year"
+                  data-years="past"></select>
+                <p class="field-error" id="err-grad-year" role="alert"></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-actions-footer">
+            <button type="button" class="btn-step-back" onclick="goToStep(1)">← Back</button>
+            <button type="button" class="btn-step-next" onclick="goToStep(3)"><span>Next →</span></button>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- STEP 3: INTERNSHIP PREFERENCES + SUBMIT    -->
+        <!-- ========================================== -->
+        <section class="step-section" id="step-section-3">
+          <div class="section-badge-header">
+            <span class="section-tag-label">ALMOST DONE</span>
+            <span class="required-badge">Required Details</span>
+          </div>
+
+          <div class="background-heading">
+            <span class="background-eyebrow">WHAT YOU WANT TO LEARN</span>
+            <h2>Which internship are you looking for?</h2>
+            <p>Pick the field you want hands-on experience in and the skills you already bring.</p>
+          </div>
+          <div class="education-grid">
+            <div class="form-group">
+              <label class="form-label" for="career-area">Which career area interests you most? <span class="req">*</span></label>
+              <select id="career-area" class="form-input-box"></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="career-field">Which field do you want to intern in? <span class="req">*</span></label>
+              <select id="career-field" class="form-input-box" aria-describedby="career-field-hint" disabled></select>
+              <p id="career-field-hint" class="field-note">Choose a career area to see related fields.</p>
+            </div>
+          </div>
+          <div id="career-field-questions" hidden>
+            <fieldset class="plain-fieldset form-group">
+              <legend class="form-label">Which of these skills do you already have? <span class="req">*</span></legend>
+              <details class="career-skill-dropdown">
+                <summary id="career-skills-summary">Select skills you already have</summary>
+                <div id="career-skills" class="career-checks"></div>
+              </details>
+              <p class="field-note">Select all that apply, or choose “I don't know yet”.</p>
+            </fieldset>
+            <fieldset class="plain-fieldset form-group">
+              <legend class="form-label">Which soft skills do you already have? <span class="req">*</span></legend>
+              <details class="career-skill-dropdown">
+                <summary id="career-soft-skills-summary">Select skills you already have</summary>
+                <div id="career-soft-skills" class="career-checks"></div>
+              </details>
+              <p class="field-note">Select all that apply, or choose “I don't know yet”.</p>
+            </fieldset>
+          </div>
+
+          <div class="form-section-divider"></div>
+
+          <div class="background-heading">
+            <span class="background-eyebrow">YOUR AVAILABILITY</span>
+            <h2>When and how can you intern?</h2>
+          </div>
+
+          <fieldset class="plain-fieldset form-group">
+            <legend class="form-label">Internship mode <span class="req">*</span> <span class="sub">tap all that apply</span></legend>
+            <div class="pills-row-wrap" id="pills-mode" data-multi>
+              <button type="button" class="choice-pill-btn" data-value="On-site" aria-pressed="false">On-site</button>
+              <button type="button" class="choice-pill-btn" data-value="Hybrid" aria-pressed="false">Hybrid</button>
+              <button type="button" class="choice-pill-btn" data-value="Remote" aria-pressed="false">Remote / Virtual</button>
+            </div>
+          </fieldset>
+
+          <fieldset class="plain-fieldset form-group">
+            <legend class="form-label">Time you can give <span class="req">*</span></legend>
+            <div class="pills-row-wrap" id="pills-hours">
+              <button type="button" class="choice-pill-btn" data-value="Full-time" aria-pressed="false">Full-time</button>
+              <button type="button" class="choice-pill-btn" data-value="Part-time" aria-pressed="false">Part-time (alongside classes)</button>
+            </div>
+          </fieldset>
+
+          <fieldset class="plain-fieldset form-group">
+            <legend class="form-label">Preferred duration <span class="req">*</span></legend>
+            <div class="pills-row-wrap" id="pills-duration">
+              <button type="button" class="choice-pill-btn" data-value="1 month" aria-pressed="false">1 month</button>
+              <button type="button" class="choice-pill-btn" data-value="2 months" aria-pressed="false">2 months</button>
+              <button type="button" class="choice-pill-btn" data-value="3 months" aria-pressed="false">3 months</button>
+              <button type="button" class="choice-pill-btn" data-value="6 months" aria-pressed="false">6 months</button>
+              <button type="button" class="choice-pill-btn" data-value="Flexible" aria-pressed="false">Flexible</button>
+            </div>
+          </fieldset>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="f-available-from">Available to start from <span class="req">*</span></label>
+              <input type="month" id="f-available-from" class="form-input-box" />
+            </div>
+            <fieldset class="plain-fieldset form-group">
+              <legend class="form-label">Stipend <span class="req">*</span></legend>
+              <div class="pills-row-wrap" id="pills-stipend" style="margin-bottom:0;">
+                <button type="button" class="choice-pill-btn" data-value="Paid only" aria-pressed="false">Paid only</button>
+                <button type="button" class="choice-pill-btn" data-value="Unpaid is fine" aria-pressed="false">Unpaid is fine</button>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Preferred locations <span class="req">*</span> <span class="sub">tap all that apply</span></label>
+            <!-- Same labels as create-profile.html: both save to preferred_location. -->
+            <div class="pills-row-wrap" id="pills-location" data-multi>
+              <button type="button" class="choice-pill-btn" aria-pressed="false">Kochi</button>
+              <button type="button" class="choice-pill-btn" aria-pressed="false">Trivandrum</button>
+              <button type="button" class="choice-pill-btn" aria-pressed="false">Bengaluru</button>
+              <button type="button" class="choice-pill-btn" aria-pressed="false">Chennai</button>
+              <button type="button" class="choice-pill-btn" aria-pressed="false">Remote</button>
+              <button type="button" class="choice-pill-btn" aria-pressed="false">Anywhere in India</button>
+              <button type="button" class="choice-pill-btn" aria-pressed="false">UAE / GCC</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="f-goal">What do you want to learn from this internship? <span class="sub">optional</span></label>
+            <textarea id="f-goal" class="form-input-box intern-textarea" maxlength="500" rows="3"
+              placeholder="e.g. Build a real product with a team, learn how HR operations run day to day…"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="f-portfolio">Project, GitHub or portfolio link <span class="sub">optional</span></label>
+            <input type="url" id="f-portfolio" class="form-input-box" maxlength="300" placeholder="https://"
+              inputmode="url" />
+          </div>
+
+          <div class="resume-upload-wrap in-details">
+            <label class="form-label" style="margin-bottom:8px;">Resume <span class="sub">optional</span></label>
+            <p class="field-hint" id="resume-hint"></p>
+            <div class="resume-drop-zone" id="resume-drop-zone" role="button" tabindex="0" aria-label="Upload resume"
+              onclick="document.getElementById('file-resume-input').click()"
+              onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+              <input type="file" id="file-resume-input" accept=".pdf,.doc,.docx" style="display:none;"
+                onchange="handleResumeSelected(this.files[0])" />
+              <div class="resume-drop-empty" id="resume-drop-empty">
+                <div class="resume-upload-icon-circle">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="12" y1="18" x2="12" y2="12" />
+                    <polyline points="9 15 12 12 15 15" />
+                  </svg>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:2px; text-align:left;">
+                  <span class="resume-drop-main">Click or drag &amp; drop to upload resume</span>
+                  <span class="resume-drop-sub">PDF, DOC, or DOCX up to 5MB</span>
+                </div>
+              </div>
+              <div class="resume-file-info" id="resume-file-info" style="display:none;">
+                <div class="resume-file-left">
+                  <div class="resume-file-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="2.2">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                      <polyline points="14 2 14 8 20 8" />
+                      <line x1="16" y1="13" x2="8" y2="13" />
+                      <line x1="16" y1="17" x2="8" y2="17" />
+                    </svg>
+                  </div>
+                  <div class="resume-file-meta">
+                    <span class="resume-filename" id="resume-display-name">resume.pdf</span>
+                    <span class="resume-filesize" id="resume-display-size">✓ Ready to upload</span>
+                  </div>
+                </div>
+                <button type="button" class="btn-remove-resume"
+                  onclick="event.stopPropagation(); removeUploadedResume();" title="Remove resume">✕</button>
+              </div>
+            </div>
+          </div>
+
+          <section id="notification-preferences" class="notification-consent" aria-labelledby="notification-title">
+            <fieldset id="notification-channels" disabled>
+              <legend id="notification-title" class="notification-title">Send me application updates on
+                <span class="req" aria-hidden="true">*</span> <small>choose at least one · change anytime</small></legend>
+              <div class="notification-channels">
+                <label class="notification-channel"><input type="checkbox" id="notify-email"><span>Email</span></label>
+                <label class="notification-channel"><input type="checkbox" id="notify-whatsapp"><span>WhatsApp</span></label>
+              </div>
+              <div id="notify-phone-row" class="notification-phone" hidden><label for="notify-phone">Confirm your
+                  WhatsApp number</label><input id="notify-phone" class="form-input-box" type="tel"
+                  placeholder="+919876543210" maxlength="16" autocomplete="tel"><small>Include your country
+                  code.</small></div>
+            </fieldset>
+            <button type="button" class="btn-step-secondary" id="save-notifications" hidden disabled>Save
+              preferences</button>
+            <p id="notification-feedback" role="status" aria-live="polite"></p>
+          </section>
+          <p class="field-error" id="err-step-3" role="alert"></p>
+          <div class="profile-consent">
+            <label for="field-profile-consent">
+              <input type="checkbox" id="field-profile-consent" name="profile-consent" required
+                aria-describedby="err-profile-consent">
+              <span>I consent to Kompetenzen using my personal data for my profile, internship matching and
+                applications, and sharing it with companies I apply to. Promotional messages are excluded.
+                <strong>(Required)</strong></span>
+            </label>
+            <p class="field-error" id="err-profile-consent" role="alert"></p>
+          </div>
+
+          <div class="step-actions-footer final-actions">
+            <button type="button" class="btn-step-back" onclick="goToStep(2)">← Back</button>
+            <button type="button" class="btn-step-next" id="btn-submit-internship-profile"
+              onclick="handleSubmitInternshipProfile()">
+              <span>Save Internship Profile</span>
+            </button>
+          </div>
+        </section>
+
+      </form>
+    </div>
+  </main>
+
+  <div class="success-toast" id="app-toast">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+      <polyline points="22 4 12 14.01 9 11.01" />
+    </svg>
+    <span id="toast-text">Internship profile saved.</span>
+  </div>
+
+  <script src="js/profile-options.js"></script>
+  <script src="js/kerala-colleges.js"></script>
+  <script src="js/profile-fields.js"></script>
+  <script src="js/career-catalog.js"></script>
+  <script src="js/career-preferences.js"></script>
+  <script src="js/notification-preferences.js"></script>
+  <script>
+    // Internship onboarding. It reads and writes the same candidate_profiles row
+    // as create-profile.html: contact, education, career interests, locations and
+    // resume are shared, so each form shows what the other saved. Answers that
+    // only matter for internships go to candidate_profiles.internship_preferences.
+
+    const PROFILE_STORAGE_KEY = 'kompetenzen_candidate_profile';
+    const UNKNOWN = "I don't know yet";
+
+    const state = { stage: '', savedCareerPreferences: {} };
+    let currentStep = 1;
+    let targetJobId = null;
+    let uploadedResumeFile = null;
+
+    // ===== HELPERS =====
+    const $ = id => document.getElementById(id);
+    const val = id => ($(id) ? $(id).value.trim() : '');
+
+    function setError(errId, message, fieldId) {
+      const el = $(errId);
+      if (el) el.textContent = message || '';
+      const field = fieldId && $(fieldId);
+      if (field) {
+        if (message) field.setAttribute('aria-invalid', 'true');
+        else field.removeAttribute('aria-invalid');
+      }
+    }
+
+    function clearErrors(section) {
+      section.querySelectorAll('.field-error').forEach(e => { e.textContent = ''; });
+      section.querySelectorAll('[aria-invalid]').forEach(e => e.removeAttribute('aria-invalid'));
+    }
+
+    function fillYears(select, direction) {
+      const now = new Date().getFullYear();
+      const years = [];
+      if (direction === 'future') for (let y = now; y <= now + 8; y++) years.push(String(y));
+      else for (let y = now; y >= now - 70; y--) years.push(String(y));
+      select.replaceChildren(new Option('Select year', ''), ...years.map(y => new Option(y, y)));
+    }
+
+    // Pill groups: [data-multi] allows several picks, otherwise one.
+    // Location pills have no data-value; their label is the saved value, as in create-profile.html.
+    const pillValue = b => b.dataset.value || b.textContent.trim();
+
+    function pickedPills(containerId) {
+      return [...$(containerId).querySelectorAll('.choice-pill-btn.selected')].map(pillValue);
+    }
+
+    function setPills(containerId, values) {
+      $(containerId).querySelectorAll('.choice-pill-btn').forEach(b => {
+        const on = values.includes(pillValue(b));
+        b.classList.toggle('selected', on);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+    }
+
+    function initPills(containerId) {
+      const wrap = $(containerId);
+      wrap.addEventListener('click', e => {
+        const b = e.target.closest('.choice-pill-btn');
+        if (!b) return;
+        const value = pillValue(b);
+        if (wrap.hasAttribute('data-multi')) {
+          const picked = pickedPills(containerId);
+          setPills(containerId, picked.includes(value) ? picked.filter(v => v !== value) : picked.concat(value));
+        } else {
+          setPills(containerId, [value]);
+        }
+        setError('err-step-3', '');
+      });
+    }
+
+    // ===== STUDY STATUS ROUTING =====
+    function applyStage(stage) {
+      state.stage = stage;
+      // The searchable college field is shared by both education blocks.
+      const collegeField = $('college-search').closest('.form-group');
+      if (stage === 'graduated') {
+        $('f-grad-qualification').closest('.form-group').after(collegeField);
+      } else {
+        const block = document.querySelector('#step-section-2 .stage-block[data-stage="studying"]');
+        block.insertBefore(collegeField, block.querySelector('.education-grid'));
+      }
+      document.querySelectorAll('#step-section-2 .stage-block').forEach(block => {
+        block.hidden = block.getAttribute('data-stage') !== stage;
+        block.querySelectorAll('input, select, button').forEach(el => { el.disabled = block.hidden; });
+      });
+      $('stage-experienced-note').hidden = true;
+      syncProfileDependencies(true);
+    }
+
+    // ===== STEP VALIDATION =====
+    function validateStep1() {
+      const section = $('step-section-1');
+      clearErrors(section);
+      let first = null;
+      const fail = (errId, msg, fieldId) => { setError(errId, msg, fieldId); first = first || $(fieldId) || section.querySelector('input[name="career-stage"]'); };
+      if (val('field-name').length < 2) fail('err-name', 'Please enter your full name.', 'field-name');
+      const digits = val('field-phone').replace(/\D/g, '');
+      if (digits.length < 10 || digits.length > 13) fail('err-phone', 'Please enter a valid WhatsApp number, e.g. 98765 43210.', 'field-phone');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val('field-email'))) fail('err-email', 'Please enter a valid email address.', 'field-email');
+      if (!state.stage) fail('err-stage', 'Please choose the option that best describes you.');
+      if (first) first.focus();
+      return !first;
+    }
+
+    function validateStep2() {
+      const section = $('step-section-2');
+      clearErrors(section);
+      let first = null;
+      const need = (fieldId, errId, msg) => { if (!val(fieldId)) { const focusId = fieldId === 'f-institution' ? 'college-search' : fieldId; setError(errId, msg, focusId); first = first || $(focusId); } };
+      const active = section.querySelector('.stage-block[data-stage="' + state.stage + '"]');
+      if (active) active.querySelectorAll('select').forEach(el => {
+        need(el.id, 'err-' + el.id.slice(2), 'Please choose an option.');
+        if (el.value === 'Other') need(el.id + '-other', 'err-' + el.id.slice(2) + '-other', 'Please enter your answer.');
+      });
+      if (first) first.focus();
+      return !first;
+    }
+
+    function validateStep3() {
+      const section = $('step-section-3');
+      clearErrors(section);
+      const p = collectCareerPreferences();
+      const portfolio = val('f-portfolio');
+      const checks = [
+        [p.area, 'career-area', 'Choose a career area.'],
+        [p.field, 'career-field', 'Choose the field you want to intern in.'],
+        [p.skills.length, 'career-skills-summary', 'Select your technical skills or choose “I don’t know yet”.'],
+        [p.softSkills.length, 'career-soft-skills-summary', 'Select your soft skills or choose “I don’t know yet”.'],
+        [pickedPills('pills-mode').length, 'pills-mode', 'Choose at least one internship mode.'],
+        [pickedPills('pills-hours').length, 'pills-hours', 'Choose how much time you can give.'],
+        [pickedPills('pills-duration').length, 'pills-duration', 'Choose a preferred duration.'],
+        [val('f-available-from'), 'f-available-from', 'Choose the month you can start.'],
+        [pickedPills('pills-stipend').length, 'pills-stipend', 'Choose your stipend preference.'],
+        [pickedPills('pills-location').length, 'pills-location', 'Select at least one preferred location.'],
+        [!portfolio || /^https?:\/\/\S+\.\S+/i.test(portfolio), 'f-portfolio', 'Enter a full link starting with https://, or leave it blank.'],
+        // Skipped when settings could not load (channels stay disabled), so the profile can still be saved.
+        [$('notification-channels').disabled || $('notify-email').checked || $('notify-whatsapp').checked, 'notification-channels', 'Choose Email or WhatsApp for your application updates.'],
+        [$('field-profile-consent').checked, 'field-profile-consent', 'Please give your consent to use your profile before continuing.']
+      ];
+      const missing = checks.find(([answer]) => !answer);
+      if (!missing) return true;
+      const [, id, message] = missing;
+      const field = $(id);
+      setError(id === 'field-profile-consent' ? 'err-profile-consent' : 'err-step-3', message, id);
+      (field.matches('input, select, textarea') ? field : field.querySelector('input, button') || field).focus();
+      field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return false;
+    }
+
+    // ===== MULTI-STEP NAVIGATION =====
+    function goToStep(stepNumber) {
+      if (stepNumber > currentStep) {
+        if (currentStep === 1 && !validateStep1()) return;
+        if (stepNumber === 3 && currentStep <= 2 && !validateStep2()) return;
+      }
+      currentStep = stepNumber;
+      document.querySelectorAll('.step-section').forEach(sec => sec.classList.remove('active'));
+      $(`step-section-${stepNumber}`).classList.add('active');
+      for (let i = 1; i <= 3; i++) {
+        $(`step-bar-${i}`).className = 'stepper-bar-segment' + (i < stepNumber ? ' completed' : i === stepNumber ? ' active' : '');
+      }
+      $('step-count').textContent = `Step ${stepNumber} of 3`;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ===== COLLECT FORM =====
+    // Summary columns (degree, experience, skills) are built the same way as in
+    // create-profile.html, because apply_to_job() copies them into applications.
+    function collectProfile() {
+      const stage = state.stage;
+      const careerPreferences = collectCareerPreferences();
+      const p = {
+        careerStage: stage,
+        name: val('field-name'),
+        phone: val('field-phone'),
+        email: val('field-email').toLowerCase(),
+        careerPreferences,
+        skills: careerPreferences.skills.filter(s => s !== UNKNOWN).join(', '),
+        preferredLocation: pickedPills('pills-location').join(', '),
+        institution: profileAnswer('f-institution'),
+        qualification: '', specialisation: '', gradYear: '', degree: '', experience: '', semester: null,
+        internship: {
+          modes: pickedPills('pills-mode'),
+          hours: pickedPills('pills-hours')[0] || '',
+          duration: pickedPills('pills-duration')[0] || '',
+          availableFrom: val('f-available-from'),
+          stipend: pickedPills('pills-stipend')[0] || '',
+          goal: val('f-goal').slice(0, 500),
+          portfolio: val('f-portfolio').slice(0, 300),
+          updatedAt: new Date().toISOString()
+        }
+      };
+      if (stage === 'studying') {
+        p.qualification = profileAnswer('f-study-qualification');
+        p.specialisation = profileAnswer('f-study-specialisation');
+        p.semester = val('f-study-semester');
+        p.gradYear = val('f-study-year');
+        p.degree = `${p.qualification} · ${p.specialisation}`;
+        p.experience = 'Student';
+      } else {
+        p.qualification = profileAnswer('f-grad-qualification');
+        p.specialisation = profileAnswer('f-grad-specialisation');
+        p.gradYear = val('f-grad-year');
+        p.degree = `${p.specialisation} (${p.qualification})`;
+        p.experience = 'Fresher / Graduate';
+      }
+      return p;
+    }
+
+    // ===== SAVE TO THE SHARED PROFILE ROW =====
+    // Only the columns this form asks about are sent, so answers that exist only
+    // on create-profile.html (Kompetenzen course, career challenges, recent role)
+    // are kept as they are.
+    async function saveInternshipProfile(userId, p, resumeUrl) {
+      // Keep create-profile's offer preference unless the chosen field changed.
+      const careerPreferences = Object.assign({}, state.savedCareerPreferences, p.careerPreferences);
+      if (state.savedCareerPreferences.field !== p.careerPreferences.field) {
+        careerPreferences.offerPreference = '';
+      } else {
+        careerPreferences.offerPreference = state.savedCareerPreferences.offerPreference || '';
+        careerPreferences.offerOrder = state.savedCareerPreferences.offerOrder || [];
+      }
+      const row = {
+        user_id: userId,
+        name: p.name,
+        whatsapp: p.phone,
+        email: p.email || null,
+        career_stage: p.careerStage,
+        qualification: p.qualification || null,
+        specialisation: p.specialisation || null,
+        institution: p.institution || null,
+        semester: p.semester || null,
+        grad_year: p.gradYear || null,
+        degree: p.degree || null,
+        experience: p.experience || null,
+        // Experienced-stage answers no longer apply once the candidate is a student or graduate.
+        recent_role: null,
+        industry: null,
+        skills: p.skills || null,
+        preferred_location: p.preferredLocation || null,
+        career_preferences: careerPreferences,
+        internship_preferences: p.internship,
+        updated_at: new Date().toISOString()
+      };
+      if (resumeUrl) row.resume_url = resumeUrl;
+      const { error } = await supabaseClient.from('candidate_profiles').upsert(row, { onConflict: 'user_id' });
+      if (error) throw error;
+      state.savedCareerPreferences = careerPreferences;
+    }
+
+    async function uploadResumeToSupabase(file, candidateName) {
+      if (!file || typeof isSupabaseConfigured !== 'function' || !isSupabaseConfigured()) return '';
+      try {
+        const safeName = (candidateName || 'candidate').replace(/[^a-zA-Z0-9]/g, '_');
+        // Extension comes from an allow-list, not the filename (see create-profile.html).
+        const rawExt = (file.name.split('.').pop() || '').toLowerCase();
+        const ext = ['pdf', 'doc', 'docx'].includes(rawExt) ? rawExt : 'pdf';
+        const path = `applications/${safeName}_${Date.now()}.${ext}`;
+        const { error } = await supabaseClient.storage.from('resumes').upload(path, file, {
+          contentType: file.type || 'application/pdf',
+          upsert: false
+        });
+        if (error) { console.warn('Resume upload error:', error); return ''; }
+        return path;
+      } catch (e) {
+        console.warn('Resume upload exception:', e);
+        return '';
+      }
+    }
+
+    // ===== FINAL SUBMIT =====
+    async function handleSubmitInternshipProfile() {
+      if (!validateStep1()) { goToStep(1); return; }
+      if (!validateStep2()) { goToStep(2); return; }
+      if (!validateStep3()) return;
+
+      const profile = collectProfile();
+      const session = await getSupabaseSession();
+      if (!session) {
+        alert('Your session has expired. Please sign in again to save your internship profile.');
+        redirectToSignIn();
+        return;
+      }
+
+      const submitBtn = $('btn-submit-internship-profile');
+      const idleLabel = submitBtn.innerHTML;
+      const restore = () => { submitBtn.disabled = false; submitBtn.innerHTML = idleLabel; };
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = uploadedResumeFile ? '<span>Uploading resume &amp; saving…</span>' : '<span>Saving…</span>';
+
+      let resumeUrl = '';
+      if (uploadedResumeFile) {
+        resumeUrl = await uploadResumeToSupabase(uploadedResumeFile, profile.name);
+        if (!resumeUrl) {
+          alert('Your resume could not be uploaded. Please try uploading it again.');
+          restore();
+          return;
+        }
+      }
+
+      try {
+        await window.NotificationPreferences.save();
+        await saveInternshipProfile(session.user.id, Object.assign(profile, { email: profile.email || session.user.email || '' }), resumeUrl);
+      } catch (saveErr) {
+        console.warn('Could not save internship profile:', saveErr);
+        alert(saveErr.notificationPreference ? saveErr.message : 'We could not save your internship profile. Please check your details and try again.');
+        restore();
+        return;
+      }
+
+      if (resumeUrl) {
+        removeUploadedResume();
+        $('resume-hint').textContent = 'A resume is already on your profile. Upload a new file only to replace it.';
+      }
+      try {
+        localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify({ completed: true, careerStage: profile.careerStage, updatedAt: new Date().toISOString() }));
+      } catch (e) { }
+
+      if (targetJobId) {
+        showToast('Profile saved. Submitting your application…');
+        // job-details.html submits the application through apply_to_job().
+        setTimeout(() => { window.location.href = `job-details.html?id=${encodeURIComponent(targetJobId)}&apply=1`; }, 900);
+      } else {
+        showToast('Internship profile saved. Your career profile is updated too.');
+        restore();
+      }
+    }
+
+    // ===== RESUME =====
+    function handleResumeSelected(file) {
+      if (!file) return;
+      const ext = '.' + (file.name.split('.').pop() || '').toLowerCase();
+      if (!['.pdf', '.doc', '.docx'].includes(ext)) {
+        alert('Invalid file format. Please upload a PDF, DOC, or DOCX document.');
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        alert('File size exceeds 5MB limit. Please upload a smaller file.');
+        return;
+      }
+      uploadedResumeFile = file;
+      $('resume-display-name').textContent = file.name;
+      const kb = Math.round(file.size / 1024);
+      $('resume-display-size').textContent = `✓ ${kb > 1024 ? (kb / 1024).toFixed(1) + ' MB' : kb + ' KB'} · Attached`;
+      $('resume-drop-empty').style.display = 'none';
+      $('resume-file-info').style.display = 'flex';
+    }
+
+    function removeUploadedResume() {
+      uploadedResumeFile = null;
+      $('file-resume-input').value = '';
+      $('resume-drop-empty').style.display = 'flex';
+      $('resume-file-info').style.display = 'none';
+    }
+
+    function setupResumeDragDrop() {
+      const dropZone = $('resume-drop-zone');
+      ['dragenter', 'dragover'].forEach(name => dropZone.addEventListener(name, e => { e.preventDefault(); e.stopPropagation(); dropZone.classList.add('dragover'); }));
+      ['dragleave', 'drop'].forEach(name => dropZone.addEventListener(name, e => { e.preventDefault(); e.stopPropagation(); dropZone.classList.remove('dragover'); }));
+      dropZone.addEventListener('drop', e => {
+        const dt = e.dataTransfer;
+        if (dt && dt.files && dt.files[0]) handleResumeSelected(dt.files[0]);
+      });
+    }
+
+    // ===== SIGN-IN + PREFILL FROM THE SHARED PROFILE =====
+    async function getSupabaseSession() {
+      if (typeof supabaseClient === 'undefined' || !supabaseClient) return null;
+      try {
+        const { data } = await supabaseClient.auth.getSession();
+        return (data && data.session) || null;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    // internships.html#signup opens the sign-up modal and returns here.
+    function redirectToSignIn() {
+      window.location.href = targetJobId
+        ? `job-details.html?id=${encodeURIComponent(targetJobId)}&apply=1`
+        : 'internships.html#signup';
+    }
+
+    async function requireSessionAndPrefill() {
+      const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const session = await getSupabaseSession();
+      if (!session) { if (!isLocal) redirectToSignIn(); return; }
+      const user = session.user;
+      const meta = user.user_metadata || {};
+      const displayName = meta.name || meta.full_name || (user.email || 'Candidate').split('@')[0];
+      $('nav-user-name').textContent = displayName;
+      $('nav-user-avatar').textContent = displayName[0].toUpperCase();
+      $('field-email').value = user.email || '';
+      $('field-name').value = meta.name || meta.full_name || '';
+      const verifiedPhone = meta.phone || user.phone || '';
+      $('field-phone').value = verifiedPhone;
+
+      try {
+        const { data, error } = await supabaseClient.from('candidate_profiles').select('*').eq('user_id', user.id).maybeSingle();
+        if (error) throw error;
+        if (data) fillFromProfile(data);
+      } catch (e) {
+        showToast('Your saved profile could not be loaded. You can still fill in the form.');
+      }
+
+      // The mobile number was verified by OTP at sign-up; use that one.
+      if (verifiedPhone) {
+        $('field-phone').value = verifiedPhone;
+        $('field-phone').readOnly = true;
+        $('phone-verified-note').hidden = false;
+      }
+    }
+
+    function fillFromProfile(data) {
+      state.savedCareerPreferences = data.career_preferences && typeof data.career_preferences === 'object' ? data.career_preferences : {};
+      $('field-name').value = data.name || $('field-name').value;
+      $('field-phone').value = data.whatsapp || $('field-phone').value;
+      $('field-email').value = data.email || $('field-email').value;
+
+      const prefix = { studying: 'study', graduated: 'grad' }[data.career_stage];
+      const educationFields = {};
+      (prefix ? [prefix] : ['study', 'grad']).forEach(p => {
+        educationFields['f-' + p + '-qualification'] = data.qualification;
+        educationFields['f-' + p + '-specialisation'] = data.specialisation;
+        educationFields['f-' + p + '-year'] = data.grad_year;
+      });
+      restoreProfileFields({ ...educationFields, 'f-study-semester': data.semester, 'f-institution': data.institution });
+
+      if (prefix) {
+        document.querySelector(`input[name="career-stage"][value="${data.career_stage}"]`).checked = true;
+        applyStage(data.career_stage);
+      } else if (data.career_stage === 'experienced') {
+        $('stage-experienced-note').hidden = false;
+      }
+
+      restoreCareerPreferences(state.savedCareerPreferences);
+      setPills('pills-location', String(data.preferred_location || '').split(',').map(s => s.trim()).filter(Boolean));
+
+      const ip = data.internship_preferences || {};
+      setPills('pills-mode', Array.isArray(ip.modes) ? ip.modes : []);
+      setPills('pills-hours', ip.hours ? [ip.hours] : []);
+      setPills('pills-duration', ip.duration ? [ip.duration] : []);
+      setPills('pills-stipend', ip.stipend ? [ip.stipend] : []);
+      $('f-available-from').value = ip.availableFrom || '';
+      $('f-goal').value = ip.goal || '';
+      $('f-portfolio').value = ip.portfolio || '';
+
+      if (data.resume_url) $('resume-hint').textContent = 'A resume is already on your profile. Upload a new file only to replace it.';
+      if (data.career_stage) showToast('Details from your career profile are filled in. Review them and save.');
+    }
+
+    async function showTargetJob() {
+      if (!targetJobId || typeof supabaseClient === 'undefined' || !supabaseClient) return;
+      try {
+        const { data } = await supabaseClient.rpc('job_details', { p_job_id: targetJobId });
+        const job = data && data[0];
+        if (!job) return;
+        $('target-job-title-text').textContent = `${job.title} at ${job.company}`;
+        $('target-job-banner').style.display = 'inline-flex';
+      } catch (e) { }
+    }
+
+    function showToast(text) {
+      $('toast-text').textContent = text;
+      $('app-toast').classList.add('is-visible');
+      setTimeout(() => $('app-toast').classList.remove('is-visible'), 4500);
+    }
+
+    // ===== INITIALIZE PAGE =====
+    function initPage() {
+      targetJobId = new URLSearchParams(window.location.search).get('jobId');
+      if (targetJobId) $('btn-submit-internship-profile').innerHTML = '<span>Apply for Internship →</span>';
+
+      initProfileFields();
+      initCareerPreferences();
+      document.querySelectorAll('select[data-years]').forEach(s => fillYears(s, s.dataset.years));
+      const now = new Date();
+      $('f-available-from').min = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+
+      document.querySelectorAll('input[name="career-stage"]').forEach(radio => radio.addEventListener('change', () => {
+        setError('err-stage', '');
+        applyStage(radio.value);
+      }));
+      ['pills-mode', 'pills-hours', 'pills-duration', 'pills-stipend', 'pills-location'].forEach(initPills);
+      $('quick-apply-form').addEventListener('input', e => {
+        if (e.target.id) setError('err-' + e.target.id.replace(/^(f|field)-/, ''), '', e.target.id);
+      });
+
+      setupResumeDragDrop();
+      showTargetJob();
+      requireSessionAndPrefill();
+    }
+
+    document.addEventListener('DOMContentLoaded', initPage);
+  </script>
+</body>
+
+</html>

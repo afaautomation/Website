@@ -82,7 +82,7 @@ Provider references: [Resend idempotency](https://resend.com/changelog/idempoten
    | `application_status_update` | Utility | HR update on your application for {{1}}: {{2}} |
    | `job_digest` | **Marketing** | New openings matching your profile on {{1}}: {{2}} |
 
-   End every body with a fixed footer such as `Reply STOP to stop WhatsApp notifications.` Meta may recategorise templates; job digests are marketing and cost more. Different names can be used if set in `WHATSAPP_TEMPLATE_<EVENT>`.
+   No footer is required. Replies of STOP still switch WhatsApp off once the webhook (step 7) is connected, and users can opt out on their profile. Meta may recategorise templates; job digests are marketing and cost more. Different names can be used if set in `WHATSAPP_TEMPLATE_<EVENT>`.
 
    Signup codes use a separate **Authentication** template, `verification_code`, with a Copy code button (override with `WHATSAPP_TEMPLATE_OTP`). See `PHONE_SIGNUP_SETUP.md`.
 7. **Webhook.** In the Meta app → WhatsApp → Configuration → Webhook: Callback URL `https://PROJECT_REF.supabase.co/functions/v1/notification-whatsapp-inbound`, Verify token = `WHATSAPP_VERIFY_TOKEN`, then **Verify and save**. Subscribe to the **messages** field. Deploy the function and set its secrets first, or verification fails.

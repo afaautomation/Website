@@ -16,7 +16,9 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
     rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js"
+    integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP"
+    crossorigin="anonymous"></script>
   <script src="supabase-config.js"></script>
   <style>
     :root {
@@ -329,6 +331,7 @@
         opacity: 0;
         transform: translateY(10px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -622,12 +625,12 @@
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
     }
 
-    input:checked + .slider-toggle {
+    input:checked+.slider-toggle {
       background-color: var(--blue);
       box-shadow: 0 0 12px rgba(37, 99, 235, 0.5);
     }
 
-    input:checked + .slider-toggle:before {
+    input:checked+.slider-toggle:before {
       transform: translateX(22px);
     }
 
@@ -809,7 +812,7 @@
     }
 
     .resume-upload-wrap.in-details {
-      margin: 4px 0 22px;
+      margin: 4px 0 14px;
       padding-top: 0;
       border-top: 0;
     }
@@ -818,8 +821,8 @@
       background: rgba(19, 26, 43, 0.5);
       border: 2px dashed rgba(59, 130, 246, 0.3);
       border-radius: var(--radius-lg);
-      padding: 34px 24px;
-      margin-bottom: 24px;
+      padding: 14px 18px;
+      margin-bottom: 16px;
       text-align: center;
       cursor: pointer;
       transition: all 0.25s ease;
@@ -840,14 +843,29 @@
 
     .resume-drop-empty {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
+      width: 100%;
+    }
+
+    #resume-hint:empty {
+      display: none;
+    }
+
+    #pills-location {
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    #pills-location .choice-pill-btn {
+      padding: 7px 14px;
+      font-size: 13.5px;
     }
 
     .resume-upload-icon-circle {
-      width: 52px;
-      height: 52px;
+      width: 38px;
+      height: 38px;
+      flex-shrink: 0;
       border-radius: 50%;
       background: rgba(59, 130, 246, 0.14);
       border: 1px solid rgba(59, 130, 246, 0.3);
@@ -864,13 +882,13 @@
     }
 
     .resume-drop-main {
-      font-size: 15.5px;
+      font-size: 14.5px;
       font-weight: 700;
       color: #FFFFFF;
     }
 
     .resume-drop-sub {
-      font-size: 13.5px;
+      font-size: 12.5px;
       color: var(--ink-mute);
     }
 
@@ -985,19 +1003,35 @@
     }
 
     .more-details {
-      margin-top: 26px;
+      margin-top: 22px;
       scroll-margin-top: 90px;
-      padding: 24px 22px 10px;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius-md);
     }
 
-    .privacy-note {
+    .profile-consent {
+      margin-top: 20px;
+    }
+
+    .profile-consent label {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      color: var(--ink-2);
       font-size: 13px;
-      color: var(--ink-dim);
-      line-height: 1.6;
-      margin-top: 24px;
+      line-height: 1.7;
+      cursor: pointer;
+    }
+
+    .profile-consent input {
+      flex: 0 0 18px;
+      width: 18px;
+      height: 18px;
+      margin-top: 3px;
+      accent-color: var(--blue);
+    }
+
+    .profile-consent input:focus-visible {
+      outline: 2px solid var(--blue-light);
+      outline-offset: 4px;
     }
 
     /* TOAST NOTIFICATION */
@@ -1122,460 +1156,536 @@
         <span>YOUR NEXT OPPORTUNITY</span>
       </div>
       <h1 class="main-title">Your career profile<span class="profile-title-dot">.</span></h1>
-      <p class="main-subtitle">Your experience, interests and ambitions.<br>A clearer picture of you, for the right opportunities.</p>
+      <p class="main-subtitle">Your experience, interests and ambitions.<br>A clearer picture of you, for the right
+        opportunities.</p>
     </div>
 
     <!-- STEP PROGRESS BAR -->
     <div class="stepper-bars" aria-hidden="true">
       <div class="stepper-bar-segment active" id="step-bar-1">
-</div>
+      </div>
       <div class="stepper-bar-segment" id="step-bar-2">
-</div>
+      </div>
       <div class="stepper-bar-segment" id="step-bar-3">
-</div>
+      </div>
     </div>
     <p class="step-count" id="step-count" aria-live="polite">Step 1 of 3</p>
 
     <!-- FORM START -->
     <div class="form-card-container">
- <form id="quick-apply-form" novalidate onsubmit="event.preventDefault();">
+      <form id="quick-apply-form" novalidate onsubmit="event.preventDefault();">
 
-      <!-- ========================================== -->
-      <!-- STEP 1: CONTACT + CAREER STAGE             -->
-      <!-- ========================================== -->
-      <section class="step-section active" id="step-section-1">
-        <div class="section-badge-header">
-          <span class="section-tag-label">YOUR DETAILS</span>
-          <span class="section-indicator">Step 1 of 3</span>
-        </div>
-        <p class="field-hint">Employers you apply to use these details to contact you.</p>
-        <div class="form-group">
-          <label class="form-label" for="field-name">Full Name <span class="req">*</span></label>
-          <input type="text" id="field-name" class="form-input-box" placeholder="Enter your full name" maxlength="120" autocomplete="name" />
-          <p class="field-error" id="err-name" role="alert"></p>
-        </div>
-        <div class="form-row-2">
-          <div class="form-group" style="margin-bottom:0;">
-            <label class="form-label" for="field-phone">WhatsApp Number <span class="req">*</span></label>
-            <input type="tel" id="field-phone" class="form-input-box" placeholder="+91 98765 43210" maxlength="20" autocomplete="tel" inputmode="tel" />
-            <p class="field-note" id="phone-verified-note" hidden>Verified when you signed up.</p>
-            <p class="field-error" id="err-phone" role="alert"></p>
+        <!-- ========================================== -->
+        <!-- STEP 1: CONTACT + CAREER STAGE             -->
+        <!-- ========================================== -->
+        <section class="step-section active" id="step-section-1">
+          <div class="section-badge-header">
+            <span class="section-tag-label">YOUR DETAILS</span>
+            <span class="section-indicator">Step 1 of 3</span>
           </div>
-          <div class="form-group" style="margin-bottom:0;">
-            <label class="form-label" for="field-email">Email <span class="req">*</span></label>
-            <input type="email" id="field-email" class="form-input-box" placeholder="you@example.com" maxlength="320" autocomplete="email" inputmode="email" />
-            <p class="field-error" id="err-email" role="alert"></p>
-          </div>
-        </div>
-
-        <div class="form-section-divider">
-</div>
-
-        <div class="section-badge-header">
-          <span class="section-tag-label">YOUR CAREER STAGE</span>
-          <span class="section-indicator">Required</span>
-        </div>
-
-        <fieldset class="plain-fieldset form-group">
-          <legend class="form-label stage-legend">Which stage of your career are you in? <span class="req">*</span></legend>
-          <div class="stage-cards" id="stage-cards">
-            <label class="stage-card">
-              <input type="radio" name="career-stage" value="studying" />
-              <div class="stage-card-icon stage-icon-study">🎓</div>
-              <div class="stage-card-content">
-                <span class="stage-card-title">Currently Studying</span>
-                <span class="stage-card-desc">Pursuing a degree or diploma; interested in internships, placements or entry-level jobs.</span>
-              </div>
-            </label>
-            <label class="stage-card">
-              <input type="radio" name="career-stage" value="graduated" />
-              <div class="stage-card-icon stage-icon-grad">💼</div>
-              <div class="stage-card-content">
-                <span class="stage-card-title">Fresher / Graduate</span>
-                <span class="stage-card-desc">Completed a qualification and looking for a first job or another opportunity.</span>
-              </div>
-            </label>
-            <label class="stage-card">
-              <input type="radio" name="career-stage" value="experienced" />
-              <div class="stage-card-icon stage-icon-exp">🚀</div>
-              <div class="stage-card-content">
-                <span class="stage-card-title">Experienced Professional</span>
-                <span class="stage-card-desc">Have current or previous work experience; looking for a new role or career growth.</span>
-              </div>
-            </label>
-          </div>
-          <p class="field-error" id="err-stage" role="alert"></p>
-        </fieldset>
-
-        <div class="step-actions-footer">
-          <button type="button" class="btn-step-next" onclick="goToStep(2)">
-            <span>Next →</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- ========================================== -->
-      <!-- STEP 2: ESSENTIAL QUESTIONS (BY STAGE)     -->
-      <!-- ========================================== -->
-      <section class="step-section" id="step-section-2">
-        <div class="section-badge-header">
-          <span class="section-tag-label">ABOUT YOU</span>
-          <span class="section-indicator">Step 2 of 3</span>
-        </div>
-        <p class="field-hint">A few details today. More relevant opportunities tomorrow. Fields marked * are required.</p>
-
-<!-- Currently Studying -->
-<div class="stage-block" data-stage="studying" hidden>
-<div class="background-heading"><span class="background-eyebrow">YOUR BACKGROUND</span><h2>Let’s start with your education</h2>
-<p>Add your course details to help us find relevant internships and graduate opportunities.</p>
-</div>
-<div class="form-group">
-<label class="form-label" for="college-search">College name <span class="req">*</span></label>
-<div class="college-combobox">
-<input type="text" id="college-search" class="form-input-box" role="combobox" autocomplete="off" placeholder="Search and select your college…" aria-autocomplete="list" aria-expanded="false" aria-controls="college-options" aria-required="true" aria-describedby="err-institution college-results" />
-<div id="college-options" class="college-options" role="listbox" aria-label="Matching colleges" hidden></div>
-</div>
-<select id="f-institution" hidden aria-hidden="true" tabindex="-1"></select>
-<p class="field-note" id="college-results" role="status"></p>
-<p class="field-error" id="err-institution" role="alert"></p>
-<div id="f-institution-other-wrap" class="other-field" hidden>
-<label class="form-label" for="f-institution-other">Please specify college name</label>
-<input id="f-institution-other" class="form-input-box" maxlength="200" placeholder="Enter your answer" aria-describedby="err-institution-other" />
-<p class="field-error" id="err-institution-other" role="alert"></p>
-</div>
-</div>
-<div class="education-grid">
-<div class="form-group">
-<label class="form-label" for="f-study-qualification">Course <span class="req">*</span></label>
-<select id="f-study-qualification" class="form-input-box" aria-required="true" aria-describedby="err-study-qualification" ></select>
-<p class="field-error" id="err-study-qualification" role="alert"></p>
-<div id="f-study-qualification-other-wrap" class="other-field" hidden>
-<label class="form-label" for="f-study-qualification-other">Please specify course</label>
-<input id="f-study-qualification-other" class="form-input-box" maxlength="120" placeholder="Enter your answer" aria-describedby="err-study-qualification-other" />
-<p class="field-error" id="err-study-qualification-other" role="alert"></p>
-</div>
-</div>
-<div class="form-group">
-<label class="form-label" for="f-study-specialisation">Specialisation / stream <span class="req">*</span></label>
-<select id="f-study-specialisation" class="form-input-box" aria-required="true" aria-describedby="err-study-specialisation" ></select>
-<p class="field-error" id="err-study-specialisation" role="alert"></p>
-<div id="f-study-specialisation-other-wrap" class="other-field" hidden>
-<label class="form-label" for="f-study-specialisation-other">Please specify specialisation / stream</label>
-<input id="f-study-specialisation-other" class="form-input-box" maxlength="120" placeholder="Enter your answer" aria-describedby="err-study-specialisation-other" />
-<p class="field-error" id="err-study-specialisation-other" role="alert"></p>
-</div>
-</div>
-<div class="form-group">
-<label class="form-label" for="f-study-semester">Current semester <span class="req">*</span></label>
-<select id="f-study-semester" class="form-input-box" aria-required="true" aria-describedby="err-study-semester" ></select>
-<p class="field-error" id="err-study-semester" role="alert"></p>
-</div>
-<div class="form-group">
-<label class="form-label" for="f-study-year">Which year will you complete your course? <span class="req">*</span></label>
-<select id="f-study-year" class="form-input-box" aria-required="true" aria-describedby="err-study-year" data-years="future"></select>
-<p class="field-error" id="err-study-year" role="alert"></p>
-</div>
-</div>
-</div>
-<div class="stage-block" data-stage="graduated" hidden>
-<div class="background-heading"><span class="background-eyebrow">YOUR BACKGROUND</span><h2>Your next chapter starts here</h2>
-<p>Tell us about your completed qualification so we can match you with the right opportunities.</p>
-</div>
-<div class="education-grid">
-<div class="form-group">
-<label class="form-label" for="f-grad-qualification">Highest qualification <span class="req">*</span></label>
-<select id="f-grad-qualification" class="form-input-box" aria-required="true" aria-describedby="err-grad-qualification" ></select>
-<p class="field-error" id="err-grad-qualification" role="alert"></p>
-<div id="f-grad-qualification-other-wrap" class="other-field" hidden>
-<label class="form-label" for="f-grad-qualification-other">Please specify highest qualification</label>
-<input id="f-grad-qualification-other" class="form-input-box" maxlength="120" placeholder="Enter your answer" aria-describedby="err-grad-qualification-other" />
-<p class="field-error" id="err-grad-qualification-other" role="alert"></p>
-</div>
-</div>
-<div class="form-group">
-<label class="form-label" for="f-grad-specialisation">Specialisation / stream <span class="req">*</span></label>
-<select id="f-grad-specialisation" class="form-input-box" aria-required="true" aria-describedby="err-grad-specialisation" ></select>
-<p class="field-error" id="err-grad-specialisation" role="alert"></p>
-<div id="f-grad-specialisation-other-wrap" class="other-field" hidden>
-<label class="form-label" for="f-grad-specialisation-other">Please specify specialisation / stream</label>
-<input id="f-grad-specialisation-other" class="form-input-box" maxlength="120" placeholder="Enter your answer" aria-describedby="err-grad-specialisation-other" />
-<p class="field-error" id="err-grad-specialisation-other" role="alert"></p>
-</div>
-</div>
-<div class="form-group">
-<label class="form-label" for="f-grad-year">Graduation year <span class="req">*</span></label>
-<select id="f-grad-year" class="form-input-box" aria-required="true" aria-describedby="err-grad-year" data-years="past"></select>
-<p class="field-error" id="err-grad-year" role="alert"></p>
-</div>
-</div>
-</div>
-<div class="stage-block" data-stage="experienced" hidden>
-<div class="background-heading"><span class="background-eyebrow">YOUR BACKGROUND</span><h2>Bring your experience into focus</h2>
-<p>Share your education and most recent role to help us understand your career path.</p>
-</div>
-<div class="education-grid">
-<div class="form-group">
-<label class="form-label" for="f-exp-qualification">Highest qualification <span class="req">*</span></label>
-<select id="f-exp-qualification" class="form-input-box" aria-required="true" aria-describedby="err-exp-qualification" ></select>
-<p class="field-error" id="err-exp-qualification" role="alert"></p>
-<div id="f-exp-qualification-other-wrap" class="other-field" hidden>
-<label class="form-label" for="f-exp-qualification-other">Please specify highest qualification</label>
-<input id="f-exp-qualification-other" class="form-input-box" maxlength="120" placeholder="Enter your answer" aria-describedby="err-exp-qualification-other" />
-<p class="field-error" id="err-exp-qualification-other" role="alert"></p>
-</div>
-</div>
-<div class="form-group">
-<label class="form-label" for="f-exp-specialisation">Specialisation / stream <span class="req">*</span></label>
-<select id="f-exp-specialisation" class="form-input-box" aria-required="true" aria-describedby="err-exp-specialisation" ></select>
-<p class="field-error" id="err-exp-specialisation" role="alert"></p>
-<div id="f-exp-specialisation-other-wrap" class="other-field" hidden>
-<label class="form-label" for="f-exp-specialisation-other">Please specify specialisation / stream</label>
-<input id="f-exp-specialisation-other" class="form-input-box" maxlength="120" placeholder="Enter your answer" aria-describedby="err-exp-specialisation-other" />
-<p class="field-error" id="err-exp-specialisation-other" role="alert"></p>
-</div>
-</div>
-</div>
-<div class="background-subheading">Professional experience</div>
-<div class="education-grid">
-<div class="form-group">
-<label class="form-label" for="f-industry">What industry do you work in? <span class="req">*</span></label>
-<select id="f-industry" class="form-input-box" aria-required="true" aria-describedby="err-industry" ></select>
-<p class="field-error" id="err-industry" role="alert"></p>
-<div id="f-industry-other-wrap" class="other-field" hidden>
-<label class="form-label" for="f-industry-other">Please specify your industry</label>
-<input id="f-industry-other" class="form-input-box" maxlength="80" placeholder="Enter your answer" aria-describedby="err-industry-other" />
-<p class="field-error" id="err-industry-other" role="alert"></p>
-</div>
-</div>
-<div class="form-group">
-<label class="form-label" for="f-recent-role">What is your job title? <span class="req">*</span></label>
-<select id="f-recent-role" class="form-input-box" aria-required="true" aria-describedby="err-recent-role" ></select>
-<p class="field-error" id="err-recent-role" role="alert"></p>
-<div id="f-recent-role-other-wrap" class="other-field" hidden>
-<label class="form-label" for="f-recent-role-other">Please specify your job title</label>
-<input id="f-recent-role-other" class="form-input-box" maxlength="80" placeholder="Enter your answer" aria-describedby="err-recent-role-other" />
-<p class="field-error" id="err-recent-role-other" role="alert"></p>
-</div>
-</div>
-</div>
-<fieldset class="plain-fieldset form-group"><legend class="form-label">Total professional experience <span class="req">*</span></legend>
-<p class="field-note">Across all companies, including your current or most recent role.</p>
-<div class="pills-row-wrap" id="pills-years" style="margin-bottom:0;"><button type="button" class="choice-pill-btn" data-value="Less than 1 year" aria-pressed="false">Less than 1 year</button><button type="button" class="choice-pill-btn" data-value="1–2 years" aria-pressed="false">1–2 years</button><button type="button" class="choice-pill-btn" data-value="3–5 years" aria-pressed="false">3–5 years</button><button type="button" class="choice-pill-btn" data-value="6–10 years" aria-pressed="false">6–10 years</button><button type="button" class="choice-pill-btn" data-value="More than 10 years" aria-pressed="false">More than 10 years</button>
-</div>
-<p class="field-error" id="err-years" role="alert"></p></fieldset>
-</div>
-        <!-- Kompetenzen enrollment -->
-        <div class="form-group">
-          <label class="form-label" for="field-is-student">Kompetenzen Student? <span class="sub">No when switched off</span></label>
-          <div class="toggle-card-box">
-            <span class="toggle-card-title">I'm enrolled in / completed a Kompetenzen course</span>
-            <label class="switch-wrap">
-              <input type="checkbox" id="field-is-student" onchange="toggleStudentCourseInput(this.checked)" />
-              <span class="slider-toggle"></span>
-            </label>
-          </div>
-          <div class="student-course-reveal" id="student-course-row">
-            <p class="field-error" id="err-course-name" role="alert"></p>
-            <input type="text" id="field-course-name" class="form-input-box" placeholder="Course name (e.g. Full Stack Python + AI / Java Backend)" maxlength="120" aria-label="Kompetenzen course name" />
-          </div>
-        </div>
-
-        <div class="step-actions-footer">
-          <button type="button" class="btn-step-back" onclick="goToStep(1)">← Back</button>
-          <button type="button" class="btn-step-next" onclick="goToStep(3)">
-            <span>Next →</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- ========================================== -->
-      <!-- STEP 3: REQUIRED DETAILS + SUBMIT          -->
-      <!-- ========================================== -->
-      <section class="step-section" id="step-section-3">
-        <div class="section-badge-header">
-          <span class="section-tag-label">ALMOST DONE</span>
-          <span class="required-badge">Required Details</span>
-        </div>
-        <p class="field-hint">Complete the required details and upload your resume. Questions marked optional can be skipped.</p>
-
-        <div class="background-heading">
-          <span class="background-eyebrow">YOUR CAREER DIRECTION</span>
-          <h2>What would you like to do next?</h2>
-          <p>Share your interests, the skills you bring, and what matters to you in your next opportunity.</p>
-        </div>
-        <div class="education-grid">
+          <p class="field-hint">Employers you apply to use these details to contact you.</p>
           <div class="form-group">
-            <label class="form-label" for="career-area">Which career area interests you most?</label>
-            <select id="career-area" class="form-input-box"></select>
+            <label class="form-label" for="field-name">Full Name <span class="req">*</span></label>
+            <input type="text" id="field-name" class="form-input-box" placeholder="Enter your full name" maxlength="120"
+              autocomplete="name" />
+            <p class="field-error" id="err-name" role="alert"></p>
           </div>
-          <div class="form-group">
-            <label class="form-label" for="career-field">Which field would you like to explore?</label>
-            <select id="career-field" class="form-input-box" aria-describedby="career-field-hint" disabled></select>
-            <p id="career-field-hint" class="field-note">Choose a career area to see related fields.</p>
+          <div class="form-row-2">
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label" for="field-phone">WhatsApp Number <span class="req">*</span></label>
+              <input type="tel" id="field-phone" class="form-input-box" placeholder="+91 98765 43210" maxlength="20"
+                autocomplete="tel" inputmode="tel" />
+              <p class="field-note" id="phone-verified-note" hidden>Verified when you signed up.</p>
+              <p class="field-error" id="err-phone" role="alert"></p>
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label" for="field-email">Email <span class="req">*</span></label>
+              <input type="email" id="field-email" class="form-input-box" placeholder="you@example.com" maxlength="320"
+                autocomplete="email" inputmode="email" />
+              <p class="field-error" id="err-email" role="alert"></p>
+            </div>
           </div>
-        </div>
-        <div id="career-field-questions" hidden>
+
+          <div class="form-section-divider">
+          </div>
+
+          <div class="section-badge-header">
+            <span class="section-tag-label">YOUR CAREER STAGE</span>
+            <span class="section-indicator">Required</span>
+          </div>
+
           <fieldset class="plain-fieldset form-group">
-            <legend class="form-label">Which of these skills do you already have?</legend>
-            <details class="career-skill-dropdown">
-              <summary id="career-skills-summary">Select skills you already have</summary>
-              <div id="career-skills" class="career-checks"></div>
-            </details>
-            <p class="field-note">Select all that apply, or choose “I don't know yet”.</p>
-          </fieldset>
-          <fieldset class="plain-fieldset form-group">
-            <legend class="form-label">Which soft skills do you already have?</legend>
-            <details class="career-skill-dropdown">
-              <summary id="career-soft-skills-summary">Select skills you already have</summary>
-              <div id="career-soft-skills" class="career-checks"></div>
-            </details>
-            <p class="field-note">Select all that apply, or choose “I don't know yet”.</p>
-          </fieldset>
-          <fieldset class="plain-fieldset form-group">
-            <legend class="form-label" id="field-offer-title">A role in this field is offered this month. Which offer would you accept?</legend>
-            <p class="field-note">Pick the one that best reflects your priorities.</p>
-            <div id="career-offer" class="career-choices"></div>
-          </fieldset>
-        </div>
-
-        <!-- Career challenge (stage-specific options) -->
-        <fieldset class="plain-fieldset form-group">
-          <legend class="form-label"><span id="challenge-question">What is the biggest challenge you are facing in your career right now?</span> <span class="sub">Optional · select up to 2</span></legend>
-          <div class="pills-row-wrap" id="pills-challenge" style="margin-bottom:0;">
-</div>
-          <input type="text" id="f-challenge-other" class="form-input-box other-input" placeholder="Tell us briefly (required)" maxlength="300" aria-label="Other challenge" hidden />
-          <p class="field-error" id="err-challenge" role="alert"></p>
-        </fieldset>
-
-        <!-- Required profile details -->
-        <div class="more-details" id="more-details">
-          <span class="section-tag-label">COMPLETE YOUR PROFILE</span>
-          <p class="field-hint">These required details help us match you with better jobs.</p>
-
-          <!-- Required resume -->
-          <div class="resume-upload-wrap in-details">
-            <label class="form-label" style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
-              <span>Resume <span class="sub">required · PDF, DOC, DOCX</span></span>
-              <span style="font-size:13px; color:var(--ink-mute); font-weight:600;">Max 5MB</span>
-            </label>
-            <p class="field-hint" id="resume-hint">Upload your resume to complete your profile.</p>
-
-            <div class="resume-drop-zone" id="resume-drop-zone" role="button" tabindex="0" aria-label="Upload resume" onclick="document.getElementById('file-resume-input').click()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
-              <input type="file" id="file-resume-input" accept=".pdf,.doc,.docx" style="display:none;" onchange="handleResumeSelected(this.files[0])" />
-
-              <div class="resume-drop-empty" id="resume-drop-empty">
-                <div class="resume-upload-icon-circle">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                    <polyline points="14 2 14 8 20 8"/>
-                    <line x1="12" y1="18" x2="12" y2="12"/>
-                    <polyline points="9 15 12 12 15 15"/>
-                  </svg>
+            <legend class="form-label stage-legend">Which stage of your career are you in? <span class="req">*</span>
+            </legend>
+            <div class="stage-cards" id="stage-cards">
+              <label class="stage-card">
+                <input type="radio" name="career-stage" value="studying" />
+                <div class="stage-card-icon stage-icon-study">🎓</div>
+                <div class="stage-card-content">
+                  <span class="stage-card-title">Currently Studying</span>
+                  <span class="stage-card-desc">Pursuing a degree or diploma; interested in internships, placements or
+                    entry-level jobs.</span>
                 </div>
-                <div style="display:flex; flex-direction:column; gap:3px;">
-                  <span class="resume-drop-main">Click or drag &amp; drop to upload resume</span>
-                  <span class="resume-drop-sub">PDF, DOC, or DOCX up to 5MB</span>
+              </label>
+              <label class="stage-card">
+                <input type="radio" name="career-stage" value="graduated" />
+                <div class="stage-card-icon stage-icon-grad">💼</div>
+                <div class="stage-card-content">
+                  <span class="stage-card-title">Fresher / Graduate</span>
+                  <span class="stage-card-desc">Completed a qualification and looking for a first job or another
+                    opportunity.</span>
+                </div>
+              </label>
+              <label class="stage-card">
+                <input type="radio" name="career-stage" value="experienced" />
+                <div class="stage-card-icon stage-icon-exp">🚀</div>
+                <div class="stage-card-content">
+                  <span class="stage-card-title">Experienced Professional</span>
+                  <span class="stage-card-desc">Have current or previous work experience; looking for a new role or
+                    career growth.</span>
+                </div>
+              </label>
+            </div>
+            <p class="field-error" id="err-stage" role="alert"></p>
+          </fieldset>
+
+          <div class="step-actions-footer">
+            <button type="button" class="btn-step-next" onclick="goToStep(2)">
+              <span>Next →</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- STEP 2: ESSENTIAL QUESTIONS (BY STAGE)     -->
+        <!-- ========================================== -->
+        <section class="step-section" id="step-section-2">
+          <div class="section-badge-header">
+            <span class="section-tag-label">ABOUT YOU</span>
+            <span class="section-indicator">Step 2 of 3</span>
+          </div>
+          <p class="field-hint">A few details today. More relevant opportunities tomorrow. Fields marked * are required.
+          </p>
+
+          <!-- Currently Studying -->
+          <div class="stage-block" data-stage="studying" hidden>
+            <div class="background-heading"><span class="background-eyebrow">YOUR BACKGROUND</span>
+              <h2>Let’s start with your education</h2>
+              <p>Add your course details to help us find relevant internships and graduate opportunities.</p>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="college-search">College name <span class="req">*</span></label>
+              <div class="college-combobox">
+                <input type="text" id="college-search" class="form-input-box" role="combobox" autocomplete="off"
+                  placeholder="Search and select your college…" aria-autocomplete="list" aria-expanded="false"
+                  aria-controls="college-options" aria-required="true"
+                  aria-describedby="err-institution college-results" />
+                <div id="college-options" class="college-options" role="listbox" aria-label="Matching colleges" hidden>
                 </div>
               </div>
+              <select id="f-institution" hidden aria-hidden="true" tabindex="-1"></select>
+              <p class="field-note" id="college-results" role="status"></p>
+              <p class="field-error" id="err-institution" role="alert"></p>
+              <div id="f-institution-other-wrap" class="other-field" hidden>
+                <label class="form-label" for="f-institution-other">Please specify college name</label>
+                <input id="f-institution-other" class="form-input-box" maxlength="200" placeholder="Enter your answer"
+                  aria-describedby="err-institution-other" />
+                <p class="field-error" id="err-institution-other" role="alert"></p>
+              </div>
+            </div>
+            <div class="education-grid">
+              <div class="form-group">
+                <label class="form-label" for="f-study-qualification">Course <span class="req">*</span></label>
+                <select id="f-study-qualification" class="form-input-box" aria-required="true"
+                  aria-describedby="err-study-qualification"></select>
+                <p class="field-error" id="err-study-qualification" role="alert"></p>
+                <div id="f-study-qualification-other-wrap" class="other-field" hidden>
+                  <label class="form-label" for="f-study-qualification-other">Please specify course</label>
+                  <input id="f-study-qualification-other" class="form-input-box" maxlength="120"
+                    placeholder="Enter your answer" aria-describedby="err-study-qualification-other" />
+                  <p class="field-error" id="err-study-qualification-other" role="alert"></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="f-study-specialisation">Specialisation / stream <span
+                    class="req">*</span></label>
+                <select id="f-study-specialisation" class="form-input-box" aria-required="true"
+                  aria-describedby="err-study-specialisation"></select>
+                <p class="field-error" id="err-study-specialisation" role="alert"></p>
+                <div id="f-study-specialisation-other-wrap" class="other-field" hidden>
+                  <label class="form-label" for="f-study-specialisation-other">Please specify specialisation /
+                    stream</label>
+                  <input id="f-study-specialisation-other" class="form-input-box" maxlength="120"
+                    placeholder="Enter your answer" aria-describedby="err-study-specialisation-other" />
+                  <p class="field-error" id="err-study-specialisation-other" role="alert"></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="f-study-semester">Current semester <span class="req">*</span></label>
+                <select id="f-study-semester" class="form-input-box" aria-required="true"
+                  aria-describedby="err-study-semester"></select>
+                <p class="field-error" id="err-study-semester" role="alert"></p>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="f-study-year">Which year will you complete your course? <span
+                    class="req">*</span></label>
+                <select id="f-study-year" class="form-input-box" aria-required="true" aria-describedby="err-study-year"
+                  data-years="future"></select>
+                <p class="field-error" id="err-study-year" role="alert"></p>
+              </div>
+            </div>
+          </div>
+          <div class="stage-block" data-stage="graduated" hidden>
+            <div class="background-heading"><span class="background-eyebrow">YOUR BACKGROUND</span>
+              <h2>Your next chapter starts here</h2>
+              <p>Tell us about your completed qualification so we can match you with the right opportunities.</p>
+            </div>
+            <div class="education-grid">
+              <div class="form-group">
+                <label class="form-label" for="f-grad-qualification">Highest qualification <span
+                    class="req">*</span></label>
+                <select id="f-grad-qualification" class="form-input-box" aria-required="true"
+                  aria-describedby="err-grad-qualification"></select>
+                <p class="field-error" id="err-grad-qualification" role="alert"></p>
+                <div id="f-grad-qualification-other-wrap" class="other-field" hidden>
+                  <label class="form-label" for="f-grad-qualification-other">Please specify highest
+                    qualification</label>
+                  <input id="f-grad-qualification-other" class="form-input-box" maxlength="120"
+                    placeholder="Enter your answer" aria-describedby="err-grad-qualification-other" />
+                  <p class="field-error" id="err-grad-qualification-other" role="alert"></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="f-grad-specialisation">Specialisation / stream <span
+                    class="req">*</span></label>
+                <select id="f-grad-specialisation" class="form-input-box" aria-required="true"
+                  aria-describedby="err-grad-specialisation"></select>
+                <p class="field-error" id="err-grad-specialisation" role="alert"></p>
+                <div id="f-grad-specialisation-other-wrap" class="other-field" hidden>
+                  <label class="form-label" for="f-grad-specialisation-other">Please specify specialisation /
+                    stream</label>
+                  <input id="f-grad-specialisation-other" class="form-input-box" maxlength="120"
+                    placeholder="Enter your answer" aria-describedby="err-grad-specialisation-other" />
+                  <p class="field-error" id="err-grad-specialisation-other" role="alert"></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="f-grad-year">Graduation year <span class="req">*</span></label>
+                <select id="f-grad-year" class="form-input-box" aria-required="true" aria-describedby="err-grad-year"
+                  data-years="past"></select>
+                <p class="field-error" id="err-grad-year" role="alert"></p>
+              </div>
+            </div>
+          </div>
+          <div class="stage-block" data-stage="experienced" hidden>
+            <div class="background-heading"><span class="background-eyebrow">YOUR BACKGROUND</span>
+              <h2>Bring your experience into focus</h2>
+              <p>Share your education and most recent role to help us understand your career path.</p>
+            </div>
+            <div class="education-grid">
+              <div class="form-group">
+                <label class="form-label" for="f-exp-qualification">Highest qualification <span
+                    class="req">*</span></label>
+                <select id="f-exp-qualification" class="form-input-box" aria-required="true"
+                  aria-describedby="err-exp-qualification"></select>
+                <p class="field-error" id="err-exp-qualification" role="alert"></p>
+                <div id="f-exp-qualification-other-wrap" class="other-field" hidden>
+                  <label class="form-label" for="f-exp-qualification-other">Please specify highest qualification</label>
+                  <input id="f-exp-qualification-other" class="form-input-box" maxlength="120"
+                    placeholder="Enter your answer" aria-describedby="err-exp-qualification-other" />
+                  <p class="field-error" id="err-exp-qualification-other" role="alert"></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="f-exp-specialisation">Specialisation / stream <span
+                    class="req">*</span></label>
+                <select id="f-exp-specialisation" class="form-input-box" aria-required="true"
+                  aria-describedby="err-exp-specialisation"></select>
+                <p class="field-error" id="err-exp-specialisation" role="alert"></p>
+                <div id="f-exp-specialisation-other-wrap" class="other-field" hidden>
+                  <label class="form-label" for="f-exp-specialisation-other">Please specify specialisation /
+                    stream</label>
+                  <input id="f-exp-specialisation-other" class="form-input-box" maxlength="120"
+                    placeholder="Enter your answer" aria-describedby="err-exp-specialisation-other" />
+                  <p class="field-error" id="err-exp-specialisation-other" role="alert"></p>
+                </div>
+              </div>
+            </div>
+            <div class="background-subheading">Professional experience</div>
+            <div class="education-grid">
+              <div class="form-group">
+                <label class="form-label" for="f-industry">What industry do you work in? <span
+                    class="req">*</span></label>
+                <select id="f-industry" class="form-input-box" aria-required="true"
+                  aria-describedby="err-industry"></select>
+                <p class="field-error" id="err-industry" role="alert"></p>
+                <div id="f-industry-other-wrap" class="other-field" hidden>
+                  <label class="form-label" for="f-industry-other">Please specify your industry</label>
+                  <input id="f-industry-other" class="form-input-box" maxlength="80" placeholder="Enter your answer"
+                    aria-describedby="err-industry-other" />
+                  <p class="field-error" id="err-industry-other" role="alert"></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="f-recent-role">What is your job title? <span class="req">*</span></label>
+                <select id="f-recent-role" class="form-input-box" aria-required="true"
+                  aria-describedby="err-recent-role"></select>
+                <p class="field-error" id="err-recent-role" role="alert"></p>
+                <div id="f-recent-role-other-wrap" class="other-field" hidden>
+                  <label class="form-label" for="f-recent-role-other">Please specify your job title</label>
+                  <input id="f-recent-role-other" class="form-input-box" maxlength="80" placeholder="Enter your answer"
+                    aria-describedby="err-recent-role-other" />
+                  <p class="field-error" id="err-recent-role-other" role="alert"></p>
+                </div>
+              </div>
+            </div>
+            <fieldset class="plain-fieldset form-group">
+              <legend class="form-label">Total professional experience <span class="req">*</span></legend>
+              <p class="field-note">Across all companies, including your current or most recent role.</p>
+              <div class="pills-row-wrap" id="pills-years" style="margin-bottom:0;"><button type="button"
+                  class="choice-pill-btn" data-value="Less than 1 year" aria-pressed="false">Less than 1
+                  year</button><button type="button" class="choice-pill-btn" data-value="1–2 years"
+                  aria-pressed="false">1–2 years</button><button type="button" class="choice-pill-btn"
+                  data-value="3–5 years" aria-pressed="false">3–5 years</button><button type="button"
+                  class="choice-pill-btn" data-value="6–10 years" aria-pressed="false">6–10 years</button><button
+                  type="button" class="choice-pill-btn" data-value="More than 10 years" aria-pressed="false">More than
+                  10 years</button>
+              </div>
+              <p class="field-error" id="err-years" role="alert"></p>
+            </fieldset>
+          </div>
+          <!-- Kompetenzen enrollment -->
+          <div class="form-group">
+            <label class="form-label" for="field-is-student">Kompetenzen Student? <span class="sub">No when switched
+                off</span></label>
+            <div class="toggle-card-box">
+              <span class="toggle-card-title">I'm enrolled in / completed a Kompetenzen course</span>
+              <label class="switch-wrap">
+                <input type="checkbox" id="field-is-student" onchange="toggleStudentCourseInput(this.checked)" />
+                <span class="slider-toggle"></span>
+              </label>
+            </div>
+            <div class="student-course-reveal" id="student-course-row">
+              <p class="field-error" id="err-course-name" role="alert"></p>
+              <input type="text" id="field-course-name" class="form-input-box"
+                placeholder="Course name (e.g. Full Stack Python + AI / Java Backend)" maxlength="120"
+                aria-label="Kompetenzen course name" />
+            </div>
+          </div>
 
-              <div class="resume-file-info" id="resume-file-info" style="display:none;">
-                <div class="resume-file-left">
-                  <div class="resume-file-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                      <polyline points="14 2 14 8 20 8"/>
-                      <line x1="16" y1="13" x2="8" y2="13"/>
-                      <line x1="16" y1="17" x2="8" y2="17"/>
+          <div class="step-actions-footer">
+            <button type="button" class="btn-step-back" onclick="goToStep(1)">← Back</button>
+            <button type="button" class="btn-step-next" onclick="goToStep(3)">
+              <span>Next →</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- STEP 3: REQUIRED DETAILS + SUBMIT          -->
+        <!-- ========================================== -->
+        <section class="step-section" id="step-section-3">
+          <div class="section-badge-header">
+            <span class="section-tag-label">ALMOST DONE</span>
+            <span class="required-badge">Required Details</span>
+          </div>
+
+          <div class="background-heading">
+            <span class="background-eyebrow">YOUR CAREER DIRECTION</span>
+            <h2>What would you like to do next?</h2>
+            <p>Share your interests, the skills you bring, and what matters to you in your next opportunity.</p>
+          </div>
+          <div class="education-grid">
+            <div class="form-group">
+              <label class="form-label" for="career-area">Which career area interests you most?</label>
+              <select id="career-area" class="form-input-box"></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="career-field">Which field would you like to explore?</label>
+              <select id="career-field" class="form-input-box" aria-describedby="career-field-hint" disabled></select>
+              <p id="career-field-hint" class="field-note">Choose a career area to see related fields.</p>
+            </div>
+          </div>
+          <div id="career-field-questions" hidden>
+            <fieldset class="plain-fieldset form-group">
+              <legend class="form-label">Which of these skills do you already have?</legend>
+              <details class="career-skill-dropdown">
+                <summary id="career-skills-summary">Select skills you already have</summary>
+                <div id="career-skills" class="career-checks"></div>
+              </details>
+              <p class="field-note">Select all that apply, or choose “I don't know yet”.</p>
+            </fieldset>
+            <fieldset class="plain-fieldset form-group">
+              <legend class="form-label">Which soft skills do you already have?</legend>
+              <details class="career-skill-dropdown">
+                <summary id="career-soft-skills-summary">Select skills you already have</summary>
+                <div id="career-soft-skills" class="career-checks"></div>
+              </details>
+              <p class="field-note">Select all that apply, or choose “I don't know yet”.</p>
+            </fieldset>
+          </div>
+
+          <!-- Career challenge (stage-specific options) -->
+          <fieldset class="plain-fieldset form-group">
+            <legend class="form-label"><span id="challenge-question">What is the biggest challenge you are facing in
+                your career right now?</span> <span class="sub">Optional · select up to 2</span></legend>
+            <div class="pills-row-wrap" id="pills-challenge" style="margin-bottom:0;">
+            </div>
+            <input type="text" id="f-challenge-other" class="form-input-box other-input"
+              placeholder="Tell us briefly (required)" maxlength="300" aria-label="Other challenge" hidden />
+            <p class="field-error" id="err-challenge" role="alert"></p>
+          </fieldset>
+
+          <!-- Required profile details -->
+          <div class="more-details" id="more-details">
+            <span class="section-tag-label">COMPLETE YOUR PROFILE</span>
+
+            <!-- Required resume -->
+            <div class="resume-upload-wrap in-details">
+              <label class="form-label" style="margin-bottom:8px;">Resume <span class="sub">optional</span></label>
+              <p class="field-hint" id="resume-hint"></p>
+
+              <div class="resume-drop-zone" id="resume-drop-zone" role="button" tabindex="0" aria-label="Upload resume"
+                onclick="document.getElementById('file-resume-input').click()"
+                onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+                <input type="file" id="file-resume-input" accept=".pdf,.doc,.docx" style="display:none;"
+                  onchange="handleResumeSelected(this.files[0])" />
+
+                <div class="resume-drop-empty" id="resume-drop-empty">
+                  <div class="resume-upload-icon-circle">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                      <polyline points="14 2 14 8 20 8" />
+                      <line x1="12" y1="18" x2="12" y2="12" />
+                      <polyline points="9 15 12 12 15 15" />
                     </svg>
                   </div>
-                  <div class="resume-file-meta">
-                    <span class="resume-filename" id="resume-display-name">resume.pdf</span>
-                    <span class="resume-filesize" id="resume-display-size">✓ Ready to upload</span>
+                  <div style="display:flex; flex-direction:column; gap:2px; text-align:left;">
+                    <span class="resume-drop-main">Click or drag &amp; drop to upload resume</span>
+                    <span class="resume-drop-sub">PDF, DOC, or DOCX up to 5MB</span>
                   </div>
                 </div>
-                <button type="button" class="btn-remove-resume" onclick="event.stopPropagation(); removeUploadedResume();" title="Remove resume">✕</button>
+
+                <div class="resume-file-info" id="resume-file-info" style="display:none;">
+                  <div class="resume-file-left">
+                    <div class="resume-file-icon">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                      </svg>
+                    </div>
+                    <div class="resume-file-meta">
+                      <span class="resume-filename" id="resume-display-name">resume.pdf</span>
+                      <span class="resume-filesize" id="resume-display-size">✓ Ready to upload</span>
+                    </div>
+                  </div>
+                  <button type="button" class="btn-remove-resume"
+                    onclick="event.stopPropagation(); removeUploadedResume();" title="Remove resume">✕</button>
+                </div>
               </div>
             </div>
-          </div>
 
 
 
 
 
 
-          <div class="form-group">
-            <label class="form-label">Preferred work locations <span class="sub">tap all that apply</span></label>
-            <div class="pills-row-wrap" id="pills-location">
-              <button type="button" class="choice-pill-btn" aria-pressed="false">Kochi</button>
-              <button type="button" class="choice-pill-btn" aria-pressed="false">Trivandrum</button>
-              <button type="button" class="choice-pill-btn" aria-pressed="false">Bengaluru</button>
-              <button type="button" class="choice-pill-btn" aria-pressed="false">Chennai</button>
-              <button type="button" class="choice-pill-btn" aria-pressed="false">Remote</button>
-              <button type="button" class="choice-pill-btn" aria-pressed="false">Anywhere in India</button>
-              <button type="button" class="choice-pill-btn" aria-pressed="false">UAE / GCC</button>
+            <div class="form-group">
+              <label class="form-label">Preferred work locations <span class="sub">tap all that apply</span></label>
+              <div class="pills-row-wrap" id="pills-location">
+                <button type="button" class="choice-pill-btn" aria-pressed="false">Kochi</button>
+                <button type="button" class="choice-pill-btn" aria-pressed="false">Trivandrum</button>
+                <button type="button" class="choice-pill-btn" aria-pressed="false">Bengaluru</button>
+                <button type="button" class="choice-pill-btn" aria-pressed="false">Chennai</button>
+                <button type="button" class="choice-pill-btn" aria-pressed="false">Remote</button>
+                <button type="button" class="choice-pill-btn" aria-pressed="false">Anywhere in India</button>
+                <button type="button" class="choice-pill-btn" aria-pressed="false">UAE / GCC</button>
+              </div>
+            </div>
+
+            <!-- Saved by internship-profile.html; shown to students and graduates -->
+            <div class="form-group internship-summary" id="internship-summary" hidden>
+              <span class="form-label">Internship preferences</span>
+              <p class="field-note" id="internship-summary-text">Looking for an internship? Add when and how you can
+                intern. Your details on this page are filled in for you.</p>
+              <a href="internship-profile.html" class="internship-summary-link" id="internship-summary-link">Add internship preferences →</a>
             </div>
           </div>
-        </div>
 
-        <section id="notification-preferences" class="notification-consent" aria-labelledby="notification-title">
-          <div class="notification-heading"><div><span class="notification-eyebrow">STAY INFORMED</span><h2 id="notification-title">Your application updates</h2></div><span class="notification-private">Your choice, always</span></div>
-          <p class="notification-description">Choose where we can send receipts, matching results and updates from HR.</p>
-          <fieldset id="notification-channels" disabled>
-            <legend class="notification-sr-only">Permission to send notifications</legend>
-            <div class="notification-channels">
-              <label class="notification-channel"><input type="checkbox" id="notify-email"><span><strong>Email</strong><small>I agree to receive application updates at my account email.</small></span></label>
-              <label class="notification-channel"><input type="checkbox" id="notify-whatsapp"><span><strong>WhatsApp</strong><small>I agree to receive application updates on WhatsApp.</small></span></label>
-            </div>
-            <div id="notify-phone-row" class="notification-phone" hidden><label for="notify-phone">Confirm your WhatsApp number</label><input id="notify-phone" class="form-input-box" type="tel" placeholder="+919876543210" maxlength="16" autocomplete="tel"><small>Include your country code.</small></div>
-            <details class="notification-alerts"><summary>New job alerts</summary><label for="notify-digest">Also send suitable openings through my selected channels</label><select id="notify-digest" class="form-input-box"><option value="off">No job alerts</option><option value="daily">Daily summary</option><option value="weekly">Weekly summary</option></select></details>
-          </fieldset>
-          <p class="notification-footnote">We only send notifications with your permission. You can change your choices anytime.</p>
-          <button type="button" class="btn-step-secondary" id="save-notifications" hidden disabled>Save preferences</button>
-          <p id="notification-feedback" role="status" aria-live="polite"></p>
+          <section id="notification-preferences" class="notification-consent" aria-labelledby="notification-title">
+            <fieldset id="notification-channels" disabled>
+              <legend id="notification-title" class="notification-title">Send me application updates on
+                <span class="req" aria-hidden="true">*</span> <small>choose at least one · change anytime</small></legend>
+              <div class="notification-channels">
+                <label class="notification-channel"><input type="checkbox" id="notify-email"><span>Email</span></label>
+                <label class="notification-channel"><input type="checkbox" id="notify-whatsapp"><span>WhatsApp</span></label>
+              </div>
+              <div id="notify-phone-row" class="notification-phone" hidden><label for="notify-phone">Confirm your
+                  WhatsApp number</label><input id="notify-phone" class="form-input-box" type="tel"
+                  placeholder="+919876543210" maxlength="16" autocomplete="tel"><small>Include your country
+                  code.</small></div>
+            </fieldset>
+            <button type="button" class="btn-step-secondary" id="save-notifications" hidden disabled>Save
+              preferences</button>
+            <p id="notification-feedback" role="status" aria-live="polite"></p>
+          </section>
+          <p class="field-error" id="err-step-3" role="alert"></p>
+          <div class="profile-consent">
+            <label for="field-profile-consent">
+              <input type="checkbox" id="field-profile-consent" name="profile-consent" required
+                aria-describedby="err-profile-consent">
+              <span>I consent to Kompetenzen using my personal data for my profile, job matching and applications,
+                and sharing it with employers I apply to. Promotional messages are excluded.
+                <strong>(Required)</strong></span>
+            </label>
+            <p class="field-error" id="err-profile-consent" role="alert"></p>
+          </div>
+
+          <div class="step-actions-footer final-actions">
+            <button type="button" class="btn-step-back" onclick="goToStep(2)">← Back</button>
+            <button type="button" class="btn-step-secondary" id="btn-complete-profile" hidden
+              onclick="openMoreDetails()">Complete Your Profile</button>
+            <button type="button" class="btn-step-next" id="btn-submit-quick-profile"
+              onclick="handleFinalSubmitProfile()">
+              <span>Apply for Job →</span>
+            </button>
+          </div>
         </section>
-        <p class="field-error" id="err-step-3" role="alert"></p>
-        <p class="privacy-note">We use your profile to match you with jobs and share it only with employers whose jobs you apply for. We'll contact you about your applications; we won't send training or promotional messages without your permission.</p>
 
-        <div class="step-actions-footer final-actions">
-          <button type="button" class="btn-step-back" onclick="goToStep(2)">← Back</button>
-          <button type="button" class="btn-step-secondary" id="btn-complete-profile" hidden onclick="openMoreDetails()">Complete Your Profile</button>
-          <button type="button" class="btn-step-next" id="btn-submit-quick-profile" onclick="handleFinalSubmitProfile()">
-            <span>Apply for Job →</span>
-          </button>
-        </div>
-      </section>
+        <datalist id="course-options">
+          <option value="B.Tech / B.E."></option>
+          <option value="BCA"></option>
+          <option value="B.Sc"></option>
+          <option value="B.Com"></option>
+          <option value="BBA"></option>
+          <option value="BA"></option>
+          <option value="M.Tech / M.E."></option>
+          <option value="MCA"></option>
+          <option value="M.Sc"></option>
+          <option value="MBA"></option>
+          <option value="M.Com"></option>
+          <option value="MA"></option>
+          <option value="Diploma / Polytechnic"></option>
+          <option value="ITI"></option>
+          <option value="12th / Plus Two"></option>
+        </datalist>
+        <datalist id="industry-options">
+          <option value="IT / Software"></option>
+          <option value="Banking / Finance"></option>
+          <option value="Education / Training"></option>
+          <option value="Healthcare"></option>
+          <option value="Manufacturing"></option>
+          <option value="Retail / E-commerce"></option>
+          <option value="Telecom"></option>
+          <option value="Consulting"></option>
+          <option value="Government / PSU"></option>
+          <option value="Hospitality / Travel"></option>
+        </datalist>
 
-      <datalist id="course-options">
-        <option value="B.Tech / B.E."></option>
-        <option value="BCA"></option>
-        <option value="B.Sc"></option>
-        <option value="B.Com"></option>
-        <option value="BBA"></option>
-        <option value="BA"></option>
-        <option value="M.Tech / M.E."></option>
-        <option value="MCA"></option>
-        <option value="M.Sc"></option>
-        <option value="MBA"></option>
-        <option value="M.Com"></option>
-        <option value="MA"></option>
-        <option value="Diploma / Polytechnic"></option>
-        <option value="ITI"></option>
-        <option value="12th / Plus Two"></option>
-      </datalist>
-      <datalist id="industry-options">
-        <option value="IT / Software"></option>
-        <option value="Banking / Finance"></option>
-        <option value="Education / Training"></option>
-        <option value="Healthcare"></option>
-        <option value="Manufacturing"></option>
-        <option value="Retail / E-commerce"></option>
-        <option value="Telecom"></option>
-        <option value="Consulting"></option>
-        <option value="Government / PSU"></option>
-        <option value="Hospitality / Travel"></option>
-      </datalist>
-
-    </form>
+      </form>
     </div>
   </main>
 
@@ -1658,7 +1768,7 @@
       try {
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push(Object.assign({ event: name }, props || {}));
-      } catch (e) {}
+      } catch (e) { }
     }
 
     // ===== HELPERS =====
@@ -1711,6 +1821,7 @@
         educationBlock.insertBefore(collegeField, educationBlock.querySelector('.education-grid'));
       }
       document.querySelectorAll('[data-stage]').forEach(block => { block.hidden = block.getAttribute('data-stage') !== stage; });
+      $('internship-summary').hidden = stage === 'experienced';
       const cfg = STAGES[stage];
       if (!cfg) return;
       $('challenge-question').textContent = cfg.challengeQuestion;
@@ -1813,16 +1924,22 @@
     function validateStep3() {
       const section = $('step-section-3');
       clearErrors(section);
+      if (!$('field-profile-consent').checked) {
+        setError('err-profile-consent', 'Please give your consent to use your profile for the purposes described above before continuing.', 'field-profile-consent');
+        $('field-profile-consent').focus();
+        $('field-profile-consent').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return false;
+      }
       const p = collectCareerPreferences();
       const checks = [
         [p.area, 'career-area', 'Choose a career area.'],
         [p.field, 'career-field', 'Choose a field to explore.'],
         [p.skills.length, 'career-skills-summary', 'Select your technical skills or choose “I don’t know yet”.'],
         [p.softSkills.length, 'career-soft-skills-summary', 'Select your soft skills or choose “I don’t know yet”.'],
-        [p.offerPreference, 'career-offer', 'Choose the offer you would accept.'],
         [!state.challenges.includes('other') || val('f-challenge-other'), 'f-challenge-other', 'Describe your other career challenge.'],
-        [uploadedResumeFile || existingResumeUrl, 'resume-drop-zone', 'Upload your resume.'],
-        [selectedTexts('pills-location').length, 'pills-location', 'Select at least one preferred work location.']
+        [selectedTexts('pills-location').length, 'pills-location', 'Select at least one preferred work location.'],
+        // Skipped when settings could not load (channels stay disabled), so the profile can still be saved.
+        [$('notification-channels').disabled || $('notify-email').checked || $('notify-whatsapp').checked, 'notification-channels', 'Choose Email or WhatsApp for your application updates.']
       ];
       const missing = checks.find(([answer]) => !answer);
       if (!missing) return true;
@@ -1970,7 +2087,7 @@
           applied.push(jobId);
           localStorage.setItem(APPLIED_JOBS_KEY, JSON.stringify(applied));
         }
-      } catch (e) {}
+      } catch (e) { }
     }
 
     // ===== FINAL SUBMIT =====
@@ -2017,7 +2134,7 @@
       try {
         localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify({ completed: true, careerStage: profile.careerStage, updatedAt: new Date().toISOString() }));
         sessionStorage.removeItem(DRAFT_KEY);
-      } catch (e) {}
+      } catch (e) { }
 
       if (profile.challengeCodes.length) trackEvent('career_challenge_selected', { challenge_codes: profile.challengeCodes, career_stage: profile.careerStage });
       const filled = ['qualification', 'specialisation', 'institution', 'recentRole', 'industry', 'skills', 'preferredLocation', 'challengeCodes']
@@ -2094,20 +2211,20 @@
           stage: state.stage, challenges: state.challenges, years: state.years,
           careerPreferences: collectCareerPreferences(),
           fields: Object.fromEntries([...document.querySelectorAll('#quick-apply-form input[id], #quick-apply-form select[id]')]
-            .filter(el => el.type !== 'file' && el.type !== 'radio')
+            .filter(el => el.type !== 'file' && el.type !== 'radio' && el.id !== 'field-profile-consent')
             .map(el => [el.id, el.type === 'checkbox' ? el.checked : el.value])),
           skills: (collectCareerPreferences().skills || []).filter(s => s !== "I don't know yet"), locations: selectedTexts('pills-location')
         }));
-      } catch (e) {}
+      } catch (e) { }
     }
 
     function restoreDraft() {
       let d = null;
-      try { d = JSON.parse(sessionStorage.getItem(DRAFT_KEY) || 'null'); } catch (e) {}
+      try { d = JSON.parse(sessionStorage.getItem(DRAFT_KEY) || 'null'); } catch (e) { }
       if (!d) return;
       restoreProfileFields(d.fields || {});
       restoreCareerPreferences(d.careerPreferences);
-      Object.entries(d.fields || {}).filter(([id]) => !isProfileField(id) && !id.startsWith('career-')).forEach(([id, v]) => {
+      Object.entries(d.fields || {}).filter(([id]) => !isProfileField(id) && !id.startsWith('career-') && id !== 'field-profile-consent').forEach(([id, v]) => {
         const el = $(id);
         if (!el) return;
         if (el.type === 'checkbox') { el.checked = !!v; if (id === 'field-is-student') toggleStudentCourseInput(!!v); }
@@ -2209,11 +2326,12 @@
           if (data.challenge_other) $('f-challenge-other').value = data.challenge_other;
           applyProfileState(data.career_stage, data.challenge_codes || [], years);
           selectTexts('pills-location', String(data.preferred_location || '').split(',').map(s => s.trim()).filter(Boolean));
+          renderInternshipSummary(data.internship_preferences);
           existingResumeUrl = data.resume_url || '';
           if (data.resume_url) $('resume-hint').textContent = 'A resume is already on your profile. Upload a new file only to replace it.';
           if (data.career_stage) { $('more-details').hidden = false; updateCompleteButton(); }
         }
-      } catch (e) {}
+      } catch (e) { }
       restoreDraft();
       // The mobile number was verified by OTP at sign-up; use that one.
       if (verifiedPhone) {
@@ -2222,6 +2340,21 @@
         $('field-phone').setAttribute('aria-describedby', 'phone-verified-note');
         $('phone-verified-note').hidden = false;
       }
+    }
+
+    // Internship answers are edited on internship-profile.html, which saves to
+    // this same profile row; here they are only summarised.
+    function renderInternshipSummary(ip) {
+      if (!ip || !ip.duration) return;
+      const parts = [
+        Array.isArray(ip.modes) && ip.modes.join(' / '),
+        ip.hours,
+        ip.duration,
+        ip.availableFrom && 'from ' + new Date(ip.availableFrom + '-01T00:00:00').toLocaleDateString(undefined, { month: 'short', year: 'numeric' }),
+        ip.stipend
+      ].filter(Boolean);
+      $('internship-summary-text').textContent = parts.join(' · ');
+      $('internship-summary-link').textContent = 'Edit internship preferences →';
     }
 
     async function showTargetJob() {
@@ -2233,7 +2366,7 @@
         $('target-job-title-text').textContent = `${job.title} at ${job.company}`;
         targetIsInternship = /intern/i.test(job.job_type || '') || /intern/i.test(job.title || '');
         $('target-job-banner').style.display = 'inline-flex';
-      } catch (e) {}
+      } catch (e) { }
     }
 
     // ===== INITIALIZE PAGE =====
