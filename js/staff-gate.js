@@ -105,6 +105,26 @@
     });
   }
 
+  // Google sign-in for staff whose account has a Google identity; is_admin() still decides access.
+  if (form && !document.getElementById('gate-google')) {
+    const google = document.createElement('button');
+    google.type = 'button';
+    google.id = 'gate-google';
+    google.className = 'btn-primary';
+    google.style.cssText = 'margin-top:10px;background:#fff;color:#0f172a;border:1.5px solid #000;';
+    google.textContent = 'Continue with Google';
+    google.addEventListener('click', async () => {
+      clearNotices();
+      google.disabled = true;
+      const { error: oauthError } = await supabaseClient.auth.signInWithOAuth({
+        provider: 'google',
+        options: { redirectTo: window.location.href.split('#')[0] }
+      });
+      if (oauthError) { google.disabled = false; showError(oauthError); }
+    });
+    form.after(google);
+  }
+
   const forgot = document.getElementById('gate-forgot-password');
   let recoveryAfter = 0;
   forgot.addEventListener('click', async () => {
@@ -120,7 +140,8 @@
       if (resetError) throw resetError;
       showSuccess('If this email has an account, a password reset link will arrive shortly.');
     } catch (err) {
-      showError('Unable to send a reset link right now. Please wait and try again.');
+      // Show Supabase's reason (e.g. rate limit, SMTP failure) so staff can act on it.
+      showError('Reset link not sent: ' + ((err && err.message) || 'please wait and try again.'));
     } finally { forgot.disabled = false; }
   });
 
@@ -138,7 +159,9 @@
       supabaseClient.auth.onAuthStateChange(event => {
         if (event === 'SIGNED_OUT') lock();
         // Keep Supabase calls outside the auth event callback.
-        if (event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED') {
+        // SIGNED_IN only matters while locked (e.g. back from Google); it also fires on tab refocus.
+        const lockedSignIn = event === 'SIGNED_IN' && main.style.display === 'none';
+        if (lockedSignIn || event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED') {
           setTimeout(() => verify().catch(showError), 0);
         }
       });

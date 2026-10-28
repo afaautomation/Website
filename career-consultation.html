@@ -1,12 +1,57 @@
 ﻿<!doctype html>
-<html lang="en">
+<html lang="en-IN">
 
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Career Consulting — Kompetenzen | Build Your Professional Path</title>
+  <title>Career Consultation in Kochi | Kompetenzen</title>
   <meta name="description"
-    content="Expert career consulting and guidance from Kompetenzen Technologies. Personal mapping, skill gap analysis, resume building, and interview preparation." />
+    content="Not sure what career to choose? Book a one-on-one career consultation with Kompetenzen. Find your strengths, your direction and a clear next step." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://www.kompetenzen.in/career-consultation" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Kompetenzen Technologies" />
+  <meta property="og:title" content="Career Consultation in Kochi | Kompetenzen" />
+  <meta property="og:description"
+    content="Not sure what career to choose? Book a one-on-one career consultation with Kompetenzen. Find your strengths, your direction and a clear next step." />
+  <meta property="og:url" content="https://www.kompetenzen.in/career-consultation" />
+  <!-- og:image: add https://www.kompetenzen.in/images/og-career-consultation.jpg (1200x630) once designed -->
+  <meta property="og:locale" content="en_IN" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://www.kompetenzen.in/#organization",
+        "name": "Kompetenzen Technologies",
+        "url": "https://www.kompetenzen.in",
+        "logo": "https://www.kompetenzen.in/kompetenzen%20logo-02.webp",
+        "sameAs": ["https://www.instagram.com/kompetenzen.techschool"]
+      },
+      {
+        "@type": "Service",
+        "name": "Career Consultation",
+        "serviceType": "Career guidance and consultation",
+        "provider": { "@id": "https://www.kompetenzen.in/#organization" },
+        "areaServed": ["Kochi", "Thiruvananthapuram", "Kerala"],
+        "audience": {
+          "@type": "Audience",
+          "audienceType": "Final-year students, fresh graduates, job seekers, working professionals"
+        },
+        "description": "One-on-one career consultation covering strengths, career direction, skill gaps and a personalised roadmap."
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.kompetenzen.in/" },
+          { "@type": "ListItem", "position": 2, "name": "Career Consultation", "item": "https://www.kompetenzen.in/career-consultation" }
+        ]
+      }
+    ]
+  }
+  </script>
   <link rel="icon" type="image/png" href="icon.png?v=2" />
   <link rel="shortcut icon" href="favicon.ico?v=2" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2" />
@@ -774,6 +819,351 @@
       .nav .nav-links { gap: 12px; }
       .nav .nav-links a { font-size: 12.5px; }
     }
+
+    /* CONSULTATION PAGE SECTIONS */
+    .tech-hero .consult-eyebrow {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin: 0 0 18px;
+    }
+
+    .consult-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 24px 0;
+      text-align: center;
+    }
+
+    .consult-h2 {
+      font-size: clamp(28px, 4.4vw, 42px);
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 36px;
+    }
+
+    .quote-cards,
+    .audience-chips,
+    .consult-steps {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .quote-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      text-align: left;
+    }
+
+    .quote-cards blockquote {
+      height: 100%;
+      margin: 0;
+      padding: 28px 26px;
+      border-radius: 20px;
+      background: var(--blue-soft);
+      border: 1px solid rgba(25, 71, 255, 0.14);
+      color: var(--ink-2);
+      font-size: 17px;
+      line-height: 1.55;
+      font-style: italic;
+    }
+
+    .consult-closing {
+      font-size: clamp(18px, 2.2vw, 22px);
+      font-weight: 600;
+      color: var(--ink);
+      margin: 40px auto 20px;
+      max-width: 640px;
+    }
+
+    .audience-chips {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .audience-chips li {
+      padding: 9px 18px;
+      border-radius: 99px;
+      border: 1px solid rgba(25, 71, 255, 0.3);
+      color: var(--blue-deep);
+      font-size: 14.5px;
+      font-weight: 700;
+    }
+
+    .consult-answer p {
+      max-width: 720px;
+      margin: 0 auto;
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--ink-mute);
+    }
+
+    .consult-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      text-align: left;
+      counter-reset: step;
+    }
+
+    .consult-steps li {
+      counter-increment: step;
+      padding: 28px 24px;
+      border-radius: 20px;
+      border: 1px solid rgba(25, 71, 255, 0.14);
+      box-shadow: 0 10px 30px -5px rgba(2, 5, 14, 0.05);
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--ink-mute);
+    }
+
+    .consult-steps li::before {
+      content: counter(step);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--blue);
+      color: #fff;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .consult-steps strong {
+      display: block;
+      font-size: 18px;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .consult-cta {
+      max-width: var(--maxw);
+      margin: 100px auto 0;
+      padding: 60px 24px;
+      text-align: center;
+      border-radius: 24px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--line-soft);
+    }
+
+    .consult-cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .consult-btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      padding: 15px 34px;
+      border-radius: 99px;
+      border: 1.5px solid var(--ink);
+      color: var(--ink);
+      font-size: 17px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .consult-btn-secondary:hover {
+      background: var(--ink);
+      color: #fff;
+    }
+
+    .consult-footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px 24px;
+      margin-bottom: 18px;
+    }
+
+    @media (max-width: 980px) {
+      .quote-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .consult-steps {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 560px) {
+      .consult-section {
+        padding-top: 56px;
+      }
+
+      .consult-steps {
+        grid-template-columns: 1fr;
+      }
+
+      .consult-cta {
+        margin: 64px 16px 0;
+        padding: 44px 20px;
+      }
+    }
+
+    /* BOOKING POPUP */
+    .consult-dialog {
+      width: min(440px, calc(100% - 32px));
+      margin: auto;
+      padding: 32px 28px 26px;
+      border: none;
+      border-radius: 22px;
+      color: var(--ink);
+      box-shadow: 0 24px 60px rgba(2, 5, 14, 0.25);
+    }
+
+    .consult-dialog::backdrop {
+      background: rgba(2, 5, 14, 0.55);
+    }
+
+    .consult-dialog h2 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    .consult-dialog-sub {
+      font-size: 14.5px;
+      color: var(--ink-mute);
+      margin-bottom: 8px;
+    }
+
+    .consult-dialog-close {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      width: 36px;
+      height: 36px;
+      border: none;
+      border-radius: 50%;
+      background: transparent;
+      font-size: 26px;
+      line-height: 1;
+      color: var(--ink-mute);
+      cursor: pointer;
+    }
+
+    .consult-dialog-close:hover {
+      background: var(--line-soft);
+    }
+
+    #consult-form label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin: 14px 0 6px;
+    }
+
+    #consult-form input,
+    #consult-form select {
+      width: 100%;
+      font: inherit;
+      font-size: 15px;
+      color: var(--ink);
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+
+    #consult-form input:focus,
+    #consult-form select:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(25, 71, 255, 0.15);
+    }
+
+    .consult-phone {
+      display: flex;
+      align-items: stretch;
+    }
+
+    .consult-phone span {
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-right: none;
+      border-radius: 12px 0 0 12px;
+      background: #F8FAFC;
+      font-weight: 600;
+      color: var(--ink-mute);
+    }
+
+    #consult-form .consult-phone input {
+      border-radius: 0 12px 12px 0;
+    }
+
+    #consult-form .consult-hp {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+    }
+
+    .consult-error {
+      margin-top: 14px;
+      font-size: 13.5px;
+      color: #B91C1C;
+    }
+
+    .consult-submit {
+      width: 100%;
+      margin-top: 22px;
+      padding: 14px 24px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .consult-submit:disabled {
+      opacity: 0.7;
+      cursor: wait;
+    }
+
+    .consult-dialog-note {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 13.5px;
+      color: var(--ink-mute);
+    }
+
+    .consult-dialog-note a {
+      color: var(--blue);
+      font-weight: 600;
+    }
+
+    .consult-done {
+      text-align: center;
+      padding: 12px 0 4px;
+    }
+
+    .consult-done p {
+      color: var(--ink-mute);
+      margin: 8px 0 22px;
+      line-height: 1.6;
+    }
+
+    .consult-done .apply-btn {
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
   </style>
 </head>
 
@@ -784,12 +1174,12 @@
     <div class="nav-inner">
       <div class="nav-left">
         <a href="index.html" class="brand">
-          <img src="kompetenzen logo-02.webp" alt="Kompetenzen" />
+          <img src="kompetenzen logo-02.webp" alt="Kompetenzen Technologies logo" />
         </a>
       </div>
       <div class="nav-links">
         <div class="mobile-services-header">Our Services &amp; Programs</div>
-        <a href="career-consulting.html" class="active"><span>Consulting</span><span class="nav-arrow">→</span></a>
+        <a href="career-consultation.html" class="active"><span>Consulting</span><span class="nav-arrow">→</span></a>
         <a href="finishing-school.html"><span>Finishing School</span><span class="nav-arrow">→</span></a>
         <a href="tech-school.html"><span>Tech School</span><span class="nav-arrow">→</span></a>
         <a href="b-school.html"><span>B-School</span><span class="nav-arrow">→</span></a>
@@ -814,7 +1204,7 @@
 
   <!-- HERO VIDEO SECTION -->
   <section class="tech-hero" id="tech-hero-section">
-    <div class="hero-video-wrapper">
+    <div class="hero-video-wrapper" aria-hidden="true">
       <video id="hero-vid" autoplay muted playsinline loop class="hero-video-bg">
         <source src="Consulting bg.mp4" type="video/mp4">
       </video>
@@ -822,179 +1212,122 @@
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <div class="hero-content-inner">
+        <p class="consult-eyebrow">Career Consultation · Kochi &amp; Trivandrum</p>
         <h1
           style="font-family: 'Red Hat Display', sans-serif; font-weight: 400; line-height: 1.2; letter-spacing: -0.03em;">
-          Expert Career Consulting<br><span style="color: var(--blue);">Designed for Your Success.</span>
+          You don't need all the answers. <span style="color: var(--blue);">You need the right conversation.</span>
         </h1>
         <p>
-          Unlock your true potential. We help you discover your strengths, analyze skill gaps, and map out a clear,
-          actionable path to your dream job.
+          Tell us where you are and where you'd like to be. We'll help you find the path that fits you.
         </p>
-        <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="apply-btn" style="padding: 16px 36px; font-size: 16px;">Book a Consultation →</a>
+        <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen%2C%20I%27d%20like%20to%20book%20a%20career%20consultation."
+          target="_blank" rel="noopener" class="apply-btn" data-track="consultation_cta_hero" data-consult-open
+          style="padding: 16px 36px; font-size: 16px;">Book My Consultation</a>
       </div>
     </div>
   </section>
 
-  <!-- CONSULTING SERVICES -->
-  <section class="programs-section" id="services">
-    <div style="text-align: center; margin-bottom: 56px;">
-      <span
-        style="font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: var(--blue); text-transform: uppercase;">WHAT
-        WE DO</span>
-      <h2
-        style="font-size: clamp(32px, 5vw, 44px); font-weight: 700; color: var(--ink); margin-top: 14px; line-height: 1.2; letter-spacing: -0.02em;">
-        Comprehensive Career Guidance<br>at Every Step</h2>
+  <main>
+    <!-- SOUND FAMILIAR -->
+    <section class="consult-section" aria-labelledby="familiar-title">
+      <h2 id="familiar-title" class="consult-h2">Sound familiar?</h2>
+      <ul class="quote-cards">
+        <li><blockquote>"I've finished my degree, but I honestly don't know which career to choose."</blockquote></li>
+        <li><blockquote>"I've sent so many applications. Not a single call back."</blockquote></li>
+        <li><blockquote>"I'm working, but I keep wondering if this is really what I should be doing."</blockquote></li>
+      </ul>
+      <p class="consult-closing">You're not behind. You just don't have a clear picture yet.</p>
+      <ul class="audience-chips" aria-label="Who it is for">
+        <li>Working Professional</li>
+        <li>Job Seeker</li>
+        <li>Fresh Graduate</li>
+        <li>Final Year Student</li>
+      </ul>
+    </section>
+
+    <!-- WHAT IS A CAREER CONSULTATION (direct answer for search and answer engines) -->
+    <section class="consult-section consult-answer" aria-labelledby="what-title">
+      <h2 id="what-title" class="consult-h2">So, what exactly is a career consultation?</h2>
+      <p>A career consultation is a one-on-one session with a career expert who helps you understand your strengths,
+        explore your options and decide your next step. Many people call it career counselling or career guidance. At
+        Kompetenzen, we offer it in Kochi and Trivandrum for students, fresh graduates, job seekers and working
+        professionals.</p>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="consult-section" aria-labelledby="steps-title">
+      <h2 id="steps-title" class="consult-h2">Four simple steps. No pressure.</h2>
+      <ol class="consult-steps">
+        <li><strong>Tell us your story.</strong> Share where you are and what you want. There are no wrong answers.</li>
+        <li><strong>See the real picture.</strong> We map your strengths, interests and skill gaps.</li>
+        <li><strong>Explore your options.</strong> Job, freelance, business or a mix. We show you what fits.</li>
+        <li><strong>Leave with your plan.</strong> A clear roadmap and your first step.</li>
+      </ol>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="consult-cta" aria-labelledby="cta-title">
+      <h2 id="cta-title" class="consult-h2">Your next step doesn't have to be a guess.</h2>
+      <div class="consult-cta-actions">
+        <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen%2C%20I%27d%20like%20to%20book%20a%20career%20consultation."
+          target="_blank" rel="noopener" class="apply-btn" data-track="consultation_cta_footer" data-consult-open
+          style="padding: 16px 40px; font-size: 17px;">Book My Consultation</a>
+        <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen%2C%20I%27d%20like%20to%20book%20a%20career%20consultation."
+          target="_blank" rel="noopener" class="consult-btn-secondary" data-track="consultation_whatsapp">Chat on
+          WhatsApp</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- BOOKING POPUP (opened by the Book My Consultation buttons; they fall back to WhatsApp without JS) -->
+  <dialog class="consult-dialog" id="consult-dialog" aria-labelledby="consult-dialog-title">
+    <button type="button" class="consult-dialog-close" id="consult-dialog-close" aria-label="Close">&times;</button>
+    <form id="consult-form" novalidate>
+      <h2 id="consult-dialog-title">Book your consultation</h2>
+      <p class="consult-dialog-sub">Share a few details and our team will call you to fix a time.</p>
+      <label for="consult-name">Your name</label>
+      <input id="consult-name" name="name" type="text" autocomplete="name" maxlength="100" required />
+      <label for="consult-phone">WhatsApp number</label>
+      <div class="consult-phone">
+        <span aria-hidden="true">+91</span>
+        <input id="consult-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national"
+          maxlength="10" pattern="[6-9][0-9]{9}" placeholder="10-digit mobile number" required />
+      </div>
+      <label for="consult-situation">I am a</label>
+      <select id="consult-situation" name="situation" required>
+        <option value="">Choose one</option>
+        <option>Final Year Student</option>
+        <option>Fresh Graduate</option>
+        <option>Job Seeker</option>
+        <option>Working Professional</option>
+      </select>
+      <!-- Hidden from people; bots that fill every field are ignored. -->
+      <input type="text" name="website" id="consult-website" tabindex="-1" autocomplete="off" class="consult-hp" aria-hidden="true" />
+      <p class="consult-error" id="consult-error" role="alert" hidden></p>
+      <button type="submit" class="apply-btn consult-submit" id="consult-submit">Request a Call Back</button>
+      <p class="consult-dialog-note">Prefer to chat? <a
+          href="https://wa.me/918590886009?text=Hi%20Kompetenzen%2C%20I%27d%20like%20to%20book%20a%20career%20consultation."
+          target="_blank" rel="noopener" data-track="consultation_whatsapp">Message us on WhatsApp</a></p>
+    </form>
+    <div class="consult-done" id="consult-done" hidden>
+      <h2>Thank you, <span id="consult-done-name"></span>!</h2>
+      <p>We've received your request. Our team will contact you on WhatsApp soon to fix a time.</p>
+      <button type="button" class="apply-btn" id="consult-done-close">Close</button>
     </div>
-
-    <div class="programs-grid">
-
-      <!-- Career Mapping -->
-      <div class="program-card">
-        <div class="card-header">
-          <div class="card-icon">
-            <svg class="card-sparkle" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z" />
-            </svg>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-              stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="16" x2="12" y2="12"></line>
-              <line x1="12" y1="8" x2="12.01" y2="8"></line>
-            </svg>
-          </div>
-          <div class="card-title-group">
-            <h3 class="program-title">Career Discovery & Mapping</h3>
-            <div class="program-rating">★★★★★ (Personalized 1-on-1 Guidance)</div>
-          </div>
-        </div>
-        <p class="program-desc">Feeling stuck or unsure about which tech or business role fits you best? Our experts
-          analyze your background, interests, and strengths to map out the ideal career trajectory for you in today's
-          job market.</p>
-        <div class="skills-row">
-          <span style="font-weight: 600;">Includes:</span> Strengths Mapping, Role Alignment, 3-Year Career Roadmap
-        </div>
-        <div class="card-footer">
-          <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="apply-btn">
-            Book Discovery Session →
-          </a>
-        </div>
-      </div>
-
-      <!-- Skill Gap Analysis -->
-      <div class="program-card">
-        <div class="card-header">
-          <div class="card-icon">
-            <svg class="card-sparkle" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z" />
-            </svg>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-              stroke-linejoin="round">
-              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-            </svg>
-          </div>
-          <div class="card-title-group">
-            <h3 class="program-title">Skill Gap Analysis</h3>
-            <div class="program-rating">★★★★★ (Industry Benchmarked)</div>
-          </div>
-        </div>
-        <p class="program-desc">We identify exactly what you're missing between your current skill set and what top
-          employers are demanding. Stop guessing and start learning the exact tools, languages, and frameworks that get
-          you hired.</p>
-        <div class="skills-row">
-          <span style="font-weight: 600;">Includes:</span> Competency Audit, Employer Benchmarks, Custom Upskilling Plan
-        </div>
-        <div class="card-footer">
-          <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="apply-btn">
-            Analyze Skill Gaps →
-          </a>
-        </div>
-      </div>
-
-      <!-- Resume Building -->
-      <div class="program-card">
-        <div class="card-header">
-          <div class="card-icon">
-            <svg class="card-sparkle" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z" />
-            </svg>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-              stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line x1="16" y1="13" x2="8" y2="13"></line>
-              <line x1="16" y1="17" x2="8" y2="17"></line>
-              <polyline points="10 9 9 9 8 9"></polyline>
-            </svg>
-          </div>
-          <div class="card-title-group">
-            <h3 class="program-title">Resume & Profile Optimization</h3>
-            <div class="program-rating">★★★★★ (ATS Guaranteed)</div>
-          </div>
-        </div>
-        <p class="program-desc">A great resume gets you in the door. We help you craft an ATS-friendly resume that
-          highlights your achievements. We also optimize your LinkedIn profile to attract recruiters to you directly.
-        </p>
-        <div class="skills-row">
-          <span style="font-weight: 600;">Includes:</span> ATS-Proof Rewrite, LinkedIn Makeover, Recruiter SEO
-        </div>
-        <div class="card-footer">
-          <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="apply-btn">
-            Optimize My Profile →
-          </a>
-        </div>
-      </div>
-
-      <!-- Interview Prep -->
-      <div class="program-card">
-        <div class="card-header">
-          <div class="card-icon">
-            <svg class="card-sparkle" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z" />
-            </svg>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-              stroke-linejoin="round">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10z"></path>
-            </svg>
-          </div>
-          <div class="card-title-group">
-            <h3 class="program-title">Mock Interviews & Prep</h3>
-            <div class="program-rating">★★★★★ (94% Placement Success)</div>
-          </div>
-        </div>
-        <p class="program-desc">Overcome interview anxiety with our company-specific mock interviews. Receive
-          constructive, actionable feedback on your technical explanations, body language, and problem-solving approach.
-        </p>
-        <div class="skills-row">
-          <span style="font-weight: 600;">Includes:</span> Real-time Tech/HR Rounds, Detailed Scorecard, Salary Guidance
-        </div>
-        <div class="card-footer">
-          <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="apply-btn">
-            Schedule Mock Interview →
-          </a>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- CALL TO ACTION -->
-  <section
-    style="max-width: var(--maxw); margin: 100px auto; padding: 60px 24px; text-align: center; background: #fff; border-radius: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); border: 1px solid var(--line-soft);">
-    <h2 style="font-size: clamp(28px, 4vw, 40px); font-weight: 700; color: var(--ink); margin-bottom: 24px;">Ready to
-      Transform Your Career?</h2>
-    <p style="font-size: 18px; color: var(--ink-mute); max-width: 600px; margin: 0 auto 40px;">
-      Don't leave your professional future to chance. Talk to our career experts today and get a personalized roadmap
-      tailored to your ambitions.
-    </p>
-    <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="apply-btn"
-      style="padding: 16px 40px; font-size: 18px;">Talk to an Expert Now</a>
-  </section>
+  </dialog>
 
   <!-- FOOTER -->
   <footer class="site-footer">
+    <nav class="consult-footer-links" aria-label="More from Kompetenzen">
+      <a href="finishing-school.html">Finishing School programmes</a>
+      <a href="Resume/resume.html" onclick="openResumeBuilder(event)">Free Resume Builder</a>
+      <a href="jobs.html">Latest jobs</a>
+      <a href="our-story.html">Our story</a>
+    </nav>
     <p>&copy; 2026 Kompetenzen Technologies. All rights reserved.</p>
     <p style="margin-top: 8px;">
-      <a href="https://wa.me/918590886009" target="_blank" rel="noopener">Contact us via WhatsApp</a>
+      <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen%2C%20I%27d%20like%20to%20book%20a%20career%20consultation."
+        target="_blank" rel="noopener" data-track="consultation_whatsapp">Contact us via WhatsApp</a>
     </p>
   </footer>
 
@@ -1044,6 +1377,83 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
   <script src="supabase-config.js"></script>
   <script src="js/auth-modal.js?v=13"></script>
+  <!-- Consultation booking popup: saves the request to consultation_requests. -->
+  <script>
+    (function () {
+      const dialog = document.getElementById('consult-dialog');
+      const form = document.getElementById('consult-form');
+      const done = document.getElementById('consult-done');
+      const errorBox = document.getElementById('consult-error');
+      const submit = document.getElementById('consult-submit');
+      const phone = document.getElementById('consult-phone');
+      if (!dialog || typeof dialog.showModal !== 'function') return;
+      let openedAt = 0;
+
+      function showError(message) {
+        errorBox.textContent = message;
+        errorBox.hidden = !message;
+      }
+
+      function finish(name) {
+        document.getElementById('consult-done-name').textContent = name.split(' ')[0];
+        form.reset();
+        form.hidden = true;
+        done.hidden = false;
+      }
+
+      function open(e) {
+        e.preventDefault();
+        form.hidden = false;
+        done.hidden = true;
+        showError('');
+        openedAt = Date.now();
+        dialog.showModal();
+        document.getElementById('consult-name').focus();
+      }
+
+      document.querySelectorAll('[data-consult-open]').forEach(btn => btn.addEventListener('click', open));
+      document.getElementById('consult-dialog-close').addEventListener('click', () => dialog.close());
+      document.getElementById('consult-done-close').addEventListener('click', () => dialog.close());
+      // Clicking the dark backdrop closes the popup.
+      dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });
+      phone.addEventListener('input', () => { phone.value = phone.value.replace(/\D/g, '').slice(0, 10); });
+
+      form.addEventListener('submit', async e => {
+        e.preventDefault();
+        showError('');
+        const name = form.elements.name.value.trim();
+        const digits = phone.value.trim();
+        const situation = form.elements.situation.value;
+        if (!name) return showError('Please enter your name.');
+        if (!/^[6-9]\d{9}$/.test(digits)) return showError('Please enter a valid 10-digit mobile number.');
+        if (!situation) return showError('Please choose what best describes you.');
+        // Bots fill the hidden field or submit instantly; pretend success and save nothing.
+        if (form.elements.website.value || Date.now() - openedAt < 2000) return finish(name);
+        if (typeof isSupabaseConfigured !== 'function' || !isSupabaseConfigured()) {
+          return showError('Booking is unavailable right now. Please message us on WhatsApp.');
+        }
+        submit.disabled = true;
+        submit.textContent = 'Sending…';
+        try {
+          const { error } = await supabaseClient.from('consultation_requests').insert([{
+            name,
+            phone: '+91' + digits,
+            situation,
+            page_url: location.href.slice(0, 500)
+          }]);
+          // The database guard rejects repeats within 10 minutes; the earlier request still stands.
+          if (error && !/already requested/i.test(error.message || '')) throw error;
+          finish(name);
+        } catch (err) {
+          console.warn('Consultation request failed:', err);
+          showError(/too many/i.test(err.message || '') ? err.message : 'We could not send your request. Please try again or message us on WhatsApp.');
+        } finally {
+          submit.disabled = false;
+          submit.textContent = 'Request a Call Back';
+        }
+      });
+    })();
+  </script>
   <!-- Mobile Menu Toggle -->
   <script>
     (function () {

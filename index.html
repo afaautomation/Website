@@ -1940,6 +1940,25 @@
       margin-top: 16px
     }
 
+    .ft-address {
+      font-style: normal;
+      max-width: 42ch
+    }
+
+    .ft-address strong {
+      display: block;
+      color: #fff;
+      margin: 14px 0 4px
+    }
+
+    .ft-address strong:first-child {
+      margin-top: 0
+    }
+
+    .ft-address a {
+      color: inherit
+    }
+
     .ft-col h4 {
       font-size: 12px;
       text-transform: uppercase;
@@ -2619,7 +2638,7 @@
       </div>
       <div class="nav-links">
         <div class="mobile-services-header">Our Services &amp; Programs</div>
-        <a href="career-consulting.html"><span>Consulting</span><span class="nav-arrow">→</span></a>
+        <a href="career-consultation.html"><span>Consulting</span><span class="nav-arrow">→</span></a>
         <a href="finishing-school.html"><span>Finishing School</span><span class="nav-arrow">→</span></a>
         <a href="tech-school.html"><span>Tech School</span><span class="nav-arrow">→</span></a>
         <a href="b-school.html"><span>B-School</span><span class="nav-arrow">→</span></a>
@@ -2683,7 +2702,7 @@
         </div>
         <p class="hero-sub"></p>
         <div class="hero-actions">
-          <a href="career-consulting.html" class="btn-primary"><span>Book Consulting</span><span
+          <a href="career-consultation.html" class="btn-primary"><span>Book Consulting</span><span
               class="arrow">→</span></a>
           <a href="#training" class="btn-ghost">Explore Trainings</a>
         </div>
@@ -2975,6 +2994,9 @@
                 </div>
 
               </div>
+
+              <!-- Showcase image from the marketing console; replaces the slides when set -->
+              <div class="showcase-media" id="showcase-media" hidden></div>
 
             </div>
 
@@ -4590,19 +4612,26 @@
           <div class="ft-brand"><img src="kompetenzen logo-02.webp" alt="Kompetenzen"
               style="filter:brightness(0) invert(1)" />
           </div>
-          <p class="ft-blurb">Kerala's trusted partner for IT training, full stack development, data analytics, and
-            guaranteed placement support — since 2020.</p>
+          <address class="ft-blurb ft-address">
+            <strong>Thiruvananthapuram · <a href="tel:+918590849708">085908 49708</a></strong>
+            Sunny Meads Ln, opp. JKV Charging Station, Vanross, Palayam – 695001
+            <strong>Kochi · <a href="tel:+916238302063">062383 02063</a></strong>
+            3rd Floor, Sree Hari Building, Sahodaran Ayyappan Rd, Vyttila – 682019
+          </address>
         </div>
         <div class="ft-col">
           <h4>Schools</h4>
-          <a href="tech-school.html">Tech School</a>
-          <a href="finishing-school.html">Finishing School</a>
+          <a href="tech-school.html">Finishing School</a>
+          <a href="finishing-school.html">Tech School</a>
           <a href="b-school.html">B-School</a>
         </div>
         <div class="ft-col">
           <h4>Explore</h4>
-          <a href="placements.html">2000+ Placements</a>
+          <a href="career-consultation.html">Book Consultation</a>
+          <a href="placements.html">5000+ Placements</a>
           <a href="Resume/resume.html" onclick="openResumeBuilder(event)">Resume Builder</a>
+          <a href="jobs.html">Apply for Jobs</a>
+          <a href="internships.html">Apply for Internships</a>
         </div>
         <div class="ft-col">
           <h4>Contact</h4>
@@ -4877,6 +4906,137 @@
         will-change: transform;
       }
     }
+
+    /* Homepage showcase slides (set in marketing.html) fill the whole box */
+    .showcase-media {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      overflow: hidden;
+    }
+
+    .showcase-media[hidden],
+    .has-showcase .slides-viewport,
+    .has-showcase .box-radial-glow,
+    .has-showcase .bg-glow,
+    .has-showcase #blue-dust-container {
+      display: none !important;
+    }
+
+    /* Upcoming slides wait on the right, past ones leave to the left */
+    .showcase-slide {
+      position: absolute;
+      inset: 0;
+      transform: translateX(100%);
+      transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
+    }
+
+    .showcase-slide.is-before {
+      transform: translateX(-100%);
+    }
+
+    .showcase-slide.is-active {
+      transform: none;
+    }
+
+    .showcase-slide a,
+    .showcase-slide picture,
+    .showcase-slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .showcase-slide img {
+      object-fit: cover;
+    }
+
+    .showcase-dots {
+      position: absolute;
+      left: 50%;
+      bottom: 16px;
+      transform: translateX(-50%);
+      z-index: 6;
+      display: flex;
+      gap: 8px;
+      pointer-events: none;
+    }
+
+    .showcase-dots[hidden] {
+      display: none;
+    }
+
+    .showcase-dots span {
+      width: 8px;
+      height: 8px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.45);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+      transition: width 0.3s, background 0.3s;
+    }
+
+    .showcase-dots span.is-active {
+      width: 24px;
+      background: #fff;
+    }
+
+    /* Desktop with 2+ slides: the box stays pinned while scrolling moves through the slides */
+    #training.showcase-pinned .scroll-track {
+      height: var(--showcase-track);
+    }
+
+    #training.showcase-pinned .training-sticky-inner {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    #training.showcase-pinned .training-right,
+    #training.showcase-pinned .glowing-box-container {
+      margin-bottom: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .showcase-slide,
+      .showcase-slide.is-before {
+        transform: none;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      .showcase-slide.is-active {
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .has-showcase .glowing-box {
+        padding: 0 !important;
+      }
+
+      /* Phones: slides share one grid cell, so the box is as tall as the tallest image and nothing is cropped */
+      .showcase-media {
+        position: relative;
+        inset: auto;
+        display: grid;
+      }
+
+      .showcase-media[hidden] {
+        display: none;
+      }
+
+      .showcase-slide {
+        position: relative;
+        inset: auto;
+        grid-area: 1 / 1;
+      }
+
+      .showcase-slide a,
+      .showcase-slide picture,
+      .showcase-slide img {
+        height: auto;
+      }
+    }
   </style>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js"
@@ -4884,6 +5044,137 @@
     crossorigin="anonymous"></script>
   <script src="supabase-config.js"></script>
   <script src="js/auth-modal.js?v=13"></script>
+  <script>
+    // Showcase slides published from marketing.html; without any the default slide stays.
+    // With 2+ slides, scrolling moves through them (desktop pins the box while it does).
+    (async function loadShowcase() {
+      const holder = document.getElementById('showcase-media');
+      if (!holder || !isSupabaseConfigured()) return;
+      const box = holder.closest('.glowing-box-container');
+      const section = document.getElementById('training');
+      const track = section && section.querySelector('.scroll-track');
+      const safe = url => { try { const u = new URL(url, location.href); return ['http:', 'https:'].includes(u.protocol) ? u.href : ''; } catch (e) { return ''; } };
+      let value;
+      try {
+        const { data, error } = await supabaseClient.from('site_content').select('value').eq('key', 'kompetenzen_showcase').maybeSingle();
+        if (error) throw error;
+        value = (data && data.value) || {};
+      } catch (e) { console.warn('Showcase could not be loaded:', e); return; }
+      // Older single-image format: { image, mobileImage, alt, link }.
+      const saved = Array.isArray(value.slides) ? value.slides : (value.image ? [value] : []);
+
+      const slides = [], dots = [];
+      const dotBar = document.createElement('div');
+      dotBar.className = 'showcase-dots';
+      dotBar.setAttribute('aria-hidden', 'true');
+      for (const item of saved) {
+        const image = safe(item.image || '');
+        if (!image) continue;
+        const slide = document.createElement('div');
+        slide.className = 'showcase-slide';
+        const picture = document.createElement('picture');
+        const mobile = safe(item.mobileImage || '');
+        if (mobile) {
+          const source = document.createElement('source');
+          source.media = '(max-width: 980px)';
+          source.srcset = mobile;
+          picture.append(source);
+        }
+        const img = document.createElement('img');
+        img.src = image;
+        img.alt = item.alt || '';
+        img.decoding = 'async';
+        picture.append(img);
+        const link = safe(item.link || '');
+        if (link) {
+          const a = document.createElement('a');
+          a.href = link;
+          if (new URL(link).origin !== location.origin) { a.target = '_blank'; a.rel = 'noopener'; }
+          a.append(picture);
+          slide.append(a);
+        } else slide.append(picture);
+        const dot = document.createElement('span');
+        holder.append(slide);
+        dotBar.append(dot);
+        slides.push(slide);
+        dots.push(dot);
+        // A broken image drops its slide instead of leaving a blank panel.
+        img.addEventListener('error', () => {
+          const i = slides.indexOf(slide);
+          if (i < 0) return;
+          slides.splice(i, 1); dots.splice(i, 1)[0].remove(); slide.remove();
+          layout();
+        }, { once: true });
+        img.addEventListener('load', reveal, { once: true });
+      }
+      if (!slides.length) return;
+      holder.append(dotBar);
+
+      // Swap out the default slide once the first image has loaded.
+      function reveal() {
+        if (!slides.length) return;
+        holder.hidden = false;
+        box.classList.add('has-showcase');
+        layout();
+      }
+
+      let current = -1;
+      function show(index) {
+        if (index === current) return;
+        current = index;
+        slides.forEach((slide, i) => {
+          slide.classList.toggle('is-active', i === index);
+          slide.classList.toggle('is-before', i < index);
+          slide.inert = i !== index;
+        });
+        dots.forEach((dot, i) => dot.classList.toggle('is-active', i === index));
+      }
+
+      const desktop = window.matchMedia('(min-width: 981px)');
+      // Each extra slide gets this much scrolling while the box is pinned.
+      const STEP_VH = 80;
+      function layout() {
+        const pinned = !holder.hidden && desktop.matches && slides.length > 1;
+        section.classList.toggle('showcase-pinned', pinned);
+        section.style.setProperty('--showcase-track', 'calc(100vh + ' + (slides.length - 1) * STEP_VH + 'vh)');
+        dotBar.hidden = slides.length < 2;
+        if (!slides.length) {
+          holder.hidden = true;
+          box.classList.remove('has-showcase');
+          return;
+        }
+        current = -1;
+        update();
+      }
+
+      function update() {
+        const n = slides.length;
+        if (!n) return;
+        if (n === 1) { show(0); return; }
+        let progress;
+        if (section.classList.contains('showcase-pinned')) {
+          const r = track.getBoundingClientRect();
+          progress = -r.top / Math.max(1, r.height - window.innerHeight);
+        } else {
+          // Not pinned (phones): advance as the box travels up through the screen.
+          const r = box.getBoundingClientRect();
+          progress = (window.innerHeight * 0.85 - r.top) / Math.max(1, window.innerHeight * 0.85 + r.height * 0.5);
+        }
+        progress = Math.min(Math.max(progress, 0), 0.9999);
+        show(Math.floor(progress * n));
+      }
+
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => { ticking = false; update(); });
+      }, { passive: true });
+      window.addEventListener('resize', update, { passive: true });
+      desktop.addEventListener('change', layout);
+      show(0);
+    })();
+  </script>
 
   <!-- ============ SPREAD-OUT SWIRLING MICRO-DUST MOUSE EFFECT ============ -->
   <canvas id="blue-cyclone-canvas"

@@ -1879,6 +1879,41 @@
       }
     }
 
+    /* HOMEPAGE SHOWCASE */
+    .showcase-preview {
+      aspect-ratio: 1600 / 750;
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--ink);
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 13.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0;
+    }
+
+    .showcase-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .showcase-preview img[hidden] {
+      display: none;
+    }
+
+    .showcase-thumb {
+      width: 128px;
+      aspect-ratio: 1600 / 750;
+      border-radius: 8px;
+      object-fit: cover;
+      background: var(--ink);
+      flex-shrink: 0;
+    }
+
     body { overflow-x: hidden; max-width: 100%; }
   </style>
   <link rel="stylesheet" href="css/mobile.css" media="(max-width: 768px)" />
@@ -1937,7 +1972,7 @@
     <div class="page-head">
       <span class="internal-tag">Internal · Marketing</span>
       <h1 style="margin-top:14px;">Kompetenzen Marketing Console</h1>
-      <p>Update course batch dates, showcase placed candidates, and curate the Instagram reels shown on the homepage.</p>
+      <p>Update course batch dates, showcase placed candidates, curate the Instagram reels, and set the homepage showcase image.</p>
     </div>
 
     <!-- TABS -->
@@ -1959,6 +1994,14 @@
         </svg>
         <span>Instagram Reels</span>
         <span class="tab-badge" id="reels-counter-badge">0</span>
+      </button>
+      <button type="button" class="admin-tab-btn" onclick="switchAdminTab('showcase')" id="tab-btn-showcase">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="18" height="18" rx="2" />
+          <circle cx="8.5" cy="8.5" r="1.5" />
+          <polyline points="21 15 16 10 5 21" />
+        </svg>
+        <span>Homepage Showcase</span>
       </button>
     </div>
 
@@ -2096,6 +2139,61 @@
       </section>
     </div>
 
+    <!-- ========================================== -->
+    <!-- PANEL 5: HOMEPAGE SHOWCASE BOX             -->
+    <!-- ========================================== -->
+    <div id="panel-showcase" class="admin-tab-panel">
+      <section class="admin-card">
+        <h2>Add a Showcase Slide</h2>
+        <p style="font-size: 13.5px; color: var(--ink-mute); margin-bottom: 20px;">Each slide fills the whole "Design Your Future" box on the homepage. Add 2 or more slides and they change one by one as visitors scroll. Use them for new products and latest events.</p>
+        <form class="form-grid" id="showcase-form" novalidate>
+          <div class="showcase-preview" id="showcase-preview">
+            <img id="showcase-preview-img" alt="" hidden />
+            <span id="showcase-preview-empty">Choose a desktop image to preview it here.</span>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="showcase-file">Desktop image <span class="req">*</span></label>
+              <input id="showcase-file" type="file" accept="image/jpeg,image/png,image/webp,image/gif" />
+              <p class="field-hint">Wide image, 1920 × 900 px recommended. JPG, PNG, WebP or GIF, up to 5 MB. Keep text away from the edges.</p>
+            </div>
+            <div class="field">
+              <label for="showcase-mobile-file">Mobile image (optional)</label>
+              <input id="showcase-mobile-file" type="file" accept="image/jpeg,image/png,image/webp,image/gif" />
+              <p class="field-hint">Portrait image for phones, 1080 × 1350 px recommended. Without it, phones show the desktop image.</p>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="showcase-alt">Image description <span class="req">*</span></label>
+              <input id="showcase-alt" type="text" maxlength="160" placeholder="e.g. AI Career Fair — 15 November, Kochi" />
+              <p class="field-hint">Read aloud by screen readers and shown if the image cannot load.</p>
+            </div>
+            <div class="field">
+              <label for="showcase-link">Link when clicked (optional)</label>
+              <input id="showcase-link" type="url" placeholder="e.g. https://kompetenzen.in/jobs" />
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn-primary" type="submit" id="showcase-save">Add Slide →</button>
+            <span class="save-status" id="showcase-status">✓ Showcase published</span>
+          </div>
+        </form>
+      </section>
+
+      <section class="admin-card" style="box-shadow: 6px 6px 0px rgba(0, 0, 0, 1);">
+        <div class="list-head">
+          <div>
+            <h2>Showcase Slides</h2>
+            <p style="font-size: 13px; color: var(--ink-mute); margin-top: 4px;">Shown in this order while scrolling. Remove all slides to bring back the default box.</p>
+          </div>
+          <span class="list-count" id="showcase-count">0 slides</span>
+        </div>
+        <div id="showcase-empty" class="list-empty">No slides published. The homepage shows the default "Design Your Future" box.</div>
+        <div id="showcase-list" class="reels-list-container"></div>
+      </section>
+    </div>
+
   </main>
 
   <!-- Staff login (shared with the other staff console) -->
@@ -2223,7 +2321,165 @@
           for (const key of ['python', 'java', 'analytics', 'hr', 'sales']) document.getElementById('date-' + key).value = dates[key] || '';
           renderStudents();
         } catch (err) { alert('Published content could not be loaded: ' + err.message); }
+        if (window.loadShowcase) window.loadShowcase();
       };
+    })();
+
+    /* =============================================
+       HOMEPAGE SHOWCASE SLIDES
+    ============================================= */
+    (function () {
+      const KEY = 'kompetenzen_showcase';
+      const BUCKET = 'site-media';
+      const TYPES = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'image/gif': 'gif' };
+      const MAX_BYTES = 5 * 1024 * 1024;
+      const $ = id => document.getElementById(id);
+      const form = $('showcase-form'), desktopInput = $('showcase-file'), mobileInput = $('showcase-mobile-file');
+      const previewImg = $('showcase-preview-img'), previewEmpty = $('showcase-preview-empty');
+      const list = $('showcase-list');
+      let slides = [];
+
+      function showPreview(src) {
+        previewImg.hidden = !src;
+        previewEmpty.hidden = !!src;
+        if (src) previewImg.src = src; else previewImg.removeAttribute('src');
+      }
+
+      function checkFile(file, label) {
+        if (!file) return;
+        if (!TYPES[file.type]) throw new Error(label + ' must be a JPG, PNG, WebP or GIF image.');
+        if (file.size > MAX_BYTES) throw new Error(label + ' is larger than 5 MB. Please compress it first.');
+      }
+
+      async function upload(file) {
+        const path = 'showcase/' + Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '.' + TYPES[file.type];
+        const { error } = await supabaseClient.storage.from(BUCKET).upload(path, file, { contentType: file.type, cacheControl: '31536000', upsert: false });
+        if (error) throw error;
+        return { path, url: supabaseClient.storage.from(BUCKET).getPublicUrl(path).data.publicUrl };
+      }
+
+      // Files are removed only after the new list is published; a failure just leaves an unused file.
+      async function removeFiles(paths) {
+        paths = paths.filter(Boolean);
+        if (paths.length) await supabaseClient.storage.from(BUCKET).remove(paths).catch(() => {});
+      }
+
+      function flashStatus(text) {
+        const status = $('showcase-status');
+        status.textContent = text;
+        status.classList.add('is-visible');
+        setTimeout(() => status.classList.remove('is-visible'), 2500);
+      }
+
+      async function publish(next) {
+        await siteContent.save(KEY, { slides: next });
+        slides = next;
+        render();
+      }
+
+      function render() {
+        $('showcase-count').textContent = slides.length + (slides.length === 1 ? ' slide' : ' slides');
+        $('showcase-empty').style.display = slides.length ? 'none' : 'block';
+        list.replaceChildren();
+        slides.forEach((slide, index) => {
+          const item = document.createElement('article');
+          item.className = 'reel-item';
+          item.innerHTML = `
+            <div class="reel-item-main">
+              <img class="showcase-thumb" alt="" />
+              <div class="reel-details">
+                <h3></h3>
+                <span class="id-badge"></span>
+                <a class="link" target="_blank" rel="noopener"></a>
+              </div>
+            </div>
+            <div class="reel-controls">
+              <button class="reel-control-btn" type="button" data-action="up" aria-label="Move up" ${index === 0 ? 'disabled' : ''}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+              </button>
+              <button class="reel-control-btn" type="button" data-action="down" aria-label="Move down" ${index === slides.length - 1 ? 'disabled' : ''}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <button class="reel-control-btn reel-remove" type="button" data-action="remove" aria-label="Remove slide">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+              </button>
+            </div>`;
+          item.querySelector('img').src = slide.image;
+          item.querySelector('h3').textContent = 'Slide ' + (index + 1) + ' — ' + (slide.alt || 'Untitled');
+          item.querySelector('.id-badge').textContent = slide.mobileImage ? 'Desktop + mobile image' : 'Desktop image only';
+          const link = item.querySelector('.link');
+          if (slide.link) { link.href = slide.link; link.textContent = slide.link; } else link.remove();
+          item.querySelectorAll('button').forEach(btn => btn.dataset.index = index);
+          list.append(item);
+        });
+      }
+
+      window.loadShowcase = async function () {
+        let value;
+        try { value = (await siteContent.read(KEY, {})) || {}; } catch (err) { alert('Showcase could not be loaded: ' + err.message); return; }
+        // Older single-image format: { image, mobileImage, alt, link }.
+        slides = Array.isArray(value.slides) ? value.slides : (value.image ? [value] : []);
+        render();
+      };
+
+      desktopInput.addEventListener('change', () => {
+        const file = desktopInput.files[0];
+        showPreview(file ? URL.createObjectURL(file) : '');
+      });
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const desktop = desktopInput.files[0], mobile = mobileInput.files[0];
+        const alt = $('showcase-alt').value.trim(), link = $('showcase-link').value.trim();
+        const button = $('showcase-save');
+        const uploaded = [];
+        try {
+          if (!desktop) throw new Error('Choose a desktop image.');
+          if (!alt) throw new Error('Add a short image description.');
+          if (link && !/^https?:\/\//i.test(link)) throw new Error('The link must start with https://');
+          checkFile(desktop, 'Desktop image'); checkFile(mobile, 'Mobile image');
+          button.disabled = true; button.textContent = 'Uploading…';
+          const slide = { alt, link, image: '', imagePath: '', mobileImage: '', mobilePath: '' };
+          const up = await upload(desktop);
+          uploaded.push(up.path);
+          slide.image = up.url; slide.imagePath = up.path;
+          if (mobile) {
+            const upMobile = await upload(mobile);
+            uploaded.push(upMobile.path);
+            slide.mobileImage = upMobile.url; slide.mobilePath = upMobile.path;
+          }
+          await publish([...slides, slide]);
+          form.reset();
+          showPreview('');
+          flashStatus('✓ Slide added');
+        } catch (err) {
+          await removeFiles(uploaded);
+          alert('Slide was not added: ' + err.message);
+        } finally {
+          button.disabled = false; button.textContent = 'Add Slide →';
+        }
+      });
+
+      list.addEventListener('click', async (e) => {
+        const btn = e.target.closest('.reel-control-btn');
+        if (!btn) return;
+        const index = Number(btn.dataset.index);
+        const next = [...slides];
+        try {
+          if (btn.dataset.action === 'remove') {
+            if (!confirm('Remove this slide from the homepage?')) return;
+            const [removed] = next.splice(index, 1);
+            await publish(next);
+            await removeFiles([removed.imagePath, removed.mobilePath]);
+            flashStatus('✓ Slide removed');
+          } else {
+            const target = btn.dataset.action === 'up' ? index - 1 : index + 1;
+            if (target < 0 || target >= next.length) return;
+            [next[index], next[target]] = [next[target], next[index]];
+            await publish(next);
+          }
+        } catch (err) { alert('Slides were not updated: ' + err.message); }
+      });
     })();
 
     /* =============================================
@@ -2490,7 +2746,7 @@
 
       // Check URL hash for direct tab navigation (e.g. marketing.html#reels)
       const hash = (window.location.hash || '').replace('#', '');
-      if (hash && ['courses', 'reels'].includes(hash)) {
+      if (hash && ['courses', 'reels', 'showcase'].includes(hash)) {
         if (typeof window.switchAdminTab === 'function') {
           window.switchAdminTab(hash);
         }

@@ -27,3 +27,7 @@
   Cache-Control: public, max-age=2592000
 /*.pdf
   Cache-Control: public, max-age=2592000
+
+# Keep the consultation page out of search results on the staging domain until launch.
+https://kompetenzen.pages.dev/career-consultation*
+  X-Robots-Tag: noindex

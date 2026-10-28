@@ -30,7 +30,7 @@ export function whatsappOtpHandler({env,fetcher=fetch,code=newCode}) {
         // Do not log Meta's response text: it can contain recipients or credentials.
         console.error(JSON.stringify({event:'whatsapp_otp_rejected',status:sent.status,code:providerCode}));
         const reference=providerCode===null?`HTTP ${sent.status}`:`Meta ${providerCode}`;
-        return respond({error:`WhatsApp could not send the verification code. Please contact support with reference ${reference}, or use Continue with Google.`},502);
+        return respond({error:`WhatsApp could not send the verification code. Please contact support with reference ${reference}.`},502);
       }
       return respond({sent:true,phone});
     }catch{return respond({error:'Could not send a code right now. Please retry shortly.'},503);}

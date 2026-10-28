@@ -54,20 +54,24 @@ async function supabaseSignUp(name, email, phone, password) {
     : null;
 }
 
-async function supabaseSignIn(email, password) {
-  const identifier = email.trim();
-  let phone = identifier.replace(/[\s()-]/g, '');
-  if (/^[6-9]\d{9}$/.test(phone)) phone = '+91' + phone;
-  else if (/^91\d{10}$/.test(phone)) phone = '+' + phone;
-  const credentials = identifier.includes('@') ? { email: identifier, password } : { phone, password };
-  const { data, error } = await supabaseClient.auth.signInWithPassword(credentials);
+// WhatsApp-number login. Supabase issues and checks the OTP; the send-sms-hook Edge Function
+// delivers it on WhatsApp. shouldCreateUser:false keeps login from creating accounts.
+async function supabaseSendLoginOtp(phone) {
+  const { error } = await supabaseClient.auth.signInWithOtp({ phone, options: { shouldCreateUser: false } });
   if (error) throw error;
-  const meta = (data.user && data.user.user_metadata) || {};
+}
+
+async function supabaseVerifyLoginOtp(phone, code) {
+  const { data, error } = await supabaseClient.auth.verifyOtp({ phone, token: code, type: 'sms' });
+  if (error) throw error;
+  const user = data.user;
+  const meta = (user && user.user_metadata) || {};
   return {
-    name: meta.name || email,
-    email: data.user.email,
-    phone: meta.phone || '',
-    authType: 'Direct Login'
+    id: user.id,
+    name: meta.name || 'Candidate',
+    email: user.email || '',
+    phone: meta.phone || (user.phone ? '+' + user.phone : phone),
+    authType: 'WhatsApp OTP Login'
   };
 }
 

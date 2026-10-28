@@ -1,8 +1,10 @@
 /**
  * Kompetenzen Auth Modal Component
  * Displays the NextRaise-inspired login/signup flow:
- * Step 1: Clean choice between "Continue with Google" & "Continue with email"
- * Step 2: When "Continue with email" is clicked, asks for full name, email, phone number & password.
+ * Opens directly on the Create Account form (or Log In when requested).
+ * Sign up: full name, email, mobile number & password, then a WhatsApp OTP (whatsapp-otp + phone-signup).
+ * Log in: WhatsApp number only, then a WhatsApp OTP issued and checked by Supabase (send-sms-hook delivers it).
+ * The old choice screen is no longer shown; Google sign-in was removed, but an in-progress Google session still completes.
  */
 (function () {
   'use strict';
@@ -223,27 +225,16 @@
 
           <!-- Hero Text -->
           <h2 id="auth-modal-hero-title" style="font-size:1.55rem; font-weight:800; color:#0f172a; line-height:1.22; letter-spacing:-0.03em; margin:0 0 0.5rem;">
-            Find matching jobs you'll actually get <span style="color:#1947FF;">placed for.</span>
+            Log in or <span style="color:#1947FF;">sign up</span>
           </h2>
           <p id="auth-modal-hero-sub" style="font-size:0.88rem; color:#64748b; font-weight:500; margin:0 0 1.75rem;">
-            Free to start · no card needed
+
           </p>
 
           <!-- Action Buttons Stack -->
           <div style="display:flex; flex-direction:column; gap:0.75rem; width:100%;">
             
-            <!-- 1. Continue with Google -->
-            <button type="button" id="lead-google-btn" class="auth-pill-btn auth-google-btn" onclick="triggerWebsiteGoogleSignIn()">
-              <svg style="width:19px; height:19px; flex-shrink:0;" viewBox="0 0 48 48">
-                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-              </svg>
-              <span id="lead-google-btn-text">Continue with Google</span>
-            </button>
-
-            <!-- 2. Continue with email -->
+            <!-- Continue with email -->
             <button type="button" id="btn-continue-with-email" class="auth-pill-btn auth-email-btn" onclick="showEmailAuthStep('signup')">
               <span>Continue with email</span>
             </button>
@@ -265,16 +256,8 @@
         <!-- ========================================== -->
         <div id="auth-step-email" class="auth-step-view" style="display:none;">
           
-          <!-- Top Row: Back button & Close button -->
-          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1.1rem;">
-            <button type="button" class="auth-back-btn" onclick="showChoiceStep()">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="19" y1="12" x2="5" y2="12"></line>
-                <polyline points="12 19 5 12 12 5"></polyline>
-              </svg>
-              <span>Back</span>
-            </button>
-
+          <!-- Top Row: Close button -->
+          <div style="display:flex; align-items:center; justify-content:flex-end; margin-bottom:1.1rem;">
             <button type="button" class="auth-close-btn" onclick="closeJobsAuthModal()" aria-label="Close modal">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="18" y1="6" x2="6" y2="18" />
@@ -328,7 +311,7 @@
                 <span class="auth-phone-prefix" aria-hidden="true">+91</span>
                 <input id="signup-phone" type="tel" required inputmode="numeric" pattern="[6-9][0-9]{9}"
                   title="10-digit Indian mobile number" placeholder="98765 43210" autocomplete="tel-national"
-                  oninput="normalizeSignupPhoneInput(this)">
+                  oninput="normalizeMobileInput(this)">
               </div>
             </div>
 
@@ -349,39 +332,27 @@
             </div>
           </form>
 
-          <!-- LOG IN FORM (EMAIL + PASSWORD, verified by Supabase) -->
+          <!-- LOG IN FORM (WhatsApp number, then a WhatsApp OTP checked by Supabase) -->
           <form id="login-form" onsubmit="handleLoginSubmit(event)" style="display:none; flex-direction:column; gap:0.35rem;">
 
             <div class="auth-input-group">
-              <label for="login-email">Email or mobile number</label>
-              <input id="login-email" type="text" required placeholder="Email or verified mobile number" autocomplete="username">
-            </div>
-
-            <div class="auth-input-group">
-              <label for="login-password">Password</label>
-              <input id="login-password" type="password" required minlength="6" placeholder="Your password" autocomplete="current-password">
-              <span onclick="togglePasswordVisibility('login-password')"
-                style="position:absolute; right:10px; top:31px; cursor:pointer; color:#94a3b8; font-size:14px; user-select:none; padding:4px;"
-                title="Toggle password visibility">👁️</span>
+              <label for="login-phone">WhatsApp Number</label>
+              <div class="auth-phone-field">
+                <span class="auth-phone-prefix" aria-hidden="true">+91</span>
+                <input id="login-phone" type="tel" required inputmode="numeric" pattern="[6-9][0-9]{9}"
+                  title="10-digit Indian mobile number" placeholder="98765 43210" autocomplete="tel-national"
+                  oninput="normalizeMobileInput(this)">
+              </div>
             </div>
 
             <button type="submit" id="login-submit-btn" class="auth-pill-btn auth-submit-btn" style="margin-top:0.45rem;">
-              Log In →
+              Send OTP on WhatsApp →
             </button>
-
-            <div style="margin-top:0.5rem; text-align:right; font-size:0.78rem;">
-              <a href="javascript:void(0)" onclick="authModalForgotPassword()" style="color:#64748b; text-decoration:underline;">Forgot password?</a>
-            </div>
 
             <div style="margin-top:0.85rem; text-align:center; font-size:0.8rem; color:#64748b;">
               Don't have an account? <a href="javascript:void(0)" onclick="switchAuthTab('signup')" style="color:#1947FF; font-weight:700; text-decoration:none;">Sign Up</a>
             </div>
           </form>
-
-          <!-- Quick Return to Google Option -->
-          <div style="margin-top:0.75rem; text-align:center; font-size:0.78rem; color:#94a3b8;">
-            or <a href="javascript:void(0)" onclick="triggerWebsiteGoogleSignIn()" style="color:#1947FF; font-weight:600; text-decoration:none;">Continue with Google</a>
-          </div>
 
         </div>
 
@@ -392,7 +363,7 @@
           
           <!-- Top Row: Back button & Close button -->
           <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1.1rem;">
-            <button type="button" class="auth-back-btn" onclick="showEmailAuthStep('signup')">
+            <button type="button" class="auth-back-btn" onclick="editSignupPhoneNumber()">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="19" y1="12" x2="5" y2="12"></line>
                 <polyline points="12 19 5 12 12 5"></polyline>
@@ -567,9 +538,9 @@
       if (signupForm) signupForm.style.display = 'none';
       if (loginForm) loginForm.style.display = 'flex';
       if (titleEl) titleEl.textContent = 'Welcome Back';
-      if (subtitleEl) subtitleEl.textContent = 'Log in with your email or verified mobile number and password';
-      const emailInput = modal.querySelector('#login-email');
-      if (emailInput) setTimeout(() => emailInput.focus(), 100);
+      if (subtitleEl) subtitleEl.textContent = 'Enter your WhatsApp number and we’ll send you a login code';
+      const phoneInput = modal.querySelector('#login-phone');
+      if (phoneInput) setTimeout(() => phoneInput.focus(), 100);
     } else {
       if (signupBtn) {
         signupBtn.style.background = '#1947FF';
@@ -678,18 +649,25 @@
     }
   }
 
-  // Keeps the signup field to the 10-digit national number; +91 is shown as a fixed prefix.
+  // Keeps signup/login mobile fields to the 10-digit national number; +91 is shown as a fixed prefix.
   // Pasted "+91 98765 43210" or "098765 43210" is trimmed to the last 10 digits.
-  window.normalizeSignupPhoneInput = function (input) {
+  window.normalizeMobileInput = function (input) {
     let digits = input.value.replace(/\D/g, '');
     if (digits.length > 10) digits = digits.replace(/^(91|0)/, '');
     input.value = digits.slice(0, 10);
   };
 
+  // Back / "Edit Details" from the OTP screen: return to the form that sent the code.
   window.editSignupPhoneNumber = function () {
     const pending = window._pendingOtpAuth;
-    window.showEmailAuthStep('signup');
     const modal = document.getElementById('jobs-auth-modal') || document;
+    if (pending && pending.mode === 'login') {
+      window.showEmailAuthStep('login');
+      const loginPhone = modal.querySelector('#login-phone');
+      if (loginPhone) loginPhone.value = pending.phone || '';
+      return;
+    }
+    window.showEmailAuthStep('signup');
     if (pending) {
       if (modal.querySelector('#signup-name')) modal.querySelector('#signup-name').value = pending.name || '';
       if (modal.querySelector('#signup-email')) modal.querySelector('#signup-email').value = pending.email || '';
@@ -701,16 +679,36 @@
   };
 
   window.resendOtpCode = async function () {
-    if (!window._pendingOtpAuth) return;
+    const pending = window._pendingOtpAuth;
+    if (!pending) return;
     showOtpInlineMessage('Sending a new code on WhatsApp…', false);
-    const result = await requestOtp(window._pendingOtpAuth.cleanPhone);
+    const result = pending.mode === 'login' ? await requestLoginOtp(pending.formattedPhone) : await requestOtp(pending.cleanPhone);
     if (!result.ok) {
       showOtpInlineMessage(result.message, true);
       return;
     }
     showOtpInlineMessage('✓ New code sent to your WhatsApp!', false);
-    startOtpCountdown(30);
+    startOtpCountdown(pending.mode === 'login' ? LOGIN_RESEND_SECONDS : 30);
   };
+
+  // Supabase allows one login code per number every 60 seconds by default.
+  const LOGIN_RESEND_SECONDS = 60;
+
+  async function requestLoginOtp(formattedPhone) {
+    if (typeof supabaseSendLoginOtp !== 'function' || !isSupabaseConfigured()) {
+      return { ok: false, message: 'Log in is temporarily unavailable. Please try again shortly.' };
+    }
+    try {
+      await supabaseSendLoginOtp(formattedPhone);
+      return { ok: true };
+    } catch (err) {
+      const msg = (err && err.message) || '';
+      if (/signups? not allowed|user not found/i.test(msg)) {
+        return { ok: false, message: 'No account is registered with this WhatsApp number. Please sign up first.' };
+      }
+      return { ok: false, message: msg || 'Could not send the login code. Please try again.' };
+    }
+  }
 
   window.closeJobsAuthModal = function () {
     const modal = document.getElementById('jobs-auth-modal');
@@ -732,18 +730,16 @@
     if (smsBanner) smsBanner.style.display = 'none';
     const otpInput = document.getElementById('otp-code-input');
     if (otpInput) otpInput.value = '';
-    const loginEmail = document.getElementById('login-email');
-    const loginPassword = document.getElementById('login-password');
-    if (loginEmail) loginEmail.value = '';
-    if (loginPassword) loginPassword.value = '';
+    const loginPhone = document.getElementById('login-phone');
+    if (loginPhone) loginPhone.value = '';
 
     const heroTitle = document.getElementById('auth-modal-hero-title');
     const heroSub = document.getElementById('auth-modal-hero-sub');
-    if (heroTitle) heroTitle.innerHTML = 'Find matching jobs you\'ll actually get <span style="color:#1947FF;">placed for.</span>';
-    if (heroSub) heroSub.innerHTML = 'Free to start · no card needed';
+    if (heroTitle) heroTitle.innerHTML = 'Log in or <span style="color:#1947FF;">sign up</span>';
+    if (heroSub) heroSub.innerHTML = '';
 
-    // Reset to Step 1 for next open
-    window.showChoiceStep();
+    // Reset to the Create Account form for next open
+    window.showEmailAuthStep('signup');
   };
 
   window.openAuthModal = function (mode = 'signup', redirectUrl = null, customText = null) {
@@ -759,28 +755,20 @@
     if (customText && customText.title && heroTitle) {
       heroTitle.innerHTML = customText.title;
     } else if (heroTitle) {
-      heroTitle.innerHTML = 'Find matching jobs you\'ll actually get <span style="color:#1947FF;">placed for.</span>';
+      heroTitle.innerHTML = 'Log in or <span style="color:#1947FF;">sign up</span>';
     }
 
     if (customText && customText.sub && heroSub) {
       heroSub.innerHTML = customText.sub;
     } else if (heroSub) {
-      heroSub.innerHTML = 'Free to start · no card needed';
+      heroSub.innerHTML = '';
     }
 
-    const loginEmail = document.getElementById('login-email');
-    const loginPassword = document.getElementById('login-password');
-    if (loginEmail) loginEmail.value = '';
-    if (loginPassword) loginPassword.value = '';
+    const loginPhone = document.getElementById('login-phone');
+    if (loginPhone) loginPhone.value = '';
 
-    if (mode === 'direct-email' || mode === 'direct-signup') {
-      window.showEmailAuthStep('signup');
-    } else if (mode === 'direct-login') {
-      window.showEmailAuthStep('login');
-    } else {
-      // Default: show the clean NextRaise choice screen (Google & Email)
-      window.showChoiceStep();
-    }
+    // Open straight on the form: login when asked for, otherwise Create Account.
+    window.showEmailAuthStep(mode === 'login' || mode === 'direct-login' ? 'login' : 'signup');
 
     if (modal) modal.style.display = 'flex';
   };
@@ -1092,12 +1080,27 @@
     const resetBtn = () => {
       if (submitBtn) {
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Verify & Complete →';
+        submitBtn.textContent = pending.mode === 'login' ? 'Verify & Log In →' : 'Verify & Complete →';
       }
     };
     if (submitBtn) {
       submitBtn.disabled = true;
       submitBtn.textContent = 'Verifying Code…';
+    }
+
+    if (pending.mode === 'login') {
+      try {
+        const user = await supabaseVerifyLoginOtp(pending.formattedPhone, otpInput);
+        window._pendingOtpAuth = null;
+        completeAuthSession(user, `Welcome back${user.name && user.name !== 'Candidate' ? ', ' + user.name : ''}!`);
+      } catch (error) {
+        const msg = (error && error.message) || '';
+        showOtpInlineMessage(/expired|invalid/i.test(msg)
+          ? 'Incorrect or expired code. Check WhatsApp or request a new code.'
+          : (msg || 'Could not log you in. Please try again.'), true);
+        resetBtn();
+      }
+      return;
     }
 
     // The server checks the code; a correct code can be retried until it expires if account creation fails.
@@ -1116,53 +1119,32 @@
   window.handleLoginSubmit = async function (e) {
     e.preventDefault();
     const modal = document.getElementById('jobs-auth-modal') || document;
-    const email = (modal.querySelector('#login-email')?.value || '').trim().toLowerCase();
-    const password = modal.querySelector('#login-password')?.value || '';
+    const phone = (modal.querySelector('#login-phone')?.value || '').replace(/\D/g, '');
     const btn = modal.querySelector('#login-submit-btn');
 
-    if (!email || !password) {
-      window.showAuthMessage('Please enter your email or mobile number and password.', true);
-      return;
-    }
-    if (typeof supabaseSignIn !== 'function' || !isSupabaseConfigured()) {
-      window.showAuthMessage('Log in is temporarily unavailable. Please try again shortly.', true);
+    if (!/^[6-9]\d{9}$/.test(phone)) {
+      window.showAuthMessage('Please enter your 10-digit WhatsApp number (starting with 6, 7, 8 or 9).', true);
       return;
     }
 
     if (btn) {
       btn.disabled = true;
-      btn.textContent = 'Logging in…';
+      btn.textContent = 'Sending WhatsApp code…';
     }
-    try {
-      const user = await supabaseSignIn(email, password);
-      const sessionUser = await supabaseGetSessionUser();
-      completeAuthSession({ ...user, id: sessionUser && sessionUser.id },
-        `Welcome back${user.name && user.name !== email ? ', ' + user.name : ''}!`);
-    } catch (err) {
-      const msg = (err && err.message) || '';
-      window.showAuthMessage(/email not confirmed/i.test(msg)
-        ? 'Your email is not verified yet. Use your verified mobile number and password, or confirm your email.'
-        : 'Incorrect email, mobile number or password.', true);
-    } finally {
-      if (btn) {
-        btn.disabled = false;
-        btn.textContent = 'Log In →';
-      }
+    const formattedPhone = '+91' + phone;
+    const sent = await requestLoginOtp(formattedPhone);
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = 'Send OTP on WhatsApp →';
     }
-  };
-
-  window.authModalForgotPassword = async function () {
-    const modal = document.getElementById('jobs-auth-modal') || document;
-    const email = (modal.querySelector('#login-email')?.value || '').trim().toLowerCase();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      window.showAuthMessage('Enter your email address above, then click "Forgot password?".', true);
+    if (!sent.ok) {
+      window.showAuthMessage(sent.message, true);
       return;
     }
-    try {
-      await supabaseResetPassword(email);
-    } catch (e) {}
-    // Same message either way, so the form does not reveal which emails have accounts.
-    window.showAuthMessage(`If an account exists for ${email}, a password reset link has been sent.`, false);
+
+    window._pendingOtpAuth = { mode: 'login', phone, formattedPhone };
+    window.showOtpStep(formattedPhone, 'login');
+    startOtpCountdown(LOGIN_RESEND_SECONDS);
   };
 
   window.triggerWebsiteGoogleSignIn = async function () {

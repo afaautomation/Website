@@ -1,0 +1,3 @@
+# Cloudflare Pages redirects. The consultation page moved to a new address.
+/career-consulting.html  /career-consultation  301
+/career-consulting       /career-consultation  301

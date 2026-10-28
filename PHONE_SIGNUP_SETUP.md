@@ -17,6 +17,18 @@ npx supabase functions deploy phone-signup --project-ref xgnluardsgflfxttvgwc
 
 In Supabase Authentication, the Phone provider must stay enabled so users can sign in with phone and password; Supabase never sends SMS for this flow. Email confirmation must remain enabled. `phone-signup` checks the provider before creating any account.
 
+## Login with WhatsApp number + OTP
+
+Login asks only for the WhatsApp number. Supabase's own phone OTP generates, expires and verifies the code (`signInWithOtp` with `shouldCreateUser: false`, then `verifyOtp` type `sms`); the `send-sms-hook` Edge Function delivers it with the same `verification_code` WhatsApp template. Login never creates accounts, and it never marks an email as verified.
+
+1. Deploy: `npx supabase functions deploy send-sms-hook --project-ref xgnluardsgflfxttvgwc`
+2. Supabase → Authentication → Hooks → **Send SMS hook** → type **HTTPS** → URL `https://xgnluardsgflfxttvgwc.supabase.co/functions/v1/send-sms-hook` → **Generate secret** → copy it → Create.
+3. `npx supabase secrets set --project-ref xgnluardsgflfxttvgwc SEND_SMS_HOOK_SECRET="v1,whsec_..."`
+4. Authentication → Sign In / Providers → **Phone**: enabled, OTP length **6**, SMS OTP expiry **600** seconds. The hook replaces the SMS provider.
+5. Authentication → Rate Limits: raise **SMS messages sent per hour** (default 30) to suit traffic. Supabase also allows one code per number every 60 seconds.
+
+Only accounts with a phone number can log in this way (everyone who signed up with WhatsApp OTP). Older email/Google accounts without a phone cannot.
+
 ## Security
 
 - Codes are generated server-side, stored only as an HMAC (keyed with the service-role key), expire after 10 minutes and allow 5 guesses. A new code replaces the old one.
