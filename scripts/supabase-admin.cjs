@@ -7,7 +7,7 @@ function getSupabaseAdmin() {
   if (cachedAdmin) return cachedAdmin;
 
   let serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  let supabaseUrl = process.env.SUPABASE_URL || 'https://xgnluardsgflfxttvgwc.supabase.co';
+  let supabaseUrl = process.env.SUPABASE_URL || 'https://lmimmujaqznybtcinwdo.supabase.co';
 
   try {
     const envPath = path.join(__dirname, '..', 'Resume', 'backend', '.env');

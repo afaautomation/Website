@@ -52,7 +52,7 @@ gcloud run deploy resume-api \
   --min-instances 1 --max-instances 10 --concurrency 40 \
   --no-cpu-throttling \
   --allow-unauthenticated \
-  --set-env-vars NODE_ENV=production,TRUST_PROXY=2,SUPABASE_URL=https://xgnluardsgflfxttvgwc.supabase.co \
+  --set-env-vars NODE_ENV=production,TRUST_PROXY=2,SUPABASE_URL=https://lmimmujaqznybtcinwdo.supabase.co \
   --set-secrets SUPABASE_SERVICE_ROLE_KEY=supabase-service-role-key:latest,GEMINI_API_KEYS=gemini-api-keys:latest,XAI_API_KEY=xai-api-key:latest,OPENROUTER_API_KEY=openrouter-api-key:latest,PROXY_SECRET=resume-proxy-secret:latest
 ```
 Why these settings:

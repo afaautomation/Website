@@ -27,7 +27,17 @@
   Cache-Control: public, max-age=2592000
 /*.pdf
   Cache-Control: public, max-age=2592000
+/*.svg
+  Cache-Control: public, max-age=2592000
+
+# The staff console's local AI model and runtime (about 36 MB) are pinned versions; keep them 30 days.
+/js/models/*
+  Cache-Control: public, max-age=2592000
+/js/vendor/*
+  Cache-Control: public, max-age=2592000
 
 # Keep the consultation page out of search results on the staging domain until launch.
 https://kompetenzen.pages.dev/career-consultation*
+  X-Robots-Tag: noindex
+https://kompetenzen.pages.dev/finishing-school*
   X-Robots-Tag: noindex

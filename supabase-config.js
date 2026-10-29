@@ -6,8 +6,8 @@
  * credentials from https://supabase.com (Project Settings -> API).
  */
 
-const SUPABASE_URL = "https://xgnluardsgflfxttvgwc.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_OTub68LVVtzOUFHG3tt-8g_dF9X0ECf";
+const SUPABASE_URL = "https://lmimmujaqznybtcinwdo.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_3Sq9ZteA_RLrGgP-nSx1gA_zncBTMdG";
 
 let supabaseClient = null;
 

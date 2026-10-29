@@ -30,7 +30,7 @@ Deploy the changed worker from the website directory:
 
 ```sh
 npx supabase login
-npx supabase functions deploy notification-worker --project-ref xgnluardsgflfxttvgwc
+npx supabase functions deploy notification-worker --project-ref lmimmujaqznybtcinwdo
 ```
 
 No additional SQL migration is required if the notification migration is already installed. Keep the existing one-minute cron job and worker-secret header. Do not deploy a second scheduler for Gmail.

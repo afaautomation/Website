@@ -1,7 +1,7 @@
 # Run only when ready to dispatch opted-in pending notifications.
 # The worker secret stays in temporary files and Supabase Vault, never stdout.
+param([string]$projectRef = 'lmimmujaqznybtcinwdo')
 $ErrorActionPreference = 'Stop'
-$projectRef = 'xgnluardsgflfxttvgwc'
 $temporaryPrefix = Join-Path ([IO.Path]::GetTempPath()) ('kompetenzen-mail-' + [guid]::NewGuid().ToString('N'))
 $envFile = $temporaryPrefix + '.env'
 $sqlFile = $temporaryPrefix + '.sql'

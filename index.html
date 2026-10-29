@@ -3469,39 +3469,39 @@
           style="position: relative; width: 100%; height: 480px; display: flex; justify-content: center; perspective: 1400px; margin: 0 auto; overflow: hidden; max-width: 100%;">
 
           <div class="v-reel pos1">
-            <iframe src="https://www.instagram.com/reel/DYZbuipRpnn/embed" frameborder="0" scrolling="no"
+            <iframe title="Kompetenzen Instagram reel" data-src="https://www.instagram.com/reel/DYZbuipRpnn/embed" frameborder="0" scrolling="no"
               allowtransparency="true"></iframe>
           </div>
           <div class="v-reel pos2">
-            <iframe src="https://www.instagram.com/reel/DX1XSgJxTSv/embed" frameborder="0" scrolling="no"
+            <iframe title="Kompetenzen Instagram reel" data-src="https://www.instagram.com/reel/DX1XSgJxTSv/embed" frameborder="0" scrolling="no"
               allowtransparency="true"></iframe>
           </div>
           <div class="v-reel pos3">
-            <iframe src="https://www.instagram.com/reel/DXof1vKEXtg/embed" frameborder="0" scrolling="no"
+            <iframe title="Kompetenzen Instagram reel" data-src="https://www.instagram.com/reel/DXof1vKEXtg/embed" frameborder="0" scrolling="no"
               allowtransparency="true"></iframe>
           </div>
           <div class="v-reel pos4">
-            <iframe src="https://www.instagram.com/reel/DUvD3YyAXMs/embed" frameborder="0" scrolling="no"
+            <iframe title="Kompetenzen Instagram reel" data-src="https://www.instagram.com/reel/DUvD3YyAXMs/embed" frameborder="0" scrolling="no"
               allowtransparency="true"></iframe>
           </div>
           <div class="v-reel pos5">
-            <iframe src="https://www.instagram.com/reel/DWyYhVxEVwh/embed" frameborder="0" scrolling="no"
+            <iframe title="Kompetenzen Instagram reel" data-src="https://www.instagram.com/reel/DWyYhVxEVwh/embed" frameborder="0" scrolling="no"
               allowtransparency="true"></iframe>
           </div>
           <div class="v-reel pos6">
-            <iframe src="https://www.instagram.com/reel/DVdrcfwEWwm/embed" frameborder="0" scrolling="no"
+            <iframe title="Kompetenzen Instagram reel" data-src="https://www.instagram.com/reel/DVdrcfwEWwm/embed" frameborder="0" scrolling="no"
               allowtransparency="true"></iframe>
           </div>
           <div class="v-reel pos7">
-            <iframe src="https://www.instagram.com/reel/DVGJFp6k9ms/embed" frameborder="0" scrolling="no"
+            <iframe title="Kompetenzen Instagram reel" data-src="https://www.instagram.com/reel/DVGJFp6k9ms/embed" frameborder="0" scrolling="no"
               allowtransparency="true"></iframe>
           </div>
           <div class="v-reel pos8">
-            <iframe src="https://www.instagram.com/reel/DV-2VmpkRqx/embed" frameborder="0" scrolling="no"
+            <iframe title="Kompetenzen Instagram reel" data-src="https://www.instagram.com/reel/DV-2VmpkRqx/embed" frameborder="0" scrolling="no"
               allowtransparency="true"></iframe>
           </div>
           <div class="v-reel pos9">
-            <iframe src="https://www.instagram.com/reel/DShyAAskVmw/embed" frameborder="0" scrolling="no"
+            <iframe title="Kompetenzen Instagram reel" data-src="https://www.instagram.com/reel/DShyAAskVmw/embed" frameborder="0" scrolling="no"
               allowtransparency="true"></iframe>
           </div>
 
@@ -3517,10 +3517,19 @@
               if (error) throw error;
               if (Array.isArray(data)) {
                 wrapper.innerHTML = data.filter(r => /^[A-Za-z0-9_-]{6,64}$/.test(r.reel_id)).map((r, idx) =>
-                  '<div class="v-reel pos' + ((idx % 9) + 1) + '"><iframe src="https://www.instagram.com/reel/' + r.reel_id + '/embed" frameborder="0" scrolling="no" allowtransparency="true"></iframe></div>'
+                  '<div class="v-reel pos' + ((idx % 9) + 1) + '"><iframe title="Kompetenzen Instagram reel" data-src="https://www.instagram.com/reel/' + r.reel_id + '/embed" frameborder="0" scrolling="no" allowtransparency="true"></iframe></div>'
                 ).join('');
               }
             } catch (err) { console.warn('Published reels could not be loaded:', err); }
+
+            // Instagram embeds are heavy; load them only when the carousel is about to scroll into view.
+            const loadEmbeds = () => wrapper.querySelectorAll('iframe[data-src]').forEach(f => { f.src = f.dataset.src; f.removeAttribute('data-src'); });
+            if ('IntersectionObserver' in window) {
+              const io = new IntersectionObserver(entries => {
+                if (entries.some(e => e.isIntersecting)) { io.disconnect(); loadEmbeds(); }
+              }, { rootMargin: '400px 0px' });
+              io.observe(wrapper);
+            } else loadEmbeds();
 
             const reels = document.querySelectorAll('.v-reel');
             // Spread reels around the centre (pos1): the first half to the right (pos2-4),
@@ -4363,96 +4372,96 @@
       <div class="tools-box reveal" id="toolsWaveBox">
         <div class="tools-marquee-track" id="toolsWaveTrack">
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/python/python-plain.svg" alt="Python" />
+              src="img/devicons/python-plain.svg" loading="lazy" decoding="async" alt="Python" />
           </div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/java/java-plain.svg" alt="Java" /></div>
+              src="img/devicons/java-plain.svg" loading="lazy" decoding="async" alt="Java" /></div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/react/react-original.svg"
+              src="img/devicons/react-original.svg" loading="lazy" decoding="async"
               alt="React.js" />
           </div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/spring/spring-original.svg"
+              src="img/devicons/spring-original.svg" loading="lazy" decoding="async"
               alt="Spring Boot" /></div>
           <div class="tool-card"><svg class="tool-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
               stroke-width="1.5">
               <path d="M4 14h4v7H4zM10 9h4v12h-4zM16 3h4v18h-4z" />
             </svg></div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/mysql/mysql-original.svg" alt="MySQL" />
+              src="img/devicons/mysql-original.svg" loading="lazy" decoding="async" alt="MySQL" />
           </div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/django/django-plain.svg" alt="Django" />
+              src="img/devicons/django-plain.svg" loading="lazy" decoding="async" alt="Django" />
           </div>
-          <div class="tool-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/git/git-plain.svg"
+          <div class="tool-card"><img src="img/devicons/git-plain.svg" loading="lazy" decoding="async"
               alt="Git" /></div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/docker/docker-plain.svg" alt="Docker" />
+              src="img/devicons/docker-plain.svg" loading="lazy" decoding="async" alt="Docker" />
           </div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/nodejs/nodejs-plain.svg" alt="Node.js" />
+              src="img/devicons/nodejs-plain.svg" loading="lazy" decoding="async" alt="Node.js" />
           </div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/typescript/typescript-plain.svg"
+              src="img/devicons/typescript-plain.svg" loading="lazy" decoding="async"
               alt="TypeScript" /></div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/javascript/javascript-plain.svg"
+              src="img/devicons/javascript-plain.svg" loading="lazy" decoding="async"
               alt="JavaScript" /></div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/postgresql/postgresql-plain.svg"
+              src="img/devicons/postgresql-plain.svg" loading="lazy" decoding="async"
               alt="PostgreSQL" /></div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/mongodb/mongodb-plain.svg"
+              src="img/devicons/mongodb-plain.svg" loading="lazy" decoding="async"
               alt="MongoDB" />
           </div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/html5/html5-plain.svg" alt="HTML5" />
+              src="img/devicons/html5-plain.svg" loading="lazy" decoding="async" alt="HTML5" />
           </div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/css3/css3-plain.svg" alt="CSS3" /></div>
+              src="img/devicons/css3-plain.svg" loading="lazy" decoding="async" alt="CSS3" /></div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/tensorflow/tensorflow-line.svg"
+              src="img/devicons/tensorflow-line.svg" loading="lazy" decoding="async"
               alt="TensorFlow" /></div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/figma/figma-plain.svg" alt="Figma" />
+              src="img/devicons/figma-plain.svg" loading="lazy" decoding="async" alt="Figma" />
           </div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg"
+              src="img/devicons/amazonwebservices-plain-wordmark.svg" loading="lazy" decoding="async"
               alt="AWS" /></div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/redis/redis-plain.svg" alt="Redis" />
+              src="img/devicons/redis-plain.svg" loading="lazy" decoding="async" alt="Redis" />
           </div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/kubernetes/kubernetes-plain.svg"
+              src="img/devicons/kubernetes-plain.svg" loading="lazy" decoding="async"
               alt="Kubernetes" /></div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/vuejs/vuejs-line.svg" alt="Vue.js" />
+              src="img/devicons/vuejs-line.svg" loading="lazy" decoding="async" alt="Vue.js" />
           </div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/nextjs/nextjs-plain.svg" alt="Next.js" />
+              src="img/devicons/nextjs-plain.svg" loading="lazy" decoding="async" alt="Next.js" />
           </div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/graphql/graphql-plain.svg"
+              src="img/devicons/graphql-plain.svg" loading="lazy" decoding="async"
               alt="GraphQL" />
           </div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/linux/linux-plain.svg" alt="Linux" />
+              src="img/devicons/linux-plain.svg" loading="lazy" decoding="async" alt="Linux" />
           </div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/pandas/pandas-plain.svg" alt="Pandas" />
+              src="img/devicons/pandas-plain.svg" loading="lazy" decoding="async" alt="Pandas" />
           </div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/flask/flask-original.svg" alt="Flask" />
+              src="img/devicons/flask-original.svg" loading="lazy" decoding="async" alt="Flask" />
           </div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/fastapi/fastapi-plain.svg"
+              src="img/devicons/fastapi-plain.svg" loading="lazy" decoding="async"
               alt="FastAPI" />
           </div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/selenium/selenium-original.svg"
+              src="img/devicons/selenium-original.svg" loading="lazy" decoding="async"
               alt="Selenium" /></div>
           <div class="tool-card"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/github/github-original.svg"
+              src="img/devicons/github-original.svg" loading="lazy" decoding="async"
               alt="GitHub" />
           </div>
         </div>
@@ -4643,7 +4652,7 @@
       </div>
 
       <div class="ft-bot">
-        <span>© 2026 Kompetenzen Technologies. All rights reserved.</span>
+        <span>© 2026 Kompetenzen Technologies. All rights reserved. · <a href="privacy.html">Privacy Policy</a></span>
         <span class="mono">Made in Kochi · v2.0</span>
       </div>
     </div>

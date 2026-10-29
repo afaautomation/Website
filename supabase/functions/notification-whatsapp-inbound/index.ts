@@ -29,6 +29,8 @@ Deno.serve(async request => {
     }
     // "accepted" only meant Meta took the message; record later delivery failures.
     for(const {id,code} of failedDeliveries(payload)) {
+      // OTP codes are not queued, so the log is the only record of their delivery failures.
+      console.warn(`WhatsApp delivery failed: Meta code ${code ?? 'unknown'}`);
       await db(`notification_queue?provider_id=eq.${encodeURIComponent(id)}&state=eq.accepted`,{state:'failed',last_error:`WhatsApp delivery failed${code?` (code ${code})`:''}`});
     }
   } catch(error) { console.error(String(error)); return new Response('Try again',{status:500}); }

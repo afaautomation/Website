@@ -9,8 +9,8 @@ New applicants enter name, email, mobile and password. The `whatsapp-otp` Edge F
 3. Deploy both functions. They use the WhatsApp secrets already set for notifications (`WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_ACCESS_TOKEN`, optional `WHATSAPP_TEMPLATE_LANGUAGE` / `WHATSAPP_API_VERSION`; see `NOTIFICATIONS_SETUP.md`):
 
 ```powershell
-npx supabase functions deploy whatsapp-otp --project-ref xgnluardsgflfxttvgwc
-npx supabase functions deploy phone-signup --project-ref xgnluardsgflfxttvgwc
+npx supabase functions deploy whatsapp-otp --project-ref lmimmujaqznybtcinwdo
+npx supabase functions deploy phone-signup --project-ref lmimmujaqznybtcinwdo
 ```
 
 4. Publish the website (the Firebase script and `firebase-config.js` are removed). The Firebase project can then be deleted or its Phone provider disabled.
@@ -21,9 +21,9 @@ In Supabase Authentication, the Phone provider must stay enabled so users can si
 
 Login asks only for the WhatsApp number. Supabase's own phone OTP generates, expires and verifies the code (`signInWithOtp` with `shouldCreateUser: false`, then `verifyOtp` type `sms`); the `send-sms-hook` Edge Function delivers it with the same `verification_code` WhatsApp template. Login never creates accounts, and it never marks an email as verified.
 
-1. Deploy: `npx supabase functions deploy send-sms-hook --project-ref xgnluardsgflfxttvgwc`
-2. Supabase → Authentication → Hooks → **Send SMS hook** → type **HTTPS** → URL `https://xgnluardsgflfxttvgwc.supabase.co/functions/v1/send-sms-hook` → **Generate secret** → copy it → Create.
-3. `npx supabase secrets set --project-ref xgnluardsgflfxttvgwc SEND_SMS_HOOK_SECRET="v1,whsec_..."`
+1. Deploy: `npx supabase functions deploy send-sms-hook --project-ref lmimmujaqznybtcinwdo`
+2. Supabase → Authentication → Hooks → **Send SMS hook** → type **HTTPS** → URL `https://lmimmujaqznybtcinwdo.supabase.co/functions/v1/send-sms-hook` → **Generate secret** → copy it → Create.
+3. `npx supabase secrets set --project-ref lmimmujaqznybtcinwdo SEND_SMS_HOOK_SECRET="v1,whsec_..."`
 4. Authentication → Sign In / Providers → **Phone**: enabled, OTP length **6**, SMS OTP expiry **600** seconds. The hook replaces the SMS provider.
 5. Authentication → Rate Limits: raise **SMS messages sent per hour** (default 30) to suit traffic. Supabase also allows one code per number every 60 seconds.
 
