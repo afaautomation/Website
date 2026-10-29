@@ -36,7 +36,9 @@ spotify-visualiser-main/
 telescope-zoom-main/
 brain_img_big_preview.jpg
 scratch_thumb.png
-Resume/
+# The Resume Builder is its own repository; only the root folder is excluded,
+# not functions/Resume (the Cloudflare proxy for /Resume/*).
+/Resume/
 tmp/
 .temp/
 **/.temp/
