@@ -63,6 +63,8 @@ It should end without `ERROR`. If it stops on an error, copy that error line (no
 
 **Check:** new project → **Table Editor**: `hr_jobs`, `reels`, `job_applications` and the rest have rows; **Authentication → Users** shows the 2 users.
 
+The dump skips the `auth` and `storage` schemas, so it does not carry the Storage upload policies or the trigger that creates a profile for each new account. Run `migrations/20261029_restore_auth_storage_rules.sql` in the new project's **SQL Editor** to add them.
+
 ## Step 5: Copy the Storage files
 
 The restore created the buckets and file records; this copies the files themselves.

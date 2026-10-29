@@ -1342,6 +1342,57 @@
       .nav .nav-links a { font-size: 12.5px; }
     }
   </style>
+  <style id="business-school-light-theme">
+    :root { --ink:#142747; --ink-mute:#596b82; --blue:#2454da; --blue-deep:#173eac; --cream:#f5f8fe; --paper:#fff; --line:#dce5f2; --shadow-sm:0 10px 30px rgba(29,59,106,.06); --shadow-md:0 20px 50px rgba(29,59,106,.10); }
+    html, body { background:#fff; color:#596b82; }
+    body::before, .tech-bg-glow, #heroLightBlueCanvas { display:none; }
+    h1,h2,h3,h4,h5,h6, section h1, section h2, section h3, section strong { color:#142747 !important; text-shadow:none !important; }
+    section p, .program-desc, .skills-row, .roadmap-card-desc { color:#596b82 !important; }
+    section p { text-shadow:none !important; }
+    .nav { position:sticky; top:0; background:#fff !important; border-bottom:1px solid #e4eaf4; box-shadow:0 3px 18px rgba(20,39,71,.03); }
+    .nav .brand img { filter:none !important; }
+    .nav .nav-links { background:#fff !important; }
+    .nav .nav-links a { color:#42536d !important; }
+    .nav .nav-links a.active, .nav .nav-links a:hover { color:#2454da !important; }
+    .nav-cta { background:#2454da !important; color:#fff !important; box-shadow:none; }
+    .hamburger span { background:#142747 !important; }
+    #bSchoolHero { min-height:calc(100svh - 64px) !important; padding:80px max(24px,6vw) !important; background:linear-gradient(120deg,#fff 30%,#edf3ff 100%) !important; }
+    #bSchoolHero > div:first-child, #bSchoolHero::before, #bSchoolHero::after { display:none; }
+    #bSchoolHero .hero-grid-b { grid-template-columns:1.05fr 1fr !important; gap:64px !important; }
+    #bSchoolHero .hero-content-col { align-items:flex-start !important; text-align:left !important; }
+    #bSchoolHero .hero-main-title { font-size:clamp(38px,3.7vw,64px) !important; font-weight:700 !important; line-height:1.13 !important; text-align:left !important; letter-spacing:-.045em !important; }
+    #bSchoolHero .hero-main-title span { color:#2454da !important; }
+    #bSchoolHero .hero-desc { text-align:left !important; margin:0 0 32px !important; font-size:17px !important; }
+    #bSchoolHero .hero-cta-wrapper { justify-content:flex-start !important; }
+    #bSchoolHero .hero-showcase-spacer { display:block !important; min-height:480px !important; border-radius:24px 24px 80px 24px; background:url('bschool.webp') center / cover; border:8px solid #fff; box-shadow:0 24px 70px rgba(30,65,130,.14); }
+    .hero-eyebrow, .eyebrow { background:#edf3ff !important; color:#2454da !important; border:1px solid #dce6ff !important; box-shadow:none !important; }
+    .hero-eyebrow .dot { background:#2454da !important; box-shadow:none !important; }
+    .hero-btn-primary, .apply-btn { background:#2454da !important; color:#fff !important; border-radius:10px !important; box-shadow:0 6px 16px rgba(36,84,218,.15) !important; }
+    .hero-btn-secondary { background:#fff !important; color:#2454da !important; border:1px solid #ccd9f2 !important; border-radius:10px !important; backdrop-filter:none !important; }
+    .programs-section, .structure-section { background:#fff !important; padding-top:88px !important; padding-bottom:88px !important; }
+    .stats-cards-section, .roadmap-section, .placements-section { background:#f3f7fe !important; }
+    .program-card, .stat-block, .structure-card, .roadmap-stack-card { background:#fff !important; border:1px solid #dce5f2 !important; box-shadow:0 12px 36px rgba(29,59,106,.06) !important; backdrop-filter:none !important; border-radius:18px !important; }
+    .program-card:hover, .structure-card:hover { border-color:#9ab4ef !important; box-shadow:0 18px 44px rgba(29,59,106,.10) !important; }
+    .program-card::before, .stat-block::before, .structure-card::before { display:none; }
+    .card-icon, .roadmap-card-icon { background:#edf3ff !important; color:#2454da !important; border:1px solid #dce6ff !important; box-shadow:none !important; }
+    .program-rating, .roadmap-card-step, .skills-row span { color:#2454da !important; text-shadow:none !important; }
+    .card-footer, .skills-row { border-color:#e4eaf4 !important; }
+    .placements-section li { background:#fff !important; border:1px solid #dce5f2 !important; color:#596b82 !important; backdrop-filter:none !important; box-shadow:none !important; }
+    .stats-cards-section h3 + p, .stats-cards-section p { color:#596b82 !important; }
+    .stat-block [style*="text-shadow"] { color:#2454da !important; text-shadow:none !important; }
+    .structure-card > div:first-child { background:#edf3ff !important; color:#2454da !important; box-shadow:none !important; border-color:#dce6ff !important; }
+    .site-footer { background:#fff !important; border-top:1px solid #dce5f2; color:#64748b; margin-top:0; }
+    .site-footer a { color:#2454da; }
+    a:focus-visible, button:focus-visible { outline:3px solid #7096f1; outline-offset:5px; }
+    @media(max-width:992px) {
+      #bSchoolHero .hero-grid-b { grid-template-columns:1fr !important; gap:36px !important; }
+      #bSchoolHero .hero-showcase-spacer { min-height:320px !important; width:100%; }
+      #bSchoolHero { padding:56px 24px !important; }
+      .nav .nav-links { background:#fff !important; }
+      .mobile-services-header { color:#64748b !important; }
+    }
+    @media(prefers-reduced-motion:reduce) { *, *::before, *::after { animation:none !important; transition:none !important; } }
+  </style>
 </head>
 
 <body>

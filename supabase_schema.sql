@@ -1436,3 +1436,16 @@ drop trigger if exists guard_consultation_request on public.consultation_request
 create trigger guard_consultation_request
   before insert on public.consultation_requests
   for each row execute function public.guard_consultation_request();
+
+-- Applications no longer ask for a portfolio link or current location (20261029).
+-- apply_to_job() still honours these flags, so clear them on every existing listing.
+update public.hr_jobs
+set application_requirements = application_requirements || '{"portfolio":false,"location":false}'::jsonb
+where coalesce((application_requirements->>'portfolio')::boolean, false)
+   or coalesce((application_requirements->>'location')::boolean, false);
+
+-- Candidate age, asked next to the name on the profile forms (20261029).
+alter table public.candidate_profiles add column if not exists age smallint;
+alter table public.candidate_profiles drop constraint if exists candidate_profiles_age_check;
+alter table public.candidate_profiles add constraint candidate_profiles_age_check
+  check (age is null or age between 15 and 70);

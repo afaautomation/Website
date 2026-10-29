@@ -2180,9 +2180,7 @@
               <label class="req-check"><input type="checkbox" name="reqResume" /> Resume is required</label>
               <label class="req-check"><input type="checkbox" name="reqCollege" /> College name (relevant to eligibility)</label>
               <label class="req-check"><input type="checkbox" name="reqAvailability" /> Availability / notice period: when can they join?</label>
-              <label class="req-check"><input type="checkbox" name="reqPortfolio" /> Portfolio / project link (e.g. design, software)</label>
               <label class="req-check"><input type="checkbox" name="reqSalary" /> Expected salary / stipend</label>
-              <label class="req-check"><input type="checkbox" name="reqLocation" /> Current location and willingness to relocate</label>
             </div>
             <div class="field">
               <label for="f-req-questions">Additional questions <span class="field-hint" style="display:inline; text-transform:none; letter-spacing:0; font-weight:500; color:var(--ink-mute);">(one per line, up to 5; only if needed to shortlist)</span></label>
@@ -2950,7 +2948,7 @@
 
       function requirementsSummary(req) {
         if (!req) return '';
-        const parts = [['resume', 'Resume'], ['college', 'College'], ['availability', 'Availability'], ['skills', 'Skills check'], ['portfolio', 'Portfolio link'], ['salary', 'Expected salary'], ['location', 'Location']]
+        const parts = [['resume', 'Resume'], ['college', 'College'], ['availability', 'Availability'], ['skills', 'Skills check'], ['salary', 'Expected salary']]
           .filter(([key]) => req[key]).map(([, label]) => label);
         const n = Array.isArray(req.questions) ? req.questions.length : 0;
         if (n) parts.push(n === 1 ? '1 question' : n + ' questions');
@@ -3345,14 +3343,14 @@
         if (questions.some(q => q.length > 300)) { alert('Each additional question must be under 300 characters.'); return; }
         data.applicationRequirements = !data.isDirectLink ? {
           resume: data.reqResume === 'on', college: data.reqCollege === 'on', availability: data.reqAvailability === 'on',
-          skills: false, portfolio: data.reqPortfolio === 'on', salary: data.reqSalary === 'on',
-          location: data.reqLocation === 'on', questions
+          skills: false, portfolio: false, salary: data.reqSalary === 'on',
+          location: false, questions
         } : {};
         if (!data.isDirectLink && document.getElementById('enable-matching').checked) {
           try { data.applicationRequirements.matching = ApplicantMatching.read(document.getElementById('matching-config')); }
           catch (error) { alert(error.message); return; }
         }
-        ['reqResume', 'reqCollege', 'reqAvailability', 'reqSkills', 'reqPortfolio', 'reqSalary', 'reqLocation', 'reqQuestions'].forEach(k => delete data[k]);
+        ['reqResume', 'reqCollege', 'reqAvailability', 'reqSkills', 'reqSalary', 'reqQuestions'].forEach(k => delete data[k]);
         if (!data.jobType) {
           data.jobType = currentOppType === 'internship' ? 'internship' : 'full-time';
         }

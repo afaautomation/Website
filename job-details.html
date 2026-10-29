@@ -2180,7 +2180,13 @@
       // The listing needs answers the candidate has not given yet (internships).
       if (result && result.status === 'responses_required') {
         if (result.matching_rules) currentJob.applicationRequirements = { ...currentJob.applicationRequirements, matching: result.matching_rules };
-        openRequirementsForm(result.missing || [], responses || null);
+        // Portfolio and location are no longer asked; a listing still requiring them would open an empty form.
+        const askable = ['matching', 'resume', 'college', 'availability', 'skills', 'salary', 'questions'];
+        if ((result.missing || []).some(key => askable.includes(key))) {
+          openRequirementsForm(result.missing, responses || null);
+        } else {
+          showApplyToast('This opening cannot take applications right now. Please contact us on WhatsApp.');
+        }
         return;
       }
 
@@ -2226,7 +2232,8 @@
 
     async function openRequirementsForm(missing, previous) {
       closeRequirementsForm();
-      const isRetry = !!previous;
+      // Confirming the profile alone is not a rejected answer, so the next step opens without errors.
+      const isRetry = !!previous && Object.keys(previous).some(key => key !== 'matching');
       const prev = previous || {};
       const req = (currentJob && currentJob.applicationRequirements) || {};
       const isIntern = /intern/i.test(currentJob.jobType || '') || /intern/i.test(currentJob.title || '');
@@ -2234,7 +2241,7 @@
       try {
         const { data: auth } = await supabaseClient.auth.getSession();
         if (auth && auth.session) {
-          const { data } = await supabaseClient.from('candidate_profiles').select('institution, career_preferences').eq('user_id', auth.session.user.id).maybeSingle();
+          const { data } = await supabaseClient.from('candidate_profiles').select('institution, career_preferences, resume_url').eq('user_id', auth.session.user.id).maybeSingle();
           profile = data || {};
         }
       } catch (e) {}
@@ -2263,13 +2270,20 @@
         }
         group.append(summary);
         group.append(buildEl('a',{className:'req-profile-edit',href:profileFormFor(currentJob) + '?jobId=' + encodeURIComponent(currentJob.id),text:'Edit career profile →'}));
-        if (matchRules.minimumMonths > 0 || matchRules.preferredMonths > 0) {
-          group.append(field('relevant-months','Relevant experience (months)',buildEl('input',{id:'req-relevant-months',type:'number',min:'0',max:'600',step:'1',placeholder:'e.g. 12',inputmode:'numeric',value:prev.matching?.relevantMonths ?? ''}),[matchRules.experienceScope, 'Count overlapping periods only once. Leave blank if unknown.'].filter(Boolean).join('. ')));
-        }
         group.append(buildEl('label',{className:'req-check req-confirm'},buildEl('input',{id:'req-match-confirm',type:'checkbox'}),buildEl('span',{text:'I confirm that my career details are accurate and up to date.'})));
         form.append(buildEl('section',{className:'req-field','aria-labelledby':'req-profile-title'},
           buildEl('h4',{id:'req-profile-title',className:'req-section-title',text:'Your career profile'}),
           group,buildEl('p',{className:'req-error',id:'req-err-matching',role:'alert'})));
+      }
+      // The resume sits on the same step as the profile review. It is required only when
+      // HR ticked "Resume is required" and the profile has none; otherwise it is optional.
+      const showResume = missing.includes('resume') || missing.includes('matching');
+      const resumeRequired = missing.includes('resume') || (!!req.resume && !profile.resume_url);
+      if (showResume) {
+        const resumeHint = resumeRequired ? `Required for this ${isIntern ? 'internship' : 'job'}. PDF, DOC or DOCX, up to 5 MB. It is also saved to your profile.`
+          : profile.resume_url ? 'Your saved resume will be sent. Upload a new one only to replace it. PDF, DOC or DOCX, up to 5 MB.'
+          : 'Optional. PDF, DOC or DOCX, up to 5 MB. It is also saved to your profile.';
+        form.append(field('resume', resumeRequired ? 'Resume' : 'Resume (optional)', buildEl('input', { id: 'req-resume', type: 'file', accept: '.pdf,.doc,.docx' }), resumeHint));
       }
       if (missing.includes('college')) {
         form.append(field('college', 'College name', buildEl('input', { id: 'req-college', type: 'text', maxlength: '200', autocomplete: 'organization', value: prev.college || profile.institution || '' })));
@@ -2292,23 +2306,8 @@
           else if (e.target.hasAttribute('data-skill') && e.target.checked) document.getElementById('req-skill-none').checked = false;
         });
       }
-      if (missing.includes('portfolio')) {
-        form.append(field('portfolio', 'Portfolio or project link', buildEl('input', { id: 'req-portfolio', type: 'url', maxlength: '500', placeholder: 'https://', inputmode: 'url', value: prev.portfolio_url || '' }), 'For example GitHub, Behance, Dribbble or a live project.'));
-      }
       if (missing.includes('salary')) {
         form.append(field('salary', isIntern ? 'Expected stipend' : 'Expected salary', buildEl('input', { id: 'req-salary', type: 'text', maxlength: '100', placeholder: isIntern ? 'e.g. ₹10,000 / month' : 'e.g. ₹4 LPA', value: prev.expected_salary || '' })));
-      }
-      if (missing.includes('location')) {
-        form.append(field('location', 'Where are you currently based?', buildEl('input', { id: 'req-location', type: 'text', maxlength: '120', autocomplete: 'address-level2', placeholder: 'City, e.g. Kochi', value: prev.current_location || '' })));
-        const choice = (value, label) => buildEl('label', { className: 'req-check' },
-          buildEl('input', { type: 'radio', name: 'req-relocate', value, checked: String(prev.willing_to_relocate) === value }), label);
-        form.append(buildEl('fieldset', { className: 'req-field req-fieldset' },
-          buildEl('legend', { className: 'req-label', text: `Are you willing to relocate to ${currentJob.location || 'the job location'}?` }),
-          buildEl('div', { className: 'req-checks' }, choice('true', 'Yes'), choice('false', 'No')),
-          buildEl('p', { className: 'req-error', id: 'req-err-relocate', role: 'alert' })));
-      }
-      if (missing.includes('resume')) {
-        form.append(field('resume', 'Resume', buildEl('input', { id: 'req-resume', type: 'file', accept: '.pdf,.doc,.docx' }), `Required for this ${isIntern ? 'internship' : 'job'}. PDF, DOC or DOCX, up to 5 MB. It is also saved to your profile.`));
       }
       if (missing.includes('questions')) {
         (Array.isArray(req.questions) ? req.questions : []).forEach((q, i) => {
@@ -2346,10 +2345,8 @@
         let ok = true;
         const text = id => (document.getElementById(id) ? document.getElementById(id).value.trim() : '');
         if (missing.includes('matching') && matchRules) {
-          const rawMonths = text('req-relevant-months');
           if (!document.getElementById('req-match-confirm').checked) ok = fail('matching','Please confirm your saved career details.');
-          if (rawMonths !== '' && (!Number.isInteger(Number(rawMonths)) || Number(rawMonths)<0 || Number(rawMonths)>600)) ok = fail('relevant-months','Enter whole months from 0 to 600, or leave blank if unknown.');
-          responses.matching = {confirmed:true,rules:matchRules,selectedSkills:[...form.querySelectorAll('[data-match-skill]:checked')].map(x=>x.dataset.matchSkill),relevantMonths:rawMonths === '' ? null : Number(rawMonths)};
+          responses.matching = {confirmed:true,rules:matchRules,selectedSkills:[],relevantMonths:null};
         }
         if (missing.includes('college')) { responses.college = text('req-college'); if (!responses.college) ok = fail('college', 'Please enter your college name.'); }
         if (missing.includes('availability')) { responses.availability = text('req-availability'); if (!responses.availability) ok = fail('availability', 'Please choose when you can join.'); }
@@ -2357,23 +2354,15 @@
           responses.matched_skills = [...form.querySelectorAll('[data-skill]:checked')].map(c => c.value);
           if (!responses.matched_skills.length && !document.getElementById('req-skill-none').checked) ok = fail('skills', 'Tick the skills you have, or "None of these yet".');
         }
-        if (missing.includes('portfolio')) { responses.portfolio_url = text('req-portfolio'); if (!/^https?:\/\/\S+$/i.test(responses.portfolio_url)) ok = fail('portfolio', 'Please enter a full link starting with https://'); }
         if (missing.includes('questions')) {
           responses.answers = (Array.isArray(req.questions) ? req.questions : []).map((q, i) => text('req-q-' + i));
           responses.answers.forEach((a, i) => { if (!a) ok = fail('q' + i, 'Please answer this question.'); });
         }
         if (missing.includes('salary')) { responses.expected_salary = text('req-salary'); if (!responses.expected_salary) ok = fail('salary', isIntern ? 'Please enter your expected stipend.' : 'Please enter your expected salary.'); }
-        if (missing.includes('location')) {
-          responses.current_location = text('req-location');
-          const pick = form.querySelector('input[name="req-relocate"]:checked');
-          responses.willing_to_relocate = pick ? pick.value === 'true' : null;
-          if (!responses.current_location) ok = fail('location', 'Please enter the city you live in now.');
-          if (!pick) ok = fail('relocate', 'Please choose Yes or No.');
-        }
         let resumeFile = null;
-        if (missing.includes('resume')) {
-          resumeFile = document.getElementById('req-resume').files[0];
-          if (!resumeFile) ok = fail('resume', 'Please attach your resume.');
+        if (showResume) {
+          resumeFile = document.getElementById('req-resume').files[0] || null;
+          if (!resumeFile) { if (resumeRequired) ok = fail('resume', 'Please attach your resume.'); }
           else if (!/\.(pdf|docx?)$/i.test(resumeFile.name)) ok = fail('resume', 'Please upload a PDF, DOC or DOCX file.');
           else if (resumeFile.size > 5 * 1024 * 1024) ok = fail('resume', 'The file is larger than 5 MB.');
         }

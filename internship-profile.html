@@ -339,6 +339,12 @@
     }
 
     /* FORM ROWS & GROUPS */
+    .form-row-name {
+      display: grid;
+      grid-template-columns: 1fr 120px;
+      gap: 16px;
+    }
+
     .form-row-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -1183,11 +1189,19 @@
             <span class="section-indicator">Step 1 of 3</span>
           </div>
           <p class="field-hint">Companies you apply to use these details to contact you.</p>
-          <div class="form-group">
-            <label class="form-label" for="field-name">Full Name <span class="req">*</span></label>
-            <input type="text" id="field-name" class="form-input-box" placeholder="Enter your full name" maxlength="120"
-              autocomplete="name" />
-            <p class="field-error" id="err-name" role="alert"></p>
+          <div class="form-row-name form-group">
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label" for="field-name">Full Name <span class="req">*</span></label>
+              <input type="text" id="field-name" class="form-input-box" placeholder="Enter your full name" maxlength="120"
+                autocomplete="name" />
+              <p class="field-error" id="err-name" role="alert"></p>
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label" for="field-age">Age <span class="req">*</span></label>
+              <input type="number" id="field-age" class="form-input-box" placeholder="e.g. 22" min="15" max="70" step="1"
+                inputmode="numeric" />
+              <p class="field-error" id="err-age" role="alert"></p>
+            </div>
           </div>
           <div class="form-row-2">
             <div class="form-group" style="margin-bottom:0;">
@@ -1684,6 +1698,8 @@
       let first = null;
       const fail = (errId, msg, fieldId) => { setError(errId, msg, fieldId); first = first || $(fieldId) || section.querySelector('input[name="career-stage"]'); };
       if (val('field-name').length < 2) fail('err-name', 'Please enter your full name.', 'field-name');
+      const age = Number(val('field-age'));
+      if (!Number.isInteger(age) || age < 15 || age > 70) fail('err-age', 'Please enter your age (15 to 70).', 'field-age');
       const digits = val('field-phone').replace(/\D/g, '');
       if (digits.length < 10 || digits.length > 13) fail('err-phone', 'Please enter a valid WhatsApp number, e.g. 98765 43210.', 'field-phone');
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val('field-email'))) fail('err-email', 'Please enter a valid email address.', 'field-email');
@@ -1762,6 +1778,7 @@
       const p = {
         careerStage: stage,
         name: val('field-name'),
+        age: Number(val('field-age')),
         phone: val('field-phone'),
         email: val('field-email').toLowerCase(),
         careerPreferences,
@@ -1813,6 +1830,7 @@
       const row = {
         user_id: userId,
         name: p.name,
+        age: Number.isInteger(p.age) ? p.age : null,
         whatsapp: p.phone,
         email: p.email || null,
         career_stage: p.careerStage,
@@ -2004,6 +2022,7 @@
     function fillFromProfile(data) {
       state.savedCareerPreferences = data.career_preferences && typeof data.career_preferences === 'object' ? data.career_preferences : {};
       $('field-name').value = data.name || $('field-name').value;
+      if (data.age) $('field-age').value = data.age;
       $('field-phone').value = data.whatsapp || $('field-phone').value;
       $('field-email').value = data.email || $('field-email').value;
 
