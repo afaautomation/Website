@@ -298,36 +298,6 @@
       box-sizing: border-box;
     }
 
-    .hero-cta-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
-      width: 100%;
-    }
-
-    .hero-explore-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      background: #1947FF;
-      color: #FFFFFF;
-      padding: 14px 34px;
-      border-radius: 99px;
-      font-size: 15px;
-      font-weight: 700;
-      text-decoration: none;
-      box-shadow: 0 8px 30px rgba(25, 71, 255, 0.45);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .hero-explore-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 36px rgba(25, 71, 255, 0.65);
-    }
-
 
 
     /* ROADMAP ASTRA-STYLE PINNED STAGE */
@@ -712,6 +682,312 @@
       box-shadow: 0 8px 25px rgba(25, 71, 255, 0.6), 0 0 15px rgba(0, 240, 255, 0.4);
     }
 
+    /* FEATURED GENAI PROGRAMME (large card above the 3-card grid) */
+    .featured-program {
+      max-width: var(--maxw);
+      margin: 112px auto 144px;
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 56px;
+      align-items: center;
+      padding: 56px 60px;
+      border-radius: 32px;
+      position: relative;
+      overflow: hidden;
+      /* gradient border: inner fill on padding-box, gradient on border-box */
+      border: 1.5px solid transparent;
+      background:
+        linear-gradient(135deg, rgba(14, 24, 56, 0.96), rgba(8, 14, 36, 0.96)) padding-box,
+        linear-gradient(135deg, #00F0FF, #1947FF 45%, #A855F7) border-box;
+      box-shadow: 0 30px 80px rgba(25, 71, 255, 0.35), 0 0 60px rgba(0, 240, 255, 0.12);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+    }
+
+    .featured-program:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 40px 100px rgba(25, 71, 255, 0.45), 0 0 80px rgba(0, 240, 255, 0.2);
+    }
+
+    /* soft glow in the top-right corner */
+    .featured-program::before {
+      content: '';
+      position: absolute;
+      top: -40%;
+      right: -10%;
+      width: 60%;
+      height: 140%;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.22), transparent 65%);
+      pointer-events: none;
+    }
+
+    .featured-content,
+    .featured-visual {
+      position: relative;
+      z-index: 1;
+    }
+
+    .featured-tags {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .featured-new {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 14px;
+      border-radius: 99px;
+      background: linear-gradient(135deg, #00F0FF, #1947FF);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      box-shadow: 0 6px 20px rgba(0, 240, 255, 0.35);
+    }
+
+    .featured-new-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #fff;
+      animation: featuredPulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes featuredPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+      50% { box-shadow: 0 0 0 6px rgba(255, 255, 255, 0); }
+    }
+
+    .featured-kicker {
+      font-size: 12.5px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #38BDF8;
+    }
+
+    .featured-title {
+      margin-bottom: 18px;
+    }
+
+    .featured-title-lead {
+      display: block;
+      font-size: clamp(20px, 2vw, 26px);
+      font-weight: 400;
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      color: rgba(226, 232, 240, 0.85);
+      margin-bottom: 6px;
+    }
+
+    .featured-title-hl {
+      display: block;
+      font-size: clamp(40px, 5vw, 64px);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      background: linear-gradient(90deg, #00F0FF 0%, #5B8AFF 50%, #C084FC 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      filter: drop-shadow(0 6px 24px rgba(56, 189, 248, 0.35));
+    }
+
+    .featured-sub {
+      font-size: clamp(18px, 1.7vw, 22px);
+      font-weight: 500;
+      color: rgba(226, 232, 240, 0.9);
+      margin-bottom: 20px;
+    }
+
+    .featured-sub span {
+      font-weight: 700;
+      background: linear-gradient(90deg, #00F0FF, #7C9BFF, #C084FC);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .featured-desc {
+      font-size: 16px;
+      line-height: 1.7;
+      color: rgba(226, 232, 240, 0.78);
+      max-width: 520px;
+      margin-bottom: 26px;
+    }
+
+    .featured-chips {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 0 0 34px;
+      padding: 0;
+    }
+
+    .featured-chips li {
+      padding: 8px 16px;
+      border-radius: 99px;
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: #CFE6FF;
+      font-size: 13.5px;
+      font-weight: 600;
+    }
+
+    .featured-btn {
+      padding: 15px 34px;
+      font-size: 15.5px;
+    }
+
+    .featured-window {
+      border-radius: 20px;
+      background: rgba(2, 6, 20, 0.85);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      overflow: hidden;
+      transform: rotate(1.5deg);
+    }
+
+    .featured-window-bar {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 14px 18px;
+      border-bottom: 1px solid rgba(56, 189, 248, 0.14);
+    }
+
+    .featured-window-bar span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #334155;
+    }
+
+    .featured-window-bar span:nth-child(1) { background: #F87171; }
+    .featured-window-bar span:nth-child(2) { background: #FBBF24; }
+    .featured-window-bar span:nth-child(3) { background: #34D399; }
+
+    .featured-window-bar em {
+      margin-left: 10px;
+      font-style: normal;
+      font-size: 12.5px;
+      color: rgba(203, 213, 225, 0.6);
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+    }
+
+    .featured-window pre {
+      margin: 0;
+      padding: 24px 26px 28px;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 14px;
+      line-height: 1.75;
+      color: #E2E8F0;
+      white-space: pre;
+      overflow: hidden;
+    }
+
+    .featured-window .tk-k { color: #C084FC; }
+    .featured-window .tk-f { color: #38BDF8; }
+    .featured-window .tk-s { color: #34D399; }
+    .featured-window .tk-c { color: #64748B; }
+
+    /* Heading between the featured card and the 3-card grid */
+    .programs-divider {
+      max-width: 720px;
+      margin: 0 auto 96px;
+      text-align: center;
+    }
+
+    .programs-divider-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 12.5px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #38BDF8;
+    }
+
+    .programs-divider-kicker::before,
+    .programs-divider-kicker::after {
+      content: '';
+      width: 40px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.7));
+    }
+
+    .programs-divider-kicker::after {
+      transform: scaleX(-1);
+    }
+
+    .programs-divider-title {
+      font-size: clamp(28px, 3.6vw, 40px);
+      font-weight: 400;
+      line-height: 1.2;
+      color: #FFFFFF;
+      margin: 14px 0 14px;
+    }
+
+    .programs-divider-title span {
+      font-weight: 700;
+      color: #38BDF8;
+    }
+
+    .programs-divider-sub {
+      font-size: 16px;
+      line-height: 1.65;
+      color: rgba(226, 232, 240, 0.7);
+    }
+
+    @media (max-width: 1024px) {
+      .featured-program {
+        grid-template-columns: 1fr;
+        max-width: 640px;
+        gap: 36px;
+        padding: 44px 36px;
+        margin-top: 64px;
+        margin-bottom: 88px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .featured-program {
+        max-width: 380px;
+        padding: 36px 24px;
+        border-radius: 26px;
+      }
+
+      .featured-visual {
+        display: none;
+      }
+
+      .featured-title-lead {
+        font-size: 18px;
+      }
+
+      .featured-title-hl {
+        font-size: clamp(36px, 11vw, 46px);
+      }
+
+      .featured-btn {
+        width: 100%;
+      }
+
+      .programs-divider {
+        margin-bottom: 56px;
+      }
+
+      .programs-divider-sub {
+        font-size: 14.5px;
+      }
+    }
+
     /* FOOTER */
     .site-footer {
       background: #01040E;
@@ -813,20 +1089,6 @@
         padding: 0 4px !important;
       }
 
-      .hero-cta-wrapper {
-        width: 100% !important;
-        justify-content: center !important;
-      }
-
-      .hero-explore-btn {
-        width: 100% !important;
-        max-width: 280px !important;
-        padding: 13px 28px !important;
-        font-size: 14.5px !important;
-        justify-content: center !important;
-        text-align: center !important;
-        box-sizing: border-box !important;
-      }
 
       /* Programs Section on Mobile */
       .programs-section {
@@ -1262,11 +1524,6 @@
       <p class="hero-desc">
         Hands-on, industry-mentored programs taking you from coding fundamentals to a job-ready, AI-fluent developer in six focused months.
       </p>
-      <div class="hero-cta-wrapper">
-        <a href="#programs" class="hero-explore-btn">
-          <span>Explore Programs ↓</span>
-        </a>
-      </div>
     </div>
   </section>
 
@@ -1279,6 +1536,54 @@
       <h2
         style="font-size: clamp(32px, 5vw, 44px); font-weight: 400; color: #FFFFFF; margin-top: 16px; line-height: 1.2;">
         Master high-demand tech skills to<br>launch your career in top companies</h2>
+    </div>
+
+    <!-- FEATURED: new GenAI programme (kept outside .programs-grid so the 3-card split script is unaffected) -->
+    <article class="featured-program" aria-labelledby="featured-program-title">
+      <div class="featured-content">
+        <div class="featured-tags">
+          <span class="featured-new"><span class="featured-new-dot"></span>New launch</span>
+          <span class="featured-kicker">Generative AI Programme</span>
+        </div>
+        <h3 class="featured-title" id="featured-program-title">
+          <span class="featured-title-lead">Python Full Stack Developer with</span>
+          <span class="featured-title-hl">Generative AI</span>
+        </h3>
+        <p class="featured-sub">From Programmer to <span>AI-Enabled Developer</span></p>
+        <p class="featured-desc">Go beyond writing code. Build complete Python full stack applications and learn to
+          bring Generative AI into the products you create.</p>
+        <ul class="featured-chips" aria-label="What you'll work with">
+          <li>Python</li>
+          <li>Full Stack Development</li>
+          <li>Generative AI</li>
+          <li>AI-Powered Apps</li>
+        </ul>
+        <div class="featured-actions">
+          <a href="genai-course-details.html" class="apply-btn featured-btn" data-track="genai_featured_details">View course details →</a>
+        </div>
+      </div>
+
+      <div class="featured-visual" aria-hidden="true">
+        <div class="featured-window">
+          <div class="featured-window-bar"><span></span><span></span><span></span><em>app.py</em></div>
+          <pre><code><span class="tk-k">from</span> genai <span class="tk-k">import</span> Assistant
+
+<span class="tk-k">def</span> <span class="tk-f">build_feature</span>(idea):
+    app = FullStackApp(<span class="tk-s">"python"</span>)
+    ai  = Assistant(<span class="tk-s">"gen-ai"</span>)
+    app.add(ai.generate(idea))
+    <span class="tk-k">return</span> app.deploy()
+
+<span class="tk-c"># programmer → AI-enabled developer</span></code></pre>
+        </div>
+      </div>
+    </article>
+
+    <div class="programs-divider">
+      <span class="programs-divider-kicker">More career tracks</span>
+      <h2 class="programs-divider-title">Explore our other <span>core tech programs</span></h2>
+      <p class="programs-divider-sub">Industry-ready courses with AI built in, designed to take you from learning to
+        landing your first tech role.</p>
     </div>
 
     <div class="programs-grid">

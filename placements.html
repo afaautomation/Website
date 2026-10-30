@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 
 <head>
@@ -46,7 +46,7 @@
 
     html,
     body {
-      background: var(--cream);
+      background: #ffffff;
       color: var(--ink);
       font-family: 'Open Sans', sans-serif !important;
       font-weight: 300;
@@ -70,6 +70,7 @@
     }
 
     body::before {
+      display: none;
       content: '';
       position: fixed;
       inset: 0;
@@ -184,15 +185,18 @@
       z-index: 10;
       margin-top: calc(-100vh + 64px);
       padding: 100px 24px 80px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.78) 120px, rgba(255, 255, 255, 0.88) 100%);
-      backdrop-filter: blur(24px) saturate(150%);
-      -webkit-backdrop-filter: blur(24px) saturate(150%);
-      border-top: 1px solid rgba(255, 255, 255, 0.85);
+      background: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border-top: none;
       border-bottom: 1px solid var(--line-soft);
-      box-shadow: 0 -20px 40px -10px rgba(15, 23, 42, 0.04);
+      box-shadow: none;
     }
 
     .stats-header {
+      position: relative;
+      background: #ffffff;
+      box-shadow: 0 0 0 16px #ffffff;
       text-align: center;
       max-width: 920px;
       margin: 0 auto 50px;
@@ -232,9 +236,9 @@
 
     .stat-card {
       padding: 24px;
-      background: rgba(255, 255, 255, 0.65);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background: #ffffff;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
       border: 1px solid rgba(25, 71, 255, 0.12);
       border-radius: var(--radius);
       box-shadow: 0 10px 30px -5px rgba(25, 71, 255, 0.07), 0 2px 8px rgba(15, 23, 42, 0.02);
@@ -243,7 +247,7 @@
 
     .stat-card:hover {
       transform: translateY(-4px);
-      background: rgba(255, 255, 255, 0.88);
+      background: #ffffff;
       box-shadow: 0 16px 36px -4px rgba(25, 71, 255, 0.14);
     }
 
@@ -490,9 +494,9 @@
         z-index: 10 !important;
         margin-top: -75vh !important;
         padding: 50px 16px 40px !important;
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.60) 0%, rgba(255, 255, 255, 0.82) 80px, rgba(255, 255, 255, 0.90) 100%) !important;
-        backdrop-filter: blur(20px) saturate(140%) !important;
-        -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+        background: transparent;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
       }
       .stats-title {
         font-size: clamp(26px, 7vw, 36px) !important;
@@ -688,7 +692,47 @@
         transform: translateX(3px) !important;
       }
     }
-  </style>
+      /* Placement results spotlight */
+    .placement-spotlight {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: clamp(28px, 5vw, 64px);
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      position: relative;
+      overflow: hidden;
+    }
+    .placement-spotlight::before {
+      display: none;
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 25%;
+      right: 25%;
+      height: 4px;
+      background: #1947ff;
+      border-radius: 0 0 8px 8px;
+    }
+    .placement-spotlight .stats-header { box-shadow: none; margin-bottom: 36px; }
+    .placement-spotlight .hero-badge { font-size: 10px; letter-spacing: .1em; padding: 9px 16px; margin-bottom: 24px; }
+    .placement-spotlight .stats-title { font-size: clamp(30px, 4vw, 52px); line-height: 1.18; letter-spacing: -.045em; }
+    .placement-spotlight .stats-title .highlight { display: inline-block; margin-top: 12px; font-weight: 700; }
+    .placement-spotlight .stats-subtitle { max-width: 690px; font-size: 16px; line-height: 1.8; margin-top: 24px; }
+    .placement-spotlight .stats-grid { gap: 16px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .placement-spotlight .stat-card { padding: 28px 12px; background: #f5f7ff; border-color: #e8ecff; border-radius: 18px; box-shadow: none; }
+    .placement-spotlight .stat-card:first-child { background: #1947ff; border-color: #1947ff; box-shadow: 0 10px 24px rgba(25,71,255,.2); }
+    .placement-spotlight .stat-card:first-child .stat-number,
+    .placement-spotlight .stat-card:first-child .stat-label { color: #fff; }
+    .placement-spotlight .stat-number { font-size: clamp(30px, 3.3vw, 44px); letter-spacing: -.04em; margin-bottom: 12px; }
+    .placement-spotlight .stat-label { font-size: 12px; line-height: 1.5; }
+    @media (max-width: 768px) {
+      .placement-spotlight { padding: 30px 18px; border-radius: 24px; }
+      .placement-spotlight .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .placement-spotlight .hero-badge { font-size: 9px; }
+    }
+</style>
   <link rel="stylesheet" href="css/mobile.css" media="(max-width: 768px)" />
   <style>
     /* Top bar has nine links since Internships was added: keep each label on one
@@ -705,7 +749,47 @@
       .nav .nav-links { gap: 12px; }
       .nav .nav-links a { font-size: 12.5px; }
     }
-  </style>
+      /* Placement results spotlight */
+    .placement-spotlight {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: clamp(28px, 5vw, 64px);
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      position: relative;
+      overflow: hidden;
+    }
+    .placement-spotlight::before {
+      display: none;
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 25%;
+      right: 25%;
+      height: 4px;
+      background: #1947ff;
+      border-radius: 0 0 8px 8px;
+    }
+    .placement-spotlight .stats-header { box-shadow: none; margin-bottom: 36px; }
+    .placement-spotlight .hero-badge { font-size: 10px; letter-spacing: .1em; padding: 9px 16px; margin-bottom: 24px; }
+    .placement-spotlight .stats-title { font-size: clamp(30px, 4vw, 52px); line-height: 1.18; letter-spacing: -.045em; }
+    .placement-spotlight .stats-title .highlight { display: inline-block; margin-top: 12px; font-weight: 700; }
+    .placement-spotlight .stats-subtitle { max-width: 690px; font-size: 16px; line-height: 1.8; margin-top: 24px; }
+    .placement-spotlight .stats-grid { gap: 16px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .placement-spotlight .stat-card { padding: 28px 12px; background: #f5f7ff; border-color: #e8ecff; border-radius: 18px; box-shadow: none; }
+    .placement-spotlight .stat-card:first-child { background: #1947ff; border-color: #1947ff; box-shadow: 0 10px 24px rgba(25,71,255,.2); }
+    .placement-spotlight .stat-card:first-child .stat-number,
+    .placement-spotlight .stat-card:first-child .stat-label { color: #fff; }
+    .placement-spotlight .stat-number { font-size: clamp(30px, 3.3vw, 44px); letter-spacing: -.04em; margin-bottom: 12px; }
+    .placement-spotlight .stat-label { font-size: 12px; line-height: 1.5; }
+    @media (max-width: 768px) {
+      .placement-spotlight { padding: 30px 18px; border-radius: 24px; }
+      .placement-spotlight .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .placement-spotlight .hero-badge { font-size: 9px; }
+    }
+</style>
 </head>
 
 <body>
@@ -753,7 +837,7 @@
   </section>
 
   <!-- STATS & HERO HEADLINE -->
-  <section class="stats-section">
+  <section class="stats-section"><div class="placement-spotlight">
     <div class="stats-header">
       <span class="hero-badge">2000+ Students Placed Across IT &amp; Corporate Sectors</span>
       <h1 class="stats-title">2000+ Careers Launched.<br><span class="highlight">Real Students. Real Companies. Real Offers.</span></h1>
@@ -778,7 +862,7 @@
         <div class="stat-label">Industry Sectors Covered</div>
       </div>
     </div>
-  </section>
+  </div></section>
 
   <!-- PROCESS SECTION -->
   <section class="process-section" id="process">
@@ -867,10 +951,16 @@
         if (!container || !canvas) return;
 
         // Configuration
-        const MESH_COUNT = 600;
-        const GRID_COLS = 17;
-        const GRID_ROWS = 12;
-        const TOTAL_ATLAS_CARDS = 204;
+        // One card per atlas image so no photo is ever on screen twice.
+        // Atlas cells 0-79 are the centre pool, 80-203 the outer pool; cell 84 is an empty placeholder.
+        const CENTER_POOL = [];
+        const OUTER_POOL = [];
+        const SKIP_CELLS = [84];
+        for (let i = 0; i < 204; i++) {
+          if (SKIP_CELLS.includes(i)) continue;
+          (i < 80 ? CENTER_POOL : OUTER_POOL).push(i);
+        }
+        const MESH_COUNT = CENTER_POOL.length + OUTER_POOL.length;
 
         let width = container.clientWidth || window.innerWidth;
         let height = container.clientHeight || 740;
@@ -898,8 +988,9 @@
           return {
             width: w,
             height: h,
-            maxX: w * 2.0,
-            maxY: h * 2.0
+            // Tighter field than before so ~200 unique cards keep the scene full
+            maxX: w * 1.5,
+            maxY: h * 1.5
           };
         }
         let sizes = getSizes();
@@ -909,13 +1000,14 @@
           varying vec2 vUv;
           attribute vec3 aInitialPosition;
           attribute float aMeshSpeed;
-          attribute float aInitialCardIndex;
-          attribute float aCardPoolType;
+          attribute float aCardIndex;
 
           uniform float uTime;
           uniform vec2 uMaxXdisplacement;
           uniform vec2 uDrag;
           uniform float uScrollY;
+          uniform float uSplit;
+
 
           varying float vVisibility;
           varying vec4 vTextureCoords;
@@ -951,13 +1043,14 @@
 
               float totalZ = maxZoffset + minZoffset;
               float forwardTravel = uScrollY + uTime * 1.5 + minZoffset;
-              float wrapCount = floor(forwardTravel / totalZ);
               float zDisplacement = mod(mod(forwardTravel, totalZ) + totalZ, totalZ) - minZoffset;
-
               newPosition.x += xDisplacement;
               newPosition.y += yDisplacement;
               newPosition.z += zDisplacement;
 
+              // Gently spread the field while retaining images through the center.
+              float centerX = aInitialPosition.x + xDisplacement;
+              newPosition.x += centerX * 0.18 * uSplit;
               // Visibility fade:
               // 1. Far fade at deep background bounds
               float farFade = remap(newPosition.z, minZ, minZ + 6.0);
@@ -965,15 +1058,16 @@
               float nearFade = 1.0 - remap(newPosition.z, -1.0, 3.2);
               vVisibility = farFade * nearFade;
 
-              // Dynamic image change from the back on wrap:
-              // Boxes stay in their exact grid arrangement, while the image advances to the next unique photo:
-              float currentCard;
-              if (aCardPoolType > 0.5) {
-                  // Center boxes: cycle through all 80 dark-themed/accent posters (gcd(13, 80) = 1)
-                  currentCard = mod(aInitialCardIndex + wrapCount * 13.0, 80.0);
-              } else {
-                  // Outer boxes: cycle through all 124 outer certificates & posters (gcd(17, 124) = 1)
-                  currentCard = 80.0 + mod(aInitialCardIndex + wrapCount * 17.0, 124.0);
+              // Change the ordering only when a card wraps through the invisible depth boundary.
+              // Permute all 203 usable cells; powers of two are coprime to 203.
+              float cycle = floor(forwardTravel / totalZ);
+              float currentCard = aCardIndex;
+              if (cycle != 0.0) {
+                  float compactIndex = aCardIndex < 84.0 ? aCardIndex : aCardIndex - 1.0;
+                  float multiplier = pow(2.0, 1.0 + mod(cycle - 1.0, 7.0));
+                  float offset = mod(cycle * 67.0, 203.0);
+                  float shuffledIndex = mod(compactIndex * multiplier + offset, 203.0);
+                  currentCard = shuffledIndex < 84.0 ? shuffledIndex : shuffledIndex + 1.0;
               }
 
               // Compute UV coordinates from 17x12 texture atlas
@@ -1080,6 +1174,8 @@
             uAtlas: { value: dummyAtlas },
             uBlurryAtlas: { value: dummyBlurry },
             uScrollY: { value: 0 },
+            uSplit: { value: 0 },
+
             uDrag: { value: new THREE.Vector2(0, 0) }
           }
         });
@@ -1122,35 +1218,38 @@
         const geometry = new THREE.PlaneGeometry(1, 1, 1, 1);
         geometry.scale(cardScale, cardScale, cardScale);
 
-        // Fill Instanced Buffer Data: 600 cards fully spread across the entire viewport
+        // Fill Instanced Buffer Data: one card per unique image, spread across the viewport
         const initialPositions = new Float32Array(MESH_COUNT * 3);
         const meshSpeeds = new Float32Array(MESH_COUNT);
-        const aInitialCardIndices = new Float32Array(MESH_COUNT);
-        const aCardPoolTypes = new Float32Array(MESH_COUNT);
+        const aCardIndices = new Float32Array(MESH_COUNT);
 
-        for (let i = 0; i < MESH_COUNT; i++) {
-          // Full viewport spatial spread across maxX and maxY
-          const x = (Math.random() - 0.5) * sizes.maxX * 2.0;
+        // Shuffled depth slots spread the cards evenly from back to front instead of clumping
+        const depthSlots = Array.from({ length: MESH_COUNT }, (_, k) => k);
+        for (let k = depthSlots.length - 1; k > 0; k--) {
+          const j = Math.floor(Math.random() * (k + 1));
+          [depthSlots[k], depthSlots[j]] = [depthSlots[j], depthSlots[k]];
+        }
+
+        const cards = [
+          ...CENTER_POOL.map(index => ({ index, center: true })),
+          ...OUTER_POOL.map(index => ({ index, center: false }))
+        ];
+
+        cards.forEach((card, i) => {
+          // Centre-pool images sit in the middle 40% of the field, outer-pool images on the sides
+          const x = card.center
+            ? (Math.random() - 0.5) * sizes.maxX * 0.8
+            : (Math.random() < 0.5 ? -1 : 1) * sizes.maxX * (0.4 + Math.random() * 0.6);
           const y = (Math.random() - 0.5) * sizes.maxY * 2.0;
-          const z = Math.random() * (2.5 - (-30.0)) - 30.0;
+          const z = -30.0 + ((depthSlots[i] + Math.random()) / MESH_COUNT) * (2.5 - (-30.0));
 
           initialPositions[i * 3 + 0] = x;
           initialPositions[i * 3 + 1] = y;
           initialPositions[i * 3 + 2] = z;
 
           meshSpeeds[i] = Math.random() * 0.5 + 0.5;
-
-          // If position is on center side (|x| < 40% of maxX), assign to center pool (darker-themed cards)
-          // If on outer sides, assign to outer pool (lighter & medium certificates/posters)
-          const isCenter = Math.abs(x) < sizes.maxX * 0.40;
-          if (isCenter) {
-            aCardPoolTypes[i] = 1.0;
-            aInitialCardIndices[i] = Math.floor(Math.random() * 80.0);
-          } else {
-            aCardPoolTypes[i] = 0.0;
-            aInitialCardIndices[i] = Math.floor(Math.random() * 124.0);
-          }
-        }
+          aCardIndices[i] = card.index;
+        });
 
         geometry.setAttribute(
           'aInitialPosition',
@@ -1161,12 +1260,8 @@
           new THREE.InstancedBufferAttribute(meshSpeeds, 1)
         );
         geometry.setAttribute(
-          'aInitialCardIndex',
-          new THREE.InstancedBufferAttribute(aInitialCardIndices, 1)
-        );
-        geometry.setAttribute(
-          'aCardPoolType',
-          new THREE.InstancedBufferAttribute(aCardPoolTypes, 1)
+          'aCardIndex',
+          new THREE.InstancedBufferAttribute(aCardIndices, 1)
         );
 
         const instancedMesh = new THREE.InstancedMesh(geometry, material, MESH_COUNT);
@@ -1316,6 +1411,15 @@
           // Smooth scroll z easing
           scrollZ.current += (scrollZ.target - scrollZ.current) * 0.12;
           material.uniforms.uScrollY.value = scrollZ.current;
+
+          const heading = document.querySelector('.stats-header');
+          if (heading) {
+            const headingRect = heading.getBoundingClientRect();
+            const viewportHeight = window.innerHeight;
+            const entry = Math.max(0, Math.min(1, (viewportHeight - headingRect.top) / (viewportHeight * 0.3)));
+            material.uniforms.uSplit.value = entry * entry * (3 - 2 * entry);
+
+          }
 
           renderer.render(scene, camera);
         }

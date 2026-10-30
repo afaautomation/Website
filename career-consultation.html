@@ -6,14 +6,14 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Career Consultation in Kochi | Kompetenzen</title>
   <meta name="description"
-    content="Not sure what career to choose? Book a one-on-one career consultation with Kompetenzen. Find your strengths, your direction and a clear next step." />
+    content="Confused about your career? Our AI-assisted career consultation helps you understand your strengths, map your skill gaps and build a practical career roadmap." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://www.kompetenzen.in/career-consultation" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Kompetenzen Technologies" />
   <meta property="og:title" content="Career Consultation in Kochi | Kompetenzen" />
   <meta property="og:description"
-    content="Not sure what career to choose? Book a one-on-one career consultation with Kompetenzen. Find your strengths, your direction and a clear next step." />
+    content="Confused about your career? Our AI-assisted career consultation helps you understand your strengths, map your skill gaps and build a practical career roadmap." />
   <meta property="og:url" content="https://www.kompetenzen.in/career-consultation" />
   <!-- og:image: add https://www.kompetenzen.in/images/og-career-consultation.jpg (1200x630) once designed -->
   <meta property="og:locale" content="en_IN" />
@@ -38,9 +38,9 @@
         "areaServed": ["Kochi", "Thiruvananthapuram", "Kerala"],
         "audience": {
           "@type": "Audience",
-          "audienceType": "Final-year students, fresh graduates, job seekers, working professionals"
+          "audienceType": "Students pursuing their degree, graduates seeking career clarity, professionals returning after a career break"
         },
-        "description": "One-on-one career consultation covering strengths, career direction, skill gaps and a personalised roadmap."
+        "description": "AI-assisted career consultation combining guided conversations, structured questionnaires and personalised analysis, covering self-discovery, career goal alignment, skill gap mapping and a personalised career roadmap."
       },
       {
         "@type": "BreadcrumbList",
@@ -214,6 +214,7 @@
       .nav-links {
         gap: 18px;
       }
+
       .nav-links a {
         font-size: 13px;
       }
@@ -662,6 +663,7 @@
       margin-left: 10px;
       z-index: 1002;
     }
+
     .hamburger span {
       display: block;
       width: 22px;
@@ -670,9 +672,18 @@
       background: var(--ink);
       transition: all 0.25s ease;
     }
-    .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .hamburger.active span:nth-child(2) { opacity: 0; }
-    .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .hamburger.active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
 
     @media (max-width: 980px) {
       .nav {
@@ -727,8 +738,8 @@
         transform: translateY(-8px) !important;
         pointer-events: none !important;
         transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-                    transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-                    visibility 0.22s ease !important;
+          transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+          visibility 0.22s ease !important;
       }
 
       .nav-links.mobile-active {
@@ -807,17 +818,36 @@
   <style>
     /* Top bar has nine links since Internships was added: keep each label on one
        line and tighten spacing on narrower desktops, above the mobile-menu breakpoint. */
-    .nav .nav-links a, .nav .nav-cta, .nav .cta { white-space: nowrap; }
+    .nav .nav-links a,
+    .nav .nav-cta,
+    .nav .cta {
+      white-space: nowrap;
+    }
+
     @media (min-width: 993px) {
-      .nav .nav-left { min-width: max-content; }
+      .nav .nav-left {
+        min-width: max-content;
+      }
     }
+
     @media (min-width: 993px) and (max-width: 1280px) {
-      .nav .nav-links { gap: 16px; }
-      .nav .nav-links a { font-size: 13px; }
+      .nav .nav-links {
+        gap: 16px;
+      }
+
+      .nav .nav-links a {
+        font-size: 13px;
+      }
     }
+
     @media (min-width: 993px) and (max-width: 1120px) {
-      .nav .nav-links { gap: 12px; }
-      .nav .nav-links a { font-size: 12.5px; }
+      .nav .nav-links {
+        gap: 12px;
+      }
+
+      .nav .nav-links a {
+        font-size: 12.5px;
+      }
     }
 
     /* CONSULTATION PAGE SECTIONS */
@@ -831,71 +861,78 @@
     }
 
     .consult-section {
-      max-width: 1100px;
+      max-width: 1160px;
       margin: 0 auto;
-      padding: 80px 24px 0;
+      padding: 128px 32px 0;
       text-align: center;
     }
 
     .consult-h2 {
-      font-size: clamp(28px, 4.4vw, 42px);
+      font-size: clamp(30px, 3.8vw, 44px);
       font-weight: 700;
       color: var(--ink);
-      line-height: 1.2;
-      letter-spacing: -0.02em;
-      margin-bottom: 36px;
+      line-height: 1.18;
+      letter-spacing: -0.025em;
+      max-width: 760px;
+      margin: 0 auto 64px;
     }
 
-    .quote-cards,
-    .audience-chips,
+    .benefit-cards,
     .consult-steps {
       list-style: none;
       padding: 0;
       margin: 0;
     }
 
-    .quote-cards {
+    .benefit-cards {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
+      gap: 32px;
       text-align: left;
+      counter-reset: benefit;
     }
 
-    .quote-cards blockquote {
-      height: 100%;
-      margin: 0;
-      padding: 28px 26px;
-      border-radius: 20px;
-      background: var(--blue-soft);
-      border: 1px solid rgba(25, 71, 255, 0.14);
-      color: var(--ink-2);
-      font-size: 17px;
-      line-height: 1.55;
-      font-style: italic;
+    .benefit-cards li {
+      counter-increment: benefit;
+      position: relative;
+      padding: 44px 38px 42px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, #f2f5ff 0%, #ffffff 100%);
+      border: 1px solid rgba(25, 71, 255, 0.12);
+      box-shadow: 0 1px 2px rgba(2, 5, 14, 0.04), 0 16px 40px -16px rgba(25, 71, 255, 0.14);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
     }
 
-    .consult-closing {
-      font-size: clamp(18px, 2.2vw, 22px);
-      font-weight: 600;
-      color: var(--ink);
-      margin: 40px auto 20px;
-      max-width: 640px;
+    .benefit-cards li:hover {
+      transform: translateY(-6px);
+      border-color: rgba(25, 71, 255, 0.26);
+      box-shadow: 0 1px 2px rgba(2, 5, 14, 0.04), 0 28px 56px -20px rgba(25, 71, 255, 0.28);
     }
 
-    .audience-chips {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    .audience-chips li {
-      padding: 9px 18px;
-      border-radius: 99px;
-      border: 1px solid rgba(25, 71, 255, 0.3);
-      color: var(--blue-deep);
-      font-size: 14.5px;
+    /* Small index above each title, e.g. "01 —" */
+    .benefit-cards li::before {
+      content: counter(benefit, decimal-leading-zero) " —";
+      display: block;
+      font-size: 13px;
       font-weight: 700;
+      letter-spacing: 0.14em;
+      color: var(--blue);
+      margin-bottom: 22px;
+    }
+
+    .benefit-cards h3 {
+      font-size: 21px;
+      font-weight: 700;
+      line-height: 1.32;
+      letter-spacing: -0.015em;
+      color: var(--ink);
+      margin-bottom: 16px;
+    }
+
+    .benefit-cards p {
+      font-size: 15.5px;
+      line-height: 1.75;
+      color: var(--ink-mute);
     }
 
     .consult-answer p {
@@ -906,44 +943,112 @@
       color: var(--ink-mute);
     }
 
+    /* Vertical timeline: numbered marker on the left, card on the right, joined by a line */
     .consult-steps {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
+      max-width: 880px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
       text-align: left;
       counter-reset: step;
     }
 
     .consult-steps li {
       counter-increment: step;
-      padding: 28px 24px;
-      border-radius: 20px;
-      border: 1px solid rgba(25, 71, 255, 0.14);
-      box-shadow: 0 10px 30px -5px rgba(2, 5, 14, 0.05);
-      font-size: 15px;
-      line-height: 1.6;
-      color: var(--ink-mute);
+      position: relative;
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 40px;
+      align-items: start;
     }
 
     .consult-steps li::before {
-      content: counter(step);
+      content: counter(step, decimal-leading-zero);
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 40px;
-      height: 40px;
+      width: 60px;
+      height: 60px;
+      margin-top: 28px;
       border-radius: 50%;
-      background: var(--blue);
+      background: linear-gradient(135deg, var(--blue), #5b8aff);
       color: #fff;
+      font-size: 18px;
       font-weight: 700;
-      margin-bottom: 16px;
+      letter-spacing: 0.02em;
+      box-shadow: 0 0 0 8px #f2f5ff, 0 14px 28px -8px rgba(25, 71, 255, 0.5);
+      position: relative;
+      z-index: 1;
+    }
+
+    .consult-steps li:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 29px;
+      top: 104px;
+      bottom: -24px;
+      width: 2px;
+      border-radius: 2px;
+      background: linear-gradient(180deg, rgba(25, 71, 255, 0.4), rgba(25, 71, 255, 0.08));
+    }
+
+    .consult-steps .step-body {
+      background: #fff;
+      padding: 38px 44px 40px;
+      border-radius: 24px;
+      border: 1px solid rgba(25, 71, 255, 0.12);
+      box-shadow: 0 1px 2px rgba(2, 5, 14, 0.04), 0 18px 44px -18px rgba(25, 71, 255, 0.16);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+    }
+
+    /* Slim accent bar along the card's left edge */
+    .consult-steps .step-body::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 28px;
+      bottom: 28px;
+      width: 3px;
+      border-radius: 0 3px 3px 0;
+      background: linear-gradient(180deg, var(--blue), #5b8aff);
+    }
+
+    .consult-steps li:hover .step-body {
+      transform: translateX(6px);
+      border-color: rgba(25, 71, 255, 0.24);
+      box-shadow: 0 1px 2px rgba(2, 5, 14, 0.04), 0 28px 56px -20px rgba(25, 71, 255, 0.26);
+    }
+
+    .consult-steps .step-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--blue);
+      background: var(--blue-soft);
+      padding: 6px 12px;
+      border-radius: 99px;
+      margin-bottom: 18px;
     }
 
     .consult-steps strong {
       display: block;
-      font-size: 18px;
+      font-size: 22px;
+      line-height: 1.3;
+      letter-spacing: -0.015em;
       color: var(--ink);
-      margin-bottom: 6px;
+      margin-bottom: 12px;
+    }
+
+    .consult-steps p {
+      font-size: 16px;
+      line-height: 1.75;
+      color: var(--ink-mute);
+      max-width: 640px;
     }
 
     .consult-cta {
@@ -990,12 +1095,8 @@
     }
 
     @media (max-width: 980px) {
-      .quote-cards {
+      .benefit-cards {
         grid-template-columns: 1fr;
-      }
-
-      .consult-steps {
-        grid-template-columns: repeat(2, 1fr);
       }
     }
 
@@ -1004,8 +1105,46 @@
         padding-top: 56px;
       }
 
+      .consult-h2 {
+        margin-bottom: 40px;
+      }
+
+      .benefit-cards li {
+        padding: 32px 26px;
+      }
+
       .consult-steps {
-        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .consult-steps li {
+        grid-template-columns: 40px 1fr;
+        gap: 16px;
+      }
+
+      .consult-steps li::before {
+        width: 40px;
+        height: 40px;
+        margin-top: 22px;
+        font-size: 14px;
+        box-shadow: 0 0 0 5px #f2f5ff;
+      }
+
+      .consult-steps li:not(:last-child)::after {
+        left: 19px;
+        top: 72px;
+      }
+
+      .consult-steps .step-body {
+        padding: 26px 22px 28px;
+      }
+
+      .consult-steps strong {
+        font-size: 18.5px;
+      }
+
+      .consult-steps p {
+        font-size: 15px;
       }
 
       .consult-cta {
@@ -1187,7 +1326,8 @@
         <a href="our-story.html"><span>Our Story</span><span class="nav-arrow">→</span></a>
         <a href="jobs.html"><span>Jobs</span><span class="nav-arrow">→</span></a>
         <a href="internships.html"><span>Internships</span><span class="nav-arrow">→</span></a>
-        <a href="Resume/resume.html" onclick="openResumeBuilder(event)"><span>Resume Builder</span><span class="nav-arrow">↗</span></a>
+        <a href="Resume/resume.html" onclick="openResumeBuilder(event)"><span>Resume Builder</span><span
+            class="nav-arrow">↗</span></a>
       </div>
       <div class="nav-right">
         <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="nav-cta">
@@ -1205,7 +1345,8 @@
   <!-- HERO VIDEO SECTION -->
   <section class="tech-hero" id="tech-hero-section">
     <div class="hero-video-wrapper" aria-hidden="true">
-      <video id="hero-vid" autoplay muted playsinline loop preload="auto" poster="consulting-hero-poster.webp" class="hero-video-bg">
+      <video id="hero-vid" autoplay muted playsinline loop preload="auto" poster="consulting-hero-poster.webp"
+        class="hero-video-bg">
         <source src="Consulting bg.mp4" type="video/mp4">
       </video>
     </div>
@@ -1214,11 +1355,13 @@
       <div class="hero-content-inner">
         <p class="consult-eyebrow">Career Consultation · Kochi &amp; Trivandrum</p>
         <h1
-          style="font-family: 'Red Hat Display', sans-serif; font-weight: 400; line-height: 1.2; letter-spacing: -0.03em;">
-          You don't need all the answers. <span style="color: var(--blue);">You need the right conversation.</span>
+          style="font-weight: 700; line-height: 1.1; letter-spacing: -0.035em;">
+          Confused About Your Career? <span style="color: var(--blue);">Let's Find Your Direction.</span>
         </h1>
         <p>
-          Tell us where you are and where you'd like to be. We'll help you find the path that fits you.
+          Our AI-assisted career consultation combines guided conversations, structured questionnaires and personalised
+          analysis to help you understand your strengths, interests and career goals, and build a practical roadmap to
+          move forward with clarity and confidence.
         </p>
         <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen%2C%20I%27d%20like%20to%20book%20a%20career%20consultation."
           target="_blank" rel="noopener" class="apply-btn" data-track="consultation_cta_hero" data-consult-open
@@ -1228,40 +1371,65 @@
   </section>
 
   <main>
-    <!-- SOUND FAMILIAR -->
-    <section class="consult-section" aria-labelledby="familiar-title">
-      <h2 id="familiar-title" class="consult-h2">Sound familiar?</h2>
-      <ul class="quote-cards">
-        <li><blockquote>"I've finished my degree, but I honestly don't know which career to choose."</blockquote></li>
-        <li><blockquote>"I've sent so many applications. Not a single call back."</blockquote></li>
-        <li><blockquote>"I'm working, but I keep wondering if this is really what I should be doing."</blockquote></li>
-      </ul>
-      <p class="consult-closing">You're not behind. You just don't have a clear picture yet.</p>
-      <ul class="audience-chips" aria-label="Who it is for">
-        <li>Working Professional</li>
-        <li>Job Seeker</li>
-        <li>Fresh Graduate</li>
-        <li>Final Year Student</li>
+    <!-- WHO CAN BENEFIT -->
+    <section class="consult-section" aria-labelledby="benefit-title">
+      <h2 id="benefit-title" class="consult-h2">Who can benefit from career consultation?</h2>
+      <ul class="benefit-cards">
+        <li>
+          <h3>Students Pursuing Their Degree</h3>
+          <p>Still studying and unsure about your career after graduation? Discover suitable career paths, understand
+            the skills employers expect, and start preparing for your future before you complete your degree.</p>
+        </li>
+        <li>
+          <h3>Graduates Seeking Career Clarity</h3>
+          <p>Graduated but haven't found the right career direction yet? Identify the challenges holding you back,
+            explore suitable opportunities, and develop a clear action plan to move towards your career goals.</p>
+        </li>
+        <li>
+          <h3>Professionals Returning After a Career Break</h3>
+          <p>Returning to work after a career break can feel challenging. Assess your current skills, identify areas
+            that need improvement, and build a structured plan to bridge the gap and prepare for your next career
+            opportunity.</p>
+        </li>
       </ul>
     </section>
-
-    <!-- WHAT IS A CAREER CONSULTATION (direct answer for search and answer engines) -->
-    <section class="consult-section consult-answer" aria-labelledby="what-title">
-      <h2 id="what-title" class="consult-h2">So, what exactly is a career consultation?</h2>
-      <p>A career consultation is a one-on-one session with a career expert who helps you understand your strengths,
-        explore your options and decide your next step. Many people call it career counselling or career guidance. At
-        Kompetenzen, we offer it in Kochi and Trivandrum for students, fresh graduates, job seekers and working
-        professionals.</p>
-    </section>
-
     <!-- HOW IT WORKS -->
     <section class="consult-section" aria-labelledby="steps-title">
-      <h2 id="steps-title" class="consult-h2">Four simple steps. No pressure.</h2>
+      <h2 id="steps-title" class="consult-h2">Our scientific approach to career clarity</h2>
       <ol class="consult-steps">
-        <li><strong>Tell us your story.</strong> Share where you are and what you want. There are no wrong answers.</li>
-        <li><strong>See the real picture.</strong> We map your strengths, interests and skill gaps.</li>
-        <li><strong>Explore your options.</strong> Job, freelance, business or a mix. We show you what fits.</li>
-        <li><strong>Leave with your plan.</strong> A clear roadmap and your first step.</li>
+        <li>
+          <div class="step-body">
+            <span class="step-label">Step 1</span>
+            <strong>Self-Discovery &amp; Assessment</strong>
+            <p>Through guided interactions and structured questionnaires, our AI-assisted assessment explores your
+              interests, strengths, existing skills, experience and career aspirations to build a clearer picture of
+              your current position.</p>
+          </div>
+        </li>
+        <li>
+          <div class="step-body">
+            <span class="step-label">Step 2</span>
+            <strong>Career Goal Alignment</strong>
+            <p>We evaluate your aspirations against relevant career pathways and industry expectations to refine your
+              goals and identify realistic, suitable career opportunities.</p>
+          </div>
+        </li>
+        <li>
+          <div class="step-body">
+            <span class="step-label">Step 3</span>
+            <strong>Skill Gap Mapping</strong>
+            <p>We compare your current skills with the competencies your target career requires, identifying specific
+              skill gaps, development priorities and areas that need improvement.</p>
+          </div>
+        </li>
+        <li>
+          <div class="step-body">
+            <span class="step-label">Step 4</span>
+            <strong>Personalised Career Roadmap</strong>
+            <p>Based on the assessment, we give you actionable recommendations covering skill development, suitable
+              learning pathways, career preparation and the next steps towards your goals.</p>
+          </div>
+        </li>
       </ol>
     </section>
 
@@ -1290,8 +1458,8 @@
       <label for="consult-phone">WhatsApp number</label>
       <div class="consult-phone">
         <span aria-hidden="true">+91</span>
-        <input id="consult-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national"
-          maxlength="10" pattern="[6-9][0-9]{9}" placeholder="10-digit mobile number" required />
+        <input id="consult-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="10"
+          pattern="[6-9][0-9]{9}" placeholder="10-digit mobile number" required />
       </div>
       <label for="consult-situation">I am a</label>
       <select id="consult-situation" name="situation" required>
@@ -1302,7 +1470,8 @@
         <option>Working Professional</option>
       </select>
       <!-- Hidden from people; bots that fill every field are ignored. -->
-      <input type="text" name="website" id="consult-website" tabindex="-1" autocomplete="off" class="consult-hp" aria-hidden="true" />
+      <input type="text" name="website" id="consult-website" tabindex="-1" autocomplete="off" class="consult-hp"
+        aria-hidden="true" />
       <p class="consult-error" id="consult-error" role="alert" hidden></p>
       <button type="submit" class="apply-btn consult-submit" id="consult-submit">Request a Call Back</button>
       <p class="consult-dialog-note">Prefer to chat? <a
@@ -1342,17 +1511,38 @@
 
         const triggerText = () => heroSec.classList.add('show-text');
 
+        // The video loops, so 'ended' never fires, and at 1.8x speed timeupdate can skip the last
+        // fraction of a second. Also treat "playback jumped back to the start" as the end of a play-through.
+        let lastTime = 0;
         vid.addEventListener('ended', triggerText);
         vid.addEventListener('timeupdate', () => {
-          if (vid.duration && vid.currentTime >= vid.duration - 0.4) {
+          const t = vid.currentTime;
+          if ((vid.duration && t >= vid.duration - 1) || t + 0.5 < lastTime) {
             triggerText();
           }
+          lastTime = t;
         });
+
+        // Never leave the heading hidden: show it if the video can't play, and after a safety timeout
+        vid.addEventListener('error', triggerText);
+        const playAttempt = vid.play && vid.play();
+        if (playAttempt && playAttempt.catch) playAttempt.catch(triggerText);
+        const fallbackMs = () => (vid.duration ? (vid.duration / 1.8) * 1000 + 800 : 6000);
+        if (vid.readyState >= 1) {
+          setTimeout(triggerText, fallbackMs());
+        } else {
+          vid.addEventListener('loadedmetadata', () => setTimeout(triggerText, fallbackMs()), { once: true });
+          setTimeout(triggerText, 8000);
+        }
+      } else if (heroSec) {
+        heroSec.classList.add('show-text');
       }
     });
   </script>
   <!-- Lenis smooth scroll -->
-  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" integrity="sha384-B2WBjDzEjJpYvhmi2UyEn7rektqkf5suS6sNoyyrf0EBAwBHdkiXxIlU0V5Ru2ed" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"
+    integrity="sha384-B2WBjDzEjJpYvhmi2UyEn7rektqkf5suS6sNoyyrf0EBAwBHdkiXxIlU0V5Ru2ed"
+    crossorigin="anonymous"></script>
   <script>
     const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if (!isMobile) {
@@ -1374,7 +1564,9 @@
   </script>
 
   <!-- Unified Auth Modal -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js"
+    integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP"
+    crossorigin="anonymous"></script>
   <script src="supabase-config.js"></script>
   <script src="js/auth-modal.js?v=13"></script>
   <!-- Consultation booking popup: saves the request to consultation_requests. -->

@@ -1,0 +1,2009 @@
+<!doctype html>
+<html lang="en-IN">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Python Full Stack with Generative AI | Kompetenzen</title>
+  <meta name="description"
+    content="Build full-stack applications with Python and develop Generative AI solutions using LLMs, embeddings, vector databases and RAG. Explore the course at Kompetenzen Tech School." />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Python Full Stack with Generative AI | Kompetenzen Tech School" />
+  <meta property="og:description"
+    content="Move beyond using AI tools. Learn to build full-stack applications and GenAI solutions that work with domain-specific knowledge." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Python Full Stack with Generative AI | Kompetenzen Tech School" />
+  <meta name="twitter:description"
+    content="Learn Python full-stack development and build Generative AI applications using LLMs, embeddings, vector databases and RAG." />
+  <link rel="icon" type="image/png" href="icon.png?v=2" />
+  <link rel="shortcut icon" href="favicon.ico?v=2" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.cdnfonts.com/css/google-sans" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
+
+  <!-- Only details shown on the page are marked up: no price, dates, duration, mode or rating until confirmed. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Course",
+        "name": "Python Full Stack with Generative AI",
+        "description": "An advanced, project-led programme covering Python full-stack development and the development of Generative AI applications using large language models, embeddings, vector databases and Retrieval-Augmented Generation.",
+        "provider": { "@type": "Organization", "name": "Kompetenzen Tech School" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "index.html" },
+          { "@type": "ListItem", "position": 2, "name": "Tech School", "item": "tech-school.html" },
+          { "@type": "ListItem", "position": 3, "name": "Python Full Stack with Generative AI" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          { "@type": "Question", "name": "Is this a beginner Python course?", "acceptedAnswer": { "@type": "Answer", "text": "No. This programme is intended for learners who already have a foundation in Python and programming logic. Learners who are completely new to coding should build those fundamentals first." } },
+          { "@type": "Question", "name": "What is the difference between using Generative AI and building a Generative AI application?", "acceptedAnswer": { "@type": "Answer", "text": "Using a public AI tool means interacting with a model through an existing product. Building a Generative AI application means integrating a model into software you develop, connecting it to data or tools, and designing how the application handles user requests and responses." } },
+          { "@type": "Question", "name": "What is RAG?", "acceptedAnswer": { "@type": "Answer", "text": "Retrieval-Augmented Generation (RAG) is an approach that retrieves relevant information from a knowledge source and provides it to a language model as context for generating a response. It can make responses more relevant to the supplied information, but it does not guarantee accuracy." } },
+          { "@type": "Question", "name": "Do I need to know Python before joining?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. You should be comfortable with core Python concepts and programming logic. Familiarity with web development, databases, or APIs is also useful for this advanced learning path." } },
+          { "@type": "Question", "name": "What will I build during the programme?", "acceptedAnswer": { "@type": "Answer", "text": "The project direction includes a domain-specific AI knowledge assistant. It uses document processing, embeddings, vector search, and RAG to retrieve relevant context and generate responses through a language model." } },
+          { "@type": "Question", "name": "Does the programme teach only prompt engineering?", "acceptedAnswer": { "@type": "Answer", "text": "No. Prompt engineering is one part of the learning. The programme also explores full-stack development, API integration, embeddings, vector databases, RAG, AI application frameworks, and the development considerations involved in building AI-powered software." } },
+          { "@type": "Question", "name": "Does RAG guarantee correct answers?", "acceptedAnswer": { "@type": "Answer", "text": "No. RAG can help a model use relevant information from a supplied knowledge base, but answer quality depends on the source material, retrieval process, model behaviour, and application safeguards. Outputs still need evaluation." } }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --primary-blue: #1947FF;
+      --primary-hover: #0F33CC;
+      --text-dark: #0F172A;
+      --text-muted: #475569;
+      --border-light: #E2E8F0;
+      --navy: #070D24;
+      --navy-2: #0E1838;
+      --cyan: #00F0FF;
+      --violet: #A855F7;
+      --grad: linear-gradient(120deg, #00F0FF 0%, #38BDF8 35%, #818CF8 70%, #A855F7 100%);
+      --maxw: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    html, body {
+      background: #FFFFFF;
+      color: var(--text-dark);
+      font-family: "Google Sans", "Product Sans", "Plus Jakarta Sans", sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+
+    /* NAV */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: saturate(140%) blur(14px);
+      -webkit-backdrop-filter: saturate(140%) blur(14px);
+      border-bottom: 1px solid var(--border-light, #E2E8F0);
+    }
+
+    .nav-inner {
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 0 40px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .nav-left,
+    .nav-right {
+      display: flex;
+      align-items: center;
+      flex: 1;
+    }
+
+    .nav-left {
+      justify-content: flex-start;
+    }
+
+    .nav-right {
+      justify-content: flex-end;
+    }
+
+    .brand img {
+      height: 36px;
+      display: block;
+    }
+
+    .brand {
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-dark, #474F66);
+      text-decoration: none;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--primary-blue, #1947FF);
+      font-weight: 700;
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #02050E;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 99px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+      white-space: nowrap;
+    }
+
+    .nav-cta:hover {
+      background: var(--primary-blue, #1947FF);
+      transform: translateY(-1px);
+    }
+
+    /* ===== Mobile Navigation Dropdown Menu ===== */
+    .mobile-services-header,
+    .nav-arrow {
+      display: none;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      margin-left: 10px;
+      z-index: 1002;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      border-radius: 2px;
+      background: var(--text-dark, #02050E);
+      transition: all 0.25s ease;
+    }
+    .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (max-width: 980px) {
+      .nav {
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 1000 !important;
+        background: #ffffff !important;
+        border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
+      }
+
+      .nav-inner {
+        position: relative !important;
+        padding: 0 16px !important;
+        height: 64px !important;
+      }
+
+      .brand img {
+        height: 32px !important;
+      }
+
+      .nav-cta {
+        padding: 8px 14px !important;
+        font-size: 13px !important;
+      }
+
+      .hamburger {
+        display: flex !important;
+      }
+
+      .nav-links {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        justify-content: flex-start !important;
+        position: absolute !important;
+        top: 64px !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        background: #ffffff !important;
+        padding: 12px 16px 20px !important;
+        gap: 3px !important;
+        border-bottom: 2px solid rgba(25, 71, 255, 0.15) !important;
+        box-shadow: 0 20px 40px -4px rgba(15, 23, 42, 0.18), 0 0 0 1px rgba(15, 23, 42, 0.05) !important;
+        max-height: calc(100vh - 72px) !important;
+        max-height: calc(100dvh - 72px) !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        z-index: 99999 !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transform: translateY(-8px) !important;
+        pointer-events: none !important;
+        transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                    visibility 0.22s ease !important;
+      }
+
+      .nav-links.mobile-active {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translateY(0) !important;
+        pointer-events: auto !important;
+      }
+
+      .mobile-services-header {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        font-size: 11px !important;
+        font-weight: 800 !important;
+        letter-spacing: 0.1em !important;
+        color: var(--primary-blue, #1947FF) !important;
+        text-transform: uppercase !important;
+        padding: 6px 12px 10px !important;
+        margin-bottom: 4px !important;
+        border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
+        text-align: left !important;
+      }
+
+      .mobile-services-header::before {
+        content: '';
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--primary-blue, #1947FF);
+        box-shadow: 0 0 8px var(--primary-blue, #1947FF);
+      }
+
+      .nav-links a {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 11px 14px !important;
+        font-size: 15px !important;
+        font-weight: 600 !important;
+        color: var(--text-dark, #02050E) !important;
+        text-decoration: none !important;
+        border-radius: 10px !important;
+        transition: all 0.15s ease !important;
+        white-space: nowrap !important;
+        text-align: left !important;
+      }
+
+      .nav-links a:hover,
+      .nav-links a:active {
+        background: #f8fafc !important;
+        color: var(--primary-blue, #1947FF) !important;
+      }
+
+      .nav-links a.active {
+        background: rgba(25, 71, 255, 0.08) !important;
+        color: var(--primary-blue, #1947FF) !important;
+        font-weight: 700 !important;
+      }
+
+      .nav-arrow {
+        display: inline-block !important;
+        font-size: 13px !important;
+        color: #94a3b8 !important;
+        transition: transform 0.15s ease !important;
+      }
+
+      .nav-links a:hover .nav-arrow,
+      .nav-links a.active .nav-arrow {
+        color: var(--primary-blue, #1947FF) !important;
+        transform: translateX(3px) !important;
+      }
+    }
+
+    .gx-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 16px 30px;
+      border-radius: 99px;
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    }
+
+    .gx-btn--primary {
+      background: linear-gradient(135deg, #1947FF 0%, #00C3FF 100%);
+      color: #fff;
+      box-shadow: 0 10px 30px rgba(25, 71, 255, 0.45);
+    }
+
+    .gx-btn--primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 38px rgba(25, 71, 255, 0.6), 0 0 18px rgba(0, 240, 255, 0.35);
+    }
+
+    .gx-btn--ghost {
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .gx-btn--ghost:hover {
+      border-color: var(--cyan);
+      background: rgba(0, 240, 255, 0.08);
+    }
+
+    /* HERO (dark, matches the featured card on tech-school.html) */
+    .gx-hero {
+      position: relative;
+      overflow: hidden;
+      color: #fff;
+      background:
+        radial-gradient(ellipse 60% 70% at 85% 10%, rgba(56, 189, 248, 0.22), transparent 60%),
+        radial-gradient(ellipse 50% 60% at 0% 100%, rgba(168, 85, 247, 0.18), transparent 60%),
+        linear-gradient(160deg, var(--navy-2) 0%, var(--navy) 70%);
+      padding: 88px 32px 120px;
+    }
+
+    /* faint grid behind the hero */
+    .gx-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: linear-gradient(to bottom, #000 30%, transparent 95%);
+      -webkit-mask-image: linear-gradient(to bottom, #000 30%, transparent 95%);
+      pointer-events: none;
+    }
+
+    .gx-hero-inner {
+      position: relative;
+      max-width: var(--maxw);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .gx-breadcrumb {
+      font-size: 13.5px;
+      color: rgba(255, 255, 255, 0.55);
+      margin-bottom: 28px;
+    }
+
+    .gx-breadcrumb a {
+      color: rgba(255, 255, 255, 0.75);
+      text-decoration: none;
+    }
+
+    .gx-breadcrumb a:hover {
+      color: var(--cyan);
+    }
+
+    .gx-tags {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .gx-new {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 14px;
+      border-radius: 99px;
+      background: linear-gradient(135deg, #00F0FF, #1947FF);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      box-shadow: 0 6px 20px rgba(0, 240, 255, 0.35);
+    }
+
+    .gx-new::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #fff;
+      animation: gxPulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes gxPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    .gx-kicker {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #7DD3FC;
+    }
+
+    .gx-title {
+      margin-bottom: 20px;
+    }
+
+    .gx-title-lead {
+      display: block;
+      font-size: clamp(22px, 2.4vw, 30px);
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      color: rgba(255, 255, 255, 0.85);
+      margin-bottom: 4px;
+    }
+
+    .gx-title-hl {
+      display: block;
+      font-size: clamp(44px, 6.4vw, 76px);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .gx-tagline {
+      font-size: clamp(18px, 1.8vw, 22px);
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    .gx-tagline span {
+      background: var(--grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .gx-lede {
+      font-size: 17px;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.72);
+      max-width: 580px;
+      margin-bottom: 32px;
+    }
+
+    .gx-hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 36px;
+    }
+
+    .gx-motto {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      list-style: none;
+    }
+
+    .gx-motto li {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 8px 16px;
+      border-radius: 99px;
+      border: 1px solid rgba(125, 211, 252, 0.3);
+      color: #BAE6FD;
+      background: rgba(14, 165, 233, 0.08);
+    }
+
+    /* code window, same look as the featured card */
+    .gx-window {
+      border-radius: 18px;
+      background: rgba(4, 8, 22, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.45), 0 0 50px rgba(25, 71, 255, 0.25);
+      transform: perspective(1200px) rotateY(-8deg) rotateX(3deg);
+      overflow: hidden;
+    }
+
+    .gx-window-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 18px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+    }
+
+    .gx-window-bar span {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: #F87171;
+    }
+
+    .gx-window-bar span:nth-child(2) { background: #FBBF24; }
+    .gx-window-bar span:nth-child(3) { background: #34D399; }
+
+    .gx-window-bar em {
+      margin-left: 10px;
+      font-style: normal;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    .gx-window pre {
+      padding: 22px 24px 26px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 13.5px;
+      line-height: 1.85;
+      color: #E2E8F0;
+      overflow-x: auto;
+    }
+
+    .tk-k { color: #C084FC; }
+    .tk-f { color: #67E8F9; }
+    .tk-s { color: #86EFAC; }
+    .tk-c { color: #64748B; }
+
+    /* SECTIONS */
+    .gx-section {
+      padding: 120px 32px 0;
+    }
+
+    .gx-section:last-of-type {
+      padding-bottom: 120px;
+    }
+
+    .gx-wrap {
+      max-width: var(--maxw);
+      margin: 0 auto;
+    }
+
+    .gx-head {
+      max-width: 760px;
+      margin: 0 auto 64px;
+      text-align: center;
+    }
+
+    .gx-eyebrow {
+      display: inline-block;
+      font-size: 12.5px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--primary-blue);
+      margin-bottom: 14px;
+    }
+
+    .gx-h2 {
+      font-size: clamp(30px, 3.6vw, 44px);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+
+    .gx-h2 span {
+      background: linear-gradient(120deg, #1947FF, #7C3AED);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .gx-head p {
+      font-size: 17px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* WHAT YOU WILL LEARN */
+    .gx-learn {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+    }
+
+    .gx-card {
+      position: relative;
+      padding: 36px 34px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, #FFFFFF, #F8FAFF);
+      border: 1px solid var(--border-light);
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+
+    .gx-card:hover {
+      transform: translateY(-4px);
+      border-color: #C7D2FE;
+      box-shadow: 0 20px 44px rgba(25, 71, 255, 0.1);
+    }
+
+    .gx-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 22px;
+      color: #fff;
+      background: linear-gradient(135deg, #1947FF, #00C3FF);
+      box-shadow: 0 8px 20px rgba(25, 71, 255, 0.3);
+    }
+
+    .gx-learn .gx-card:nth-child(2) .gx-icon { background: linear-gradient(135deg, #7C3AED, #A855F7); box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3); }
+    .gx-learn .gx-card:nth-child(3) .gx-icon { background: linear-gradient(135deg, #0891B2, #22D3EE); box-shadow: 0 8px 20px rgba(8, 145, 178, 0.3); }
+    .gx-learn .gx-card:nth-child(4) .gx-icon { background: linear-gradient(135deg, #0F172A, #334155); box-shadow: 0 8px 20px rgba(15, 23, 42, 0.25); }
+
+    .gx-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .gx-card h3 {
+      font-size: 21px;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      margin-bottom: 10px;
+    }
+
+    .gx-card p {
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ROADMAP TIMELINE (same pattern as the consulting/finishing-school steps) */
+    .gx-roadmap {
+      list-style: none;
+      max-width: 880px;
+      margin: 0 auto;
+      counter-reset: step;
+    }
+
+    .gx-roadmap li {
+      position: relative;
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 32px;
+      padding-bottom: 32px;
+      counter-increment: step;
+    }
+
+    .gx-roadmap li::before {
+      content: counter(step, decimal-leading-zero);
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 17px;
+      font-weight: 800;
+      color: #fff;
+      background: linear-gradient(135deg, #1947FF, #00C3FF);
+      box-shadow: 0 0 0 6px #E3EAFB, 0 10px 24px rgba(25, 71, 255, 0.3);
+      position: relative;
+      z-index: 1;
+    }
+
+    .gx-roadmap li:nth-child(n+5)::before {
+      background: linear-gradient(135deg, #7C3AED, #A855F7);
+      box-shadow: 0 0 0 6px #EDE4FD, 0 10px 24px rgba(124, 58, 237, 0.3);
+    }
+
+    .gx-roadmap li:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 29px;
+      top: 72px;
+      bottom: 12px;
+      width: 2px;
+      background: linear-gradient(to bottom, #BFDBFE, #DDD6FE);
+    }
+
+    .gx-step {
+      padding: 26px 30px;
+      border-radius: 20px;
+      background: #fff;
+      border: 1px solid var(--border-light);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .gx-step:hover {
+      border-color: #C7D2FE;
+      box-shadow: 0 16px 36px rgba(25, 71, 255, 0.08);
+    }
+
+    .gx-step-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--primary-blue);
+      margin-bottom: 6px;
+    }
+
+    .gx-roadmap li:nth-child(n+5) .gx-step-label {
+      color: #7C3AED;
+    }
+
+    .gx-step h3 {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      margin-bottom: 8px;
+    }
+
+    .gx-step p {
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* PROJECT (dark band) */
+    .gx-project {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 72px 64px;
+      border-radius: 32px;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+      border: 1.5px solid transparent;
+      background:
+        linear-gradient(135deg, rgba(14, 24, 56, 0.98), rgba(8, 14, 36, 0.98)) padding-box,
+        linear-gradient(135deg, #00F0FF, #1947FF 45%, #A855F7) border-box;
+      box-shadow: 0 30px 80px rgba(25, 71, 255, 0.25);
+    }
+
+    .gx-project::before {
+      content: '';
+      position: absolute;
+      top: -30%;
+      right: -10%;
+      width: 55%;
+      height: 120%;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.18), transparent 65%);
+      pointer-events: none;
+    }
+
+    .gx-project > * {
+      position: relative;
+    }
+
+    .gx-project .gx-eyebrow {
+      color: #7DD3FC;
+    }
+
+    .gx-project .gx-h2 {
+      color: #fff;
+      max-width: 760px;
+    }
+
+    .gx-project .gx-h2 span {
+      background: var(--grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .gx-project-intro {
+      max-width: 720px;
+      font-size: 17px;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.72);
+      margin-bottom: 44px;
+    }
+
+    .gx-flow {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      counter-reset: flow;
+      margin-bottom: 36px;
+    }
+
+    .gx-flow li {
+      counter-increment: flow;
+      padding: 22px 20px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      font-size: 15px;
+      line-height: 1.55;
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    .gx-flow li::before {
+      content: counter(flow);
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      margin-bottom: 12px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--navy);
+      background: var(--grad);
+    }
+
+    .gx-note {
+      display: flex;
+      gap: 14px;
+      padding: 20px 22px;
+      border-radius: 16px;
+      background: rgba(251, 191, 36, 0.08);
+      border: 1px solid rgba(251, 191, 36, 0.28);
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    .gx-note strong {
+      color: #FCD34D;
+    }
+
+    /* TECHNOLOGIES */
+    .gx-tech {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .gx-tech-group {
+      padding: 26px 26px 28px;
+      border-radius: 18px;
+      border: 1px solid var(--border-light);
+      background: #fff;
+    }
+
+    .gx-tech-group h3 {
+      font-size: 12.5px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    .gx-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .gx-pills li {
+      font-size: 14px;
+      font-weight: 600;
+      padding: 7px 14px;
+      border-radius: 99px;
+      background: #F0F4FF;
+      color: #1E3A8A;
+      border: 1px solid #DBE4FF;
+    }
+
+    .gx-tech-group--ai .gx-pills li {
+      background: #F5F0FF;
+      color: #5B21B6;
+      border-color: #E9DDFF;
+    }
+
+    .gx-small {
+      margin-top: 28px;
+      text-align: center;
+      font-size: 14px;
+      color: #64748B;
+    }
+
+    /* WHO IT'S FOR */
+    .gx-who {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+      margin-bottom: 40px;
+    }
+
+    .gx-who .gx-card h3::before {
+      content: '';
+      display: block;
+      width: 36px;
+      height: 4px;
+      border-radius: 4px;
+      background: linear-gradient(90deg, #1947FF, #A855F7);
+      margin-bottom: 18px;
+    }
+
+    .gx-prereq {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 24px;
+      padding: 32px 34px;
+      border-radius: 22px;
+      background: #FFFBEB;
+      border: 1px solid #FDE68A;
+    }
+
+    .gx-prereq-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: #FEF3C7;
+      color: #B45309;
+    }
+
+    .gx-prereq h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .gx-prereq p {
+      color: #57534E;
+      line-height: 1.7;
+    }
+
+    /* FAQ (answers always visible so people and search engines can read them) */
+    .gx-faq {
+      max-width: 880px;
+      margin: 0 auto;
+      display: grid;
+      gap: 16px;
+    }
+
+    .gx-faq-item {
+      padding: 26px 30px;
+      border-radius: 18px;
+      border: 1px solid var(--border-light);
+      background: #fff;
+    }
+
+    .gx-faq-item h3 {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 8px;
+    }
+
+    .gx-faq-item p {
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* CLOSING CTA */
+    .gx-cta {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 80px 48px;
+      border-radius: 32px;
+      text-align: center;
+      color: #fff;
+      background:
+        radial-gradient(ellipse 60% 80% at 50% 0%, rgba(56, 189, 248, 0.25), transparent 65%),
+        linear-gradient(160deg, var(--navy-2), var(--navy));
+    }
+
+    .gx-cta .gx-h2 {
+      color: #fff;
+      max-width: 760px;
+      margin: 0 auto 16px;
+    }
+
+    .gx-cta p {
+      max-width: 620px;
+      margin: 0 auto 14px;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .gx-cta-motto {
+      font-weight: 700;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent !important;
+      margin-bottom: 32px !important;
+    }
+
+    .gx-cta .gx-hero-actions {
+      justify-content: center;
+      margin-bottom: 0;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #FFFFFF;
+      color: var(--text-muted);
+      font-size: 13px;
+      padding: 32px 16px;
+      text-align: center;
+      border-top: 1px solid var(--border-light);
+    }
+
+    footer a {
+      color: inherit;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 992px) {
+      .gx-hero-inner {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+
+      .gx-window {
+        transform: none;
+        max-width: 560px;
+      }
+
+      .gx-flow {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .gx-tech {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 720px) {
+      .gx-hero {
+        padding: 56px 16px 80px;
+      }
+
+      .gx-visual {
+        display: none;
+      }
+
+      .gx-hero-actions .gx-btn {
+        width: 100%;
+      }
+
+      .gx-section {
+        padding: 80px 16px 0;
+      }
+
+      .gx-section:last-of-type {
+        padding-bottom: 80px;
+      }
+
+      .gx-head {
+        margin-bottom: 44px;
+      }
+
+      .gx-learn,
+      .gx-who,
+      .gx-tech,
+      .gx-flow {
+        grid-template-columns: 1fr;
+      }
+
+      .gx-card {
+        padding: 28px 22px;
+      }
+
+      .gx-roadmap li {
+        grid-template-columns: 44px 1fr;
+        gap: 16px;
+      }
+
+      .gx-roadmap li::before {
+        width: 44px;
+        height: 44px;
+        font-size: 14px;
+      }
+
+      .gx-roadmap li:not(:last-child)::after {
+        left: 21px;
+        top: 56px;
+      }
+
+      .gx-step {
+        padding: 22px 20px;
+      }
+
+      .gx-project,
+      .gx-cta {
+        padding: 48px 22px;
+        border-radius: 24px;
+      }
+
+      .gx-prereq {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 26px 22px;
+      }
+
+      .gx-faq-item {
+        padding: 22px 20px;
+      }
+    }
+
+    body { overflow-x: hidden; max-width: 100%; }
+    /* ENROLMENT ENQUIRY POPUP */
+    .gx-dialog {
+      width: min(460px, calc(100% - 32px));
+      margin: auto;
+      padding: 0;
+      border: none;
+      border-radius: 24px;
+      color: var(--text-dark);
+      background: #fff;
+      box-shadow: 0 30px 80px rgba(2, 5, 14, 0.4), 0 0 0 1px rgba(25, 71, 255, 0.08);
+      overflow: hidden;
+    }
+
+    .gx-dialog::backdrop {
+      background: rgba(4, 8, 22, 0.7);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+
+    .gx-dialog[open] {
+      animation: gxDialogIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes gxDialogIn {
+      from { opacity: 0; transform: translateY(16px) scale(0.98); }
+      to { opacity: 1; transform: none; }
+    }
+
+    .gx-dialog-head {
+      position: relative;
+      padding: 30px 30px 26px;
+      color: #fff;
+      background:
+        radial-gradient(ellipse 70% 90% at 90% 0%, rgba(56, 189, 248, 0.3), transparent 65%),
+        linear-gradient(160deg, var(--navy-2), var(--navy));
+    }
+
+    .gx-dialog-head .gx-kicker {
+      display: block;
+      font-size: 11.5px;
+      margin-bottom: 8px;
+    }
+
+    .gx-dialog-head h2 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+      margin-bottom: 6px;
+    }
+
+    .gx-dialog-head h2 span {
+      background: var(--grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .gx-dialog-head p {
+      font-size: 14.5px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .gx-dialog-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 36px;
+      height: 36px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .gx-dialog-close:hover {
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    #gx-form,
+    .gx-done {
+      padding: 10px 30px 28px;
+    }
+
+    #gx-form label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin: 16px 0 6px;
+    }
+
+    #gx-form input,
+    #gx-form select {
+      width: 100%;
+      font: inherit;
+      font-size: 15px;
+      color: var(--text-dark);
+      background: #fff;
+      border: 1px solid #CBD5E1;
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+
+    #gx-form input:focus,
+    #gx-form select:focus {
+      outline: none;
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 3px rgba(25, 71, 255, 0.15);
+    }
+
+    .gx-phone {
+      display: flex;
+      align-items: stretch;
+    }
+
+    .gx-phone span {
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      border: 1px solid #CBD5E1;
+      border-right: none;
+      border-radius: 12px 0 0 12px;
+      background: #F8FAFC;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    #gx-form .gx-phone input {
+      border-radius: 0 12px 12px 0;
+    }
+
+    #gx-form .gx-hp {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+    }
+
+    .gx-hint {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #92400E;
+    }
+
+    .gx-error {
+      margin-top: 14px;
+      font-size: 13.5px;
+      color: #B91C1C;
+    }
+
+    .gx-submit {
+      width: 100%;
+      margin-top: 24px;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .gx-submit:disabled {
+      opacity: 0.7;
+      cursor: wait;
+    }
+
+    .gx-dialog-note {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 13.5px;
+      color: var(--text-muted);
+    }
+
+    .gx-dialog-note a {
+      color: var(--primary-blue);
+      font-weight: 600;
+    }
+
+    .gx-done {
+      text-align: center;
+      padding-top: 28px;
+    }
+
+    .gx-done-icon {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: linear-gradient(135deg, #1947FF, #00C3FF);
+      box-shadow: 0 10px 24px rgba(25, 71, 255, 0.35);
+    }
+
+    .gx-done h2 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .gx-done p {
+      color: var(--text-muted);
+      margin: 8px 0 22px;
+      line-height: 1.6;
+    }
+
+    .gx-done .gx-btn {
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+  </style>
+  <link rel="stylesheet" href="css/mobile.css" media="(max-width: 768px)" />
+  <style>
+    /* Top bar has nine links since Internships was added: keep each label on one
+       line and tighten spacing on narrower desktops, above the mobile-menu breakpoint. */
+    .nav .nav-links a, .nav .nav-cta, .nav .cta { white-space: nowrap; }
+    @media (min-width: 993px) {
+      .nav .nav-left { min-width: max-content; }
+    }
+    @media (min-width: 993px) and (max-width: 1280px) {
+      .nav .nav-links { gap: 16px; }
+      .nav .nav-links a { font-size: 13px; }
+    }
+    @media (min-width: 993px) and (max-width: 1120px) {
+      .nav .nav-links { gap: 12px; }
+      .nav .nav-links a { font-size: 12.5px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <a href="index.html" class="brand">
+          <img src="kompetenzen logo-02.webp" alt="Kompetenzen" />
+        </a>
+      </div>
+      <div class="nav-links">
+        <div class="mobile-services-header">Our Services &amp; Programs</div>
+        <a href="career-consultation.html"><span>Consulting</span><span class="nav-arrow">→</span></a>
+        <a href="finishing-school.html"><span>Finishing School</span><span class="nav-arrow">→</span></a>
+        <a href="tech-school.html" class="active"><span>Tech School</span><span class="nav-arrow">→</span></a>
+        <a href="b-school.html"><span>B-School</span><span class="nav-arrow">→</span></a>
+        <a href="placements.html"><span>Placements</span><span class="nav-arrow">→</span></a>
+        <a href="our-story.html"><span>Our Story</span><span class="nav-arrow">→</span></a>
+        <a href="jobs.html"><span>Jobs</span><span class="nav-arrow">→</span></a>
+        <a href="internships.html"><span>Internships</span><span class="nav-arrow">→</span></a>
+        <a href="Resume/resume.html" onclick="openResumeBuilder(event)"><span>Resume Builder</span><span class="nav-arrow">↗</span></a>
+      </div>
+      <div class="nav-right">
+        <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="nav-cta">
+          Talk to us
+        </a>
+        <button class="hamburger" id="hamburger-menu" aria-label="Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="gx-hero">
+    <div class="gx-hero-inner">
+      <div class="gx-hero-copy">
+        <div class="gx-breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a> &rsaquo; <a href="tech-school.html">Tech School</a> &rsaquo; Python Full Stack
+          with Generative AI
+        </div>
+        <div class="gx-tags">
+          <span class="gx-new">New launch</span>
+          <span class="gx-kicker">Generative AI Programme</span>
+        </div>
+        <h1 class="gx-title">
+          <span class="gx-title-lead">Python Full Stack with</span>
+          <span class="gx-title-hl">Generative AI</span>
+        </h1>
+        <p class="gx-tagline">Build Applications. Connect Intelligence. <span>Solve Real Problems.</span></p>
+        <p class="gx-lede">Move beyond using AI tools. Learn to build full-stack applications with Python and develop
+          Generative AI features that can work with information from documents, knowledge bases, and other
+          domain-specific sources.</p>
+        <div class="gx-hero-actions">
+          <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen%2C%20I%27d%20like%20to%20know%20more%20about%20the%20Python%20Full%20Stack%20with%20Generative%20AI%20programme." target="_blank" rel="noopener" class="gx-btn gx-btn--primary"
+            data-track="genai_page_enquire_hero" data-enquire-open>Enquire About the Course →</a>
+          <a href="career-consultation.html" class="gx-btn gx-btn--ghost" data-track="genai_page_advisor_hero">Talk to an
+            Advisor</a>
+        </div>
+        <ul class="gx-motto" aria-label="Programme focus">
+          <li>Build</li>
+          <li>Integrate</li>
+          <li>Deploy</li>
+        </ul>
+      </div>
+
+      <div class="gx-visual" aria-hidden="true">
+        <div class="gx-window">
+          <div class="gx-window-bar"><span></span><span></span><span></span><em>knowledge_assistant.py</em></div>
+          <pre><code><span class="tk-k">def</span> <span class="tk-f">answer</span>(question):
+    <span class="tk-c"># 1. find relevant knowledge</span>
+    chunks = vector_db.<span class="tk-f">search</span>(
+        <span class="tk-f">embed</span>(question), top_k=<span class="tk-s">4</span>
+    )
+    <span class="tk-c"># 2. give the model that context</span>
+    context = <span class="tk-s">"\n"</span>.<span class="tk-f">join</span>(chunks)
+    <span class="tk-k">return</span> llm.<span class="tk-f">generate</span>(
+        question, context=context
+    )
+
+<span class="tk-c"># Django API → RAG → LLM → response</span></code></pre>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- OVERVIEW + WHAT YOU WILL LEARN -->
+    <section class="gx-section" id="learn">
+      <div class="gx-wrap">
+        <div class="gx-head">
+          <span class="gx-eyebrow">What you will learn</span>
+          <h2 class="gx-h2">Software development and <span>applied Generative AI</span>, together</h2>
+          <p>Build your understanding of Python, web technologies, databases, backend development, and APIs. Then
+            explore how large language models, embeddings, vector databases, and Retrieval-Augmented Generation (RAG)
+            can power useful AI-enabled applications. The focus is on building and understanding working
+            applications, not simply writing prompts or using public AI chat tools.</p>
+        </div>
+        <div class="gx-learn">
+          <article class="gx-card">
+            <div class="gx-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="16" rx="2" />
+                <path d="M3 9h18M8 14l-2 2 2 2M16 14l2 2-2 2" />
+              </svg></div>
+            <h3>Develop Full-Stack Applications</h3>
+            <p>Understand how the parts of a web application work together. Strengthen your Python programming, work
+              with frontend technologies, build backend functionality with Django, connect databases, and create REST
+              APIs.</p>
+          </article>
+          <article class="gx-card">
+            <div class="gx-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3l1.9 4.6L18.5 9l-4.6 1.9L12 15.5l-1.9-4.6L5.5 9l4.6-1.4z" />
+                <path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z" />
+              </svg></div>
+            <h3>Work with Large Language Models</h3>
+            <p>Learn how LLM-powered features are integrated into applications. Explore prompt design, model APIs,
+              structured outputs, and the practical considerations involved in building with language models.</p>
+          </article>
+          <article class="gx-card">
+            <div class="gx-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <ellipse cx="12" cy="5" rx="8" ry="3" />
+                <path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6" />
+              </svg></div>
+            <h3>Connect AI to Relevant Knowledge</h3>
+            <p>Learn how embeddings, document processing, vector databases, and RAG work together. Build applications
+              that retrieve relevant information from a knowledge source and use that context when generating
+              responses.</p>
+          </article>
+          <article class="gx-card">
+            <div class="gx-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 11l3 3 8-8" />
+                <path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9" />
+              </svg></div>
+            <h3>Build with a Developer's Mindset</h3>
+            <p>Practise reading technical documentation, debugging, testing, validating inputs and outputs, and making
+              responsible decisions when integrating external AI services.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROADMAP -->
+    <section class="gx-section" id="roadmap">
+      <div class="gx-wrap">
+        <div class="gx-head">
+          <span class="gx-eyebrow">Your learning roadmap</span>
+          <h2 class="gx-h2">From strong foundations to <span>AI-powered applications</span></h2>
+          <p>Eight stages that take you from programming fundamentals through full-stack development and into
+            Generative AI, ending in a capstone project.</p>
+        </div>
+        <ol class="gx-roadmap">
+          <li>
+            <div class="gx-step"><span class="gx-step-label">Stage 1 · Foundations</span>
+              <h3>Strengthen Your Programming Foundations</h3>
+              <p>Refresh core Python concepts, programming logic, problem-solving, and SQL. Build the confidence to
+                work through development tasks and understand how code behaves.</p>
+            </div>
+          </li>
+          <li>
+            <div class="gx-step"><span class="gx-step-label">Stage 2 · Frontend</span>
+              <h3>Build the Web Application Layer</h3>
+              <p>Work with HTML, CSS, Bootstrap, and frontend development concepts. Learn how the user interface
+                communicates with the application backend.</p>
+            </div>
+          </li>
+          <li>
+            <div class="gx-step"><span class="gx-step-label">Stage 3 · Full stack</span>
+              <h3>Develop Full-Stack Applications</h3>
+              <p>Use Python and Django to build application functionality. Work with databases, CRUD operations,
+                authentication, and the structure of a complete web application.</p>
+            </div>
+          </li>
+          <li>
+            <div class="gx-step"><span class="gx-step-label">Stage 4 · APIs</span>
+              <h3>Build APIs and Connect Application Components</h3>
+              <p>Explore Django REST Framework and API development. Understand authentication approaches such as JWT
+                and role-based access control, and learn how frontend and backend systems communicate.</p>
+            </div>
+          </li>
+          <li>
+            <div class="gx-step"><span class="gx-step-label">Stage 5 · Generative AI</span>
+              <h3>Understand Generative AI and LLMs</h3>
+              <p>Learn the foundations of Generative AI and large language models. Explore tokens, context, prompting,
+                model limitations, and how to connect an LLM API to an application.</p>
+            </div>
+          </li>
+          <li>
+            <div class="gx-step"><span class="gx-step-label">Stage 6 · RAG</span>
+              <h3>Build Knowledge-Based AI Applications</h3>
+              <p>Work with embeddings, document chunking, vector search, vector databases, and Retrieval-Augmented
+                Generation (RAG). Understand how an application can retrieve relevant information before generating
+                an answer.</p>
+            </div>
+          </li>
+          <li>
+            <div class="gx-step"><span class="gx-step-label">Stage 7 · AI workflows</span>
+              <h3>Connect Tools and Build More Capable Workflows</h3>
+              <p>Explore tool and function calling, AI application frameworks such as LangChain and LangGraph, and
+                multi-step workflows. Consider validation, security, evaluation, reliability, and deployment as part
+                of application development.</p>
+            </div>
+          </li>
+          <li>
+            <div class="gx-step"><span class="gx-step-label">Stage 8 · Capstone</span>
+              <h3>Bring It Together in a Capstone Project</h3>
+              <p>Apply the learning to a domain-specific AI application: a knowledge assistant that works with a
+                selected collection of documents or information, retrieves relevant context, and generates responses
+                based on that context.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- PROJECT -->
+    <section class="gx-section" id="project">
+      <div class="gx-project">
+        <span class="gx-eyebrow">The project</span>
+        <h2 class="gx-h2">A Domain-Specific <span>AI Knowledge Assistant</span></h2>
+        <p class="gx-project-intro">Build an application that does more than return a generic response. A knowledge
+          assistant can use a defined collection of documents or information to help answer questions about a
+          particular subject, service, team, or organisation. You will explore the core flow behind it:</p>
+        <ol class="gx-flow">
+          <li>Prepare and organise source documents.</li>
+          <li>Split content into manageable sections.</li>
+          <li>Generate embeddings from the content.</li>
+          <li>Store and search the resulting representations in a vector database.</li>
+          <li>Retrieve relevant information for a user query.</li>
+          <li>Pass the retrieved context to a language model.</li>
+          <li>Generate a response informed by the available source material.</li>
+        </ol>
+        <p class="gx-note"><span><strong>Good to know:</strong> RAG can improve how relevant an answer is to a
+            supplied knowledge base. It does not guarantee that every generated answer will be correct. Good source
+            data, retrieval quality, evaluation, and suitable safeguards still matter.</span></p>
+      </div>
+    </section>
+
+    <!-- TECHNOLOGIES -->
+    <section class="gx-section" id="technologies">
+      <div class="gx-wrap">
+        <div class="gx-head">
+          <span class="gx-eyebrow">Technologies and concepts</span>
+          <h2 class="gx-h2">The stack behind <span>full-stack GenAI</span> applications</h2>
+          <p>The programme covers technologies and concepts used across full-stack and Generative AI application
+            development.</p>
+        </div>
+        <div class="gx-tech">
+          <div class="gx-tech-group">
+            <h3>Programming &amp; Database</h3>
+            <ul class="gx-pills">
+              <li>Python</li>
+              <li>SQL</li>
+            </ul>
+          </div>
+          <div class="gx-tech-group">
+            <h3>Frontend</h3>
+            <ul class="gx-pills">
+              <li>HTML</li>
+              <li>CSS</li>
+              <li>Bootstrap</li>
+              <li>JavaScript</li>
+              <li>React</li>
+            </ul>
+          </div>
+          <div class="gx-tech-group">
+            <h3>Backend &amp; APIs</h3>
+            <ul class="gx-pills">
+              <li>Django</li>
+              <li>Django REST Framework</li>
+              <li>REST APIs</li>
+              <li>JWT</li>
+              <li>Role-based access control</li>
+            </ul>
+          </div>
+          <div class="gx-tech-group gx-tech-group--ai">
+            <h3>Generative AI</h3>
+            <ul class="gx-pills">
+              <li>Large language models</li>
+              <li>LLM APIs</li>
+              <li>Prompt engineering</li>
+              <li>Structured outputs</li>
+            </ul>
+          </div>
+          <div class="gx-tech-group gx-tech-group--ai">
+            <h3>Knowledge retrieval &amp; frameworks</h3>
+            <ul class="gx-pills">
+              <li>Embeddings</li>
+              <li>Document chunking</li>
+              <li>Vector search</li>
+              <li>Vector databases</li>
+              <li>RAG</li>
+              <li>LangChain</li>
+              <li>LangGraph</li>
+            </ul>
+          </div>
+          <div class="gx-tech-group">
+            <h3>Development practices</h3>
+            <ul class="gx-pills">
+              <li>Documentation-led learning</li>
+              <li>Debugging</li>
+              <li>Testing</li>
+              <li>Validation</li>
+              <li>Security</li>
+              <li>Deployment</li>
+            </ul>
+          </div>
+        </div>
+        <p class="gx-small">Exact tools and versions may vary by intake. Please confirm the current syllabus with our
+          team.</p>
+      </div>
+    </section>
+
+    <!-- WHO IS THIS FOR -->
+    <section class="gx-section" id="who">
+      <div class="gx-wrap">
+        <div class="gx-head">
+          <span class="gx-eyebrow">Who is this programme for?</span>
+          <h2 class="gx-h2">Built for learners ready to <span>go further</span></h2>
+          <p>This programme is best suited to learners who already have a foundation in programming and want to
+            progress towards building full-stack and Generative AI applications.</p>
+        </div>
+        <div class="gx-who">
+          <article class="gx-card">
+            <h3>Python Developers Who Want to Build with AI</h3>
+            <p>You already understand Python and want to move beyond standalone scripts. Learn how to connect
+              application backends with LLMs, retrieval systems, and domain-specific data.</p>
+          </article>
+          <article class="gx-card">
+            <h3>Full-Stack Learners Ready for an Advanced Project</h3>
+            <p>You have some exposure to web development, databases, or APIs. You want to strengthen your
+              application-building skills and understand how Generative AI fits into a full-stack product.</p>
+          </article>
+          <article class="gx-card">
+            <h3>Graduates with Programming Foundations</h3>
+            <p>You have studied programming or built projects before and are ready for a more demanding, practical
+              learning path. You want stronger project experience in Python development and applied AI.</p>
+          </article>
+          <article class="gx-card">
+            <h3>Developers Exploring RAG and LLM Applications</h3>
+            <p>You want to understand how AI applications retrieve information, use context, and generate responses
+              grounded in a selected knowledge base, and you want to build and evaluate these systems rather than
+              only use AI tools.</p>
+          </article>
+        </div>
+        <div class="gx-prereq">
+          <div class="gx-prereq-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 8v4M12 16h.01" />
+            </svg></div>
+          <div>
+            <h3>Who should build the foundation first?</h3>
+            <p>This is not designed as a first-ever introduction to computers or programming. If you are new to
+              coding, begin with a beginner-friendly <a href="course-details.html">Python or full-stack foundation
+                programme</a> first. You should be comfortable with core Python and programming logic, have some
+              exposure to web technologies, databases, or APIs, and be willing to read documentation and debug
+              independently.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="gx-section" id="faq">
+      <div class="gx-wrap">
+        <div class="gx-head">
+          <span class="gx-eyebrow">FAQ</span>
+          <h2 class="gx-h2">Frequently asked <span>questions</span></h2>
+        </div>
+        <div class="gx-faq">
+          <div class="gx-faq-item">
+            <h3>Is this a beginner Python course?</h3>
+            <p>No. This programme is intended for learners who already have a foundation in Python and programming
+              logic. Learners who are completely new to coding should build those fundamentals first.</p>
+          </div>
+          <div class="gx-faq-item">
+            <h3>What is the difference between using Generative AI and building a Generative AI application?</h3>
+            <p>Using a public AI tool means interacting with a model through an existing product. Building a
+              Generative AI application means integrating a model into software you develop, connecting it to data or
+              tools, and designing how the application handles user requests and responses.</p>
+          </div>
+          <div class="gx-faq-item">
+            <h3>What is RAG?</h3>
+            <p>Retrieval-Augmented Generation (RAG) is an approach that retrieves relevant information from a
+              knowledge source and provides it to a language model as context for generating a response. It can make
+              responses more relevant to the supplied information, but it does not guarantee accuracy.</p>
+          </div>
+          <div class="gx-faq-item">
+            <h3>Do I need to know Python before joining?</h3>
+            <p>Yes. You should be comfortable with core Python concepts and programming logic. Familiarity with web
+              development, databases, or APIs is also useful for this advanced learning path.</p>
+          </div>
+          <div class="gx-faq-item">
+            <h3>What will I build during the programme?</h3>
+            <p>The project direction includes a domain-specific AI knowledge assistant. It uses document processing,
+              embeddings, vector search, and RAG to retrieve relevant context and generate responses through a
+              language model.</p>
+          </div>
+          <div class="gx-faq-item">
+            <h3>Does the programme teach only prompt engineering?</h3>
+            <p>No. Prompt engineering is one part of the learning. The programme also explores full-stack
+              development, API integration, embeddings, vector databases, RAG, AI application frameworks, and the
+              development considerations involved in building AI-powered software.</p>
+          </div>
+          <div class="gx-faq-item">
+            <h3>Does RAG guarantee correct answers?</h3>
+            <p>No. RAG can help a model use relevant information from a supplied knowledge base, but answer quality
+              depends on the source material, retrieval process, model behaviour, and application safeguards. Outputs
+              still need evaluation.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CLOSING CTA -->
+    <section class="gx-section" id="enquire">
+      <div class="gx-cta">
+        <h2 class="gx-h2">Take the next step</h2>
+        <p>If you already have programming foundations and want to build applications that combine Python full-stack
+          development with Generative AI, this programme can help you take that next step.</p>
+        <p class="gx-cta-motto">Build your foundation. Connect AI to real information. Create applications with
+          purpose.</p>
+        <div class="gx-hero-actions">
+          <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen%2C%20I%27d%20like%20to%20know%20more%20about%20the%20Python%20Full%20Stack%20with%20Generative%20AI%20programme." target="_blank" rel="noopener" class="gx-btn gx-btn--primary"
+            data-track="genai_page_enquire_footer" data-enquire-open>Enquire About the Course →</a>
+          <a href="career-consultation.html" class="gx-btn gx-btn--ghost" data-track="genai_page_advisor_footer">Talk to
+            an Advisor</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ENROLMENT ENQUIRY POPUP (opened by the Enquire buttons; they fall back to WhatsApp without JS) -->
+  <dialog class="gx-dialog" id="gx-dialog" aria-labelledby="gx-dialog-title">
+    <div class="gx-dialog-head">
+      <button type="button" class="gx-dialog-close" id="gx-dialog-close" aria-label="Close">&times;</button>
+      <span class="gx-kicker">Enrolment enquiry</span>
+      <h2 id="gx-dialog-title">Python Full Stack with <span>Generative AI</span></h2>
+      <p>Leave your details and our team will contact you on WhatsApp.</p>
+    </div>
+    <form id="gx-form" novalidate>
+      <label for="gx-name">Your name</label>
+      <input id="gx-name" name="name" type="text" autocomplete="name" maxlength="100" required />
+      <label for="gx-phone">WhatsApp number</label>
+      <div class="gx-phone">
+        <span aria-hidden="true">+91</span>
+        <input id="gx-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="10"
+          pattern="[6-9][0-9]{9}" placeholder="10-digit mobile number" required />
+      </div>
+      <label for="gx-level">Your Python experience</label>
+      <select id="gx-level" name="python_level" required>
+        <option value="">Choose one</option>
+        <option>Comfortable with Python</option>
+        <option>Know some Python</option>
+        <option>New to coding</option>
+      </select>
+      <p class="gx-hint" id="gx-hint" hidden>No problem. Our team can suggest a foundation course to start with.</p>
+      <!-- Hidden from people; bots that fill every field are ignored. -->
+      <input type="text" name="website" id="gx-website" tabindex="-1" autocomplete="off" class="gx-hp"
+        aria-hidden="true" />
+      <p class="gx-error" id="gx-error" role="alert" hidden></p>
+      <button type="submit" class="gx-btn gx-btn--primary gx-submit" id="gx-submit">Send Enquiry →</button>
+      <p class="gx-dialog-note">Prefer to chat? <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen%2C%20I%27d%20like%20to%20know%20more%20about%20the%20Python%20Full%20Stack%20with%20Generative%20AI%20programme." target="_blank" rel="noopener"
+          data-track="genai_popup_whatsapp">Message us on WhatsApp</a></p>
+    </form>
+    <div class="gx-done" id="gx-done" hidden>
+      <div class="gx-done-icon" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12l5 5L20 7" />
+        </svg></div>
+      <h2>Thank you, <span id="gx-done-name"></span>!</h2>
+      <p>Your enquiry is in. Our team will contact you on WhatsApp with the course and enrolment details.</p>
+      <button type="button" class="gx-btn gx-btn--primary" id="gx-done-close">Close</button>
+    </div>
+  </dialog>
+
+  <footer>
+    <p>© 2026 Kompetenzen Career Consulting &amp; Training Academy. All rights reserved. · <a
+        href="privacy.html">Privacy Policy</a></p>
+  </footer>
+
+  <!-- Mobile Menu Toggle -->
+  <script>
+    (function () {
+      const hamburger = document.getElementById('hamburger-menu');
+      const navLinks = document.querySelector('.nav-links');
+      if (hamburger && navLinks) {
+        hamburger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          hamburger.classList.toggle('active');
+          navLinks.classList.toggle('mobile-active');
+        });
+
+        navLinks.querySelectorAll('a').forEach((link) => {
+          link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('mobile-active');
+          });
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('mobile-active');
+          }
+        });
+      }
+    })();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
+  <script src="supabase-config.js"></script>
+  <script src="js/site-content.js"></script>
+  <script src="js/auth-modal.js?v=13"></script>
+  <!-- Enrolment enquiry popup: saves the enquiry to genai_enquiries. -->
+  <script>
+    (function () {
+      const dialog = document.getElementById('gx-dialog');
+      const form = document.getElementById('gx-form');
+      const done = document.getElementById('gx-done');
+      const errorBox = document.getElementById('gx-error');
+      const submit = document.getElementById('gx-submit');
+      const phone = document.getElementById('gx-phone');
+      const level = document.getElementById('gx-level');
+      const hint = document.getElementById('gx-hint');
+      if (!dialog || typeof dialog.showModal !== 'function') return;
+      let openedAt = 0;
+
+      function showError(message) {
+        errorBox.textContent = message;
+        errorBox.hidden = !message;
+      }
+
+      function finish(name) {
+        document.getElementById('gx-done-name').textContent = name.split(' ')[0];
+        form.reset();
+        hint.hidden = true;
+        form.hidden = true;
+        done.hidden = false;
+      }
+
+      function open(e) {
+        e.preventDefault();
+        form.hidden = false;
+        done.hidden = true;
+        showError('');
+        openedAt = Date.now();
+        dialog.showModal();
+        document.getElementById('gx-name').focus();
+      }
+
+      document.querySelectorAll('[data-enquire-open]').forEach(btn => btn.addEventListener('click', open));
+      document.getElementById('gx-dialog-close').addEventListener('click', () => dialog.close());
+      document.getElementById('gx-done-close').addEventListener('click', () => dialog.close());
+      // Clicking the dark backdrop closes the popup.
+      dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });
+      phone.addEventListener('input', () => { phone.value = phone.value.replace(/\D/g, '').slice(0, 10); });
+      // The course needs Python basics; reassure beginners instead of turning them away.
+      level.addEventListener('change', () => { hint.hidden = level.value !== 'New to coding'; });
+
+      form.addEventListener('submit', async e => {
+        e.preventDefault();
+        showError('');
+        const name = form.elements.name.value.trim();
+        const digits = phone.value.trim();
+        const pythonLevel = level.value;
+        if (!name) return showError('Please enter your name.');
+        if (!/^[6-9]\d{9}$/.test(digits)) return showError('Please enter a valid 10-digit mobile number.');
+        if (!pythonLevel) return showError('Please choose your Python experience.');
+        // Bots fill the hidden field or submit instantly; pretend success and save nothing.
+        if (form.elements.website.value || Date.now() - openedAt < 2000) return finish(name);
+        if (typeof isSupabaseConfigured !== 'function' || !isSupabaseConfigured()) {
+          return showError('Enquiries are unavailable right now. Please message us on WhatsApp.');
+        }
+        submit.disabled = true;
+        submit.textContent = 'Sending…';
+        try {
+          const { error } = await supabaseClient.from('genai_enquiries').insert([{
+            name,
+            phone: '+91' + digits,
+            python_level: pythonLevel,
+            page_url: location.href.slice(0, 500)
+          }]);
+          // The database guard rejects repeats within 10 minutes; the earlier enquiry still stands.
+          if (error && !/already enquired/i.test(error.message || '')) throw error;
+          finish(name);
+        } catch (err) {
+          console.warn('GenAI enquiry failed:', err);
+          showError(/too many/i.test(err.message || '') ? err.message : 'We could not send your enquiry. Please try again or message us on WhatsApp.');
+        } finally {
+          submit.disabled = false;
+          submit.textContent = 'Send Enquiry →';
+        }
+      });
+    })();
+  </script>
+</body>
+
+</html>

@@ -6,14 +6,14 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Design Your Future: 2-Day Career Programme | Kompetenzen</title>
   <meta name="description"
-    content="A 2-day, in-person career programme at Kompetenzen Finishing School. Understand yourself, see your real options and leave with a personal career map." />
+    content="A two-day career discovery and future-readiness programme. Understand your strengths, explore career options and leave with a personalised DYF Report and roadmap." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://www.kompetenzen.in/finishing-school" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Kompetenzen Technologies" />
   <meta property="og:title" content="Design Your Future: 2-Day Career Programme | Kompetenzen" />
   <meta property="og:description"
-    content="A 2-day, in-person career programme at Kompetenzen Finishing School. Understand yourself, see your real options and leave with a personal career map." />
+    content="A two-day career discovery and future-readiness programme. Understand your strengths, explore career options and leave with a personalised DYF Report and roadmap." />
   <meta property="og:url" content="https://www.kompetenzen.in/finishing-school" />
   <!-- og:image: add https://www.kompetenzen.in/images/og-design-your-future.jpg (1200x630) once designed -->
   <meta property="og:locale" content="en_IN" />
@@ -33,7 +33,7 @@
       {
         "@type": "Course",
         "name": "Design Your Future",
-        "description": "A 2-day, 8-session, 14-hour in-person career discovery programme that helps students and graduates understand themselves, explore career options, and leave with a personal career map.",
+        "description": "A 2-day, 8-session, 14-hour career discovery and future-readiness programme that helps you understand your strengths, interests and career options, identify the capabilities you need to develop, and leave with a personalised DYF Report and practical roadmap.",
         "provider": { "@id": "https://www.kompetenzen.in/#organization" },
         "educationalLevel": "Beginner",
         "hasCourseInstance": {
@@ -50,7 +50,7 @@
             "name": "What is Design Your Future?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "A two-day, in-person career programme that helps you understand yourself, see your real career options, and leave with a personal career map and your next step."
+              "text": "A two-day career discovery and future-readiness programme that helps you understand your strengths, interests and career options. It guides you in identifying the capabilities you need to develop and provides a personalised DYF Report with a practical roadmap for your next steps."
             }
           },
           {
@@ -58,7 +58,7 @@
             "name": "Who is Design Your Future for?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Final-year students, fresh graduates, job seekers and working professionals who want clarity on what to do next."
+              "text": "Students pursuing their degree, graduates seeking career direction, job seekers preparing for opportunities, and individuals exploring new career paths."
             }
           },
           {
@@ -79,10 +79,18 @@
           },
           {
             "@type": "Question",
+            "name": "Does Design Your Future cover freelancing and entrepreneurship?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. You explore employment, freelancing, entrepreneurship and hybrid career paths, so you can choose a direction that fits your interests, capabilities and goals."
+            }
+          },
+          {
+            "@type": "Question",
             "name": "What will I receive at the end of the programme?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "A personal career report, a take-home AI prompt guide, and a written next step you've committed to."
+              "text": "A personalised DYF Report outlining your current position, career direction, development areas and possible next steps, plus a take-home AI Prompt PDF to support your continued learning."
             }
           }
         ]
@@ -412,15 +420,40 @@
     .tech-hero .hero-tagline {
       font-family: 'Instrument Serif', serif;
       font-style: italic;
-      font-size: clamp(23px, 2.1vw, 29px) !important;
+      font-size: clamp(28px, 2.8vw, 40px) !important;
       color: #ffffff !important;
-      max-width: 500px !important;
-      margin: 0 0 20px !important;
-      line-height: 1.25 !important;
+      max-width: 640px !important;
+      margin: 0 0 26px !important;
+      line-height: 1.2 !important;
+      padding-left: 20px;
+      border-left: 3px solid #5b8aff;
+      text-shadow: 0 2px 24px rgba(91, 138, 255, 0.35);
+    }
+
+    .tech-hero .tagline-hl {
+      background: linear-gradient(90deg, #7ea2ff, #c4d4ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      position: relative;
+      white-space: nowrap;
+    }
+
+    /* Soft glowing underline beneath the highlighted phrase */
+    .tech-hero .tagline-hl::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -4px;
+      height: 3px;
+      border-radius: 3px;
+      background: linear-gradient(90deg, #1947FF, #5b8aff, transparent);
+      box-shadow: 0 0 12px rgba(91, 138, 255, 0.6);
     }
 
     .tech-hero .hero-sub {
-      max-width: 480px;
+      max-width: 540px;
       margin: 0 0 28px;
       color: #d0d9ea;
       font-size: 17px;
@@ -481,7 +514,7 @@
     }
 
     .tech-hero + .dyf-section {
-      padding-top: 48px;
+      padding-top: 112px;
       background: linear-gradient(180deg, #eef3fc 0%, #f4f7fd 160px, #fff 360px);
     }
 
@@ -496,7 +529,7 @@
 
     .dyf-head {
       text-align: center;
-      margin-bottom: 56px;
+      margin-bottom: 72px;
     }
 
     .dyf-head h2 {
@@ -512,7 +545,7 @@
     .crossroads-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 24px;
+      gap: 32px;
     }
 
     .crossroads-card {
@@ -546,75 +579,127 @@
       color: var(--ink);
     }
 
-    .days-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 32px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .day-card {
-      background: #fff;
-      border: 1px solid var(--line-soft);
-      border-radius: 24px;
-      padding: 40px;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .day-card h3 {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 26px;
+    .crossroads-card h3 {
+      font-size: 19px;
       font-weight: 700;
+      line-height: 1.3;
       color: var(--ink);
-      margin-bottom: 28px;
+      margin-bottom: 10px;
     }
 
-    .day-card h3 span {
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--blue);
-      background: var(--blue-soft);
-      padding: 5px 12px;
-      border-radius: 99px;
+    .crossroads-card h3 + p {
+      font-size: 15.5px;
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--ink-mute);
     }
 
-    .step-list {
+    /* Vertical timeline: numbered marker on the left, card on the right, joined by a line */
+    .path-steps {
       list-style: none;
+      max-width: 880px;
+      margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 22px;
+      gap: 40px;
+      counter-reset: step;
     }
 
-    .step-list li {
-      display: flex;
-      gap: 16px;
-      align-items: flex-start;
-      font-size: 15.5px;
-      color: var(--ink-mute);
-      line-height: 1.55;
+    .path-steps li {
+      counter-increment: step;
+      position: relative;
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 40px;
+      align-items: start;
     }
 
-    .step-list strong {
-      color: var(--ink);
-    }
-
-    .step-num {
-      flex-shrink: 0;
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      background: var(--blue);
-      color: #fff;
-      font-weight: 700;
-      font-size: 15px;
+    .path-steps li::before {
+      content: counter(step, decimal-leading-zero);
       display: flex;
       align-items: center;
       justify-content: center;
+      width: 60px;
+      height: 60px;
+      margin-top: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), #5b8aff);
+      color: #fff;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      box-shadow: 0 0 0 8px #e3eafb, 0 14px 28px -8px rgba(25, 71, 255, 0.5);
+      position: relative;
+      z-index: 1;
+    }
+
+    .path-steps li:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 29px;
+      top: 104px;
+      bottom: -24px;
+      width: 2px;
+      border-radius: 2px;
+      background: linear-gradient(180deg, rgba(25, 71, 255, 0.4), rgba(25, 71, 255, 0.08));
+    }
+
+    .path-steps .step-body {
+      background: #fff;
+      padding: 38px 44px 40px;
+      border-radius: 24px;
+      border: 1px solid rgba(25, 71, 255, 0.12);
+      box-shadow: 0 1px 2px rgba(2, 5, 14, 0.04), 0 18px 44px -18px rgba(25, 71, 255, 0.16);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+    }
+
+    /* Slim accent bar along the card's left edge */
+    .path-steps .step-body::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 28px;
+      bottom: 28px;
+      width: 3px;
+      border-radius: 0 3px 3px 0;
+      background: linear-gradient(180deg, var(--blue), #5b8aff);
+    }
+
+    .path-steps li:hover .step-body {
+      transform: translateX(6px);
+      border-color: rgba(25, 71, 255, 0.24);
+      box-shadow: 0 1px 2px rgba(2, 5, 14, 0.04), 0 28px 56px -20px rgba(25, 71, 255, 0.26);
+    }
+
+    .path-steps .step-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--blue);
+      background: var(--blue-soft);
+      padding: 6px 12px;
+      border-radius: 99px;
+      margin-bottom: 18px;
+    }
+
+    .path-steps h3 {
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.3;
+      letter-spacing: -0.015em;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+
+    .path-steps p {
+      font-size: 16px;
+      line-height: 1.75;
+      color: var(--ink-mute);
+      max-width: 640px;
     }
 
     .takeaway-list {
@@ -789,15 +874,51 @@
         font-size: 15px !important;
         line-height: 1.55 !important;
       }
-      .days-grid {
-        grid-template-columns: 1fr;
-      }
-      .day-card {
-        padding: 28px 20px;
-      }
       .dyf-section,
       .dyf-final {
         padding: 72px 16px;
+      }
+
+      .tech-hero + .dyf-section {
+        padding-top: 72px;
+      }
+
+      .dyf-head {
+        margin-bottom: 48px;
+      }
+
+      .path-steps {
+        gap: 24px;
+      }
+
+      .path-steps li {
+        grid-template-columns: 40px 1fr;
+        gap: 16px;
+      }
+
+      .path-steps li::before {
+        width: 40px;
+        height: 40px;
+        margin-top: 22px;
+        font-size: 14px;
+        box-shadow: 0 0 0 5px #e3eafb;
+      }
+
+      .path-steps li:not(:last-child)::after {
+        left: 19px;
+        top: 72px;
+      }
+
+      .path-steps .step-body {
+        padding: 26px 22px 28px;
+      }
+
+      .path-steps h3 {
+        font-size: 18.5px;
+      }
+
+      .path-steps p {
+        font-size: 15px;
       }
     }
 
@@ -1029,6 +1150,155 @@
         transform: translateX(3px) !important;
       }
     }
+    /* RESERVE-A-SEAT POPUP */
+    .seat-dialog {
+      width: min(440px, calc(100% - 32px));
+      margin: auto;
+      padding: 32px 28px 26px;
+      border: none;
+      border-radius: 22px;
+      color: var(--ink);
+      box-shadow: 0 24px 60px rgba(2, 5, 14, 0.25);
+    }
+
+    .seat-dialog::backdrop {
+      background: rgba(2, 5, 14, 0.55);
+    }
+
+    .seat-dialog h2 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    .seat-dialog-sub {
+      font-size: 14.5px;
+      color: var(--ink-mute);
+      margin-bottom: 8px;
+    }
+
+    .seat-dialog-close {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      width: 36px;
+      height: 36px;
+      border: none;
+      border-radius: 50%;
+      background: transparent;
+      font-size: 26px;
+      line-height: 1;
+      color: var(--ink-mute);
+      cursor: pointer;
+    }
+
+    .seat-dialog-close:hover {
+      background: var(--line-soft);
+    }
+
+    #seat-form label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin: 14px 0 6px;
+    }
+
+    #seat-form input,
+    #seat-form select {
+      width: 100%;
+      font: inherit;
+      font-size: 15px;
+      color: var(--ink);
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+
+    #seat-form input:focus,
+    #seat-form select:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(25, 71, 255, 0.15);
+    }
+
+    .seat-phone {
+      display: flex;
+      align-items: stretch;
+    }
+
+    .seat-phone span {
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-right: none;
+      border-radius: 12px 0 0 12px;
+      background: #F8FAFC;
+      font-weight: 600;
+      color: var(--ink-mute);
+    }
+
+    #seat-form .seat-phone input {
+      border-radius: 0 12px 12px 0;
+    }
+
+    #seat-form .seat-hp {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+    }
+
+    .seat-error {
+      margin-top: 14px;
+      font-size: 13.5px;
+      color: #B91C1C;
+    }
+
+    .seat-submit {
+      width: 100%;
+      justify-content: center;
+      margin-top: 22px;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .seat-submit:disabled {
+      opacity: 0.7;
+      cursor: wait;
+    }
+
+    .seat-dialog-note {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 13.5px;
+      color: var(--ink-mute);
+    }
+
+    .seat-dialog-note a {
+      color: var(--blue);
+      font-weight: 600;
+    }
+
+    .seat-done {
+      text-align: center;
+      padding: 12px 0 4px;
+    }
+
+    .seat-done p {
+      color: var(--ink-mute);
+      margin: 8px 0 22px;
+      line-height: 1.6;
+    }
+
+    .seat-done .dyf-btn {
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
   </style>
   <link rel="stylesheet" href="css/mobile.css" media="(max-width: 768px)" />
   <style>
@@ -1107,9 +1377,9 @@
       </div>
 
       <h1>Design Your <em>Future</em></h1>
-      <p class="hero-tagline">Before you choose a career, choose a direction.</p>
+      <p class="hero-tagline">Your future needs a plan. <span class="tagline-hl">Let’s design yours.</span></p>
       <p class="hero-sub">
-        Two days to understand yourself, see your real options, and walk out knowing your next step.
+        A two-day career discovery and future-readiness programme that helps you understand your strengths, interests and career options, and gives you a personalised DYF Report with a practical roadmap for your next steps.
       </p>
       <ul class="fact-strip" aria-label="Programme facts">
         <li>2 Days</li>
@@ -1118,7 +1388,7 @@
         <li>In person</li>
       </ul>
       <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen%2C%20I'd%20like%20to%20reserve%20a%20seat%20for%20Design%20Your%20Future.%20Please%20share%20the%20next%20batch%20details."
-        target="_blank" rel="noopener" class="dyf-btn" data-event="dyf_cta_hero">
+        target="_blank" rel="noopener" class="dyf-btn" data-event="dyf_cta_hero" data-seat-open>
         Reserve My Seat →
       </a>
     </div>
@@ -1129,24 +1399,28 @@
     <div class="dyf-wrap">
       <div class="dyf-head">
         <span class="eyebrow">Who is it for?</span>
-        <h2>Made for anyone standing at a career crossroads</h2>
+        <h2>Who can benefit from DYF?</h2>
       </div>
       <div class="crossroads-grid">
         <div class="crossroads-card">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
-          <p>About to choose a course or job, and not sure which way to go?</p>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+          <h3>Students Pursuing Their Degree</h3>
+          <p>Build a clearer understanding of your career options while you are still studying. Explore different career paths, recognise your strengths, and identify the capabilities you can develop to prepare for life after graduation.</p>
         </div>
         <div class="crossroads-card">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
-          <p>Degree in hand, but no clear idea what comes next?</p>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+          <h3>Graduates Seeking Career Direction</h3>
+          <p>Make informed decisions about your next step after graduation. Explore career options that match your interests and goals, understand where you need to improve, and identify practical ways to move forward.</p>
         </div>
         <div class="crossroads-card">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
-          <p>Applying everywhere, but not sure you're aiming at the right things?</p>
+          <h3>Job Seekers Preparing for Opportunities</h3>
+          <p>Understand the skills and capabilities you can offer and the areas you need to strengthen. Assess your current position, explore career possibilities, and plan your preparation for future opportunities.</p>
         </div>
         <div class="crossroads-card">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
-          <p>Wondering if there's a better fit out there for you?</p>
+          <h3>Individuals Exploring New Career Paths</h3>
+          <p>Consider different ways to build your career, including employment, freelancing, entrepreneurship, or a combination of these. Identify a direction that aligns with your interests, capabilities, and goals.</p>
         </div>
       </div>
     </div>
@@ -1157,28 +1431,45 @@
     <div class="dyf-wrap">
       <div class="dyf-head">
         <span class="eyebrow">How it works</span>
-        <h2>Two days. Eight steps. One clear direction.</h2>
+        <h2>Your path to a clearer career direction</h2>
       </div>
-      <div class="days-grid">
-        <div class="day-card">
-          <h3><span>Day 1</span> Discover</h3>
-          <ol class="step-list" start="1">
-            <li><span class="step-num">1</span><div><strong>See the world.</strong> Understand how careers are changing.</div></li>
-            <li><span class="step-num">2</span><div><strong>Know yourself.</strong> Find what you're good at and what holds you back.</div></li>
-            <li><span class="step-num">3</span><div><strong>Learn and express.</strong> Learn faster and speak with clarity.</div></li>
-            <li><span class="step-num">4</span><div><strong>Mark your starting point.</strong> Share where you are and where you want to go.</div></li>
-          </ol>
-        </div>
-        <div class="day-card">
-          <h3><span>Day 2</span> Build</h3>
-          <ol class="step-list" start="5">
-            <li><span class="step-num">5</span><div><strong>Build your core.</strong> The skills that work in any job, business or path.</div></li>
-            <li><span class="step-num">6</span><div><strong>Use AI well.</strong> A practical, honest start with AI tools.</div></li>
-            <li><span class="step-num">7</span><div><strong>Show your value.</strong> Present yourself with confidence.</div></li>
-            <li><span class="step-num">8</span><div><strong>Get your map.</strong> Your personal report and your next step.</div></li>
-          </ol>
-        </div>
-      </div>
+      <ol class="path-steps">
+        <li>
+          <div class="step-body">
+            <span class="step-label">Step 1</span>
+            <h3>Understand Yourself</h3>
+            <p>Explore your strengths, interests, motivations, and current capabilities. Build a clearer picture of where you stand and what matters to you when making career decisions.</p>
+          </div>
+        </li>
+        <li>
+          <div class="step-body">
+            <span class="step-label">Step 2</span>
+            <h3>Explore Career Possibilities</h3>
+            <p>Learn about different ways to build a career. Consider employment, freelancing, entrepreneurship, and hybrid career paths to understand the options available to you.</p>
+          </div>
+        </li>
+        <li>
+          <div class="step-body">
+            <span class="step-label">Step 3</span>
+            <h3>Identify Your Skill Gaps</h3>
+            <p>Understand the capabilities required for your intended career direction. Identify your development areas and recognise which skills and capabilities need more attention.</p>
+          </div>
+        </li>
+        <li>
+          <div class="step-body">
+            <span class="step-label">Step 4</span>
+            <h3>Build Your Capabilities</h3>
+            <p>Develop essential human capabilities and gain a practical foundation in AI. Learn how these capabilities support your growth, adaptability, and readiness for the changing world of work.</p>
+          </div>
+        </li>
+        <li>
+          <div class="step-body">
+            <span class="step-label">Step 5</span>
+            <h3>Create Your Career Roadmap</h3>
+            <p>Receive your personalised DYF Report, outlining your current position, career direction, development areas, and possible next steps, plus a take-home AI Prompt PDF to support your continued learning.</p>
+          </div>
+        </li>
+      </ol>
     </div>
   </section>
 
@@ -1190,10 +1481,10 @@
         <h2>You'll leave with more than notes</h2>
       </div>
       <ul class="takeaway-list">
-        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg><div><strong>Your personal DYF Report.</strong> It shows where you are now, where you want to go, the skills to build, and the steps to get there. It's a map, not a verdict.</div></li>
-        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg><div><strong>A clear first step.</strong> One concrete action you've chosen and committed to.</div></li>
-        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg><div><strong>Your AI prompt guide.</strong> Ready-to-use prompts for studying, research, writing and job preparation, yours to keep.</div></li>
-        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg><div><strong>More confidence.</strong> In how you think, speak and present yourself.</div></li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg><div><strong>Your personalised DYF Report.</strong> It outlines your current position, career direction, development areas, and possible next steps: a practical roadmap, not a verdict.</div></li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg><div><strong>A take-home AI Prompt PDF.</strong> Ready-to-use prompts to support your continued learning, yours to keep.</div></li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg><div><strong>Clarity on your skill gaps.</strong> Know which skills and capabilities need more attention for the career direction you want.</div></li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg><div><strong>Human capabilities and a foundation in AI.</strong> Build the adaptability and readiness the changing world of work asks for.</div></li>
         <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg><div><strong>Continued support.</strong> Access to the Kompetenzen career platform and career consultant support, subject to applicable programme and membership terms.</div></li>
       </ul>
     </div>
@@ -1209,11 +1500,11 @@
       <div class="faq-list">
         <details>
           <summary>What is Design Your Future?</summary>
-          <p>A two-day, in-person career programme that helps you understand yourself, see your real career options, and leave with a personal career map and your next step.</p>
+          <p>A two-day career discovery and future-readiness programme that helps you understand your strengths, interests and career options. It guides you in identifying the capabilities you need to develop and provides a personalised DYF Report with a practical roadmap for your next steps.</p>
         </details>
         <details>
           <summary>Who is it for?</summary>
-          <p>Final-year students, fresh graduates, job seekers and working professionals who want clarity on what to do next.</p>
+          <p>Students pursuing their degree, graduates seeking career direction, job seekers preparing for opportunities, and individuals exploring new career paths.</p>
         </details>
         <details>
           <summary>How long is the programme?</summary>
@@ -1224,8 +1515,12 @@
           <p>No. Design Your Future helps you find your direction and your next step. It doesn't promise jobs, interviews or income.</p>
         </details>
         <details>
+          <summary>Does it cover freelancing and entrepreneurship?</summary>
+          <p>Yes. You explore employment, freelancing, entrepreneurship and hybrid career paths, so you can choose a direction that fits your interests, capabilities and goals.</p>
+        </details>
+        <details>
           <summary>What will I receive at the end?</summary>
-          <p>A personal career report, a take-home AI prompt guide, and a written next step you've committed to.</p>
+          <p>A personalised DYF Report outlining your current position, career direction, development areas and possible next steps, plus a take-home AI Prompt PDF to support your continued learning.</p>
         </details>
       </div>
     </div>
@@ -1236,7 +1531,7 @@
     <div class="dyf-wrap dyf-wrap--narrow">
       <h2>Two days now can save you years of second-guessing.</h2>
       <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen%2C%20I'd%20like%20to%20reserve%20a%20seat%20for%20Design%20Your%20Future.%20Please%20share%20the%20next%20batch%20details."
-        target="_blank" rel="noopener" class="dyf-btn dyf-btn--dark" data-event="dyf_cta_footer">
+        target="_blank" rel="noopener" class="dyf-btn dyf-btn--dark" data-event="dyf_cta_footer" data-seat-open>
         Reserve My Seat →
       </a>
       <p class="dyf-final-alt">
@@ -1244,6 +1539,44 @@
       </p>
     </div>
   </section>
+
+  <!-- RESERVE-A-SEAT POPUP (opened by the Reserve My Seat buttons; they fall back to WhatsApp without JS) -->
+  <dialog class="seat-dialog" id="seat-dialog" aria-labelledby="seat-dialog-title">
+    <button type="button" class="seat-dialog-close" id="seat-dialog-close" aria-label="Close">&times;</button>
+    <form id="seat-form" novalidate>
+      <h2 id="seat-dialog-title">Reserve your seat</h2>
+      <p class="seat-dialog-sub">Share a few details and our team will contact you with the next Design Your Future batch.</p>
+      <label for="seat-name">Your name</label>
+      <input id="seat-name" name="name" type="text" autocomplete="name" maxlength="100" required />
+      <label for="seat-phone">WhatsApp number</label>
+      <div class="seat-phone">
+        <span aria-hidden="true">+91</span>
+        <input id="seat-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="10"
+          pattern="[6-9][0-9]{9}" placeholder="10-digit mobile number" required />
+      </div>
+      <label for="seat-situation">I am a</label>
+      <select id="seat-situation" name="situation" required>
+        <option value="">Choose one</option>
+        <option>Student Pursuing a Degree</option>
+        <option>Graduate Seeking Career Direction</option>
+        <option>Job Seeker</option>
+        <option>Exploring a New Career Path</option>
+      </select>
+      <!-- Hidden from people; bots that fill every field are ignored. -->
+      <input type="text" name="website" id="seat-website" tabindex="-1" autocomplete="off" class="seat-hp"
+        aria-hidden="true" />
+      <p class="seat-error" id="seat-error" role="alert" hidden></p>
+      <button type="submit" class="dyf-btn seat-submit" id="seat-submit">Reserve My Seat</button>
+      <p class="seat-dialog-note">Prefer to chat? <a
+          href="https://wa.me/918590886009?text=Hi%20Kompetenzen%2C%20I'd%20like%20to%20reserve%20a%20seat%20for%20Design%20Your%20Future.%20Please%20share%20the%20next%20batch%20details."
+          target="_blank" rel="noopener" data-event="dyf_whatsapp">Message us on WhatsApp</a></p>
+    </form>
+    <div class="seat-done" id="seat-done" hidden>
+      <h2>Thank you, <span id="seat-done-name"></span>!</h2>
+      <p>Your seat request is in. Our team will contact you on WhatsApp with the next batch details.</p>
+      <button type="button" class="dyf-btn" id="seat-done-close">Close</button>
+    </div>
+  </dialog>
 
   <footer class="site-footer">
     <p>&copy; 2026 Kompetenzen Technologies. All rights reserved. · <a href="privacy.html">Privacy Policy</a></p>
@@ -1256,6 +1589,83 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
   <script src="supabase-config.js"></script>
   <script src="js/auth-modal.js?v=13"></script>
+  <!-- Reserve-a-seat popup: saves the request to dyf_seat_requests. -->
+  <script>
+    (function () {
+      const dialog = document.getElementById('seat-dialog');
+      const form = document.getElementById('seat-form');
+      const done = document.getElementById('seat-done');
+      const errorBox = document.getElementById('seat-error');
+      const submit = document.getElementById('seat-submit');
+      const phone = document.getElementById('seat-phone');
+      if (!dialog || typeof dialog.showModal !== 'function') return;
+      let openedAt = 0;
+
+      function showError(message) {
+        errorBox.textContent = message;
+        errorBox.hidden = !message;
+      }
+
+      function finish(name) {
+        document.getElementById('seat-done-name').textContent = name.split(' ')[0];
+        form.reset();
+        form.hidden = true;
+        done.hidden = false;
+      }
+
+      function open(e) {
+        e.preventDefault();
+        form.hidden = false;
+        done.hidden = true;
+        showError('');
+        openedAt = Date.now();
+        dialog.showModal();
+        document.getElementById('seat-name').focus();
+      }
+
+      document.querySelectorAll('[data-seat-open]').forEach(btn => btn.addEventListener('click', open));
+      document.getElementById('seat-dialog-close').addEventListener('click', () => dialog.close());
+      document.getElementById('seat-done-close').addEventListener('click', () => dialog.close());
+      // Clicking the dark backdrop closes the popup.
+      dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });
+      phone.addEventListener('input', () => { phone.value = phone.value.replace(/\D/g, '').slice(0, 10); });
+
+      form.addEventListener('submit', async e => {
+        e.preventDefault();
+        showError('');
+        const name = form.elements.name.value.trim();
+        const digits = phone.value.trim();
+        const situation = form.elements.situation.value;
+        if (!name) return showError('Please enter your name.');
+        if (!/^[6-9]\d{9}$/.test(digits)) return showError('Please enter a valid 10-digit mobile number.');
+        if (!situation) return showError('Please choose what best describes you.');
+        // Bots fill the hidden field or submit instantly; pretend success and save nothing.
+        if (form.elements.website.value || Date.now() - openedAt < 2000) return finish(name);
+        if (typeof isSupabaseConfigured !== 'function' || !isSupabaseConfigured()) {
+          return showError('Reservations are unavailable right now. Please message us on WhatsApp.');
+        }
+        submit.disabled = true;
+        submit.textContent = 'Sending…';
+        try {
+          const { error } = await supabaseClient.from('dyf_seat_requests').insert([{
+            name,
+            phone: '+91' + digits,
+            situation,
+            page_url: location.href.slice(0, 500)
+          }]);
+          // The database guard rejects repeats within 10 minutes; the earlier request still stands.
+          if (error && !/already reserved/i.test(error.message || '')) throw error;
+          finish(name);
+        } catch (err) {
+          console.warn('Seat reservation failed:', err);
+          showError(/too many/i.test(err.message || '') ? err.message : 'We could not send your request. Please try again or message us on WhatsApp.');
+        } finally {
+          submit.disabled = false;
+          submit.textContent = 'Reserve My Seat';
+        }
+      });
+    })();
+  </script>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
 
@@ -1302,8 +1712,6 @@
         ...document.querySelectorAll('section > div, section > p'),
         // Crossroads cards
         ...document.querySelectorAll('.crossroads-card'),
-        // Day 1 / Day 2 cards
-        ...document.querySelectorAll('.day-card'),
         // Takeaways and FAQ rows
         ...document.querySelectorAll('.takeaway-list li, .faq-list details'),
       ];
@@ -1316,21 +1724,22 @@
         return true;
       });
 
-      // Assign .sr to each, skip the hero content itself
+      // Assign .sr to each, skip the hero content itself and the reserve-a-seat popup
       unique.forEach((el) => {
         if (hero && (hero === el || hero.contains(el))) return;
+        if (el.closest('dialog')) return;
         el.classList.add('sr');
       });
 
-      // Stagger crossroads cards, day cards and takeaways
-      ['.crossroads-card', '.day-card', '.takeaway-list li'].forEach(sel => {
-        document.querySelectorAll(sel).forEach((card, i) => {
+      // Stagger cards within each grid and the takeaways
+      document.querySelectorAll('.crossroads-grid, .path-steps, .takeaway-list').forEach(group => {
+        [...group.children].forEach((card, i) => {
           card.classList.add('sr', 'sr-scale', `sr-delay-${Math.min(i + 1, 8)}`);
         });
       });
 
       // Alternate left/right for h2 headings
-      document.querySelectorAll('h2').forEach((h, i) => {
+      document.querySelectorAll('h2:not(dialog h2)').forEach((h, i) => {
         h.classList.add('sr', i % 2 === 0 ? 'sr-left' : 'sr-right');
       });
 

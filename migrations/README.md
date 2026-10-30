@@ -1,5 +1,13 @@
 # Admin workflow update
 
+## GenAI course enquiries (2026-10-30)
+
+Run `20261030_genai_enquiries.sql` in the Supabase SQL Editor before publishing `genai-course-details.html`. It adds `genai_enquiries` (name, WhatsApp number, Python experience), which works like `dyf_seat_requests`: visitors can only insert, staff (`is_admin`) can read, update and delete, and a trigger validates each enquiry and limits repeats and floods. Until it is applied, the enquiry popup shows an error and points visitors to WhatsApp. This migration has not been applied to production.
+
+## Design Your Future seat reservations (2026-10-30)
+
+Run `20261030_dyf_seat_requests.sql` in the Supabase SQL Editor before publishing the updated `finishing-school.html`. It adds `dyf_seat_requests`, which works like `consultation_requests`: visitors can only insert, staff (`is_admin`) can read, update and delete, and a trigger validates each request and limits repeats and floods. Until it is applied, the Reserve My Seat popup shows an error and points visitors to WhatsApp. This migration has not been applied to production.
+
 ## Local profile scoring (2026-10-20)
 
 Apply `20261020_local_profile_scoring.sql` after the career matching and profile education migrations, then publish `admin.html` and `js/applicant-matching.js`. This change is prepared locally; it has not been applied to production.
