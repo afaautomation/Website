@@ -1691,6 +1691,162 @@
       }
     }
 
+    /* Hiring partners: two logo rows drifting in opposite directions */
+    .hire-band {
+      margin-top: 56px;
+    }
+
+    .hire-head {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      margin-bottom: 26px;
+    }
+
+    .hire-label {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--ink-mute);
+      white-space: nowrap;
+    }
+
+    .hire-line {
+      height: 1px;
+      flex: 0 1 140px;
+      background: linear-gradient(90deg, transparent, var(--blue));
+      opacity: .45;
+    }
+
+    .hire-line:last-child {
+      background: linear-gradient(90deg, var(--blue), transparent);
+    }
+
+    .hire-marquee {
+      overflow: hidden;
+      padding: 8px 0;
+      mask-image: linear-gradient(90deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
+      -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
+    }
+
+    .hire-marquee+.hire-marquee {
+      margin-top: 10px;
+    }
+
+    .hire-track {
+      display: flex;
+      gap: 18px;
+      width: max-content;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      animation: slide 42s linear infinite;
+    }
+
+    .hire-track--rev {
+      animation-direction: reverse;
+      animation-duration: 38s;
+    }
+
+    .hire-marquee:hover .hire-track {
+      animation-play-state: paused;
+    }
+
+    .hire-logo {
+      position: relative;
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 88px;
+      min-width: 168px;
+      padding: 0 30px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: transform .45s cubic-bezier(.2, .8, .2, 1), border-color .3s, box-shadow .45s;
+    }
+
+    /* light sweep across the card on hover */
+    .hire-logo::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(115deg, transparent 35%, rgba(14, 46, 201, .09) 50%, transparent 65%);
+      transform: translateX(-100%);
+      transition: transform .8s ease;
+      pointer-events: none;
+    }
+
+    .hire-logo:hover {
+      transform: translateY(-4px);
+      border-color: rgba(14, 46, 201, .35);
+      box-shadow: 0 14px 30px -14px rgba(14, 46, 201, .35);
+    }
+
+    .hire-logo:hover::after {
+      transform: translateX(100%);
+    }
+
+    .hire-logo img {
+      display: block;
+      max-width: none;
+      transition: transform .45s cubic-bezier(.2, .8, .2, 1);
+    }
+
+    .hire-logo:hover img {
+      transform: scale(1.06);
+    }
+
+    @media (max-width: 640px) {
+      .hire-band {
+        margin-top: 40px;
+      }
+
+      .hire-label {
+        font-size: 13px;
+        letter-spacing: .1em;
+        white-space: normal;
+        text-align: center;
+      }
+
+      .hire-line {
+        flex-basis: 36px;
+      }
+
+      .hire-logo {
+        height: 68px;
+        min-width: 124px;
+        padding: 0 20px;
+      }
+
+      .hire-logo img {
+        zoom: .78;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hire-track {
+        animation: none;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: auto;
+      }
+
+      .hire-track [aria-hidden="true"] {
+        display: none;
+      }
+
+      .hire-marquee {
+        mask-image: none;
+        -webkit-mask-image: none;
+      }
+    }
+
     .ig-post {
       position: relative;
       aspect-ratio: 1/1;
@@ -3165,6 +3321,52 @@
 
       <div class="ig-wrap">
         <div class="ig-grid" id="igGrid"></div>
+      </div>
+
+      <div class="hire-band reveal" aria-label="Companies our students are placed at">
+        <div class="hire-head">
+          <span class="hire-line"></span>
+          <p class="hire-label">Our students are now working at</p>
+          <span class="hire-line"></span>
+        </div>
+        <div class="hire-marquee">
+          <ul class="hire-track">
+            <li class="hire-logo" title="TCS"><img src="img/placed-companies/tcs.webp" alt="TCS logo" width="79" height="58" loading="lazy" decoding="async" /></li>
+            <li class="hire-logo" title="Infosys"><img src="img/placed-companies/infosys.webp" alt="Infosys logo" width="116" height="43" loading="lazy" decoding="async" /></li>
+            <li class="hire-logo" title="Accenture"><img src="img/placed-companies/accenture.webp" alt="Accenture logo" width="136" height="37" loading="lazy" decoding="async" /></li>
+            <li class="hire-logo" title="IBM"><img src="img/placed-companies/ibm.webp" alt="IBM logo" width="116" height="43" loading="lazy" decoding="async" /></li>
+            <li class="hire-logo" title="Tech Mahindra"><img src="img/placed-companies/tech-mahindra.webp" alt="Tech Mahindra logo" width="132" height="38" loading="lazy" decoding="async" /></li>
+            <li class="hire-logo" title="UST"><img src="img/placed-companies/ust.webp" alt="UST logo" width="53" height="58" loading="lazy" decoding="async" /></li>
+            <li class="hire-logo" title="Allianz"><img src="img/placed-companies/allianz.webp" alt="Allianz logo" width="140" height="36" loading="lazy" decoding="async" /></li>
+            <li class="hire-logo" title="Quest Global"><img src="img/placed-companies/quest-global.webp" alt="Quest Global logo" width="114" height="44" loading="lazy" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/tcs.webp" alt="" width="79" height="58" loading="lazy" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/infosys.webp" alt="" width="116" height="43" loading="lazy" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/accenture.webp" alt="" width="136" height="37" loading="lazy" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/ibm.webp" alt="" width="116" height="43" loading="lazy" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/tech-mahindra.webp" alt="" width="132" height="38" loading="lazy" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/ust.webp" alt="" width="53" height="58" loading="lazy" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/allianz.webp" alt="" width="140" height="36" loading="lazy" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/quest-global.webp" alt="" width="114" height="44" loading="lazy" decoding="async" /></li>
+          </ul>
+        </div>
+        <div class="hire-marquee">
+          <ul class="hire-track hire-track--rev">
+            <li class="hire-logo" title="Sutherland"><img src="img/placed-companies/sutherland.webp" alt="Sutherland logo" width="178" height="28" loading="lazy" decoding="async" /></li>
+            <li class="hire-logo" title="CareStack"><img src="img/placed-companies/carestack.webp" alt="CareStack logo" width="178" height="22" loading="lazy" decoding="async" /></li>
+            <li class="hire-logo" title="Litmus7"><img src="img/placed-companies/litmus7.webp" alt="Litmus7 logo" width="108" height="46" loading="lazy" decoding="async" /></li>
+            <li class="hire-logo" title="Kameda Infologics"><img src="img/placed-companies/kameda-infologics.webp" alt="Kameda Infologics logo" width="95" height="53" loading="lazy" decoding="async" /></li>
+            <li class="hire-logo" title="Skywalk Global"><img src="img/placed-companies/skywalk-global.webp" alt="Skywalk Global logo" width="120" height="42" loading="lazy" decoding="async" /></li>
+            <li class="hire-logo" title="Alzone"><img src="img/placed-companies/alzone.webp" alt="Alzone logo" width="70" height="58" loading="lazy" decoding="async" /></li>
+            <li class="hire-logo" title="Hiring partner"><img src="img/placed-companies/partner-dots.webp" alt="Hiring partner logo" width="53" height="58" loading="lazy" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/sutherland.webp" alt="" width="178" height="28" loading="lazy" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/carestack.webp" alt="" width="178" height="22" loading="lazy" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/litmus7.webp" alt="" width="108" height="46" loading="lazy" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/kameda-infologics.webp" alt="" width="95" height="53" loading="lazy" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/skywalk-global.webp" alt="" width="120" height="42" loading="lazy" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/alzone.webp" alt="" width="70" height="58" loading="lazy" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/partner-dots.webp" alt="" width="53" height="58" loading="lazy" decoding="async" /></li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>

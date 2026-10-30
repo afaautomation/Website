@@ -18,7 +18,7 @@ test('build publishes public files only', () => {
   execFileSync(process.execPath, [path.join(root, 'scripts/build-pages.cjs')], { stdio: 'pipe' });
   const dist = path.join(root, 'dist');
   try {
-    for (const f of ['index.html', 'jobs.html', 'admin.html', 'js/auth-modal.js', 'css/mobile.css', 'supabase-config.js', '_headers', 'tech.webp'])
+    for (const f of ['index.html', 'jobs.html', 'admin.html', 'js/auth-modal.js', 'css/mobile.css', 'supabase-config.js', '_headers', 'placements-atlas.webp', 'img/placed-companies/tcs.webp'])
       assert.ok(fs.existsSync(path.join(dist, f)), `missing ${f}`);
     for (const f of ['server.js', 'supabase_schema.sql', 'migrations', 'tests', 'scripts', 'functions', 'Resume', '.htaccess', '.git', '.gitignore', 'package.json'])
       assert.ok(!fs.existsSync(path.join(dist, f)), `must not publish ${f}`);

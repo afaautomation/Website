@@ -311,12 +311,13 @@
     .roadmap-sticky-stage {
       position: sticky;
       top: 0;
-      height: 100vh;
+      /* Only as tall as its content, so no empty space is left below the cards once it unpins */
+      height: auto;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      padding: clamp(45px, 8vh, 85px) 24px 30px;
+      padding: clamp(45px, 8vh, 85px) 24px 72px;
       overflow: visible;
       pointer-events: none;
       z-index: 10;
@@ -353,20 +354,19 @@
       margin-top: -2px;
     }
 
-    /* Cards Deck Container */
+    /* Cards Deck: all six months sit in a grid; the script slides each one up into its slot */
     .roadmap-cards-deck {
       position: relative;
-      width: 580px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      width: 1180px;
       max-width: 92vw;
-      height: 240px; /* Generous height for all 6 stacked visible tabs */
       pointer-events: auto;
     }
 
     .roadmap-stack-card {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      position: relative;
       background: linear-gradient(140deg, rgba(14, 25, 60, 0.98) 0%, rgba(7, 13, 35, 0.99) 100%);
       border: 1.5px solid rgba(56, 189, 248, 0.45);
       border-top: 1.5px solid rgba(0, 240, 255, 0.9);
@@ -445,6 +445,37 @@
       margin-top: 2px;
     }
 
+    @media (max-width: 1200px) {
+      .roadmap-cards-deck {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        width: 860px;
+      }
+
+      .roadmap-stack-card {
+        padding: 20px 24px;
+      }
+    }
+
+    /* Phones and tablets: no pinned stage, the six months are a plain list (selectors outrank the 768px block below) */
+    @media (max-width: 900px) {
+      section.roadmap-section {
+        height: auto !important;
+        padding: 64px 0 !important;
+      }
+
+      .roadmap-section .roadmap-sticky-stage {
+        position: static !important;
+        height: auto !important;
+      }
+
+      .roadmap-section .roadmap-cards-deck {
+        grid-template-columns: 1fr !important;
+        height: auto !important;
+        gap: 14px !important;
+      }
+    }
+
     @media (max-width: 600px) {
       .roadmap-section {
         height: 290vh;
@@ -458,7 +489,6 @@
       .roadmap-cards-deck {
         width: 100%;
         max-width: 95vw;
-        height: 190px;
       }
       .roadmap-stack-card {
         padding: 16px 18px;
@@ -1235,7 +1265,6 @@
       .roadmap-cards-deck {
         width: 100% !important;
         max-width: calc(100vw - 32px) !important;
-        height: 195px !important;
       }
 
       .roadmap-stack-card {
@@ -1785,7 +1814,7 @@
         </div>
       </div>
 
-      <!-- Card Deck (All cards stack here under the beam) -->
+      <!-- Card Deck (all six months in a grid under the beam) -->
       <div class="roadmap-cards-deck">
         <!-- Month 1 -->
         <div class="roadmap-stack-card" style="z-index: 1;">
@@ -2284,46 +2313,52 @@
       ];
 
       function render() {
+        // Phones and tablets show the cards as a plain list (see the 900px CSS rule).
+        if (window.innerWidth <= 900) {
+          cards.forEach(card => {
+            card.style.transform = '';
+            card.style.opacity = '1';
+            card.style.pointerEvents = 'auto';
+          });
+          return;
+        }
+
         const rect = section.getBoundingClientRect();
         const totalScroll = section.offsetHeight - window.innerHeight;
         if (totalScroll <= 0) return;
 
         const progress = Math.max(0, Math.min(1, -rect.top / totalScroll));
-        const stackOffset = window.innerWidth <= 600 ? 12 : 20;
-
-        // Distance from dock to below the bottom of the viewport
         const deckTop = deck ? deck.getBoundingClientRect().top : 240;
-        const travelDist = Math.max(650, window.innerHeight - deckTop + 80);
 
         for (let i = 0; i < cards.length; i++) {
           const card = cards[i];
-          const targetY = i * stackOffset;
           card.style.zIndex = 10 + i;
 
           if (i === 0) {
-            card.style.transform = `translate3d(0, 0px, 0)`;
+            card.style.transform = 'translate3d(0, 0px, 0)';
             card.style.opacity = '1';
             card.style.pointerEvents = 'auto';
             continue;
           }
 
           const { start, end } = cardRanges[i];
+          // Distance from the card's grid slot to just below the viewport
+          const travelDist = Math.max(320, window.innerHeight - (deckTop + card.offsetTop) + 60);
 
           if (progress <= start) {
-            // Completely below the bottom of the viewport
-            card.style.transform = `translate3d(0, ${targetY + travelDist}px, 0) scale(0.92)`;
+            card.style.transform = `translate3d(0, ${travelDist}px, 0) scale(0.92)`;
             card.style.opacity = '0';
             card.style.pointerEvents = 'none';
           } else if (progress >= end) {
-            // Docked in the stack
-            card.style.transform = `translate3d(0, ${targetY}px, 0) scale(1)`;
+            // Docked in its slot; all six stay visible until the stage scrolls away
+            card.style.transform = 'translate3d(0, 0px, 0) scale(1)';
             card.style.opacity = '1';
             card.style.pointerEvents = 'auto';
           } else {
             // Rising smoothly from the bottom of the screen
             const t = (progress - start) / (end - start);
             const ease = 1 - Math.pow(1 - t, 2.4);
-            const y = targetY + (1 - ease) * travelDist;
+            const y = (1 - ease) * travelDist;
             const scale = 0.94 + ease * 0.06;
             const opacity = Math.min(1, t * 3.5);
 

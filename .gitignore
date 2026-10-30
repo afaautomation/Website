@@ -50,3 +50,6 @@ js/vendor/local-ai/
 
 # Supabase migration dumps contain user accounts and private data
 migration-backup/
+
+# Raw logo sources; the site uses the cleaned copies in img/placed-companies/
+Logos/
