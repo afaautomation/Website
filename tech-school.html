@@ -1501,6 +1501,33 @@
       .nav .nav-links { gap: 12px; }
       .nav .nav-links a { font-size: 12.5px; }
     }
+
+    /* Tablet landscape / small laptops: the full desktop bar is wider than the screen
+       until ~1180px, so trim padding and spacing to keep the CTA on screen. */
+    @media (min-width: 981px) and (max-width: 1180px) {
+      .nav .nav-inner {
+        padding-left: 20px;
+        padding-right: 20px;
+        gap: 14px;
+      }
+
+      .nav .nav-links {
+        gap: 11px;
+      }
+
+      .nav .nav-links a {
+        font-size: 12.5px;
+      }
+
+      .nav .brand img {
+        height: 30px;
+      }
+
+      .nav .nav-cta {
+        padding: 8px 14px;
+        font-size: 13px;
+      }
+    }
   </style>
 </head>
 
@@ -1548,7 +1575,7 @@
     <div class="hero-content-wrapper">
       <span class="hero-badge-eyebrow">EXPLORE TECH PATHWAYS</span>
       <h1 class="hero-main-title">
-        AI-Integrated Tech School Programs<br class="hero-desktop-br"><span style="color: #38BDF8;">Built for</span> Real Careers.
+        AI-Integrated Tech School Programs <br class="hero-desktop-br"><span style="color: #38BDF8;">Built for</span> Real Careers.
       </h1>
       <p class="hero-desc">
         Hands-on, industry-mentored programs taking you from coding fundamentals to a job-ready, AI-fluent developer in six focused months.

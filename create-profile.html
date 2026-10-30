@@ -2292,7 +2292,7 @@
       const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
       const session = await getSupabaseSession();
       if (!session && !isLocal) { redirectToSignIn(); return; }
-      const user = session ? session.user : { email: 'abhinavchikku12345@gmail.com', user_metadata: { name: 'Abhinav P', phone: '+91 98765 43210' } };
+      const user = session ? session.user : { email: 'candidate@example.com', user_metadata: { name: 'Test Candidate', phone: '+91 98765 43210' } };
       const meta = user.user_metadata || {};
       const displayName = meta.name || meta.full_name || (user.email || 'Candidate').split('@')[0];
       $('nav-user-name').textContent = displayName;

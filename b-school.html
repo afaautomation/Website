@@ -1341,6 +1341,33 @@
       .nav .nav-links { gap: 12px; }
       .nav .nav-links a { font-size: 12.5px; }
     }
+
+    /* Tablet landscape / small laptops: the full desktop bar is wider than the screen
+       until ~1180px, so trim padding and spacing to keep the CTA on screen. */
+    @media (min-width: 981px) and (max-width: 1180px) {
+      .nav .nav-inner {
+        padding-left: 20px;
+        padding-right: 20px;
+        gap: 14px;
+      }
+
+      .nav .nav-links {
+        gap: 11px;
+      }
+
+      .nav .nav-links a {
+        font-size: 12.5px;
+      }
+
+      .nav .brand img {
+        height: 30px;
+      }
+
+      .nav .nav-cta {
+        padding: 8px 14px;
+        font-size: 13px;
+      }
+    }
   </style>
   <style id="business-school-light-theme">
     :root { --ink:#142747; --ink-mute:#596b82; --blue:#2454da; --blue-deep:#173eac; --cream:#f5f8fe; --paper:#fff; --line:#dce5f2; --shadow-sm:0 10px 30px rgba(29,59,106,.06); --shadow-md:0 20px 50px rgba(29,59,106,.10); }
@@ -1392,6 +1419,14 @@
       .mobile-services-header { color:#64748b !important; }
     }
     @media(prefers-reduced-motion:reduce) { *, *::before, *::after { animation:none !important; transition:none !important; } }
+
+    /* Phones and tablets: no pinned stage, the six months are a plain list (matches Tech School) */
+    @media (max-width: 900px) {
+      section.roadmap-section { height: auto !important; padding: 56px 0 !important; }
+      section.roadmap-section .roadmap-sticky-stage { position: static !important; height: auto !important; }
+      section.roadmap-section .roadmap-cards-deck { display: grid !important; gap: 14px !important; height: auto !important; }
+      section.roadmap-section .roadmap-stack-card { position: relative !important; transform: none !important; opacity: 1 !important; }
+    }
   </style>
 </head>
 
@@ -1445,7 +1480,7 @@
         <span class="hero-eyebrow sr" style="margin-bottom: 20px;"><span class="dot" style="background: #38BDF8; box-shadow: 0 0 10px #38BDF8;"></span>Kompetenzen B-School</span>
         <h1 class="hero-main-title"
           style="font-family: 'Red Hat Display', sans-serif; font-size: clamp(28px, 3.6vw, 46px); font-weight: 400; line-height: 1.22; color: #ffffff; text-align: center; letter-spacing: -0.02em; margin-bottom: 24px; max-width: 100%;">
-          Corporate B-School Programs<br class="hero-desktop-br"><span style="color: #38BDF8;">Built for</span> Real Careers.
+          Corporate B-School Programs <br class="hero-desktop-br"><span style="color: #38BDF8;">Built for</span> Real Careers.
         </h1>
         <p class="hero-desc" style="font-size: clamp(15px, 1.5vw, 18px); color: rgba(226, 232, 240, 0.82); line-height: 1.65; margin: 0 auto 32px auto; padding: 0; text-align: center; max-width: 620px;">
           Industry-mentored HR and Sales Engineering diplomas that turn business fundamentals into a job-ready, corporate-fluent career — in six focused months.
@@ -2603,6 +2638,16 @@
       ];
 
       function render() {
+        // Phones and tablets show the cards as a plain list (see the 900px CSS rule).
+        if (window.innerWidth <= 900) {
+          cards.forEach(card => {
+            card.style.transform = '';
+            card.style.opacity = '1';
+            card.style.pointerEvents = 'auto';
+          });
+          return;
+        }
+
         const rect = section.getBoundingClientRect();
         const totalScroll = section.offsetHeight - window.innerHeight;
         if (totalScroll <= 0) return;

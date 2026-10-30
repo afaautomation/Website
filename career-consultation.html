@@ -850,6 +850,33 @@
       }
     }
 
+    /* Tablet landscape / small laptops: the full desktop bar is wider than the screen
+       until ~1180px, so trim padding and spacing to keep the CTA on screen. */
+    @media (min-width: 981px) and (max-width: 1180px) {
+      .nav .nav-inner {
+        padding-left: 20px;
+        padding-right: 20px;
+        gap: 14px;
+      }
+
+      .nav .nav-links {
+        gap: 11px;
+      }
+
+      .nav .nav-links a {
+        font-size: 12.5px;
+      }
+
+      .nav .brand img {
+        height: 30px;
+      }
+
+      .nav .nav-cta {
+        padding: 8px 14px;
+        font-size: 13px;
+      }
+    }
+
     /* CONSULTATION PAGE SECTIONS */
     .tech-hero .consult-eyebrow {
       font-size: 13px;

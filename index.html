@@ -2771,6 +2771,33 @@
         font-size: 12.5px;
       }
     }
+
+    /* Tablet landscape / small laptops: the full desktop bar is wider than the screen
+       until ~1180px, so trim padding and spacing to keep the CTA on screen. */
+    @media (min-width: 981px) and (max-width: 1180px) {
+      .nav .nav-inner {
+        padding-left: 20px;
+        padding-right: 20px;
+        gap: 14px;
+      }
+
+      .nav .nav-links {
+        gap: 11px;
+      }
+
+      .nav .nav-links a {
+        font-size: 12.5px;
+      }
+
+      .nav .brand img {
+        height: 30px;
+      }
+
+      .nav .nav-cta {
+        padding: 8px 14px;
+        font-size: 13px;
+      }
+    }
   </style>
 </head>
 
@@ -3331,40 +3358,40 @@
         </div>
         <div class="hire-marquee">
           <ul class="hire-track">
-            <li class="hire-logo" title="TCS"><img src="img/placed-companies/tcs.webp" alt="TCS logo" width="79" height="58" loading="lazy" decoding="async" /></li>
-            <li class="hire-logo" title="Infosys"><img src="img/placed-companies/infosys.webp" alt="Infosys logo" width="116" height="43" loading="lazy" decoding="async" /></li>
-            <li class="hire-logo" title="Accenture"><img src="img/placed-companies/accenture.webp" alt="Accenture logo" width="136" height="37" loading="lazy" decoding="async" /></li>
-            <li class="hire-logo" title="IBM"><img src="img/placed-companies/ibm.webp" alt="IBM logo" width="116" height="43" loading="lazy" decoding="async" /></li>
-            <li class="hire-logo" title="Tech Mahindra"><img src="img/placed-companies/tech-mahindra.webp" alt="Tech Mahindra logo" width="132" height="38" loading="lazy" decoding="async" /></li>
-            <li class="hire-logo" title="UST"><img src="img/placed-companies/ust.webp" alt="UST logo" width="53" height="58" loading="lazy" decoding="async" /></li>
-            <li class="hire-logo" title="Allianz"><img src="img/placed-companies/allianz.webp" alt="Allianz logo" width="140" height="36" loading="lazy" decoding="async" /></li>
-            <li class="hire-logo" title="Quest Global"><img src="img/placed-companies/quest-global.webp" alt="Quest Global logo" width="114" height="44" loading="lazy" decoding="async" /></li>
-            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/tcs.webp" alt="" width="79" height="58" loading="lazy" decoding="async" /></li>
-            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/infosys.webp" alt="" width="116" height="43" loading="lazy" decoding="async" /></li>
-            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/accenture.webp" alt="" width="136" height="37" loading="lazy" decoding="async" /></li>
-            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/ibm.webp" alt="" width="116" height="43" loading="lazy" decoding="async" /></li>
-            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/tech-mahindra.webp" alt="" width="132" height="38" loading="lazy" decoding="async" /></li>
-            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/ust.webp" alt="" width="53" height="58" loading="lazy" decoding="async" /></li>
-            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/allianz.webp" alt="" width="140" height="36" loading="lazy" decoding="async" /></li>
-            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/quest-global.webp" alt="" width="114" height="44" loading="lazy" decoding="async" /></li>
+            <li class="hire-logo" title="TCS"><img src="img/placed-companies/tcs.webp" alt="TCS logo" width="79" height="58" decoding="async" /></li>
+            <li class="hire-logo" title="Infosys"><img src="img/placed-companies/infosys.webp" alt="Infosys logo" width="116" height="43" decoding="async" /></li>
+            <li class="hire-logo" title="Accenture"><img src="img/placed-companies/accenture.webp" alt="Accenture logo" width="136" height="37" decoding="async" /></li>
+            <li class="hire-logo" title="IBM"><img src="img/placed-companies/ibm.webp" alt="IBM logo" width="116" height="43" decoding="async" /></li>
+            <li class="hire-logo" title="Tech Mahindra"><img src="img/placed-companies/tech-mahindra.webp" alt="Tech Mahindra logo" width="132" height="38" decoding="async" /></li>
+            <li class="hire-logo" title="UST"><img src="img/placed-companies/ust.webp" alt="UST logo" width="53" height="58" decoding="async" /></li>
+            <li class="hire-logo" title="Allianz"><img src="img/placed-companies/allianz.webp" alt="Allianz logo" width="140" height="36" decoding="async" /></li>
+            <li class="hire-logo" title="Quest Global"><img src="img/placed-companies/quest-global.webp" alt="Quest Global logo" width="114" height="44" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/tcs.webp" alt="" width="79" height="58" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/infosys.webp" alt="" width="116" height="43" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/accenture.webp" alt="" width="136" height="37" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/ibm.webp" alt="" width="116" height="43" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/tech-mahindra.webp" alt="" width="132" height="38" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/ust.webp" alt="" width="53" height="58" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/allianz.webp" alt="" width="140" height="36" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/quest-global.webp" alt="" width="114" height="44" decoding="async" /></li>
           </ul>
         </div>
         <div class="hire-marquee">
           <ul class="hire-track hire-track--rev">
-            <li class="hire-logo" title="Sutherland"><img src="img/placed-companies/sutherland.webp" alt="Sutherland logo" width="178" height="28" loading="lazy" decoding="async" /></li>
-            <li class="hire-logo" title="CareStack"><img src="img/placed-companies/carestack.webp" alt="CareStack logo" width="178" height="22" loading="lazy" decoding="async" /></li>
-            <li class="hire-logo" title="Litmus7"><img src="img/placed-companies/litmus7.webp" alt="Litmus7 logo" width="108" height="46" loading="lazy" decoding="async" /></li>
-            <li class="hire-logo" title="Kameda Infologics"><img src="img/placed-companies/kameda-infologics.webp" alt="Kameda Infologics logo" width="95" height="53" loading="lazy" decoding="async" /></li>
-            <li class="hire-logo" title="Skywalk Global"><img src="img/placed-companies/skywalk-global.webp" alt="Skywalk Global logo" width="120" height="42" loading="lazy" decoding="async" /></li>
-            <li class="hire-logo" title="Alzone"><img src="img/placed-companies/alzone.webp" alt="Alzone logo" width="70" height="58" loading="lazy" decoding="async" /></li>
-            <li class="hire-logo" title="Hiring partner"><img src="img/placed-companies/partner-dots.webp" alt="Hiring partner logo" width="53" height="58" loading="lazy" decoding="async" /></li>
-            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/sutherland.webp" alt="" width="178" height="28" loading="lazy" decoding="async" /></li>
-            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/carestack.webp" alt="" width="178" height="22" loading="lazy" decoding="async" /></li>
-            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/litmus7.webp" alt="" width="108" height="46" loading="lazy" decoding="async" /></li>
-            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/kameda-infologics.webp" alt="" width="95" height="53" loading="lazy" decoding="async" /></li>
-            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/skywalk-global.webp" alt="" width="120" height="42" loading="lazy" decoding="async" /></li>
-            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/alzone.webp" alt="" width="70" height="58" loading="lazy" decoding="async" /></li>
-            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/partner-dots.webp" alt="" width="53" height="58" loading="lazy" decoding="async" /></li>
+            <li class="hire-logo" title="Sutherland"><img src="img/placed-companies/sutherland.webp" alt="Sutherland logo" width="178" height="28" decoding="async" /></li>
+            <li class="hire-logo" title="CareStack"><img src="img/placed-companies/carestack.webp" alt="CareStack logo" width="178" height="22" decoding="async" /></li>
+            <li class="hire-logo" title="Litmus7"><img src="img/placed-companies/litmus7.webp" alt="Litmus7 logo" width="108" height="46" decoding="async" /></li>
+            <li class="hire-logo" title="Kameda Infologics"><img src="img/placed-companies/kameda-infologics.webp" alt="Kameda Infologics logo" width="95" height="53" decoding="async" /></li>
+            <li class="hire-logo" title="Skywalk Global"><img src="img/placed-companies/skywalk-global.webp" alt="Skywalk Global logo" width="120" height="42" decoding="async" /></li>
+            <li class="hire-logo" title="Alzone"><img src="img/placed-companies/alzone.webp" alt="Alzone logo" width="70" height="58" decoding="async" /></li>
+            <li class="hire-logo" title="Hiring partner"><img src="img/placed-companies/partner-dots.webp" alt="Hiring partner logo" width="53" height="58" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/sutherland.webp" alt="" width="178" height="28" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/carestack.webp" alt="" width="178" height="22" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/litmus7.webp" alt="" width="108" height="46" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/kameda-infologics.webp" alt="" width="95" height="53" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/skywalk-global.webp" alt="" width="120" height="42" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/alzone.webp" alt="" width="70" height="58" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/partner-dots.webp" alt="" width="53" height="58" decoding="async" /></li>
           </ul>
         </div>
       </div>
@@ -3561,6 +3588,8 @@
           .v-reel iframe {
             width: 500px !important;
             height: 1000px !important;
+            /* the crop below relies on the full 500px; css/mobile.css caps iframes at 100% on phones */
+            max-width: none !important;
             border: none;
             /* -90px left offsets the 500px width to center it in 320px */
             /* -85px top hides the header and ensures the footer is pushed way below */
@@ -3632,17 +3661,22 @@
             pointer-events: none;
           }
 
+          /* horizontal swipes drive the carousel; vertical swipes still scroll the page */
+          .v-slider-wrapper {
+            touch-action: pan-y;
+          }
+
           @media (max-width: 768px) {
             .v-slider-wrapper {
-              height: 410px !important;
+              height: 440px !important;
             }
 
             .v-reel.pos1 {
-              transform: translateX(0) translateZ(0) scale(0.64) !important;
+              transform: translateX(0) translateZ(0) scale(0.72) !important;
             }
 
             .v-reel.pos2 {
-              transform: translateX(75px) translateZ(-120px) scale(0.58) !important;
+              transform: translateX(78px) translateZ(-120px) scale(0.6) !important;
             }
 
             .v-reel.pos3 {
@@ -3654,7 +3688,7 @@
             }
 
             .v-reel.pos9 {
-              transform: translateX(-75px) translateZ(-120px) scale(0.58) !important;
+              transform: translateX(-78px) translateZ(-120px) scale(0.6) !important;
             }
 
             .v-reel.pos8 {
@@ -3663,6 +3697,16 @@
 
             .v-reel.pos7 {
               transform: translateX(-220px) translateZ(-360px) scale(0.42) !important;
+            }
+          }
+
+          @media (max-width: 380px) {
+            .v-slider-wrapper {
+              height: 400px !important;
+            }
+
+            .v-reel.pos1 {
+              transform: translateX(0) translateZ(0) scale(0.66) !important;
             }
           }
         </style>
