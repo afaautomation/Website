@@ -270,6 +270,7 @@
       .nav-links {
         gap: 18px;
       }
+
       .nav-links a {
         font-size: 13px;
       }
@@ -315,8 +316,13 @@
     }
 
     @keyframes heroZoom {
-      from { transform: scale(1.04) translateZ(0); }
-      to   { transform: scale(1.10) translateZ(0); }
+      from {
+        transform: scale(1.04) translateZ(0);
+      }
+
+      to {
+        transform: scale(1.10) translateZ(0);
+      }
     }
 
     /* Dark gradient overlay for text readability */
@@ -325,9 +331,37 @@
       position: absolute;
       inset: 0;
       background:
-        linear-gradient(to bottom, transparent calc(100% - 24px), rgba(238,243,252,0.12) calc(100% - 12px), #eef3fc 100%),
-        linear-gradient(90deg, rgba(2,10,26,0.96) 0%, rgba(2,10,26,0.86) 35%, rgba(2,10,26,0.3) 68%, rgba(2,10,26,0.08) 100%);
+        linear-gradient(to bottom, transparent calc(100% - 24px), rgba(238, 243, 252, 0.12) calc(100% - 12px), #eef3fc 100%),
+        linear-gradient(90deg, rgba(2, 10, 26, 0.96) 0%, rgba(2, 10, 26, 0.86) 35%, rgba(2, 10, 26, 0.3) 68%, rgba(2, 10, 26, 0.08) 100%);
       z-index: 1;
+    }
+
+    /* Tablets: keep the landscape art but shift it so the clock stays in view */
+    @media (min-width: 601px) and (max-width: 1100px) {
+      .tech-hero::before {
+        background-position: 80% center;
+      }
+    }
+
+    /* Phones: portrait art with the text on the sky and the clock scene below the button */
+    @media (max-width: 600px) {
+      /* section.* outranks the generic 768px .tech-hero padding rule further down */
+      section.tech-hero {
+        align-items: flex-start !important;
+        padding-bottom: calc(104vw + 24px) !important;
+      }
+
+      .tech-hero::before {
+        background-image: url('finishing-school-hero-mobile.webp');
+        background-size: 100% auto;
+        background-position: center bottom;
+      }
+
+      .tech-hero::after {
+        background:
+          linear-gradient(to bottom, transparent calc(100% - 24px), rgba(238, 243, 252, 0.12) calc(100% - 12px), #eef3fc 100%),
+          linear-gradient(to bottom, rgba(2, 10, 26, 0.55) 0%, rgba(2, 10, 26, 0.35) 45%, rgba(2, 10, 26, 0) 62%);
+      }
     }
 
     /* Floating particle dots */
@@ -343,15 +377,28 @@
     .hero-particles span {
       position: absolute;
       border-radius: 50%;
-      background: rgba(25,71,255,0.5);
+      background: rgba(25, 71, 255, 0.5);
       animation: floatUp linear infinite;
     }
 
     @keyframes floatUp {
-      0%   { transform: translateY(0) scale(1); opacity: 0; }
-      10%  { opacity: 1; }
-      90%  { opacity: 0.6; }
-      100% { transform: translateY(-110vh) scale(0.5); opacity: 0; }
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 1;
+      }
+
+      90% {
+        opacity: 0.6;
+      }
+
+      100% {
+        transform: translateY(-110vh) scale(0.5);
+        opacity: 0;
+      }
     }
 
     /* Hero content sits above overlays */
@@ -380,7 +427,7 @@
 
     .tech-hero p {
       font-size: clamp(16px, 2vw, 20px);
-      color: rgba(255,255,255,0.72);
+      color: rgba(255, 255, 255, 0.72);
       max-width: 600px;
       margin: 0 auto 40px;
       line-height: 1.6;
@@ -391,8 +438,8 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: rgba(25,71,255,0.18);
-      border: 1px solid rgba(91,138,255,0.35);
+      background: rgba(25, 71, 255, 0.18);
+      border: 1px solid rgba(91, 138, 255, 0.35);
       color: #a0b8ff;
       font-size: 12px;
       font-weight: 600;
@@ -408,12 +455,14 @@
       height: 6px;
       border-radius: 50%;
       background: #5b8aff;
-      box-shadow: 0 0 0 3px rgba(91,138,255,0.3);
+      box-shadow: 0 0 0 3px rgba(91, 138, 255, 0.3);
       animation: pulseDot 2s ease-in-out infinite;
     }
 
     @keyframes pulseDot {
-      50% { box-shadow: 0 0 0 6px rgba(91,138,255,0); }
+      50% {
+        box-shadow: 0 0 0 6px rgba(91, 138, 255, 0);
+      }
     }
 
     /* DESIGN YOUR FUTURE */
@@ -513,7 +562,7 @@
       background: linear-gradient(180deg, #eef3fc, #f4f7fd);
     }
 
-    .tech-hero + .dyf-section {
+    .tech-hero+.dyf-section {
       padding-top: 112px;
       background: linear-gradient(180deg, #eef3fc 0%, #f4f7fd 160px, #fff 360px);
     }
@@ -587,7 +636,7 @@
       margin-bottom: 10px;
     }
 
-    .crossroads-card h3 + p {
+    .crossroads-card h3+p {
       font-size: 15.5px;
       font-weight: 400;
       line-height: 1.6;
@@ -844,7 +893,7 @@
       letter-spacing: 0.1em;
       text-transform: uppercase;
       margin-bottom: 20px;
-      box-shadow: 0 4px 12px rgba(25,71,255,0.05);
+      box-shadow: 0 4px 12px rgba(25, 71, 255, 0.05);
     }
 
     @media (max-width: 768px) {
@@ -865,21 +914,24 @@
         min-height: calc(100vh - 64px) !important;
         min-height: calc(100svh - 64px) !important;
       }
+
       .tech-hero h1 {
         font-size: clamp(38px, 11vw, 52px) !important;
         line-height: 1.08 !important;
         margin-bottom: 16px !important;
       }
+
       .tech-hero p {
         font-size: 15px !important;
         line-height: 1.55 !important;
       }
+
       .dyf-section,
       .dyf-final {
         padding: 72px 16px;
       }
 
-      .tech-hero + .dyf-section {
+      .tech-hero+.dyf-section {
         padding-top: 72px;
       }
 
@@ -934,7 +986,7 @@
       background: linear-gradient(90deg, #1947FF, #5b8aff, #a0b8ff);
       z-index: 9999;
       transition: width 0.08s linear;
-      box-shadow: 0 0 10px rgba(25,71,255,0.6), 0 0 20px rgba(25,71,255,0.3);
+      box-shadow: 0 0 10px rgba(25, 71, 255, 0.6), 0 0 20px rgba(25, 71, 255, 0.3);
       border-radius: 0 2px 2px 0;
     }
 
@@ -945,7 +997,7 @@
       opacity: 0;
       transform: translateY(40px);
       transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-                  transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .sr.sr-left {
@@ -967,14 +1019,37 @@
     }
 
     /* Stagger delays for grids */
-    .sr-delay-1 { transition-delay: 0.05s; }
-    .sr-delay-2 { transition-delay: 0.12s; }
-    .sr-delay-3 { transition-delay: 0.19s; }
-    .sr-delay-4 { transition-delay: 0.26s; }
-    .sr-delay-5 { transition-delay: 0.33s; }
-    .sr-delay-6 { transition-delay: 0.40s; }
-    .sr-delay-7 { transition-delay: 0.47s; }
-    .sr-delay-8 { transition-delay: 0.54s; }
+    .sr-delay-1 {
+      transition-delay: 0.05s;
+    }
+
+    .sr-delay-2 {
+      transition-delay: 0.12s;
+    }
+
+    .sr-delay-3 {
+      transition-delay: 0.19s;
+    }
+
+    .sr-delay-4 {
+      transition-delay: 0.26s;
+    }
+
+    .sr-delay-5 {
+      transition-delay: 0.33s;
+    }
+
+    .sr-delay-6 {
+      transition-delay: 0.40s;
+    }
+
+    .sr-delay-7 {
+      transition-delay: 0.47s;
+    }
+
+    .sr-delay-8 {
+      transition-delay: 0.54s;
+    }
 
     /* ===== Mobile Navigation Menu ===== */
     .hamburger {
@@ -988,6 +1063,7 @@
       margin-left: 12px;
       z-index: 1002;
     }
+
     .hamburger span {
       display: block;
       width: 24px;
@@ -996,9 +1072,18 @@
       background: var(--ink);
       transition: 0.3s;
     }
-    .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .hamburger.active span:nth-child(2) { opacity: 0; }
-    .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .hamburger.active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
 
     @media (max-width: 980px) {
       .nav {
@@ -1045,9 +1130,17 @@
         transition: all 0.25s ease;
       }
 
-      .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-      .hamburger.active span:nth-child(2) { opacity: 0; }
-      .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+      .hamburger.active span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+
+      .hamburger.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .hamburger.active span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
 
       .nav-links {
         display: flex !important;
@@ -1074,8 +1167,8 @@
         transform: translateY(-8px) !important;
         pointer-events: none !important;
         transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-                    transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-                    visibility 0.22s ease !important;
+          transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+          visibility 0.22s ease !important;
       }
 
       .nav-links.mobile-active {
@@ -1150,6 +1243,7 @@
         transform: translateX(3px) !important;
       }
     }
+
     /* RESERVE-A-SEAT POPUP */
     .seat-dialog {
       width: min(440px, calc(100% - 32px));
@@ -1304,17 +1398,36 @@
   <style>
     /* Top bar has nine links since Internships was added: keep each label on one
        line and tighten spacing on narrower desktops, above the mobile-menu breakpoint. */
-    .nav .nav-links a, .nav .nav-cta, .nav .cta { white-space: nowrap; }
+    .nav .nav-links a,
+    .nav .nav-cta,
+    .nav .cta {
+      white-space: nowrap;
+    }
+
     @media (min-width: 993px) {
-      .nav .nav-left { min-width: max-content; }
+      .nav .nav-left {
+        min-width: max-content;
+      }
     }
+
     @media (min-width: 993px) and (max-width: 1280px) {
-      .nav .nav-links { gap: 16px; }
-      .nav .nav-links a { font-size: 13px; }
+      .nav .nav-links {
+        gap: 16px;
+      }
+
+      .nav .nav-links a {
+        font-size: 13px;
+      }
     }
+
     @media (min-width: 993px) and (max-width: 1120px) {
-      .nav .nav-links { gap: 12px; }
-      .nav .nav-links a { font-size: 12.5px; }
+      .nav .nav-links {
+        gap: 12px;
+      }
+
+      .nav .nav-links a {
+        font-size: 12.5px;
+      }
     }
 
     /* Tablet landscape / small laptops: the full desktop bar is wider than the screen
@@ -1366,7 +1479,8 @@
         <a href="our-story.html"><span>Our Story</span><span class="nav-arrow">→</span></a>
         <a href="jobs.html"><span>Jobs</span><span class="nav-arrow">→</span></a>
         <a href="internships.html"><span>Internships</span><span class="nav-arrow">→</span></a>
-        <a href="Resume/resume.html" onclick="openResumeBuilder(event)"><span>Resume Builder</span><span class="nav-arrow">↗</span></a>
+        <a href="Resume/resume.html" onclick="openResumeBuilder(event)"><span>Resume Builder</span><span
+            class="nav-arrow">↗</span></a>
       </div>
       <div class="nav-right">
         <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="nav-cta">
@@ -1388,10 +1502,12 @@
     <div class="hero-particles" aria-hidden="true">
       <span style="width:4px;height:4px;left:8%;animation-duration:14s;animation-delay:0s;"></span>
       <span style="width:3px;height:3px;left:18%;animation-duration:18s;animation-delay:2s;"></span>
-      <span style="width:5px;height:5px;left:30%;animation-duration:12s;animation-delay:4s;background:rgba(160,184,255,0.4);"></span>
+      <span
+        style="width:5px;height:5px;left:30%;animation-duration:12s;animation-delay:4s;background:rgba(160,184,255,0.4);"></span>
       <span style="width:3px;height:3px;left:45%;animation-duration:20s;animation-delay:1s;"></span>
       <span style="width:4px;height:4px;left:60%;animation-duration:16s;animation-delay:3s;"></span>
-      <span style="width:6px;height:6px;left:72%;animation-duration:11s;animation-delay:0.5s;background:rgba(91,138,255,0.35);"></span>
+      <span
+        style="width:6px;height:6px;left:72%;animation-duration:11s;animation-delay:0.5s;background:rgba(91,138,255,0.35);"></span>
       <span style="width:3px;height:3px;left:85%;animation-duration:19s;animation-delay:5s;"></span>
       <span style="width:4px;height:4px;left:92%;animation-duration:15s;animation-delay:2.5s;"></span>
     </div>
@@ -1404,9 +1520,10 @@
       </div>
 
       <h1>Design Your <em>Future</em></h1>
-      <p class="hero-tagline">Your future needs a plan. <span class="tagline-hl">Let’s design yours.</span></p>
+      <p class="hero-tagline">Every future needs a plan. <span class="tagline-hl">Let’s design yours.</span></p>
       <p class="hero-sub">
-        A two-day career discovery and future-readiness programme that helps you understand your strengths, interests and career options, and gives you a personalised DYF Report with a practical roadmap for your next steps.
+        A two-day career discovery and future-readiness programme that helps you understand your strengths, interests
+        and career options, and gives you a personalised DYF Report with a practical roadmap for your next steps.
       </p>
       <ul class="fact-strip" aria-label="Programme facts">
         <li>2 Days</li>
@@ -1430,24 +1547,49 @@
       </div>
       <div class="crossroads-grid">
         <div class="crossroads-card">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+            <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+          </svg>
           <h3>Students Pursuing Their Degree</h3>
-          <p>Build a clearer understanding of your career options while you are still studying. Explore different career paths, recognise your strengths, and identify the capabilities you can develop to prepare for life after graduation.</p>
+          <p>Build a clearer understanding of your career options while you are still studying. Explore different career
+            paths, recognise your strengths, and identify the capabilities you can develop to prepare for life after
+            graduation.</p>
         </div>
         <div class="crossroads-card">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+          </svg>
           <h3>Graduates Seeking Career Direction</h3>
-          <p>Make informed decisions about your next step after graduation. Explore career options that match your interests and goals, understand where you need to improve, and identify practical ways to move forward.</p>
+          <p>Make informed decisions about your next step after graduation. Explore career options that match your
+            interests and goals, understand where you need to improve, and identify practical ways to move forward.</p>
         </div>
         <div class="crossroads-card">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <circle cx="12" cy="12" r="6"></circle>
+            <circle cx="12" cy="12" r="2"></circle>
+          </svg>
           <h3>Job Seekers Preparing for Opportunities</h3>
-          <p>Understand the skills and capabilities you can offer and the areas you need to strengthen. Assess your current position, explore career possibilities, and plan your preparation for future opportunities.</p>
+          <p>Understand the skills and capabilities you can offer and the areas you need to strengthen. Assess your
+            current position, explore career possibilities, and plan your preparation for future opportunities.</p>
         </div>
         <div class="crossroads-card">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="16 3 21 3 21 8"></polyline>
+            <line x1="4" y1="20" x2="21" y2="3"></line>
+            <polyline points="21 16 21 21 16 21"></polyline>
+            <line x1="15" y1="15" x2="21" y2="21"></line>
+            <line x1="4" y1="4" x2="9" y2="9"></line>
+          </svg>
           <h3>Individuals Exploring New Career Paths</h3>
-          <p>Consider different ways to build your career, including employment, freelancing, entrepreneurship, or a combination of these. Identify a direction that aligns with your interests, capabilities, and goals.</p>
+          <p>Consider different ways to build your career, including employment, freelancing, entrepreneurship, or a
+            combination of these. Identify a direction that aligns with your interests, capabilities, and goals.</p>
         </div>
       </div>
     </div>
@@ -1465,35 +1607,40 @@
           <div class="step-body">
             <span class="step-label">Step 1</span>
             <h3>Understand Yourself</h3>
-            <p>Explore your strengths, interests, motivations, and current capabilities. Build a clearer picture of where you stand and what matters to you when making career decisions.</p>
+            <p>Explore your strengths, interests, motivations, and current capabilities. Build a clearer picture of
+              where you stand and what matters to you when making career decisions.</p>
           </div>
         </li>
         <li>
           <div class="step-body">
             <span class="step-label">Step 2</span>
             <h3>Explore Career Possibilities</h3>
-            <p>Learn about different ways to build a career. Consider employment, freelancing, entrepreneurship, and hybrid career paths to understand the options available to you.</p>
+            <p>Learn about different ways to build a career. Consider employment, freelancing, entrepreneurship, and
+              hybrid career paths to understand the options available to you.</p>
           </div>
         </li>
         <li>
           <div class="step-body">
             <span class="step-label">Step 3</span>
             <h3>Identify Your Skill Gaps</h3>
-            <p>Understand the capabilities required for your intended career direction. Identify your development areas and recognise which skills and capabilities need more attention.</p>
+            <p>Understand the capabilities required for your intended career direction. Identify your development areas
+              and recognise which skills and capabilities need more attention.</p>
           </div>
         </li>
         <li>
           <div class="step-body">
             <span class="step-label">Step 4</span>
             <h3>Build Your Capabilities</h3>
-            <p>Develop essential human capabilities and gain a practical foundation in AI. Learn how these capabilities support your growth, adaptability, and readiness for the changing world of work.</p>
+            <p>Develop essential human capabilities and gain a practical foundation in AI. Learn how these capabilities
+              support your growth, adaptability, and readiness for the changing world of work.</p>
           </div>
         </li>
         <li>
           <div class="step-body">
             <span class="step-label">Step 5</span>
             <h3>Create Your Career Roadmap</h3>
-            <p>Receive your personalised DYF Report, outlining your current position, career direction, development areas, and possible next steps, plus a take-home AI Prompt PDF to support your continued learning.</p>
+            <p>Receive your personalised DYF Report, outlining your current position, career direction, development
+              areas, and possible next steps, plus a take-home AI Prompt PDF to support your continued learning.</p>
           </div>
         </li>
       </ol>
@@ -1508,11 +1655,41 @@
         <h2>You'll leave with more than notes</h2>
       </div>
       <ul class="takeaway-list">
-        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg><div><strong>Your personalised DYF Report.</strong> It outlines your current position, career direction, development areas, and possible next steps: a practical roadmap, not a verdict.</div></li>
-        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg><div><strong>A take-home AI Prompt PDF.</strong> Ready-to-use prompts to support your continued learning, yours to keep.</div></li>
-        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg><div><strong>Clarity on your skill gaps.</strong> Know which skills and capabilities need more attention for the career direction you want.</div></li>
-        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg><div><strong>Human capabilities and a foundation in AI.</strong> Build the adaptability and readiness the changing world of work asks for.</div></li>
-        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg><div><strong>Continued support.</strong> Access to the Kompetenzen career platform and career consultant support, subject to applicable programme and membership terms.</div></li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <div><strong>Your personalised DYF Report.</strong> It outlines your current position, career direction,
+            development areas, and possible next steps: a practical roadmap, not a verdict.</div>
+        </li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <div><strong>A take-home AI Prompt PDF.</strong> Ready-to-use prompts to support your continued learning,
+            yours to keep.</div>
+        </li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <div><strong>Clarity on your skill gaps.</strong> Know which skills and capabilities need more attention for
+            the career direction you want.</div>
+        </li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <div><strong>Human capabilities and a foundation in AI.</strong> Build the adaptability and readiness the
+            changing world of work asks for.</div>
+        </li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <div><strong>Continued support.</strong> Access to the Kompetenzen career platform and career consultant
+            support, subject to applicable programme and membership terms.</div>
+        </li>
       </ul>
     </div>
   </section>
@@ -1527,11 +1704,14 @@
       <div class="faq-list">
         <details>
           <summary>What is Design Your Future?</summary>
-          <p>A two-day career discovery and future-readiness programme that helps you understand your strengths, interests and career options. It guides you in identifying the capabilities you need to develop and provides a personalised DYF Report with a practical roadmap for your next steps.</p>
+          <p>A two-day career discovery and future-readiness programme that helps you understand your strengths,
+            interests and career options. It guides you in identifying the capabilities you need to develop and provides
+            a personalised DYF Report with a practical roadmap for your next steps.</p>
         </details>
         <details>
           <summary>Who is it for?</summary>
-          <p>Students pursuing their degree, graduates seeking career direction, job seekers preparing for opportunities, and individuals exploring new career paths.</p>
+          <p>Students pursuing their degree, graduates seeking career direction, job seekers preparing for
+            opportunities, and individuals exploring new career paths.</p>
         </details>
         <details>
           <summary>How long is the programme?</summary>
@@ -1539,15 +1719,18 @@
         </details>
         <details>
           <summary>Does it guarantee a job?</summary>
-          <p>No. Design Your Future helps you find your direction and your next step. It doesn't promise jobs, interviews or income.</p>
+          <p>No. Design Your Future helps you find your direction and your next step. It doesn't promise jobs,
+            interviews or income.</p>
         </details>
         <details>
           <summary>Does it cover freelancing and entrepreneurship?</summary>
-          <p>Yes. You explore employment, freelancing, entrepreneurship and hybrid career paths, so you can choose a direction that fits your interests, capabilities and goals.</p>
+          <p>Yes. You explore employment, freelancing, entrepreneurship and hybrid career paths, so you can choose a
+            direction that fits your interests, capabilities and goals.</p>
         </details>
         <details>
           <summary>What will I receive at the end?</summary>
-          <p>A personalised DYF Report outlining your current position, career direction, development areas and possible next steps, plus a take-home AI Prompt PDF to support your continued learning.</p>
+          <p>A personalised DYF Report outlining your current position, career direction, development areas and possible
+            next steps, plus a take-home AI Prompt PDF to support your continued learning.</p>
         </details>
       </div>
     </div>
@@ -1562,7 +1745,8 @@
         Reserve My Seat →
       </a>
       <p class="dyf-final-alt">
-        Want to talk first? <a href="career-consultation.html" data-event="dyf_consultation_link">Book a career consultation →</a>
+        Want to talk first? <a href="career-consultation.html" data-event="dyf_consultation_link">Book a career
+          consultation →</a>
       </p>
     </div>
   </section>
@@ -1572,7 +1756,8 @@
     <button type="button" class="seat-dialog-close" id="seat-dialog-close" aria-label="Close">&times;</button>
     <form id="seat-form" novalidate>
       <h2 id="seat-dialog-title">Reserve your seat</h2>
-      <p class="seat-dialog-sub">Share a few details and our team will contact you with the next Design Your Future batch.</p>
+      <p class="seat-dialog-sub">Share a few details and our team will contact you with the next Design Your Future
+        batch.</p>
       <label for="seat-name">Your name</label>
       <input id="seat-name" name="name" type="text" autocomplete="name" maxlength="100" required />
       <label for="seat-phone">WhatsApp number</label>
@@ -1613,7 +1798,9 @@
   </footer>
 
   <!-- Reusable Auth Modal for School Pages -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js"
+    integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP"
+    crossorigin="anonymous"></script>
   <script src="supabase-config.js"></script>
   <script src="js/auth-modal.js?v=13"></script>
   <!-- Reserve-a-seat popup: saves the request to dyf_seat_requests. -->
@@ -1694,7 +1881,7 @@
     })();
   </script>
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
 
       /* ============================================================
          SCROLL PROGRESS BAR
@@ -1807,7 +1994,9 @@
     });
   </script>
   <!-- Lenis smooth scroll -->
-  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" integrity="sha384-B2WBjDzEjJpYvhmi2UyEn7rektqkf5suS6sNoyyrf0EBAwBHdkiXxIlU0V5Ru2ed" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"
+    integrity="sha384-B2WBjDzEjJpYvhmi2UyEn7rektqkf5suS6sNoyyrf0EBAwBHdkiXxIlU0V5Ru2ed"
+    crossorigin="anonymous"></script>
   <script>
     const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if (!isMobile) {

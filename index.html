@@ -12,6 +12,10 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Instagram reel embeds: open the connections early so the first reel starts sooner -->
+  <link rel="preconnect" href="https://www.instagram.com" />
+  <link rel="preconnect" href="https://static.cdninstagram.com" crossorigin />
+  <link rel="dns-prefetch" href="https://scontent.cdninstagram.com" />
   <link
     href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Work+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;500&family=Michroma&family=Montserrat:wght@400;600;800&family=Inconsolata:wght@400;600;700&family=Open+Sans:wght@300;400;500;600&display=swap"
     rel="stylesheet" />
@@ -1502,15 +1506,21 @@
     .school-action-link {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      padding: 7px 7px 7px 20px;
+      border-radius: 99px;
+      background: linear-gradient(135deg, #3a63ff, #1947FF);
+      box-shadow: 0 8px 20px -8px rgba(25, 71, 255, 0.55);
       font-size: 14px;
       font-weight: 700;
-      color: #1947FF;
-      transition: gap 0.2s ease;
+      color: #ffffff;
+      transition: gap 0.2s ease, background 0.25s ease, box-shadow 0.25s ease;
     }
 
     .school-card:hover .school-action-link {
-      gap: 12px;
+      gap: 14px;
+      background: linear-gradient(135deg, #1947FF, #0E2EC9);
+      box-shadow: 0 12px 26px -8px rgba(25, 71, 255, 0.65);
     }
 
     .school-action-arrow {
@@ -1520,7 +1530,7 @@
       width: 30px;
       height: 30px;
       border-radius: 50%;
-      background: rgba(25, 71, 255, 0.08);
+      background: #ffffff;
       color: #1947FF;
       font-size: 16px;
       line-height: 1;
@@ -1528,9 +1538,7 @@
     }
 
     .school-card:hover .school-action-arrow {
-      background: #1947FF;
-      color: #ffffff;
-      transform: translateX(4px);
+      transform: translateX(2px);
     }
 
     @media (max-width: 992px) {
@@ -3595,6 +3603,55 @@
             /* -85px top hides the header and ensures the footer is pushed way below */
             transform: translate(-90px, -85px);
             background: transparent;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+          }
+
+          /* shimmering placeholder until Instagram has delivered the reel, then fade it in */
+          .v-reel::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+              linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.08) 50%, transparent 70%) -100% 0 / 200% 100% no-repeat,
+              radial-gradient(circle at 50% 45%, rgba(56, 189, 248, 0.16), transparent 55%),
+              linear-gradient(160deg, #0d1a3d, #050a1a);
+            animation: reel-shimmer 1.6s linear infinite;
+          }
+
+          .v-reel::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 45%;
+            width: 54px;
+            height: 54px;
+            margin: -27px 0 0 -27px;
+            border-radius: 16px;
+            border: 3px solid rgba(255, 255, 255, 0.35);
+            /* camera lens: a ring in the middle, like the Instagram glyph */
+            background: radial-gradient(circle, transparent 8px, rgba(255, 255, 255, 0.35) 8.5px 11px, transparent 11.5px);
+          }
+
+          .v-reel.is-loaded iframe {
+            opacity: 1;
+          }
+
+          .v-reel.is-loaded::before,
+          .v-reel.is-loaded::after {
+            display: none;
+          }
+
+          @keyframes reel-shimmer {
+            to {
+              background-position: 200% 0, 0 0, 0 0;
+            }
+          }
+
+          @media (prefers-reduced-motion: reduce) {
+            .v-reel::before {
+              animation: none;
+            }
           }
 
           /* The 9 positions in the V-queue (7 visible, 2 hidden) - Scaled for compact sleek frame */
@@ -3768,16 +3825,40 @@
               }
             } catch (err) { console.warn('Published reels could not be loaded:', err); }
 
-            // Instagram embeds are heavy; load them only when the carousel is about to scroll into view.
-            const loadEmbeds = () => wrapper.querySelectorAll('iframe[data-src]').forEach(f => { f.src = f.dataset.src; f.removeAttribute('data-src'); });
+            const reels = document.querySelectorAll('.v-reel');
+
+            // Each Instagram embed is heavy, so load them in priority order instead of all at once:
+            // the centre reel first, then its neighbours, then the rest as they rotate into view.
+            let embedsStarted = false;
+            const loadReel = reel => {
+              const f = reel && reel.querySelector('iframe[data-src]');
+              if (!f) return;
+              f.addEventListener('load', () => reel.classList.add('is-loaded'), { once: true });
+              f.src = f.dataset.src;
+              f.removeAttribute('data-src');
+            };
+            const reelAt = pos => Array.from(reels).find(r => r.classList.contains(pos));
+            const loadVisibleReels = () => {
+              if (!embedsStarted) return;
+              ['pos1', 'pos2', 'pos9', 'pos3', 'pos8'].forEach(pos => loadReel(reelAt(pos)));
+            };
+            const startEmbeds = () => {
+              if (embedsStarted) return;
+              const centre = reelAt('pos1');
+              loadReel(centre);
+              // neighbours once the centre reel has loaded (or after 1.5s at the latest)
+              const f = centre && centre.querySelector('iframe');
+              let done = false;
+              const once = () => { if (!done) { done = true; embedsStarted = true; loadVisibleReels(); } };
+              if (f) f.addEventListener('load', once, { once: true });
+              setTimeout(once, 1500);
+            };
             if ('IntersectionObserver' in window) {
               const io = new IntersectionObserver(entries => {
-                if (entries.some(e => e.isIntersecting)) { io.disconnect(); loadEmbeds(); }
-              }, { rootMargin: '400px 0px' });
+                if (entries.some(e => e.isIntersecting)) { io.disconnect(); startEmbeds(); }
+              }, { rootMargin: '900px 0px' });
               io.observe(wrapper);
-            } else loadEmbeds();
-
-            const reels = document.querySelectorAll('.v-reel');
+            } else startEmbeds();
             // Spread reels around the centre (pos1): the first half to the right (pos2-4),
             // the rest wrap to the left (pos9-7), so both sides fill for any count.
             // Reels more than 3 places from the centre wait hidden (pos5).
@@ -3794,8 +3875,9 @@
 
             function updateReels() {
               reels.forEach((reel, index) => {
-                reel.className = 'v-reel ' + positions[index];
+                reel.className = 'v-reel ' + positions[index] + (reel.classList.contains('is-loaded') ? ' is-loaded' : '');
               });
+              loadVisibleReels();
             }
 
             function rotateNext() {
@@ -3909,7 +3991,7 @@
                 if (isClick && reel.classList.contains('pos1')) {
                   const iframe = reel.querySelector('iframe');
                   if (iframe) {
-                    const url = iframe.src.replace('/embed', '');
+                    const url = (iframe.getAttribute('src') || iframe.dataset.src || '').replace('/embed', '');
                     window.open(url, '_blank');
                   }
                 }
@@ -3921,7 +4003,7 @@
                 if (isClick && reel.classList.contains('pos1')) {
                   const iframe = reel.querySelector('iframe');
                   if (iframe) {
-                    const url = iframe.src.replace('/embed', '');
+                    const url = (iframe.getAttribute('src') || iframe.dataset.src || '').replace('/embed', '');
                     window.open(url, '_blank');
                   }
                 }
