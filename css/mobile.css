@@ -61,11 +61,6 @@
     padding: 64px 0 72px 0;
   }
 
-  html body #skills-section {
-    padding-top: 48px !important;
-    padding-bottom: 48px !important;
-  }
-
   html body #contact.cta-strip {
     padding-top: 64px;
     padding-bottom: 72px;

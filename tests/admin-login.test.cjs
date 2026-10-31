@@ -108,6 +108,7 @@ test('local server retires staff signup without reading credentials or calling a
   let handler, status, body;
   vm.runInNewContext(read('server.js'), {
     __dirname: path.join(__dirname, '..'), console: { log() {} },
+    module: { exports: {} },
     require(name) {
       if (name === 'http') return { createServer(fn) { handler = fn; return { listen() {} }; } };
       if (name === 'fs') return fs;

@@ -7,7 +7,7 @@ const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const OUT = path.join(ROOT, 'dist');
 const PUBLIC_EXT = /\.(html|webp|png|jpe?g|ico|svg|mp4|pdf)$/i;
-const PUBLIC_FILES = ['supabase-config.js', '_headers', '_redirects'];
+const PUBLIC_FILES = ['supabase-config.js', '_headers', '_redirects', 'robots.txt', 'sitemap.xml'];
 const PUBLIC_DIRS = ['css', 'js', 'img'];
 
 // Assets are not committed to Git; every build verifies the pinned model hashes

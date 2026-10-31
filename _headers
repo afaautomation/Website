@@ -2,11 +2,20 @@
 /*
   X-Frame-Options: SAMEORIGIN
   X-Content-Type-Options: nosniff
+  Content-Security-Policy: object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self'
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(self)
   Strict-Transport-Security: max-age=31536000; includeSubDomains
 
 # Never cache or index the staff consoles (HR and Marketing).
+/create-profile*
+  Cache-Control: no-store
+  X-Robots-Tag: noindex, nofollow
+/internship-profile*
+  Cache-Control: no-store
+  X-Robots-Tag: noindex, nofollow
+/enroll*
+  X-Robots-Tag: noindex, follow
 /admin*
   Cache-Control: no-store, no-cache, must-revalidate, private
   X-Robots-Tag: noindex, nofollow
@@ -39,6 +48,8 @@
   Cache-Control: public, max-age=2592000
 
 # Keep the consultation page out of search results on the staging domain until launch.
+https://kompetenzen.pages.dev/*
+  X-Robots-Tag: noindex
 https://kompetenzen.pages.dev/career-consultation*
   X-Robots-Tag: noindex
 https://kompetenzen.pages.dev/finishing-school*

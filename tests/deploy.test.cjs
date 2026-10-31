@@ -59,6 +59,22 @@ test('Resume pages map /Resume/* onto the backend and are read-only', async t =>
   assert.equal(post.status, 405); assert.equal(calls.length, 1);
 });
 
+test('reel covers come from Instagram, are edge-cacheable, and fail closed', async t => {
+  const calls = [];
+  let reply = () => new Response('jpeg-bytes', { headers: { 'Content-Type': 'image/jpeg' } });
+  t.mock.method(globalThis, 'fetch', async url => { calls.push(String(url)); return reply(); });
+  const { onRequest } = await fn('reel-cover/[id].js');
+  const ok = await onRequest({ request: new Request('https://kompetenzen.in/reel-cover/DYZbuipRpnn'), params: { id: 'DYZbuipRpnn' } });
+  assert.equal(calls[0], 'https://www.instagram.com/p/DYZbuipRpnn/media/?size=l');
+  assert.equal(ok.status, 200); assert.equal(ok.headers.get('content-type'), 'image/jpeg');
+  assert.match(ok.headers.get('cache-control'), /s-maxage=604800/);
+  const bad = await onRequest({ request: new Request('https://kompetenzen.in/reel-cover/x'), params: { id: '../../x' } });
+  assert.equal(bad.status, 404); assert.equal(calls.length, 1);
+  reply = () => new Response('<html>login</html>', { headers: { 'Content-Type': 'text/html' } });
+  const notImage = await onRequest({ request: new Request('https://kompetenzen.in/reel-cover/DX1XSgJxTSv'), params: { id: 'DX1XSgJxTSv' } });
+  assert.equal(notImage.status, 404); assert.equal(notImage.headers.get('cache-control'), 'no-store');
+});
+
 test('course pages find their published content under clean URLs', () => {
   const src = fs.readFileSync(path.join(root, 'js/site-content.js'), 'utf8');
   const key = p => p.split('/').pop().replace(/\.html$/, '') + '.html';

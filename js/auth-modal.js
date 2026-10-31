@@ -8,6 +8,7 @@
  */
 (function () {
   'use strict';
+  let authReturnFocus = null;
 
   // Inject styles if not present
   function injectAuthStyles() {
@@ -200,7 +201,7 @@
     injectAuthStyles();
 
     const modalMarkup = `
-    <div id="jobs-auth-modal"
+    <div id="jobs-auth-modal" role="dialog" aria-modal="true" aria-label="Account access" tabindex="-1"
       style="display:none; position:fixed; inset:0; z-index:99999; background:rgba(15,23,42,0.65); backdrop-filter:blur(8px); align-items:center; justify-content:center; padding:1rem; box-sizing:border-box;">
       
       <div class="auth-modal-card">
@@ -296,12 +297,12 @@
           <form id="signup-form" onsubmit="handleSignupSubmit(event)" style="display:flex; flex-direction:column; gap:0.2rem;">
             
             <div class="auth-input-group">
-              <label>Full Name</label>
+              <label for="signup-name">Full Name</label>
               <input id="signup-name" type="text" required placeholder="Enter your full name" autocomplete="name">
             </div>
 
             <div class="auth-input-group">
-              <label>Email Address</label>
+              <label for="signup-email">Email Address</label>
               <input id="signup-email" type="email" required placeholder="you@example.com" autocomplete="email">
             </div>
 
@@ -316,16 +317,17 @@
             </div>
 
             <div class="auth-input-group">
-              <label>Password</label>
+              <label for="signup-password">Password</label>
               <input id="signup-password" type="password" required minlength="6" placeholder="Min 6 characters" autocomplete="new-password">
-              <span onclick="togglePasswordVisibility('signup-password')"
-                style="position:absolute; right:10px; top:31px; cursor:pointer; color:#94a3b8; font-size:14px; user-select:none; padding:4px;"
-                title="Toggle password visibility">👁️</span>
+              <button type="button" onclick="togglePasswordVisibility('signup-password')"
+                style="position:absolute; right:10px; top:31px; cursor:pointer; color:#64748b; font-size:14px; user-select:none; padding:4px; border:0; background:transparent;"
+                aria-label="Show or hide password" title="Toggle password visibility">👁️</button>
             </div>
 
             <button type="submit" id="signup-submit-btn" class="auth-pill-btn auth-submit-btn" style="margin-top:0.4rem;">
               Create Account →
             </button>
+            <p style="font-size:0.8rem; color:#475569;">Read how we use your information in our <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</p>
 
             <div style="margin-top:0.85rem; text-align:center; font-size:0.8rem; color:#64748b;">
               Already have an account? <a href="javascript:void(0)" onclick="switchAuthTab('login')" style="color:#1947FF; font-weight:700; text-decoration:none;">Log In</a>
@@ -402,7 +404,7 @@
           <!-- OTP Input Form -->
           <form id="otp-form" onsubmit="handleOtpSubmit(event)" style="display:flex; flex-direction:column; gap:0.65rem;">
             <div class="auth-input-group" style="align-items:center;">
-              <label style="text-align:center; width:100%;">Enter 6-Digit Code</label>
+              <label for="otp-code-input" style="text-align:center; width:100%;">Enter 6-Digit Code</label>
               <input id="otp-code-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" required
                 placeholder="• • • • • •" autocomplete="one-time-code"
                 style="text-align:center; font-size:1.55rem; font-weight:800; letter-spacing:0.35em; padding:0.72rem 1rem; border-radius:12px; font-family:monospace; width:100%; max-width:240px; margin:0 auto; background:#f8fafc; border:1.5px solid #cbd5e1; outline:none;">
@@ -437,9 +439,21 @@
       if (e.target === this) closeJobsAuthModal();
     });
 
-    // Close on Escape key
+    // Keep keyboard navigation inside the open dialog.
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') closeJobsAuthModal();
+      const modal = document.getElementById('jobs-auth-modal');
+      if (!modal || modal.style.display === 'none') return;
+      if (e.key === 'Escape') { e.preventDefault(); closeJobsAuthModal(); return; }
+      if (e.key !== 'Tab') return;
+      const controls = [...modal.querySelectorAll('a[href],button,input,select,textarea,[tabindex]')]
+        .filter(el => !el.disabled && el.tabIndex >= 0 && el.getClientRects().length);
+      const first = controls[0], last = controls[controls.length - 1];
+      if (!first) { e.preventDefault(); modal.focus(); return; }
+      if (e.shiftKey && (document.activeElement === first || !modal.contains(document.activeElement))) {
+        e.preventDefault(); last.focus();
+      } else if (!e.shiftKey && (document.activeElement === last || !modal.contains(document.activeElement))) {
+        e.preventDefault(); first.focus();
+      }
     });
   }
 
@@ -740,6 +754,8 @@
 
     // Reset to the Create Account form for next open
     window.showEmailAuthStep('signup');
+    if (authReturnFocus?.isConnected) authReturnFocus.focus();
+    authReturnFocus = null;
   };
 
   window.openAuthModal = function (mode = 'signup', redirectUrl = null, customText = null) {
@@ -748,6 +764,7 @@
     }
     ensureAuthModalDOM();
     const modal = document.getElementById('jobs-auth-modal');
+    if (modal && !modal.contains(document.activeElement)) authReturnFocus = document.activeElement;
     if (redirectUrl) window._pendingAuthRedirect = redirectUrl;
 
     const heroTitle = document.getElementById('auth-modal-hero-title');
@@ -770,7 +787,11 @@
     // Open straight on the form: login when asked for, otherwise Create Account.
     window.showEmailAuthStep(mode === 'login' || mode === 'direct-login' ? 'login' : 'signup');
 
-    if (modal) modal.style.display = 'flex';
+    if (modal) {
+      modal.style.display = 'flex';
+      const field = modal.querySelector(mode === 'login' || mode === 'direct-login' ? '#login-phone' : '#signup-name');
+      (field || modal).focus();
+    }
   };
 
   window.showDownloadSuccessToast = function (courseName) {

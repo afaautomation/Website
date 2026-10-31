@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /Resume/
+
+Sitemap: https://kompetenzen.in/sitemap.xml

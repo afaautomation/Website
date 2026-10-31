@@ -12,10 +12,6 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <!-- Instagram reel embeds: open the connections early so the first reel starts sooner -->
-  <link rel="preconnect" href="https://www.instagram.com" />
-  <link rel="preconnect" href="https://static.cdninstagram.com" crossorigin />
-  <link rel="dns-prefetch" href="https://scontent.cdninstagram.com" />
   <link
     href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Work+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;500&family=Michroma&family=Montserrat:wght@400;600;800&family=Inconsolata:wght@400;600;700&family=Open+Sans:wght@300;400;500;600&display=swap"
     rel="stylesheet" />
@@ -2807,6 +2803,12 @@
       }
     }
   </style>
+  <link rel="canonical" href="https://kompetenzen.in/">
+  <meta property="og:title" content="Kompetenzen — Career Consulting &amp; Training, Kochi">
+  <meta property="og:description" content="Kerala's #1 job-oriented skill development academy. Career consulting, full-stack training, corporate readiness and 2000+ placements.">
+  <meta property="og:url" content="https://kompetenzen.in/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
 </head>
 
 <body>
@@ -3637,6 +3639,39 @@
             opacity: 1;
           }
 
+          /* cover image: same 9:16 shape as the card, so it fills it edge to edge */
+          .v-reel-cover {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+          }
+
+          .v-reel.has-cover .v-reel-cover {
+            opacity: 1;
+          }
+
+          .v-reel.has-cover iframe {
+            display: none;
+          }
+
+          /* play badge (on the tap overlay, the card's last child) so the cover reads as a video */
+          .v-reel.has-cover > div:last-child::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 64px;
+            height: 64px;
+            margin: -32px 0 0 -32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.92) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 5.5v13l11-6.5z' fill='%2302050E'/%3E%3C/svg%3E") 56% 50% / 26px no-repeat;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+          }
+
           .v-reel.is-loaded::before,
           .v-reel.is-loaded::after {
             display: none;
@@ -3827,31 +3862,36 @@
 
             const reels = document.querySelectorAll('.v-reel');
 
-            // Each Instagram embed is heavy, so load them in priority order instead of all at once:
-            // the centre reel first, then its neighbours, then the rest as they rotate into view.
+            // Show each reel as its cover image (~50 KB, served and cached by /reel-cover/<id>)
+            // instead of a full Instagram embed; tapping still opens the reel on Instagram.
+            // If a cover can't be fetched, that card falls back to the Instagram embed.
             let embedsStarted = false;
-            const loadReel = reel => {
-              const f = reel && reel.querySelector('iframe[data-src]');
-              if (!f) return;
+            const loadEmbed = (reel, f) => {
               f.addEventListener('load', () => reel.classList.add('is-loaded'), { once: true });
               f.src = f.dataset.src;
-              f.removeAttribute('data-src');
             };
-            const reelAt = pos => Array.from(reels).find(r => r.classList.contains(pos));
+            const loadReel = reel => {
+              const f = reel && reel.querySelector('iframe[data-src]');
+              if (!f || reel.dataset.started) return;
+              reel.dataset.started = '1';
+              const id = (f.dataset.src.match(/\/reel\/([A-Za-z0-9_-]+)/) || [])[1];
+              if (!id) { loadEmbed(reel, f); return; }
+              const img = new Image();
+              img.className = 'v-reel-cover';
+              img.alt = '';
+              img.decoding = 'async';
+              img.onload = () => { reel.classList.add('is-loaded', 'has-cover'); };
+              img.onerror = () => { img.remove(); loadEmbed(reel, f); };
+              img.src = '/reel-cover/' + id;
+              reel.insertBefore(img, f);
+            };
             const loadVisibleReels = () => {
-              if (!embedsStarted) return;
-              ['pos1', 'pos2', 'pos9', 'pos3', 'pos8'].forEach(pos => loadReel(reelAt(pos)));
+              if (embedsStarted) reels.forEach(loadReel);
             };
             const startEmbeds = () => {
               if (embedsStarted) return;
-              const centre = reelAt('pos1');
-              loadReel(centre);
-              // neighbours once the centre reel has loaded (or after 1.5s at the latest)
-              const f = centre && centre.querySelector('iframe');
-              let done = false;
-              const once = () => { if (!done) { done = true; embedsStarted = true; loadVisibleReels(); } };
-              if (f) f.addEventListener('load', once, { once: true });
-              setTimeout(once, 1500);
+              embedsStarted = true;
+              loadVisibleReels();
             };
             if ('IntersectionObserver' in window) {
               const io = new IntersectionObserver(entries => {
@@ -3875,7 +3915,8 @@
 
             function updateReels() {
               reels.forEach((reel, index) => {
-                reel.className = 'v-reel ' + positions[index] + (reel.classList.contains('is-loaded') ? ' is-loaded' : '');
+                const kept = ['is-loaded', 'has-cover'].filter(c => reel.classList.contains(c));
+                reel.className = ['v-reel', positions[index], ...kept].join(' ');
               });
               loadVisibleReels();
             }
@@ -4688,244 +4729,6 @@
         }
       }
     </style>
-  </section>
-
-  <!-- ============ TOOLS & SKILLS ============ -->
-  <section id="skills-section"
-    style="padding: 100px 0; background: transparent; text-align: center; position: relative; z-index: 2;">
-    <div class="wrap">
-
-
-
-      <div class="tools-box reveal" id="toolsWaveBox">
-        <div class="tools-marquee-track" id="toolsWaveTrack">
-          <div class="tool-card"><img
-              src="img/devicons/python-plain.svg" loading="lazy" decoding="async" alt="Python" />
-          </div>
-          <div class="tool-card"><img
-              src="img/devicons/java-plain.svg" loading="lazy" decoding="async" alt="Java" /></div>
-          <div class="tool-card"><img
-              src="img/devicons/react-original.svg" loading="lazy" decoding="async"
-              alt="React.js" />
-          </div>
-          <div class="tool-card"><img
-              src="img/devicons/spring-original.svg" loading="lazy" decoding="async"
-              alt="Spring Boot" /></div>
-          <div class="tool-card"><svg class="tool-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="1.5">
-              <path d="M4 14h4v7H4zM10 9h4v12h-4zM16 3h4v18h-4z" />
-            </svg></div>
-          <div class="tool-card"><img
-              src="img/devicons/mysql-original.svg" loading="lazy" decoding="async" alt="MySQL" />
-          </div>
-          <div class="tool-card"><img
-              src="img/devicons/django-plain.svg" loading="lazy" decoding="async" alt="Django" />
-          </div>
-          <div class="tool-card"><img src="img/devicons/git-plain.svg" loading="lazy" decoding="async"
-              alt="Git" /></div>
-          <div class="tool-card"><img
-              src="img/devicons/docker-plain.svg" loading="lazy" decoding="async" alt="Docker" />
-          </div>
-          <div class="tool-card"><img
-              src="img/devicons/nodejs-plain.svg" loading="lazy" decoding="async" alt="Node.js" />
-          </div>
-          <div class="tool-card"><img
-              src="img/devicons/typescript-plain.svg" loading="lazy" decoding="async"
-              alt="TypeScript" /></div>
-          <div class="tool-card"><img
-              src="img/devicons/javascript-plain.svg" loading="lazy" decoding="async"
-              alt="JavaScript" /></div>
-          <div class="tool-card"><img
-              src="img/devicons/postgresql-plain.svg" loading="lazy" decoding="async"
-              alt="PostgreSQL" /></div>
-          <div class="tool-card"><img
-              src="img/devicons/mongodb-plain.svg" loading="lazy" decoding="async"
-              alt="MongoDB" />
-          </div>
-          <div class="tool-card"><img
-              src="img/devicons/html5-plain.svg" loading="lazy" decoding="async" alt="HTML5" />
-          </div>
-          <div class="tool-card"><img
-              src="img/devicons/css3-plain.svg" loading="lazy" decoding="async" alt="CSS3" /></div>
-          <div class="tool-card"><img
-              src="img/devicons/tensorflow-line.svg" loading="lazy" decoding="async"
-              alt="TensorFlow" /></div>
-          <div class="tool-card"><img
-              src="img/devicons/figma-plain.svg" loading="lazy" decoding="async" alt="Figma" />
-          </div>
-          <div class="tool-card"><img
-              src="img/devicons/amazonwebservices-plain-wordmark.svg" loading="lazy" decoding="async"
-              alt="AWS" /></div>
-          <div class="tool-card"><img
-              src="img/devicons/redis-plain.svg" loading="lazy" decoding="async" alt="Redis" />
-          </div>
-          <div class="tool-card"><img
-              src="img/devicons/kubernetes-plain.svg" loading="lazy" decoding="async"
-              alt="Kubernetes" /></div>
-          <div class="tool-card"><img
-              src="img/devicons/vuejs-line.svg" loading="lazy" decoding="async" alt="Vue.js" />
-          </div>
-          <div class="tool-card"><img
-              src="img/devicons/nextjs-plain.svg" loading="lazy" decoding="async" alt="Next.js" />
-          </div>
-          <div class="tool-card"><img
-              src="img/devicons/graphql-plain.svg" loading="lazy" decoding="async"
-              alt="GraphQL" />
-          </div>
-          <div class="tool-card"><img
-              src="img/devicons/linux-plain.svg" loading="lazy" decoding="async" alt="Linux" />
-          </div>
-          <div class="tool-card"><img
-              src="img/devicons/pandas-plain.svg" loading="lazy" decoding="async" alt="Pandas" />
-          </div>
-          <div class="tool-card"><img
-              src="img/devicons/flask-original.svg" loading="lazy" decoding="async" alt="Flask" />
-          </div>
-          <div class="tool-card"><img
-              src="img/devicons/fastapi-plain.svg" loading="lazy" decoding="async"
-              alt="FastAPI" />
-          </div>
-          <div class="tool-card"><img
-              src="img/devicons/selenium-original.svg" loading="lazy" decoding="async"
-              alt="Selenium" /></div>
-          <div class="tool-card"><img
-              src="img/devicons/github-original.svg" loading="lazy" decoding="async"
-              alt="GitHub" />
-          </div>
-        </div>
-      </div>
-
-      <script>
-        /* ── Wave animation — antigravity.google style ──────────────────── */
-        (function () {
-          const track = document.getElementById('toolsWaveTrack');
-          if (!track) return;
-          const cards = Array.from(track.querySelectorAll('.tool-card'));
-          const N = cards.length;
-          const AMPLITUDE = 38;          /* px — gentle float like antigravity.google */
-          const PERIOD = 4.5;         /* seconds per full wave cycle — slow gentle float */
-          const CRESTS = 3;           /* visible wave crests across all circles */
-          const PHASE_GAP = (Math.PI * 2 * CRESTS) / N;
-          let startTime = null;
-
-          function frame(ts) {
-            if (!startTime) startTime = ts;
-            const elapsed = (ts - startTime) / 1000;
-            const t = (elapsed / PERIOD) * Math.PI * 2;
-            cards.forEach((card, i) => {
-              const y = Math.sin(t + i * PHASE_GAP) * AMPLITUDE;
-              /* translate3d triggers GPU compositing for 60fps smoothness */
-              card.style.transform = `translate3d(0,${y.toFixed(1)}px,0)`;
-            });
-            requestAnimationFrame(frame);
-          }
-          requestAnimationFrame(frame);
-        })();
-      </script>
-
-      <!-- SVG Filter for Blue Outline Only -->
-      <svg width="0" height="0" style="position: absolute; pointer-events: none;">
-        <filter id="blue-outline">
-          <feMorphology in="SourceAlpha" result="DILATED" operator="dilate" radius="1"></feMorphology>
-          <feFlood flood-color="#1947FF" flood-opacity="1" result="BLUE"></feFlood>
-          <feComposite in="BLUE" in2="DILATED" operator="in" result="OUTLINE_BLUE"></feComposite>
-          <feComposite in="OUTLINE_BLUE" in2="SourceAlpha" operator="out" result="FINAL_OUTLINE"></feComposite>
-        </filter>
-      </svg>
-
-      <style>
-        /* === Wave Animation (antigravity.google style) === */
-        .tools-box {
-          background: transparent;
-          padding: 0;
-          margin: 0 auto;
-          width: 100vw;
-          max-width: 100vw;
-          /* clip, not hidden: the wave may still extend vertically */
-          overflow-x: clip;
-          overflow-y: visible;
-          position: relative;
-          left: 50%;
-          margin-left: -50vw;
-          display: flex;
-          justify-content: center;
-        }
-
-        /* The full-bleed box is 100vw, which includes the scrollbar width. */
-        section:has(> .wrap > .tools-box) {
-          overflow-x: clip;
-        }
-
-        .tools-marquee-track {
-          display: flex;
-          flex-wrap: nowrap;
-          gap: 24px;
-          width: max-content;
-          padding: 60px 60px;
-          align-items: center;
-          /* No scroll animation — wave handled by JS per-circle */
-        }
-
-        @keyframes floatBox {
-
-          0%,
-          100% {
-            transform: translateY(0);
-          }
-
-          50% {
-            transform: translateY(-12px);
-          }
-        }
-
-        .tool-card {
-          background: #fff;
-          border: 1.5px solid rgba(10, 21, 48, 0.18);
-          border-radius: 50%;
-          width: 96px;
-          height: 96px;
-          flex: 0 0 96px;
-          padding: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          box-shadow: 0 6px 20px rgba(10, 21, 48, 0.10), 0 2px 6px rgba(10, 21, 48, 0.06);
-          /* GPU compositing — prevents repaints on every wave frame */
-          will-change: transform;
-          backface-visibility: hidden;
-        }
-
-        .tool-card:hover {
-          transform: scale(1.12) !important;
-          transition: transform 0.25s ease;
-        }
-
-        .tool-card:hover {
-          animation-play-state: paused;
-          transform: scale(1.08) !important;
-        }
-
-        .tool-card img {
-          width: 44px;
-          height: 44px;
-          object-fit: contain;
-          filter: grayscale(1) brightness(0) opacity(1);
-        }
-
-        .tool-card .tool-svg {
-          width: 44px;
-          height: 44px;
-          color: rgba(2, 5, 14, 0.9);
-        }
-
-        .tool-card span {
-          font-size: 14px;
-          font-weight: 600;
-          color: #02050E;
-          text-align: center;
-        }
-      </style>
-    </div>
   </section>
 
   <!-- ============ CTA ============ -->

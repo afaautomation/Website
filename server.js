@@ -20,11 +20,14 @@ const MIME_TYPES = {
   '.pdf': 'application/pdf',
   '.mp4': 'video/mp4',
   '.json': 'application/json',
+  '.xml': 'application/xml; charset=utf-8',
+  '.txt': 'text/plain; charset=utf-8',
   '.ico': 'image/x-icon'
 };
 
 // Local development only: never serve files outside the site, private folders, or dotfiles.
 const BLOCKED = /(^|[\\/])(\.|node_modules([\\/]|$)|Resume[\\/]backend([\\/]|$))|\.(sql|md|py|env|log)$/i;
+const PRIVATE_PATH = /^(?:(?:tmp|output|migration-backup|migrations|scripts|tests|supabase|functions|Logos)(?:[\\/]|$)|package(?:-lock)?\.json$)/i;
 
 function notFound(res) {
   res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
@@ -59,7 +62,7 @@ const server = http.createServer((req, res) => {
 
   const filePath = path.resolve(PUBLIC_DIR, '.' + path.posix.normalize('/' + reqPath));
   const relative = path.relative(PUBLIC_DIR, filePath);
-  if (reqPath.includes('\0') || relative.startsWith('..') || path.isAbsolute(relative) || BLOCKED.test(relative) || relative === 'server.js') {
+  if (reqPath.includes('\0') || relative.startsWith('..') || path.isAbsolute(relative) || BLOCKED.test(relative) || PRIVATE_PATH.test(relative) || relative === 'server.js') {
     notFound(res);
     return;
   }
@@ -102,6 +105,7 @@ function serveFile(filePath, res) {
 }
 
 // Bound to this computer only; other devices on the network cannot reach it.
-server.listen(PORT, '127.0.0.1', () => {
+if (require.main === module) server.listen(PORT, '127.0.0.1', () => {
   console.log(`Server running at http://localhost:${PORT}/`);
 });
+module.exports = server;

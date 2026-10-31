@@ -4,9 +4,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>B-School — Kompetenzen | HR & Sales Programs</title>
+  <title>B-School — Kompetenzen | HR, HR Analytics &amp; Sales Engineering</title>
   <meta name="description"
-    content="Explore the B-School programs by Kompetenzen Technologies. PG Diploma in HR and Sales Engineering courses." />
+    content="Kompetenzen B-School offers practical, industry-mentored learning in HR, HR analytics and sales engineering. Build skills. Shape what's next." />
   <link rel="icon" type="image/png" href="icon.png?v=2" />
   <link rel="shortcut icon" href="favicon.ico?v=2" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2" />
@@ -1420,6 +1420,34 @@
     }
     @media(prefers-reduced-motion:reduce) { *, *::before, *::after { animation:none !important; transition:none !important; } }
 
+    /* Course cards: three paths side by side on desktop */
+    @media (min-width: 1025px) {
+      .programs-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 24px !important; max-width: 1240px !important; padding: 0 24px; }
+      .program-card { padding: 34px 30px !important; }
+    }
+    /* the base rule forces white from the old dark theme, which hid titles on the white cards */
+    .program-title { font-size: 21px !important; color: #0d1833 !important; margin-bottom: 4px; }
+    .program-duration { font-weight: 700 !important; letter-spacing: .04em; text-transform: uppercase; font-size: 12px !important; }
+    .program-tagline { font-size: 17px; font-weight: 700; line-height: 1.4; color: #12203d !important; letter-spacing: -.01em; }
+    .programs-intro { margin-top: 14px; font-size: 17px; color: #596b82 !important; }
+    #bSchoolHero .hero-lead { display: block; margin-bottom: 10px; font-weight: 700; color: #12203d; }
+
+    /* Desktop: the six months fill a grid and each card glides into its own slot (matches Tech School) */
+    @media (min-width: 901px) {
+      section.roadmap-section .roadmap-cards-deck {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+        width: 1180px;
+        max-width: 92vw;
+        height: auto;
+      }
+      section.roadmap-section .roadmap-stack-card { position: relative; top: auto; left: auto; right: auto; }
+    }
+    @media (min-width: 901px) and (max-width: 1200px) {
+      section.roadmap-section .roadmap-cards-deck { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; width: 860px; }
+    }
+
     /* Phones and tablets: no pinned stage, the six months are a plain list (matches Tech School) */
     @media (max-width: 900px) {
       section.roadmap-section { height: auto !important; padding: 56px 0 !important; }
@@ -1428,6 +1456,12 @@
       section.roadmap-section .roadmap-stack-card { position: relative !important; transform: none !important; opacity: 1 !important; }
     }
   </style>
+  <link rel="canonical" href="https://kompetenzen.in/b-school">
+  <meta property="og:title" content="Kompetenzen B-School | Build skills. Shape what's next.">
+  <meta property="og:description" content="Kompetenzen B-School offers practical, industry-mentored learning in HR, HR analytics and sales engineering. Build skills. Shape what's next.">
+  <meta property="og:url" content="https://kompetenzen.in/b-school">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
 </head>
 
 <body>
@@ -1480,17 +1514,18 @@
         <span class="hero-eyebrow sr" style="margin-bottom: 20px;"><span class="dot" style="background: #38BDF8; box-shadow: 0 0 10px #38BDF8;"></span>Kompetenzen B-School</span>
         <h1 class="hero-main-title"
           style="font-family: 'Red Hat Display', sans-serif; font-size: clamp(28px, 3.6vw, 46px); font-weight: 400; line-height: 1.22; color: #ffffff; text-align: center; letter-spacing: -0.02em; margin-bottom: 24px; max-width: 100%;">
-          Corporate B-School Programs <br class="hero-desktop-br"><span style="color: #38BDF8;">Built for</span> Real Careers.
+          Build skills. <br class="hero-desktop-br"><span style="color: #38BDF8;">Shape what&rsquo;s next.</span>
         </h1>
         <p class="hero-desc" style="font-size: clamp(15px, 1.5vw, 18px); color: rgba(226, 232, 240, 0.82); line-height: 1.65; margin: 0 auto 32px auto; padding: 0; text-align: center; max-width: 620px;">
-          Industry-mentored HR and Sales Engineering diplomas that turn business fundamentals into a job-ready, corporate-fluent career — in six focused months.
+          <strong class="hero-lead">Practical learning for careers in people, data and sales.</strong>
+          Kompetenzen B-School offers practical, industry-mentored learning in HR and sales engineering. Learners build confidence with real business workflows and modern tools, developing skills they can carry into the workplace.
         </p>
         <div class="hero-cta-wrapper" style="display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap;">
           <a href="#programs" class="hero-btn-primary" style="display: inline-flex; align-items: center; gap: 10px; background: #1947FF; color: #FFFFFF; padding: 14px 32px; border-radius: 99px; font-size: 15px; font-weight: 700; text-decoration: none; box-shadow: 0 8px 30px rgba(25, 71, 255, 0.45);">
-            <span>Explore Programs ↓</span>
+            <span>Explore the courses ↓</span>
           </a>
-          <a href="https://wa.me/918590886009" target="_blank" class="hero-btn-secondary" style="display: inline-flex; align-items: center; gap: 10px; background: rgba(255, 255, 255, 0.08); color: #FFFFFF; border: 1px solid rgba(255, 255, 255, 0.2); padding: 14px 32px; border-radius: 99px; font-size: 15px; font-weight: 600; text-decoration: none; backdrop-filter: blur(10px);">
-            <span>Talk to us</span>
+          <a href="https://wa.me/918590886009?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20Kompetenzen%20B-School%20courses." target="_blank" rel="noopener" class="hero-btn-secondary" style="display: inline-flex; align-items: center; gap: 10px; background: rgba(255, 255, 255, 0.08); color: #FFFFFF; border: 1px solid rgba(255, 255, 255, 0.2); padding: 14px 32px; border-radius: 99px; font-size: 15px; font-weight: 600; text-decoration: none; backdrop-filter: blur(10px);">
+            <span>Talk to an advisor</span>
           </a>
         </div>
       </div>
@@ -1505,14 +1540,15 @@
     <div class="sr" style="text-align: center; margin-bottom: 64px;">
       <span
         style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; color: #38BDF8; text-transform: uppercase;">KOMPETENZEN
-        B-SCHOOL PROGRAMS</span>
+        B-SCHOOL COURSES</span>
       <h2
         style="font-size: clamp(32px, 5vw, 44px); font-weight: 700; letter-spacing: -0.02em; color: #FFFFFF; margin-top: 16px; line-height: 1.2;">
-        Master high-demand corporate skills to<br>launch your career in top companies</h2>
+        Explore the courses</h2>
+      <p class="programs-intro">Three practical paths into careers in people, data and sales.</p>
     </div>
 
     <div class="programs-grid">
-      <!-- PG Diploma in HR -->
+      <!-- 01 / Post Graduate Diploma in Human Resource -->
       <div class="program-card sr sr-delay-1">
         <div class="card-header">
           <div class="card-icon">
@@ -1528,19 +1564,18 @@
             </svg>
           </div>
           <div class="card-title-group">
-            <h3 class="program-title" style="color: #FFFFFF;">PG Diploma in HR</h3>
-            <div class="program-rating">★★★★★ (Trusted by 300+ students)</div>
+            <h3 class="program-title" style="color: #FFFFFF;">Post Graduate Diploma in Human Resource</h3>
+            <div class="program-rating program-duration">01 &middot; 6 months</div>
           </div>
         </div>
-        <p class="program-desc">Kerala's most practical PG Diploma in Human Resource Management. Master end-to-end HR
-          operations — recruitment, payroll, labour laws, AI HR tools, and KEKA HRMS.</p>
+        <p class="program-tagline">Build practical foundations for the day-to-day work of HR.</p>
+        <p class="program-desc">Explore how people operations support the employee journey, from recruitment through core workplace processes.</p>
         <div class="skills-row">
-          <span style="font-weight: 600; color: #38BDF8;">If you like:</span> People Management, Operations, KEKA HRMS, Payroll,
-          Corporate Comms
+          <span style="font-weight: 600; color: #38BDF8;">Covers:</span> Recruitment, payroll, labour laws, AI HR tools and KEKA HRMS
         </div>
         <div class="card-footer">
           <a href="hr-course-details.html" class="apply-btn">
-            View Course Details
+            Explore course
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round">
               <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -1550,8 +1585,41 @@
         </div>
       </div>
 
-      <!-- Sales Engineering -->
+      <!-- 02 / Human Resource Analytics -->
       <div class="program-card sr sr-delay-2">
+        <div class="card-header">
+          <div class="card-icon">
+            <svg class="card-sparkle" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z" />
+            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round">
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+          </div>
+          <div class="card-title-group">
+            <h3 class="program-title" style="color: #FFFFFF;">Human Resource Analytics</h3>
+            <div class="program-rating program-duration">02 &middot; 4 months</div>
+          </div>
+        </div>
+        <p class="program-tagline">Make people data your advantage.</p>
+        <p class="program-desc">Build the confidence to turn workforce information into clearer questions, useful insights and better-informed HR decisions &mdash; from understanding workforce measures to interpreting patterns and communicating what they mean.</p>
+        <div class="card-footer">
+          <a href="https://wa.me/918590886009?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20the%20Human%20Resource%20Analytics%20course." class="apply-btn" target="_blank" rel="noopener">
+            Talk to an advisor
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- 03 / Certified Sales Engineer -->
+      <div class="program-card sr sr-delay-3">
         <div class="card-header">
           <div class="card-icon">
             <svg class="card-sparkle" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -1564,19 +1632,18 @@
             </svg>
           </div>
           <div class="card-title-group">
-            <h3 class="program-title" style="color: #FFFFFF;">Sales Engineering</h3>
-            <div class="program-rating">★★★★★ (Trusted by 250+ students)</div>
+            <h3 class="program-title" style="color: #FFFFFF;">Certified Sales Engineer</h3>
+            <div class="program-rating program-duration">03 &middot; 6 months</div>
           </div>
         </div>
-        <p class="program-desc">Bridge the gap between technology and business. Learn B2B sales strategies, technical
-          account management, pipeline tracking, and high-ticket closing.</p>
+        <p class="program-tagline">Turn technical know-how into customer value.</p>
+        <p class="program-desc">Learn to understand customer needs, explain technical solutions and support a more structured B2B sales journey.</p>
         <div class="skills-row">
-          <span style="font-weight: 600; color: #38BDF8;">If you like:</span> B2B Sales, Business Dev, CRM tools, Client Relations,
-          Growth
+          <span style="font-weight: 600; color: #38BDF8;">Covers:</span> B2B sales strategies, technical account management, pipeline tracking and high-ticket closing
         </div>
         <div class="card-footer">
           <a href="sales-engineering-course-details.html" class="apply-btn">
-            View Course Details
+            Explore course
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round">
               <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -1589,79 +1656,64 @@
     </div>
   </section>
 
-  <!-- TRAINING STATS (Google Style) -->
+  <!-- WHY KOMPETENZEN B-SCHOOL -->
   <section class="stats-cards-section">
     <h2 class="sr"
       style="font-size: clamp(28px, 4vw, 40px); font-weight: 700; letter-spacing: -0.02em; color: #FFFFFF; margin-bottom: 64px; line-height: 1.3;">
-      Get professional job training from<br>Kompetenzen
+      A practical start to<br>your next step
     </h2>
 
     <div class="stats-cards-grid">
-      <!-- Col 1 -->
       <div class="stat-block">
         <div style="min-height: 90px;">
           <h3 style="font-size: 19px; font-weight: 700; color: #FFFFFF; margin-bottom: 10px; line-height: 1.3;">
-            Intensive training</h3>
-          <p style="font-size: 14px; color: rgba(226, 232, 240, 0.82); line-height: 1.6;">Master practical HR & sales skills with real
-            business workflows and modern tools.</p>
+            Practical learning</h3>
+          <p style="font-size: 14px; color: rgba(226, 232, 240, 0.82); line-height: 1.6;">Hands-on learning built around real business workflows and modern tools.</p>
         </div>
         <div>
           <div
-            style="font-size: clamp(32px, 4vw, 42px); font-weight: 700; color: #38BDF8; margin-bottom: 10px; line-height: 1.1; letter-spacing: -0.02em; text-shadow: 0 0 20px rgba(56, 189, 248, 0.35);">
-            6 months</div>
-          <p style="font-size: 13px; color: rgba(226, 232, 240, 0.75); line-height: 1.6;">of intensive, hands-on training designed
-            to make you completely job-ready</p>
+            style="font-size: clamp(28px, 3.2vw, 36px); font-weight: 700; color: #38BDF8; margin-bottom: 10px; line-height: 1.1; letter-spacing: -0.02em; text-shadow: 0 0 20px rgba(56, 189, 248, 0.35);">
+            Hands-on</div>
+          <p style="font-size: 13px; color: rgba(226, 232, 240, 0.75); line-height: 1.6;">skills you can carry into the workplace.</p>
         </div>
       </div>
-
-      <!-- Col 2 -->
-      <div class="stat-block">
-        <div style="min-height: 90px;">
-          <h3 style="font-size: 19px; font-weight: 700; color: #FFFFFF; margin-bottom: 10px; line-height: 1.3;">Stand
-            out to employers</h3>
-          <p style="font-size: 14px; color: rgba(226, 232, 240, 0.82); line-height: 1.6;">Build a portfolio of real-world
-            HRMS & B2B pipeline strategies.</p>
-        </div>
-        <div>
-          <div
-            style="font-size: clamp(32px, 4vw, 42px); font-weight: 700; color: #38BDF8; margin-bottom: 10px; line-height: 1.1; letter-spacing: -0.02em; text-shadow: 0 0 20px rgba(56, 189, 248, 0.35);">
-            100%</div>
-          <p style="font-size: 13px; color: rgba(226, 232, 240, 0.75); line-height: 1.6;">placement assistance and dedicated
-            career support for our b-school graduates.</p>
-        </div>
-      </div>
-
-      <!-- Col 3 -->
       <div class="stat-block">
         <div style="min-height: 90px;">
           <h3 style="font-size: 19px; font-weight: 700; color: #FFFFFF; margin-bottom: 10px; line-height: 1.3;">
-            High-growth corporate roles</h3>
-          <p style="font-size: 14px; color: rgba(226, 232, 240, 0.82); line-height: 1.6;">Step into roles like HR Specialist,
-            Talent Acquisition, or Sales Engineer.</p>
+            Industry-mentored approach</h3>
+          <p style="font-size: 14px; color: rgba(226, 232, 240, 0.82); line-height: 1.6;">Learning shaped with industry mentors, so what you practise reflects how business works.</p>
         </div>
         <div>
           <div
-            style="font-size: clamp(32px, 4vw, 42px); font-weight: 700; color: #38BDF8; margin-bottom: 10px; line-height: 1.1; letter-spacing: -0.02em; text-shadow: 0 0 20px rgba(56, 189, 248, 0.35);">
-            5-10 LPA</div>
-          <p style="font-size: 13px; color: rgba(226, 232, 240, 0.75); line-height: 1.6;">target salary range for corporate
-            hires with our practical curriculum.</p>
+            style="font-size: clamp(28px, 3.2vw, 36px); font-weight: 700; color: #38BDF8; margin-bottom: 10px; line-height: 1.1; letter-spacing: -0.02em; text-shadow: 0 0 20px rgba(56, 189, 248, 0.35);">
+            Mentored</div>
+          <p style="font-size: 13px; color: rgba(226, 232, 240, 0.75); line-height: 1.6;">by people who know the field.</p>
         </div>
       </div>
-
-      <!-- Col 4 -->
       <div class="stat-block">
         <div style="min-height: 90px;">
-          <h3 style="font-size: 19px; font-weight: 700; color: #FFFFFF; margin-bottom: 10px; line-height: 1.3;">No
-            prior experience needed</h3>
-          <p style="font-size: 14px; color: rgba(226, 232, 240, 0.82); line-height: 1.6;">We start from foundational business communication
-            and advance to corporate execution.</p>
+          <h3 style="font-size: 19px; font-weight: 700; color: #FFFFFF; margin-bottom: 10px; line-height: 1.3;">
+            Clear workplace relevance</h3>
+          <p style="font-size: 14px; color: rgba(226, 232, 240, 0.82); line-height: 1.6;">HR operations, people analytics and B2B sales engineering connect learning to recognisable business functions.</p>
         </div>
         <div>
           <div
-            style="font-size: clamp(32px, 4vw, 42px); font-weight: 700; color: #38BDF8; margin-bottom: 10px; line-height: 1.1; letter-spacing: -0.02em; text-shadow: 0 0 20px rgba(56, 189, 248, 0.35);">
-            2,000+</div>
-          <p style="font-size: 13px; color: rgba(226, 232, 240, 0.75); line-height: 1.6;">successful placements to date through
-            our comprehensive training.</p>
+            style="font-size: clamp(28px, 3.2vw, 36px); font-weight: 700; color: #38BDF8; margin-bottom: 10px; line-height: 1.1; letter-spacing: -0.02em; text-shadow: 0 0 20px rgba(56, 189, 248, 0.35);">
+            3 paths</div>
+          <p style="font-size: 13px; color: rgba(226, 232, 240, 0.75); line-height: 1.6;">people, data and sales.</p>
+        </div>
+      </div>
+      <div class="stat-block">
+        <div style="min-height: 90px;">
+          <h3 style="font-size: 19px; font-weight: 700; color: #FFFFFF; margin-bottom: 10px; line-height: 1.3;">
+            Focused durations</h3>
+          <p style="font-size: 14px; color: rgba(226, 232, 240, 0.82); line-height: 1.6;">Choose the course that fits your next step, with a clear start and finish.</p>
+        </div>
+        <div>
+          <div
+            style="font-size: clamp(28px, 3.2vw, 36px); font-weight: 700; color: #38BDF8; margin-bottom: 10px; line-height: 1.1; letter-spacing: -0.02em; text-shadow: 0 0 20px rgba(56, 189, 248, 0.35);">
+            4&ndash;6 months</div>
+          <p style="font-size: 13px; color: rgba(226, 232, 240, 0.75); line-height: 1.6;">per course, depending on the programme.</p>
         </div>
       </div>
     </div>
@@ -2653,15 +2705,13 @@
         if (totalScroll <= 0) return;
 
         const progress = Math.max(0, Math.min(1, -rect.top / totalScroll));
-        const stackOffset = window.innerWidth <= 600 ? 12 : 20;
-
-        // Distance from dock to below bottom of viewport
         const deckTop = deck ? deck.getBoundingClientRect().top : 240;
-        const travelDist = Math.max(650, window.innerHeight - deckTop + 80);
 
         for (let i = 0; i < cards.length; i++) {
           const card = cards[i];
-          const targetY = i * stackOffset;
+          const targetY = 0; // each card rests in its own grid slot
+          // Distance from the card's grid slot to just below the viewport
+          const travelDist = Math.max(320, window.innerHeight - (deckTop + card.offsetTop) + 60);
           card.style.zIndex = 10 + i;
 
           if (i === 0) {
@@ -2701,14 +2751,14 @@
     })();
   </script>
 
-  <!-- 2-CARD SPLIT ANIMATION ON SCROLL -->
+  <!-- COURSE CARD DEAL-OUT ANIMATION ON SCROLL -->
   <script>
     (function initProgramsCardSplit() {
       const grid = document.querySelector('.programs-grid');
       if (!grid) return;
 
       const cards = Array.from(grid.querySelectorAll('.program-card'));
-      if (cards.length !== 2) return;
+      if (cards.length < 2) return;
 
       let targetProgress = 0;
       let currentProgress = 0;
@@ -2740,24 +2790,20 @@
       function updateCards(p) {
         if (isMobile) return;
 
-        const dist = Math.max(220, (cards[1].offsetLeft - cards[0].offsetLeft) / 2);
         const ease = 1 - Math.pow(1 - p, 2.5); // Natural card dealing easing
+        const gridCenter = grid.offsetWidth / 2;
+        const mid = (cards.length - 1) / 2;
 
-        // Card 0 (Left - HR): Deals out to left, un-fanning
-        const x0 = (1 - ease) * dist;
-        const rot0 = (1 - ease) * -6;
-        const y0 = (1 - ease) * 14;
-        const s0 = 0.96 + ease * 0.04;
-        cards[0].style.transform = `translate3d(${x0.toFixed(1)}px, ${y0.toFixed(1)}px, 0) rotate(${rot0.toFixed(2)}deg) scale(${s0.toFixed(3)})`;
-        cards[0].style.zIndex = '1';
-
-        // Card 1 (Right - Sales): Deals out to right, un-fanning
-        const x1 = (1 - ease) * -dist;
-        const rot1 = (1 - ease) * 6;
-        const y1 = (1 - ease) * 14;
-        const s1 = 0.96 + ease * 0.04;
-        cards[1].style.transform = `translate3d(${x1.toFixed(1)}px, ${y1.toFixed(1)}px, 0) rotate(${rot1.toFixed(2)}deg) scale(${s1.toFixed(3)})`;
-        cards[1].style.zIndex = '2';
+        // Every card starts stacked in the centre, fanned, and deals out to its own column
+        cards.forEach((card, i) => {
+          const offset = card.offsetLeft + card.offsetWidth / 2 - gridCenter;
+          const x = (1 - ease) * -offset;
+          const rot = (1 - ease) * (i - mid) * 6;
+          const y = (1 - ease) * 14;
+          const sc = 0.96 + ease * 0.04;
+          card.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) rotate(${rot.toFixed(2)}deg) scale(${sc.toFixed(3)})`;
+          card.style.zIndex = String(i === Math.round(mid) ? cards.length : i + 1);
+        });
 
         if (p >= 0.96) {
           grid.classList.add('split-ready');

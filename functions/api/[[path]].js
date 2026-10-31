@@ -13,16 +13,42 @@ export async function forward(request, env, path) {
     return new Response('Resume Builder is not configured.', { status: 503 });
   }
   const source = new URL(request.url);
-  const target = new URL(path + source.search, env.RESUME_BACKEND_URL);
+  // Assign pathname instead of resolving an untrusted URL. A path beginning
+  // with // would otherwise replace the host and leak the proxy credential.
+  let target;
+  try {
+    target = new URL(env.RESUME_BACKEND_URL);
+    if (target.protocol !== 'https:' || target.username || target.password) throw new Error('Invalid backend');
+  } catch {
+    return new Response('Resume Builder is not configured.', { status: 503 });
+  }
+  target.pathname = path;
+  target.search = source.search;
+  target.hash = '';
   const headers = new Headers(request.headers);
   for (const name of STRIP) headers.delete(name);
   headers.set('x-proxy-secret', env.RESUME_PROXY_SECRET);
   // Cloudflare's verified client address; the backend's rate limits key on it.
   headers.set('x-forwarded-for', request.headers.get('cf-connecting-ip') || '');
   headers.set('x-forwarded-proto', 'https');
-  const init = { method: request.method, headers, redirect: 'manual' };
+  // Allow the existing AI provider fallback chain (45 seconds per heavy slot).
+  const init = { method: request.method, headers, redirect: 'manual', signal: AbortSignal.timeout(300000) };
   if (request.method !== 'GET' && request.method !== 'HEAD') init.body = request.body;
-  return fetch(target, init);
+  try {
+    const upstream = await fetch(target, init);
+    const response = new Response(upstream.body, upstream);
+    response.headers.set('X-Content-Type-Options', 'nosniff');
+    response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+    response.headers.set('X-Frame-Options', 'SAMEORIGIN');
+    response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+    response.headers.set('Cache-Control', 'no-store');
+    return response;
+  } catch (error) {
+    const status = error?.name === 'TimeoutError' ? 504 : 502;
+    return new Response('Resume Builder is temporarily unavailable. Please retry.', {
+      status, headers: { 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' }
+    });
+  }
 }
 
 export async function onRequest({ request, env }) {
