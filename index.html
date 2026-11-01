@@ -2732,8 +2732,9 @@
         -webkit-backdrop-filter: none !important;
       }
 
+      /* Keep the top bar white after scrolling (glass blur is off on phones, so make it solid) */
       nav.scrolled {
-        background: rgba(2, 2, 5, 0.95) !important;
+        background: #FFFFFF !important;
       }
     }
   </style>
@@ -4939,11 +4940,8 @@
       a.href = 'https://www.instagram.com/kompetenzen.techschool';
       a.target = '_blank';
       a.rel = 'noopener';
-      a.className = 'ig-post reveal';
-      if (i % 5 === 1) a.classList.add('d1');
-      if (i % 5 === 2) a.classList.add('d2');
-      if (i % 5 === 3) a.classList.add('d3');
-      if (i % 5 === 4) a.classList.add('d4');
+      // No per-post fade-in: posts slide in from off-screen, so a reveal would leave them blank as they arrive.
+      a.className = 'ig-post';
       a.innerHTML = `
     <div class="heart"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-7-10a4 4 0 018-1 4 4 0 018 1c0 5.65-7 10-7 10z"/></svg>${p.likes}</div>
     <img src="${p.img}" alt="${p.name} placed @ ${p.co}" class="ig-post-img" />
@@ -4953,7 +4951,6 @@
       igGrid.appendChild(a);
     });
     renderPlacements();
-    document.querySelectorAll('.ig-post.reveal').forEach(el => io.observe(el));
 
 
 
@@ -5323,6 +5320,11 @@
     (function () {
       const canvas = document.getElementById('blue-cyclone-canvas');
       if (!canvas) return;
+      // Mouse-only effect: on touch screens it trails the finger and covers content while scrolling.
+      if (window.matchMedia('(hover: none), (pointer: coarse)').matches) {
+        canvas.remove();
+        return;
+      }
       const ctx = canvas.getContext('2d');
 
       let width = canvas.width = window.innerWidth;

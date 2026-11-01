@@ -204,7 +204,7 @@
       width: 100%;
     }
 
-    .tech-hero > * {
+    .tech-hero>* {
       position: relative;
       z-index: 2;
     }
@@ -303,7 +303,8 @@
     /* ROADMAP ASTRA-STYLE PINNED STAGE */
     .roadmap-section {
       position: relative;
-      height: 330vh; /* Scroll track for cards */
+      height: 330vh;
+      /* Scroll track for cards */
       margin: 0;
       padding: 0;
     }
@@ -374,7 +375,7 @@
       padding: 24px 30px;
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
-      box-shadow: 
+      box-shadow:
         0 -6px 20px rgba(0, 0, 0, 0.55),
         0 20px 50px rgba(0, 0, 0, 0.75),
         0 0 30px rgba(56, 189, 248, 0.2),
@@ -389,7 +390,7 @@
 
     .roadmap-stack-card:hover {
       border-color: rgba(56, 189, 248, 0.85);
-      box-shadow: 
+      box-shadow:
         0 -6px 20px rgba(0, 0, 0, 0.55),
         0 25px 60px rgba(25, 71, 255, 0.45),
         0 0 40px rgba(56, 189, 248, 0.35),
@@ -480,28 +481,35 @@
       .roadmap-section {
         height: 290vh;
       }
+
       .roadmap-sticky-stage {
         padding: 40px 16px 20px;
       }
+
       .roadmap-beam-line {
         height: 30px;
       }
+
       .roadmap-cards-deck {
         width: 100%;
         max-width: 95vw;
       }
+
       .roadmap-stack-card {
         padding: 16px 18px;
         gap: 14px;
         border-radius: 18px;
       }
+
       .roadmap-card-icon {
         width: 44px;
         height: 44px;
       }
+
       .roadmap-card-title {
         font-size: 17px;
       }
+
       .roadmap-card-desc {
         font-size: 12.5px;
         line-height: 1.35;
@@ -607,9 +615,9 @@
     .programs-grid.split-ready .program-card:hover {
       transform: translateY(-14px) scale(1.03) rotate(0deg) !important;
       border-color: rgba(56, 189, 248, 0.85);
-      box-shadow: 
-        0 30px 70px rgba(25, 71, 255, 0.42), 
-        0 0 40px rgba(56, 189, 248, 0.3), 
+      box-shadow:
+        0 30px 70px rgba(25, 71, 255, 0.42),
+        0 0 40px rgba(56, 189, 248, 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.25);
       z-index: 10 !important;
     }
@@ -788,8 +796,15 @@
     }
 
     @keyframes featuredPulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
-      50% { box-shadow: 0 0 0 6px rgba(255, 255, 255, 0); }
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+      }
+
+      50% {
+        box-shadow: 0 0 0 6px rgba(255, 255, 255, 0);
+      }
     }
 
     .featured-kicker {
@@ -898,9 +913,17 @@
       background: #334155;
     }
 
-    .featured-window-bar span:nth-child(1) { background: #F87171; }
-    .featured-window-bar span:nth-child(2) { background: #FBBF24; }
-    .featured-window-bar span:nth-child(3) { background: #34D399; }
+    .featured-window-bar span:nth-child(1) {
+      background: #F87171;
+    }
+
+    .featured-window-bar span:nth-child(2) {
+      background: #FBBF24;
+    }
+
+    .featured-window-bar span:nth-child(3) {
+      background: #34D399;
+    }
 
     .featured-window-bar em {
       margin-left: 10px;
@@ -921,10 +944,21 @@
       overflow: hidden;
     }
 
-    .featured-window .tk-k { color: #C084FC; }
-    .featured-window .tk-f { color: #38BDF8; }
-    .featured-window .tk-s { color: #34D399; }
-    .featured-window .tk-c { color: #64748B; }
+    .featured-window .tk-k {
+      color: #C084FC;
+    }
+
+    .featured-window .tk-f {
+      color: #38BDF8;
+    }
+
+    .featured-window .tk-s {
+      color: #34D399;
+    }
+
+    .featured-window .tk-c {
+      color: #64748B;
+    }
 
     /* Heading between the featured card and the 3-card grid */
     .programs-divider {
@@ -1046,6 +1080,7 @@
         max-width: 520px;
         gap: 24px;
       }
+
       .program-card {
         padding: 30px 24px;
       }
@@ -1343,6 +1378,7 @@
       margin-left: 10px;
       z-index: 1002;
     }
+
     .hamburger span {
       display: block;
       width: 22px;
@@ -1351,9 +1387,18 @@
       background: #FFFFFF;
       transition: all 0.25s ease;
     }
-    .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .hamburger.active span:nth-child(2) { opacity: 0; }
-    .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .hamburger.active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
 
     @media (max-width: 980px) {
       .nav {
@@ -1408,8 +1453,8 @@
         transform: translateY(-8px) !important;
         pointer-events: none !important;
         transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-                    transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-                    visibility 0.22s ease !important;
+          transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+          visibility 0.22s ease !important;
       }
 
       .nav-links.mobile-active {
@@ -1489,17 +1534,36 @@
   <style>
     /* Top bar has nine links since Internships was added: keep each label on one
        line and tighten spacing on narrower desktops, above the mobile-menu breakpoint. */
-    .nav .nav-links a, .nav .nav-cta, .nav .cta { white-space: nowrap; }
+    .nav .nav-links a,
+    .nav .nav-cta,
+    .nav .cta {
+      white-space: nowrap;
+    }
+
     @media (min-width: 993px) {
-      .nav .nav-left { min-width: max-content; }
+      .nav .nav-left {
+        min-width: max-content;
+      }
     }
+
     @media (min-width: 993px) and (max-width: 1280px) {
-      .nav .nav-links { gap: 16px; }
-      .nav .nav-links a { font-size: 13px; }
+      .nav .nav-links {
+        gap: 16px;
+      }
+
+      .nav .nav-links a {
+        font-size: 13px;
+      }
     }
+
     @media (min-width: 993px) and (max-width: 1120px) {
-      .nav .nav-links { gap: 12px; }
-      .nav .nav-links a { font-size: 12.5px; }
+      .nav .nav-links {
+        gap: 12px;
+      }
+
+      .nav .nav-links a {
+        font-size: 12.5px;
+      }
     }
 
     /* Tablet landscape / small laptops: the full desktop bar is wider than the screen
@@ -1531,7 +1595,8 @@
   </style>
   <link rel="canonical" href="https://kompetenzen.in/tech-school">
   <meta property="og:title" content="Tech School — Kompetenzen | AI-Integrated Tech Programs">
-  <meta property="og:description" content="Explore the AI-Integrated Tech School programs by Kompetenzen Technologies. Full Stack Python, Full Stack Java, and Data Analytics courses with live projects.">
+  <meta property="og:description"
+    content="Explore the AI-Integrated Tech School programs by Kompetenzen Technologies. Full Stack Python, Full Stack Java, and Data Analytics courses with live projects.">
   <meta property="og:url" content="https://kompetenzen.in/tech-school">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary">
@@ -1541,7 +1606,8 @@
 
   <!-- Fixed Full-Page Atmospheric Tech Glow Background & Neural Constellation -->
   <div class="tech-bg-glow" aria-hidden="true"></div>
-  <canvas id="heroLightBlueCanvas" style="position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0;"></canvas>
+  <canvas id="heroLightBlueCanvas"
+    style="position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0;"></canvas>
 
   <!-- NAV -->
   <nav class="nav">
@@ -1561,7 +1627,8 @@
         <a href="our-story.html"><span>Our Story</span><span class="nav-arrow">→</span></a>
         <a href="jobs.html"><span>Jobs</span><span class="nav-arrow">→</span></a>
         <a href="internships.html"><span>Internships</span><span class="nav-arrow">→</span></a>
-        <a href="Resume/resume.html" onclick="openResumeBuilder(event)"><span>Resume Builder</span><span class="nav-arrow">↗</span></a>
+        <a href="Resume/resume.html" onclick="openResumeBuilder(event)"><span>Resume Builder</span><span
+            class="nav-arrow">↗</span></a>
       </div>
       <div class="nav-right">
         <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="nav-cta">
@@ -1581,10 +1648,12 @@
     <div class="hero-content-wrapper">
       <span class="hero-badge-eyebrow">EXPLORE TECH PATHWAYS</span>
       <h1 class="hero-main-title">
-        AI-Integrated Tech School Programs <br class="hero-desktop-br"><span style="color: #38BDF8;">Built for</span> Real Careers.
+        AI-Integrated Tech School Programs <br class="hero-desktop-br"><span style="color: #38BDF8;">Built for</span>
+        Real Careers.
       </h1>
       <p class="hero-desc">
-        Hands-on, industry-mentored programs taking you from coding fundamentals to a job-ready, AI-fluent developer in six focused months.
+        Hands-on, industry-mentored programs taking you from coding fundamentals to a job-ready, AI-fluent developer in
+        six focused months.
       </p>
     </div>
   </section>
@@ -1621,7 +1690,8 @@
           <li>AI-Powered Apps</li>
         </ul>
         <div class="featured-actions">
-          <a href="genai-course-details.html" class="apply-btn featured-btn" data-track="genai_featured_details">View course details →</a>
+          <a href="genai-course-details.html" class="apply-btn featured-btn" data-track="genai_featured_details">View
+            course details →</a>
         </div>
       </div>
 
@@ -1665,7 +1735,7 @@
             </svg>
           </div>
           <div class="card-title-group">
-            <h3 class="program-title">Full Stack Python + AI</h3>
+            <h3 class="program-title">Full Stack Python with AI</h3>
             <div class="program-rating">★★★★★ (Trusted by 500+ students)</div>
           </div>
         </div>
@@ -1697,14 +1767,14 @@
             </svg>
           </div>
           <div class="card-title-group">
-            <h3 class="program-title">Full Stack Java + AI</h3>
+            <h3 class="program-title">Full Stack Java with AI</h3>
             <div class="program-rating">★★★★★ (Trusted by 420+ students)</div>
           </div>
         </div>
         <p class="program-desc">Build robust, enterprise-scale applications using Java Spring Boot while learning to
           weave AI features and n8n automation seamlessly into enterprise architectures.</p>
         <div class="skills-row">
-          <span style="font-weight: 600;">If you like:</span> Java, Spring Boot, React + MUI, n8n, GenAI
+          <span style="font-weight: 600;">If you like:</span> Java, Spring Boot, React + MUI, n8n
         </div>
         <div class="card-footer">
           <a href="java-course-details.html" class="apply-btn">
@@ -1729,14 +1799,14 @@
             </svg>
           </div>
           <div class="card-title-group">
-            <h3 class="program-title">Data Analytics + GenAI</h3>
+            <h3 class="program-title">Data Analytics with AI</h3>
             <div class="program-rating">★★★★★ (Trusted by 380+ students)</div>
           </div>
         </div>
-        <p class="program-desc">Transform raw data into strategic insights. Learn Python data tools, Power BI,
-          Tableau visualization, and use Generative AI to automate analytical workflows.</p>
+        <p class="program-desc">Become a data analyst in just 6 months. Turn raw data into decisions with Excel,
+          SQL, Python, Power BI and Tableau, build 5+ real projects, and use AI to work faster.</p>
         <div class="skills-row">
-          <span style="font-weight: 600;">If you like:</span> Excel, SQL, Python, Power BI, Tableau, GenAI
+          <span style="font-weight: 600;">If you like:</span> Excel, SQL, Python, Power BI, Tableau, ML
         </div>
         <div class="card-footer">
           <a href="data-analytics-course-details.html" class="apply-btn">
@@ -1762,14 +1832,16 @@
         <div>
           <h3 style="font-size: 20px; font-weight: 600; color: #FFFFFF; margin-bottom: 12px; line-height: 1.3;">
             Intensive training</h3>
-          <p style="font-size: 14px; color: rgba(226, 232, 240, 0.75); line-height: 1.6;">Master full-stack skills with hands-on
+          <p style="font-size: 14px; color: rgba(226, 232, 240, 0.75); line-height: 1.6;">Master full-stack skills with
+            hands-on
             projects and AI integration.</p>
         </div>
         <div>
           <div
             style="font-size: clamp(36px, 4vw, 48px); font-weight: 700; color: #38BDF8; text-shadow: 0 0 20px rgba(56, 189, 248, 0.4); margin-bottom: 10px; line-height: 1.1; letter-spacing: -0.02em;">
             6 months</div>
-          <p style="font-size: 13px; color: rgba(148, 163, 184, 0.85); line-height: 1.6;">of intensive, hands-on training designed
+          <p style="font-size: 13px; color: rgba(148, 163, 184, 0.85); line-height: 1.6;">of intensive, hands-on
+            training designed
             to make you completely job-ready</p>
         </div>
       </div>
@@ -1779,14 +1851,16 @@
         <div>
           <h3 style="font-size: 20px; font-weight: 600; color: #FFFFFF; margin-bottom: 12px; line-height: 1.3;">Stand
             out to employers</h3>
-          <p style="font-size: 14px; color: rgba(226, 232, 240, 0.75); line-height: 1.6;">Build a portfolio of real-world
+          <p style="font-size: 14px; color: rgba(226, 232, 240, 0.75); line-height: 1.6;">Build a portfolio of
+            real-world
             AI-integrated applications.</p>
         </div>
         <div>
           <div
             style="font-size: clamp(36px, 4vw, 48px); font-weight: 700; color: #38BDF8; text-shadow: 0 0 20px rgba(56, 189, 248, 0.4); margin-bottom: 10px; line-height: 1.1; letter-spacing: -0.02em;">
             100%</div>
-          <p style="font-size: 13px; color: rgba(148, 163, 184, 0.85); line-height: 1.6;">placement assistance and dedicated
+          <p style="font-size: 13px; color: rgba(148, 163, 184, 0.85); line-height: 1.6;">placement assistance and
+            dedicated
             career support for our tech school graduates.</p>
         </div>
       </div>
@@ -1796,14 +1870,16 @@
         <div>
           <h3 style="font-size: 20px; font-weight: 600; color: #FFFFFF; margin-bottom: 12px; line-height: 1.3;">
             High-paying tech roles</h3>
-          <p style="font-size: 14px; color: rgba(226, 232, 240, 0.75); line-height: 1.6;">Step into roles like Full-Stack
+          <p style="font-size: 14px; color: rgba(226, 232, 240, 0.75); line-height: 1.6;">Step into roles like
+            Full-Stack
             Developer, AI Engineer, or Data Analyst.</p>
         </div>
         <div>
           <div
             style="font-size: clamp(36px, 4vw, 48px); font-weight: 700; color: #38BDF8; text-shadow: 0 0 20px rgba(56, 189, 248, 0.4); margin-bottom: 10px; line-height: 1.1; letter-spacing: -0.02em;">
             6-12 LPA</div>
-          <p style="font-size: 13px; color: rgba(148, 163, 184, 0.85); line-height: 1.6;">target salary range for entry-level
+          <p style="font-size: 13px; color: rgba(148, 163, 184, 0.85); line-height: 1.6;">target salary range for
+            entry-level
             developers with our tech stack.</p>
         </div>
       </div>
@@ -1813,14 +1889,16 @@
         <div>
           <h3 style="font-size: 20px; font-weight: 600; color: #FFFFFF; margin-bottom: 12px; line-height: 1.3;">No
             prior coding needed</h3>
-          <p style="font-size: 14px; color: rgba(226, 232, 240, 0.75); line-height: 1.6;">We start from the absolute basics and
+          <p style="font-size: 14px; color: rgba(226, 232, 240, 0.75); line-height: 1.6;">We start from the absolute
+            basics and
             take you to advanced concepts.</p>
         </div>
         <div>
           <div
             style="font-size: clamp(36px, 4vw, 48px); font-weight: 700; color: #38BDF8; text-shadow: 0 0 20px rgba(56, 189, 248, 0.4); margin-bottom: 10px; line-height: 1.1; letter-spacing: -0.02em;">
             2,000+</div>
-          <p style="font-size: 13px; color: rgba(148, 163, 184, 0.85); line-height: 1.6;">successful placements to date through
+          <p style="font-size: 13px; color: rgba(148, 163, 184, 0.85); line-height: 1.6;">successful placements to date
+            through
             our comprehensive training.</p>
         </div>
       </div>
@@ -1836,7 +1914,8 @@
         <div class="section-head center" style="text-align: center; margin-bottom: 0;">
           <span class="eyebrow"
             style="display: inline-block; background: linear-gradient(135deg, #1947FF, #0099FF); color: #fff; padding: 6px 16px; border-radius: 99px; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 14px; box-shadow: 0 4px 16px rgba(25, 71, 255, 0.35);">Roadmap</span>
-          <h2 style="font-size: clamp(30px, 4.5vw, 46px); font-weight: 600; letter-spacing: -0.02em; color: #FFFFFF; line-height: 1.15; margin: 0;">
+          <h2
+            style="font-size: clamp(30px, 4.5vw, 46px); font-weight: 600; letter-spacing: -0.02em; color: #FFFFFF; line-height: 1.15; margin: 0;">
             6-Month Course Journey.</h2>
         </div>
 
@@ -1852,7 +1931,8 @@
         <!-- Month 1 -->
         <div class="roadmap-stack-card" style="z-index: 1;">
           <div class="roadmap-card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
               <polyline points="16 18 22 12 16 6"></polyline>
               <polyline points="8 6 2 12 8 18"></polyline>
             </svg>
@@ -1867,7 +1947,8 @@
         <!-- Month 2 -->
         <div class="roadmap-stack-card" style="z-index: 2;">
           <div class="roadmap-card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
               <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
               <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
               <line x1="6" y1="6" x2="6.01" y2="6"></line>
@@ -1884,7 +1965,8 @@
         <!-- Month 3 -->
         <div class="roadmap-stack-card" style="z-index: 3;">
           <div class="roadmap-card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="3" width="18" height="18" rx="2"></rect>
               <line x1="3" y1="9" x2="21" y2="9"></line>
               <line x1="9" y1="21" x2="9" y2="9"></line>
@@ -1900,7 +1982,8 @@
         <!-- Month 4 -->
         <div class="roadmap-stack-card" style="z-index: 4;">
           <div class="roadmap-card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z"></path>
             </svg>
           </div>
@@ -1913,8 +1996,10 @@
 
         <!-- Month 5 -->
         <div class="roadmap-stack-card" style="z-index: 5;">
-          <div class="roadmap-card-icon" style="color: #00F0FF; background: rgba(0, 240, 255, 0.12); border-color: rgba(0, 240, 255, 0.3);">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00F0FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <div class="roadmap-card-icon"
+            style="color: #00F0FF; background: rgba(0, 240, 255, 0.12); border-color: rgba(0, 240, 255, 0.3);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00F0FF" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
               <circle cx="18" cy="18" r="3"></circle>
               <circle cx="6" cy="6" r="3"></circle>
               <circle cx="6" cy="18" r="3"></circle>
@@ -1931,10 +2016,15 @@
 
         <!-- Month 6 -->
         <div class="roadmap-stack-card" style="z-index: 6;">
-          <div class="roadmap-card-icon" style="color: #00F0FF; background: rgba(0, 240, 255, 0.12); border-color: rgba(0, 240, 255, 0.3);">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00F0FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
-              <path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-4.05 11a22.7 22.7 0 0 1-3.95 2z"></path>
+          <div class="roadmap-card-icon"
+            style="color: #00F0FF; background: rgba(0, 240, 255, 0.12); border-color: rgba(0, 240, 255, 0.3);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00F0FF" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z">
+              </path>
+              <path
+                d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-4.05 11a22.7 22.7 0 0 1-3.95 2z">
+              </path>
               <path d="M9 22l3-3"></path>
             </svg>
           </div>
@@ -1949,7 +2039,8 @@
   </section>
 
   <!-- PLACEMENTS & CAREER SUPPORT -->
-  <section class="placements-section" style="padding: 100px 0; background: rgba(11, 19, 43, 0.5); border-top: 1px solid rgba(56, 189, 248, 0.15); border-bottom: 1px solid rgba(56, 189, 248, 0.15); backdrop-filter: blur(12px);">
+  <section class="placements-section"
+    style="padding: 100px 0; background: rgba(11, 19, 43, 0.5); border-top: 1px solid rgba(56, 189, 248, 0.15); border-bottom: 1px solid rgba(56, 189, 248, 0.15); backdrop-filter: blur(12px);">
     <div style="max-width: var(--maxw); margin: 0 auto; padding: 0 24px; display: flex; justify-content: center;">
 
       <!-- Centered Text Content -->
@@ -2021,20 +2112,24 @@
     </div>
   </section>
 
-    <footer class="site-footer">
-      <p>&copy; 2026 Kompetenzen Technologies. All rights reserved. · <a href="privacy.html">Privacy Policy</a></p>
-      <p style="margin-top: 8px;">
-        <a href="https://wa.me/918590886009" target="_blank" rel="noopener">Contact us via WhatsApp</a>
-      </p>
-    </footer>
+  <footer class="site-footer">
+    <p>&copy; 2026 Kompetenzen Technologies. All rights reserved. · <a href="privacy.html">Privacy Policy</a></p>
+    <p style="margin-top: 8px;">
+      <a href="https://wa.me/918590886009" target="_blank" rel="noopener">Contact us via WhatsApp</a>
+    </p>
+  </footer>
 
   <!-- Reusable Auth Modal for School Pages -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js"
+    integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP"
+    crossorigin="anonymous"></script>
   <script src="supabase-config.js"></script>
   <script src="js/auth-modal.js?v=13"></script>
 
   <!-- Lenis Smooth Scroll -->
-  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" integrity="sha384-B2WBjDzEjJpYvhmi2UyEn7rektqkf5suS6sNoyyrf0EBAwBHdkiXxIlU0V5Ru2ed" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"
+    integrity="sha384-B2WBjDzEjJpYvhmi2UyEn7rektqkf5suS6sNoyyrf0EBAwBHdkiXxIlU0V5Ru2ed"
+    crossorigin="anonymous"></script>
   <script>
     (function () {
       if (typeof Lenis !== 'undefined') {
