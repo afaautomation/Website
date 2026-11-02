@@ -1235,40 +1235,57 @@
       return card;
     }
 
-    async function loadDynamicJobs() {
-      const storeKey = 'kompetenzen_hr_draft_jobs';
-      let drafts = [];
-      if (typeof isSupabaseConfigured === 'function' && isSupabaseConfigured()) {
-        try {
-          const { data, error } = await supabaseClient
-            .from('hr_jobs')
-            .select('id, title, category, company, location, job_type, experience, salary, skills, is_direct_link, created_at')
-            .order('created_at', { ascending: false });
-          if (!error && data) {
-            drafts = data
-              .filter(j => j && j.title && !String(j.id).startsWith('def-'))
-              .map(j => ({
-                id: j.id,
-                title: j.title,
-                category: j.category,
-                company: j.company,
-                location: j.location || '',
-                jobType: j.job_type || 'full-time',
-                experience: j.experience || '',
-                salary: j.salary || '',
-                skills: j.skills || '',
-                isDirectLink: j.is_direct_link || false,
-                createdAt: j.created_at
-              }));
-          }
-        } catch (e) {
-          console.warn("Supabase fetch error, using local storage fallback:", e);
-          try { drafts = JSON.parse(localStorage.getItem(storeKey)) || []; } catch (err) {}
-        }
-      } else {
-        try { drafts = JSON.parse(localStorage.getItem(storeKey)) || []; } catch (e) {}
-      }
+    const JOBS_CACHE_KEY = 'kompetenzen_jobs_cache_v1';
+    // Listings are public, so read them straight from the REST API as soon as this script runs.
+    // supabase-js first waits for (and sometimes refreshes) the visitor's saved login session,
+    // which could hold the list back for seconds.
+    const jobsRequest = (typeof SUPABASE_URL === 'string' && typeof SUPABASE_ANON_KEY === 'string')
+      ? fetch(SUPABASE_URL + '/rest/v1/hr_jobs?select=id,title,category,company,location,job_type,experience,salary,skills,is_direct_link,created_at&order=created_at.desc',
+          { headers: { apikey: SUPABASE_ANON_KEY } })
+          .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      : Promise.reject(new Error('Supabase is not configured'));
+    jobsRequest.catch(() => {}); // handled in loadDynamicJobs
 
+    function mapJobRows(rows) {
+      return rows
+        .filter(j => j && j.title && !String(j.id).startsWith('def-'))
+        .map(j => ({
+          id: j.id,
+          title: j.title,
+          category: j.category,
+          company: j.company,
+          location: j.location || '',
+          jobType: j.job_type || 'full-time',
+          experience: j.experience || '',
+          salary: j.salary || '',
+          skills: j.skills || '',
+          isDirectLink: j.is_direct_link || false,
+          createdAt: j.created_at
+        }));
+    }
+
+    async function loadDynamicJobs() {
+      // Show the list this browser saw last time straight away, then swap in fresh data.
+      let cached = null;
+      try { cached = JSON.parse(localStorage.getItem(JOBS_CACHE_KEY)); } catch (e) {}
+      if (!Array.isArray(cached)) cached = null;
+      if (cached) renderJobs(mapJobRows(cached));
+
+      let drafts;
+      try {
+        const rows = await jobsRequest;
+        try { localStorage.setItem(JOBS_CACHE_KEY, JSON.stringify(rows)); } catch (e) {}
+        if (cached && JSON.stringify(cached) === JSON.stringify(rows)) return;
+        drafts = mapJobRows(rows);
+      } catch (e) {
+        console.warn('Job listings fetch failed, using the saved copy:', e);
+        if (cached) return;
+        try { drafts = JSON.parse(localStorage.getItem('kompetenzen_hr_draft_jobs')) || []; } catch (err) { drafts = []; }
+      }
+      renderJobs(drafts);
+    }
+
+    function renderJobs(drafts) {
       // Purge any legacy hardcoded mock jobs
       drafts = drafts.filter(j => j && !String(j.id).startsWith('def-') && !['fs-dev','py-ai','java-dev','data-analyst','hr-exec','hr-mgr','sales-exec','sales-mgr'].includes(String(j.id)));
 
