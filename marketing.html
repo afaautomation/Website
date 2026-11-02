@@ -1946,6 +1946,22 @@
       flex-shrink: 0;
     }
 
+    .alumni-thumb {
+      width: 56px;
+      aspect-ratio: 4 / 5;
+      border-radius: 8px;
+      object-fit: cover;
+      background: var(--line-soft);
+      flex-shrink: 0;
+    }
+
+    .alumni-exp {
+      display: block;
+      margin-top: 4px;
+      font-size: 13px;
+      color: var(--ink-mute);
+    }
+
     body { overflow-x: hidden; max-width: 100%; }
   </style>
   <link rel="stylesheet" href="css/mobile.css" media="(max-width: 768px)" />
@@ -2034,6 +2050,16 @@
           <polyline points="21 15 16 10 5 21" />
         </svg>
         <span>Homepage Showcase</span>
+      </button>
+      <button type="button" class="admin-tab-btn" onclick="switchAdminTab('alumni')" id="tab-btn-alumni">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg>
+        <span>Our Alumni</span>
+        <span class="tab-badge" id="alumni-counter-badge">0</span>
       </button>
     </div>
 
@@ -2230,6 +2256,60 @@
       </section>
     </div>
 
+    <!-- ========================================== -->
+    <!-- PANEL 6: ALUMNI SHOWCASE (placements.html) -->
+    <!-- ========================================== -->
+    <div id="panel-alumni" class="admin-tab-panel">
+      <section class="admin-card">
+        <h2>Add an Alumnus</h2>
+        <p style="font-size: 13.5px; color: var(--ink-mute); margin-bottom: 20px;">Alumni appear in the "Our Alumni" section under "Our End-to-End Placement System" on the Placements page. With 6 or more alumni the cards glide past in two moving rows.</p>
+        <form class="form-grid" id="alumni-form" novalidate>
+          <div class="form-row">
+            <div class="field">
+              <label for="alumni-name">Name <span class="req">*</span></label>
+              <input id="alumni-name" type="text" maxlength="60" placeholder="e.g. Athira PS" />
+            </div>
+            <div class="field">
+              <label for="alumni-title">Job title <span class="req">*</span></label>
+              <input id="alumni-title" type="text" maxlength="70" placeholder="e.g. Senior Engineer" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="alumni-company">Company <span class="req">*</span></label>
+              <input id="alumni-company" type="text" maxlength="60" placeholder="e.g. Envestnet" />
+            </div>
+            <div class="field">
+              <label for="alumni-years">Working experience <span class="req">*</span></label>
+              <input id="alumni-years" type="text" maxlength="20" placeholder="e.g. 5 Years" />
+              <p class="field-hint">Shown as "5 Years at Envestnet". Typing just 5 also works.</p>
+            </div>
+          </div>
+          <div class="field">
+            <label for="alumni-photo">Photo <span class="req">*</span></label>
+            <input id="alumni-photo" type="file" accept="image/jpeg,image/png,image/webp" />
+            <p class="field-hint">Portrait or head-and-shoulders photo, JPG, PNG or WebP, up to 5 MB. It is cropped to the 4 : 5 card shape and resized before upload.</p>
+          </div>
+          <div class="form-actions">
+            <button class="btn-primary" type="submit" id="alumni-save">Add Alumnus →</button>
+            <span class="save-status" id="alumni-status">✓ Alumni published</span>
+          </div>
+        </form>
+      </section>
+
+      <section class="admin-card" style="box-shadow: 6px 6px 0px rgba(0, 0, 0, 1);">
+        <div class="list-head">
+          <div>
+            <h2>Published Alumni</h2>
+            <p style="font-size: 13px; color: var(--ink-mute); margin-top: 4px;">Shown in this order on the Placements page. Remove everyone to hide the section.</p>
+          </div>
+          <span class="list-count" id="alumni-count">0 alumni</span>
+        </div>
+        <div id="alumni-empty" class="list-empty">No alumni published. The alumni section on the Placements page stays hidden.</div>
+        <div id="alumni-list" class="reels-list-container"></div>
+      </section>
+    </div>
+
   </main>
 
   <!-- Staff login (shared with the other staff console) -->
@@ -2358,6 +2438,7 @@
           renderStudents();
         } catch (err) { alert('Published content could not be loaded: ' + err.message); }
         if (window.loadShowcase) window.loadShowcase();
+        if (window.loadAlumni) window.loadAlumni();
       };
     })();
 
@@ -2560,6 +2641,159 @@
             await publish(next);
           }
         } catch (err) { alert('Slides were not updated: ' + err.message); }
+      });
+    })();
+
+    /* =============================================
+       ALUMNI SHOWCASE (placements.html)
+    ============================================= */
+    (function () {
+      const KEY = 'kompetenzen_alumni';
+      const BUCKET = 'site-media';
+      const TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+      const $ = id => document.getElementById(id);
+      const form = $('alumni-form'), list = $('alumni-list');
+      let alumni = [];
+
+      // Centre-crop to the 4:5 card shape and shrink to 480x600 WebP, so the public page loads small files.
+      async function toCardPhoto(file) {
+        const bitmap = await createImageBitmap(file);
+        const W = 480, H = 600;
+        const scale = Math.max(W / bitmap.width, H / bitmap.height);
+        const sw = W / scale, sh = H / scale;
+        const canvas = document.createElement('canvas');
+        canvas.width = W; canvas.height = H;
+        const ctx = canvas.getContext('2d');
+        ctx.imageSmoothingQuality = 'high';
+        // Keep more of the top than the bottom, where faces usually are.
+        ctx.drawImage(bitmap, (bitmap.width - sw) / 2, (bitmap.height - sh) * 0.3, sw, sh, 0, 0, W, H);
+        if (bitmap.close) bitmap.close();
+        return new Promise((resolve, reject) => canvas.toBlob(b => b ? resolve(b) : reject(new Error('The photo could not be processed.')), 'image/webp', 0.86));
+      }
+
+      async function upload(blob) {
+        const path = 'alumni/' + Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '.webp';
+        const { error } = await supabaseClient.storage.from(BUCKET).upload(path, blob, { contentType: 'image/webp', cacheControl: '31536000', upsert: false });
+        if (error) throw error;
+        return { path, url: supabaseClient.storage.from(BUCKET).getPublicUrl(path).data.publicUrl };
+      }
+
+      // Files are removed only after the new list is published; a failure just leaves an unused file.
+      async function removeFiles(paths) {
+        paths = paths.filter(Boolean);
+        if (paths.length) await supabaseClient.storage.from(BUCKET).remove(paths).catch(() => {});
+      }
+
+      function flashStatus(text) {
+        const status = $('alumni-status');
+        status.textContent = text;
+        status.classList.add('is-visible');
+        setTimeout(() => status.classList.remove('is-visible'), 2500);
+      }
+
+      async function publish(next) {
+        await siteContent.save(KEY, { alumni: next });
+        alumni = next;
+        render();
+      }
+
+      function render() {
+        $('alumni-count').textContent = alumni.length + (alumni.length === 1 ? ' alumnus' : ' alumni');
+        $('alumni-counter-badge').textContent = alumni.length;
+        $('alumni-empty').style.display = alumni.length ? 'none' : 'block';
+        list.replaceChildren();
+        alumni.forEach((person, index) => {
+          const item = document.createElement('article');
+          item.className = 'reel-item';
+          item.innerHTML = `
+            <div class="reel-item-main">
+              <img class="alumni-thumb" alt="" />
+              <div class="reel-details">
+                <h3></h3>
+                <span class="id-badge"></span>
+                <span class="alumni-exp"></span>
+              </div>
+            </div>
+            <div class="reel-controls">
+              <button class="reel-control-btn" type="button" data-action="up" aria-label="Move up" ${index === 0 ? 'disabled' : ''}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+              </button>
+              <button class="reel-control-btn" type="button" data-action="down" aria-label="Move down" ${index === alumni.length - 1 ? 'disabled' : ''}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <button class="reel-control-btn reel-remove" type="button" data-action="remove" aria-label="Remove alumnus">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+              </button>
+            </div>`;
+          item.querySelector('img').src = person.photo;
+          item.querySelector('h3').textContent = person.name;
+          item.querySelector('.id-badge').textContent = person.title;
+          item.querySelector('.alumni-exp').textContent = person.years + ' at ' + person.company;
+          item.querySelectorAll('button').forEach(btn => btn.dataset.index = index);
+          list.append(item);
+        });
+      }
+
+      window.loadAlumni = async function () {
+        let value;
+        try { value = (await siteContent.read(KEY, {})) || {}; } catch (err) { alert('Alumni could not be loaded: ' + err.message); return; }
+        alumni = Array.isArray(value.alumni) ? value.alumni : [];
+        render();
+      };
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const file = $('alumni-photo').files[0];
+        const person = {
+          name: $('alumni-name').value.trim(),
+          title: $('alumni-title').value.trim(),
+          company: $('alumni-company').value.trim(),
+          years: $('alumni-years').value.trim(),
+          photo: '', photoPath: ''
+        };
+        // A bare number such as "5" becomes "5 Years".
+        if (/^\d+(\.\d+)?\+?$/.test(person.years)) person.years += person.years === '1' ? ' Year' : ' Years';
+        const button = $('alumni-save');
+        let uploaded = '';
+        try {
+          if (!person.name || !person.title || !person.company || !person.years) throw new Error('Fill in the name, job title, company and working experience.');
+          if (!file) throw new Error('Choose a photo.');
+          if (!TYPES.includes(file.type)) throw new Error('The photo must be a JPG, PNG or WebP image.');
+          if (file.size > 5 * 1024 * 1024) throw new Error('The photo is larger than 5 MB. Please compress it first.');
+          button.disabled = true; button.textContent = 'Uploading…';
+          const up = await upload(await toCardPhoto(file));
+          uploaded = up.path;
+          person.photo = up.url; person.photoPath = up.path;
+          await publish([...alumni, person]);
+          form.reset();
+          flashStatus('✓ Alumnus added');
+        } catch (err) {
+          await removeFiles([uploaded]);
+          alert('Alumnus was not added: ' + err.message);
+        } finally {
+          button.disabled = false; button.textContent = 'Add Alumnus →';
+        }
+      });
+
+      list.addEventListener('click', async (e) => {
+        const btn = e.target.closest('.reel-control-btn');
+        if (!btn) return;
+        const index = Number(btn.dataset.index);
+        const next = [...alumni];
+        try {
+          if (btn.dataset.action === 'remove') {
+            if (!confirm('Remove ' + next[index].name + ' from the Placements page?')) return;
+            const [removed] = next.splice(index, 1);
+            await publish(next);
+            await removeFiles([removed.photoPath]);
+            flashStatus('✓ Alumnus removed');
+          } else {
+            const target = btn.dataset.action === 'up' ? index - 1 : index + 1;
+            if (target < 0 || target >= next.length) return;
+            [next[index], next[target]] = [next[target], next[index]];
+            await publish(next);
+          }
+        } catch (err) { alert('Alumni were not updated: ' + err.message); }
       });
     })();
 
@@ -2827,7 +3061,7 @@
 
       // Check URL hash for direct tab navigation (e.g. marketing.html#reels)
       const hash = (window.location.hash || '').replace('#', '');
-      if (hash && ['courses', 'reels', 'showcase'].includes(hash)) {
+      if (hash && ['courses', 'reels', 'showcase', 'alumni'].includes(hash)) {
         if (typeof window.switchAdminTab === 'function') {
           window.switchAdminTab(hash);
         }

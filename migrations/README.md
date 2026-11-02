@@ -1,5 +1,9 @@
 # Admin workflow update
 
+## Alumni showcase (2026-11-02)
+
+Run `20261102_alumni_showcase.sql` in the Supabase SQL Editor before adding alumni from the marketing console. It allows the `kompetenzen_alumni` key in `site_content`; alumni photos are uploaded to the existing `site-media` bucket under `alumni/`. Until it is applied, adding an alumnus fails with a constraint error, and the alumni section on `placements.html` stays hidden. This migration has not been applied to production.
+
 ## GenAI course enquiries (2026-10-30)
 
 Run `20261030_genai_enquiries.sql` in the Supabase SQL Editor before publishing `genai-course-details.html`. It adds `genai_enquiries` (name, WhatsApp number, Python experience), which works like `dyf_seat_requests`: visitors can only insert, staff (`is_admin`) can read, update and delete, and a trigger validates each enquiry and limits repeats and floods. Until it is applied, the enquiry popup shows an error and points visitors to WhatsApp. This migration has not been applied to production.
