@@ -5044,6 +5044,18 @@
       }
     }
 
+    /* Desktop: with slides, the box takes the recommended 1920 × 900 banner shape so a banner
+       of that size shows whole, uncropped; it narrows on short screens to stay in view. */
+    @media (min-width: 981px) {
+      .glowing-box-container.has-showcase {
+        height: auto;
+        min-height: 0;
+        max-height: none;
+        aspect-ratio: 1920 / 900;
+        width: min(calc(100% - 60px), 1600px, calc((100vh - 48px) * 1920 / 900));
+      }
+    }
+
     /* Homepage showcase slides (set in marketing.html) fill the whole box */
     .showcase-media {
       position: absolute;
@@ -5221,6 +5233,12 @@
         img.src = image;
         img.alt = item.alt || '';
         img.decoding = 'async';
+        // Crop position chosen by dragging the preview in marketing.html (desktop crops; phones show it all).
+        const pos = item.position || {};
+        if (Number.isFinite(pos.x) && Number.isFinite(pos.y)) {
+          const pct = v => Math.min(100, Math.max(0, v)) + '%';
+          img.style.objectPosition = pct(pos.x) + ' ' + pct(pos.y);
+        }
         picture.append(img);
         const link = safe(item.link || '');
         if (link) {

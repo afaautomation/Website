@@ -6,13 +6,23 @@
  * credentials from https://supabase.com (Project Settings -> API).
  */
 
-const SUPABASE_URL = "https://lmimmujaqznybtcinwdo.supabase.co";
+const SUPABASE_DIRECT_URL = "https://lmimmujaqznybtcinwdo.supabase.co";
+// Some Indian internet providers block *.supabase.co. On the live site the browser goes
+// through kompetenzen.in/sb/* instead (functions/sb/[[path]].js); local dev has no Pages
+// Functions, so it keeps the direct URL.
+const SUPABASE_URL = (typeof window !== 'undefined' && /^(www\.)?(kompetenzen\.in|kompetenzentech\.com)$|(^|\.)kompetenzen\.pages\.dev$/.test(window.location.hostname))
+  ? window.location.origin + '/sb'
+  : SUPABASE_DIRECT_URL;
 const SUPABASE_ANON_KEY = "sb_publishable_3Sq9ZteA_RLrGgP-nSx1gA_zncBTMdG";
 
 let supabaseClient = null;
 
 if (typeof supabase !== 'undefined' && SUPABASE_URL !== "YOUR_SUPABASE_URL" && SUPABASE_ANON_KEY !== "YOUR_SUPABASE_ANON_KEY") {
-  supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  // supabase-js names the saved session after the URL's hostname; pin the original name
+  // so visitors who signed in before the /sb switch stay signed in.
+  supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    auth: { storageKey: 'sb-lmimmujaqznybtcinwdo-auth-token' }
+  });
 }
 
 /**
@@ -75,21 +85,30 @@ async function supabaseVerifyLoginOtp(phone, code) {
   };
 }
 
+// fetch() rejects only when no response arrives; browsers word that as
+// "Load failed" (Safari) or "Failed to fetch" (Chrome), which means nothing to visitors.
+const NETWORK_ERROR_MESSAGE = 'Could not reach our server. Check your internet connection (or try Wi-Fi / mobile data) and retry.';
+
+async function postToFunction(name, body) {
+  try {
+    return await fetch(SUPABASE_URL + '/functions/v1/' + name, {
+      method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY },
+      body: JSON.stringify(body)
+    });
+  } catch (e) {
+    throw new Error(NETWORK_ERROR_MESSAGE);
+  }
+}
+
 async function supabaseSendWhatsAppOtp(phone) {
-  const response = await fetch(SUPABASE_URL + '/functions/v1/whatsapp-otp', {
-    method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY },
-    body: JSON.stringify({ phone })
-  });
+  const response = await postToFunction('whatsapp-otp', { phone });
   const result = await response.json().catch(() => null);
   if (!response.ok || !result?.sent) throw new Error(result?.error || 'Could not send the WhatsApp code. Please retry shortly.');
   return result;
 }
 
 async function supabasePhoneSignUp(name, email, password, phone, code) {
-  const response = await fetch(SUPABASE_URL + '/functions/v1/phone-signup', {
-    method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY },
-    body: JSON.stringify({ name, email, password, phone, code })
-  });
+  const response = await postToFunction('phone-signup', { name, email, password, phone, code });
   const result = await response.json().catch(() => null);
   if (!response.ok || !result?.session) throw new Error(result?.error || 'Phone signup is unavailable. Please retry shortly.');
   const { data, error } = await supabaseClient.auth.setSession(result.session);

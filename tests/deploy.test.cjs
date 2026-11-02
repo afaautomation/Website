@@ -48,6 +48,29 @@ test('api proxy refuses to run unconfigured', async t => {
   assert.equal(res.status, 503); assert.equal(calls.length, 0);
 });
 
+test('supabase proxy forwards /sb/* to the project with the real client IP only', async t => {
+  const calls = captureFetch(t);
+  const { onRequest } = await fn('sb/[[path]].js');
+  const request = new Request('https://kompetenzen.in/sb/functions/v1/whatsapp-otp?x=1', { method: 'POST', body: '{"phone":"+919876543210"}',
+    headers: { 'content-type': 'application/json', apikey: 'anon', origin: 'https://kompetenzen.in', cookie: 'other=1', 'cf-connecting-ip': '203.0.113.7', 'x-forwarded-for': '6.6.6.6' } });
+  await onRequest({ request });
+  assert.equal(calls[0].url, 'https://lmimmujaqznybtcinwdo.supabase.co/functions/v1/whatsapp-otp?x=1');
+  const h = calls[0].init.headers;
+  assert.equal(h.get('x-forwarded-for'), '203.0.113.7');
+  assert.equal(h.get('apikey'), 'anon');
+  assert.equal(h.get('origin'), 'https://kompetenzen.in');
+  assert.equal(h.get('cookie'), null);
+  assert.equal(calls[0].init.redirect, 'manual');
+});
+
+test('supabase proxy only reaches the public Supabase APIs', async t => {
+  const calls = captureFetch(t);
+  const { onRequest } = await fn('sb/[[path]].js');
+  for (const p of ['/sb/', '/sb/pg/query', '/sb/rest/v1/../../pg', '/sb//attacker.invalid/x', '/sb/auth/v1/../../admin'])
+    assert.equal((await onRequest({ request: new Request('https://kompetenzen.in' + p) })).status, 404, p);
+  assert.equal(calls.length, 0);
+});
+
 test('Resume pages map /Resume/* onto the backend and are read-only', async t => {
   const calls = captureFetch(t);
   const { onRequest } = await fn('Resume/[[path]].js');

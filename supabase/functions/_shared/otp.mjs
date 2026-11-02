@@ -4,7 +4,7 @@
 export const INDIAN_MOBILE = /^\+91[6-9]\d{9}$/;
 
 export function allowedOrigins(env) {
-  return new Set(['https://kompetenzen.pages.dev', 'https://kompetenzen.in', 'https://www.kompetenzen.in', 'http://localhost:5500', 'http://127.0.0.1:5500', env('SITE_URL')]);
+  return new Set(['https://kompetenzen.pages.dev', 'https://kompetenzen.in', 'https://www.kompetenzen.in', 'https://kompetenzentech.com', 'https://www.kompetenzentech.com', 'http://localhost:5500', 'http://127.0.0.1:5500', 'http://localhost:3000', 'http://127.0.0.1:3000', env('SITE_URL')]);
 }
 
 // JSON responder with CORS for allowed browser origins. `early` is set for preflight and rejected requests.

@@ -1905,6 +1905,38 @@
       display: none;
     }
 
+    /* Dragging the preview picks which part of the image the homepage box shows */
+    .showcase-preview img:not([hidden]) {
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .showcase-preview.is-dragging img {
+      cursor: grabbing;
+    }
+
+    .showcase-preview img:focus-visible {
+      outline: 3px solid var(--blue, #1947FF);
+      outline-offset: -3px;
+    }
+
+    .showcase-position {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: -6px;
+      font-size: 13px;
+      color: var(--ink-mute);
+    }
+
+    .showcase-position[hidden] {
+      display: none;
+    }
+
     .showcase-thumb {
       width: 128px;
       aspect-ratio: 1600 / 750;
@@ -2148,14 +2180,18 @@
         <p style="font-size: 13.5px; color: var(--ink-mute); margin-bottom: 20px;">Each slide fills the whole "Design Your Future" box on the homepage. Add 2 or more slides and they change one by one as visitors scroll. Use them for new products and latest events.</p>
         <form class="form-grid" id="showcase-form" novalidate>
           <div class="showcase-preview" id="showcase-preview">
-            <img id="showcase-preview-img" alt="" hidden />
+            <img id="showcase-preview-img" alt="Slide preview. Drag, or use the arrow keys, to choose which part shows." draggable="false" tabindex="0" hidden />
             <span id="showcase-preview-empty">Choose a desktop image to preview it here.</span>
+          </div>
+          <div class="showcase-position" id="showcase-position" hidden>
+            <span>✥ Drag the image to choose which part shows on the homepage. Phones always show the whole image.</span>
+            <button class="btn-secondary" type="button" id="showcase-position-reset">Re-center</button>
           </div>
           <div class="form-row">
             <div class="field">
               <label for="showcase-file">Desktop image <span class="req">*</span></label>
               <input id="showcase-file" type="file" accept="image/jpeg,image/png,image/webp,image/gif" />
-              <p class="field-hint">Wide image, 1920 × 900 px recommended. JPG, PNG, WebP or GIF, up to 5 MB. Keep text away from the edges.</p>
+              <p class="field-hint">Wide image, exactly 1920 × 900 px (or the same 32 : 15 shape) shows whole on desktop with nothing cut off. Other shapes are cropped; drag the preview to choose what shows. JPG, PNG, WebP or GIF, up to 5 MB.</p>
             </div>
             <div class="field">
               <label for="showcase-mobile-file">Mobile image (optional)</label>
@@ -2338,12 +2374,56 @@
       const previewImg = $('showcase-preview-img'), previewEmpty = $('showcase-preview-empty');
       const list = $('showcase-list');
       let slides = [];
+      // object-position in percent: 0 shows the left/top edge, 100 the right/bottom edge.
+      let position = { x: 50, y: 50 };
+
+      function setPosition(x, y) {
+        const clamp = v => Math.min(100, Math.max(0, Math.round(v * 10) / 10));
+        position = { x: clamp(x), y: clamp(y) };
+        previewImg.style.objectPosition = position.x + '% ' + position.y + '%';
+      }
 
       function showPreview(src) {
         previewImg.hidden = !src;
         previewEmpty.hidden = !!src;
+        $('showcase-position').hidden = !src;
+        setPosition(50, 50);
         if (src) previewImg.src = src; else previewImg.removeAttribute('src');
       }
+
+      // How far the covered image overflows the box, in pixels, on each axis.
+      function overflow() {
+        const box = previewImg.getBoundingClientRect();
+        const scale = Math.max(box.width / previewImg.naturalWidth, box.height / previewImg.naturalHeight);
+        return { x: previewImg.naturalWidth * scale - box.width, y: previewImg.naturalHeight * scale - box.height };
+      }
+
+      let drag = null;
+      previewImg.addEventListener('pointerdown', (e) => {
+        if (!previewImg.naturalWidth) return;
+        e.preventDefault();
+        previewImg.setPointerCapture(e.pointerId);
+        drag = { px: e.clientX, py: e.clientY, x: position.x, y: position.y, over: overflow() };
+        $('showcase-preview').classList.add('is-dragging');
+      });
+      previewImg.addEventListener('pointermove', (e) => {
+        if (!drag) return;
+        // Moving the image right reveals more of its left side, so the percentage falls.
+        const x = drag.over.x > 0 ? drag.x - (e.clientX - drag.px) / drag.over.x * 100 : 50;
+        const y = drag.over.y > 0 ? drag.y - (e.clientY - drag.py) / drag.over.y * 100 : 50;
+        setPosition(x, y);
+      });
+      const endDrag = () => { drag = null; $('showcase-preview').classList.remove('is-dragging'); };
+      previewImg.addEventListener('pointerup', endDrag);
+      previewImg.addEventListener('pointercancel', endDrag);
+      previewImg.addEventListener('keydown', (e) => {
+        const step = e.shiftKey ? 10 : 2;
+        const moves = { ArrowLeft: [step, 0], ArrowRight: [-step, 0], ArrowUp: [0, step], ArrowDown: [0, -step] };
+        if (!moves[e.key]) return;
+        e.preventDefault();
+        setPosition(position.x + moves[e.key][0], position.y + moves[e.key][1]);
+      });
+      $('showcase-position-reset').addEventListener('click', () => setPosition(50, 50));
 
       function checkFile(file, label) {
         if (!file) return;
@@ -2405,6 +2485,7 @@
               </button>
             </div>`;
           item.querySelector('img').src = slide.image;
+          if (slide.position) item.querySelector('img').style.objectPosition = slide.position.x + '% ' + slide.position.y + '%';
           item.querySelector('h3').textContent = 'Slide ' + (index + 1) + ' — ' + (slide.alt || 'Untitled');
           item.querySelector('.id-badge').textContent = slide.mobileImage ? 'Desktop + mobile image' : 'Desktop image only';
           const link = item.querySelector('.link');
@@ -2439,7 +2520,7 @@
           if (link && !/^https?:\/\//i.test(link)) throw new Error('The link must start with https://');
           checkFile(desktop, 'Desktop image'); checkFile(mobile, 'Mobile image');
           button.disabled = true; button.textContent = 'Uploading…';
-          const slide = { alt, link, image: '', imagePath: '', mobileImage: '', mobilePath: '' };
+          const slide = { alt, link, image: '', imagePath: '', mobileImage: '', mobilePath: '', position: { ...position } };
           const up = await upload(desktop);
           uploaded.push(up.path);
           slide.image = up.url; slide.imagePath = up.path;
