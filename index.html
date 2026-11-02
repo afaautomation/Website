@@ -1685,6 +1685,19 @@
       animation-play-state: paused
     }
 
+    .ig-wrap.is-offscreen .ig-grid,
+    .hire-marquee.is-offscreen .hire-track {
+      animation-play-state: paused
+    }
+
+    /* Phones: the edge fade mask makes the moving strip much costlier to paint while scrolling */
+    @media (max-width: 768px) {
+      .ig-wrap {
+        mask-image: none;
+        -webkit-mask-image: none;
+      }
+    }
+
     @keyframes slide {
       from {
         transform: translateX(0)
@@ -4920,19 +4933,19 @@
 
     /* ===== Build placement (instagram) grid ===== */
     const placements = [
-      { name: 'Aamina AA', co: 'Cognizant', likes: 412, img: './placement-01-aamina-aa-cognizant.webp' },
-      { name: 'Adithyanath', co: 'TCS', likes: 289, img: './placement-02-adithyanath-tcs.webp' },
-      { name: 'Alfin', co: 'Aion Pixel', likes: 187, img: './placement-03-alfin-aion-pixel.webp' },
-      { name: 'Aswin', co: 'Sioniq', likes: 245, img: './placement-04-aswin-sioniq.webp' },
-      { name: 'Azra Ayisha', co: 'Neologics', likes: 310, img: './placement-05-azra-ayisha-neologics.webp' },
-      { name: 'Jisha Raj', co: 'IBS', likes: 423, img: './placement-06-jisha-raj-ibs-1.webp' },
-      { name: 'Krishnapriya RB', co: 'ISRO', likes: 1248, img: './placement-07-krishnapriya-isro.webp' },
-      { name: 'Leo Antony', co: 'Claysis', likes: 201, img: './placement-08-leo-antony-claysis.webp' },
-      { name: 'Niya Biju', co: 'Aabosoft', likes: 356, img: './placement-09-niya-biju-aabosoft.webp' },
-      { name: 'Parvathy', co: 'Neologics', likes: 278, img: './placement-10-parvathy-neologics.webp' },
-      { name: 'Samudra', co: 'Neologix', likes: 198, img: './placement-11-samudra-neologix.webp' },
-      { name: 'Shivadath', co: 'Evalogical', likes: 295, img: './placement-12-shivadath-evalogical.webp' },
-      { name: 'Thasleema Jafarr', co: 'MariApps', likes: 331, img: './placement-13-thasleema-jafarr-mariapps.webp' }
+      { name: 'Aamina AA', co: 'Cognizant', likes: 412, img: './img/placements-thumb/placement-01-aamina-aa-cognizant.webp' },
+      { name: 'Adithyanath', co: 'TCS', likes: 289, img: './img/placements-thumb/placement-02-adithyanath-tcs.webp' },
+      { name: 'Alfin', co: 'Aion Pixel', likes: 187, img: './img/placements-thumb/placement-03-alfin-aion-pixel.webp' },
+      { name: 'Aswin', co: 'Sioniq', likes: 245, img: './img/placements-thumb/placement-04-aswin-sioniq.webp' },
+      { name: 'Azra Ayisha', co: 'Neologics', likes: 310, img: './img/placements-thumb/placement-05-azra-ayisha-neologics.webp' },
+      { name: 'Jisha Raj', co: 'IBS', likes: 423, img: './img/placements-thumb/placement-06-jisha-raj-ibs-1.webp' },
+      { name: 'Krishnapriya RB', co: 'ISRO', likes: 1248, img: './img/placements-thumb/placement-07-krishnapriya-isro.webp' },
+      { name: 'Leo Antony', co: 'Claysis', likes: 201, img: './img/placements-thumb/placement-08-leo-antony-claysis.webp' },
+      { name: 'Niya Biju', co: 'Aabosoft', likes: 356, img: './img/placements-thumb/placement-09-niya-biju-aabosoft.webp' },
+      { name: 'Parvathy', co: 'Neologics', likes: 278, img: './img/placements-thumb/placement-10-parvathy-neologics.webp' },
+      { name: 'Samudra', co: 'Neologix', likes: 198, img: './img/placements-thumb/placement-11-samudra-neologix.webp' },
+      { name: 'Shivadath', co: 'Evalogical', likes: 295, img: './img/placements-thumb/placement-12-shivadath-evalogical.webp' },
+      { name: 'Thasleema Jafarr', co: 'MariApps', likes: 331, img: './img/placements-thumb/placement-13-thasleema-jafarr-mariapps.webp' }
     ];
     const igGrid = document.getElementById('igGrid');
     const renderPlacements = () => [...placements, ...placements].forEach((p, i) => {
@@ -4944,13 +4957,19 @@
       a.className = 'ig-post';
       a.innerHTML = `
     <div class="heart"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-7-10a4 4 0 018-1 4 4 0 018 1c0 5.65-7 10-7 10z"/></svg>${p.likes}</div>
-    <img src="${p.img}" alt="${p.name} placed @ ${p.co}" class="ig-post-img" />
+    <img src="${p.img}" alt="${p.name} placed @ ${p.co}" class="ig-post-img" width="440" height="550" decoding="async" />
     <div class="overlay">
       <div class="open">View on Instagram <span>↗</span></div>
     </div>`;
       igGrid.appendChild(a);
     });
     renderPlacements();
+    // Pause the endless strips while they are off screen so phones are not repainting them during scroll.
+    if ('IntersectionObserver' in window) {
+      const stripIo = new IntersectionObserver(entries => entries.forEach(en =>
+        en.target.classList.toggle('is-offscreen', !en.isIntersecting)), { rootMargin: '200px 0px' });
+      document.querySelectorAll('.ig-wrap, .hire-marquee').forEach(el => stripIo.observe(el));
+    }
 
 
 
