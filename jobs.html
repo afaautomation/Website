@@ -566,7 +566,10 @@
 
     .company-name { font-size: 13px; color: var(--ink-mute); font-weight: 500; }
     .company-name strong { color: #F1F5F9; font-weight: 700; }
-    .posted-time { font-size: 11px; color: var(--ink-dim); font-family: 'JetBrains Mono', monospace; min-height: 16px; }
+    .posted-time { font-size: 11px; color: var(--ink-dim); font-family: 'JetBrains Mono', monospace; min-height: 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
+    .days-left { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 999px; font-size: 10.5px; font-weight: 700; letter-spacing: 0.02em; background: rgba(52, 211, 153, 0.12); color: #6EE7B7; border: 1px solid rgba(52, 211, 153, 0.3); }
+    .days-left.is-soon { background: rgba(251, 191, 36, 0.14); color: #FCD34D; border-color: rgba(251, 191, 36, 0.35); }
+    .days-left.is-last { background: rgba(248, 113, 113, 0.14); color: #FCA5A5; border-color: rgba(248, 113, 113, 0.4); }
 
     .job-meta {
       display: flex;
@@ -1171,6 +1174,23 @@
       } catch { return 'recently'; }
     }
 
+    // Expiry dates are the last day to apply, counted in India time (the database hides the listing the day after).
+    function todayInIndia() {
+      return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(new Date());
+    }
+
+    function daysLeft(expiresOn) {
+      if (!expiresOn) return null;
+      return Math.round((Date.parse(expiresOn) - Date.parse(todayInIndia())) / 86400000);
+    }
+
+    function daysLeftHtml(days) {
+      if (days == null || days < 0) return '';
+      const text = days === 0 ? 'Last day to apply' : `${days} day${days === 1 ? '' : 's'} left`;
+      const tone = days === 0 ? ' is-last' : (days <= 3 ? ' is-soon' : '');
+      return `<span class="days-left${tone}">⏳ ${text}</span>`;
+    }
+
     function getCompanyInitials(name) {
       if (!name) return 'KP';
       const clean = name.replace(/Technologies|Solutions|Innovations|Analytics|Consultants|Ventures|Software|Corporate/gi, '').trim();
@@ -1183,7 +1203,7 @@
       return String(value == null ? '' : value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
     }
 
-    function buildJobCard({ id, category, badgeClass, badgeText, title, company, postedText, location, experience, skills, salary, extraClass, logoInitials, brandStyle, isInternship }) {
+    function buildJobCard({ id, category, badgeClass, badgeText, title, company, postedText, expiresOn, location, experience, skills, salary, extraClass, logoInitials, brandStyle, isInternship }) {
       const card = document.createElement('a');
       card.className = ['job-card', extraClass].filter(Boolean).join(' ');
       card.setAttribute('data-category', category || 'tech');
@@ -1214,7 +1234,7 @@
         <div class="card-title-block">
           <div class="job-title">${escapeHtml(title)}</div>
           <div class="company-name">at <strong>${escapeHtml(company)}</strong></div>
-          <div class="posted-time">${postedText ? `Posted ${escapeHtml(postedText)}` : '&nbsp;'}</div>
+          <div class="posted-time">${postedText ? `<span>Posted ${escapeHtml(postedText)}</span>` : ''}${daysLeftHtml(daysLeft(expiresOn)) || (postedText ? '' : '&nbsp;')}</div>
         </div>
         <div class="job-meta">
           <div class="meta-item">
@@ -1240,7 +1260,7 @@
     // supabase-js first waits for (and sometimes refreshes) the visitor's saved login session,
     // which could hold the list back for seconds.
     const jobsRequest = (typeof SUPABASE_URL === 'string' && typeof SUPABASE_ANON_KEY === 'string')
-      ? fetch(SUPABASE_URL + '/rest/v1/hr_jobs?select=id,title,category,company,location,job_type,experience,salary,skills,is_direct_link,created_at&order=created_at.desc',
+      ? fetch(SUPABASE_URL + '/rest/v1/hr_jobs?select=id,title,category,company,location,job_type,experience,salary,skills,is_direct_link,created_at,expires_on&order=created_at.desc',
           { headers: { apikey: SUPABASE_ANON_KEY } })
           .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
       : Promise.reject(new Error('Supabase is not configured'));
@@ -1260,7 +1280,8 @@
           salary: j.salary || '',
           skills: j.skills || '',
           isDirectLink: j.is_direct_link || false,
-          createdAt: j.created_at
+          createdAt: j.created_at,
+          expiresOn: j.expires_on || null
         }));
     }
 
@@ -1291,6 +1312,8 @@
 
       // Keep only this page's listing type.
       drafts = drafts.filter(j => isInternshipJob(j) === (LISTING_TYPE === 'internship'));
+      // The server already hides expired listings; this also drops them from a saved copy.
+      drafts = drafts.filter(j => !(daysLeft(j.expiresOn) < 0));
       totalAllCount = drafts.length;
 
       const jobsGrid = document.getElementById('jobs-grid');
@@ -1321,6 +1344,7 @@
               title: job.title,
               company: job.company,
               postedText: '',
+              expiresOn: job.expiresOn,
               location: job.location || 'Multiple Locations',
               experience: job.experience || (isIntern ? 'All Students / Freshers' : 'All Levels'),
               skills: job.skills || null,
@@ -1340,6 +1364,7 @@
               title: job.title,
               company: job.company,
               postedText: getPostedTime(job.createdAt),
+              expiresOn: job.expiresOn,
               location: job.location || 'Location',
               experience: job.experience || (isIntern ? 'Freshers / Students' : 'Entry Level'),
               skills: job.skills,
@@ -1500,7 +1525,7 @@
   <script>
     const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if (!isMobile) {
-      window.lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+      window.lenis = new Lenis({ lerp: 0.1, smoothWheel: !/Mac/.test(navigator.platform) /* macOS trackpads already scroll smoothly; smoothing again feels laggy */ });
       const lenis = window.lenis;
       function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
       requestAnimationFrame(raf);

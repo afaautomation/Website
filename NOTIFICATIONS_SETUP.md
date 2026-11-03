@@ -72,15 +72,105 @@ Provider references: [Resend idempotency](https://resend.com/changelog/idempoten
 3. **Phone number.** In WhatsApp → API Setup, add the production number (it must not be registered on the WhatsApp phone app or WhatsApp Business app; delete it there first). Verify it by SMS or call and set the display name **Kompetenzen** (Meta reviews it). Copy the **Phone number ID** into `WHATSAPP_PHONE_NUMBER_ID`.
 4. **Payment method.** In WhatsApp Manager → Settings → Payment methods, add a card. Meta charges per delivered template message; there is no platform fee.
 5. **Permanent token.** Business settings → Users → **System users** → Add (Admin) → Assign assets: the app (full control) and the WhatsApp account → **Generate token** with `whatsapp_business_messaging` and `whatsapp_business_management`, expiry **Never**. Store it as `WHATSAPP_ACCESS_TOKEN`. The 24-hour token on the API Setup page is only for testing.
-6. **Templates.** In WhatsApp Manager → Message templates, create these, language **English** (`en`), with two body variables: `{{1}}` = role/title and `{{2}}` = update text. Submit each and wait for approval.
+6. **Templates.** In WhatsApp Manager → Message templates, create these five, language **English** (`en`), with the body exactly as shown (variables are filled in this order by `whatsappParams()` in `notification-worker/messages.mjs`). Submit each and wait for approval **before** deploying the worker that uses them. The older two-variable templates (`application_received` etc.) are no longer used and can be deleted once these are live.
 
-   | Template name | Category | Example body |
-   | --- | --- | --- |
-   | `application_received` | Utility | Your application for {{1}} has been received. {{2}} |
-   | `application_matched` | Utility | Update on your application for {{1}}: {{2}} |
-   | `application_not_matched` | Utility | Update on your application for {{1}}: {{2}} |
-   | `application_status_update` | Utility | HR update on your application for {{1}}: {{2}} |
-   | `job_digest` | **Marketing** | New openings matching your profile on {{1}}: {{2}} |
+   These are the bodies as created in WhatsApp Manager (November 2026). Each has the footer `Kompetenzen Technologies` where shown and a static **Visit website** URL button (no button variable).
+
+   **`application_received_v2`**, Utility. `{{1}}` name, `{{2}}` job title, `{{3}}` company.
+   ```text
+   Hi {{1}},
+   Your application for {{2}} at {{3}} has been successfully submitted through Kompetenzen.
+
+   Our recruitment team will carefully review your profile and assess your qualifications against the requirements of the position.
+
+   We will keep you informed of any updates regarding your application and notify you of any further developments in the recruitment process.
+
+   Thank you for choosing Kompetenzen for your career opportunities!
+   ```
+
+   **`application_not_matched_v2`**, Utility. `{{1}}` name, `{{2}}` job title, `{{3}}` company.
+   ```text
+   Hi {{1}},
+   Thank you for applying for {{2}} at {{3}} through Kompetenzen.
+
+   After carefully evaluating your application against the essential eligibility criteria for this position, we regret to inform you that your profile does not currently meet one or more of the specified requirements. Consequently, your application will not proceed further for this particular opportunity.
+
+   *Looking for the right career direction?*
+
+   We encourage you to explore our Career Consultation service at Kompetenzen. Our career guidance services can help you understand your strengths, identify skill gaps, and discover career opportunities that align with your qualifications and aspirations.
+
+   Explore other opportunities: https://kompetenzen.in/jobs
+
+   Explore Career Consultation: https://kompetenzen.in/career-consultation
+
+   We believe every individual has the potential to find the right career path. Let us help you take the next step!
+
+   Best regards,
+   Kompetenzen Technologies
+   ```
+
+   **`application_matched_v2`**, Utility. `{{1}}` name, `{{2}}` job title, `{{3}}` company.
+   ```text
+   Hi {{1}},
+
+   Good news! 🎉
+   Your application for {{2}} at {{3}} has successfully passed the initial eligibility assessment.
+
+   Following a review of your profile, we are pleased to confirm that you meet the essential requirements specified for this opportunity.
+
+   Your application will now proceed to the next stage of our evaluation process. Our team will review your profile further and coordinate the next steps accordingly.
+
+   *We will keep you informed of any updates regarding your application through your registered contact details.*
+
+   Thank you for choosing Kompetenzen for your career journey.
+
+   Best regards,
+   Kompetenzen Technologies
+   ```
+
+   **`application_status_update_v2`**, Utility. `{{1}}` name, `{{2}}` job title, `{{3}}` company, `{{4}}` status (Received, Under Review, Shortlisted, Interview, Selected, Not Selected), `{{5}}` the status message from `STATUS_MESSAGES`.
+   ```text
+   Hi {{1}}
+
+   There is an update regarding your job application!
+
+   Job Position: {{2}}
+   Hiring Company: {{3}}
+   Application Status: {{4}}
+
+   {{5}}
+
+   Our team at Kompetenzen will keep you informed of any further updates or developments regarding your application through your registered contact details.
+
+   Thank you for choosing Kompetenzen to explore your career opportunities.
+
+   Best regards,
+   Kompetenzen Technologies
+   ```
+
+   **`job_digest_v2`**, **Marketing**. `{{1}}` name, `{{2}}` up to five jobs on one line ("1. Title, Company: …, Location: …, Experience: … | 2. …"; template variables cannot contain line breaks).
+   ```text
+   Hi {{1}}! 👋
+
+   We have exciting career opportunities for you!
+
+   New job openings and internship opportunities are now available on Kompetenzen, selected to align with your profile, qualifications and career interests.
+
+   Explore these opportunities:
+
+   {{2}}
+
+   Take the next step towards your career goals by exploring opportunities that match your skills and aspirations.
+
+   Discover more opportunities: https://kompetenzen.in/jobs
+
+   Stay connected with Kompetenzen for the latest career opportunities and updates.
+
+   Best regards,
+   Kompetenzen Technologies
+   ```
+
+   Email uses the same wording (built in `messages.mjs`), with links to each job. Only a **confirmed** account email gets these full messages; an account verified by phone only, whose email may not be the candidate's, still gets the short generic email without names, job or status.
 
    No footer is required. Replies of STOP still switch WhatsApp off once the webhook (step 7) is connected, and users can opt out on their profile. Meta may recategorise templates; job digests are marketing and cost more. Different names can be used if set in `WHATSAPP_TEMPLATE_<EVENT>`.
 

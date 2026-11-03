@@ -1,19 +1,21 @@
 // WhatsApp Cloud API (Meta) helpers shared by the worker and the inbound webhook.
 
 // Approved template name per notification event. Override with WHATSAPP_TEMPLATE_<EVENT>.
+// The _v2 templates carry the candidate's name and the company (see NOTIFICATIONS_SETUP.md);
+// new names let them be approved while the old ones keep working.
 export const DEFAULT_TEMPLATES = {
-  received: 'application_received',
-  matched: 'application_matched',
-  not_matched: 'application_not_matched',
-  hr_status: 'application_status_update',
-  digest: 'job_digest'
+  received: 'application_received_v2',
+  matched: 'application_matched_v2',
+  not_matched: 'application_not_matched_v2',
+  hr_status: 'application_status_update_v2',
+  digest: 'job_digest_v2'
 };
 
 // Template parameters may not contain newlines, tabs or more than four consecutive spaces.
 const param = (text, max) => String(text || '').replace(/\s+/g, ' ').trim().slice(0, max);
 
-// Request body for POST /{phone-number-id}/messages. Body variables: {{1}} role/title, {{2}} update text.
-export function templateMessage(destination, templateName, language, title, text) {
+// Request body for POST /{phone-number-id}/messages. params fill body variables {{1}}, {{2}}… in order.
+export function templateMessage(destination, templateName, language, params) {
   return {
     messaging_product: 'whatsapp',
     to: String(destination).replace(/^\+/, ''),
@@ -21,10 +23,7 @@ export function templateMessage(destination, templateName, language, title, text
     template: {
       name: templateName,
       language: { code: language },
-      components: [{ type: 'body', parameters: [
-        { type: 'text', text: param(title, 200) || 'Kompetenzen' },
-        { type: 'text', text: param(text, 700) }
-      ] }]
+      components: [{ type: 'body', parameters: params.map(value => ({ type: 'text', text: param(value, 700) || '-' })) }]
     }
   };
 }

@@ -2188,6 +2188,13 @@
             </div>
           </fieldset>
 
+          <div class="field">
+            <label for="f-expires">Expiry date <span class="field-hint"
+                style="display:inline; text-transform:none; letter-spacing:0; font-weight:500; color:var(--ink-mute);">(optional:
+                last day to apply; the listing leaves the website the next day, applicants stay here)</span></label>
+            <input id="f-expires" name="expiresOn" type="date" style="max-width: 220px;" />
+          </div>
+
           <div class="field" style="display: flex; align-items: center; gap: 8px; margin-top: 8px;">
             <input id="f-direct" name="isDirectLink" type="checkbox" style="width: auto; cursor: pointer;" />
             <label for="f-direct"
@@ -3079,7 +3086,8 @@
                   applyUrl: j.apply_url || '',
                   isDirectLink: j.is_direct_link || false,
                   applicationRequirements: j.application_requirements || {},
-                  createdAt: j.created_at
+                  createdAt: j.created_at,
+                  expiresOn: j.expires_on || ''
                 }));
               localStorage.setItem(STORE_KEY, JSON.stringify(items));
               return items;
@@ -3124,9 +3132,30 @@
           description: data.description || '', responsibilities: data.responsibilities || '',
           requirements: data.requirements || '', about_company: data.aboutCompany || '',
           apply_url: data.applyUrl || '', is_direct_link: !!data.isDirectLink,
-          application_requirements: data.applicationRequirements || {}
+          application_requirements: data.applicationRequirements || {},
+          expires_on: data.expiresOn || null
         }]);
         if (error) throw error;
+      }
+      async function saveExpiryToCloud(id, expiresOn) {
+        if (!isSupabaseConfigured()) throw new Error('Database connection is unavailable.');
+        const { data, error } = await supabaseClient.from('hr_jobs').update({ expires_on: expiresOn || null }).eq('id', id).select('id');
+        if (error) throw error;
+        if (!data || data.length !== 1) throw new Error('Expiry date was not saved. Refresh and check staff access.');
+      }
+
+      // Expiry dates are the last day to apply, in India time, matching public.hr_job_open().
+      function todayInIndia() {
+        return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(new Date());
+      }
+      function expiryTag(expiresOn) {
+        if (!expiresOn) return '';
+        const days = Math.round((Date.parse(expiresOn) - Date.parse(todayInIndia())) / 86400000);
+        const date = new Date(expiresOn + 'T00:00:00').toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+        const [text, colour] = days < 0
+          ? [`⛔ Expired ${date}: hidden from website`, '220, 38, 38']
+          : [`⏳ Expires ${date} · ${days === 0 ? 'last day' : `${days} day${days === 1 ? '' : 's'} left`}`, days <= 3 ? '217, 119, 6' : '5, 150, 105'];
+        return `<span class="draft-tag" style="background: rgba(${colour}, 0.1); color: rgb(${colour}); border: 1px solid rgba(${colour}, 0.3); margin-left: 6px;">${escapeHtml(text)}</span>`;
       }
       async function deleteJobFromCloud(id) {
         if (!isSupabaseConfigured()) throw new Error('Database connection is unavailable.');
@@ -3253,6 +3282,7 @@
               <span class="draft-tag">${escapeHtml(categoryLabels[job.category] || job.category || 'General')}</span>
               ${oppBadge}
               ${job.isDirectLink ? `<span class="draft-tag" style="background: rgba(25, 71, 255, 0.08); border: 1px solid rgba(25, 71, 255, 0.2); color: var(--blue); margin-left: 6px;">Direct Company Link</span>` : ''}
+              ${expiryTag(job.expiresOn)}
               <h3 style="margin-top:8px;">${escapeHtml(job.title)}</h3>
               <div class="meta">
                 <span>🏢 ${escapeHtml(job.company)}</span>
@@ -3267,6 +3297,10 @@
               <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-top:8px;">
                 <a class="apply-link" href="job-details.html?id=${job.id}" target="_blank" style="color:var(--blue); font-weight:700;">View Details Page ↗</a>
                 ${job.applyUrl ? `<a class="apply-link" href="${escapeHtml(job.applyUrl)}" target="_blank" rel="noopener">Direct Link: ${escapeHtml(job.applyUrl)}</a>` : ''}
+                <label style="display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:600; color:var(--ink-mute);">
+                  Expiry date
+                  <input class="draft-expiry" type="date" data-id="${escapeHtml(String(job.id))}" value="${escapeHtml(job.expiresOn || '')}" style="width:auto; padding:4px 8px; font-size:12.5px;" />
+                </label>
               </div>
             </div>
             <div class="draft-controls">
@@ -3327,6 +3361,17 @@
         }
       });
 
+      list.addEventListener('change', async (e) => {
+        const input = e.target.closest('.draft-expiry');
+        if (!input) return;
+        input.disabled = true;
+        try { await saveExpiryToCloud(input.getAttribute('data-id'), input.value); }
+        catch (err) { alert('Could not change the expiry date: ' + err.message); }
+        await render();
+      });
+
+      document.getElementById('f-expires').min = todayInIndia();
+
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         if (!form.reportValidity()) return;
@@ -3337,6 +3382,7 @@
         data.createdAt = new Date().toISOString();
         data.applyUrl = data.applyUrl || '';
         data.opportunityType = currentOppType;
+        if (data.expiresOn && data.expiresOn < todayInIndia()) { alert('The expiry date cannot be in the past.'); return; }
         // What the application form asks for (enforced by apply_to_job()).
         const questions = String(data.reqQuestions || '').split('\n').map(q => q.trim()).filter(Boolean);
         if (questions.length > 5) { alert('Please keep additional questions to 5 or fewer.'); return; }

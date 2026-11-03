@@ -2,10 +2,20 @@ const test=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 test('notification wording and safe retry decisions',async()=>{
-  const {messageFor,failureState}=await import('../supabase/functions/notification-worker/messages.mjs');
-  assert.match(messageFor({event:'matched',title:'Developer'},'https://example.test').text,/does not mean you have been shortlisted or selected/);
-  const failure=messageFor({event:'not_matched',title:'Developer',reasons:['Python: essential skill explicitly not selected','SQL: no demonstrated bonus']},'https://example.test').text;
-  assert.match(failure,/Python/); assert.doesNotMatch(failure,/SQL/);
+  const {messageFor,whatsappParams,failureState}=await import('../supabase/functions/notification-worker/messages.mjs');
+  const job={title:'Developer',company:'Acme',name:'Asha',job_id:'j1'};
+  assert.match(messageFor({...job,event:'matched'},'https://example.test').text,/^Hi Asha,[\s\S]*Developer at Acme[\s\S]*eligibility assessment[\s\S]*registered contact details/);
+  const failure=messageFor({...job,event:'not_matched',reasons:['Python: essential skill explicitly not selected']},'https://example.test').text;
+  assert.match(failure,/does not currently meet one or more of the specified requirements[\s\S]*career-consultation[\s\S]*Best regards,\nKompetenzen Technologies/);
+  assert.match(messageFor({event:'received',title:'Developer'},'https://example.test').text,/^Hi there,\n\nYour application for Developer has been/,'older rows without name or company');
+  const hr=messageFor({...job,event:'hr_status',status:'shortlisted'},'https://example.test').text;
+  assert.match(hr,/Hiring Company: Acme\nApplication Status: Shortlisted\n\nCongratulations/);
+  assert.deepEqual(whatsappParams({...job,event:'hr_status',status:'rejected'}).slice(0,4),['Asha','Developer','Acme','Not Selected']);
+  assert.deepEqual(whatsappParams({event:'received',title:'Developer'}),['there','Developer','the hiring company']);
+  const digest={event:'digest',name:'Asha',jobs:Array.from({length:7},(_,i)=>({id:'j'+i,title:'Job '+i,company:'Acme',location:'Kochi',experience:'Fresher'}))};
+  assert.match(messageFor(digest,'https://example.test').text,/^Hi Asha! 👋[\s\S]*7\. Job 6\nCompany: Acme\nLocation: Kochi\nExperience: Fresher\nApply Here: [\s\S]*Discover more opportunities: /);
+  assert.match(hr,/Our team at Kompetenzen will keep you informed/);
+  assert.equal(whatsappParams(digest)[1].split(' | ').length,5);
   assert.equal(failureState('whatsapp',undefined,1,new Date().toISOString()),'review');
   assert.equal(failureState('whatsapp',429,1,new Date().toISOString()),'pending');
   assert.equal(failureState('email',503,1,new Date().toISOString()),'pending');
@@ -23,8 +33,9 @@ test('database consent, atomic queueing, deduplication, status events and claim 
     const schema=fs.readFileSync('supabase_schema.sql','utf8');
     for(const name of ['hr_jobs','job_applications','candidate_profiles']) await db.exec(schema.match(new RegExp('create table if not exists public\\.'+name+' \\([\\s\\S]*?\\n\\);'))[0]);
     await db.exec('alter table job_applications add column user_id uuid,add column job_id uuid; create unique index on job_applications(user_id,job_id)');
-    for(const file of ['20261011_candidate_onboarding.sql','20261011_application_requirements.sql','20261015_applicant_matching.sql','20261015_career_matching.sql','20261015_notifications.sql']) await db.exec(fs.readFileSync('migrations/'+file,'utf8'));
+    for(const file of ['20261011_candidate_onboarding.sql','20261011_application_requirements.sql','20261015_applicant_matching.sql','20261015_career_matching.sql','20261015_notifications.sql','20261103_listing_expiry.sql','20261103_notification_details.sql']) await db.exec(fs.readFileSync('migrations/'+file,'utf8'));
     await db.exec(fs.readFileSync('migrations/20261015_notifications.sql','utf8'));
+    await db.exec(fs.readFileSync('migrations/20261103_notification_details.sql','utf8')); // rerunnable; restores the new payload after the rerun above
     const uid='00000000-0000-0000-0000-000000000001';
     await db.exec(`insert into auth.users values('${uid}','test@example.invalid'); set test.uid='${uid}';
       insert into candidate_profiles(user_id,name,whatsapp) values('${uid}','Test','+919876543210');`);
@@ -34,6 +45,7 @@ test('database consent, atomic queueing, deduplication, status events and claim 
     await db.exec(`select save_notification_preferences(true,true,'+919876543210','daily');`);
     await db.exec(`insert into job_applications(user_id) values('${uid}')`);
     assert.equal(await count(),2,'receipt on both enabled channels');
+    assert.equal((await db.query("select payload->>'name' n from notification_queue limit 1")).rows[0].n,'Test','name comes from the profile');
     await db.exec(`update job_applications set hr_status='shortlisted'`);
     assert.equal(await count(),6);
     await db.exec(`update job_applications set hr_status='shortlisted'`);
@@ -53,15 +65,18 @@ test('database consent, atomic queueing, deduplication, status events and claim 
     const Matching=require('../js/applicant-matching.js');
     const rules=Matching.parse({skills:'Python | essential | 3',qualifications:'',preferredQualifications:'',skillsWeight:70,academicsWeight:20,experienceWeight:10,preferred:0});
     await db.query('update candidate_profiles set career_preferences=$1 where user_id=$2',[JSON.stringify({skills:['Python']}),uid]);
-    const job=(await db.query('insert into hr_jobs(title,application_requirements) values ($1,$2) returning id',['Suitable job',JSON.stringify({matching:rules})])).rows[0].id;
+    const job=(await db.query("insert into hr_jobs(title,company,application_requirements) values ($1,'Acme',$2) returning id",['Suitable job',JSON.stringify({matching:rules})])).rows[0].id;
     await db.exec("update notification_preferences set digest_since=now()-interval '2 days'; select queue_job_digests();");
     assert.equal(Number((await db.query("select count(*) n from notification_queue where payload->>'event'='digest'")).rows[0].n),2);
+    const digest=(await db.query("select payload from notification_queue where payload->>'event'='digest' limit 1")).rows[0].payload;
+    assert.equal(digest.name,'Test'); assert.equal(digest.jobs[0].company,'Acme');
     await db.exec('select queue_job_digests();');
     assert.equal(Number((await db.query("select count(*) n from notification_queue where payload->>'event'='digest'")).rows[0].n),2,'digest not duplicated');
     const alternatives=(await db.query('select notification_alternatives($1,null) jobs',[uid])).rows[0].jobs;
     assert.equal(alternatives[0].id,job);
     await db.query('insert into job_applications(user_id,job_id) values ($1,$2)',[uid,job]);
     assert.equal(Number((await db.query("select count(*) n from notification_queue where payload->>'event'='matched'")).rows[0].n),2);
+    assert.equal((await db.query("select payload->>'company' c from notification_queue where payload->>'event'='matched' limit 1")).rows[0].c,'Acme');
     assert.deepEqual((await db.query('select notification_alternatives($1,null) jobs',[uid])).rows[0].jobs,[],'already-applied jobs excluded');
     await db.exec(`select save_notification_preferences(false,false,'','off');`);
     const before=await count();
@@ -71,7 +86,7 @@ test('database consent, atomic queueing, deduplication, status events and claim 
 });
 test('WhatsApp Cloud API messages, rate limits, signatures and webhook parsing',async()=>{
   const wa=await import('../supabase/functions/_shared/whatsapp.mjs');
-  const body=wa.templateMessage('+919876543210','application_received','en','Data\nAnalyst','Line one\n\nLine   two\tend');
+  const body=wa.templateMessage('+919876543210','application_received','en',['Data\nAnalyst','Line one\n\nLine   two\tend']);
   assert.equal(body.to,'919876543210');
   assert.equal(body.template.name,'application_received');
   assert.deepEqual(body.template.components[0].parameters.map(p=>p.text),['Data Analyst','Line one Line two end']);

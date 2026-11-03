@@ -399,7 +399,7 @@
   <script>
     const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if (!isMobile) {
-      window.lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+      window.lenis = new Lenis({ lerp: 0.1, smoothWheel: !/Mac/.test(navigator.platform) /* macOS trackpads already scroll smoothly; smoothing again feels laggy */ });
       const lenis = window.lenis;
       function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
       requestAnimationFrame(raf);

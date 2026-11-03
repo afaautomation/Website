@@ -1,4 +1,4 @@
-import { messageFor, failureState } from './messages.mjs';
+import { messageFor, whatsappParams, failureState } from './messages.mjs';
 import { emailDestination, applicationEmail } from './email-policy.mjs';
 import { emailProvider, gmailConfigured, createGmailSender } from './gmail.mjs';
 import { DEFAULT_TEMPLATES, templateMessage, effectiveStatus } from '../_shared/whatsapp.mjs';
@@ -31,15 +31,18 @@ Deno.serve(async request=>{
       const configured=q.channel==='email' ? (provider==='gmail' ? gmailConfigured(env) : provider==='resend' && env('RESEND_API_KEY') && env('EMAIL_FROM')) : env('WHATSAPP_PHONE_NUMBER_ID') && env('WHATSAPP_ACCESS_TOKEN') && template(q.payload.event);
       if(!configured) {await update(q.id,{state:'pending',attempts:q.attempts-1,first_attempt_at:q.first_attempt_at===q.started_at?null:q.first_attempt_at,available_at:new Date(Date.now()+3600000).toISOString(),last_error:'Provider configuration missing'});continue;}
       let destination=p.whatsapp_number;
+      let emailConfirmed=false;
       if(q.channel==='email') {
         const r=await fetch(`${base}/auth/v1/admin/users/${q.user_id}`,{headers:{apikey:service,Authorization:`Bearer ${service}`}});
         if(!r.ok) throw new Error('Could not load account email');
-        const user=await r.json(); destination=emailDestination(user,q.payload.event);
+        const user=await r.json(); destination=emailDestination(user,q.payload.event); emailConfirmed=!!user.email_confirmed_at;
       }
       if(!destination || (q.delivery && q.delivery.destination!==destination)) {await update(q.id,{state:'cancelled',last_error:'Recipient unavailable or changed'});continue;}
-      if(!q.delivery && q.channel!=='email' && q.payload.event==='not_matched') q.payload.alternatives=await db('rpc/notification_alternatives','POST',{p_user:q.user_id,p_exclude:q.payload.job_id});
-      const content=q.channel==='email'?applicationEmail(q.payload.event,site):null;
-      const delivery=q.delivery || {destination,...(content || messageFor(q.payload,site)),...(q.channel==='email'?{provider,sender:provider==='gmail'?env('GMAIL_SENDER_EMAIL'):env('EMAIL_FROM')}:{})};
+      if(!q.delivery && emailConfirmed && q.payload.event==='not_matched') q.payload.alternatives=await db('rpc/notification_alternatives','POST',{p_user:q.user_id,p_exclude:q.payload.job_id});
+      // Full details (name, job, company, status) only reach a confirmed email; a phone-verified
+      // account's unconfirmed email might not belong to the candidate, so it gets the generic text.
+      const content=q.channel==='email' && !emailConfirmed?applicationEmail(q.payload.event,site):null;
+      const delivery=q.delivery || {destination,...(content || messageFor(q.payload,site)),...(q.channel==='email'?{provider,sender:provider==='gmail'?env('GMAIL_SENDER_EMAIL'):env('EMAIL_FROM')}:{params:whatsappParams(q.payload)})};
       if(provider==='gmail' && delivery.sender!==env('GMAIL_SENDER_EMAIL')) {await update(q.id,{state:'review',last_error:'Gmail sender changed; reconcile previous send before retrying'});continue;}
       if(!q.delivery) await update(q.id,{delivery});
       if(provider==='gmail') {
@@ -53,7 +56,7 @@ Deno.serve(async request=>{
         if(q.channel==='email') {
           response=await fetch('https://api.resend.com/emails',{method:'POST',signal:AbortSignal.timeout(15000),headers:{Authorization:`Bearer ${env('RESEND_API_KEY')}`,'Content-Type':'application/json','Idempotency-Key':q.id},body:JSON.stringify({from:env('EMAIL_FROM'),to:[destination],subject:delivery.subject,text:delivery.text})});
         } else {
-          const message=templateMessage(destination,template(q.payload.event),env('WHATSAPP_TEMPLATE_LANGUAGE')||'en',q.payload.title||'',delivery.text);
+          const message=templateMessage(destination,template(q.payload.event),env('WHATSAPP_TEMPLATE_LANGUAGE')||'en',delivery.params||[q.payload.title||'',delivery.text]);
           response=await fetch(`https://graph.facebook.com/${env('WHATSAPP_API_VERSION')||'v23.0'}/${env('WHATSAPP_PHONE_NUMBER_ID')}/messages`,{method:'POST',signal:AbortSignal.timeout(15000),headers:{Authorization:`Bearer ${env('WHATSAPP_ACCESS_TOKEN')}`,'Content-Type':'application/json'},body:JSON.stringify(message)});
         }
       } catch { /* A timeout may have been accepted by the provider; classify below. */ }

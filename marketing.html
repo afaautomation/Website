@@ -394,6 +394,12 @@
       gap: 16px;
     }
 
+    .dates-group-title { font-size: 13px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink); margin: 8px 0 12px; }
+    .dates-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 18px 12px; margin-bottom: 20px; }
+    .field .soon-toggle { display: flex; align-items: center; gap: 8px; margin: 8px 0 0; font-size: 13px; font-weight: 600; text-transform: none; letter-spacing: 0; cursor: pointer; }
+    .field .soon-toggle input { width: 16px; height: 16px; padding: 0; margin: 0; cursor: pointer; }
+    .field input:disabled { opacity: 0.55; cursor: not-allowed; }
+
     .form-row {
       display: flex;
       gap: 12px;
@@ -2074,28 +2080,45 @@
           date for each course page below.</p>
 
         <form id="course-dates-form">
-          <div class="form-row">
+          <h3 class="dates-group-title">Tech School</h3>
+          <div class="dates-grid">
             <div class="field">
               <label for="date-python">Full Stack Python + AI</label>
-              <input id="date-python" type="text" placeholder="e.g. September 15, 2026" value="September 15, 2026" />
+              <input id="date-python" type="text" placeholder="e.g. September 15, 2026" />
+              <label class="soon-toggle"><input id="soon-python" type="checkbox" /> Coming soon (date not decided)</label>
             </div>
             <div class="field">
               <label for="date-java">Full Stack Java + AI</label>
-              <input id="date-java" type="text" placeholder="e.g. September 15, 2026" value="September 15, 2026" />
+              <input id="date-java" type="text" placeholder="e.g. September 15, 2026" />
+              <label class="soon-toggle"><input id="soon-java" type="checkbox" /> Coming soon (date not decided)</label>
             </div>
-          </div>
-          <div class="form-row">
+            <div class="field">
+              <label for="date-genai">Python Full Stack with Generative AI</label>
+              <input id="date-genai" type="text" placeholder="e.g. September 15, 2026" />
+              <label class="soon-toggle"><input id="soon-genai" type="checkbox" /> Coming soon (date not decided)</label>
+            </div>
             <div class="field">
               <label for="date-analytics">Data Analyst Program</label>
-              <input id="date-analytics" type="text" placeholder="e.g. September 15, 2026" value="September 15, 2026" />
+              <input id="date-analytics" type="text" placeholder="e.g. September 15, 2026" />
+              <label class="soon-toggle"><input id="soon-analytics" type="checkbox" /> Coming soon (date not decided)</label>
+            </div>
+          </div>
+          <h3 class="dates-group-title">B-School</h3>
+          <div class="dates-grid">
+            <div class="field">
+              <label for="date-hr">PG Diploma in HR &amp; Operations</label>
+              <input id="date-hr" type="text" placeholder="e.g. September 15, 2026" />
+              <label class="soon-toggle"><input id="soon-hr" type="checkbox" /> Coming soon (date not decided)</label>
             </div>
             <div class="field">
-              <label for="date-hr">PG Diploma in HR & Operations</label>
-              <input id="date-hr" type="text" placeholder="e.g. September 15, 2026" value="September 15, 2026" />
+              <label for="date-hr-analytics">Human Resource Analytics</label>
+              <input id="date-hr-analytics" type="text" placeholder="e.g. September 15, 2026" />
+              <label class="soon-toggle"><input id="soon-hr-analytics" type="checkbox" /> Coming soon (date not decided)</label>
             </div>
             <div class="field">
               <label for="date-sales">Sales Engineering</label>
-              <input id="date-sales" type="text" placeholder="e.g. September 15, 2026" value="September 15, 2026" />
+              <input id="date-sales" type="text" placeholder="e.g. September 15, 2026" />
+              <label class="soon-toggle"><input id="soon-sales" type="checkbox" /> Coming soon (date not decided)</label>
             </div>
           </div>
           <div class="form-actions" style="margin-top: 16px;">
@@ -2144,8 +2167,9 @@
               <input id="st-badge" type="text" placeholder="e.g. Placed in Month 4 • ₹6.5 LPA" />
             </div>
             <div class="field">
-              <label for="st-photo">Photo File / Image URL</label>
-              <input id="st-photo" type="text" placeholder="e.g. student_python.jpg or https://..." />
+              <label for="st-photo">Photo</label>
+              <input id="st-photo" type="file" accept="image/jpeg,image/png,image/webp" />
+              <p class="field-hint">JPG, PNG or WebP, up to 5 MB. It is cropped to a square and resized before upload. Leave empty to use the default photo.</p>
             </div>
           </div>
           <div class="form-actions" style="margin-top: 16px;">
@@ -2342,24 +2366,36 @@
       const datesStatus = document.getElementById('dates-status');
 
       const DATES_KEY = 'kompetenzen_batch_dates';
+      const DATE_COURSES = ['python', 'java', 'genai', 'analytics', 'hr', 'hr-analytics', 'sales'];
+      // Published in place of a date; course pages show the stored text as it is.
+      const COMING_SOON = 'Coming Soon';
+
+      function setCourseDate(key, value) {
+        const input = document.getElementById('date-' + key);
+        const soon = document.getElementById('soon-' + key);
+        soon.checked = value === COMING_SOON;
+        if (value && !soon.checked) input.value = value;
+        input.disabled = soon.checked;
+      }
+
+      DATE_COURSES.forEach(key => {
+        document.getElementById('soon-' + key).addEventListener('change', e => {
+          document.getElementById('date-' + key).disabled = e.target.checked;
+        });
+      });
 
       // Load existing dates into inputs
       const existingDates = JSON.parse(localStorage.getItem(DATES_KEY) || '{}');
-      if (existingDates.python) document.getElementById('date-python').value = existingDates.python;
-      if (existingDates.java) document.getElementById('date-java').value = existingDates.java;
-      if (existingDates.analytics) document.getElementById('date-analytics').value = existingDates.analytics;
-      if (existingDates.hr) document.getElementById('date-hr').value = existingDates.hr;
-      if (existingDates.sales) document.getElementById('date-sales').value = existingDates.sales;
+      DATE_COURSES.forEach(key => { if (existingDates[key]) setCourseDate(key, existingDates[key]); });
 
       datesForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const payload = {
-          python: document.getElementById('date-python').value.trim(),
-          java: document.getElementById('date-java').value.trim(),
-          analytics: document.getElementById('date-analytics').value.trim(),
-          hr: document.getElementById('date-hr').value.trim(),
-          sales: document.getElementById('date-sales').value.trim(),
-        };
+        const payload = {};
+        for (const key of DATE_COURSES) {
+          payload[key] = document.getElementById('soon-' + key).checked
+            ? COMING_SOON
+            : document.getElementById('date-' + key).value.trim();
+        }
         try { await siteContent.save(DATES_KEY, payload); } catch (err) { alert('Dates were not published: ' + err.message); return; }
 
         datesStatus.classList.add('is-visible');
@@ -2404,26 +2440,77 @@
         `).join('');
       }
 
+      // Uploaded photos live in the public 'site-media' bucket under students/.
+      const PHOTO_BUCKET = 'site-media';
+      const PHOTO_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+
+      // Centre-crop to a square and shrink to 320x320 WebP; course pages show it as an 88px circle.
+      async function toStudentPhoto(file) {
+        const bitmap = await createImageBitmap(file);
+        const S = 320;
+        const side = Math.min(bitmap.width, bitmap.height);
+        const canvas = document.createElement('canvas');
+        canvas.width = S; canvas.height = S;
+        const ctx = canvas.getContext('2d');
+        ctx.imageSmoothingQuality = 'high';
+        // Keep more of the top than the bottom, where faces usually are.
+        ctx.drawImage(bitmap, (bitmap.width - side) / 2, (bitmap.height - side) * 0.3, side, side, 0, 0, S, S);
+        if (bitmap.close) bitmap.close();
+        return new Promise((resolve, reject) => canvas.toBlob(b => b ? resolve(b) : reject(new Error('The photo could not be processed.')), 'image/webp', 0.86));
+      }
+
+      async function uploadStudentPhoto(blob) {
+        const path = 'students/' + Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '.webp';
+        const { error } = await supabaseClient.storage.from(PHOTO_BUCKET).upload(path, blob, { contentType: 'image/webp', cacheControl: '31536000', upsert: false });
+        if (error) throw error;
+        return { path, url: supabaseClient.storage.from(PHOTO_BUCKET).getPublicUrl(path).data.publicUrl };
+      }
+
+      // Files are removed only after the new list is published; a failure just leaves an unused file.
+      async function removeStudentPhoto(path) {
+        if (path) await supabaseClient.storage.from(PHOTO_BUCKET).remove([path]).catch(() => {});
+      }
+
       window.deleteStudent = async function (idx) {
         const students = getStudents();
-        students.splice(idx, 1);
-        try { await saveStudents(students); } catch (err) { alert('Student was not removed: ' + err.message); }
+        const [removed] = students.splice(idx, 1);
+        try { await saveStudents(students); } catch (err) { alert('Student was not removed: ' + err.message); return; }
+        await removeStudentPhoto(removed && removed.photoPath);
       };
 
       studentForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        const file = document.getElementById('st-photo').files[0];
         const newStudent = {
           course: document.getElementById('st-course').value,
           name: document.getElementById('st-name').value.trim(),
           role: document.getElementById('st-role').value.trim(),
           company: document.getElementById('st-company').value.trim(),
           badge: document.getElementById('st-badge').value.trim() || 'Placed Candidate',
-          photo: document.getElementById('st-photo').value.trim() || 'student_python.jpg'
+          photo: 'student_python.jpg'
         };
 
-        const students = getStudents();
-        students.unshift(newStudent);
-        try { await saveStudents(students); } catch (err) { alert('Student was not published: ' + err.message); return; }
+        const button = studentForm.querySelector('[type="submit"]');
+        let uploaded = '';
+        try {
+          if (file) {
+            if (!PHOTO_TYPES.includes(file.type)) throw new Error('The photo must be a JPG, PNG or WebP image.');
+            if (file.size > 5 * 1024 * 1024) throw new Error('The photo is larger than 5 MB. Please compress it first.');
+            button.disabled = true; button.textContent = 'Uploading…';
+            const up = await uploadStudentPhoto(await toStudentPhoto(file));
+            uploaded = up.path;
+            newStudent.photo = up.url; newStudent.photoPath = up.path;
+          }
+          const students = getStudents();
+          students.unshift(newStudent);
+          await saveStudents(students);
+        } catch (err) {
+          await removeStudentPhoto(uploaded);
+          alert('Student was not published: ' + err.message);
+          return;
+        } finally {
+          button.disabled = false; button.textContent = 'Add Placed Student →';
+        }
 
         studentForm.reset();
         stStatus.classList.add('is-visible');
@@ -2434,7 +2521,10 @@
         try {
           const [dates, students] = await Promise.all([siteContent.read(DATES_KEY, existingDates), siteContent.read(STUDENTS_KEY, getStudents())]);
           localStorage.setItem(STUDENTS_KEY, JSON.stringify(students));
-          for (const key of ['python', 'java', 'analytics', 'hr', 'sales']) document.getElementById('date-' + key).value = dates[key] || '';
+          for (const key of DATE_COURSES) {
+            document.getElementById('date-' + key).value = '';
+            setCourseDate(key, dates[key] || '');
+          }
           renderStudents();
         } catch (err) { alert('Published content could not be loaded: ' + err.message); }
         if (window.loadShowcase) window.loadShowcase();

@@ -2150,6 +2150,7 @@
         if (error) {
           // A duplicate submission racing this one raises inside the function.
           if (/already submitted/i.test(error.message || '')) return { status: 'already_applied' };
+          if (/opening has closed/i.test(error.message || '')) return { status: 'job_not_found' };
           console.error('apply_to_job failed:', error);
           return { status: 'error', message: error.message };
         }

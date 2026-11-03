@@ -17,11 +17,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   const courses = { 'course-details.html': 'python', 'java-course-details.html': 'java', 'data-analytics-course-details.html': 'analytics', 'hr-course-details.html': 'hr', 'sales-engineering-course-details.html': 'sales' };
   // Hosts serve clean URLs (/course-details), so add the extension back before the lookup.
   const course = courses[location.pathname.split('/').pop().replace(/\.html$/, '') + '.html'];
-  if (!course) return;
+  // "Next Batch" text on any page: <strong data-batch-date="python">, keyed like the marketing console.
+  const batchSlots = document.querySelectorAll('[data-batch-date]');
+  if (!course && !batchSlots.length) return;
   try {
-    const [dates, students] = await Promise.all([siteContent.read('kompetenzen_batch_dates', {}), siteContent.read('kompetenzen_placed_students', [])]);
-    const batch = document.querySelector('.meta-line span:nth-child(1) strong');
-    if (batch && dates[course]) batch.textContent = dates[course];
+    const [dates, students] = await Promise.all([siteContent.read('kompetenzen_batch_dates', {}), course ? siteContent.read('kompetenzen_placed_students', []) : []]);
+    batchSlots.forEach(slot => { const date = dates[slot.dataset.batchDate]; if (date) slot.textContent = date; });
     const container = document.getElementById('placed-students-container');
     const matches = students.filter(s => s.course === course);
     if (container && matches.length) {

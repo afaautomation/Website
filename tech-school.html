@@ -2135,7 +2135,7 @@
       if (typeof Lenis !== 'undefined') {
         const lenis = new Lenis({
           lerp: 0.1,
-          smoothWheel: true,
+          smoothWheel: !/Mac/.test(navigator.platform) /* macOS trackpads already scroll smoothly; smoothing again feels laggy */,
           wheelMultiplier: 1.0,
           touchMultiplier: 1.5
         });

@@ -1,5 +1,13 @@
 # Admin workflow update
 
+## Notification wording with name and company (2026-11-03)
+
+Run `20261103_notification_details.sql` **after** `20261103_listing_expiry.sql` (it uses `hr_job_open()`). It adds the candidate's name and the hiring company to every new notification, and company, location and experience to each digest job; digests also skip expired listings. Re-running the older `20261015_notifications.sql` would restore the old functions, so run this one again after it if that ever happens. Then get the five `_v2` WhatsApp templates in `NOTIFICATIONS_SETUP.md` approved and only after that deploy `notification-worker`. Notifications queued before the migration greet "Hi there" and leave out the company. This migration has not been applied to production.
+
+## Listing expiry dates (2026-11-03)
+
+Run `20261103_listing_expiry.sql` in the Supabase SQL Editor **before** publishing the updated `admin.html`, `jobs.html`, `internships.html` and `job-details.html`: the listing pages request the new `expires_on` column, so publishing them first makes the public lists fail to load. The migration adds an optional `hr_jobs.expires_on` date, the last day to apply in India time. From the next day the listing is hidden from visitors (row-level security and `job_details()`), and new applications are refused by a trigger on `job_applications`. The listing and all its applications stay in the database and in the admin console; staff and candidates who already applied can still open the details page. Staff set the date when posting and can change or clear it on each saved listing. Regression test: `node --test tests/listing-expiry.test.cjs`. This migration has not been applied to production.
+
 ## Alumni showcase (2026-11-02)
 
 Run `20261102_alumni_showcase.sql` in the Supabase SQL Editor before adding alumni from the marketing console. It allows the `kompetenzen_alumni` key in `site_content`; alumni photos are uploaded to the existing `site-media` bucket under `alumni/`. Until it is applied, adding an alumnus fails with a constraint error, and the alumni section on `placements.html` stays hidden. This migration has not been applied to production.

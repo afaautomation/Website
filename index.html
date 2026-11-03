@@ -4819,7 +4819,7 @@
       window.lenis = new Lenis({
         lerp: 0.1, /* faster, more responsive interpolation */
         wheelMultiplier: 1.5, /* very fast wheel scroll speed */
-        smoothWheel: true,
+        smoothWheel: !/Mac/.test(navigator.platform) /* macOS trackpads already scroll smoothly; smoothing again feels laggy */,
         smoothTouch: false,
       });
       const lenis = window.lenis;
@@ -5431,51 +5431,75 @@
         });
       }
 
-      function animate() {
+      // Glowing speck drawn once and stamped per particle. Live shadowBlur on every speck every frame
+      // was the main cause of the lag on MacBooks (Safari/Retina).
+      const SPRITE_R = 4, SPRITE_PAD = 12;
+      const sprite = document.createElement('canvas');
+      sprite.width = sprite.height = (SPRITE_R + SPRITE_PAD) * 2;
+      (function () {
+        const s = sprite.getContext('2d');
+        s.fillStyle = singleColor;
+        s.shadowColor = singleColor;
+        s.shadowBlur = SPRITE_R * 3;
+        s.beginPath();
+        s.arc(sprite.width / 2, sprite.height / 2, SPRITE_R, 0, Math.PI * 2);
+        s.fill();
+      })();
+
+      // Easing is time-based so the swirl keeps up with the cursor at 60Hz, 120Hz (ProMotion) or
+      // a throttled 30fps alike, instead of crawling when the frame rate drops.
+      const ease = (rate, f) => 1 - Math.pow(1 - rate, f);
+      let last = performance.now();
+
+      function animate(now) {
+        now = now || performance.now();
+        const f = Math.min((now - last) / 16.667, 4); // frames elapsed at 60fps, capped after tab switches
+        last = now;
+
         ctx.clearRect(0, 0, width, height);
 
-        smoothMouse.x += (mouse.x - smoothMouse.x) * 0.12;
-        smoothMouse.y += (mouse.y - smoothMouse.y) * 0.12;
+        const mk = ease(0.35, f);
+        smoothMouse.x += (mouse.x - smoothMouse.x) * mk;
+        smoothMouse.y += (mouse.y - smoothMouse.y) * mk;
 
         if (mouse.active || Math.abs(smoothMouse.x - mouse.x) > 0.5) {
           const mx = smoothMouse.x;
           const my = smoothMouse.y;
+          const rk = ease(mouse.isMoving ? 0.1 : 0.08, f);
+          const pk = ease(mouse.isMoving ? 0.16 : 0.18, f);
 
-          particles.forEach((p) => {
-            p.angle += p.orbitSpeed;
-            p.wobblePhase += p.wobbleSpeed;
+          for (let i = 0; i < particles.length; i++) {
+            const p = particles[i];
+            p.angle += p.orbitSpeed * f;
+            p.wobblePhase += p.wobbleSpeed * f;
 
             // DUAL MODE: Moving -> Scatter & Spread away | Paused -> Attract to Mouse Ring
             const idealRadius = mouse.isMoving ? p.scatterRadius : p.ringRadius;
-            p.targetRadius += (idealRadius - p.targetRadius) * (mouse.isMoving ? 0.08 : 0.06); // Magnetic attraction
+            p.targetRadius += (idealRadius - p.targetRadius) * rk; // Magnetic attraction
 
-            const dynamicRadius = p.targetRadius + Math.sin(p.wobblePhase) * 2;
+            const wobble = Math.sin(p.wobblePhase);
+            const dynamicRadius = p.targetRadius + wobble * 2;
 
             // Target orbital position around mouse
             const targetX = mx + Math.cos(p.angle) * dynamicRadius;
             const targetY = my + Math.sin(p.angle) * dynamicRadius;
 
             // Smooth flow spring position update
-            p.currX += (targetX - p.currX) * (mouse.isMoving ? 0.06 : 0.1);
-            p.currY += (targetY - p.currY) * (mouse.isMoving ? 0.06 : 0.1);
+            p.currX += (targetX - p.currX) * pk;
+            p.currY += (targetY - p.currY) * pk;
 
             // Draw Liquid Micro Dust Speck
-            ctx.save();
-            ctx.beginPath();
-            ctx.arc(p.currX, p.currY, p.size, 0, Math.PI * 2);
-            ctx.fillStyle = p.color;
-            ctx.shadowBlur = p.size * 3;
-            ctx.shadowColor = p.color;
-            ctx.globalAlpha = 0.75 + Math.sin(p.wobblePhase) * 0.2;
-            ctx.fill();
-            ctx.restore();
-          });
+            const half = (SPRITE_R + SPRITE_PAD) * (p.size / SPRITE_R);
+            ctx.globalAlpha = 0.75 + wobble * 0.2;
+            ctx.drawImage(sprite, p.currX - half, p.currY - half, half * 2, half * 2);
+          }
+          ctx.globalAlpha = 1;
         }
 
         requestAnimationFrame(animate);
       }
 
-      animate();
+      requestAnimationFrame(animate);
     })();
   </script>
 </body>

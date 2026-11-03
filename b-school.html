@@ -1428,6 +1428,8 @@
     /* the base rule forces white from the old dark theme, which hid titles on the white cards */
     .program-title { font-size: 21px !important; color: #0d1833 !important; margin-bottom: 4px; }
     .program-duration { font-weight: 700 !important; letter-spacing: .04em; text-transform: uppercase; font-size: 12px !important; }
+    .program-batch { margin-top: 14px; font-size: 13.5px; color: #596b82; }
+    .program-batch strong { color: #2454da; font-weight: 700; }
     .program-tagline { font-size: 17px; font-weight: 700; line-height: 1.4; color: #12203d !important; letter-spacing: -.01em; }
     .programs-intro { margin-top: 14px; font-size: 17px; color: #596b82 !important; }
     #bSchoolHero .hero-lead { display: block; margin-bottom: 10px; font-weight: 700; color: #12203d; }
@@ -1606,6 +1608,7 @@
         </div>
         <p class="program-tagline">Make people data your advantage.</p>
         <p class="program-desc">Build the confidence to turn workforce information into clearer questions, useful insights and better-informed HR decisions &mdash; from understanding workforce measures to interpreting patterns and communicating what they mean.</p>
+        <p class="program-batch">Next Batch: <strong data-batch-date="hr-analytics">Coming Soon</strong></p>
         <div class="card-footer">
           <a href="https://wa.me/918590886009?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20the%20Human%20Resource%20Analytics%20course." class="apply-btn" target="_blank" rel="noopener">
             Talk to an advisor
@@ -1982,13 +1985,14 @@
   <!-- Reusable Auth Modal for School Pages -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
   <script src="supabase-config.js"></script>
+  <script src="js/site-content.js"></script>
   <script src="js/auth-modal.js?v=13"></script>
   <!-- Lenis smooth scroll -->
   <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" integrity="sha384-B2WBjDzEjJpYvhmi2UyEn7rektqkf5suS6sNoyyrf0EBAwBHdkiXxIlU0V5Ru2ed" crossorigin="anonymous"></script>
   <script>
     const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if (!isMobile) {
-      window.lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+      window.lenis = new Lenis({ lerp: 0.1, smoothWheel: !/Mac/.test(navigator.platform) /* macOS trackpads already scroll smoothly; smoothing again feels laggy */ });
       const lenis = window.lenis;
       function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
       requestAnimationFrame(raf);

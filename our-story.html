@@ -1940,7 +1940,7 @@
         lenis = new Lenis({
           duration: 1.2,
           easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-          smoothWheel: true
+          smoothWheel: !/Mac/.test(navigator.platform) /* macOS trackpads already scroll smoothly; smoothing again feels laggy */
         });
 
         if (typeof ScrollTrigger !== 'undefined') {
