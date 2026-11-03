@@ -978,6 +978,18 @@
       cursor: grabbing;
     }
 
+    /* Tablets (iPad etc.): wider than the phone breakpoint but touch-only. The desktop
+       touch-action:none would swallow every swipe, so the page could never scroll past
+       the pinned wall. Let vertical swipes scroll the page; sideways drags still pan.
+       Phones (<=768px) and mouse/trackpad desktops are unaffected. */
+    @media (min-width: 769px) and (hover: none) and (pointer: coarse) {
+
+      .universe-canvas-container,
+      #spotify-placements-canvas {
+        touch-action: pan-y;
+      }
+    }
+
     #spotify-placements-canvas {
       width: 100%;
       height: 100%;
