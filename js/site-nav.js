@@ -7,6 +7,8 @@
     data-active="tech-school.html"   highlight this link (defaults to the current page's file name)
     data-base="../"                  prefix for links when the page lives in a sub-folder
     data-position="fixed"            on desktop, pin the bar over the page instead of taking up space
+    data-position="fixed-all"        pin the bar at every screen width
+    data-account="off"               no Log in button or account badge (page has its own sign-in)
 
   The bar's HTML and CSS live here, so editing this file updates the bar everywhere.
   Styling copies career-consultation.html and is scoped to #nav.kz-nav so each page's
@@ -17,7 +19,11 @@
   var base = (script && script.getAttribute('data-base')) || '';
   var current = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
   var active = ((script && script.getAttribute('data-active')) || current).toLowerCase();
-  var fixed = !!script && script.getAttribute('data-position') === 'fixed';
+  var position = (script && script.getAttribute('data-position')) || '';
+  var fixed = position === 'fixed';
+  var fixedAll = position === 'fixed-all';
+  // data-account="off": leave out Log in and the account badge (pages with their own sign-in)
+  var account = !(script && script.getAttribute('data-account') === 'off');
 
   var LINKS = [
     { href: 'career-consultation.html', label: 'Consulting' },
@@ -61,6 +67,15 @@
     S + ' .kz-cta{display:inline-flex;align-items:center;gap:8px;background:#02050E;color:#fff;font-size:14px;font-weight:600;',
     'padding:10px 20px;border-radius:99px;text-decoration:none;transition:background .2s,transform .2s;white-space:nowrap;border:0;box-shadow:none}',
     S + ' .kz-cta:hover{background:#1947FF;color:#fff;transform:translateY(-1px)}',
+    /* Log in button (hidden once signed in: the account badge takes its place) */
+    S + ' .kz-login{display:inline-flex;align-items:center;gap:7px;margin-right:10px;padding:9px 16px;border-radius:99px;',
+    'border:1px solid rgba(10,21,48,.16);background:transparent;color:#02050E;font:inherit;font-size:14px;font-weight:600;',
+    'text-decoration:none;white-space:nowrap;cursor:pointer;transition:border-color .2s,color .2s,background .2s}',
+    S + ' .kz-login:hover{border-color:#1947FF;color:#1947FF;background:rgba(25,71,255,.05)}',
+    S + ' .kz-login svg{flex-shrink:0}',
+    S + ' .kz-right:has(#nav-user-badge[style*="block"]) .kz-login,' + S + '.kz-signed-in .kz-login{display:none}',
+    S + '.kz-dark .kz-login{color:#fff;border-color:rgba(255,255,255,.35)}',
+    S + '.kz-dark .kz-login:hover{color:#fff;border-color:#fff;background:rgba(255,255,255,.08)}',
     S + ' .kz-burger{display:none;flex-direction:column;gap:5px;background:transparent;border:none;cursor:pointer;padding:8px;margin-left:10px;z-index:1002}',
     S + ' .kz-burger span{display:block;width:22px;height:2px;border-radius:2px;background:#02050E;transition:all .25s ease}',
     S + ' .kz-burger.active span:nth-child(1){transform:translateY(7px) rotate(45deg)}',
@@ -86,6 +101,7 @@
 
     /* data-position="fixed": pages whose desktop hero already leaves room for an overlaid bar */
     '@media (min-width:981px){' + S + '.kz-fixed{position:fixed;top:0;left:0;right:0}}',
+    S + '.kz-fixed-all{position:fixed;top:0;left:0;right:0}',
 
     /* Narrower desktops: nine links, so tighten spacing before the mobile menu kicks in */
     '@media (min-width:981px) and (max-width:1280px){' + S + ' .kz-links{gap:16px}' + S + ' .kz-links a{font-size:13px}}',
@@ -99,6 +115,7 @@
     S + ' .kz-inner{position:relative;padding:0 16px;height:64px}',
     S + ' .kz-brand img{height:32px}',
     S + ' .kz-cta{padding:8px 14px;font-size:13px}',
+    S + ' .kz-login{padding:7px 12px;font-size:13px;margin-right:8px}',
     S + ' .kz-burger{display:flex}',
     S + ' .kz-links{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;position:absolute;top:64px;left:0;right:0;width:100%;',
     'background:#fff;padding:12px 16px 20px;gap:3px;border-bottom:2px solid rgba(25,71,255,.15);',
@@ -113,7 +130,9 @@
     S + ' .kz-links a.active{background:rgba(25,71,255,.08);color:#1947FF;font-weight:700}',
     S + ' .kz-arrow{display:inline-block;font-size:13px;color:#94a3b8;transition:transform .15s ease}',
     S + ' .kz-links a:hover .kz-arrow,' + S + ' .kz-links a.active .kz-arrow{color:#1947FF;transform:translateX(3px)}',
-    '}'
+    '}',
+    /* Small phones: icon-only Log in button so the bar still fits */
+    '@media (max-width:420px){' + S + ' .kz-login span{display:none}' + S + ' .kz-login{padding:7px 9px}}'
   ].join('');
 
   if (!document.getElementById('kz-nav-style')) {
@@ -139,7 +158,7 @@
   }).join('');
 
   var html =
-    '<nav class="kz-nav kz-notrans' + (fixed ? ' kz-fixed' : '') + '" id="nav" aria-label="Main">' +
+    '<nav class="kz-nav kz-notrans' + (fixed ? ' kz-fixed' : '') + (fixedAll ? ' kz-fixed-all' : '') + '" id="nav" aria-label="Main">' +
       '<div class="kz-inner">' +
         '<div class="kz-left">' +
           '<a href="' + base + 'index.html" class="kz-brand"><img src="' + base + 'kompetenzen logo-02.webp" alt="Kompetenzen" width="150" height="36" /></a>' +
@@ -149,7 +168,13 @@
           linksHtml +
         '</div>' +
         '<div class="kz-right">' +
+          (account ?
+          '<a href="' + base + 'index.html#login" class="kz-login" id="kz-login" aria-label="Log in">' +
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' +
+            '<span>Log in</span>' +
+          '</a>' : '') +
           '<a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="kz-cta">Talk to us</a>' +
+          (account ?
           '<div id="nav-user-badge" class="nav-user-badge" style="display:none;">' +
             '<button type="button" class="nav-user-btn" id="nav-user-toggle-btn" aria-label="Candidate account menu">' +
               '<div class="nav-user-avatar" id="nav-user-avatar">C</div>' +
@@ -161,7 +186,7 @@
               '<a href="' + base + 'create-profile.html" class="nav-user-menu-item" id="nav-user-profile-link"><span>My Candidate Profile</span></a>' +
               '<button type="button" class="nav-user-menu-item logout" id="nav-user-signout"><span>Sign Out / Switch</span></button>' +
             '</div>' +
-          '</div>' +
+          '</div>' : '') +
           '<button class="kz-burger" id="kz-hamburger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="kz-nav-links">' +
             '<span></span><span></span><span></span>' +
           '</button>' +
@@ -199,7 +224,7 @@
 
   document.addEventListener('click', function (e) {
     if (!nav.contains(e.target)) closeMenu();
-    var badge = document.getElementById('nav-user-badge');
+    var badge = nav.querySelector('#nav-user-badge');
     if (badge && !badge.contains(e.target)) badge.classList.remove('open');
   });
 
@@ -258,13 +283,33 @@
   if (document.readyState === 'complete') settle();
   else window.addEventListener('load', settle);
 
+  // Log in: open the sign-in popup from js/auth-modal.js when the page has it,
+  // otherwise go to the home page, which opens it from the #login link
+  if (!account) return;
+
+  nav.querySelector('#kz-login').addEventListener('click', function (e) {
+    if (typeof window.openAuthModal === 'function') {
+      e.preventDefault();
+      closeMenu();
+      window.openAuthModal('login');
+    }
+  });
+
+  // Hide Log in straight away for signed-in visitors (same storage keys as auth-modal.js),
+  // before auth-modal.js has shown the account badge
+  try {
+    var stored = localStorage.getItem('kompetenzen_user') || localStorage.getItem('kompetenzen_google_user') || localStorage.getItem('user');
+    var u = stored && JSON.parse(stored);
+    if (u && (u.email || u.name)) nav.classList.add('kz-signed-in');
+  } catch (err) {}
+
   // Account badge buttons: use the page / auth-modal handlers when present
-  document.getElementById('nav-user-toggle-btn').addEventListener('click', function (e) {
+  nav.querySelector('#nav-user-toggle-btn').addEventListener('click', function (e) {
     if (typeof window.toggleNavUserDropdown === 'function') return window.toggleNavUserDropdown(e);
     e.stopPropagation();
-    document.getElementById('nav-user-badge').classList.toggle('open');
+    nav.querySelector('#nav-user-badge').classList.toggle('open');
   });
-  document.getElementById('nav-user-signout').addEventListener('click', function (e) {
+  nav.querySelector('#nav-user-signout').addEventListener('click', function (e) {
     if (typeof window.handleSignOut === 'function') window.handleSignOut(e);
   });
 })();

@@ -52,7 +52,12 @@
       overflow-x: hidden;
     }
 
-    h1, h2, h3, .heading, .intro h1, .cta-strip h2 {
+    h1,
+    h2,
+    h3,
+    .heading,
+    .intro h1,
+    .cta-strip h2 {
       font-family: "Google Sans Flex", "Google Sans", "Product Sans", "Plus Jakarta Sans", sans-serif !important;
       font-weight: 400 !important;
       line-height: 1.22 !important;
@@ -174,6 +179,7 @@
       .nav-links {
         gap: 18px;
       }
+
       .nav-links a {
         font-size: 13px;
       }
@@ -192,7 +198,7 @@
     /* ===========================================================
        SECTIONS & PURE WHITE THEME (OUR STORY PAGE)
     =========================================================== */
-    main > section {
+    main>section {
       width: 100%;
       min-height: auto;
       position: relative;
@@ -204,11 +210,16 @@
       background: #FFFFFF;
     }
 
-    .skew-bg, .bg {
+    .skew-bg,
+    .bg {
       display: none !important;
     }
 
-    .ink, .porcelain, .ember, .forest, .steel {
+    .ink,
+    .porcelain,
+    .ember,
+    .forest,
+    .steel {
       --bg: #FFFFFF;
       --fg: #02050E;
       --fg-soft: #475569;
@@ -587,6 +598,7 @@
     }
 
     @media (max-width: 768px) {
+
       .wrap,
       .section-content {
         padding-left: 20px;
@@ -653,6 +665,7 @@
     }
 
     @media (max-width: 900px) {
+
       .content,
       .content.reverse,
       #year-2021 .content,
@@ -898,13 +911,19 @@
       transform: translateX(4px);
     }
 
-    /* Ecosystem overview: six linked steps */
+    /* Ecosystem overview: six steps on a connected path.
+       On scroll the path fills left to right and each icon lights up in turn. */
     .eco-map {
       list-style: none;
       display: grid;
       grid-template-columns: repeat(6, minmax(0, 1fr));
-      gap: 14px;
+      gap: 16px;
       counter-reset: none;
+      --eco-step: 0.16s;
+    }
+
+    .eco-map li {
+      position: relative;
     }
 
     .eco-map a {
@@ -913,48 +932,155 @@
       flex-direction: column;
       gap: 6px;
       height: 100%;
-      padding: 22px 18px 20px;
+      padding: 24px 20px 26px;
       border-radius: 20px;
-      background: var(--card-bg);
-      border: 1px solid var(--line);
+      background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFF 100%);
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03), 0 18px 40px -30px rgba(25, 71, 255, 0.35);
       text-decoration: none;
       color: var(--fg);
+      overflow: hidden;
       transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s, border-color 0.35s;
     }
 
-    .eco-map a:hover {
-      transform: translateY(-6px);
-      border-color: rgba(25, 71, 255, 0.35);
-      box-shadow: 0 24px 44px -24px rgba(25, 71, 255, 0.45);
+    /* soft blue wash that fades in on hover */
+    .eco-map a::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(120% 80% at 0% 0%, rgba(25, 71, 255, 0.08), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      pointer-events: none;
     }
 
+    /* no lift on hover: a transform would stack the icon under the path line */
+    .eco-map a:hover {
+      border-color: rgba(25, 71, 255, 0.32);
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03), 0 30px 56px -26px rgba(25, 71, 255, 0.5);
+    }
+
+    .eco-map a:hover::before {
+      opacity: 1;
+    }
+
+    /* step number, top-right */
     .eco-map-num {
+      position: absolute;
+      top: 20px;
+      right: 18px;
       font-family: "JetBrains Mono", monospace;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 700;
-      color: var(--blue);
+      letter-spacing: 0.04em;
+      color: rgba(25, 71, 255, 0.45);
     }
 
     .eco-map-icon {
-      width: 44px;
-      height: 44px;
+      position: relative;
+      z-index: 3;
+      width: 48px;
+      height: 48px;
       display: grid;
       place-items: center;
-      border-radius: 13px;
-      background: rgba(25, 71, 255, 0.08);
+      border-radius: 50%;
+      background: #EEF2FF;
       color: var(--blue);
-      margin: 8px 0 10px;
+      margin: 0 0 14px;
+      box-shadow: 0 0 0 6px #FFFFFF;
+      transition: background 0.45s ease, color 0.45s ease, box-shadow 0.45s ease;
+      transition-delay: calc(var(--i, 0) * var(--eco-step) + 0.25s);
     }
 
     .eco-map b {
-      font-size: 1.02rem;
+      position: relative;
+      font-size: 1.04rem;
       line-height: 1.25;
+      color: #0B1E43;
     }
 
     .eco-map small {
+      position: relative;
       font-size: 0.86rem;
       color: var(--fg-soft);
       line-height: 1.4;
+    }
+
+    /* small arrow that slides in on hover */
+    .eco-map a::after {
+      content: '\2192';
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      font-size: 1rem;
+      color: var(--blue);
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .eco-map a:hover::after {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Path between icons: grey track (li::before) and blue fill (li::after) */
+    .eco-map li:not(:last-child)::before,
+    .eco-map li:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      z-index: 2;
+      top: 47px;
+      left: 44px;
+      width: calc(100% + 16px);
+      height: 2px;
+      border-radius: 2px;
+      pointer-events: none;
+    }
+
+    .eco-map li:not(:last-child)::before {
+      background: rgba(15, 23, 42, 0.08);
+    }
+
+    .eco-map li:not(:last-child)::after {
+      background: linear-gradient(90deg, var(--blue), #5B8AFF);
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform var(--eco-step) linear;
+      transition-delay: calc(var(--i, 0) * var(--eco-step) + 0.35s);
+    }
+
+    /* Cards rise in one after another (only once JS adds .eco-ready) */
+    .eco-map.eco-ready li {
+      opacity: 0;
+      translate: 0 28px;
+    }
+
+    .eco-map.eco-in li {
+      opacity: 1;
+      /* "none" (not 0 0) so the cards end without their own stacking layer */
+      translate: none;
+      transition: opacity 0.6s ease, translate 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      transition-delay: calc(var(--i, 0) * 0.08s);
+    }
+
+    .eco-map.eco-in li::after {
+      transform: scaleX(1);
+    }
+
+    .eco-map.eco-in .eco-map-icon {
+      background: var(--blue);
+      color: #FFFFFF;
+      box-shadow: 0 0 0 6px #FFFFFF, 0 10px 24px -6px rgba(25, 71, 255, 0.55);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .eco-map li,
+      .eco-map li::after,
+      .eco-map-icon {
+        transition: none !important;
+      }
     }
 
     /* Journey: reach figures + venues */
@@ -1031,6 +1157,11 @@
       .eco-map {
         grid-template-columns: repeat(3, minmax(0, 1fr));
       }
+
+      .eco-map li::before,
+      .eco-map li::after {
+        display: none;
+      }
     }
 
     @media (max-width: 768px) {
@@ -1065,86 +1196,6 @@
         grid-template-columns: 1fr;
         gap: 14px;
       }
-    }
-
-    /* ===========================================================
-       SECTION 1: ABOUT KOMPETENZEN
-    =========================================================== */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.1fr;
-      gap: 60px;
-      align-items: center;
-    }
-
-    @media (max-width: 980px) {
-      .about-grid {
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
-    }
-
-    .about-card {
-      background: var(--card-bg);
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: 40px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
-      display: flex;
-      flex-direction: column;
-      gap: 28px;
-    }
-
-    .about-row {
-      display: grid;
-      grid-template-columns: 90px 1fr;
-      gap: 20px;
-      align-items: start;
-    }
-
-    .about-row .lbl {
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: var(--blue);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .about-row p {
-      font-size: 1.05rem;
-      color: var(--fg-soft);
-      line-height: 1.6;
-    }
-
-    .about-media {
-      position: relative;
-      border-radius: 24px;
-      overflow: hidden;
-      height: 480px;
-      box-shadow: 0 24px 48px rgba(10, 21, 48, 0.12);
-      border: 1px solid var(--line);
-    }
-
-    .about-media-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(2, 5, 14, 0.2) 0%, rgba(2, 5, 14, 0.85) 100%);
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 36px;
-      color: #fff;
-    }
-
-    .about-media-overlay h3 {
-      font-size: 1.8rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .about-media-overlay p {
-      font-size: 1rem;
-      color: rgba(255, 255, 255, 0.8);
     }
 
     /* ===========================================================
@@ -1345,15 +1396,187 @@
       transition: opacity 0.6s ease, scale 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), translate 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
     }
 
-    .vm-card.vm-in + .vm-card.vm-in,
+    .vm-card.vm-in+.vm-card.vm-in,
     .vm-grid .vm-card:nth-child(2).vm-in {
       transition-delay: 0.15s, 0.15s, 0.15s, 0s, 0s, 0s;
     }
 
     @media (max-width: 760px) {
-      .vm-grid { grid-template-columns: 1fr; gap: 18px; }
-      .vm-card { padding: 30px 24px 32px; }
-      .vm-card::before { left: 24px; right: 24px; }
+      .vm-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .vm-card {
+        padding: 30px 24px 32px;
+      }
+
+      .vm-card::before {
+        left: 24px;
+        right: 24px;
+      }
+    }
+
+    /* ===========================================================
+       JOB DRIVES & TALENT HUNTS
+    =========================================================== */
+    .drives-section {
+      background: #FFFFFF;
+    }
+
+    .drives-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      font-family: "Inter", "Plus Jakarta Sans", system-ui, sans-serif;
+    }
+
+    .drives-head {
+      max-width: 900px;
+      margin-bottom: clamp(36px, 5vw, 56px);
+    }
+
+    .drives-section .drives-heading {
+      font-size: clamp(2rem, 3.6vw, 3.2rem);
+      max-width: 24ch;
+      color: #0B1E43;
+    }
+
+    /* Milestones as a ruled list: year on the left, detail on the right */
+    .drives-timeline {
+      list-style: none;
+      margin: 0 0 clamp(40px, 5vw, 64px);
+      padding: 0;
+      border-top: 1px solid rgba(15, 23, 42, 0.1);
+    }
+
+    .drives-timeline li {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      gap: 32px;
+      padding: 28px 0;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.1);
+    }
+
+    .drives-year {
+      font-family: "Google Sans Flex", "Plus Jakarta Sans", sans-serif;
+      font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: var(--blue);
+      line-height: 1.2;
+    }
+
+    .drives-detail p {
+      font-size: 1.08rem;
+      line-height: 1.75;
+      color: #334155;
+      margin: 0 0 0.6em;
+      max-width: 70ch;
+    }
+
+    .drives-detail p:last-child {
+      margin-bottom: 0;
+    }
+
+    .drives-detail p.drives-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #0B1E43;
+    }
+
+    /* Photo tiles (placeholders until real photos are added) */
+    .drives-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .drives-photo {
+      position: relative;
+      margin: 0;
+      aspect-ratio: 16 / 10;
+      border-radius: 18px;
+      overflow: hidden;
+      background: linear-gradient(160deg, #EEF2FF 0%, #F7F9FE 100%);
+      border: 1px solid rgba(25, 71, 255, 0.12);
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 20px 44px -28px rgba(25, 71, 255, 0.35);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+    }
+
+    .drives-photo:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 28px 56px -28px rgba(25, 71, 255, 0.45);
+    }
+
+    .drives-photo img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .drives-ph {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: rgba(25, 71, 255, 0.35);
+    }
+
+    /* hide the placeholder icon once a photo is added */
+    .drives-photo img~.drives-ph {
+      display: none;
+    }
+
+    .drives-photo figcaption {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 18px 22px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #0B1E43;
+      background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.92) 45%);
+    }
+
+    /* with a real photo: dark gradient and white caption */
+    .drives-photo img~figcaption {
+      color: #FFFFFF;
+      background: linear-gradient(180deg, transparent, rgba(2, 5, 14, 0.75));
+    }
+
+    /* Shared scroll pop-in (same feel as the Vision & Mission cards) */
+    .pop-in.vm-ready {
+      opacity: 0;
+      scale: 0.92;
+      translate: 0 40px;
+    }
+
+    .pop-in.vm-in {
+      opacity: 1;
+      scale: 1;
+      translate: 0 0;
+      transition: opacity 0.6s ease, scale 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), translate 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+    }
+
+    .drives-gallery .pop-in:nth-child(2).vm-in,
+    .drives-gallery .pop-in:nth-child(4).vm-in {
+      transition-delay: 0.12s, 0.12s, 0.12s, 0s, 0s;
+    }
+
+    @media (max-width: 760px) {
+      .drives-timeline li {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 22px 0;
+      }
+
+      .drives-gallery {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
     }
 
     /* ===========================================================
@@ -1665,6 +1888,7 @@
       margin-left: 10px;
       z-index: 1002;
     }
+
     .hamburger span {
       display: block;
       width: 22px;
@@ -1673,9 +1897,18 @@
       background: var(--ink);
       transition: all 0.25s ease;
     }
-    .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .hamburger.active span:nth-child(2) { opacity: 0; }
-    .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .hamburger.active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
 
     @media (max-width: 980px) {
       .nav {
@@ -1730,8 +1963,8 @@
         transform: translateY(-8px) !important;
         pointer-events: none !important;
         transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-                    transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-                    visibility 0.22s ease !important;
+          transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+          visibility 0.22s ease !important;
       }
 
       .nav-links.mobile-active {
@@ -1811,17 +2044,36 @@
   <style>
     /* Top bar has nine links since Internships was added: keep each label on one
        line and tighten spacing on narrower desktops, above the mobile-menu breakpoint. */
-    .nav .nav-links a, .nav .nav-cta, .nav .cta { white-space: nowrap; }
+    .nav .nav-links a,
+    .nav .nav-cta,
+    .nav .cta {
+      white-space: nowrap;
+    }
+
     @media (min-width: 993px) {
-      .nav .nav-left { min-width: max-content; }
+      .nav .nav-left {
+        min-width: max-content;
+      }
     }
+
     @media (min-width: 993px) and (max-width: 1280px) {
-      .nav .nav-links { gap: 16px; }
-      .nav .nav-links a { font-size: 13px; }
+      .nav .nav-links {
+        gap: 16px;
+      }
+
+      .nav .nav-links a {
+        font-size: 13px;
+      }
     }
+
     @media (min-width: 993px) and (max-width: 1120px) {
-      .nav .nav-links { gap: 12px; }
-      .nav .nav-links a { font-size: 12.5px; }
+      .nav .nav-links {
+        gap: 12px;
+      }
+
+      .nav .nav-links a {
+        font-size: 12.5px;
+      }
     }
 
     /* Tablet landscape / small laptops: the full desktop bar is wider than the screen
@@ -1853,7 +2105,8 @@
   </style>
   <link rel="canonical" href="https://kompetenzen.in/our-story">
   <meta property="og:title" content="Our Story — Kompetenzen | Journey 2020 – 2026 &amp; Team">
-  <meta property="og:description" content="Kompetenzen Technologies is an integrated career development and talent solutions company in Kerala, established in 2020: consultation, training and placement in one ecosystem.">
+  <meta property="og:description"
+    content="Kompetenzen Technologies is an integrated career development and talent solutions company in Kerala, established in 2020: consultation, training and placement in one ecosystem.">
   <meta property="og:url" content="https://kompetenzen.in/our-story">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary">
@@ -1918,22 +2171,28 @@
             <span class="story-kicker">Since 2020 &middot; Kerala, India</span>
             <h2 class="heading story-heading">Our Story</h2>
             <p class="story-lead">
-              Kompetenzen Technologies was established in 2020 with a vision to create a more meaningful and outcome-oriented approach to career development and talent solutions.
+              Kompetenzen Technologies was established in 2020 with a vision to create a more meaningful and
+              outcome-oriented approach to career development and talent solutions.
             </p>
           </div>
 
           <!-- Right: the story -->
           <div class="story-copy">
             <p>
-              The company was founded by an entrepreneur with over a decade of experience in the skill development industry, corporate training, fresher recruitment, soft skills development and employability enhancement.
+              The company was founded by an entrepreneur with over a decade of experience in the skill development
+              industry, corporate training, fresher recruitment, soft skills development and employability enhancement.
             </p>
 
             <p>
-              Through years of working closely with students, institutions and corporate organisations, one fundamental gap became evident: individuals were often choosing courses and career paths without adequate guidance, while employers continued to seek candidates with the right combination of technical knowledge and professional competencies.
+              Through years of working closely with students, institutions and corporate organisations, one fundamental
+              gap became evident: individuals were often choosing courses and career paths without adequate guidance,
+              while employers continued to seek candidates with the right combination of technical knowledge and
+              professional competencies.
             </p>
 
             <p>
-              This understanding shaped the foundation of Kompetenzen. Rather than operating as a conventional training institution, the company adopted a more holistic philosophy built around three interconnected pillars:
+              This understanding shaped the foundation of Kompetenzen. Rather than operating as a conventional training
+              institution, the company adopted a more holistic philosophy built around three interconnected pillars:
             </p>
 
             <p class="story-pillars-line">
@@ -1941,11 +2200,14 @@
             </p>
 
             <p>
-              We believe that meaningful career development begins with understanding the individual, continues through relevant learning and professional preparation, and ultimately connects talent with genuine industry opportunities.
+              We believe that meaningful career development begins with understanding the individual, continues through
+              relevant learning and professional preparation, and ultimately connects talent with genuine industry
+              opportunities.
             </p>
 
             <p class="story-closing-line">
-              Today, this philosophy guides our integrated approach to career consultation, professional development, technology and business education, and talent solutions.
+              Today, this philosophy guides our integrated approach to career consultation, professional development,
+              technology and business education, and talent solutions.
             </p>
           </div>
         </div>
@@ -1954,22 +2216,34 @@
         <div class="vm-grid">
           <article class="vm-card">
             <span class="vm-icon" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
             </span>
             <h3>Vision</h3>
             <p>A more meaningful and outcome-oriented approach to career development and talent solutions.</p>
           </article>
           <article class="vm-card">
             <span class="vm-icon" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <circle cx="12" cy="12" r="6" />
+                <circle cx="12" cy="12" r="2" />
+              </svg>
             </span>
             <h3>Mission</h3>
-            <p>Understand the individual, enable relevant learning and professional preparation, and connect talent with genuine industry opportunities.</p>
+            <p>Understand the individual, enable relevant learning and professional preparation, and connect talent with
+              genuine industry opportunities.</p>
           </article>
         </div>
         <script>
-          (function () {
-            var cards = document.querySelectorAll('.vm-card');
+          // Scroll pop-in for the Vision/Mission cards and any .pop-in element on the page.
+          // Runs after the page is parsed so later sections are included.
+          document.addEventListener('DOMContentLoaded', function () {
+            var cards = document.querySelectorAll('.vm-card, .pop-in');
             if (!cards.length || !('IntersectionObserver' in window)) return;
             if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
             var io = new IntersectionObserver(function (entries) {
@@ -1978,50 +2252,73 @@
               });
             }, { threshold: 0.25 });
             cards.forEach(function (c) { c.classList.add('vm-ready'); io.observe(c); });
-          })();
+          });
         </script>
       </div>
     </section>
 
-    <!-- ============ SECTION 1: OUR STORY ============ -->
-    <section class="section ember">
-      <div class="skew-bg">
-        <div class="bg ember"></div>
-      </div>
+    <!-- ============ JOB DRIVES & TALENT HUNTS ============ -->
+    <section class="section drives-section" id="job-drives">
       <div class="wrap section-content">
-        <div class="section-header">
-          <span class="tag-label">01 // Our Story</span>
-          <h2 class="heading">Built on Three Pillars: Consultation. Training. Placement.</h2>
-        </div>
-
-        <div class="about-grid">
-          <div class="about-card">
-            <div class="about-row">
-              <span class="lbl">(Gap)</span>
-              <p>
-                People were choosing courses and careers without real guidance, while employers kept looking for the right mix of technical knowledge and professional skills.
-              </p>
-            </div>
-            <div class="about-row">
-              <span class="lbl">(Idea)</span>
-              <p>
-                Founded in 2020 by an entrepreneur with over a decade in skill development, corporate training and fresher recruitment, Kompetenzen chose a holistic model over a conventional institute.
-              </p>
-            </div>
-            <div class="about-row">
-              <span class="lbl">(Mission)</span>
-              <p>
-                Understand the individual, enable relevant learning and professional preparation, and connect talent with genuine industry opportunities.
-              </p>
-            </div>
+        <div class="drives-wrap">
+          <div class="drives-head">
+            <span class="story-kicker">Opportunities Delivered</span>
+            <h2 class="heading drives-heading">Eleven Major Job Drives. Over 100 Talent Hunts. A Continuing Commitment
+              to Opportunities.</h2>
           </div>
 
-          <div class="about-media">
-            <img src="img/telescope/img-big.webp" alt="The Kompetenzen team and mentors" />
-            <div class="about-media-overlay">
-              <h3>Our Vision</h3>
-              <p>A more meaningful, outcome-oriented approach to career development and talent solutions.</p>
-            </div>
+          <!-- Milestones -->
+          <ol class="drives-timeline">
+            <li class="pop-in">
+              <span class="drives-year">2020</span>
+              <div class="drives-detail">
+                <p class="drives-title">Established</p>
+              </div>
+            </li>
+            <li class="pop-in">
+              <span class="drives-year">2020&ndash;2026</span>
+              <div class="drives-detail">
+                <p>11 major job drives successfully conducted; more than 100 talent hunts conducted for corporate
+                  recruitment requirements.</p>
+                <p>Approximately 3,000+ individuals connected with career opportunities.</p>
+              </div>
+            </li>
+          </ol>
+
+          <!-- Photo tiles: to add a photo, put <img src="..." alt="..."> as the first child of .drives-photo -->
+          <div class="drives-gallery">
+            <figure class="drives-photo pop-in">
+              <span class="drives-ph" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                  <circle cx="12" cy="13" r="4" />
+                </svg></span>
+              <figcaption>Major job drive events</figcaption>
+            </figure>
+            <figure class="drives-photo pop-in">
+              <span class="drives-ph" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                  <circle cx="12" cy="13" r="4" />
+                </svg></span>
+              <figcaption>Campus recruitment</figcaption>
+            </figure>
+            <figure class="drives-photo pop-in">
+              <span class="drives-ph" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                  <circle cx="12" cy="13" r="4" />
+                </svg></span>
+              <figcaption>Talent Hunt activities</figcaption>
+            </figure>
+            <figure class="drives-photo pop-in">
+              <span class="drives-ph" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                  <circle cx="12" cy="13" r="4" />
+                </svg></span>
+              <figcaption>Candidate and corporate interactions</figcaption>
+            </figure>
           </div>
         </div>
       </div>
@@ -2034,215 +2331,63 @@
       </div>
       <div class="wrap section-content">
         <div class="section-header">
-          <span class="tag-label">02 // The Integrated Career Ecosystem</span>
+          <span class="tag-label">01 // The Integrated Career Ecosystem</span>
           <h2 class="heading">One Ecosystem. Multiple Career Pathways.</h2>
         </div>
         <ol class="eco-map">
-          <li><a href="#year-2020"><span class="eco-map-num">01</span><span class="eco-map-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></span><b>Consultation</b><small>Career Consultation</small></a></li>
-          <li><a href="#year-2021"><span class="eco-map-num">02</span><span class="eco-map-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18"/><path d="M12 5h7l2.5 2.5L19 10h-7"/><path d="M12 13H5l-2.5 2.5L5 18h7"/></svg></span><b>Career Direction</b><small>Design Your Future</small></a></li>
-          <li><a href="#year-2022"><span class="eco-map-num">03</span><span class="eco-map-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg></span><b>Career Readiness</b><small>Finishing School</small></a></li>
-          <li><a href="#year-2023"><span class="eco-map-num">04</span><span class="eco-map-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span><b>Specialised Learning</b><small>Tech School &amp; B School</small></a></li>
-          <li><a href="#year-2024"><span class="eco-map-num">05</span><span class="eco-map-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 10l3 3 7-7"/></svg></span><b>Digital Opportunities</b><small>Digital Career Platform</small></a></li>
-          <li><a href="#year-2025"><span class="eco-map-num">06</span><span class="eco-map-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span><b>Employment</b><small>Placement &amp; Talent Solutions</small></a></li>
+          <li style="--i:0"><a href="career-consultation.html"><span class="eco-map-num">01</span><span
+                class="eco-map-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10" />
+                  <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+                </svg></span><b>Consultation</b><small>Career Consultation</small></a></li>
+          <li style="--i:1"><a href="finishing-school.html"><span class="eco-map-num">02</span><span
+                class="eco-map-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 3v18" />
+                  <path d="M12 5h7l2.5 2.5L19 10h-7" />
+                  <path d="M12 13H5l-2.5 2.5L5 18h7" />
+                </svg></span><b>Career Direction</b><small>Design Your Future</small></a></li>
+          <li style="--i:2"><a href="finishing-school.html"><span class="eco-map-num">03</span><span
+                class="eco-map-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <polyline points="16 11 18 13 22 9" />
+                </svg></span><b>Career Readiness</b><small>Finishing School</small></a></li>
+          <li style="--i:3"><a href="tech-school.html"><span class="eco-map-num">04</span><span
+                class="eco-map-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                  <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                </svg></span><b>Specialised Learning</b><small>Tech School &amp; B School</small></a></li>
+          <li style="--i:4"><a href="jobs.html"><span class="eco-map-num">05</span><span class="eco-map-icon"><svg
+                  width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="2" y="3" width="20" height="14" rx="2" />
+                  <path d="M8 21h8M12 17v4" />
+                  <path d="M7 10l3 3 7-7" />
+                </svg></span><b>Digital Opportunities</b><small>Digital Career Platform</small></a></li>
+          <li style="--i:5"><a href="placements.html"><span class="eco-map-num">06</span><span class="eco-map-icon"><svg
+                  width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="2" y="7" width="20" height="14" rx="2" />
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                </svg></span><b>Employment</b><small>Placement &amp; Talent Solutions</small></a></li>
         </ol>
-      </div>
-    </section>
-
-    <!-- ============ ECOSYSTEM 01: CAREER CONSULTATION ============ -->
-    <section class="section ember" id="year-2020">
-      <div class="skew-bg">
-        <div class="bg ember"></div>
-      </div>
-      <div class="wrap section-content">
-        <div class="section-header">
-          <span class="tag-label">STEP 01 // CONSULTATION</span>
-          <h2 class="heading">Career Consultation</h2>
-        </div>
-        <div class="content">
-          <div class="media eco-tile" aria-hidden="true">
-            <span class="eco-num">01</span>
-            <span class="eco-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></span>
-            <span class="eco-pillar">Consultation</span>
-          </div>
-          <div class="details">
-            <p class="eco-lead">Every career decision deserves the right direction. This is where every Kompetenzen journey begins.</p>
-            <ul class="eco-list">
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Individual career assessment</span></li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Interest and aptitude exploration</span></li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Strength and potential identification</span></li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Skill-gap analysis</span></li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Career pathway recommendations</span></li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Informed course and career decisions</span></li>
-            </ul>
-            <a class="eco-link" href="career-consultation.html">Book a career consultation <span aria-hidden="true">→</span></a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ ECOSYSTEM 02: DESIGN YOUR FUTURE ============ -->
-    <section class="section porcelain" id="year-2021">
-      <div class="skew-bg">
-        <div class="bg porcelain"></div>
-      </div>
-      <div class="wrap section-content">
-        <div class="section-header">
-          <span class="tag-label">STEP 02 // CAREER DIRECTION</span>
-          <h2 class="heading">Design Your Future</h2>
-        </div>
-        <div class="content">
-          <div class="media eco-tile" aria-hidden="true">
-            <span class="eco-num">02</span>
-            <span class="eco-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18"/><path d="M12 5h7l2.5 2.5L19 10h-7"/><path d="M12 13H5l-2.5 2.5L5 18h7"/></svg></span>
-            <span class="eco-pillar">Career Direction</span>
-          </div>
-          <div class="details">
-            <p class="eco-lead">Our flagship career-readiness programme. Understand yourself. Discover your potential. Prepare for your future.</p>
-            <ul class="eco-list">
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Career clarity and decision-making</span></li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Emotional intelligence</span></li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Skill gaps and a personalised career pathway</span></li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Generative AI awareness</span></li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Professional readiness</span></li>
-            </ul>
-            <div class="eco-chips">
-              <span>2-day live workshop</span>
-              <span>14 hours of structured learning</span>
-              <span>Designed for 2027 graduates</span>
-            </div>
-            <a class="eco-link" href="finishing-school.html">Explore Design Your Future <span aria-hidden="true">→</span></a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ ECOSYSTEM 03: FINISHING SCHOOL ============ -->
-    <section class="section forest" id="year-2022">
-      <div class="skew-bg">
-        <div class="bg forest"></div>
-      </div>
-      <div class="wrap section-content">
-        <div class="section-header">
-          <span class="tag-label">STEP 03 // CAREER READINESS</span>
-          <h2 class="heading">Finishing School</h2>
-        </div>
-        <div class="content">
-          <div class="media eco-tile" aria-hidden="true">
-            <span class="eco-num">03</span>
-            <span class="eco-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg></span>
-            <span class="eco-pillar">Career Readiness</span>
-          </div>
-          <div class="details">
-            <p class="eco-lead">Developing the confidence and competencies employers value.</p>
-            <ul class="eco-list">
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Soft skills, spoken English and language training</span></li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Verbal and written communication</span></li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Professional etiquette and presentation skills</span></li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Interview grooming</span></li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Resume development and LinkedIn optimisation</span></li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Workplace readiness</span></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ ECOSYSTEM 04: TECH SCHOOL & B SCHOOL ============ -->
-    <section class="section ember" id="year-2023">
-      <div class="skew-bg">
-        <div class="bg ember"></div>
-      </div>
-      <div class="wrap section-content">
-        <div class="section-header">
-          <span class="tag-label">STEP 04 // SPECIALISED LEARNING</span>
-          <h2 class="heading">Tech School &amp; B School</h2>
-        </div>
-        <div class="content">
-          <div class="media eco-tile" aria-hidden="true">
-            <span class="eco-num">04</span>
-            <span class="eco-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span>
-            <span class="eco-pillar">Specialised Learning</span>
-          </div>
-          <div class="details">
-            <p class="eco-lead">Technology and business professionals for an AI-driven world.</p>
-            <ul class="eco-list">
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Tech School: Generative AI, programming, application development, data analytics and BI</span></li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>B School: sales, HR management, recruitment, talent management and AI-driven HR analytics</span></li>
-            </ul>
-            <div class="eco-chips">
-              <span>Python with Gen AI (flagship)</span>
-              <span>Python Full Stack with AI</span>
-              <span>Data Analytics with AI</span>
-              <span>Sales Engineering</span>
-              <span>PG Diploma in HRM</span>
-              <span>HR Analytics with AI</span>
-            </div>
-            <a class="eco-link" href="tech-school.html">See all programmes <span aria-hidden="true">→</span></a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ ECOSYSTEM 05: DIGITAL CAREER PLATFORM ============ -->
-    <section class="section porcelain" id="year-2024">
-      <div class="skew-bg">
-        <div class="bg porcelain"></div>
-      </div>
-      <div class="wrap section-content">
-        <div class="section-header">
-          <span class="tag-label">STEP 05 // DIGITAL OPPORTUNITIES</span>
-          <h2 class="heading">Digital Career Platform</h2>
-        </div>
-        <div class="content">
-          <div class="media eco-tile" aria-hidden="true">
-            <span class="eco-num">05</span>
-            <span class="eco-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 10l3 3 7-7"/></svg></span>
-            <span class="eco-pillar">Digital Opportunities</span>
-          </div>
-          <div class="details">
-            <p class="eco-lead">Connecting learning with opportunities, right here on kompetenzen.in.</p>
-            <ul class="eco-list">
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Candidate profile creation</span></li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>ATS-friendly resumes</span></li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Job discovery and applications</span></li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Internship opportunities</span></li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Employer and candidate connections</span></li>
-            </ul>
-            <a class="eco-link" href="jobs.html">Browse open jobs <span aria-hidden="true">→</span></a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ ECOSYSTEM 06: PLACEMENT & TALENT SOLUTIONS ============ -->
-    <section class="section forest" id="year-2025">
-      <div class="skew-bg">
-        <div class="bg forest"></div>
-      </div>
-      <div class="wrap section-content">
-        <div class="section-header">
-          <span class="tag-label">STEP 06 // EMPLOYMENT</span>
-          <h2 class="heading">Placement &amp; Talent Solutions</h2>
-        </div>
-        <div class="content">
-          <div class="media eco-tile" aria-hidden="true">
-            <span class="eco-num">06</span>
-            <span class="eco-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span>
-            <span class="eco-pillar">Employment</span>
-          </div>
-          <div class="details">
-            <p class="eco-lead">Where preparation meets opportunity: connecting talent with genuine industry openings.</p>
-            <ul class="eco-list">
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Fresher recruitment</span></li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Corporate hiring assistance</span></li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Talent identification and profiling</span></li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Campus recruitment and internships</span></li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Talent Hunt initiatives</span></li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Employer–candidate coordination</span></li>
-            </ul>
-            <a class="eco-link" href="placements.html">See our placements <span aria-hidden="true">→</span></a>
-          </div>
-        </div>
+        <script>
+          // Fill the ecosystem path and light up each step when it scrolls into view
+          (function () {
+            var map = document.querySelector('.eco-map');
+            if (!map || !('IntersectionObserver' in window)) return;
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { map.classList.add('eco-in'); return; }
+            map.classList.add('eco-ready');
+            var io = new IntersectionObserver(function (entries) {
+              if (entries[0].isIntersecting) { map.classList.add('eco-in'); io.disconnect(); }
+            }, { threshold: 0.3 });
+            io.observe(map);
+          })();
+        </script>
       </div>
     </section>
 
@@ -2267,9 +2412,21 @@
         <div class="venues">
           <span class="venues-label">Key institutional event venues</span>
           <ul>
-            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Muslim Association College of Engineering and Technology, Venjaramoodu</span></li>
-            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg><span>St. Thomas College of Engineering and Technology, Thiruvananthapuram</span></li>
-            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg><span>St. Joseph's College, Pala</span></li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg><span>Muslim Association College of Engineering and Technology, Venjaramoodu</span></li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg><span>St. Thomas College of Engineering and Technology, Thiruvananthapuram</span></li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg><span>St. Joseph's College, Pala</span></li>
           </ul>
         </div>
       </div>
@@ -2282,7 +2439,7 @@
       </div>
       <div class="wrap section-content">
         <div class="section-header">
-          <span class="tag-label">03 // People Behind The Promise</span>
+          <span class="tag-label">02 // People Behind The Promise</span>
           <h2 class="heading">Meet Our Leaders, Mentors & Dedicated Staff</h2>
         </div>
 
@@ -2293,26 +2450,29 @@
               <img src="img/staff_abhinav.jpg" alt="Abhinav S - Founder & MD" />
             </div>
             <div class="staff-info">
-              <span class="staff-role-badge">Leadership</span>
-              <h3 class="staff-name">Abhinav S</h3>
-              <p class="staff-title">Founder & Managing Director</p>
+              <span class="staff-role-badge"> Tech Leadership</span>
+              <h3 class="staff-name">Akhil Raj R C</h3>
+              <p class="staff-title">Technical Lead</p>
               <p class="staff-bio">
-                Founded Kompetenzen in 2020 after more than a decade in skill development, corporate training and fresher recruitment.
+                Technical Lead with 4+ years of experience in software development, guiding aspiring developers in
+                application architecture, technical problem-solving, and industry-oriented development practices.
               </p>
             </div>
           </div>
 
           <!-- Staff 2 -->
+
           <div class="staff-card">
             <div class="staff-img-box">
-              <img src="img/staff_deepa.jpg" alt="Deepa Nair - Head of Placements" />
+              <div class="staff-avatar-placeholder">AM</div>
             </div>
             <div class="staff-info">
-              <span class="staff-role-badge">Placements</span>
-              <h3 class="staff-name">Deepa Nair</h3>
-              <p class="staff-title">Head of Placements & Corporate Relations</p>
+              <span class="staff-role-badge">Python full stack</span>
+              <h3 class="staff-name">Nafiya S</h3>
+              <p class="staff-title">Team Lead – Learning & Training</p>
               <p class="staff-bio">
-                Leads corporate hiring partnerships, job drives and Talent Hunts that connect candidates with the right opportunities.
+                Full-stack development professional with 3+ years of experience and 2+ years in technical training,
+                mentoring students through practical projects in Java, Python, and React.
               </p>
             </div>
           </div>
@@ -2323,11 +2483,12 @@
               <img src="img/staff_rahul.jpg" alt="Rahul Varma - Lead Tech Architect" />
             </div>
             <div class="staff-info">
-              <span class="staff-role-badge">Tech School</span>
-              <h3 class="staff-name">Rahul Varma</h3>
-              <p class="staff-title">Lead Tech Architect & Senior Mentor</p>
+              <span class="staff-role-badge">Python full stack and generative AI</span>
+              <h3 class="staff-name">Dibin Babu</h3>
+              <p class="staff-title">Software Engineer</p>
               <p class="staff-bio">
-                Full-stack developer with 10+ years experience, guiding students through live project architectures in Python, Java, and React.
+                Software engineering professional with 3 years of experience, helping students strengthen their
+                programming, application development, and problem-solving skills through practical learning.
               </p>
             </div>
           </div>
@@ -2335,14 +2496,15 @@
           <!-- Staff 4 -->
           <div class="staff-card">
             <div class="staff-img-box">
-              <div class="staff-avatar-placeholder">AM</div>
+              <div class="staff-avatar-placeholder">SR</div>
             </div>
             <div class="staff-info">
-              <span class="staff-role-badge">Finishing School</span>
-              <h3 class="staff-name">Anjali Menon</h3>
-              <p class="staff-title">Head of Finishing School & Soft Skills</p>
+              <span class="staff-role-badge">Python full stack and generative AI</span>
+              <h3 class="staff-name">Priyamvada BS</h3>
+              <p class="staff-title">Team Lead – Learning & Training II</p>
               <p class="staff-bio">
-                Corporate behavioral coach transforming candidates' communication, presentation skills, and confidence for top HR rounds.
+                Technical training and leadership professional with 4.5+ years of experience, combining full-stack
+                development expertise with mentoring in Python, Java, React, and modern web technologies.
               </p>
             </div>
           </div>
@@ -2350,14 +2512,16 @@
           <!-- Staff 5 -->
           <div class="staff-card">
             <div class="staff-img-box">
-              <div class="staff-avatar-placeholder">SR</div>
+              <img src="img/staff_deepa.jpg" alt="Deepa Nair - Head of Placements" />
             </div>
             <div class="staff-info">
-              <span class="staff-role-badge">B-School Lead</span>
-              <h3 class="staff-name">Siddharth Roy</h3>
-              <p class="staff-title">Director of Data Analytics & B-School</p>
+              <span class="staff-role-badge">TECH LEADERSHIP</span>
+              <h3 class="staff-name">Jithu Prabhakar</h3>
+              <p class="staff-title">Technical Lead</p>
               <p class="staff-bio">
-                Analytics expert and mentor behind PG Diploma in HR and Sales Engineering courses, fostering business-tech acumen.
+                Software engineering and technical training professional specializing in gen AI, Python, JavaScript,
+                Django, React, full-stack development and automation. Leads technical training, mentors aspiring
+                developers through real-world projects, and bridges industry practices with career-focused learning.
               </p>
             </div>
           </div>
@@ -2365,15 +2529,62 @@
           <!-- Staff 6 -->
           <div class="staff-card">
             <div class="staff-img-box">
-              <div class="staff-avatar-placeholder">PR</div>
+              <img src="img/staff_deepa.jpg" alt="Deepa Nair - Head of Placements" />
             </div>
             <div class="staff-info">
-              <span class="staff-role-badge">Career Consulting</span>
-              <h3 class="staff-name">Priya Rajesh</h3>
-              <p class="staff-title">Senior Career Consultant & Student Lead</p>
+              <span class="staff-role-badge">DATA ANALYTICS</span>
+              <h3 class="staff-name">Lakshmi K</h3>
+              <p class="staff-title">Senior Data Analyst</p>
               <p class="staff-bio">
-                Provides personalized 1-on-1 counseling to assess individual strengths, map career tracks, and support students until placed.
+                Data analytics professional with experience in MS Excel, Power BI, Tableau, SQL and Python, bringing
+                practical analytical expertise and a data-driven approach to developing students' analytical and
+                problem-solving skills.
               </p>
+            </div>
+          </div>
+
+
+          <div class="staff-card">
+            <div class="staff-img-box">
+              <img src="img/staff_deepa.jpg" alt="Deepa Nair - Head of Placements" />
+            </div>
+            <div class="staff-info">
+              <span class="staff-role-badge">Python full stack</span>
+              <h3 class="staff-name">Aparna N S</h3>
+              <p class="staff-title">Junior Software Engineer</p>
+              <p class="staff-bio">
+                Software engineering professional with experience in Python, JavaScript, React, Django and SQL
+                supporting
+                students in programming fundamentals, software development, and practical coding through hands-on
+                learning.
+              </p>
+            </div>
+          </div>
+          <div class="staff-card">
+            <div class="staff-img-box">
+              <img src="img/staff_deepa.jpg" alt="Deepa Nair - Head of Placements" />
+            </div>
+            <div class="staff-info">
+              <span class="staff-role-badge">DATA ANALYTICS</span>
+              <h3 class="staff-name">Prathibha S</h3>
+              <p class="staff-title">Junior Data Analyst</p>
+              <p class="staff-bio">
+                Data analytics professional with experience in MS Excel, Power BI, Tableau, SQL and Python, mentoring
+                students in Data Analytics concepts with a focus on practical analysis and data visualization.
+              </p>
+            </div>
+          </div>
+          <div class="staff-card">
+            <div class="staff-img-box">
+              <img src="img/staff_deepa.jpg" alt="Deepa Nair - Head of Placements" />
+            </div>
+            <div class="staff-info">
+              <span class="staff-role-badge">Python full stack</span>
+              <h3 class="staff-name">Thara Krishna R</h3>
+              <p class="staff-title">Junior Software Engineer</p>
+              <p class="staff-bio">
+                Software engineering professional with 3+ years of experience, supporting aspiring developers in
+                building strong programming foundations, technical confidence, and practical development skills.
             </div>
           </div>
         </div>
@@ -2420,7 +2631,8 @@
             <span class="pillar-num">04</span>
             <h3 class="pillar-title">Recruitment Reach</h3>
             <p class="pillar-desc">
-              Corporate recruitment experience and institutional engagement across Kerala, with a constant focus on employability.
+              Corporate recruitment experience and institutional engagement across Kerala, with a constant focus on
+              employability.
             </p>
           </div>
         </div>
@@ -2432,7 +2644,8 @@
       <div class="wrap">
         <h2>Start Your Own Success Story With Us</h2>
         <p>Book a career consultation, or visit our campuses in Vyttila, Kochi and Palayam, Thiruvananthapuram.</p>
-        <a href="https://wa.me/918590886009" target="_blank" class="cta-btn" style="font-size: 1.1rem; padding: 14px 36px;">
+        <a href="https://wa.me/918590886009" target="_blank" class="cta-btn"
+          style="font-size: 1.1rem; padding: 14px 36px;">
           <span>Book a Career Consultation →</span>
         </a>
       </div>
@@ -2449,7 +2662,8 @@
       <div class="ft-grid">
         <div>
           <div class="ft-brand">
-            <img src="kompetenzen logo-02.webp" alt="Kompetenzen" style="height: 38px; width: auto; filter: brightness(0) invert(1);" />
+            <img src="kompetenzen logo-02.webp" alt="Kompetenzen"
+              style="height: 38px; width: auto; filter: brightness(0) invert(1);" />
           </div>
           <address class="ft-blurb ft-address">
             <strong>Thiruvananthapuram · <a href="tel:+918590849708">085908 49708</a></strong>
@@ -2487,10 +2701,18 @@
   </footer>
 
   <!-- ============ SCRIPTS (GSAP + ScrollTrigger + SplitText + Lenis) ============ -->
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" integrity="sha384-HOvlOYPIs/zjoIkWUGXkVmXsjr8GuZLV+Q+rcPwmJOVZVpvTSXQChiN4t9Euv9Vc" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" integrity="sha384-P8VzCVnT9NBUkMrpcIZrJbA7EBjJvh/fJS6PmP+4nLIM284DtsImIv8D0fFjIkeh" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js" integrity="sha384-xb96EMJeax+NLXMC88ZBa1xAeAW+kn+horHh/zFlbMLG2UPWhMJJSlv7fi57hS+Q" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js" integrity="sha384-FKTX0CNJ8ngN1oGMBReVu7mvjTJyjFiD5etb1NKnYxc+8eFI2O0KWnksTN+oTFcu" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"
+    integrity="sha384-HOvlOYPIs/zjoIkWUGXkVmXsjr8GuZLV+Q+rcPwmJOVZVpvTSXQChiN4t9Euv9Vc"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"
+    integrity="sha384-P8VzCVnT9NBUkMrpcIZrJbA7EBjJvh/fJS6PmP+4nLIM284DtsImIv8D0fFjIkeh"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"
+    integrity="sha384-xb96EMJeax+NLXMC88ZBa1xAeAW+kn+horHh/zFlbMLG2UPWhMJJSlv7fi57hS+Q"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js"
+    integrity="sha384-FKTX0CNJ8ngN1oGMBReVu7mvjTJyjFiD5etb1NKnYxc+8eFI2O0KWnksTN+oTFcu"
+    crossorigin="anonymous"></script>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -2634,7 +2856,7 @@
 
           // 3. Center media zoom smoothly into clear focus
           if (centerMediaBack) {
-            telescopeTL.fromTo(centerMediaBack, 
+            telescopeTL.fromTo(centerMediaBack,
               { scale: 0.85, opacity: 0.7 },
               { scale: 1, opacity: 1, duration: 0.8, ease: "power1.inOut" },
               0.4
@@ -2666,7 +2888,9 @@
     });
   </script>
   <!-- Unified Auth Modal -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js"
+    integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP"
+    crossorigin="anonymous"></script>
   <script src="supabase-config.js"></script>
   <script src="js/auth-modal.js?v=13"></script>
   <!-- Mobile Menu Toggle -->
