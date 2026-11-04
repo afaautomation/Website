@@ -746,6 +746,50 @@
       box-shadow: 0 40px 100px rgba(25, 71, 255, 0.45), 0 0 80px rgba(0, 240, 255, 0.2);
     }
 
+    /* Scroll pop-in: uses scale/translate (not transform) so it doesn't fight the hover lift.
+       Only hidden once JS adds .fp-ready, so the card still shows if scripts fail. */
+    .featured-program.fp-ready {
+      opacity: 0;
+      scale: 0.88;
+      translate: 0 60px;
+    }
+    .featured-program.fp-ready .featured-window {
+      opacity: 0;
+      scale: 0.9;
+      translate: 0 30px;
+    }
+    .featured-program.fp-in {
+      opacity: 1;
+      scale: 1;
+      translate: 0 0;
+      transition: opacity 0.6s ease, scale 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), translate 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+    }
+    .featured-program.fp-in .featured-window {
+      opacity: 1;
+      scale: 1;
+      translate: 0 0;
+      transition: opacity 0.5s ease 0.35s, scale 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.35s, translate 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.35s;
+    }
+    /* Same pop-in for the "Master high-demand tech skills" heading: kicker first, then the title */
+    .programs-heading.fp-ready > span,
+    .programs-heading.fp-ready > h2 {
+      opacity: 0;
+      scale: 0.85;
+      translate: 0 40px;
+    }
+    .programs-heading.fp-in > span,
+    .programs-heading.fp-in > h2 {
+      opacity: 1;
+      scale: 1;
+      translate: 0 0;
+      transition: opacity 0.6s ease, scale 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), translate 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .programs-heading.fp-in > h2 { transition-delay: 0.15s; }
+    @media (prefers-reduced-motion: reduce) {
+      .featured-program.fp-ready, .featured-program.fp-ready .featured-window,
+      .programs-heading.fp-ready > span, .programs-heading.fp-ready > h2 { opacity: 1; scale: 1; translate: 0 0; }
+    }
+
     /* soft glow in the top-right corner */
     .featured-program::before {
       content: '';
@@ -1610,38 +1654,8 @@
     style="position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0;"></canvas>
 
   <!-- NAV -->
-  <nav class="nav">
-    <div class="nav-inner">
-      <div class="nav-left">
-        <a href="index.html" class="brand">
-          <img src="kompetenzen logo-02.webp" alt="Kompetenzen" />
-        </a>
-      </div>
-      <div class="nav-links">
-        <div class="mobile-services-header">Our Services &amp; Programs</div>
-        <a href="career-consultation.html"><span>Consulting</span><span class="nav-arrow">→</span></a>
-        <a href="finishing-school.html"><span>Finishing School</span><span class="nav-arrow">→</span></a>
-        <a href="tech-school.html" class="active"><span>Tech School</span><span class="nav-arrow">→</span></a>
-        <a href="b-school.html"><span>B-School</span><span class="nav-arrow">→</span></a>
-        <a href="placements.html"><span>Placements</span><span class="nav-arrow">→</span></a>
-        <a href="our-story.html"><span>Our Story</span><span class="nav-arrow">→</span></a>
-        <a href="jobs.html"><span>Jobs</span><span class="nav-arrow">→</span></a>
-        <a href="internships.html"><span>Internships</span><span class="nav-arrow">→</span></a>
-        <a href="Resume/resume.html" onclick="openResumeBuilder(event)"><span>Resume Builder</span><span
-            class="nav-arrow">↗</span></a>
-      </div>
-      <div class="nav-right">
-        <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="nav-cta">
-          Talk to us
-        </a>
-        <button class="hamburger" id="hamburger-menu" aria-label="Menu">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-      </div>
-    </div>
-  </nav>
+  <!-- Shared top bar: edit js/site-nav.js to change it on every page -->
+  <script src="js/site-nav.js" data-active="tech-school.html" data-position="fixed"></script>
 
   <!-- HERO -->
   <section class="tech-hero" id="techHero">
@@ -1660,9 +1674,9 @@
 
   <!-- PROGRAMS SECTION -->
   <section class="programs-section" id="programs">
-    <div style="text-align: center; margin-bottom: 64px;">
+    <div class="programs-heading" style="text-align: center; margin-bottom: 64px;">
       <span
-        style="font-size: 13px; font-weight: 700; letter-spacing: 0.18em; color: #38BDF8; text-transform: uppercase;">KOMPETENZEN
+        style="display: inline-block; font-size: 13px; font-weight: 700; letter-spacing: 0.18em; color: #38BDF8; text-transform: uppercase;">KOMPETENZEN
         TECH SCHOOL PROGRAMS</span>
       <h2
         style="font-size: clamp(32px, 5vw, 44px); font-weight: 400; color: #FFFFFF; margin-top: 16px; line-height: 1.2;">
@@ -1710,6 +1724,26 @@
         </div>
       </div>
     </article>
+    <script>
+      (function () {
+        // Pop-in on scroll for the programs heading and the featured GenAI card
+        var els = document.querySelectorAll('.programs-heading, .featured-program');
+        if (!els.length || !('IntersectionObserver' in window)) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) {
+              e.target.classList.add('fp-in');
+              io.unobserve(e.target);
+            }
+          });
+        }, { threshold: 0.2 });
+        els.forEach(function (el) {
+          el.classList.add('fp-ready');
+          io.observe(el);
+        });
+      })();
+    </script>
 
     <div class="programs-divider">
       <span class="programs-divider-kicker">More career tracks</span>

@@ -1050,83 +1050,202 @@
     }
 
     /* ===========================================================
-       SECTION 1: ABOUT KOMPETENZEN
+       SECTION 1: OUR STORY (editorial layout)
     =========================================================== */
-    .about-grid {
+    .story-grid {
       display: grid;
-      grid-template-columns: 1fr 1.1fr;
-      gap: 60px;
-      align-items: center;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 72px;
+      align-items: start;
+      padding-top: 40px;
+      border-top: 1px solid var(--line);
+    }
+
+    .story-facts {
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 100px;
+    }
+
+    .story-fact {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .story-fact:first-child { padding-top: 0; }
+    .story-fact:last-child { border-bottom: 0; }
+
+    .story-fact-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-mute);
+    }
+
+    .story-fact-value {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 2.6rem;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+    }
+
+    .story-fact-value small {
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0;
+      color: var(--ink-mute);
+    }
+
+    .story-fact-text {
+      font-size: 1.02rem;
+      line-height: 1.55;
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    .story-body {
+      max-width: 68ch;
+    }
+
+    .story-body p {
+      font-size: 1.08rem;
+      line-height: 1.8;
+      color: var(--fg-soft);
+      margin-bottom: 1.4em;
+    }
+
+    .story-body p.story-lead {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: clamp(1.35rem, 2vw, 1.65rem);
+      line-height: 1.5;
+      font-weight: 500;
+      letter-spacing: -0.015em;
+      color: var(--ink);
+      margin-bottom: 1.2em;
+    }
+
+    .story-quote {
+      margin: 0.4em 0 1.8em;
+      padding: 4px 0 4px 28px;
+      border-left: 3px solid var(--blue);
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: clamp(1.15rem, 1.6vw, 1.32rem);
+      line-height: 1.6;
+      font-weight: 500;
+      font-style: normal;
+      color: var(--ink);
+    }
+
+    .story-pillars {
+      list-style: none;
+      margin: 64px 0 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .story-pillars li {
+      padding: 40px 36px 44px;
+      border-right: 1px solid var(--line);
+      transition: background 0.3s ease;
+    }
+
+    .story-pillars li:first-child { padding-left: 0; }
+    .story-pillars li:last-child { border-right: 0; }
+    .story-pillars li:hover { background: linear-gradient(180deg, rgba(25, 71, 255, 0.04), transparent); }
+
+    .story-pillar-num {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      color: var(--blue);
+      margin-bottom: 18px;
+    }
+
+    .story-pillars h3 {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+
+    .story-pillars p {
+      font-size: 1rem;
+      line-height: 1.65;
+      color: var(--fg-soft);
+      max-width: 30ch;
+    }
+
+    .story-closing {
+      margin: 48px auto 0;
+      max-width: 60ch;
+      text-align: center;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: clamp(1.15rem, 1.8vw, 1.4rem);
+      line-height: 1.6;
+      font-weight: 500;
+      color: var(--fg-soft);
+    }
+
+    .story-closing strong {
+      color: var(--ink);
+      font-weight: 700;
     }
 
     @media (max-width: 980px) {
-      .about-grid {
+      .story-grid {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 36px;
+        padding-top: 28px;
       }
-    }
 
-    .about-card {
-      background: var(--card-bg);
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: 40px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
-      display: flex;
-      flex-direction: column;
-      gap: 28px;
-    }
+      .story-facts {
+        position: static;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0 32px;
+      }
 
-    .about-row {
-      display: grid;
-      grid-template-columns: 90px 1fr;
-      gap: 20px;
-      align-items: start;
-    }
+      .story-fact,
+      .story-fact:first-child {
+        padding: 0 0 18px;
+        border-bottom: 0;
+      }
 
-    .about-row .lbl {
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: var(--blue);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
+      .story-fact:last-child { flex-basis: 100%; }
 
-    .about-row p {
-      font-size: 1.05rem;
-      color: var(--fg-soft);
-      line-height: 1.6;
-    }
+      .story-fact-value { font-size: 2.1rem; }
 
-    .about-media {
-      position: relative;
-      border-radius: 24px;
-      overflow: hidden;
-      height: 480px;
-      box-shadow: 0 24px 48px rgba(10, 21, 48, 0.12);
-      border: 1px solid var(--line);
-    }
+      .story-pillars {
+        grid-template-columns: 1fr;
+        margin-top: 44px;
+      }
 
-    .about-media-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(2, 5, 14, 0.2) 0%, rgba(2, 5, 14, 0.85) 100%);
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 36px;
-      color: #fff;
-    }
+      .story-pillars li,
+      .story-pillars li:first-child {
+        padding: 28px 0;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
 
-    .about-media-overlay h3 {
-      font-size: 1.8rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
+      .story-pillars li:last-child { border-bottom: 0; }
 
-    .about-media-overlay p {
-      font-size: 1rem;
-      color: rgba(255, 255, 255, 0.8);
+      .story-closing {
+        text-align: left;
+        margin-top: 36px;
+      }
     }
 
     /* ===========================================================
@@ -1635,37 +1754,8 @@
 <body>
 
   <!-- ============ NAV ============ -->
-  <nav class="nav" id="nav">
-    <div class="nav-inner">
-      <div class="nav-left">
-        <a href="index.html" class="brand">
-          <img src="kompetenzen logo-02.webp" alt="Kompetenzen" />
-        </a>
-      </div>
-      <div class="nav-links">
-        <div class="mobile-services-header">Our Services &amp; Programs</div>
-        <a href="career-consultation.html"><span>Consulting</span><span class="nav-arrow">→</span></a>
-        <a href="finishing-school.html"><span>Finishing School</span><span class="nav-arrow">→</span></a>
-        <a href="tech-school.html"><span>Tech School</span><span class="nav-arrow">→</span></a>
-        <a href="b-school.html"><span>B-School</span><span class="nav-arrow">→</span></a>
-        <a href="placements.html"><span>Placements</span><span class="nav-arrow">→</span></a>
-        <a href="our-story.html" class="active"><span>Our Story</span><span class="nav-arrow">→</span></a>
-        <a href="jobs.html"><span>Jobs</span><span class="nav-arrow">→</span></a>
-        <a href="internships.html"><span>Internships</span><span class="nav-arrow">→</span></a>
-        <a href="Resume/resume.html" onclick="openResumeBuilder(event)"><span>Resume Builder</span><span class="nav-arrow">↗</span></a>
-      </div>
-      <div class="nav-right">
-        <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="nav-cta">
-          Talk to us
-        </a>
-        <button class="hamburger" id="hamburger-menu" aria-label="Menu">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-      </div>
-    </div>
-  </nav>
+  <!-- Shared top bar: edit js/site-nav.js to change it on every page -->
+  <script src="js/site-nav.js" data-active="our-story.html"></script>
 
   <main>
     <!-- ============ HERO INTRO (TELESCOPE ZOOM) ============ -->
@@ -1736,36 +1826,65 @@
           <h2 class="heading">Built on Three Pillars: Consultation. Training. Placement.</h2>
         </div>
 
-        <div class="about-grid">
-          <div class="about-card">
-            <div class="about-row">
-              <span class="lbl">(Gap)</span>
-              <p>
-                People were choosing courses and careers without real guidance, while employers kept looking for the right mix of technical knowledge and professional skills.
-              </p>
+        <div class="story-grid">
+          <!-- Left: key facts -->
+          <aside class="story-facts" aria-label="Company at a glance">
+            <div class="story-fact">
+              <span class="story-fact-label">Established</span>
+              <span class="story-fact-value">2020</span>
             </div>
-            <div class="about-row">
-              <span class="lbl">(Idea)</span>
-              <p>
-                Founded in 2020 by an entrepreneur with over a decade in skill development, corporate training and fresher recruitment, Kompetenzen chose a holistic model over a conventional institute.
-              </p>
+            <div class="story-fact">
+              <span class="story-fact-label">Founder&rsquo;s experience</span>
+              <span class="story-fact-value">10+ <small>years</small></span>
             </div>
-            <div class="about-row">
-              <span class="lbl">(Mission)</span>
-              <p>
-                Understand the individual, enable relevant learning and professional preparation, and connect talent with genuine industry opportunities.
-              </p>
+            <div class="story-fact">
+              <span class="story-fact-label">Our approach</span>
+              <span class="story-fact-text">Consultation, training and placement, under one roof</span>
             </div>
-          </div>
+          </aside>
 
-          <div class="about-media">
-            <img src="img/telescope/img-big.webp" alt="The Kompetenzen team and mentors" />
-            <div class="about-media-overlay">
-              <h3>Our Vision</h3>
-              <p>A more meaningful, outcome-oriented approach to career development and talent solutions.</p>
-            </div>
+          <!-- Right: the story -->
+          <div class="story-body">
+            <p class="story-lead">
+              Kompetenzen Technologies was established in 2020 with a vision to create a more meaningful and outcome-oriented approach to career development and talent solutions.
+            </p>
+            <p>
+              The company was founded by an entrepreneur with over a decade of experience in the skill development industry, corporate training, fresher recruitment, soft skills development and employability enhancement.
+            </p>
+            <p>
+              Through years of working closely with students, institutions and corporate organisations, one fundamental gap became evident:
+            </p>
+            <blockquote class="story-quote">
+              Individuals were often choosing courses and career paths without adequate guidance, while employers continued to seek candidates with the right combination of technical knowledge and professional competencies.
+            </blockquote>
+            <p>
+              This understanding shaped the foundation of Kompetenzen. Rather than operating as a conventional training institution, the company adopted a more holistic philosophy built around three interconnected pillars.
+            </p>
           </div>
         </div>
+
+        <!-- The three pillars -->
+        <ol class="story-pillars">
+          <li>
+            <span class="story-pillar-num">01</span>
+            <h3>Consultation</h3>
+            <p>Meaningful career development begins with understanding the individual.</p>
+          </li>
+          <li>
+            <span class="story-pillar-num">02</span>
+            <h3>Training</h3>
+            <p>It continues through relevant learning and professional preparation.</p>
+          </li>
+          <li>
+            <span class="story-pillar-num">03</span>
+            <h3>Placement</h3>
+            <p>And it ultimately connects talent with genuine industry opportunities.</p>
+          </li>
+        </ol>
+
+        <p class="story-closing">
+          Today, this philosophy guides our integrated approach to <strong>career consultation</strong>, <strong>professional development</strong>, <strong>technology and business education</strong>, and <strong>talent solutions</strong>.
+        </p>
       </div>
     </section>
 

@@ -1391,7 +1391,7 @@
     #bSchoolHero .hero-main-title span { color:#2454da !important; }
     #bSchoolHero .hero-desc { text-align:left !important; margin:0 0 32px !important; font-size:17px !important; }
     #bSchoolHero .hero-cta-wrapper { justify-content:flex-start !important; }
-    #bSchoolHero .hero-showcase-spacer { display:block !important; min-height:480px !important; border-radius:24px 24px 80px 24px; background:url('bschool.webp') center / cover; border:8px solid #fff; box-shadow:0 24px 70px rgba(30,65,130,.14); }
+    #bSchoolHero .hero-showcase-spacer { display:block !important; min-height:480px !important; border-radius:24px 24px 80px 24px; background:url('Hanna.png') 68% center / cover; border:8px solid #fff; box-shadow:0 24px 70px rgba(30,65,130,.14); }
     .hero-eyebrow, .eyebrow { background:#edf3ff !important; color:#2454da !important; border:1px solid #dce6ff !important; box-shadow:none !important; }
     .hero-eyebrow .dot { background:#2454da !important; box-shadow:none !important; }
     .hero-btn-primary, .apply-btn { background:#2454da !important; color:#fff !important; border-radius:10px !important; box-shadow:0 6px 16px rgba(36,84,218,.15) !important; }
@@ -1473,37 +1473,8 @@
   <canvas id="heroLightBlueCanvas" style="position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0;"></canvas>
 
   <!-- NAV -->
-  <nav class="nav">
-    <div class="nav-inner">
-      <div class="nav-left">
-        <a href="index.html" class="brand">
-          <img src="kompetenzen logo-02.webp" alt="Kompetenzen" />
-        </a>
-      </div>
-      <div class="nav-links">
-        <div class="mobile-services-header">Our Services &amp; Programs</div>
-        <a href="career-consultation.html"><span>Consulting</span><span class="nav-arrow">→</span></a>
-        <a href="finishing-school.html"><span>Finishing School</span><span class="nav-arrow">→</span></a>
-        <a href="tech-school.html"><span>Tech School</span><span class="nav-arrow">→</span></a>
-        <a href="b-school.html" class="active"><span>B-School</span><span class="nav-arrow">→</span></a>
-        <a href="placements.html"><span>Placements</span><span class="nav-arrow">→</span></a>
-        <a href="our-story.html"><span>Our Story</span><span class="nav-arrow">→</span></a>
-        <a href="jobs.html"><span>Jobs</span><span class="nav-arrow">→</span></a>
-        <a href="internships.html"><span>Internships</span><span class="nav-arrow">→</span></a>
-        <a href="Resume/resume.html" onclick="openResumeBuilder(event)"><span>Resume Builder</span><span class="nav-arrow">↗</span></a>
-      </div>
-      <div class="nav-right">
-        <a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="nav-cta">
-          Talk to us
-        </a>
-        <button class="hamburger" id="hamburger-menu" aria-label="Menu">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-      </div>
-    </div>
-  </nav>
+  <!-- Shared top bar: edit js/site-nav.js to change it on every page -->
+  <script src="js/site-nav.js" data-active="b-school.html"></script>
 
   <!-- HERO -->
   <section class="tech-hero" id="bSchoolHero"

@@ -1464,61 +1464,8 @@
   <iframe name="gs-lead-target" style="display:none;" aria-hidden="true"></iframe>
 
   <!-- NAV -->
-  <nav class="nav">
-    <div class="nav-inner">
-      <div class="nav-left">
-        <a href="index.html" class="brand">
-          <img src="kompetenzen logo-02.webp" alt="Kompetenzen" />
-        </a>
-      </div>
-      <div class="nav-links">
-        <div class="mobile-services-header">Our Services &amp; Programs</div>
-        <a href="career-consultation.html"><span>Consulting</span><span class="nav-arrow">→</span></a>
-        <a href="finishing-school.html"><span>Finishing School</span><span class="nav-arrow">→</span></a>
-        <a href="tech-school.html"><span>Tech School</span><span class="nav-arrow">→</span></a>
-        <a href="b-school.html"><span>B-School</span><span class="nav-arrow">→</span></a>
-        <a href="placements.html"><span>Placements</span><span class="nav-arrow">→</span></a>
-        <a href="our-story.html"><span>Our Story</span><span class="nav-arrow">→</span></a>
-        <a href="jobs.html" class="active"><span>Jobs</span><span class="nav-arrow">→</span></a>
-        <a href="internships.html"><span>Internships</span><span class="nav-arrow">→</span></a>
-        <a href="Resume/resume.html" onclick="openResumeBuilder(event)"><span>Resume Builder</span><span class="nav-arrow">↗</span></a>
-      </div>
-      <div class="nav-right">
-        <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen,%20I%20would%20like%20to%20talk%20to%20your%20team."
-          target="_blank" rel="noopener" class="nav-cta">
-          Talk to us
-        </a>
-        <!-- Candidate Profile Badge (Visible when logged in) -->
-        <div id="nav-user-badge" class="nav-user-badge" style="display:none;">
-          <button type="button" class="nav-user-btn" id="nav-user-toggle-btn" onclick="toggleNavUserDropdown(event)" aria-label="Candidate account menu">
-            <div class="nav-user-avatar" id="nav-user-avatar">C</div>
-            <span class="nav-user-name" id="nav-user-name">Candidate</span>
-            <svg class="nav-user-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
-          </button>
-          <div class="nav-user-menu" id="nav-user-menu">
-            <div class="nav-user-menu-header">
-              <strong id="nav-user-menu-name">Candidate</strong>
-              <span id="nav-user-menu-email">candidate@example.com</span>
-            </div>
-            <div class="nav-user-menu-divider"></div>
-            <a href="create-profile.html" class="nav-user-menu-item" id="nav-user-profile-link">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-              <span>My Candidate Profile</span>
-            </a>
-            <button type="button" class="nav-user-menu-item logout" onclick="handleSignOut()">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-              <span>Sign Out / Switch</span>
-            </button>
-          </div>
-        </div>
-        <button class="hamburger" id="hamburger-menu" aria-label="Menu">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-      </div>
-    </div>
-  </nav>
+  <!-- Shared top bar: edit js/site-nav.js to change it on every page -->
+  <script src="js/site-nav.js" data-active="jobs.html"></script>
 
   <!-- BREADCRUMB -->
   <div class="breadcrumb-bar">
@@ -1902,7 +1849,7 @@
       // Internships have their own listing page and profile form.
       if (isIntern) {
         document.querySelectorAll('a[href="jobs.html"]').forEach(a => {
-          if (a.closest('.nav-links')) { a.classList.remove('active'); return; }
+          if (a.closest('.nav-links, .kz-nav')) { a.classList.remove('active'); return; }
           a.href = 'internships.html';
           a.textContent = a.textContent.replace(/Jobs|Openings/, 'Internships');
         });
