@@ -745,6 +745,311 @@
     }
 
     /* ===========================================================
+       ECOSYSTEM STEPS: pillar tile + checklist (from the company profile)
+    =========================================================== */
+    .eco-tile {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 14px;
+      padding: 28px;
+      color: #fff;
+      border: none;
+      background:
+        radial-gradient(120% 90% at 100% 0%, rgba(255, 255, 255, 0.18), transparent 55%),
+        linear-gradient(150deg, #1947FF 0%, #0E2EC9 60%, #0A1F8F 100%);
+      box-shadow: 0 24px 48px -20px rgba(25, 71, 255, 0.55);
+      overflow: hidden;
+    }
+
+    .eco-tile::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px);
+      background-size: 18px 18px;
+      mask-image: linear-gradient(180deg, #000, transparent 70%);
+      -webkit-mask-image: linear-gradient(180deg, #000, transparent 70%);
+      pointer-events: none;
+    }
+
+    .eco-num {
+      position: absolute;
+      top: 6px;
+      right: 18px;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 120px;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.06em;
+      color: rgba(255, 255, 255, 0.14);
+    }
+
+    .eco-icon {
+      width: 60px;
+      height: 60px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      position: relative;
+      z-index: 1;
+    }
+
+    .eco-pillar {
+      position: relative;
+      z-index: 1;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+
+    .eco-lead {
+      font-size: clamp(1.15rem, 1.6vw, 1.35rem);
+      line-height: 1.5;
+      color: var(--fg);
+      font-weight: 500;
+      max-width: 44rem;
+    }
+
+    .eco-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px 28px;
+      max-width: 52rem;
+    }
+
+    .eco-list li {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: var(--fg-soft);
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eco-list svg {
+      flex-shrink: 0;
+      margin-top: 2px;
+      color: var(--blue);
+    }
+
+    .eco-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .eco-chips span {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--blue);
+      background: rgba(25, 71, 255, 0.07);
+      border: 1px solid rgba(25, 71, 255, 0.18);
+      padding: 7px 14px;
+      border-radius: 99px;
+    }
+
+    .eco-link {
+      align-self: flex-start;
+      font-weight: 700;
+      color: var(--blue);
+      text-decoration: none;
+      border-bottom: 1.5px solid rgba(25, 71, 255, 0.3);
+      padding-bottom: 2px;
+      transition: border-color 0.2s;
+    }
+
+    .eco-link span {
+      display: inline-block;
+      transition: transform 0.25s;
+    }
+
+    .eco-link:hover {
+      border-color: var(--blue);
+    }
+
+    .eco-link:hover span {
+      transform: translateX(4px);
+    }
+
+    /* Ecosystem overview: six linked steps */
+    .eco-map {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 14px;
+      counter-reset: none;
+    }
+
+    .eco-map a {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      height: 100%;
+      padding: 22px 18px 20px;
+      border-radius: 20px;
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      text-decoration: none;
+      color: var(--fg);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s, border-color 0.35s;
+    }
+
+    .eco-map a:hover {
+      transform: translateY(-6px);
+      border-color: rgba(25, 71, 255, 0.35);
+      box-shadow: 0 24px 44px -24px rgba(25, 71, 255, 0.45);
+    }
+
+    .eco-map-num {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--blue);
+    }
+
+    .eco-map-icon {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      background: rgba(25, 71, 255, 0.08);
+      color: var(--blue);
+      margin: 8px 0 10px;
+    }
+
+    .eco-map b {
+      font-size: 1.02rem;
+      line-height: 1.25;
+    }
+
+    .eco-map small {
+      font-size: 0.86rem;
+      color: var(--fg-soft);
+      line-height: 1.4;
+    }
+
+    /* Journey: reach figures + venues */
+    .reach-grid {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+    }
+
+    .reach-grid li {
+      padding: 34px 28px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .reach-grid b {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: clamp(2.4rem, 4.4vw, 3.6rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      color: var(--blue);
+    }
+
+    .reach-grid span {
+      font-size: 1rem;
+      color: var(--fg-soft);
+    }
+
+    .venues {
+      margin-top: 44px;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .venues-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue);
+      padding-top: 4px;
+    }
+
+    .venues ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .venues li {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      font-size: 1.05rem;
+      color: var(--fg);
+    }
+
+    .venues svg {
+      flex-shrink: 0;
+      color: var(--blue);
+      margin-top: 3px;
+    }
+
+    @media (max-width: 1100px) {
+      .eco-map {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .eco-tile {
+        height: 200px;
+        padding: 22px;
+      }
+
+      .eco-num {
+        font-size: 88px;
+      }
+
+      .eco-list {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .eco-map {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .reach-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .reach-grid li {
+        padding: 24px 16px;
+      }
+
+      .venues {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+    }
+
+    /* ===========================================================
        SECTION 1: ABOUT KOMPETENZEN
     =========================================================== */
     .about-grid {
@@ -1321,7 +1626,7 @@
   </style>
   <link rel="canonical" href="https://kompetenzen.in/our-story">
   <meta property="og:title" content="Our Story — Kompetenzen | Journey 2020 – 2026 &amp; Team">
-  <meta property="og:description" content="Discover the story of Kompetenzen Technologies — Kerala's premier career consulting &amp; job-oriented skill development academy. Learn about our journey from 2020 to 2026, our philosophy, and our dedicated staff.">
+  <meta property="og:description" content="Kompetenzen Technologies is an integrated career development and talent solutions company in Kerala, established in 2020: consultation, training and placement in one ecosystem.">
   <meta property="og:url" content="https://kompetenzen.in/our-story">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary">
@@ -1374,16 +1679,16 @@
 
       <!-- Peripheral Floating Images (Scattered in 3D perspective) -->
       <div class="section__images">
-        <img src="img/telescope/img-1.webp" alt="Story Gallery 1" />
-        <img src="img/telescope/img-2.webp" alt="Story Gallery 2" />
-        <img src="img/telescope/img-3.webp" alt="Story Gallery 3" />
-        <img src="img/telescope/img-4.webp" alt="Story Gallery 4" />
-        <img src="img/telescope/img-5.webp" alt="Story Gallery 5" />
-        <img src="img/telescope/img-6.webp" alt="Story Gallery 6" />
-        <img src="img/telescope/img-7.webp" alt="Story Gallery 7" />
-        <img src="img/telescope/img-8.webp" alt="Story Gallery 8" />
-        <img src="img/telescope/img-9.webp" alt="Story Gallery 9" />
-        <img src="img/telescope/img-10.webp" alt="Story Gallery 10" />
+        <img src="img/placements-thumb/placement-01-aamina-aa-cognizant.webp" alt="Placement poster of a Kompetenzen candidate" />
+        <img src="img/placements-thumb/placement-02-adithyanath-tcs.webp" alt="Placement poster of a Kompetenzen candidate" />
+        <img src="img/placements-thumb/placement-03-alfin-aion-pixel.webp" alt="Placement poster of a Kompetenzen candidate" />
+        <img src="img/placements-thumb/placement-04-aswin-sioniq.webp" alt="Placement poster of a Kompetenzen candidate" />
+        <img src="img/placements-thumb/placement-05-azra-ayisha-neologics.webp" alt="Placement poster of a Kompetenzen candidate" />
+        <img src="img/placements-thumb/placement-06-jisha-raj-ibs-1.webp" alt="Placement poster of a Kompetenzen candidate" />
+        <img src="img/placements-thumb/placement-07-krishnapriya-isro.webp" alt="Placement poster of a Kompetenzen candidate" />
+        <img src="img/placements-thumb/placement-08-leo-antony-claysis.webp" alt="Placement poster of a Kompetenzen candidate" />
+        <img src="img/placements-thumb/placement-09-niya-biju-aabosoft.webp" alt="Placement poster of a Kompetenzen candidate" />
+        <img src="img/placements-thumb/placement-10-parvathy-neologics.webp" alt="Placement poster of a Kompetenzen candidate" />
       </div>
 
       <!-- Foreground Story Content -->
@@ -1454,7 +1759,7 @@
           </div>
 
           <div class="about-media">
-            <img src="img/1.jpg" alt="Kompetenzen training session" />
+            <img src="img/telescope/img-big.webp" alt="The Kompetenzen team and mentors" />
             <div class="about-media-overlay">
               <h3>Our Vision</h3>
               <p>A more meaningful, outcome-oriented approach to career development and talent solutions.</p>
@@ -1464,43 +1769,60 @@
       </div>
     </section>
 
-    <!-- ============ ECOSYSTEM 1: CONSULTATION ============ -->
+    <!-- ============ THE INTEGRATED CAREER ECOSYSTEM ============ -->
+    <section class="section porcelain" id="ecosystem">
+      <div class="skew-bg">
+        <div class="bg porcelain"></div>
+      </div>
+      <div class="wrap section-content">
+        <div class="section-header">
+          <span class="tag-label">02 // The Integrated Career Ecosystem</span>
+          <h2 class="heading">One Ecosystem. Multiple Career Pathways.</h2>
+        </div>
+        <ol class="eco-map">
+          <li><a href="#year-2020"><span class="eco-map-num">01</span><span class="eco-map-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></span><b>Consultation</b><small>Career Consultation</small></a></li>
+          <li><a href="#year-2021"><span class="eco-map-num">02</span><span class="eco-map-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18"/><path d="M12 5h7l2.5 2.5L19 10h-7"/><path d="M12 13H5l-2.5 2.5L5 18h7"/></svg></span><b>Career Direction</b><small>Design Your Future</small></a></li>
+          <li><a href="#year-2022"><span class="eco-map-num">03</span><span class="eco-map-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg></span><b>Career Readiness</b><small>Finishing School</small></a></li>
+          <li><a href="#year-2023"><span class="eco-map-num">04</span><span class="eco-map-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span><b>Specialised Learning</b><small>Tech School &amp; B School</small></a></li>
+          <li><a href="#year-2024"><span class="eco-map-num">05</span><span class="eco-map-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 10l3 3 7-7"/></svg></span><b>Digital Opportunities</b><small>Digital Career Platform</small></a></li>
+          <li><a href="#year-2025"><span class="eco-map-num">06</span><span class="eco-map-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span><b>Employment</b><small>Placement &amp; Talent Solutions</small></a></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ ECOSYSTEM 01: CAREER CONSULTATION ============ -->
     <section class="section ember" id="year-2020">
       <div class="skew-bg">
         <div class="bg ember"></div>
       </div>
       <div class="wrap section-content">
         <div class="section-header">
-          <span class="tag-label" style="color: #60A5FA;">STEP 01 // CONSULTATION</span>
-          <h2 class="heading">Career Consultation · Every Career Decision Deserves the Right Direction</h2>
+          <span class="tag-label">STEP 01 // CONSULTATION</span>
+          <h2 class="heading">Career Consultation</h2>
         </div>
         <div class="content">
-          <div class="media">
-            <img src="img/1.jpg" alt="Career consultation session" />
+          <div class="media eco-tile" aria-hidden="true">
+            <span class="eco-num">01</span>
+            <span class="eco-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></span>
+            <span class="eco-pillar">Consultation</span>
           </div>
           <div class="details">
-            <div class="row">
-              <span>(Role)</span>
-              <p>The starting point of the Kompetenzen ecosystem.</p>
-            </div>
-            <div class="row">
-              <span>(+Covers)</span>
-              <p>Individual career assessment, interest and aptitude exploration, and strength and potential identification.</p>
-            </div>
-            <div class="row">
-              <span>(=Outcome)</span>
-              <ul class="stats">
-                <li><span>Skill-Gap Analysis</span><span>Included</span></li>
-                <li><span>Career Pathways</span><span>Recommended</span></li>
-                <li><span>Decisions</span><span>Informed Choices</span></li>
-              </ul>
-            </div>
+            <p class="eco-lead">Every career decision deserves the right direction. This is where every Kompetenzen journey begins.</p>
+            <ul class="eco-list">
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Individual career assessment</span></li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Interest and aptitude exploration</span></li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Strength and potential identification</span></li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Skill-gap analysis</span></li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Career pathway recommendations</span></li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Informed course and career decisions</span></li>
+            </ul>
+            <a class="eco-link" href="career-consultation.html">Book a career consultation <span aria-hidden="true">→</span></a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ============ ECOSYSTEM 2: DESIGN YOUR FUTURE ============ -->
+    <!-- ============ ECOSYSTEM 02: DESIGN YOUR FUTURE ============ -->
     <section class="section porcelain" id="year-2021">
       <div class="skew-bg">
         <div class="bg porcelain"></div>
@@ -1508,35 +1830,35 @@
       <div class="wrap section-content">
         <div class="section-header">
           <span class="tag-label">STEP 02 // CAREER DIRECTION</span>
-          <h2 class="heading">Design Your Future · Our Flagship Career-Readiness Programme</h2>
+          <h2 class="heading">Design Your Future</h2>
         </div>
-        <div class="content reverse">
-          <div class="media">
-            <img src="img/2.jpg" alt="Design Your Future workshop" />
+        <div class="content">
+          <div class="media eco-tile" aria-hidden="true">
+            <span class="eco-num">02</span>
+            <span class="eco-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18"/><path d="M12 5h7l2.5 2.5L19 10h-7"/><path d="M12 13H5l-2.5 2.5L5 18h7"/></svg></span>
+            <span class="eco-pillar">Career Direction</span>
           </div>
           <div class="details">
-            <div class="row">
-              <span>(Promise)</span>
-              <p>Understand yourself. Discover your potential. Prepare for your future.</p>
+            <p class="eco-lead">Our flagship career-readiness programme. Understand yourself. Discover your potential. Prepare for your future.</p>
+            <ul class="eco-list">
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Career clarity and decision-making</span></li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Emotional intelligence</span></li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Skill gaps and a personalised career pathway</span></li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Generative AI awareness</span></li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Professional readiness</span></li>
+            </ul>
+            <div class="eco-chips">
+              <span>2-day live workshop</span>
+              <span>14 hours of structured learning</span>
+              <span>Designed for 2027 graduates</span>
             </div>
-            <div class="row">
-              <span>(+Covers)</span>
-              <p>Career clarity, emotional intelligence, skill gaps and a personal career pathway, Generative AI awareness and professional readiness.</p>
-            </div>
-            <div class="row">
-              <span>(=Format)</span>
-              <ul class="stats">
-                <li><span>Duration</span><span>2-Day Live Workshop</span></li>
-                <li><span>Learning Time</span><span>14 Hours</span></li>
-                <li><span>Designed For</span><span>2027 Graduates</span></li>
-              </ul>
-            </div>
+            <a class="eco-link" href="finishing-school.html">Explore Design Your Future <span aria-hidden="true">→</span></a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ============ ECOSYSTEM 3: FINISHING SCHOOL ============ -->
+    <!-- ============ ECOSYSTEM 03: FINISHING SCHOOL ============ -->
     <section class="section forest" id="year-2022">
       <div class="skew-bg">
         <div class="bg forest"></div>
@@ -1544,71 +1866,66 @@
       <div class="wrap section-content">
         <div class="section-header">
           <span class="tag-label">STEP 03 // CAREER READINESS</span>
-          <h2 class="heading">Finishing School · The Confidence and Competencies Employers Value</h2>
+          <h2 class="heading">Finishing School</h2>
         </div>
         <div class="content">
-          <div class="media">
-            <img src="img/3.jpg" alt="Finishing School session" />
+          <div class="media eco-tile" aria-hidden="true">
+            <span class="eco-num">03</span>
+            <span class="eco-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg></span>
+            <span class="eco-pillar">Career Readiness</span>
           </div>
           <div class="details">
-            <div class="row">
-              <span>(Focus)</span>
-              <p>Soft skills, spoken English and language training, and verbal and written communication.</p>
-            </div>
-            <div class="row">
-              <span>(+Covers)</span>
-              <p>Professional etiquette, presentation skills, interview grooming, resumes and LinkedIn profile optimisation.</p>
-            </div>
-            <div class="row">
-              <span>(=Outcome)</span>
-              <ul class="stats">
-                <li><span>Communication</span><span>Confident</span></li>
-                <li><span>Interviews</span><span>Groomed</span></li>
-                <li><span>Workplace</span><span>Ready</span></li>
-              </ul>
-            </div>
+            <p class="eco-lead">Developing the confidence and competencies employers value.</p>
+            <ul class="eco-list">
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Soft skills, spoken English and language training</span></li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Verbal and written communication</span></li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Professional etiquette and presentation skills</span></li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Interview grooming</span></li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Resume development and LinkedIn optimisation</span></li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Workplace readiness</span></li>
+            </ul>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ============ ECOSYSTEM 4: TECH SCHOOL + B SCHOOL ============ -->
+    <!-- ============ ECOSYSTEM 04: TECH SCHOOL & B SCHOOL ============ -->
     <section class="section ember" id="year-2023">
       <div class="skew-bg">
         <div class="bg ember"></div>
       </div>
       <div class="wrap section-content">
         <div class="section-header">
-          <span class="tag-label" style="color: #60A5FA;">STEP 04 // SPECIALISED LEARNING</span>
-          <h2 class="heading">Tech School &amp; B School · Professionals for an AI-Driven World</h2>
+          <span class="tag-label">STEP 04 // SPECIALISED LEARNING</span>
+          <h2 class="heading">Tech School &amp; B School</h2>
         </div>
-        <div class="content reverse">
-          <div class="media">
-            <img src="img/4.jpg" alt="Tech School and B School classes" />
+        <div class="content">
+          <div class="media eco-tile" aria-hidden="true">
+            <span class="eco-num">04</span>
+            <span class="eco-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span>
+            <span class="eco-pillar">Specialised Learning</span>
           </div>
           <div class="details">
-            <div class="row">
-              <span>(Tech)</span>
-              <p>Generative AI, programming, application development, data analytics and business intelligence, with hands-on practice.</p>
+            <p class="eco-lead">Technology and business professionals for an AI-driven world.</p>
+            <ul class="eco-list">
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Tech School: Generative AI, programming, application development, data analytics and BI</span></li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>B School: sales, HR management, recruitment, talent management and AI-driven HR analytics</span></li>
+            </ul>
+            <div class="eco-chips">
+              <span>Python with Gen AI (flagship)</span>
+              <span>Python Full Stack with AI</span>
+              <span>Data Analytics with AI</span>
+              <span>Sales Engineering</span>
+              <span>PG Diploma in HRM</span>
+              <span>HR Analytics with AI</span>
             </div>
-            <div class="row">
-              <span>(+Business)</span>
-              <p>Sales, human resource management, recruitment, talent management and AI-driven HR analytics.</p>
-            </div>
-            <div class="row">
-              <span>(=Programmes)</span>
-              <ul class="stats">
-                <li><span>Tech Flagship</span><span>Python with Gen AI</span></li>
-                <li><span>Tech School</span><span>Full Stack · Data Analytics with AI</span></li>
-                <li><span>B School</span><span>Sales · PGDHRM · HR Analytics</span></li>
-              </ul>
-            </div>
+            <a class="eco-link" href="tech-school.html">See all programmes <span aria-hidden="true">→</span></a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ============ ECOSYSTEM 5: DIGITAL CAREER PLATFORM ============ -->
+    <!-- ============ ECOSYSTEM 05: DIGITAL CAREER PLATFORM ============ -->
     <section class="section porcelain" id="year-2024">
       <div class="skew-bg">
         <div class="bg porcelain"></div>
@@ -1616,35 +1933,30 @@
       <div class="wrap section-content">
         <div class="section-header">
           <span class="tag-label">STEP 05 // DIGITAL OPPORTUNITIES</span>
-          <h2 class="heading">Digital Career Platform · Connecting Learning with Opportunities</h2>
+          <h2 class="heading">Digital Career Platform</h2>
         </div>
         <div class="content">
-          <div class="media">
-            <img src="img/5.jpg" alt="Kompetenzen digital career platform" />
+          <div class="media eco-tile" aria-hidden="true">
+            <span class="eco-num">05</span>
+            <span class="eco-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 10l3 3 7-7"/></svg></span>
+            <span class="eco-pillar">Digital Opportunities</span>
           </div>
           <div class="details">
-            <div class="row">
-              <span>(Platform)</span>
-              <p>kompetenzen.in is part of the integrated career ecosystem.</p>
-            </div>
-            <div class="row">
-              <span>(+Features)</span>
-              <p>Candidate profiles, ATS-friendly resumes, job discovery and applications, and internship opportunities.</p>
-            </div>
-            <div class="row">
-              <span>(=Outcome)</span>
-              <ul class="stats">
-                <li><span>Resumes</span><span>ATS-Friendly</span></li>
-                <li><span>Jobs &amp; Internships</span><span>Discover &amp; Apply</span></li>
-                <li><span>Employers</span><span>Direct Connections</span></li>
-              </ul>
-            </div>
+            <p class="eco-lead">Connecting learning with opportunities, right here on kompetenzen.in.</p>
+            <ul class="eco-list">
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Candidate profile creation</span></li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>ATS-friendly resumes</span></li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Job discovery and applications</span></li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Internship opportunities</span></li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Employer and candidate connections</span></li>
+            </ul>
+            <a class="eco-link" href="jobs.html">Browse open jobs <span aria-hidden="true">→</span></a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ============ ECOSYSTEM 6: PLACEMENT & TALENT SOLUTIONS ============ -->
+    <!-- ============ ECOSYSTEM 06: PLACEMENT & TALENT SOLUTIONS ============ -->
     <section class="section forest" id="year-2025">
       <div class="skew-bg">
         <div class="bg forest"></div>
@@ -1652,29 +1964,25 @@
       <div class="wrap section-content">
         <div class="section-header">
           <span class="tag-label">STEP 06 // EMPLOYMENT</span>
-          <h2 class="heading">Placement &amp; Talent Solutions · Connecting Talent with Employers</h2>
+          <h2 class="heading">Placement &amp; Talent Solutions</h2>
         </div>
-        <div class="content reverse">
-          <div class="media">
-            <img src="img/6.jpg" alt="Kompetenzen job drive" />
+        <div class="content">
+          <div class="media eco-tile" aria-hidden="true">
+            <span class="eco-num">06</span>
+            <span class="eco-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span>
+            <span class="eco-pillar">Employment</span>
           </div>
           <div class="details">
-            <div class="row">
-              <span>(Hiring)</span>
-              <p>Fresher recruitment, corporate hiring assistance, and talent identification and profiling.</p>
-            </div>
-            <div class="row">
-              <span>(+Reach)</span>
-              <p>Campus recruitment, internships, Talent Hunt initiatives and employer–candidate coordination.</p>
-            </div>
-            <div class="row">
-              <span>(=Network)</span>
-              <ul class="stats">
-                <li><span>Corporate Associations</span><span>100+ (approx.)</span></li>
-                <li><span>College Campuses</span><span>40–50 across Kerala</span></li>
-                <li><span>Placement Impact</span><span>3,000–4,000 (est.)</span></li>
-              </ul>
-            </div>
+            <p class="eco-lead">Where preparation meets opportunity: connecting talent with genuine industry openings.</p>
+            <ul class="eco-list">
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Fresher recruitment</span></li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Corporate hiring assistance</span></li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Talent identification and profiling</span></li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Campus recruitment and internships</span></li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Talent Hunt initiatives</span></li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span>Employer–candidate coordination</span></li>
+            </ul>
+            <a class="eco-link" href="placements.html">See our placements <span aria-hidden="true">→</span></a>
           </div>
         </div>
       </div>
@@ -1687,31 +1995,24 @@
       </div>
       <div class="wrap section-content">
         <div class="section-header">
-          <span class="tag-label" style="color: #60A5FA;">2020 – 2026 // OUR JOURNEY</span>
+          <span class="tag-label">2020 – 2026 // Our Reach. Our Impact. Our Commitment.</span>
           <h2 class="heading">Eleven Major Job Drives. Over 100 Talent Hunts.</h2>
         </div>
-        <div class="content">
-          <div class="media">
-            <img src="img/7.jpg" alt="Kompetenzen job drive at a college campus" />
-          </div>
-          <div class="details">
-            <div class="row">
-              <span>(2020)</span>
-              <p>Kompetenzen Technologies is established.</p>
-            </div>
-            <div class="row">
-              <span>(+Venues)</span>
-              <p>Major events at MACET Venjaramoodu, St. Thomas College of Engineering and Technology Thiruvananthapuram, and St. Joseph's College Pala.</p>
-            </div>
-            <div class="row">
-              <span>(=2020–26)</span>
-              <ul class="stats">
-                <li><span>Major Job Drives</span><span>11</span></li>
-                <li><span>Talent Hunts</span><span>100+</span></li>
-                <li><span>People Connected</span><span>3,000+</span></li>
-              </ul>
-            </div>
-          </div>
+        <ul class="reach-grid">
+          <li><b>2020</b><span>Established</span></li>
+          <li><b>11</b><span>Major job drives</span></li>
+          <li><b>100+</b><span>Talent hunts</span></li>
+          <li><b>3,000+</b><span>People connected to careers</span></li>
+          <li><b>100+</b><span>Corporate associations (approx.)</span></li>
+          <li><b>40–50</b><span>College campuses across Kerala</span></li>
+        </ul>
+        <div class="venues">
+          <span class="venues-label">Key institutional event venues</span>
+          <ul>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Muslim Association College of Engineering and Technology, Venjaramoodu</span></li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg><span>St. Thomas College of Engineering and Technology, Thiruvananthapuram</span></li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg><span>St. Joseph's College, Pala</span></li>
+          </ul>
         </div>
       </div>
     </section>
