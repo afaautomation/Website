@@ -53,3 +53,6 @@ migration-backup/
 
 # Raw logo sources; the site uses the cleaned copies in img/placed-companies/
 Logos/
+
+# Unused or replaced image originals kept locally only (never published).
+_unused-originals/

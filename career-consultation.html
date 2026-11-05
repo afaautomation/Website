@@ -128,32 +128,6 @@
       border-bottom: 1px solid var(--line-soft, rgba(10, 21, 48, 0.06));
     }
 
-    .nav-inner {
-      max-width: 100%;
-      margin: 0 auto;
-      padding: 0 40px;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 32px;
-    }
-
-    .nav-left,
-    .nav-right {
-      display: flex;
-      align-items: center;
-      flex: 1;
-    }
-
-    .nav-left {
-      justify-content: flex-start;
-    }
-
-    .nav-right {
-      justify-content: flex-end;
-    }
-
     .brand img {
       height: 36px;
       display: block;
@@ -187,31 +161,6 @@
       font-weight: 700;
     }
 
-    .mobile-services-header,
-    .nav-arrow {
-      display: none;
-    }
-
-    .nav-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--ink);
-      color: #fff;
-      font-size: 14px;
-      font-weight: 600;
-      padding: 10px 20px;
-      border-radius: 99px;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.2s;
-      white-space: nowrap;
-    }
-
-    .nav-cta:hover {
-      background: var(--blue);
-      transform: translateY(-1px);
-    }
-
     @media (max-width: 992px) {
       .nav-links {
         gap: 18px;
@@ -222,16 +171,7 @@
       }
     }
 
-    @media (max-width: 768px) {
-      .nav-inner {
-        padding: 0 16px;
-      }
-    }
-
-    .nav-cta:hover {
-      background: var(--blue);
-      transform: translateY(-1px);
-    }
+    
 
     /* HERO VIDEO SECTION */
     .tech-hero {
@@ -362,128 +302,6 @@
     }
 
     /* CARDS */
-    .programs-section {
-      background: #ffffff;
-      padding: 90px 24px 110px;
-      margin: 0;
-      position: relative;
-    }
-
-    .programs-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 32px;
-      max-width: 1160px;
-      margin: 0 auto;
-    }
-
-    .program-card {
-      background: #ffffff;
-      border: 1px solid rgba(25, 71, 255, 0.14);
-      border-radius: 24px;
-      padding: 38px 34px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      position: relative;
-      box-shadow: 0 10px 30px -5px rgba(2, 5, 14, 0.05), 0 0 0 1px rgba(25, 71, 255, 0.04);
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .program-card:hover {
-      transform: translateY(-8px);
-      border-color: rgba(25, 71, 255, 0.38);
-      box-shadow: 0 22px 48px -8px rgba(25, 71, 255, 0.16), 0 0 25px rgba(25, 71, 255, 0.06);
-    }
-
-    .card-header {
-      display: flex;
-      gap: 18px;
-      align-items: center;
-      margin-bottom: 2px;
-    }
-
-    .card-icon {
-      width: 60px;
-      height: 60px;
-      border-radius: 16px;
-      background: rgba(25, 71, 255, 0.07);
-      border: 1px solid rgba(25, 71, 255, 0.22);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      position: relative;
-      box-shadow: 0 4px 14px rgba(25, 71, 255, 0.08);
-      transition: transform 0.3s ease;
-    }
-
-    .program-card:hover .card-icon {
-      transform: scale(1.05);
-    }
-
-    .card-icon svg:not(.card-sparkle) {
-      width: 28px;
-      height: 28px;
-      color: var(--blue, #1947FF);
-    }
-
-    .card-sparkle {
-      position: absolute;
-      top: -6px;
-      left: -6px;
-      color: #0099FF;
-      filter: drop-shadow(0 2px 5px rgba(0, 153, 255, 0.4));
-    }
-
-    .card-title-group {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .program-title {
-      font-size: 21px;
-      font-weight: 700;
-      color: var(--ink, #02050E);
-      line-height: 1.25;
-      letter-spacing: -0.01em;
-    }
-
-    .program-rating {
-      font-size: 13px;
-      color: var(--blue, #1947FF);
-      font-weight: 600;
-      letter-spacing: 0.01em;
-    }
-
-    .program-desc {
-      font-size: 14.5px;
-      color: var(--ink-mute, #474F66);
-      line-height: 1.65;
-    }
-
-    .skills-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 4px;
-      font-size: 13.5px;
-      color: #334155;
-      background: #F8FAFC;
-      border: 1px solid #E2E8F0;
-      padding: 10px 14px;
-      border-radius: 12px;
-    }
-
-    .skills-row span {
-      color: var(--blue, #1947FF);
-    }
-
-    .card-footer {
-      margin-top: auto;
-      padding-top: 14px;
-    }
 
     .apply-btn {
       display: inline-flex;
@@ -643,14 +461,6 @@
         box-sizing: border-box !important;
         display: inline-flex !important;
       }
-
-      .programs-grid {
-        grid-template-columns: 1fr !important;
-      }
-
-      .program-card {
-        padding: 24px;
-      }
     }
 
     /* ===== Mobile Navigation Dropdown Menu ===== */
@@ -696,19 +506,8 @@
         border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
       }
 
-      .nav-inner {
-        position: relative !important;
-        padding: 0 16px !important;
-        height: 64px !important;
-      }
-
       .brand img {
         height: 32px !important;
-      }
-
-      .nav-cta {
-        padding: 8px 14px !important;
-        font-size: 13px !important;
       }
 
       .hamburger {
@@ -751,31 +550,6 @@
         pointer-events: auto !important;
       }
 
-      .mobile-services-header {
-        display: flex !important;
-        align-items: center !important;
-        gap: 8px !important;
-        font-size: 11px !important;
-        font-weight: 800 !important;
-        letter-spacing: 0.1em !important;
-        color: var(--blue) !important;
-        text-transform: uppercase !important;
-        padding: 6px 12px 10px !important;
-        margin-bottom: 4px !important;
-        border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
-        text-align: left !important;
-      }
-
-      .mobile-services-header::before {
-        content: '';
-        display: inline-block;
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: var(--blue);
-        box-shadow: 0 0 8px var(--blue);
-      }
-
       .nav-links a {
         display: flex !important;
         align-items: center !important;
@@ -801,19 +575,6 @@
         color: var(--blue) !important;
         font-weight: 700 !important;
       }
-
-      .nav-arrow {
-        display: inline-block !important;
-        font-size: 13px !important;
-        color: #94a3b8 !important;
-        transition: transform 0.15s ease !important;
-      }
-
-      .nav-links a:hover .nav-arrow,
-      .nav-links a.active .nav-arrow {
-        color: var(--blue) !important;
-        transform: translateX(3px) !important;
-      }
     }
   </style>
   <link rel="stylesheet" href="css/mobile.css" media="(max-width: 768px)" />
@@ -826,11 +587,7 @@
       white-space: nowrap;
     }
 
-    @media (min-width: 993px) {
-      .nav .nav-left {
-        min-width: max-content;
-      }
-    }
+    
 
     @media (min-width: 993px) and (max-width: 1280px) {
       .nav .nav-links {
@@ -855,11 +612,6 @@
     /* Tablet landscape / small laptops: the full desktop bar is wider than the screen
        until ~1180px, so trim padding and spacing to keep the CTA on screen. */
     @media (min-width: 981px) and (max-width: 1180px) {
-      .nav .nav-inner {
-        padding-left: 20px;
-        padding-right: 20px;
-        gap: 14px;
-      }
 
       .nav .nav-links {
         gap: 11px;
@@ -871,11 +623,6 @@
 
       .nav .brand img {
         height: 30px;
-      }
-
-      .nav .nav-cta {
-        padding: 8px 14px;
-        font-size: 13px;
       }
     }
 
@@ -961,14 +708,6 @@
     .benefit-cards p {
       font-size: 15.5px;
       line-height: 1.75;
-      color: var(--ink-mute);
-    }
-
-    .consult-answer p {
-      max-width: 720px;
-      margin: 0 auto;
-      font-size: 17px;
-      line-height: 1.7;
       color: var(--ink-mute);
     }
 

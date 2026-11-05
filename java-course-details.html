@@ -57,32 +57,6 @@
       border-bottom: 1px solid var(--border-light, #E2E8F0);
     }
 
-    .nav-inner {
-      max-width: 100%;
-      margin: 0 auto;
-      padding: 0 40px;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 32px;
-    }
-
-    .nav-left,
-    .nav-right {
-      display: flex;
-      align-items: center;
-      flex: 1;
-    }
-
-    .nav-left {
-      justify-content: flex-start;
-    }
-
-    .nav-right {
-      justify-content: flex-end;
-    }
-
     .brand img {
       height: 36px;
       display: block;
@@ -114,26 +88,6 @@
     .nav-links a.active {
       color: var(--primary-blue, #1947FF);
       font-weight: 700;
-    }
-
-    .nav-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: #02050E;
-      color: #fff;
-      font-size: 14px;
-      font-weight: 600;
-      padding: 10px 20px;
-      border-radius: 99px;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.2s;
-      white-space: nowrap;
-    }
-
-    .nav-cta:hover {
-      background: var(--primary-blue, #1947FF);
-      transform: translateY(-1px);
     }
 
     .btn-outline {
@@ -654,30 +608,6 @@
         line-height: 1.25 !important;
       }
 
-      .hero-actions {
-        flex-direction: column !important;
-        width: 100% !important;
-        gap: 10px !important;
-      }
-
-      .hero-actions .btn-primary,
-      .hero-actions .btn-outline {
-        width: 100% !important;
-        justify-content: center !important;
-        text-align: center !important;
-      }
-
-      .curriculum-header {
-        flex-direction: column !important;
-        align-items: flex-start !important;
-        gap: 14px !important;
-      }
-
-      .curriculum-header .btn-outline {
-        width: 100% !important;
-        justify-content: center !important;
-      }
-
       .highlights-grid, .outcomes-list, .curriculum-row {
         grid-template-columns: 1fr;
         gap: 12px;
@@ -697,10 +627,6 @@
     body { overflow-x: hidden; max-width: 100%; }
 
     /* ===== Mobile Navigation Menu ===== */
-    .mobile-services-header,
-    .nav-arrow {
-      display: none;
-    }
 
     .hamburger {
       display: none;
@@ -734,19 +660,8 @@
         border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
       }
 
-      .nav-inner {
-        position: relative !important;
-        padding: 0 16px !important;
-        height: 64px !important;
-      }
-
       .brand img {
         height: 32px !important;
-      }
-
-      .nav-cta {
-        padding: 8px 14px !important;
-        font-size: 13px !important;
       }
 
       .hamburger {
@@ -789,31 +704,6 @@
         pointer-events: auto !important;
       }
 
-      .mobile-services-header {
-        display: flex !important;
-        align-items: center !important;
-        gap: 8px !important;
-        font-size: 11px !important;
-        font-weight: 800 !important;
-        letter-spacing: 0.1em !important;
-        color: var(--primary-blue, #1947FF) !important;
-        text-transform: uppercase !important;
-        padding: 6px 12px 10px !important;
-        margin-bottom: 4px !important;
-        border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
-        text-align: left !important;
-      }
-
-      .mobile-services-header::before {
-        content: '';
-        display: inline-block;
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: var(--primary-blue, #1947FF);
-        box-shadow: 0 0 8px var(--primary-blue, #1947FF);
-      }
-
       .nav-links a {
         display: flex !important;
         align-items: center !important;
@@ -840,19 +730,6 @@
         color: var(--primary-blue, #1947FF) !important;
         font-weight: 700 !important;
       }
-
-      .nav-arrow {
-        display: inline-block !important;
-        font-size: 13px !important;
-        color: #94a3b8 !important;
-        transition: transform 0.15s ease !important;
-      }
-
-      .nav-links a:hover .nav-arrow,
-      .nav-links a.active .nav-arrow {
-        color: var(--primary-blue, #1947FF) !important;
-        transform: translateX(3px) !important;
-      }
     }
   </style>
   <link rel="stylesheet" href="css/mobile.css" media="(max-width: 768px)" />
@@ -860,9 +737,7 @@
     /* Top bar has nine links since Internships was added: keep each label on one
        line and tighten spacing on narrower desktops, above the mobile-menu breakpoint. */
     .nav .nav-links a, .nav .nav-cta, .nav .cta { white-space: nowrap; }
-    @media (min-width: 993px) {
-      .nav .nav-left { min-width: max-content; }
-    }
+    
     @media (min-width: 993px) and (max-width: 1280px) {
       .nav .nav-links { gap: 16px; }
       .nav .nav-links a { font-size: 13px; }
@@ -875,11 +750,6 @@
     /* Tablet landscape / small laptops: the full desktop bar is wider than the screen
        until ~1180px, so trim padding and spacing to keep the CTA on screen. */
     @media (min-width: 981px) and (max-width: 1180px) {
-      .nav .nav-inner {
-        padding-left: 20px;
-        padding-right: 20px;
-        gap: 14px;
-      }
 
       .nav .nav-links {
         gap: 11px;
@@ -891,11 +761,6 @@
 
       .nav .brand img {
         height: 30px;
-      }
-
-      .nav .nav-cta {
-        padding: 8px 14px;
-        font-size: 13px;
       }
     }
   </style>
@@ -1056,7 +921,7 @@
             <h2 class="section-title" style="margin-bottom: 4px;">Curriculum & Syllabus</h2>
             <p style="color: var(--text-muted); font-size: 15px;">Structured 6-month enterprise Java learning roadmap.</p>
           </div>
-          <a href="KOMPETENZEN_FULLSTACK_.pdf" class="btn-outline" style="font-size: 13px;" onclick="downloadSyllabusWithAuth(event, 'KOMPETENZEN_FULLSTACK_.pdf', 'Full Stack Java Enterprise')">Download PDF Syllabus &rarr;</a>
+          <a href="Full_Stack_Java_Developer_-_Student_Syllabus.pdf" class="btn-outline" style="font-size: 13px;" onclick="downloadSyllabusWithAuth(event, 'Full_Stack_Java_Developer_-_Student_Syllabus.pdf', 'Full Stack Java Enterprise')">Download PDF Syllabus &rarr;</a>
         </div>
 
         <div class="curriculum-container">
@@ -1121,7 +986,7 @@
 
         <div class="placed-students-grid" id="placed-students-container">
           <div class="student-card">
-            <img src="student_python.jpg" alt="Abhinav Menon" class="student-photo" />
+            <img src="student_python.webp" alt="Abhinav Menon" class="student-photo" loading="lazy" decoding="async" />
             <h4 class="student-name">Abhinav Menon</h4>
             <div class="student-role">Java Spring Boot Developer</div>
             <span class="student-company">Cognizant Tech</span>
@@ -1129,7 +994,7 @@
           </div>
 
           <div class="student-card">
-            <img src="student_hr.jpg" alt="Pooja Suresh" class="student-photo" />
+            <img src="student_hr.webp" alt="Pooja Suresh" class="student-photo" loading="lazy" decoding="async" />
             <h4 class="student-name">Pooja Suresh</h4>
             <div class="student-role">Microservices Engineer</div>
             <span class="student-company">Infosys FinTech</span>
@@ -1176,6 +1041,11 @@
 
         <a href="enroll.html?course=java" class="btn-primary sidebar-btn-main">Enroll Now</a>
         <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen,%20I%20have%20questions%20about%20Java%20%2B%20AI%20course." target="_blank" class="btn-outline sidebar-btn-wa">Enquire via WhatsApp</a>
+        <a href="Full_Stack_Java_Developer_-_Student_Syllabus.pdf" class="btn-outline sidebar-btn-pdf"
+          onclick="downloadSyllabusWithAuth(event, 'Full_Stack_Java_Developer_-_Student_Syllabus.pdf', 'Full Stack Java Enterprise')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download PDF Syllabus
+        </a>
 
         <div class="sidebar-contact">
           Admissions Contact

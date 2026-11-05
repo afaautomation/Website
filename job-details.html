@@ -91,32 +91,6 @@
       border-bottom: 1px solid var(--border);
     }
 
-    .nav-inner {
-      max-width: 100%;
-      margin: 0 auto;
-      padding: 0 40px;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 32px;
-    }
-
-    .nav-left,
-    .nav-right {
-      display: flex;
-      align-items: center;
-      flex: 1;
-    }
-
-    .nav-left {
-      justify-content: flex-start;
-    }
-
-    .nav-right {
-      justify-content: flex-end;
-    }
-
     .brand img {
       height: 36px;
       display: block;
@@ -152,33 +126,6 @@
     .nav-links a.active {
       color: #60A5FA;
       font-weight: 700;
-    }
-
-    .nav-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: #1947FF;
-      color: #fff;
-      font-size: 14px;
-      font-weight: 600;
-      padding: 10px 20px;
-      border-radius: 99px;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.2s;
-      box-shadow: 0 4px 18px rgba(25, 71, 255, 0.35);
-    }
-
-    .nav-cta:hover {
-      background: #2563EB;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.5);
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
     }
 
     .nav-user-badge {
@@ -234,7 +181,7 @@
       border-radius: 14px;
       padding: 8px;
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.06);
-      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px);
       display: none;
       z-index: 300;
       animation: menuFadeIn 0.18s ease;
@@ -669,76 +616,6 @@
     }
 
     /* AUTH MODAL & PROFILE MODAL */
-    .auth-modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(4, 6, 12, 0.85);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.3s ease, visibility 0.3s ease;
-    }
-
-    .auth-modal-backdrop.active {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .auth-modal-dialog {
-      background: #0D121F;
-      border-radius: 18px;
-      width: 100%;
-      max-width: 440px;
-      max-height: 90vh;
-      overflow-y: auto;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
-      border: none;
-      outline: none;
-      position: relative;
-      transform: translateY(16px) scale(0.98);
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      padding: 30px 28px;
-      color: #FFFFFF;
-    }
-
-    .auth-modal-backdrop.active .auth-modal-dialog {
-      transform: translateY(0) scale(1);
-    }
-
-    .auth-modal-close {
-      position: absolute;
-      top: 18px;
-      right: 18px;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.06);
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #94A3B8;
-      transition: all 0.2s ease;
-      z-index: 10;
-    }
-
-    .auth-modal-close:hover {
-      background: rgba(255, 255, 255, 0.12);
-      color: #FFFFFF;
-    }
-
-    .auth-modal-view {
-      display: flex;
-      flex-direction: column;
-      animation: viewFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
 
     @keyframes viewFadeIn {
       from { opacity: 0; transform: translateY(8px); }
@@ -747,33 +624,9 @@
 
     /* Auth Screen Styles */
 
-    .auth-title {
-      font-size: 22px;
-      font-weight: 700;
-      color: #F8FAFC;
-      letter-spacing: -0.015em;
-      line-height: 1.3;
-      margin-bottom: 6px;
-    }
-
-    .auth-desc {
-      font-size: 13.5px;
-      color: #94A3B8;
-      line-height: 1.5;
-      margin-bottom: 20px;
-    }
-
     /* Google Sign In Button */
 
     /* Auth Tabs (Log In / Sign Up) */
-    .auth-tabs {
-      display: flex;
-      background: rgba(255, 255, 255, 0.04);
-      border-radius: 9px;
-      padding: 3px;
-      margin-bottom: 16px;
-      border: none;
-    }
 
     .btn-submit-apply {
       width: 100%;
@@ -796,37 +649,6 @@
     .btn-submit-apply:hover {
       background: #1D4ED8;
       box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-    }
-
-    .auth-divider {
-      text-align: center;
-      margin: 16px 0 14px;
-      color: #64748B;
-      font-size: 12px;
-      font-weight: 500;
-      display: block;
-    }
-
-    .auth-divider::before,
-    .auth-divider::after {
-      display: none;
-    }
-
-    .auth-inline-alert {
-      padding: 10px 12px;
-      border-radius: 8px;
-      font-size: 12.5px;
-      margin-bottom: 12px;
-      line-height: 1.4;
-      display: none;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .auth-inline-alert.error {
-      background: rgba(239, 68, 68, 0.12);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      color: #FCA5A5;
     }
 
     /* Profile View Styles */
@@ -1082,21 +904,11 @@
         padding: 24px 20px;
       }
 
-      .auth-modal-dialog {
-        padding: 24px 18px;
-        border-radius: 20px;
-        max-height: 96vh;
-      }
-
     }
 
     body { overflow-x: hidden; max-width: 100%; }
 
     /* ===== Mobile Navigation Dropdown Menu ===== */
-    .mobile-services-header,
-    .nav-arrow {
-      display: none;
-    }
 
     .hamburger {
       display: none;
@@ -1130,19 +942,8 @@
         border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
       }
 
-      .nav-inner {
-        position: relative !important;
-        padding: 0 16px !important;
-        height: 64px !important;
-      }
-
       .brand img {
         height: 32px !important;
-      }
-
-      .nav-cta {
-        padding: 8px 14px !important;
-        font-size: 13px !important;
       }
 
       .hamburger {
@@ -1185,31 +986,6 @@
         pointer-events: auto !important;
       }
 
-      .mobile-services-header {
-        display: flex !important;
-        align-items: center !important;
-        gap: 8px !important;
-        font-size: 11px !important;
-        font-weight: 800 !important;
-        letter-spacing: 0.1em !important;
-        color: #60A5FA !important;
-        text-transform: uppercase !important;
-        padding: 6px 12px 10px !important;
-        margin-bottom: 4px !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-        text-align: left !important;
-      }
-
-      .mobile-services-header::before {
-        content: '';
-        display: inline-block;
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: #3B82F6;
-        box-shadow: 0 0 8px #3B82F6;
-      }
-
       .nav-links a {
         display: flex !important;
         align-items: center !important;
@@ -1235,19 +1011,6 @@
         background: rgba(59, 130, 246, 0.18) !important;
         color: #60A5FA !important;
         font-weight: 700 !important;
-      }
-
-      .nav-arrow {
-        display: inline-block !important;
-        font-size: 13px !important;
-        color: #64748B !important;
-        transition: transform 0.15s ease !important;
-      }
-
-      .nav-links a:hover .nav-arrow,
-      .nav-links a.active .nav-arrow {
-        color: #60A5FA !important;
-        transform: translateX(3px) !important;
       }
     }
 
@@ -1335,12 +1098,6 @@
       box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
     }
 
-    .req-fieldset {
-      border: 0;
-      padding: 0;
-      min-width: 0;
-    }
-
     .req-checks {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -1417,9 +1174,7 @@
     /* Top bar has nine links since Internships was added: keep each label on one
        line and tighten spacing on narrower desktops, above the mobile-menu breakpoint. */
     .nav .nav-links a, .nav .nav-cta, .nav .cta { white-space: nowrap; }
-    @media (min-width: 993px) {
-      .nav .nav-left { min-width: max-content; }
-    }
+    
     @media (min-width: 993px) and (max-width: 1280px) {
       .nav .nav-links { gap: 16px; }
       .nav .nav-links a { font-size: 13px; }
@@ -1432,11 +1187,6 @@
     /* Tablet landscape / small laptops: the full desktop bar is wider than the screen
        until ~1180px, so trim padding and spacing to keep the CTA on screen. */
     @media (min-width: 981px) and (max-width: 1180px) {
-      .nav .nav-inner {
-        padding-left: 20px;
-        padding-right: 20px;
-        gap: 14px;
-      }
 
       .nav .nav-links {
         gap: 11px;
@@ -1448,11 +1198,6 @@
 
       .nav .brand img {
         height: 30px;
-      }
-
-      .nav .nav-cta {
-        padding: 8px 14px;
-        font-size: 13px;
       }
     }
   </style>

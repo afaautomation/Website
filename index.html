@@ -169,35 +169,8 @@
 
     .nav.scrolled {
       background: rgba(255, 255, 255, .98);
-      backdrop-filter: saturate(140%) blur(14px);
+      -webkit-backdrop-filter: saturate(140%) blur(14px); backdrop-filter: saturate(140%) blur(14px);
       border-bottom-color: var(--line-soft);
-    }
-
-    .nav-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      max-width: var(--maxw);
-      margin: 0 auto;
-      padding: 0 32px;
-      height: 64px;
-      box-sizing: border-box;
-    }
-
-    .nav-left,
-    .nav-right {
-      display: flex;
-      align-items: center;
-      flex: 1;
-    }
-
-    .nav-left {
-      justify-content: flex-start;
-    }
-
-    .nav-right {
-      justify-content: flex-end;
     }
 
     .nav-links {
@@ -205,11 +178,6 @@
       align-items: center;
       gap: clamp(16px, 1.8vw, 30px);
       justify-content: center;
-    }
-
-    .mobile-services-header,
-    .nav-arrow {
-      display: none;
     }
 
     .hamburger {
@@ -1192,7 +1160,7 @@
       font-size: 13px;
       font-weight: 600;
       color: #CBD5E1;
-      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
       transition: all 0.25s ease;
     }
 
@@ -1933,7 +1901,7 @@
       font-size: 10px;
       color: rgba(255, 255, 255, .85);
       background: rgba(0, 0, 0, .35);
-      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
       padding: 3px 8px;
       border-radius: 99px;
       z-index: 2
@@ -1950,25 +1918,6 @@
         width: 165px;
         border-radius: 10px;
       }
-    }
-
-    .ig-foot {
-      margin-top: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-      flex-wrap: wrap
-    }
-
-    .ig-foot a.cta {
-      background: var(--ink);
-      color: var(--cream)
-    }
-
-    .ig-foot a.cta:hover {
-      background: var(--blue);
-      color: #fff
     }
 
     .roll-digit {
@@ -2174,7 +2123,7 @@
       color: var(--cream);
       text-align: center;
       margin-bottom: 60px;
-      user-select: none
+      -webkit-user-select: none; user-select: none
     }
 
     .giant em {
@@ -2245,19 +2194,8 @@
         overflow: visible !important;
       }
 
-      .nav-inner {
-        position: relative !important;
-        padding: 0 16px !important;
-        height: 64px !important;
-        overflow: visible !important;
-      }
-
       .brand img {
         height: 32px !important;
-      }
-
-      .nav-right {
-        flex: 0 0 auto;
       }
 
       .cta {
@@ -2305,31 +2243,6 @@
         pointer-events: auto !important;
       }
 
-      .mobile-services-header {
-        display: flex !important;
-        align-items: center !important;
-        gap: 8px !important;
-        font-size: 11px !important;
-        font-weight: 800 !important;
-        letter-spacing: 0.1em !important;
-        color: var(--blue) !important;
-        text-transform: uppercase !important;
-        padding: 6px 12px 10px !important;
-        margin-bottom: 4px !important;
-        border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
-        text-align: left !important;
-      }
-
-      .mobile-services-header::before {
-        content: '';
-        display: inline-block;
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: var(--blue);
-        box-shadow: 0 0 8px var(--blue);
-      }
-
       .nav-links a {
         display: flex !important;
         align-items: center !important;
@@ -2355,19 +2268,6 @@
         background: rgba(25, 71, 255, 0.08) !important;
         color: var(--blue) !important;
         font-weight: 700 !important;
-      }
-
-      .nav-arrow {
-        display: inline-block !important;
-        font-size: 13px !important;
-        color: #94a3b8 !important;
-        transition: transform 0.15s ease !important;
-      }
-
-      .nav-links a:hover .nav-arrow,
-      .nav-links a.active .nav-arrow {
-        color: var(--blue) !important;
-        transform: translateX(3px) !important;
       }
 
       /* Hero - Full Screen on Mobile Phone */
@@ -2737,10 +2637,6 @@
         font-size: 13px !important;
       }
 
-      .nav-right .cta {
-        display: none;
-      }
-
       /* Hide 'Book Consult' in nav on very small screens to make room for hamburger */
 
       /* PERFORMANCE OPTIMIZATION: Disable expensive glassmorphism effects on mobile */
@@ -2768,11 +2664,7 @@
       white-space: nowrap;
     }
 
-    @media (min-width: 993px) {
-      .nav .nav-left {
-        min-width: max-content;
-      }
-    }
+    
 
     @media (min-width: 993px) and (max-width: 1280px) {
       .nav .nav-links {
@@ -2797,11 +2689,6 @@
     /* Tablet landscape / small laptops: the full desktop bar is wider than the screen
        until ~1180px, so trim padding and spacing to keep the CTA on screen. */
     @media (min-width: 981px) and (max-width: 1180px) {
-      .nav .nav-inner {
-        padding-left: 20px;
-        padding-right: 20px;
-        gap: 14px;
-      }
 
       .nav .nav-links {
         gap: 11px;
@@ -2813,11 +2700,6 @@
 
       .nav .brand img {
         height: 30px;
-      }
-
-      .nav .nav-cta {
-        padding: 8px 14px;
-        font-size: 13px;
       }
     }
   </style>

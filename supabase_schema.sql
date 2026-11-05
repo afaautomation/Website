@@ -532,7 +532,7 @@ alter table public.profiles drop column if exists plan;
 -- Shared admin publishing workflows
 begin;
 create table if not exists public.site_content (
-  key text primary key check (key in ('kompetenzen_batch_dates', 'kompetenzen_placed_students', 'kompetenzen_showcase', 'kompetenzen_alumni')),
+  key text primary key check (key in ('kompetenzen_batch_dates', 'kompetenzen_placed_students', 'kompetenzen_showcase', 'kompetenzen_alumni', 'kompetenzen_staff')),
   value jsonb not null,
   updated_at timestamptz not null default now()
 );

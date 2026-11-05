@@ -111,7 +111,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Inconsolata:wght@400;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,500;1,600;1,700&family=JetBrains+Mono:wght@400;500&family=Inconsolata:wght@400;700&display=swap"
     rel="stylesheet" />
 
   <style>
@@ -173,32 +173,6 @@
       border-bottom: 1px solid var(--line-soft, rgba(10, 21, 48, 0.06));
     }
 
-    .nav-inner {
-      max-width: 100%;
-      margin: 0 auto;
-      padding: 0 40px;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 32px;
-    }
-
-    .nav-left,
-    .nav-right {
-      display: flex;
-      align-items: center;
-      flex: 1;
-    }
-
-    .nav-left {
-      justify-content: flex-start;
-    }
-
-    .nav-right {
-      justify-content: flex-end;
-    }
-
     .brand img {
       height: 36px;
       display: block;
@@ -232,31 +206,6 @@
       font-weight: 700;
     }
 
-    .mobile-services-header,
-    .nav-arrow {
-      display: none;
-    }
-
-    .nav-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--ink);
-      color: #fff;
-      font-size: 14px;
-      font-weight: 600;
-      padding: 10px 20px;
-      border-radius: 99px;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.2s;
-      white-space: nowrap;
-    }
-
-    .nav-cta:hover {
-      background: var(--blue);
-      transform: translateY(-1px);
-    }
-
     @media (max-width: 992px) {
       .nav-links {
         gap: 18px;
@@ -268,9 +217,6 @@
     }
 
     @media (max-width: 768px) {
-      .nav-inner {
-        padding: 0 20px;
-      }
 
       .nav-links {
         display: none;
@@ -643,12 +589,6 @@
     }
 
     /* Take-home */
-    .take-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 72px;
-      align-items: center;
-    }
 
     .report {
       position: relative;
@@ -768,10 +708,6 @@
       font-size: 14.5px;
       color: var(--ink-mute);
       line-height: 1.55;
-    }
-
-    .take-grid .dyf-head h2 {
-      font-size: clamp(30px, 3.6vw, 44px);
     }
 
     /* FAQ */
@@ -935,11 +871,6 @@
       .steps h3 {
         margin-top: 10px;
       }
-
-      .take-grid {
-        grid-template-columns: 1fr;
-        gap: 48px;
-      }
     }
 
     @media (max-width: 900px) {
@@ -962,10 +893,6 @@
       }
 
       /* Sideways reveals push headings past a narrow screen; reveal upward instead. */
-      .sr.sr-left:not(.is-visible),
-      .sr.sr-right:not(.is-visible) {
-        transform: translateY(40px);
-      }
 
       .fs-wrap {
         padding: 0 16px;
@@ -1425,24 +1352,6 @@
     }
 
     /* Hand-drawn underline under "Future" */
-    .fs-underline {
-      position: relative;
-      display: inline-block;
-    }
-
-    .fs-underline::after {
-      content: '';
-      position: absolute;
-      left: 2%;
-      right: 4%;
-      bottom: 0.02em;
-      height: 0.07em;
-      border-radius: 99px;
-      background: linear-gradient(90deg, var(--blue), #8FA9FF);
-      transform: scaleX(0);
-      transform-origin: left;
-      animation: drawX 1s cubic-bezier(0.65, 0, 0.35, 1) 0.9s forwards;
-    }
 
     @keyframes drawX {
       to {
@@ -1809,14 +1718,6 @@
         transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .sr.sr-left {
-      transform: translateX(-40px);
-    }
-
-    .sr.sr-right {
-      transform: translateX(40px);
-    }
-
     .sr.sr-scale {
       transform: translateY(24px) scale(0.97);
     }
@@ -1828,37 +1729,6 @@
     }
 
     /* Stagger delays for grids */
-    .sr-delay-1 {
-      transition-delay: 0.05s;
-    }
-
-    .sr-delay-2 {
-      transition-delay: 0.12s;
-    }
-
-    .sr-delay-3 {
-      transition-delay: 0.19s;
-    }
-
-    .sr-delay-4 {
-      transition-delay: 0.26s;
-    }
-
-    .sr-delay-5 {
-      transition-delay: 0.33s;
-    }
-
-    .sr-delay-6 {
-      transition-delay: 0.40s;
-    }
-
-    .sr-delay-7 {
-      transition-delay: 0.47s;
-    }
-
-    .sr-delay-8 {
-      transition-delay: 0.54s;
-    }
 
     /* ===== Mobile Navigation Menu ===== */
     .hamburger {
@@ -1903,19 +1773,8 @@
         border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
       }
 
-      .nav-inner {
-        position: relative !important;
-        padding: 0 16px !important;
-        height: 64px !important;
-      }
-
       .brand img {
         height: 32px !important;
-      }
-
-      .nav-cta {
-        padding: 8px 14px !important;
-        font-size: 13px !important;
       }
 
       .hamburger {
@@ -1987,31 +1846,6 @@
         pointer-events: auto !important;
       }
 
-      .mobile-services-header {
-        display: flex !important;
-        align-items: center !important;
-        gap: 8px !important;
-        font-size: 11px !important;
-        font-weight: 800 !important;
-        letter-spacing: 0.1em !important;
-        color: var(--blue) !important;
-        text-transform: uppercase !important;
-        padding: 6px 12px 10px !important;
-        margin-bottom: 4px !important;
-        border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
-        text-align: left !important;
-      }
-
-      .mobile-services-header::before {
-        content: '';
-        display: inline-block;
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: var(--blue);
-        box-shadow: 0 0 8px var(--blue);
-      }
-
       .nav-links a {
         display: flex !important;
         align-items: center !important;
@@ -2037,19 +1871,6 @@
         background: rgba(25, 71, 255, 0.08) !important;
         color: var(--blue) !important;
         font-weight: 700 !important;
-      }
-
-      .nav-arrow {
-        display: inline-block !important;
-        font-size: 13px !important;
-        color: #94a3b8 !important;
-        transition: transform 0.15s ease !important;
-      }
-
-      .nav-links a:hover .nav-arrow,
-      .nav-links a.active .nav-arrow {
-        color: var(--blue) !important;
-        transform: translateX(3px) !important;
       }
     }
 
@@ -2213,11 +2034,7 @@
       white-space: nowrap;
     }
 
-    @media (min-width: 993px) {
-      .nav .nav-left {
-        min-width: max-content;
-      }
-    }
+    
 
     @media (min-width: 993px) and (max-width: 1280px) {
       .nav .nav-links {
@@ -2242,11 +2059,6 @@
     /* Tablet landscape / small laptops: the full desktop bar is wider than the screen
        until ~1180px, so trim padding and spacing to keep the CTA on screen. */
     @media (min-width: 981px) and (max-width: 1180px) {
-      .nav .nav-inner {
-        padding-left: 20px;
-        padding-right: 20px;
-        gap: 14px;
-      }
 
       .nav .nav-links {
         gap: 11px;
@@ -2259,12 +2071,142 @@
       .nav .brand img {
         height: 30px;
       }
+    }
 
-      .nav .nav-cta {
-        padding: 8px 14px;
-        font-size: 13px;
+    /* HERO LAYOUT: copy on the left, illustration on the right (desktop and tablet).
+       Overrides the centred, stacked hero set earlier in the page. */
+    .fs-hero h1 {
+      font-family: 'Inter', 'Plus Jakarta Sans', system-ui, sans-serif !important;
+      font-weight: 500;
+      letter-spacing: -0.045em;
+    }
+
+    .fs-hero h1 .serif {
+      font-family: inherit !important;
+      font-style: normal;
+      font-weight: 500;
+      color: var(--blue);
+    }
+
+    @media (min-width: 901px) {
+      .fs-hero {
+        text-align: left;
+        padding: 88px 0 64px;
+      }
+
+      /* wider hero so the copy and illustration sit closer to the screen edges */
+      .fs-hero > .fs-wrap {
+        max-width: 1520px;
+        padding: 0 clamp(32px, 4vw, 72px);
+      }
+
+      .fs-hero-grid {
+        grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+        justify-items: stretch;
+        align-items: center;
+        gap: clamp(32px, 5vw, 80px);
+      }
+
+      .fs-hero h1 {
+        font-size: clamp(52px, 6.2vw, 96px);
+        line-height: 1.14;
+        margin-bottom: 26px;
+      }
+
+      /* "Future" stays on its own line, aligned left */
+      .fs-hero h1 .serif {
+        display: block;
+        width: fit-content;
+        margin: 0;
+        font-size: 1em;
+      }
+
+      /* two lines, larger text */
+      .fs-hero-copy {
+        max-width: 760px;
+      }
+
+      .fs-lede {
+        margin: 0 0 38px;
+        max-width: none;
+        font-size: clamp(19px, 1.35vw, 23px);
+        line-height: 1.6;
+        white-space: nowrap;
+      }
+
+      .fs-actions {
+        justify-content: flex-start;
+      }
+
+      /* smaller hero button */
+      .fs-hero .dyf-btn {
+        font-size: 14.5px;
+        padding: 12px 24px;
+        gap: 8px;
+      }
+
+      /* left-aligned label: keep only the leading line */
+      .fs-hero .eyebrow::after {
+        display: none;
+      }
+
+      .fs-art {
+        justify-self: end;
+        max-width: 580px;
+        margin-top: 0;
       }
     }
+
+    /* Blue highlight words in headings: light sans-serif instead of the italic serif */
+    .serif,
+    h1 .serif, h2 .serif, h3 .serif,
+    .dyf-head h2 .serif, .final-card h2 .serif {
+      font-family: 'Inter', 'Plus Jakarta Sans', system-ui, sans-serif !important;
+      font-style: normal !important;
+      font-weight: 400 !important;
+      letter-spacing: -0.035em;
+      color: var(--blue);
+    }
+
+    /* All section headings: same light sans-serif as their blue highlight words */
+    h1, h2,
+    .fs-hero h1, .dyf-head h2, .final-card h2, .dyf-section h2 {
+      font-family: 'Inter', 'Plus Jakarta Sans', system-ui, sans-serif !important;
+      font-weight: 400 !important;
+      letter-spacing: -0.035em;
+    }
+
+    /* Hero heading: stronger than the section headings */
+    .fs-hero .fs-hero-copy h1 {
+      font-weight: 600 !important;
+      letter-spacing: -0.05em;
+      color: #02050E;
+    }
+
+    .fs-hero .fs-hero-copy h1 .serif {
+      position: relative;
+      /* bold italic serif for "Future", contrasting with the sans heading */
+      font-family: 'Playfair Display', Georgia, serif !important;
+      font-style: italic !important;
+      font-weight: 600 !important;
+      letter-spacing: -0.02em;
+      color: #1947FF;
+      -webkit-text-fill-color: #1947FF;
+      padding-right: 0.06em;
+    }
+
+    .fs-hero .fs-hero-copy h1 { position: relative; z-index: 0; }
+
+    @keyframes heroMark { to { transform: scaleX(1); } }
+
+
+    /* closing heading: "Years of clarity." smaller than "Two days now." */
+    .final-card h2 .serif {
+      font-size: 0.72em;
+      line-height: 1.2;
+      margin-top: 0.15em;
+    }
+    @media (max-width: 900px) { .lede-br { display: none; } }
   </style>
 </head>
 
@@ -2279,10 +2221,9 @@
     <div class="fs-wrap">
       <div class="fs-hero-grid">
         <div class="fs-hero-copy">
-          <span class="eyebrow fs-in" style="--d:.05s">Kompetenzen Finishing School</span>
-          <h1 class="fs-in" style="--d:.15s">Design Your <span class="serif fs-underline">Future</span></h1>
-          <p class="fs-lede fs-in" style="--d:.3s">A two-day programme to discover your strengths, explore your options and leave with a
-            personal career roadmap.</p>
+          <h1 class="fs-in" style="--d:.15s">Design Your <span class="serif">Future</span></h1>
+          <p class="fs-lede fs-in" style="--d:.3s">A two-day programme to discover your strengths,<br class="lede-br" />
+            explore your options and leave with a personal career roadmap.</p>
           <div class="fs-actions fs-in" style="--d:.42s">
             <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen%2C%20I'd%20like%20to%20reserve%20a%20seat%20for%20Design%20Your%20Future.%20Please%20share%20the%20next%20batch%20details."
               target="_blank" rel="noopener" class="dyf-btn" data-event="dyf_cta_hero" data-seat-open>
@@ -2413,15 +2354,21 @@
               <path d="M164 306 v20 M180 306 v20" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" />
               <path d="M146 372 H198" stroke="#0E2EC9" stroke-width="2" stroke-linecap="round" />
               <!-- left arm with coffee, held out in front -->
-              <path d="M140 322 Q116 344 117 372" stroke="#1947FF" stroke-width="15" stroke-linecap="round" fill="none" />
+              <path d="M140 322 Q118 346 122 372" stroke="#1947FF" stroke-width="15" stroke-linecap="round" fill="none" />
+              <!-- steam rising from the cup -->
               <g class="fs-steam" stroke="#B9C6E8" stroke-width="2" stroke-linecap="round" fill="none">
-                <path d="M103 358 q-4 -6 0 -12 q4 -6 0 -12" />
-                <path d="M112 356 q-4 -6 0 -12 q4 -6 0 -12" />
+                <path d="M100 359 q-4 -6 0 -12 q4 -6 0 -12" />
+                <path d="M108 358 q-4 -6 0 -12 q4 -6 0 -12" />
               </g>
-              <path d="M95 372 q-8 0 -8 7 q0 7 8 7" stroke="#0D1630" stroke-width="2" fill="none" />
-              <rect x="95" y="364" width="24" height="28" rx="4" fill="#FFFFFF" stroke="#0D1630" stroke-width="2" />
-              <rect x="95" y="373" width="24" height="7" fill="#1947FF" />
-              <circle cx="119" cy="378" r="8" fill="#F5CBA7" />
+              <!-- coffee mug: handle on the right, held by the hand -->
+              <path d="M115 371 q10 0 10 8 q0 8 -10 8" stroke="#0D1630" stroke-width="2.5" fill="none" stroke-linecap="round" />
+              <path d="M92 366 H116 L114 388 Q113.4 393 108.5 393 H99.5 Q94.6 393 94 388 Z" fill="#FFFFFF" stroke="#0D1630" stroke-width="2" stroke-linejoin="round" />
+              <path d="M92.8 375 H115.2 L114.7 381 H93.3 Z" fill="#1947FF" />
+              <ellipse cx="104" cy="366" rx="12" ry="3" fill="#FFFFFF" stroke="#0D1630" stroke-width="2" />
+              <ellipse cx="104" cy="366.3" rx="9.4" ry="1.7" fill="#7A4A2A" />
+              <!-- hand wrapped round the handle -->
+              <circle cx="123" cy="379" r="7.5" fill="#F5CBA7" />
+              <path d="M118.5 376.5 q3 -1.5 6 0" stroke="#D9A57F" stroke-width="1.4" fill="none" stroke-linecap="round" />
               <!-- right arm drawing on the board -->
               <g class="fs-arm">
                 <path d="M204 322 Q232 300 247 271" stroke="#1947FF" stroke-width="15" stroke-linecap="round"

@@ -1,0 +1,1129 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Human Resource Analytics Professional Certificate | Kompetenzen</title>
+  <meta name="description"
+    content="Human Resource Analytics: a 4-month practical programme in HR metrics, Excel, Power BI dashboards and data storytelling for better-informed HR decisions." />
+  <link rel="icon" type="image/png" href="icon.png?v=2" />
+  <link rel="shortcut icon" href="favicon.ico?v=2" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.cdnfonts.com/css/google-sans" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    :root {
+      --primary-blue: #0056D2;
+      --primary-hover: #003B91;
+      --primary-soft: #F0F6FF;
+      --blue-border: #BFDBFE;
+      --bg-page: #FFFFFF;
+      --text-dark: #0F172A;
+      --text-muted: #475569;
+      --border-light: #E2E8F0;
+      --maxw: 1380px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    html,
+    body {
+      background: #FFFFFF;
+      color: var(--text-dark);
+      font-family: "Google Sans", "Product Sans", "Plus Jakarta Sans", sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+
+    /* NAV */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: saturate(140%) blur(14px);
+      -webkit-backdrop-filter: saturate(140%) blur(14px);
+      border-bottom: 1px solid var(--border-light, #E2E8F0);
+    }
+
+    .brand img {
+      height: 36px;
+      display: block;
+    }
+
+    .brand {
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-dark, #474F66);
+      text-decoration: none;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--primary-blue, #1947FF);
+      font-weight: 700;
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 16px;
+      border: 1px solid var(--border-light);
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-dark);
+      text-decoration: none;
+      background: #FFFFFF;
+      transition: all 0.2s;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--primary-blue);
+      color: var(--primary-blue);
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 20px;
+      background: var(--primary-blue);
+      color: #FFFFFF;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    /* HERO SECTION */
+    .hero-section {
+      background: #FFFFFF;
+      padding: 48px 0 36px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .hero-inner {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .breadcrumb {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .breadcrumb a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      color: var(--primary-blue);
+    }
+
+    .program-tag {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary-blue);
+      background: var(--primary-soft);
+      border: 1px solid var(--blue-border);
+      padding: 4px 14px;
+      border-radius: 99px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 14px;
+    }
+
+    .hero-title {
+      font-size: 42px;
+      font-weight: 800;
+      color: var(--text-dark);
+      line-height: 1.15;
+      letter-spacing: -0.8px;
+      margin-bottom: 16px;
+    }
+
+    .hero-desc {
+      font-size: 19px;
+      color: var(--text-muted);
+      max-width: 840px;
+      line-height: 1.65;
+      margin-bottom: 28px;
+    }
+
+    /* SIMPLE META LINE */
+    .meta-line {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 28px;
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+
+    .meta-line span strong {
+      color: var(--primary-blue);
+      font-weight: 700;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-hero-main {
+      padding: 12px 28px;
+      font-size: 15px;
+    }
+
+    .btn-hero-secondary {
+      padding: 12px 24px;
+      font-size: 15px;
+    }
+
+    /* MAIN CONTAINER GRID */
+    .main-container {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 56px;
+      align-items: start;
+    }
+
+    /* SECTIONS */
+    .content-section {
+      margin-bottom: 48px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .content-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .section-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 24px;
+      letter-spacing: -0.4px;
+      border-left: 3px solid var(--primary-blue);
+      padding-left: 12px;
+    }
+
+    /* CLEAN HIGHLIGHTS LIST */
+    .highlights-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px 40px;
+    }
+
+    .highlight-item h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--primary-blue);
+      margin-bottom: 6px;
+    }
+
+    .highlight-item p {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* SKILLS CATEGORIES */
+    .skills-group {
+      margin-bottom: 20px;
+    }
+
+    .skills-group-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    .skills-flex {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .skill-pill {
+      background: var(--primary-soft);
+      color: var(--text-dark);
+      border: 1px solid var(--blue-border);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 6px;
+    }
+
+    /* OUTCOMES LIST */
+    .outcomes-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px 32px;
+    }
+
+    .outcome-item {
+      font-size: 15.5px;
+      color: var(--text-dark);
+      line-height: 1.6;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .outcome-item span.bullet {
+      color: var(--primary-blue);
+      font-weight: 800;
+    }
+
+    /* SIMPLIFIED PROFESSIONAL CURRICULUM */
+    .curriculum-container {
+      margin-top: 24px;
+    }
+
+    .curriculum-row {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 32px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .curriculum-row:first-child {
+      padding-top: 8px;
+    }
+
+    .curriculum-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .curriculum-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .module-num {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--primary-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .module-time {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .curriculum-body h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+    }
+
+    .curriculum-body p {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+
+    .curriculum-topics {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* PLACED STUDENTS SECTION */
+
+    .student-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: all 0.25s ease;
+    }
+
+    .student-card:hover {
+      border-color: var(--primary-blue);
+      box-shadow: 0 10px 24px rgba(0, 86, 210, 0.08);
+      transform: translateY(-3px);
+    }
+
+    .student-photo {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--primary-soft);
+      margin-bottom: 14px;
+    }
+
+    .student-name {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 2px;
+    }
+
+    .student-role {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary-blue);
+      margin-bottom: 8px;
+    }
+
+    .student-company {
+      display: inline-block;
+      background: var(--primary-soft);
+      color: var(--text-dark);
+      border: 1px solid var(--blue-border);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 99px;
+      margin-bottom: 8px;
+    }
+
+    .student-badge {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .curriculum-topics strong {
+      color: var(--primary-blue);
+      font-weight: 700;
+    }
+
+    /* CLEAN SIDEBAR */
+    .sidebar-box {
+      background: #FFFFFF;
+      border: 1px solid var(--border-light);
+      border-radius: 10px;
+      padding: 32px;
+      position: sticky;
+      top: 90px;
+    }
+
+    .sidebar-badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--primary-blue);
+      background: var(--primary-soft);
+      border: 1px solid var(--blue-border);
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .sidebar-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+    }
+
+    .sidebar-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .sidebar-list {
+      list-style: none;
+      margin-bottom: 24px;
+    }
+
+    .sidebar-list li {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sidebar-list li span.check {
+      color: var(--primary-blue);
+      font-weight: 800;
+    }
+
+    .sidebar-btn-main {
+      width: 100%;
+      padding: 12px;
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
+
+    .sidebar-btn-wa {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+    }
+
+    .sidebar-contact {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-light);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .sidebar-contact strong {
+      color: var(--primary-blue);
+      display: block;
+      margin-top: 2px;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #FFFFFF;
+      color: var(--text-muted);
+      font-size: 13px;
+      padding: 32px 0;
+      text-align: center;
+      border-top: 1px solid var(--border-light);
+    }
+
+    /* BACK TO TOP BUTTON */
+    .scroll-top-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 40px;
+      height: 40px;
+      background: var(--primary-blue);
+      color: #FFFFFF;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+      border: none;
+    }
+
+    .scroll-top-btn.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 992px) {
+      .main-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .sidebar-box {
+        position: static;
+      }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        overflow-x: hidden;
+        width: 100%;
+        max-width: 100vw;
+      }
+
+      .hero-section {
+        padding: 72px 0 28px !important;
+      }
+
+      .hero-inner {
+        padding: 0 16px !important;
+      }
+
+      .hero-title {
+        font-size: clamp(24px, 6.5vw, 34px) !important;
+        line-height: 1.25 !important;
+      }
+
+      .highlights-grid,
+      .outcomes-list,
+      .curriculum-row {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .content-card,
+      .sidebar-box {
+        padding: 20px 16px !important;
+      }
+
+      .meta-line {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+    }
+
+    body {
+      overflow-x: hidden;
+      max-width: 100%;
+    }
+
+    /* ===== Mobile Navigation Menu ===== */
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      margin-left: 10px;
+      z-index: 1002;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      border-radius: 2px;
+      background: var(--text-dark, #02050E);
+      transition: all 0.25s ease;
+    }
+
+    .hamburger.active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    @media (max-width: 980px) {
+      .nav {
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 1000 !important;
+        background: #ffffff !important;
+        border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
+      }
+
+      .brand img {
+        height: 32px !important;
+      }
+
+      .hamburger {
+        display: flex !important;
+      }
+
+      .nav-links {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        justify-content: flex-start !important;
+        position: absolute !important;
+        top: 64px !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        background: #ffffff !important;
+        padding: 12px 16px 20px !important;
+        gap: 3px !important;
+        border-bottom: 2px solid rgba(25, 71, 255, 0.15) !important;
+        box-shadow: 0 20px 40px -4px rgba(15, 23, 42, 0.18), 0 0 0 1px rgba(15, 23, 42, 0.05) !important;
+        max-height: calc(100vh - 72px) !important;
+        max-height: calc(100dvh - 72px) !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        z-index: 99999 !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transform: translateY(-8px) !important;
+        pointer-events: none !important;
+        transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+          transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+          visibility 0.22s ease !important;
+      }
+
+      .nav-links.mobile-active {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translateY(0) !important;
+        pointer-events: auto !important;
+      }
+
+      .nav-links a {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 11px 14px !important;
+        font-size: 15px !important;
+        font-weight: 600 !important;
+        color: var(--text-dark, #02050E) !important;
+        text-decoration: none !important;
+        border-radius: 10px !important;
+        transition: all 0.15s ease !important;
+        white-space: nowrap !important;
+        text-align: left !important;
+      }
+
+      .nav-links a:hover,
+      .nav-links a:active {
+        background: #f8fafc !important;
+        color: var(--primary-blue, #1947FF) !important;
+      }
+
+      .nav-links a.active {
+        background: rgba(25, 71, 255, 0.08) !important;
+        color: var(--primary-blue, #1947FF) !important;
+        font-weight: 700 !important;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="css/mobile.css" media="(max-width: 768px)" />
+  <style>
+    /* Top bar has nine links since Internships was added: keep each label on one
+       line and tighten spacing on narrower desktops, above the mobile-menu breakpoint. */
+    .nav .nav-links a,
+    .nav .nav-cta,
+    .nav .cta {
+      white-space: nowrap;
+    }
+
+    
+
+    @media (min-width: 993px) and (max-width: 1280px) {
+      .nav .nav-links {
+        gap: 16px;
+      }
+
+      .nav .nav-links a {
+        font-size: 13px;
+      }
+    }
+
+    @media (min-width: 993px) and (max-width: 1120px) {
+      .nav .nav-links {
+        gap: 12px;
+      }
+
+      .nav .nav-links a {
+        font-size: 12.5px;
+      }
+    }
+
+    /* Tablet landscape / small laptops: the full desktop bar is wider than the screen
+       until ~1180px, so trim padding and spacing to keep the CTA on screen. */
+    @media (min-width: 981px) and (max-width: 1180px) {
+
+      .nav .nav-links {
+        gap: 11px;
+      }
+
+      .nav .nav-links a {
+        font-size: 12.5px;
+      }
+
+      .nav .brand img {
+        height: 30px;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="css/course-page.css" />
+  <link rel="canonical" href="https://kompetenzen.in/hr-analytics-course-details">
+  <meta property="og:title" content="Human Resource Analytics Professional Certificate | Kompetenzen">
+  <meta property="og:description"
+    content="Human Resource Analytics: a 4-month practical programme in HR metrics, Excel, Power BI dashboards and data storytelling for better-informed HR decisions.">
+  <meta property="og:url" content="https://kompetenzen.in/hr-analytics-course-details">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <!-- Shared top bar: edit js/site-nav.js to change it on every page -->
+  <script src="js/site-nav.js" data-active="b-school.html"></script>
+
+  <!-- HERO SECTION -->
+  <section class="hero-section">
+    <div class="hero-inner">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a> &rsaquo; <a href="b-school.html">B-School</a> &rsaquo; Human Resource Analytics
+      </div>
+
+      <div class="program-tag">Professional Certificate</div>
+
+      <h1 class="hero-title">Human Resource Analytics</h1>
+      <p class="hero-desc">
+        Make people data your advantage. Build the confidence to turn workforce information into clearer questions,
+        useful insights and better-informed HR decisions &mdash; from understanding workforce measures to interpreting
+        patterns and communicating what they mean.
+      </p>
+
+      <div class="meta-line">
+        <span>Next Batch: <strong data-batch-date="hr-analytics">Coming Soon</strong></span>
+        <span>Duration: <strong>4 Months</strong></span>
+        <span>Format: <strong>Offline (Kochi &amp; Trivandrum) &amp; Online Live</strong></span>
+      </div>
+
+      <div class="hero-cta-group">
+        <a href="enroll.html?course=hr-analytics" class="btn-primary btn-hero-main">Enroll Now</a>
+        <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen,%20I%20want%20to%20know%20more%20about%20the%20Human%20Resource%20Analytics%20course."
+          target="_blank" rel="noopener" class="btn-outline btn-hero-secondary">
+          Chat with Counselor
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CONTAINER -->
+  <main class="main-container">
+    <div class="main-content">
+
+      <!-- WHO IS THIS PROGRAM FOR -->
+      <section class="content-section">
+        <h2 class="section-title">Who Is This Program For</h2>
+        <div class="highlights-grid">
+          <div class="highlight-item">
+            <h4>HR Professionals &amp; Executives</h4>
+            <p>For HR executives and generalists who want to back their recommendations with data rather than instinct
+              alone.</p>
+          </div>
+          <div class="highlight-item">
+            <h4>HR &amp; Management Graduates</h4>
+            <p>Ideal for MBA (HR), BBA, BCom and psychology graduates looking for an analytics edge in people roles.</p>
+          </div>
+          <div class="highlight-item">
+            <h4>PG Diploma in HR Learners</h4>
+            <p>A natural next step after HR fundamentals, adding workforce metrics, reporting and dashboards to your
+              skill set.</p>
+          </div>
+          <div class="highlight-item">
+            <h4>Analysts Moving into People Analytics</h4>
+            <p>For data and MIS professionals who want to apply their analysis skills to workforce and talent questions.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- KEY HIGHLIGHTS -->
+      <section class="content-section">
+        <h2 class="section-title">Why Choose This Program</h2>
+        <div class="highlights-grid">
+          <div class="highlight-item">
+            <h4>Practical, Tool-Based Learning</h4>
+            <p>Work hands-on with Excel and Power BI on realistic HR datasets, not just theory.</p>
+          </div>
+          <div class="highlight-item">
+            <h4>Real HR Questions</h4>
+            <p>Practise on the problems HR teams actually face: attrition, hiring, engagement and workforce planning.</p>
+          </div>
+          <div class="highlight-item">
+            <h4>Industry Mentors</h4>
+            <p>Learn from HR leaders and analytics practitioners who use people data in their day-to-day work.</p>
+          </div>
+          <div class="highlight-item">
+            <h4>Verified Certification</h4>
+            <p>Industry-aligned certificate to strengthen your LinkedIn profile and resume.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SKILLS YOU'LL GAIN -->
+      <section class="content-section">
+        <h2 class="section-title">Skills You'll Gain</h2>
+
+        <div class="skills-group">
+          <div class="skills-group-label">Workforce Metrics</div>
+          <div class="skills-flex">
+            <span class="skill-pill">HR KPIs &amp; Metrics</span>
+            <span class="skill-pill">Attrition &amp; Retention Analysis</span>
+            <span class="skill-pill">Recruitment Funnel Metrics</span>
+            <span class="skill-pill">Engagement Measures</span>
+          </div>
+        </div>
+
+        <div class="skills-group">
+          <div class="skills-group-label">Data &amp; Tools</div>
+          <div class="skills-flex">
+            <span class="skill-pill">Excel for HR Data</span>
+            <span class="skill-pill">Pivot Tables &amp; Lookups</span>
+            <span class="skill-pill">Power BI Dashboards</span>
+            <span class="skill-pill">Data Cleaning</span>
+          </div>
+        </div>
+
+        <div class="skills-group">
+          <div class="skills-group-label">Insight &amp; Communication</div>
+          <div class="skills-flex">
+            <span class="skill-pill">Pattern &amp; Trend Analysis</span>
+            <span class="skill-pill">Data Storytelling</span>
+            <span class="skill-pill">HR Reporting</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- WHAT YOU WILL LEARN -->
+      <section class="content-section">
+        <h2 class="section-title">What You Will Learn</h2>
+        <div class="outcomes-list">
+          <div class="outcome-item">
+            <span class="bullet">&bull;</span>
+            <p>Define and calculate the core workforce measures HR teams report on.</p>
+          </div>
+          <div class="outcome-item">
+            <span class="bullet">&bull;</span>
+            <p>Clean, organise and analyse HR data in Excel with confidence.</p>
+          </div>
+          <div class="outcome-item">
+            <span class="bullet">&bull;</span>
+            <p>Build clear HR dashboards in Power BI that leaders can act on.</p>
+          </div>
+          <div class="outcome-item">
+            <span class="bullet">&bull;</span>
+            <p>Turn patterns in people data into recommendations and present them clearly.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- CURRICULUM SECTION -->
+      <section class="content-section">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
+          <div>
+            <h2 class="section-title" style="margin-bottom: 4px;">Curriculum &amp; Syllabus</h2>
+            <p style="color: var(--text-muted); font-size: 15px;">Structured 4-month HR analytics learning roadmap.</p>
+          </div>
+          <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen,%20please%20share%20the%20Human%20Resource%20Analytics%20syllabus."
+            target="_blank" rel="noopener" class="btn-outline" style="font-size: 13px;">Request the Syllabus &rarr;</a>
+        </div>
+        <div class="curriculum-container">
+
+          <div class="curriculum-row">
+            <div class="curriculum-meta">
+              <span class="module-num">Module 01</span>
+              <span class="module-time">Month 1</span>
+            </div>
+            <div class="curriculum-body">
+              <h3>Foundations of HR Analytics</h3>
+              <p>Understand what people analytics is, the questions it answers, and the workforce measures HR teams
+                rely on.</p>
+              <div class="curriculum-topics"><strong>Key Topics:</strong> Role of HR Analytics &bull; HR Metrics &amp;
+                KPIs &bull; Workforce Data Sources &bull; Asking the Right Questions</div>
+            </div>
+          </div>
+
+          <div class="curriculum-row">
+            <div class="curriculum-meta">
+              <span class="module-num">Module 02</span>
+              <span class="module-time">Month 2</span>
+            </div>
+            <div class="curriculum-body">
+              <h3>Working with HR Data in Excel</h3>
+              <p>Clean, organise and analyse employee data, and summarise it into reports you can trust.</p>
+              <div class="curriculum-topics"><strong>Key Topics:</strong> Data Cleaning &bull; Lookups &bull; Pivot
+                Tables &bull; Headcount &amp; Attrition Reports</div>
+            </div>
+          </div>
+
+          <div class="curriculum-row">
+            <div class="curriculum-meta">
+              <span class="module-num">Module 03</span>
+              <span class="module-time">Month 3</span>
+            </div>
+            <div class="curriculum-body">
+              <h3>HR Dashboards &amp; Visualisation</h3>
+              <p>Design interactive dashboards in Power BI that show the state of the workforce at a glance.</p>
+              <div class="curriculum-topics"><strong>Key Topics:</strong> Power BI Basics &bull; Visual Design &bull;
+                Recruitment &amp; Attrition Dashboards &bull; Engagement Insights</div>
+            </div>
+          </div>
+
+          <div class="curriculum-row">
+            <div class="curriculum-meta">
+              <span class="module-num">Module 04</span>
+              <span class="module-time">Month 4</span>
+            </div>
+            <div class="curriculum-body">
+              <h3>Insights, Storytelling &amp; Capstone</h3>
+              <p>Interpret patterns, turn findings into recommendations and present them to decision-makers in a
+                capstone project.</p>
+              <div class="curriculum-topics"><strong>Key Topics:</strong> Trend Analysis &bull; Data Storytelling
+                &bull; HR Reporting &bull; Capstone Project</div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- CERTIFICATE & CAREER -->
+      <section class="content-section">
+        <h2 class="section-title">Certification &amp; Career Support</h2>
+        <p style="color: var(--text-muted); margin-bottom: 12px;">
+          Earn a recognised <strong>Kompetenzen Professional Certificate</strong> on completing your capstone project.
+        </p>
+        <p style="color: var(--text-muted);">
+          Our career team supports you with resume refinement, interview preparation and opportunities with hiring
+          partners for HR and people analytics roles.
+        </p>
+      </section>
+
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-box">
+        <span class="sidebar-badge">Admissions Open</span>
+        <h3 class="sidebar-title">Program Enrollment</h3>
+        <p class="sidebar-subtitle">Reserve your seat for the upcoming batch.</p>
+
+        <ul class="sidebar-list">
+          <li><span class="check">&bull;</span> 4-Month Practical Program</li>
+          <li><span class="check">&bull;</span> Excel &amp; Power BI on HR Data</li>
+          <li><span class="check">&bull;</span> Offline &amp; Online Live Options</li>
+          <li><span class="check">&bull;</span> Capstone Project</li>
+          <li><span class="check">&bull;</span> Verified Certificate</li>
+        </ul>
+
+        <a href="enroll.html?course=hr-analytics" class="btn-primary sidebar-btn-main">Enroll Now</a>
+        <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen,%20I%20have%20questions%20about%20the%20HR%20Analytics%20course."
+          target="_blank" rel="noopener" class="btn-outline sidebar-btn-wa">Enquire via WhatsApp</a>
+        <a href="https://wa.me/918590886009?text=Hi%20Kompetenzen,%20please%20share%20the%20Human%20Resource%20Analytics%20syllabus."
+          target="_blank" rel="noopener" class="btn-outline sidebar-btn-pdf">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Request the Syllabus
+        </a>
+
+        <div class="sidebar-contact">
+          Admissions Contact
+          <strong>+91 85908 86009</strong>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    <p>© 2026 Kompetenzen Career Consulting & Training Academy. All rights reserved. · <a href="privacy.html">Privacy
+        Policy</a></p>
+  </footer>
+
+  <button id="scrollTopBtn" class="scroll-top-btn" onclick="scrollToTop()" aria-label="Scroll to top">
+    &uarr;
+  </button>
+
+  <script>
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    if (scrollTopBtn) {
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          scrollTopBtn.classList.add('visible');
+        } else {
+          scrollTopBtn.classList.remove('visible');
+        }
+      }, { passive: true });
+    }
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+
+  </script>
+  <!-- Mobile Menu Toggle -->
+  <script>
+    (function () {
+      const hamburger = document.getElementById('hamburger-menu');
+      const navLinks = document.querySelector('.nav-links');
+      if (hamburger && navLinks) {
+        hamburger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          hamburger.classList.toggle('active');
+          navLinks.classList.toggle('mobile-active');
+        });
+        navLinks.querySelectorAll('a').forEach((link) => {
+          link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('mobile-active');
+          });
+        });
+        document.addEventListener('click', (e) => {
+          if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('mobile-active');
+          }
+        });
+      }
+    })();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js"
+    integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP"
+    crossorigin="anonymous"></script>
+  <script src="supabase-config.js"></script>
+  <script src="js/site-content.js"></script>
+  <script src="js/auth-modal.js?v=13"></script>
+</body>
+
+</html>

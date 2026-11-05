@@ -495,11 +495,6 @@
       border-color: rgba(168, 85, 247, 0.25);
     }
 
-    .stage-icon-exp {
-      background: rgba(16, 185, 129, 0.12);
-      border-color: rgba(16, 185, 129, 0.25);
-    }
-
     .stage-card:has(input:checked) .stage-card-icon {
       transform: scale(1.06);
       box-shadow: 0 0 16px rgba(59, 130, 246, 0.3);
@@ -568,82 +563,8 @@
     }
 
     /* KOMPETENZEN STUDENT TOGGLE CARD */
-    .toggle-card-box {
-      background: rgba(19, 26, 43, 0.7);
-      border: 1.5px solid var(--input-border);
-      border-radius: var(--radius-md);
-      padding: 18px 22px;
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      transition: border-color 0.2s ease;
-    }
-
-    .toggle-card-box:hover {
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-
-    .toggle-card-title {
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--ink-2);
-    }
 
     /* Modern Switch */
-    .switch-wrap {
-      position: relative;
-      display: inline-block;
-      width: 48px;
-      height: 26px;
-      flex-shrink: 0;
-    }
-
-    .switch-wrap input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .slider-toggle {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #2D3748;
-      transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      border-radius: 999px;
-    }
-
-    .slider-toggle:before {
-      position: absolute;
-      content: "";
-      height: 20px;
-      width: 20px;
-      left: 3px;
-      bottom: 3px;
-      background-color: white;
-      transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      border-radius: 50%;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-    }
-
-    input:checked+.slider-toggle {
-      background-color: var(--blue);
-      box-shadow: 0 0 12px rgba(37, 99, 235, 0.5);
-    }
-
-    input:checked+.slider-toggle:before {
-      transform: translateX(22px);
-    }
-
-    .student-course-reveal {
-      display: none;
-      margin-top: 12px;
-    }
 
     /* PILL BUTTONS / CHIPS (TAPS) */
     .pills-row-wrap {
@@ -666,7 +587,7 @@
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      user-select: none;
+      -webkit-user-select: none; user-select: none;
       font-family: inherit;
     }
 
@@ -693,31 +614,6 @@
     }
 
     /* CUSTOM SKILL ROW */
-    .custom-skill-input-group {
-      display: flex;
-      gap: 12px;
-      margin-top: 14px;
-    }
-
-    .btn-add-tag {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1.5px solid rgba(255, 255, 255, 0.14);
-      color: var(--ink-2);
-      padding: 0 22px;
-      border-radius: var(--radius-md);
-      font-size: 14.5px;
-      font-weight: 700;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.2s;
-    }
-
-    .btn-add-tag:hover {
-      background: var(--blue);
-      border-color: var(--blue);
-      color: #fff;
-      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
-    }
 
     /* FOOTER NAVIGATION BUTTONS */
     .step-actions-footer {
@@ -1002,15 +898,6 @@
     .form-input-box[readonly] {
       opacity: 0.75;
       cursor: not-allowed;
-    }
-
-    .other-input {
-      margin-top: 12px;
-    }
-
-    .more-details {
-      margin-top: 22px;
-      scroll-margin-top: 90px;
     }
 
     .profile-consent {

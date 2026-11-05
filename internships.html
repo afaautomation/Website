@@ -96,32 +96,6 @@
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
     }
 
-    .nav-inner {
-      max-width: 100%;
-      margin: 0 auto;
-      padding: 0 40px;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 32px;
-    }
-
-    .nav-left,
-    .nav-right {
-      display: flex;
-      align-items: center;
-      flex: 1;
-    }
-
-    .nav-left {
-      justify-content: flex-start;
-    }
-
-    .nav-right {
-      justify-content: flex-end;
-    }
-
     .brand img {
       height: 36px;
       display: block;
@@ -140,38 +114,9 @@
     .nav-links a:hover { color: #FFFFFF; }
     .nav-links a.active { color: #60A5FA; }
 
-    .nav-cta {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: #1947FF; color: #fff;
-      font-size: 14px; font-weight: 700;
-      padding: 10px 22px; border-radius: 99px;
-      text-decoration: none;
-      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
-      box-shadow: 0 4px 18px rgba(25, 71, 255, 0.35);
-    }
-
-    .nav-cta:hover {
-      background: #2563EB;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 26px rgba(37, 99, 235, 0.55);
-    }
-
-    .nav-dot {
-      width: 7px; height: 7px;
-      background: #1ED760; border-radius: 50%;
-      box-shadow: 0 0 0 3px rgba(30,215,96,0.3);
-      animation: pulse-dot 2s ease infinite;
-    }
-
     @keyframes pulse-dot {
       0%, 100% { box-shadow: 0 0 0 3px rgba(30,215,96,0.3); }
       50% { box-shadow: 0 0 0 8px rgba(30,215,96,0.1); }
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
     }
 
     .nav-user-badge {
@@ -227,7 +172,7 @@
       border-radius: 14px;
       padding: 8px;
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.06);
-      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px);
       display: none;
       z-index: 300;
       text-align: left;
@@ -533,7 +478,7 @@
       padding: 5px 13px; border-radius: 99px;
       font-size: 11px; font-weight: 800;
       text-transform: uppercase; letter-spacing: 0.08em;
-      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
       transition: all 0.25s ease;
     }
 
@@ -756,10 +701,6 @@
 
     /* RESPONSIVE */
     /* ===== Mobile Navigation Dropdown Menu ===== */
-    .mobile-services-header,
-    .nav-arrow {
-      display: none;
-    }
 
     .hamburger {
       display: none;
@@ -793,19 +734,8 @@
         border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
       }
 
-      .nav-inner {
-        position: relative !important;
-        padding: 0 16px !important;
-        height: 64px !important;
-      }
-
       .brand img {
         height: 32px !important;
-      }
-
-      .nav-cta {
-        padding: 8px 14px !important;
-        font-size: 13px !important;
       }
 
       .hamburger {
@@ -848,31 +778,6 @@
         pointer-events: auto !important;
       }
 
-      .mobile-services-header {
-        display: flex !important;
-        align-items: center !important;
-        gap: 8px !important;
-        font-size: 11px !important;
-        font-weight: 800 !important;
-        letter-spacing: 0.1em !important;
-        color: #60A5FA !important;
-        text-transform: uppercase !important;
-        padding: 6px 12px 10px !important;
-        margin-bottom: 4px !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-        text-align: left !important;
-      }
-
-      .mobile-services-header::before {
-        content: '';
-        display: inline-block;
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: #3B82F6;
-        box-shadow: 0 0 8px #3B82F6;
-      }
-
       .nav-links a {
         display: flex !important;
         align-items: center !important;
@@ -899,19 +804,6 @@
         color: #60A5FA !important;
         font-weight: 700 !important;
       }
-
-      .nav-arrow {
-        display: inline-block !important;
-        font-size: 13px !important;
-        color: #64748B !important;
-        transition: transform 0.15s ease !important;
-      }
-
-      .nav-links a:hover .nav-arrow,
-      .nav-links a.active .nav-arrow {
-        color: #60A5FA !important;
-        transform: translateX(3px) !important;
-      }
     }
   </style>
 
@@ -920,9 +812,7 @@
     /* Top bar has nine links since Internships was added: keep each label on one
        line and tighten spacing on narrower desktops, above the mobile-menu breakpoint. */
     .nav .nav-links a, .nav .nav-cta, .nav .cta { white-space: nowrap; }
-    @media (min-width: 993px) {
-      .nav .nav-left { min-width: max-content; }
-    }
+    
     @media (min-width: 993px) and (max-width: 1280px) {
       .nav .nav-links { gap: 16px; }
       .nav .nav-links a { font-size: 13px; }
@@ -935,11 +825,6 @@
     /* Tablet landscape / small laptops: the full desktop bar is wider than the screen
        until ~1180px, so trim padding and spacing to keep the CTA on screen. */
     @media (min-width: 981px) and (max-width: 1180px) {
-      .nav .nav-inner {
-        padding-left: 20px;
-        padding-right: 20px;
-        gap: 14px;
-      }
 
       .nav .nav-links {
         gap: 11px;
@@ -951,11 +836,6 @@
 
       .nav .brand img {
         height: 30px;
-      }
-
-      .nav .nav-cta {
-        padding: 8px 14px;
-        font-size: 13px;
       }
     }
   </style>
@@ -1266,7 +1146,7 @@
 
       if (drafts.length === 0) {
         jobsGrid.innerHTML = `
-          <div class="empty-jobs-notice" style="grid-column: 1/-1; text-align: center; padding: 72px 24px; background: rgba(14, 18, 29, 0.6); border-radius: var(--radius-lg); backdrop-filter: blur(16px); border: none;">
+          <div class="empty-jobs-notice" style="grid-column: 1/-1; text-align: center; padding: 72px 24px; background: rgba(14, 18, 29, 0.6); border-radius: var(--radius-lg); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); border: none;">
             <div style="font-size: 42px; margin-bottom: 14px;">🎓</div>
             <h3 style="font-size: 22px; font-weight: 700; color: #FFFFFF; margin-bottom: 8px;">No Internships Available Right Now</h3>
             <p style="color: var(--ink-mute); font-size: 14.5px; max-width: 480px; margin: 0 auto 24px; line-height: 1.6;">

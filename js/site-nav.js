@@ -105,7 +105,10 @@
 
     /* Narrower desktops: nine links, so tighten spacing before the mobile menu kicks in */
     '@media (min-width:981px) and (max-width:1280px){' + S + ' .kz-links{gap:16px}' + S + ' .kz-links a{font-size:13px}}',
-    '@media (min-width:981px) and (max-width:1180px){' + S + ' .kz-inner{padding:0 20px;gap:14px}' + S + ' .kz-links{gap:11px}' + S + ' .kz-links a{font-size:12.5px}' + S + ' .kz-brand img{height:30px}' + S + ' .kz-cta{padding:8px 14px;font-size:13px}}',
+    '@media (min-width:981px) and (max-width:1180px){' + S + ' .kz-inner{padding:0 20px;gap:14px}' + S + ' .kz-links{gap:11px}' + S + ' .kz-links a{font-size:12.5px}' + S + ' .kz-brand img{height:30px}' + S + ' .kz-cta{padding:8px 14px;font-size:13px}' +
+      /* Small laptops and landscape tablets (1024px): the side groups shrink to their content so the links fit */
+      S + ' .kz-left,' + S + ' .kz-right{flex:0 0 auto}' + S + ' .kz-links{flex:1 1 auto;min-width:0}' +
+      S + ' .kz-login span{display:none}' + S + ' .kz-login{padding:7px 9px;margin-right:8px}}',
 
     /* Mobile: hamburger + dropdown panel */
     '@media (max-width:980px){',
@@ -132,7 +135,9 @@
     S + ' .kz-links a:hover .kz-arrow,' + S + ' .kz-links a.active .kz-arrow{color:#1947FF;transform:translateX(3px)}',
     '}',
     /* Small phones: icon-only Log in button so the bar still fits */
-    '@media (max-width:420px){' + S + ' .kz-login span{display:none}' + S + ' .kz-login{padding:7px 9px}}'
+    '@media (max-width:420px){' + S + ' .kz-login span{display:none}' + S + ' .kz-login{padding:7px 9px}}',
+    /* 360px Android phones: trim side padding so logo, buttons and menu never push the page sideways */
+    '@media (max-width:380px){' + S + ' .kz-inner{padding:0 12px;gap:10px}' + S + ' .kz-brand img{height:28px}' + S + ' .kz-cta{padding:8px 12px}' + S + ' .kz-login{margin-right:6px}' + S + ' .kz-burger{margin-left:4px}}'
   ].join('');
 
   if (!document.getElementById('kz-nav-style')) {

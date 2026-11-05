@@ -279,6 +279,24 @@ body { background: var(--cp-bg); }
 .sidebar-btn-main { padding: 14px; font-size: 16px; }
 .sidebar-btn-wa { padding: 12px; font-size: 15px; }
 
+/* Syllabus download under the WhatsApp button */
+.sidebar-btn-pdf {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  gap: 8px;
+  font-size: 15px;
+  color: var(--cp-blue);
+  border-color: rgba(0, 86, 210, 0.35);
+  background: var(--cp-blue-soft);
+}
+.sidebar-btn-pdf:hover {
+  color: #FFFFFF;
+  border-color: var(--cp-blue);
+  background: var(--cp-blue);
+}
+.sidebar-btn-pdf svg { flex-shrink: 0; }
+
 .sidebar-contact { font-size: 14px; }
 .sidebar-contact strong { font-size: 16px; }
 
@@ -378,7 +396,8 @@ body {
 
 /* ---------- RESPONSIVE ---------- */
 @media (max-width: 992px) {
-  .main-container { gap: 24px; padding-left: 24px; padding-right: 24px; }
+  /* one column on tablets and phones: the sidebar moves below the content */
+  .main-container { grid-template-columns: minmax(0, 1fr); gap: 24px; padding-left: 24px; padding-right: 24px; }
   .hero-inner { padding-left: 24px; padding-right: 24px; }
   .sidebar-box { position: static; }
 }

@@ -208,41 +208,6 @@
       margin-bottom: 14px;
     }
 
-    .gate-tabs {
-      display: flex;
-      gap: 6px;
-      background: #f1f5f9;
-      padding: 4px;
-      border-radius: 12px;
-      border: 1.5px solid #000;
-      margin-bottom: 20px;
-    }
-
-    .gate-tab-btn {
-      flex: 1;
-      padding: 8px 12px;
-      font-size: 13px;
-      font-weight: 700;
-      font-family: inherit;
-      border: none;
-      background: transparent;
-      color: var(--ink-mute);
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-
-    .gate-tab-btn.active {
-      background: #000;
-      color: #fff;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .gate-tab-btn:hover:not(.active) {
-      color: var(--ink);
-      background: rgba(0, 0, 0, 0.04);
-    }
-
     .gate-toggle-footer {
       margin-top: 18px;
       font-size: 12.5px;
@@ -1780,20 +1745,6 @@
       min-width: 0;
     }
 
-    .reel-thumbnail {
-      width: 50px;
-      height: 70px;
-      border-radius: 8px;
-      background: #02050E;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-size: 18px;
-      flex-shrink: 0;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
     .reel-details {
       display: flex;
       flex-direction: column;
@@ -1884,6 +1835,23 @@
     }
 
     body { overflow-x: hidden; max-width: 100%; }
+
+    /* Staff list thumbnails */
+    .alumni-thumb {
+      width: 56px;
+      aspect-ratio: 4 / 5;
+      border-radius: 8px;
+      object-fit: cover;
+      background: var(--line-soft);
+      flex-shrink: 0;
+    }
+
+    .alumni-exp {
+      display: block;
+      margin-top: 4px;
+      font-size: 13px;
+      color: var(--ink-mute);
+    }
   </style>
   <link rel="stylesheet" href="css/mobile.css" media="(max-width: 768px)" />
 </head>
@@ -1964,6 +1932,17 @@
           <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
         </svg>
         <span>Post &amp; Manage Jobs &amp; Internships</span>
+      </button>
+      <button type="button" class="admin-tab-btn" onclick="switchAdminTab('staff')" id="tab-btn-staff">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="16" rx="2" />
+          <circle cx="9" cy="10" r="2.5" />
+          <path d="M5.5 17a3.5 3.5 0 0 1 7 0" />
+          <line x1="15" y1="9" x2="19" y2="9" />
+          <line x1="15" y1="13" x2="19" y2="13" />
+        </svg>
+        <span>Our Staff</span>
+        <span class="tab-badge" id="staff-counter-badge">0</span>
       </button>
     </div>
 
@@ -2235,6 +2214,63 @@
       </section>
     </div>
 
+
+    <!-- ========================================== -->
+    <!-- PANEL 3: OUR STAFF (our-story.html)        -->
+    <!-- ========================================== -->
+    <div id="panel-staff" class="admin-tab-panel">
+      <section class="admin-card">
+        <h2 id="staff-form-title">Add a Staff Member</h2>
+        <p style="font-size: 13.5px; color: var(--ink-mute); margin-bottom: 20px;">Staff appear in the "Our Trainers" section on the Our Story page. Until a list is published here, the page keeps showing its built-in cards.</p>
+        <form class="form-grid" id="staff-form" novalidate>
+          <div class="form-row">
+            <div class="field">
+              <label for="staff-name">Name <span class="req">*</span></label>
+              <input id="staff-name" type="text" maxlength="60" placeholder="e.g. Akhil Raj R C" />
+            </div>
+            <div class="field">
+              <label for="staff-title">Job title <span class="req">*</span></label>
+              <input id="staff-title" type="text" maxlength="70" placeholder="e.g. Technical Lead" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="staff-badge">Area / specialism</label>
+            <input id="staff-badge" type="text" maxlength="50" placeholder="e.g. Python Full Stack" />
+            <p class="field-hint">Shown as the small blue label at the top of the card. Optional.</p>
+          </div>
+          <div class="field">
+            <label for="staff-bio">Short bio <span class="req">*</span></label>
+            <textarea id="staff-bio" rows="4" maxlength="400" placeholder="Two or three sentences about their experience and what they teach."></textarea>
+            <p class="field-hint">The card shows the first four lines; keep it to two or three sentences.</p>
+          </div>
+          <div class="field">
+            <label for="staff-photo">Photo <span class="req" id="staff-photo-req">*</span></label>
+            <input id="staff-photo" type="file" accept="image/jpeg,image/png,image/webp" />
+            <p class="field-hint" id="staff-photo-hint">Head-and-shoulders photo, JPG, PNG or WebP, up to 5 MB. It is cropped to the card shape and resized before upload.</p>
+          </div>
+          <div class="form-actions">
+            <button class="btn-primary" type="submit" id="staff-save">Add Staff Member →</button>
+            <button class="btn-secondary" type="button" id="staff-cancel" style="display:none;">Cancel editing</button>
+            <span class="save-status" id="staff-status">✓ Staff published</span>
+          </div>
+        </form>
+      </section>
+
+      <section class="admin-card" style="box-shadow: 6px 6px 0px rgba(0, 0, 0, 1);">
+        <div class="list-head">
+          <div>
+            <h2>Staff on the Our Story Page</h2>
+            <p style="font-size: 13px; color: var(--ink-mute); margin-top: 4px;">Shown in this order on the Our Story page. Use the pencil to edit someone.</p>
+          </div>
+          <span class="list-count" id="staff-count">0 staff</span>
+        </div>
+        <p id="staff-builtin-note" class="field-hint" style="display:none; margin: 0 0 14px; padding: 10px 14px; border-radius: 10px; background: var(--blue-soft, #E8ECFF); color: var(--ink);">
+          These are the people currently built into the Our Story page. Your first change (adding, editing, reordering or removing) publishes this list, and from then on the page shows what is here.
+        </p>
+        <div id="staff-empty" class="list-empty">No staff published. The Our Story page falls back to its built-in cards.</div>
+        <div id="staff-list" class="reels-list-container"></div>
+      </section>
+    </div>
 
   </main>
 
@@ -3431,13 +3467,237 @@
 
       window.reloadAdminJobs = render;
     })();
+    /* =============================================
+       OUR STAFF (our-story.html)
+    ============================================= */
+    (function () {
+      const KEY = 'kompetenzen_staff';
+      const BUCKET = 'site-media';
+      const TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+      const $ = id => document.getElementById(id);
+      const form = $('staff-form'), list = $('staff-list');
+      let staff = [];
+      let builtIn = false; // true while showing the page's built-in people (nothing published yet)
+      let editing = -1; // index being edited, or -1 when adding
+
+      // The people built into our-story.html, used by "Start from the current page's staff".
+      // Three of them had a placeholder stock photo on the page, so they start without a photo.
+      const CURRENT_PAGE_STAFF = [
+        { name: 'Akhil Raj R C', title: 'Technical Lead', badge: 'Tech Leadership', photo: 'Akhil.webp', bio: 'Technical Lead with 4+ years of experience in software development, guiding aspiring developers in application architecture, technical problem-solving, and industry-oriented development practices.' },
+        { name: 'Nafiya S', title: 'Team Lead – Learning & Training', badge: 'Python Full Stack', photo: 'Nafia.webp', bio: 'Full-stack development professional with 3+ years of experience and 2+ years in technical training, mentoring students through practical projects in Java, Python, and React.' },
+        { name: 'Dibin Babu', title: 'Software Engineer', badge: 'Python Full Stack and Generative AI', photo: 'Dibin.webp', bio: 'Software engineering professional with 3 years of experience, helping students strengthen their programming, application development, and problem-solving skills through practical learning.' },
+        { name: 'Priyamvada BS', title: 'Team Lead – Learning & Training II', badge: 'Python Full Stack and Generative AI', photo: '', bio: 'Technical training and leadership professional with 4.5+ years of experience, combining full-stack development expertise with mentoring in Python, Java, React, and modern web technologies.' },
+        { name: 'Jithu Prabhakar', title: 'Technical Lead', badge: 'Tech Leadership', photo: 'Jithu.webp', bio: 'Software engineering and technical training professional specializing in gen AI, Python, JavaScript, Django, React, full-stack development and automation. Leads technical training, mentors aspiring developers through real-world projects, and bridges industry practices with career-focused learning.' },
+        { name: 'Lakshmi K', title: 'Senior Data Analyst', badge: 'Data Analytics', photo: 'Lakshmi.webp', bio: 'Data analytics professional with experience in MS Excel, Power BI, Tableau, SQL and Python, bringing practical analytical expertise and a data-driven approach to developing students\' analytical and problem-solving skills.' },
+        { name: 'Aparna N S', title: 'Junior Software Engineer', badge: 'Python Full Stack', photo: 'Aparna.webp', bio: 'Software engineering professional with experience in Python, JavaScript, React, Django and SQL supporting students in programming fundamentals, software development, and practical coding through hands-on learning.' },
+        { name: 'Prathibha S', title: 'Junior Data Analyst', badge: 'Data Analytics', photo: '', bio: 'Data analytics professional with experience in MS Excel, Power BI, Tableau, SQL and Python, mentoring students in Data Analytics concepts with a focus on practical analysis and data visualization.' },
+        { name: 'Thara Krishna R', title: 'Junior Software Engineer', badge: 'Python Full Stack', photo: '', bio: 'Software engineering professional with 3+ years of experience, supporting aspiring developers in building strong programming foundations, technical confidence, and practical development skills.' }
+      ].map(p => ({ ...p, photoPath: '' }));
+
+      // Centre-crop to the card shape (10 : 9) and shrink to 600x540 WebP, keeping more of the top where faces are.
+      async function toCardPhoto(file) {
+        const bitmap = await createImageBitmap(file);
+        const W = 600, H = 540;
+        const scale = Math.max(W / bitmap.width, H / bitmap.height);
+        const sw = W / scale, sh = H / scale;
+        const canvas = document.createElement('canvas');
+        canvas.width = W; canvas.height = H;
+        const ctx = canvas.getContext('2d');
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(bitmap, (bitmap.width - sw) / 2, (bitmap.height - sh) * 0.25, sw, sh, 0, 0, W, H);
+        if (bitmap.close) bitmap.close();
+        return new Promise((resolve, reject) => canvas.toBlob(b => b ? resolve(b) : reject(new Error('The photo could not be processed.')), 'image/webp', 0.86));
+      }
+
+      async function upload(blob) {
+        const path = 'staff/' + Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '.webp';
+        const { error } = await supabaseClient.storage.from(BUCKET).upload(path, blob, { contentType: 'image/webp', cacheControl: '31536000', upsert: false });
+        if (error) throw error;
+        return { path, url: supabaseClient.storage.from(BUCKET).getPublicUrl(path).data.publicUrl };
+      }
+
+      // Only files this console uploaded (photoPath) are deleted; built-in site images are never touched.
+      async function removeFiles(paths) {
+        paths = paths.filter(Boolean);
+        if (paths.length) await supabaseClient.storage.from(BUCKET).remove(paths).catch(() => {});
+      }
+
+      function flashStatus(text) {
+        const status = $('staff-status');
+        status.textContent = text;
+        status.classList.add('is-visible');
+        setTimeout(() => status.classList.remove('is-visible'), 2500);
+      }
+
+      async function publish(next) {
+        await siteContent.save(KEY, { staff: next });
+        staff = next;
+        builtIn = false;
+        render();
+      }
+
+      function setEditing(index) {
+        editing = index;
+        const isEdit = index >= 0;
+        $('staff-form-title').textContent = isEdit ? 'Edit ' + staff[index].name : 'Add a Staff Member';
+        $('staff-save').textContent = isEdit ? 'Save Changes →' : 'Add Staff Member →';
+        $('staff-cancel').style.display = isEdit ? '' : 'none';
+        $('staff-photo-req').style.display = isEdit ? 'none' : '';
+        $('staff-photo-hint').textContent = isEdit
+          ? 'Leave empty to keep the current photo, or choose a new one to replace it.'
+          : 'Head-and-shoulders photo, JPG, PNG or WebP, up to 5 MB. It is cropped to the card shape and resized before upload.';
+        if (isEdit) {
+          const p = staff[index];
+          $('staff-name').value = p.name || '';
+          $('staff-title').value = p.title || '';
+          $('staff-badge').value = p.badge || '';
+          $('staff-bio').value = p.bio || '';
+          $('staff-photo').value = '';
+          form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          form.reset();
+        }
+      }
+
+      function render() {
+        $('staff-count').textContent = staff.length + ' staff';
+        $('staff-counter-badge').textContent = staff.length;
+        $('staff-empty').style.display = staff.length ? 'none' : 'block';
+        $('staff-builtin-note').style.display = builtIn ? 'block' : 'none';
+        list.replaceChildren();
+        staff.forEach((person, index) => {
+          const item = document.createElement('article');
+          item.className = 'reel-item';
+          item.innerHTML = `
+            <div class="reel-item-main">
+              <img class="alumni-thumb" alt="" />
+              <div class="reel-details">
+                <h3></h3>
+                <span class="id-badge"></span>
+                <span class="alumni-exp"></span>
+              </div>
+            </div>
+            <div class="reel-controls">
+              <button class="reel-control-btn" type="button" data-action="edit" aria-label="Edit">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+              </button>
+              <button class="reel-control-btn" type="button" data-action="up" aria-label="Move up" ${index === 0 ? 'disabled' : ''}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+              </button>
+              <button class="reel-control-btn" type="button" data-action="down" aria-label="Move down" ${index === staff.length - 1 ? 'disabled' : ''}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <button class="reel-control-btn reel-remove" type="button" data-action="remove" aria-label="Remove staff member">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+              </button>
+            </div>`;
+          const img = item.querySelector('img');
+          if (person.photo) img.src = person.photo; else img.style.visibility = 'hidden';
+          item.querySelector('h3').textContent = person.name;
+          item.querySelector('.id-badge').textContent = person.title;
+          item.querySelector('.alumni-exp').textContent = [person.badge, person.photo ? '' : 'No photo yet: add one with the pencil'].filter(Boolean).join(' · ');
+          item.querySelectorAll('button').forEach(btn => btn.dataset.index = index);
+          list.append(item);
+        });
+      }
+
+      window.loadStaff = async function () {
+        let value;
+        try { value = (await siteContent.read(KEY, {})) || {}; } catch (err) { alert('Staff could not be loaded: ' + err.message); return; }
+        // Nothing published yet: show the people built into the page, so they can be edited straight away.
+        // The first change publishes the whole list.
+        if (Array.isArray(value.staff)) {
+          staff = value.staff;
+          builtIn = false;
+        } else {
+          staff = CURRENT_PAGE_STAFF.map(p => ({ ...p }));
+          builtIn = true;
+        }
+        setEditing(-1);
+        render();
+      };
+
+      $('staff-cancel').addEventListener('click', () => setEditing(-1));
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const file = $('staff-photo').files[0];
+        const isEdit = editing >= 0;
+        const before = isEdit ? staff[editing] : null;
+        const person = {
+          name: $('staff-name').value.trim(),
+          title: $('staff-title').value.trim(),
+          badge: $('staff-badge').value.trim(),
+          bio: $('staff-bio').value.trim(),
+          photo: before ? before.photo : '',
+          photoPath: before ? before.photoPath : ''
+        };
+        const button = $('staff-save');
+        let uploaded = '';
+        try {
+          if (!person.name || !person.title || !person.bio) throw new Error('Fill in the name, job title and short bio.');
+          if (!isEdit && !file) throw new Error('Choose a photo.');
+          if (file) {
+            if (!TYPES.includes(file.type)) throw new Error('The photo must be a JPG, PNG or WebP image.');
+            if (file.size > 5 * 1024 * 1024) throw new Error('The photo is larger than 5 MB. Please compress it first.');
+            button.disabled = true; button.textContent = 'Uploading…';
+            const up = await upload(await toCardPhoto(file));
+            uploaded = up.path;
+            person.photo = up.url; person.photoPath = up.path;
+          }
+          button.disabled = true; button.textContent = 'Publishing…';
+          const next = [...staff];
+          if (isEdit) next[editing] = person; else next.push(person);
+          await publish(next);
+          // the old uploaded photo is removed only once the new list is live
+          if (isEdit && file && before.photoPath) await removeFiles([before.photoPath]);
+          setEditing(-1);
+          flashStatus(isEdit ? '✓ Changes published' : '✓ Staff member added');
+        } catch (err) {
+          await removeFiles([uploaded]);
+          alert((isEdit ? 'Changes were not saved: ' : 'Staff member was not added: ') + err.message);
+        } finally {
+          button.disabled = false;
+          button.textContent = editing >= 0 ? 'Save Changes →' : 'Add Staff Member →';
+        }
+      });
+
+      list.addEventListener('click', async (e) => {
+        const btn = e.target.closest('.reel-control-btn');
+        if (!btn) return;
+        const index = Number(btn.dataset.index);
+        if (btn.dataset.action === 'edit') { setEditing(index); return; }
+        const next = [...staff];
+        try {
+          if (btn.dataset.action === 'remove') {
+            if (!confirm('Remove ' + next[index].name + ' from the Our Story page?')) return;
+            const [removed] = next.splice(index, 1);
+            if (editing === index) setEditing(-1);
+            await publish(next);
+            await removeFiles([removed.photoPath]);
+            flashStatus('✓ Staff member removed');
+          } else {
+            const target = btn.dataset.action === 'up' ? index - 1 : index + 1;
+            if (target < 0 || target >= next.length) return;
+            [next[index], next[target]] = [next[target], next[index]];
+            if (editing >= 0) setEditing(-1);
+            await publish(next);
+          }
+        } catch (err) { alert('Staff were not updated: ' + err.message); }
+      });
+    })();
+
+    // The staff gate calls this after sign-in; it loads the published staff list.
+    window.reloadAdminContent = function () {
+      if (window.loadStaff) window.loadStaff();
+    };
     document.addEventListener('DOMContentLoaded', () => {
       // Data loading is driven by the staff gate's own session check now; the
       // old sessionStorage flag could be set by hand to trigger these loads.
 
       // Check URL hash for direct tab navigation (e.g. admin.html#jobs)
       const hash = (window.location.hash || '').replace('#', '');
-      if (hash && ['applications', 'jobs'].includes(hash)) {
+      if (hash && ['applications', 'jobs', 'staff'].includes(hash)) {
         if (typeof window.switchAdminTab === 'function') {
           window.switchAdminTab(hash);
         }

@@ -30,7 +30,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       for (const student of matches) {
         const card = document.createElement('div'); card.className = 'student-card';
         const photo = document.createElement('img'); photo.className = 'student-photo'; photo.alt = student.name;
-        const url = new URL(student.photo || 'student_python.jpg', location.href);
+        // Entries published before the WebP conversion still name the old JPG placeholders.
+        const photoPath = String(student.photo || 'student_python.webp').replace(/^(\.?\/)?(student_hr|student_python)\.jpe?g$/i, '$1$2.webp');
+        const url = new URL(photoPath, location.href);
         if (['http:', 'https:'].includes(url.protocol)) photo.src = url.href;
         card.append(photo);
         for (const [tag, className, value] of [['h4','student-name',student.name],['div','student-role',student.role],['span','student-company',student.company],['div','student-badge',student.badge || 'Placed Candidate']]) {

@@ -114,32 +114,6 @@
       transition: background 0.3s ease, backdrop-filter 0.3s ease;
     }
 
-    .nav-inner {
-      max-width: 100%;
-      margin: 0 auto;
-      padding: 0 40px;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 32px;
-    }
-
-    .nav-left,
-    .nav-right {
-      display: flex;
-      align-items: center;
-      flex: 1;
-    }
-
-    .nav-left {
-      justify-content: flex-start;
-    }
-
-    .nav-right {
-      justify-content: flex-end;
-    }
-
     .brand img {
       height: 36px;
       display: block;
@@ -172,26 +146,6 @@
     .nav-links a.active {
       color: #60A5FA;
       font-weight: 700;
-    }
-
-    .nav-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: #1947FF;
-      color: #fff;
-      font-size: 14px;
-      font-weight: 600;
-      padding: 10px 22px;
-      border-radius: 99px;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.2s;
-      box-shadow: 0 4px 16px rgba(25, 71, 255, 0.35);
-    }
-
-    .nav-cta:hover {
-      background: #3362FF;
-      transform: translateY(-1px);
     }
 
     .tech-hero {
@@ -292,22 +246,6 @@
       max-width: 600px;
       margin: 0 auto 40px;
       line-height: 1.6;
-    }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(25, 71, 255, 0.2);
-      border: 1px solid rgba(25, 71, 255, 0.4);
-      color: #7B92FF;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 6px 16px;
-      border-radius: 99px;
-      margin-bottom: 28px;
     }
 
     /* CARDS */
@@ -752,7 +690,7 @@
       background: rgba(11, 19, 43, 0.5);
       border-top: 1px solid rgba(56, 189, 248, 0.15);
       border-bottom: 1px solid rgba(56, 189, 248, 0.15);
-      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
     }
 
     .placements-section li {
@@ -766,7 +704,7 @@
       border-radius: 14px;
       background: rgba(11, 19, 43, 0.45);
       border: 1px solid rgba(56, 189, 248, 0.18);
-      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
       transition: transform 0.28s ease, background 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
     }
 
@@ -805,10 +743,6 @@
     }
 
     /* ===== Mobile Navigation Dropdown Menu ===== */
-    .mobile-services-header,
-    .nav-arrow {
-      display: none;
-    }
 
     .hamburger {
       display: none;
@@ -842,19 +776,8 @@
         border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
       }
 
-      .nav-inner {
-        position: relative !important;
-        padding: 0 16px !important;
-        height: 64px !important;
-      }
-
       .brand img {
         height: 32px !important;
-      }
-
-      .nav-cta {
-        padding: 8px 14px !important;
-        font-size: 13px !important;
       }
 
       .hamburger {
@@ -897,31 +820,6 @@
         pointer-events: auto !important;
       }
 
-      .mobile-services-header {
-        display: flex !important;
-        align-items: center !important;
-        gap: 8px !important;
-        font-size: 11px !important;
-        font-weight: 800 !important;
-        letter-spacing: 0.1em !important;
-        color: #38BDF8 !important;
-        text-transform: uppercase !important;
-        padding: 6px 12px 10px !important;
-        margin-bottom: 4px !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-        text-align: left !important;
-      }
-
-      .mobile-services-header::before {
-        content: '';
-        display: inline-block;
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: #38BDF8;
-        box-shadow: 0 0 8px #38BDF8;
-      }
-
       .nav-links a {
         display: flex !important;
         align-items: center !important;
@@ -947,19 +845,6 @@
         background: rgba(56, 189, 248, 0.18) !important;
         color: #38BDF8 !important;
         font-weight: 700 !important;
-      }
-
-      .nav-arrow {
-        display: inline-block !important;
-        font-size: 13px !important;
-        color: #64748B !important;
-        transition: transform 0.15s ease !important;
-      }
-
-      .nav-links a:hover .nav-arrow,
-      .nav-links a.active .nav-arrow {
-        color: #38BDF8 !important;
-        transform: translateX(3px) !important;
       }
     }
 
@@ -1330,9 +1215,7 @@
     /* Top bar has nine links since Internships was added: keep each label on one
        line and tighten spacing on narrower desktops, above the mobile-menu breakpoint. */
     .nav .nav-links a, .nav .nav-cta, .nav .cta { white-space: nowrap; }
-    @media (min-width: 993px) {
-      .nav .nav-left { min-width: max-content; }
-    }
+    
     @media (min-width: 993px) and (max-width: 1280px) {
       .nav .nav-links { gap: 16px; }
       .nav .nav-links a { font-size: 13px; }
@@ -1345,11 +1228,6 @@
     /* Tablet landscape / small laptops: the full desktop bar is wider than the screen
        until ~1180px, so trim padding and spacing to keep the CTA on screen. */
     @media (min-width: 981px) and (max-width: 1180px) {
-      .nav .nav-inner {
-        padding-left: 20px;
-        padding-right: 20px;
-        gap: 14px;
-      }
 
       .nav .nav-links {
         gap: 11px;
@@ -1361,11 +1239,6 @@
 
       .nav .brand img {
         height: 30px;
-      }
-
-      .nav .nav-cta {
-        padding: 8px 14px;
-        font-size: 13px;
       }
     }
   </style>
@@ -1381,7 +1254,6 @@
     .nav .nav-links { background:#fff !important; }
     .nav .nav-links a { color:#42536d !important; }
     .nav .nav-links a.active, .nav .nav-links a:hover { color:#2454da !important; }
-    .nav-cta { background:#2454da !important; color:#fff !important; box-shadow:none; }
     .hamburger span { background:#142747 !important; }
     #bSchoolHero { min-height:calc(100svh - 64px) !important; padding:80px max(24px,6vw) !important; background:linear-gradient(120deg,#fff 30%,#edf3ff 100%) !important; }
     #bSchoolHero > div:first-child, #bSchoolHero::before, #bSchoolHero::after { display:none; }
@@ -1391,20 +1263,20 @@
     #bSchoolHero .hero-main-title span { color:#2454da !important; }
     #bSchoolHero .hero-desc { text-align:left !important; margin:0 0 32px !important; font-size:17px !important; }
     #bSchoolHero .hero-cta-wrapper { justify-content:flex-start !important; }
-    #bSchoolHero .hero-showcase-spacer { display:block !important; min-height:480px !important; border-radius:24px 24px 80px 24px; background:url('Hanna.png') 68% center / cover; border:8px solid #fff; box-shadow:0 24px 70px rgba(30,65,130,.14); }
+    #bSchoolHero .hero-showcase-spacer { display:block !important; min-height:480px !important; border-radius:24px 24px 80px 24px; background:url('Hanna.webp') 68% center / cover; border:8px solid #fff; box-shadow:0 24px 70px rgba(30,65,130,.14); }
     .hero-eyebrow, .eyebrow { background:#edf3ff !important; color:#2454da !important; border:1px solid #dce6ff !important; box-shadow:none !important; }
     .hero-eyebrow .dot { background:#2454da !important; box-shadow:none !important; }
     .hero-btn-primary, .apply-btn { background:#2454da !important; color:#fff !important; border-radius:10px !important; box-shadow:0 6px 16px rgba(36,84,218,.15) !important; }
-    .hero-btn-secondary { background:#fff !important; color:#2454da !important; border:1px solid #ccd9f2 !important; border-radius:10px !important; backdrop-filter:none !important; }
+    .hero-btn-secondary { background:#fff !important; color:#2454da !important; border:1px solid #ccd9f2 !important; border-radius:10px !important; -webkit-backdrop-filter: none !important; backdrop-filter:none !important; }
     .programs-section, .structure-section { background:#fff !important; padding-top:88px !important; padding-bottom:88px !important; }
     .stats-cards-section, .roadmap-section, .placements-section { background:#f3f7fe !important; }
-    .program-card, .stat-block, .structure-card, .roadmap-stack-card { background:#fff !important; border:1px solid #dce5f2 !important; box-shadow:0 12px 36px rgba(29,59,106,.06) !important; backdrop-filter:none !important; border-radius:18px !important; }
+    .program-card, .stat-block, .structure-card, .roadmap-stack-card { background:#fff !important; border:1px solid #dce5f2 !important; box-shadow:0 12px 36px rgba(29,59,106,.06) !important; -webkit-backdrop-filter: none !important; backdrop-filter:none !important; border-radius:18px !important; }
     .program-card:hover, .structure-card:hover { border-color:#9ab4ef !important; box-shadow:0 18px 44px rgba(29,59,106,.10) !important; }
     .program-card::before, .stat-block::before, .structure-card::before { display:none; }
     .card-icon, .roadmap-card-icon { background:#edf3ff !important; color:#2454da !important; border:1px solid #dce6ff !important; box-shadow:none !important; }
     .program-rating, .roadmap-card-step, .skills-row span { color:#2454da !important; text-shadow:none !important; }
     .card-footer, .skills-row { border-color:#e4eaf4 !important; }
-    .placements-section li { background:#fff !important; border:1px solid #dce5f2 !important; color:#596b82 !important; backdrop-filter:none !important; box-shadow:none !important; }
+    .placements-section li { background:#fff !important; border:1px solid #dce5f2 !important; color:#596b82 !important; -webkit-backdrop-filter: none !important; backdrop-filter:none !important; box-shadow:none !important; }
     .stats-cards-section h3 + p, .stats-cards-section p { color:#596b82 !important; }
     .stat-block [style*="text-shadow"] { color:#2454da !important; text-shadow:none !important; }
     .structure-card > div:first-child { background:#edf3ff !important; color:#2454da !important; box-shadow:none !important; border-color:#dce6ff !important; }
@@ -1416,7 +1288,6 @@
       #bSchoolHero .hero-showcase-spacer { min-height:320px !important; width:100%; }
       #bSchoolHero { padding:56px 24px !important; }
       .nav .nav-links { background:#fff !important; }
-      .mobile-services-header { color:#64748b !important; }
     }
     @media(prefers-reduced-motion:reduce) { *, *::before, *::after { animation:none !important; transition:none !important; } }
 
@@ -1497,7 +1368,7 @@
           <a href="#programs" class="hero-btn-primary" style="display: inline-flex; align-items: center; gap: 10px; background: #1947FF; color: #FFFFFF; padding: 14px 32px; border-radius: 99px; font-size: 15px; font-weight: 700; text-decoration: none; box-shadow: 0 8px 30px rgba(25, 71, 255, 0.45);">
             <span>Explore the courses ↓</span>
           </a>
-          <a href="https://wa.me/918590886009?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20Kompetenzen%20B-School%20courses." target="_blank" rel="noopener" class="hero-btn-secondary" style="display: inline-flex; align-items: center; gap: 10px; background: rgba(255, 255, 255, 0.08); color: #FFFFFF; border: 1px solid rgba(255, 255, 255, 0.2); padding: 14px 32px; border-radius: 99px; font-size: 15px; font-weight: 600; text-decoration: none; backdrop-filter: blur(10px);">
+          <a href="https://wa.me/918590886009?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20Kompetenzen%20B-School%20courses." target="_blank" rel="noopener" class="hero-btn-secondary" style="display: inline-flex; align-items: center; gap: 10px; background: rgba(255, 255, 255, 0.08); color: #FFFFFF; border: 1px solid rgba(255, 255, 255, 0.2); padding: 14px 32px; border-radius: 99px; font-size: 15px; font-weight: 600; text-decoration: none; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);">
             <span>Talk to an advisor</span>
           </a>
         </div>
@@ -1581,8 +1452,8 @@
         <p class="program-desc">Build the confidence to turn workforce information into clearer questions, useful insights and better-informed HR decisions &mdash; from understanding workforce measures to interpreting patterns and communicating what they mean.</p>
         <p class="program-batch">Next Batch: <strong data-batch-date="hr-analytics">Coming Soon</strong></p>
         <div class="card-footer">
-          <a href="https://wa.me/918590886009?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20the%20Human%20Resource%20Analytics%20course." class="apply-btn" target="_blank" rel="noopener">
-            Talk to an advisor
+          <a href="hr-analytics-course-details.html" class="apply-btn">
+            Explore course
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round">
               <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -1881,7 +1752,7 @@
   </section>
 
   <!-- PLACEMENTS & CAREER SUPPORT -->
-  <section class="placements-section" style="padding: 100px 0; background: rgba(11, 19, 43, 0.5); border-top: 1px solid rgba(56, 189, 248, 0.15); border-bottom: 1px solid rgba(56, 189, 248, 0.15); backdrop-filter: blur(12px);">
+  <section class="placements-section" style="padding: 100px 0; background: rgba(11, 19, 43, 0.5); border-top: 1px solid rgba(56, 189, 248, 0.15); border-bottom: 1px solid rgba(56, 189, 248, 0.15); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);">
     <div style="max-width: var(--maxw); margin: 0 auto; padding: 0 24px; display: flex; justify-content: center;">
 
       <!-- Centered Text Content -->
@@ -1894,7 +1765,7 @@
 
         <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 20px; text-align: left; width: 100%;">
           <li
-            style="display: flex; align-items: flex-start; gap: 16px; font-size: 18px; color: rgba(226, 232, 240, 0.85); line-height: 1.5; padding: 14px 20px; border-radius: 14px; background: rgba(11, 19, 43, 0.45); border: 1px solid rgba(56, 189, 248, 0.18); backdrop-filter: blur(8px); transition: transform 0.28s ease, background 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;">
+            style="display: flex; align-items: flex-start; gap: 16px; font-size: 18px; color: rgba(226, 232, 240, 0.85); line-height: 1.5; padding: 14px 20px; border-radius: 14px; background: rgba(11, 19, 43, 0.45); border: 1px solid rgba(56, 189, 248, 0.18); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); transition: transform 0.28s ease, background 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
               <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
@@ -1904,7 +1775,7 @@
             <span><strong style="color: #FFFFFF;">Dedicated B2B placement team</strong> working for your success.</span>
           </li>
           <li
-            style="display: flex; align-items: flex-start; gap: 16px; font-size: 18px; color: rgba(226, 232, 240, 0.85); line-height: 1.5; padding: 14px 20px; border-radius: 14px; background: rgba(11, 19, 43, 0.45); border: 1px solid rgba(56, 189, 248, 0.18); backdrop-filter: blur(8px); transition: transform 0.28s ease, background 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;">
+            style="display: flex; align-items: flex-start; gap: 16px; font-size: 18px; color: rgba(226, 232, 240, 0.85); line-height: 1.5; padding: 14px 20px; border-radius: 14px; background: rgba(11, 19, 43, 0.45); border: 1px solid rgba(56, 189, 248, 0.18); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); transition: transform 0.28s ease, background 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
               <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
@@ -1914,7 +1785,7 @@
             <span><strong style="color: #FFFFFF;">Mega job drives</strong> connecting you with top employers.</span>
           </li>
           <li
-            style="display: flex; align-items: flex-start; gap: 16px; font-size: 18px; color: rgba(226, 232, 240, 0.85); line-height: 1.5; padding: 14px 20px; border-radius: 14px; background: rgba(11, 19, 43, 0.45); border: 1px solid rgba(56, 189, 248, 0.18); backdrop-filter: blur(8px); transition: transform 0.28s ease, background 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;">
+            style="display: flex; align-items: flex-start; gap: 16px; font-size: 18px; color: rgba(226, 232, 240, 0.85); line-height: 1.5; padding: 14px 20px; border-radius: 14px; background: rgba(11, 19, 43, 0.45); border: 1px solid rgba(56, 189, 248, 0.18); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); transition: transform 0.28s ease, background 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -1926,7 +1797,7 @@
             <span><strong style="color: #FFFFFF;">Resume & LinkedIn optimization</strong> to stand out.</span>
           </li>
           <li
-            style="display: flex; align-items: flex-start; gap: 16px; font-size: 18px; color: rgba(226, 232, 240, 0.85); line-height: 1.5; padding: 14px 20px; border-radius: 14px; background: rgba(11, 19, 43, 0.45); border: 1px solid rgba(56, 189, 248, 0.18); backdrop-filter: blur(8px); transition: transform 0.28s ease, background 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;">
+            style="display: flex; align-items: flex-start; gap: 16px; font-size: 18px; color: rgba(226, 232, 240, 0.85); line-height: 1.5; padding: 14px 20px; border-radius: 14px; background: rgba(11, 19, 43, 0.45); border: 1px solid rgba(56, 189, 248, 0.18); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); transition: transform 0.28s ease, background 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
               <circle cx="12" cy="12" r="10"></circle>
@@ -1936,7 +1807,7 @@
             <span><strong style="color: #FFFFFF;">Company-specific mock interviews</strong> to build confidence.</span>
           </li>
           <li
-            style="display: flex; align-items: flex-start; gap: 16px; font-size: 18px; color: rgba(226, 232, 240, 0.85); line-height: 1.5; padding: 14px 20px; border-radius: 14px; background: rgba(11, 19, 43, 0.45); border: 1px solid rgba(56, 189, 248, 0.18); backdrop-filter: blur(8px); transition: transform 0.28s ease, background 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;">
+            style="display: flex; align-items: flex-start; gap: 16px; font-size: 18px; color: rgba(226, 232, 240, 0.85); line-height: 1.5; padding: 14px 20px; border-radius: 14px; background: rgba(11, 19, 43, 0.45); border: 1px solid rgba(56, 189, 248, 0.18); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); transition: transform 0.28s ease, background 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
               <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>

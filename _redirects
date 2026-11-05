@@ -1,3 +1,17 @@
 # Cloudflare Pages redirects. The consultation page moved to a new address.
 /career-consulting.html  /career-consultation  301
 /career-consulting       /career-consultation  301
+
+# Photos were converted to WebP. Content published from the staff consoles before the
+# change may still point at the old PNG/JPG names, so send those to the new files.
+/Hanna.png           /Hanna.webp            301
+/Hanna%20maam.png    /Hanna%20maam.webp     301
+/Ananthu.png         /Ananthu.webp          301
+/Akhil.png           /Akhil.webp            301
+/Dibin.png           /Dibin.webp            301
+/Lakshmi.png         /Lakshmi.webp          301
+/Aparna.png          /Aparna.webp           301
+/Nafia.jpg           /Nafia.webp            301
+/Jithu.jpg           /Jithu.webp            301
+/student_hr.jpg      /student_hr.webp       301
+/student_python.jpg  /student_python.webp   301
