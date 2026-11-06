@@ -137,7 +137,9 @@
     /* Small phones: icon-only Log in button so the bar still fits */
     '@media (max-width:420px){' + S + ' .kz-login span{display:none}' + S + ' .kz-login{padding:7px 9px}}',
     /* 360px Android phones: trim side padding so logo, buttons and menu never push the page sideways */
-    '@media (max-width:380px){' + S + ' .kz-inner{padding:0 12px;gap:10px}' + S + ' .kz-brand img{height:28px}' + S + ' .kz-cta{padding:8px 12px}' + S + ' .kz-login{margin-right:6px}' + S + ' .kz-burger{margin-left:4px}}'
+    /* Phones: no "Talk to us" button in the bar, just the logo, Log in and the menu */
+    '@media (max-width:768px){' + S + ' .kz-cta{display:none}}',
+    '@media (max-width:380px){' + S + ' .kz-inner{padding:0 12px;gap:10px}' + S + ' .kz-brand img{height:28px}' + S + ' .kz-login{margin-right:6px}' + S + ' .kz-burger{margin-left:4px}}'
   ].join('');
 
   if (!document.getElementById('kz-nav-style')) {

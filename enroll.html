@@ -63,47 +63,6 @@
       line-height: 1.5;
     }
 
-    /* MAIN NAV */
-    .coursera-nav {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: #FFFFFF;
-      border-bottom: 1px solid var(--border-line);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-    }
-
-    .coursera-nav-inner {
-      max-width: var(--maxw);
-      margin: 0 auto;
-      padding: 0 24px;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-    }
-
-    .brand img {
-      height: 34px;
-      display: block;
-    }
-
-    .nav-back-link {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--coursera-blue);
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: color 0.2s;
-    }
-
-    .nav-back-link:hover {
-      color: var(--coursera-blue-hover);
-    }
-
     /* MAIN CONTENT LAYOUT */
     .enroll-wrapper {
       max-width: 1100px;
@@ -391,15 +350,6 @@
 
     /* MOBILE RESPONSIVE OPTIMIZATION */
     @media (max-width: 768px) {
-      .coursera-nav-inner {
-        padding: 0 16px;
-        height: 56px;
-      }
-
-      .brand img {
-        height: 28px;
-      }
-
       .enroll-wrapper {
         margin: 24px auto 40px;
         padding: 0 16px;
@@ -440,16 +390,8 @@
 <body>
 
   <!-- MAIN NAV -->
-  <nav class="coursera-nav">
-    <div class="coursera-nav-inner">
-      <a href="index.html" class="brand">
-        <img src="kompetenzen logo-02.webp" alt="Kompetenzen Logo" loading="lazy" decoding="async" />
-      </a>
-      <a href="index.html" class="nav-back-link">
-        ← Back to Courses
-      </a>
-    </div>
-  </nav>
+  <!-- Shared top bar: edit js/site-nav.js to change it on every page -->
+  <script src="js/site-nav.js"></script>
 
   <!-- ENROLLMENT FORM WRAPPER -->
   <div class="enroll-wrapper">
@@ -468,7 +410,7 @@
           <div class="benefit-icon">🎯</div>
           <div class="benefit-content">
             <h4>100% Placement Support</h4>
-            <p>Direct hiring partner connections with 2000+ alumni successfully placed.</p>
+            <p>Direct hiring partner connections with 5000+ alumni successfully placed.</p>
           </div>
         </div>
 

@@ -105,7 +105,7 @@ test('job publishing preserves all details and rejects a failed database save', 
   const ctx = vm.createContext({ isSupabaseConfigured: () => true, supabaseClient: { from: () => ({ insert: async rows => {
     payload = rows[0]; return { error: fail ? new Error('Denied') : null };
   } }) } });
-  vm.runInContext(extract(admin, 'async function saveJobToCloud', 'async function deleteJobFromCloud'), ctx);
+  vm.runInContext(extract(admin, '// One database row shape', 'async function deleteJobFromCloud'), ctx);
   await ctx.saveJobToCloud({ title: 'Engineer', responsibilities: 'Build', requirements: 'Skills', aboutCompany: 'Company' });
   assert.equal(payload.responsibilities, 'Build'); assert.equal(payload.requirements, 'Skills'); assert.equal(payload.about_company, 'Company');
   assert.equal(JSON.stringify(payload.application_requirements), '{}');
@@ -113,6 +113,22 @@ test('job publishing preserves all details and rejects a failed database save', 
   await ctx.saveJobToCloud({ title: 'Intern', applicationRequirements: req });
   assert.equal(JSON.stringify(payload.application_requirements), JSON.stringify(req));
   fail = true; await assert.rejects(ctx.saveJobToCloud({}), /Denied/);
+});
+test('editing a published job updates that row with the same fields and rejects an unsaved edit', async () => {
+  let update, target, rows = [{ id: 7 }], fail = false;
+  const ctx = vm.createContext({ isSupabaseConfigured: () => true, supabaseClient: { from: table => ({ update: value => {
+    assert.equal(table, 'hr_jobs'); update = value;
+    return { eq: (col, id) => { target = [col, id]; return { select: async () => ({ data: rows, error: fail ? new Error('Denied') : null }) }; } };
+  } }) } });
+  vm.runInContext(extract(admin, '// One database row shape', 'async function deleteJobFromCloud'), ctx);
+  const req = { resume: true, questions: ['Why?'] };
+  await ctx.updateJobInCloud(7, { title: 'Engineer II', company: 'Acme', applyUrl: 'https://acme.example', expiresOn: '2026-12-01', applicationRequirements: req });
+  assert.deepEqual(target, ['id', 7]);
+  assert.equal(update.title, 'Engineer II'); assert.equal(update.apply_url, 'https://acme.example'); assert.equal(update.expires_on, '2026-12-01');
+  assert.equal(JSON.stringify(update.application_requirements), JSON.stringify(req));
+  assert.deepEqual(Object.keys(update).sort(), Object.keys(ctx.jobRow({})).sort(), 'Edits and new posts save the same columns');
+  rows = []; await assert.rejects(ctx.updateJobInCloud(7, {}), /not saved/);
+  rows = [{ id: 7 }]; fail = true; await assert.rejects(ctx.updateJobInCloud(7, {}), /Denied/);
 });
 test('student No is false, while Yes and boolean true are true', async () => {
   let row;

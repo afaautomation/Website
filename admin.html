@@ -562,6 +562,28 @@
       cursor: not-allowed;
     }
 
+    .draft-control-btn.draft-edit:hover {
+      color: var(--blue);
+      border-color: var(--blue);
+    }
+
+    /* The listing currently open in the form for editing */
+    .draft-item.is-editing {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(25, 71, 255, 0.12);
+    }
+
+    .draft-item.is-editing .draft-edit {
+      color: #fff;
+      background: var(--blue);
+      border-color: var(--blue);
+    }
+
+    /* .btn-secondary sets display, which would otherwise override the hidden attribute */
+    #job-cancel-edit[hidden] {
+      display: none;
+    }
+
     .draft-control-btn.draft-remove:hover {
       border-color: #B3261E;
       color: #B3261E;
@@ -848,9 +870,11 @@
     }
 
     /* Controls appear only once the skill is ticked */
+    /* Requirement dropdown + importance: they share a line when the card is wide enough,
+       otherwise importance wraps below so "Preferred" / "Essential" stays readable */
     .mc .mc-skill-controls {
       display: none;
-      grid-template-columns: minmax(0, 1fr) auto;
+      flex-wrap: wrap;
       align-items: center;
       gap: 8px;
       padding: 10px 14px 12px;
@@ -858,7 +882,12 @@
     }
 
     .mc .mc-skill.is-on .mc-skill-controls {
-      display: grid;
+      display: flex;
+    }
+
+    .mc .mc-skill-controls select {
+      flex: 1 1 104px;
+      min-width: 104px;
     }
 
     .mc .mc-skill-controls select,
@@ -901,6 +930,65 @@
       outline: none;
       border-color: var(--blue);
       box-shadow: 0 0 0 3px rgba(25, 71, 255, 0.12);
+    }
+
+    /* "Add more" row under each skill list */
+    .mc-add-skill {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .mc-add-skill input {
+      flex: 1;
+      min-width: 0;
+      font: inherit;
+      font-size: 14px;
+      color: var(--ink);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 14px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .mc-add-skill input:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(25, 71, 255, 0.12);
+    }
+
+    .mc-add-skill-btn {
+      flex-shrink: 0;
+      padding: 0 18px;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      background: var(--blue);
+      border: 0;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .mc-add-skill-btn:hover {
+      background: #0E2EC9;
+    }
+
+    .mc-add-skill-btn:focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 2px;
+    }
+
+    .mc-add-skill-error {
+      font-size: 12px;
+      color: #B91C1C;
+      margin-top: 6px;
+    }
+
+    .mc-add-skill-error:empty {
+      display: none;
     }
 
     .mc-empty {
@@ -2055,7 +2143,7 @@
     <div id="panel-jobs" class="admin-tab-panel">
       <!-- FORM -->
       <section class="admin-card">
-        <h2>Post an Opening (Job or Internship)</h2>
+        <h2 id="job-form-title">Post an Opening (Job or Internship)</h2>
         <form class="form-grid" id="job-form" novalidate>
           <!-- OPPORTUNITY TYPE SELECTOR -->
           <div class="opportunity-type-container" style="grid-column: 1 / -1;">
@@ -2183,7 +2271,8 @@
           </div>
 
           <div class="form-actions">
-            <button class="btn-primary" type="submit">Save listing →</button>
+            <button class="btn-primary" type="submit" id="job-save">Save listing →</button>
+            <button class="btn-secondary" type="button" id="job-cancel-edit" hidden>Cancel editing</button>
             <span class="save-status" id="save-status">✓ Listing published</span>
           </div>
         </form>
@@ -2976,6 +3065,7 @@
 
       let currentOppType = 'job';
       let currentAdminDraftsFilter = 'all';
+      let editingJob = null; // the published listing open in the form, or null when posting a new one
 
       const categoryLabels = { tech: 'Tech', hr: 'HR & Management', sales: 'Sales' };
       const typeLabels = {
@@ -3159,9 +3249,9 @@
         localStorage.setItem(STORE_KEY, JSON.stringify(drafts));
       }
 
-      async function saveJobToCloud(data) {
-        if (!isSupabaseConfigured()) throw new Error('Database connection is unavailable.');
-        const { error } = await supabaseClient.from('hr_jobs').insert([{
+      // One database row shape for both new and edited listings.
+      function jobRow(data) {
+        return {
           title: data.title, category: data.category, company: data.company, location: data.location || '',
           job_type: data.jobType || (data.opportunityType === 'internship' ? 'internship' : 'full-time'),
           experience: data.experience || '', salary: data.salary || '', skills: data.skills || '',
@@ -3170,8 +3260,18 @@
           apply_url: data.applyUrl || '', is_direct_link: !!data.isDirectLink,
           application_requirements: data.applicationRequirements || {},
           expires_on: data.expiresOn || null
-        }]);
+        };
+      }
+      async function saveJobToCloud(data) {
+        if (!isSupabaseConfigured()) throw new Error('Database connection is unavailable.');
+        const { error } = await supabaseClient.from('hr_jobs').insert([jobRow(data)]);
         if (error) throw error;
+      }
+      async function updateJobInCloud(id, data) {
+        if (!isSupabaseConfigured()) throw new Error('Database connection is unavailable.');
+        const { data: rows, error } = await supabaseClient.from('hr_jobs').update(jobRow(data)).eq('id', id).select('id');
+        if (error) throw error;
+        if (!rows || rows.length !== 1) throw new Error('Changes were not saved. Refresh and check staff access.');
       }
       async function saveExpiryToCloud(id, expiresOn) {
         if (!isSupabaseConfigured()) throw new Error('Database connection is unavailable.');
@@ -3291,7 +3391,7 @@
           const isIntern = isInternshipJob(job);
           const index = allDrafts.indexOf(job);
           const item = document.createElement('article');
-          item.className = 'draft-item';
+          item.className = 'draft-item' + (editingJob && String(editingJob.id) === String(job.id) ? ' is-editing' : '');
           item.setAttribute('draggable', 'true');
           item.setAttribute('data-index', index);
 
@@ -3340,6 +3440,9 @@
               </div>
             </div>
             <div class="draft-controls">
+              <button class="draft-control-btn draft-edit" type="button" data-id="${escapeHtml(String(job.id))}" aria-label="Edit this listing" title="Edit listing">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+              </button>
               <button class="draft-control-btn draft-move-up" type="button" data-index="${index}" aria-label="Move listing up" ${index === 0 ? 'disabled' : ''}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
               </button>
@@ -3357,11 +3460,74 @@
         });
       }
 
+      // ----- Editing a published listing: it opens in the form above, which then saves changes instead of posting -----
+      const formTitle = document.getElementById('job-form-title');
+      const saveButton = document.getElementById('job-save');
+      const cancelEditButton = document.getElementById('job-cancel-edit');
+      const expiresInput = document.getElementById('f-expires');
+
+      function setField(name, value) {
+        const input = form.querySelector(`[name="${name}"]`);
+        if (!input) return;
+        if (input.type === 'checkbox') { input.checked = !!value; return; }
+        // A saved job type that is not in the list (e.g. older data) is kept rather than silently changed
+        if (input.tagName === 'SELECT' && value && ![...input.options].some(o => o.value === value)) input.add(new Option(value, value));
+        input.value = value ?? '';
+      }
+
+      function startEditing(job) {
+        editingJob = job;
+        form.reset();
+        window.setAdminOpportunityType(isInternshipJob(job) ? 'internship' : 'job');
+        setField('isDirectLink', job.isDirectLink);
+        handleDirectToggle();
+        ['title', 'category', 'company', 'location', 'jobType', 'experience', 'salary', 'description',
+          'responsibilities', 'requirements', 'aboutCompany', 'expiresOn'].forEach(name => setField(name, job[name]));
+        const req = job.applicationRequirements || {};
+        setField('reqResume', req.resume); setField('reqCollege', req.college);
+        setField('reqAvailability', req.availability); setField('reqSalary', req.salary);
+        setField('reqQuestions', Array.isArray(req.questions) ? req.questions.join('\n') : '');
+        document.getElementById('enable-matching').checked = !!req.matching;
+        ApplicantMatching.mount(document.getElementById('matching-config'), req.matching);
+        // An expired listing keeps its past date unless HR picks a new one
+        expiresInput.min = job.expiresOn && job.expiresOn < todayInIndia() ? job.expiresOn : todayInIndia();
+        formTitle.textContent = 'Edit listing: ' + job.title;
+        status.classList.remove('is-visible');
+        saveButton.textContent = 'Save changes →';
+        cancelEditButton.hidden = false;
+        form.closest('.admin-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        titleInput.focus({ preventScroll: true });
+        render();
+      }
+
+      function stopEditing() {
+        editingJob = null;
+        form.reset();
+        window.setAdminOpportunityType('job');
+        handleDirectToggle();
+        ApplicantMatching.mount(document.getElementById('matching-config'));
+        expiresInput.min = todayInIndia();
+        formTitle.textContent = 'Post an Opening (Job or Internship)';
+        saveButton.textContent = 'Save listing →';
+        cancelEditButton.hidden = true;
+      }
+
+      cancelEditButton.addEventListener('click', () => { stopEditing(); render(); });
+
       list.addEventListener('click', async (e) => {
+        const editBtn = e.target.closest('.draft-edit');
+        if (editBtn) {
+          const job = loadLocal().find(j => String(j.id) === editBtn.getAttribute('data-id'));
+          if (job) startEditing(job);
+          return;
+        }
+
         const removeBtn = e.target.closest('.draft-remove');
         if (removeBtn) {
           const id = removeBtn.getAttribute('data-id');
+          if (editingJob && String(editingJob.id) === String(id) && !confirm('You are editing this listing. Delete it anyway?')) return;
           try { await deleteJobFromCloud(id); } catch (err) { alert('Could not delete listing: ' + err.message); return; }
+          if (editingJob && String(editingJob.id) === String(id)) stopEditing();
           const drafts = loadLocal().filter(job => String(job.id) !== String(id));
           saveLocal(drafts);
           await render();
@@ -3416,9 +3582,12 @@
         data.isDirectLink = form.querySelector('[name="isDirectLink"]').checked;
         data.id = Date.now();
         data.createdAt = new Date().toISOString();
-        data.applyUrl = data.applyUrl || '';
+        // The form has no apply-link field, so an edited listing keeps the link it was saved with
+        data.applyUrl = data.applyUrl || (editingJob ? editingJob.applyUrl : '') || '';
+        data.skills = data.skills || (editingJob ? editingJob.skills : '') || '';
         data.opportunityType = currentOppType;
-        if (data.expiresOn && data.expiresOn < todayInIndia()) { alert('The expiry date cannot be in the past.'); return; }
+        const keepsOldExpiry = editingJob && data.expiresOn === editingJob.expiresOn;
+        if (data.expiresOn && data.expiresOn < todayInIndia() && !keepsOldExpiry) { alert('The expiry date cannot be in the past.'); return; }
         // What the application form asks for (enforced by apply_to_job()).
         const questions = String(data.reqQuestions || '').split('\n').map(q => q.trim()).filter(Boolean);
         if (questions.length > 5) { alert('Please keep additional questions to 5 or fewer.'); return; }
@@ -3451,15 +3620,25 @@
         const button = form.querySelector('[type="submit"]');
         if (button.disabled) return;
         button.disabled = true;
-        try { await saveJobToCloud(data); }
-        catch (err) { alert('Listing was not published: ' + err.message); return; }
+        const wasEditing = !!editingJob;
+        try {
+          if (wasEditing) await updateJobInCloud(editingJob.id, data);
+          else await saveJobToCloud(data);
+        }
+        catch (err) { alert((wasEditing ? 'Changes were not saved: ' : 'Listing was not published: ') + err.message); return; }
         finally { button.disabled = false; }
 
-        form.reset();
-        window.setAdminOpportunityType('job');
-        handleDirectToggle();
+        if (wasEditing) stopEditing();
+        else {
+          form.reset();
+          window.setAdminOpportunityType('job');
+          handleDirectToggle();
+        }
         await render();
+        // Applicant screens use the job list too (title, matching rules), so refresh it after an edit
+        if (wasEditing && typeof window.loadApplicationsList === 'function') window.loadApplicationsList({ background: true }).catch(() => {});
 
+        status.textContent = wasEditing ? '✓ Changes saved' : '✓ Listing published';
         status.classList.add('is-visible');
         clearTimeout(status._hideTimer);
         status._hideTimer = setTimeout(() => status.classList.remove('is-visible'), 2600);

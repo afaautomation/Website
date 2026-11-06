@@ -1348,6 +1348,8 @@
       box-shadow: 0 24px 50px -10px rgba(25, 71, 255, 0.18), 0 0 25px rgba(25, 71, 255, 0.06);
     }
 
+    /* Same 3:2 shape as the photos, so the whole group shows at every card width
+       (a fixed height cut off heads on phones and tablets). Older browsers keep a fixed height. */
     .school-card-media {
       position: relative;
       width: 100%;
@@ -1356,11 +1358,19 @@
       background: #0D1630;
     }
 
+    @supports (aspect-ratio: 1) {
+      .school-card-media {
+        height: auto;
+        aspect-ratio: 3 / 2;
+      }
+    }
+
     .school-card-media img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center;
+      /* if anything has to be cropped, keep the faces at the top */
+      object-position: center top;
       transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
       display: block;
     }
@@ -1522,9 +1532,6 @@
         text-align: center;
       }
 
-      .school-card-media {
-        height: 200px;
-      }
     }
 
     @media (max-width: 768px) {
@@ -2844,7 +2851,7 @@
         <div class="hero-meta">
           <div class="stat"><b>4.8★</b><span>Google Reviews</span></div>
           <div class="divider"></div>
-          <div class="stat"><b>2,000+</b><span>Placed</span></div>
+          <div class="stat"><b>5,000+</b><span>Placed</span></div>
           <div class="divider"></div>
           <div class="stat"><b>120+</b><span>Hiring Partners</span></div>
         </div>

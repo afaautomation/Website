@@ -118,44 +118,74 @@
       g.list.replaceChildren();
       const names = [...new Set([...available, ...selected.map(s => s.name)])].filter((name, index, all) => all.findIndex(x => norm(x) === norm(name)) === index);
       if (!names.length) {
-        g.list.append(el('p', 'mc-empty', key === 'skills' ? 'Choose a career interest and field above to see its technical skills.' : 'No soft skills available.'));
+        g.list.append(el('p', 'mc-empty', key === 'skills' ? 'Choose a career interest and field above to see its technical skills, or add your own below.' : 'No soft skills available. Add your own below.'));
       }
-      names.forEach(name => {
-        const rule = selected.find(s => norm(s.name) === norm(name));
-        const row = el('div', 'mc-skill'); row.dataset.skillGroup = key;
-        const label = el('label', 'mc-skill-name'), check = document.createElement('input');
-        check.type = 'checkbox'; check.value = name; check.checked = !!rule; check.defaultChecked = !!rule;
-        label.append(check, el('span', '', name));
-        const controls = el('div', 'mc-skill-controls');
-        const kind = document.createElement('select'); kind.setAttribute('aria-label', name + ' requirement');
-        kind.append(new Option('Preferred', 'preferred'), new Option('Essential', 'essential')); kind.value = rule?.essential ? 'essential' : 'preferred';
-        const impWrap = el('label', 'mc-importance'); impWrap.append(el('span', '', 'Importance'));
-        const importance = document.createElement('input'); importance.type = 'number'; importance.min = 1; importance.max = 100;
-        importance.value = rule?.importance || 1; importance.defaultValue = importance.value; importance.setAttribute('aria-label', name + ' importance');
-        impWrap.append(importance);
-        controls.append(kind, impWrap);
-        const sync = () => {
-          row.classList.toggle('is-on', check.checked);
-          row.classList.toggle('is-essential', check.checked && kind.value === 'essential');
-          kind.disabled = importance.disabled = !check.checked;
-        };
-        check.addEventListener('change', () => { sync(); updateCount(key); });
-        kind.addEventListener('change', sync);
-        sync();
-        row.append(label, controls); g.list.append(row);
-      });
+      names.forEach(name => skillRow(key, name, selected.find(s => norm(s.name) === norm(name))));
       updateCount(key);
     }
-    for (const [key, title] of [['skills', 'Technical skills'], ['softSkills', 'Soft skills']]) {
+    function skillRow(key, name, rule) {
+      const g = skillGroups[key];
+      const row = el('div', 'mc-skill'); row.dataset.skillGroup = key;
+      const label = el('label', 'mc-skill-name'), check = document.createElement('input');
+      check.type = 'checkbox'; check.value = name; check.checked = !!rule; check.defaultChecked = !!rule;
+      label.append(check, el('span', '', name));
+      const controls = el('div', 'mc-skill-controls');
+      const kind = document.createElement('select'); kind.setAttribute('aria-label', name + ' requirement');
+      kind.append(new Option('Preferred', 'preferred'), new Option('Essential', 'essential')); kind.value = rule?.essential ? 'essential' : 'preferred';
+      const impWrap = el('label', 'mc-importance'); impWrap.append(el('span', '', 'Importance'));
+      const importance = document.createElement('input'); importance.type = 'number'; importance.min = 1; importance.max = 100;
+      importance.value = rule?.importance || 1; importance.defaultValue = importance.value; importance.setAttribute('aria-label', name + ' importance');
+      impWrap.append(importance);
+      controls.append(kind, impWrap);
+      const sync = () => {
+        row.classList.toggle('is-on', check.checked);
+        row.classList.toggle('is-essential', check.checked && kind.value === 'essential');
+        kind.disabled = importance.disabled = !check.checked;
+      };
+      check.addEventListener('change', () => { sync(); updateCount(key); });
+      kind.addEventListener('change', sync);
+      sync();
+      row.append(label, controls); g.list.append(row);
+      return row;
+    }
+    // "Add more": a skill that isn't in the list is added ticked; one that is gets ticked instead of duplicated.
+    function addSkill(key, raw) {
+      const g = skillGroups[key];
+      const name = String(raw || '').replace(/\s+/g, ' ').trim().slice(0, 60);
+      if (!name) { g.error.textContent = 'Type a skill name first.'; return false; }
+      if (name.includes('|')) { g.error.textContent = 'Skill names cannot contain “|”.'; return false; }
+      const existing = [...g.list.querySelectorAll('input[type="checkbox"]')].find(c => norm(c.value) === norm(name));
+      const check = existing || skillRow(key, name).querySelector('input[type="checkbox"]');
+      g.list.querySelector('.mc-empty')?.remove();
+      if (!check.checked) { check.checked = true; check.dispatchEvent(new Event('change')); }
+      check.closest('.mc-skill').scrollIntoView({ block: 'nearest' });
+      g.error.textContent = '';
+      return true;
+    }
+    for (const [key, title, example] of [['skills', 'Technical skills', 'TensorFlow'], ['softSkills', 'Soft skills', 'Public speaking']]) {
       const s = section(title, 'Tick the skills that matter, mark each Essential or Preferred, and set importance (1–100). Technical and soft skills share the skills weight.');
       const count = el('span', 'mc-count');
       s.head.append(count);
       const list = el('div', 'mc-skill-grid'); s.box.append(list);
-      skillGroups[key] = { list, count };
+      const add = el('div', 'mc-add-skill');
+      const input = document.createElement('input'); input.type = 'text'; input.maxLength = 60;
+      input.placeholder = 'Add more ' + (key === 'skills' ? 'skills' : 'soft skills') + ', e.g. ' + example;
+      input.setAttribute('aria-label', 'Add more ' + title.toLowerCase());
+      const button = el('button', 'mc-add-skill-btn', '+ Add'); button.type = 'button';
+      const error = el('p', 'mc-add-skill-error'); error.setAttribute('role', 'status');
+      add.append(input, button); s.box.append(add, error);
+      skillGroups[key] = { list, count, error };
+      const submit = () => { if (addSkill(key, input.value)) input.value = ''; input.focus(); };
+      button.addEventListener('click', submit);
+      // Enter adds the skill instead of submitting the job form
+      input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); submit(); } });
       skillRows(key, r[key] || []);
     }
-    selectors.careerArea.addEventListener('change', () => { options(selectors.careerField, Object.keys(catalog.areas[selectors.careerArea.value] || {})); skillRows('skills'); });
-    selectors.careerField.addEventListener('change', () => skillRows('skills'));
+    // Ticked technical skills (including ones HR typed in) stay ticked when the interest or field changes.
+    const tickedSkills = () => [...skillGroups.skills.list.querySelectorAll('.mc-skill')].filter(row => row.querySelector('input[type="checkbox"]').checked)
+      .map(row => ({ name: row.querySelector('input[type="checkbox"]').value, essential: row.querySelector('select').value === 'essential', importance: Number(row.querySelector('input[type="number"]').value) || 1 }));
+    selectors.careerArea.addEventListener('change', () => { options(selectors.careerField, Object.keys(catalog.areas[selectors.careerArea.value] || {})); skillRows('skills', tickedSkills()); });
+    selectors.careerField.addEventListener('change', () => skillRows('skills', tickedSkills()));
 
     sections.forEach(def => {
       const s = section(def.title, def.subtitle);
