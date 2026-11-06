@@ -108,6 +108,20 @@ test('database stores hashed codes with expiry, guess, cooldown and hourly limit
   } finally { await db.close(); }
 });
 
+test('signup asks for no password and sends phone-signup a hidden random secret instead',()=>{
+  const source=fs.readFileSync('js/auth-modal.js','utf8');
+  assert.doesNotMatch(source,/type="password"|signup-password|togglePasswordVisibility|Password must be/);
+  const fn=source.slice(source.indexOf('function randomAccountSecret'),source.indexOf('window.handleSignupSubmit'));
+  const ctx=require('node:vm').createContext({window:{crypto:require('node:crypto').webcrypto},btoa,Uint8Array,String});
+  require('node:vm').runInContext(fn+';this.secret=randomAccountSecret;',ctx);
+  const a=ctx.secret(),b=ctx.secret();
+  assert.match(a,/^[A-Za-z0-9_-]{43}$/,'43-character base64url, within phone-signup\'s 6–128 limit');
+  assert.notEqual(a,b,'a new secret for every sign-up');
+  const submit=source.slice(source.indexOf('window.handleSignupSubmit'),source.indexOf('window.handleOtpSubmit'));
+  assert.match(submit,/previous\.email === email && previous\.cleanPhone === cleanPhone \? previous\.password/,'a resubmitted sign-up keeps its secret for safe retries');
+  assert.match(submit,/password\s*\n\s*\};/,'the secret travels with the pending sign-up');
+});
+
 test('browser signup uses WhatsApp OTP through Supabase and no longer loads Firebase',()=>{
   const source=fs.readFileSync('js/auth-modal.js','utf8');
   const otp=source.slice(source.indexOf('window.handleOtpSubmit'),source.indexOf('window.handleLoginSubmit'));

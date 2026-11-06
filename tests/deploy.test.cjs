@@ -76,10 +76,36 @@ test('Resume pages map /Resume/* onto the backend and are read-only', async t =>
   const { onRequest } = await fn('Resume/[[path]].js');
   await onRequest({ request: new Request('https://kompetenzen.in/Resume/frontend/app.js?v=63'), env });
   assert.equal(calls[0].url, 'https://backend.example.run.app/frontend/app.js?v=63');
-  const home = await onRequest({ request: new Request('https://kompetenzen.in/Resume/'), env });
-  assert.equal(home.status, 302); assert.equal(home.headers.get('location'), 'https://kompetenzen.in/Resume/resume.html');
-  const post = await onRequest({ request: new Request('https://kompetenzen.in/Resume/resume.html', { method: 'POST' }), env });
+  // Clean address: /Resume and the old /Resume/resume.html go to /Resume/, keeping the query string
+  for (const [from, to] of [['/Resume', '/Resume/'], ['/Resume/resume.html', '/Resume/'], ['/Resume/resume.html?resume=abc&view=x', '/Resume/?resume=abc&view=x']]) {
+    const moved = await onRequest({ request: new Request('https://kompetenzen.in' + from), env });
+    assert.equal(moved.status, 301, from); assert.equal(moved.headers.get('location'), 'https://kompetenzen.in' + to, from);
+  }
+  const post = await onRequest({ request: new Request('https://kompetenzen.in/Resume/frontend/app.js', { method: 'POST' }), env });
   assert.equal(post.status, 405); assert.equal(calls.length, 1);
+});
+
+test('the Resume Builder home is served at /Resume/ with the shared site bar added once', async t => {
+  const page = '<html><head><title>x</title></head><body><section id="landing-view" class="view"><nav class="glass-nav"></nav></section></body></html>';
+  let body = page;
+  const calls = [];
+  t.mock.method(globalThis, 'fetch', async (url, init) => { calls.push({ url: String(url), init }); return new Response(body, { headers: { 'Content-Type': 'text/html; charset=utf-8', 'Content-Length': String(body.length) } }); });
+  const { onRequest } = await fn('Resume/[[path]].js');
+  const home = await onRequest({ request: new Request('https://kompetenzen.in/Resume/?resume=abc'), env });
+  assert.equal(calls[0].url, 'https://backend.example.run.app/resume.html?resume=abc');
+  assert.equal(home.status, 200); assert.equal(home.headers.get('content-length'), null);
+  const html = await home.text();
+  assert.equal(html.split('/js/site-nav.js').length - 1, 1, 'bar added exactly once');
+  assert.match(html, /<section id="landing-view" class="view"><script src="\/js\/site-nav\.js" data-base="\/" data-active="Resume\/"/);
+  assert.match(html, /<style id="kz-site-bar">[^<]*<\/style><\/head>/);
+  // A page that already includes the bar (a future builder deploy) is left as it is
+  body = page.replace('<nav', '<script src="../js/site-nav.js"></script><nav');
+  const already = await (await onRequest({ request: new Request('https://kompetenzen.in/Resume/'), env })).text();
+  assert.equal(already, body);
+  // Files and HEAD requests pass through untouched
+  body = 'console.log(1)';
+  const js = await onRequest({ request: new Request('https://kompetenzen.in/Resume/frontend/app.js'), env });
+  assert.equal(await js.text(), 'console.log(1)');
 });
 
 test('reel covers come from Instagram, are edge-cacheable, and fail closed', async t => {

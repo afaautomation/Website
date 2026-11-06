@@ -8,7 +8,7 @@
     data-base="../"                  prefix for links when the page lives in a sub-folder
     data-position="fixed"            on desktop, pin the bar over the page instead of taking up space
     data-position="fixed-all"        pin the bar at every screen width
-    data-account="off"               no Log in button or account badge (page has its own sign-in)
+    data-account="off"               no Sign up button or account badge (page has its own sign-in)
 
   The bar's HTML and CSS live here, so editing this file updates the bar everywhere.
   Styling copies career-consultation.html and is scoped to #nav.kz-nav so each page's
@@ -22,7 +22,7 @@
   var position = (script && script.getAttribute('data-position')) || '';
   var fixed = position === 'fixed';
   var fixedAll = position === 'fixed-all';
-  // data-account="off": leave out Log in and the account badge (pages with their own sign-in)
+  // data-account="off": leave out Sign up and the account badge (pages with their own sign-in)
   var account = !(script && script.getAttribute('data-account') === 'off');
 
   var LINKS = [
@@ -33,7 +33,7 @@
     { href: 'placements.html', label: 'Placements' },
     { href: 'jobs.html', label: 'Jobs' },
     { href: 'internships.html', label: 'Internships' },
-    { href: 'Resume/resume.html', label: 'Resume Builder', resume: true },
+    { href: 'Resume/', label: 'Resume Builder', resume: true },
     { href: 'our-story.html', label: 'Our Story' }
   ];
 
@@ -67,7 +67,7 @@
     S + ' .kz-cta{display:inline-flex;align-items:center;gap:8px;background:#02050E;color:#fff;font-size:14px;font-weight:600;',
     'padding:10px 20px;border-radius:99px;text-decoration:none;transition:background .2s,transform .2s;white-space:nowrap;border:0;box-shadow:none}',
     S + ' .kz-cta:hover{background:#1947FF;color:#fff;transform:translateY(-1px)}',
-    /* Log in button (hidden once signed in: the account badge takes its place) */
+    /* Sign up button (hidden once signed in: the account badge takes its place) */
     S + ' .kz-login{display:inline-flex;align-items:center;gap:7px;margin-right:10px;padding:9px 16px;border-radius:99px;',
     'border:1px solid rgba(10,21,48,.16);background:transparent;color:#02050E;font:inherit;font-size:14px;font-weight:600;',
     'text-decoration:none;white-space:nowrap;cursor:pointer;transition:border-color .2s,color .2s,background .2s}',
@@ -134,10 +134,10 @@
     S + ' .kz-arrow{display:inline-block;font-size:13px;color:#94a3b8;transition:transform .15s ease}',
     S + ' .kz-links a:hover .kz-arrow,' + S + ' .kz-links a.active .kz-arrow{color:#1947FF;transform:translateX(3px)}',
     '}',
-    /* Small phones: icon-only Log in button so the bar still fits */
+    /* Small phones: icon-only Sign up button so the bar still fits */
     '@media (max-width:420px){' + S + ' .kz-login span{display:none}' + S + ' .kz-login{padding:7px 9px}}',
     /* 360px Android phones: trim side padding so logo, buttons and menu never push the page sideways */
-    /* Phones: no "Talk to us" button in the bar, just the logo, Log in and the menu */
+    /* Phones: no "Talk to us" button in the bar, just the logo, Sign up and the menu */
     '@media (max-width:768px){' + S + ' .kz-cta{display:none}}',
     '@media (max-width:380px){' + S + ' .kz-inner{padding:0 12px;gap:10px}' + S + ' .kz-brand img{height:28px}' + S + ' .kz-login{margin-right:6px}' + S + ' .kz-burger{margin-left:4px}}'
   ].join('');
@@ -176,9 +176,9 @@
         '</div>' +
         '<div class="kz-right">' +
           (account ?
-          '<a href="' + base + 'index.html#login" class="kz-login" id="kz-login" aria-label="Log in">' +
+          '<a href="' + base + 'index.html#signup" class="kz-login" id="kz-login" aria-label="Sign up">' +
             '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' +
-            '<span>Log in</span>' +
+            '<span>Sign up</span>' +
           '</a>' : '') +
           '<a href="https://wa.me/918590886009" target="_blank" rel="noopener" class="kz-cta">Talk to us</a>' +
           (account ?
@@ -290,19 +290,19 @@
   if (document.readyState === 'complete') settle();
   else window.addEventListener('load', settle);
 
-  // Log in: open the sign-in popup from js/auth-modal.js when the page has it,
-  // otherwise go to the home page, which opens it from the #login link
+  // Sign up: open the popup from js/auth-modal.js on its Sign Up form when the page has it,
+  // otherwise go to the home page, which opens it from the #signup link
   if (!account) return;
 
   nav.querySelector('#kz-login').addEventListener('click', function (e) {
     if (typeof window.openAuthModal === 'function') {
       e.preventDefault();
       closeMenu();
-      window.openAuthModal('login');
+      window.openAuthModal('signup');
     }
   });
 
-  // Hide Log in straight away for signed-in visitors (same storage keys as auth-modal.js),
+  // Hide Sign up straight away for signed-in visitors (same storage keys as auth-modal.js),
   // before auth-modal.js has shown the account badge
   try {
     var stored = localStorage.getItem('kompetenzen_user') || localStorage.getItem('kompetenzen_google_user') || localStorage.getItem('user');

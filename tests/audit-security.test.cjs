@@ -19,7 +19,7 @@ test('Resume proxy never forwards credentials to a host supplied in the path', a
 
 test('proxy returns controlled errors and never caches authenticated responses', async t => {
   const { onRequest } = await proxy();
-  const request = new Request('https://kompetenzen.in/Resume/resume.html', {headers:{authorization:'Bearer synthetic-token'}});
+  const request = new Request('https://kompetenzen.in/Resume/', {headers:{authorization:'Bearer synthetic-token'}});
   t.mock.method(globalThis, 'fetch', async () => { throw new Error('private upstream details'); });
   const failed = await onRequest({ request, env });
   assert.equal(failed.status,502);

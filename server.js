@@ -59,6 +59,17 @@ const server = http.createServer((req, res) => {
   if (reqPath === '/') {
     reqPath = '/index.html';
   }
+  // Same addresses as the live Resume Builder (functions/Resume/[[path]].js): it lives at /Resume/,
+  // and /Resume or the old /Resume/resume.html redirect there with the query string kept.
+  if (reqPath === '/Resume' || reqPath === '/Resume/resume.html') {
+    const query = req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : '';
+    res.writeHead(301, { Location: '/Resume/' + query });
+    res.end();
+    return;
+  }
+  if (reqPath === '/Resume/') {
+    reqPath = '/Resume/resume.html';
+  }
 
   const filePath = path.resolve(PUBLIC_DIR, '.' + path.posix.normalize('/' + reqPath));
   const relative = path.relative(PUBLIC_DIR, filePath);

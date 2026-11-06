@@ -2,7 +2,9 @@
  * Kompetenzen Auth Modal Component
  * Displays the NextRaise-inspired login/signup flow:
  * Opens directly on the Create Account form (or Log In when requested).
- * Sign up: full name, email, mobile number & password, then a WhatsApp OTP (whatsapp-otp + phone-signup).
+ * Sign up: full name, email and mobile number, then a WhatsApp OTP (whatsapp-otp + phone-signup).
+ *   No password is asked for: visitors always log in with a WhatsApp code. phone-signup still needs
+ *   one to create the account, so the browser generates a long random secret that nobody sees.
  * Log in: WhatsApp number only, then a WhatsApp OTP issued and checked by Supabase (send-sms-hook delivers it).
  * The old choice screen is no longer shown; Google sign-in was removed, but an in-progress Google session still completes.
  */
@@ -316,14 +318,6 @@
               </div>
             </div>
 
-            <div class="auth-input-group">
-              <label for="signup-password">Password</label>
-              <input id="signup-password" type="password" required minlength="6" placeholder="Min 6 characters" autocomplete="new-password">
-              <button type="button" onclick="togglePasswordVisibility('signup-password')"
-                style="position:absolute; right:10px; top:31px; cursor:pointer; color:#64748b; font-size:14px; user-select:none; padding:4px; border:0; background:transparent;"
-                aria-label="Show or hide password" title="Toggle password visibility">👁️</button>
-            </div>
-
             <button type="submit" id="signup-submit-btn" class="auth-pill-btn auth-submit-btn" style="margin-top:0.4rem;">
               Create Account →
             </button>
@@ -573,12 +567,6 @@
       const nameInput = modal.querySelector('#signup-name');
       if (nameInput) setTimeout(() => nameInput.focus(), 100);
     }
-  };
-
-  window.togglePasswordVisibility = function (inputId) {
-    const input = document.getElementById(inputId);
-    if (!input) return;
-    input.type = input.type === 'password' ? 'text' : 'password';
   };
 
   window.showAuthMessage = function (msg, isError = false) {
@@ -860,7 +848,7 @@
   };
 
   window.openResumeBuilder = function (e) {
-    const RESUME_BUILDER_URL = 'Resume/resume.html';
+    const RESUME_BUILDER_URL = '/Resume/';
     window.location.href = RESUME_BUILDER_URL;
   };
 
@@ -1015,6 +1003,17 @@
     }, 700);
   }
 
+  // 32 random bytes as base64url (43 characters): far beyond guessing, within phone-signup's 6–128 limit.
+  function randomAccountSecret() {
+    try {
+      const bytes = new Uint8Array(32);
+      window.crypto.getRandomValues(bytes);
+      return btoa(String.fromCharCode.apply(null, bytes)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    } catch (err) {
+      return '';
+    }
+  }
+
   window.handleSignupSubmit = async function (e) {
     e.preventDefault();
     // Scope to modal container to avoid reading from hardcoded duplicate-ID inputs
@@ -1023,10 +1022,9 @@
     const name = modal.querySelector('#signup-name')?.value.trim();
     const email = modal.querySelector('#signup-email')?.value.trim().toLowerCase();
     const phone = modal.querySelector('#signup-phone')?.value.trim();
-    const password = modal.querySelector('#signup-password')?.value;
     const btn = modal.querySelector('#signup-submit-btn');
 
-    if (!name || !email || !phone || !password) {
+    if (!name || !email || !phone) {
       window.showAuthMessage('Please fill in all required fields.', true);
       return;
     }
@@ -1041,9 +1039,17 @@
       window.showAuthMessage('Please enter a valid email address.', true);
       return;
     }
-    if (password.length < 6) {
-      window.showAuthMessage('Password must be at least 6 characters.', true);
-      return;
+    // The account's password is a random secret the visitor never sees (they log in with WhatsApp codes).
+    // Re-submitting the same email and number keeps the same secret, so a sign-up whose reply was lost
+    // can still finish with phone-signup's safe retry.
+    const previous = window._pendingOtpAuth;
+    let password = previous && previous.mode === 'signup' && previous.email === email && previous.cleanPhone === cleanPhone ? previous.password : '';
+    if (!password) {
+      password = randomAccountSecret();
+      if (!password) {
+        window.showAuthMessage('Your browser could not create a secure sign-up. Please update it or try another browser.', true);
+        return;
+      }
     }
 
     if (btn) {
