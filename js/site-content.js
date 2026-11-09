@@ -37,7 +37,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const card = document.createElement('div'); card.className = 'student-card';
         const photo = document.createElement('img'); photo.className = 'student-photo'; photo.alt = student.name;
         photo.loading = 'lazy'; photo.decoding = 'async'; photo.src = new URL(student.photo, location.href).href;
-        card.append(photo);
+        const frame = document.createElement('div'); frame.className = 'student-photo-frame';
+        frame.append(photo); card.append(frame);
         for (const [tag, className, value] of [['h4','student-name',student.name],['div','student-role',student.role],['span','student-company',student.company],['div','student-badge',student.badge || 'Placed Candidate']]) {
           const el = document.createElement(tag); el.className = className; el.textContent = value; card.append(el);
         }

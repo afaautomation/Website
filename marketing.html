@@ -1533,10 +1533,10 @@
       const PHOTO_BUCKET = 'site-media';
       const PHOTO_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 
-      // Centre-crop to a square and shrink to 320x320 WebP; course pages show it as an 88px circle.
+      // Centre-crop to a square and shrink to 640x640 WebP; course pages show it across the top of the card.
       async function toStudentPhoto(file) {
         const bitmap = await createImageBitmap(file);
-        const S = 320;
+        const S = 640;
         const side = Math.min(bitmap.width, bitmap.height);
         const canvas = document.createElement('canvas');
         canvas.width = S; canvas.height = S;

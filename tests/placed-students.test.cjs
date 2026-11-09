@@ -42,5 +42,6 @@ test('the section appears only for students with an uploaded photo', async () =>
   assert.equal(r.section.hidden, true); assert.equal(r.container.children.length, 0);
   r = await render('hr-course-details.html', [placeholder, uploaded]);
   assert.equal(r.section.hidden, false); assert.equal(r.container.children.length, 1);
+  assert.equal(r.container.children[0].children[0].className, 'student-photo-frame', 'photo sits in the large frame');
   assert.equal(r.container.children[0].children[1].textContent, 'Real Person');
 });
