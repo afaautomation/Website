@@ -13,6 +13,9 @@ window.siteContent = {
     localStorage.setItem(key, JSON.stringify(value));
   }
 };
+function hasWebPhoto(photo) {
+  try { return ['http:', 'https:'].includes(new URL(String(photo || ''), location.href).protocol) && !!photo; } catch { return false; }
+}
 document.addEventListener('DOMContentLoaded', async () => {
   const courses = { 'course-details.html': 'python', 'java-course-details.html': 'java', 'data-analytics-course-details.html': 'analytics', 'hr-course-details.html': 'hr', 'sales-engineering-course-details.html': 'sales' };
   // Hosts serve clean URLs (/course-details), so add the extension back before the lookup.
@@ -24,22 +27,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     const [dates, students] = await Promise.all([siteContent.read('kompetenzen_batch_dates', {}), course ? siteContent.read('kompetenzen_placed_students', []) : []]);
     batchSlots.forEach(slot => { const date = dates[slot.dataset.batchDate]; if (date) slot.textContent = date; });
     const container = document.getElementById('placed-students-container');
-    const matches = students.filter(s => s.course === course);
+    // The section stays hidden until the marketing console publishes a student with an uploaded photo;
+    // entries left on the default placeholder photo are not shown.
+    const matches = students.filter(s => s.course === course && s.photoPath && hasWebPhoto(s.photo));
+    const section = document.getElementById('placed-students-section');
     if (container && matches.length) {
       container.replaceChildren();
       for (const student of matches) {
         const card = document.createElement('div'); card.className = 'student-card';
         const photo = document.createElement('img'); photo.className = 'student-photo'; photo.alt = student.name;
-        // Entries published before the WebP conversion still name the old JPG placeholders.
-        const photoPath = String(student.photo || 'student_python.webp').replace(/^(\.?\/)?(student_hr|student_python)\.jpe?g$/i, '$1$2.webp');
-        const url = new URL(photoPath, location.href);
-        if (['http:', 'https:'].includes(url.protocol)) photo.src = url.href;
+        photo.loading = 'lazy'; photo.decoding = 'async'; photo.src = new URL(student.photo, location.href).href;
         card.append(photo);
         for (const [tag, className, value] of [['h4','student-name',student.name],['div','student-role',student.role],['span','student-company',student.company],['div','student-badge',student.badge || 'Placed Candidate']]) {
           const el = document.createElement(tag); el.className = className; el.textContent = value; card.append(el);
         }
         container.append(card);
       }
+      if (section) section.hidden = false;
     }
   } catch (error) { console.warn('Published course content could not be loaded:', error); }
 });
