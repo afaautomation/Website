@@ -649,7 +649,7 @@
       to { transform: translate3d(calc(-50% - 11px), 0, 0); }
     }
 
-    /* fewer than 6 alumni: a still, centred row of cards */
+    /* too few alumni to fill a moving row without repeats: a still, centred grid */
     .alumni-rows--static {
       -webkit-mask-image: none;
       mask-image: none;
@@ -2334,37 +2334,52 @@
         return el;
       }
 
-      // One row of cards; moving rows repeat the set so it is wider than the screen, then repeat it
-      // once more so the CSS loop (translate -50%) joins up seamlessly.
+      // Space one card takes in a row (width + gap), matching the CSS above.
+      const cardStep = () => matchMedia('(max-width: 768px)').matches ? 182 : 258;
+
+      // How many moving rows the list can fill without the same person showing twice on screen:
+      // a moving row loops by repeating its set once, so the set must be wider than the screen
+      // plus one card. Lists too short for that are shown once, still and centred (0 rows).
+      function rowCount(count) {
+        if (reduceMotion) return 0;
+        const need = Math.ceil((rowsEl.clientWidth || innerWidth) / cardStep()) + 1;
+        return count >= need * 2 ? 2 : count >= need ? 1 : 0;
+      }
+
       function row(people, moving, reverse) {
         const el = document.createElement('div');
         el.className = 'alumni-row' + (reverse ? ' alumni-row--reverse' : '');
-        if (!moving) {
-          people.forEach(p => el.append(card(p, false)));
-          return el;
+        people.forEach(p => el.append(card(p, false)));
+        if (moving) {
+          // The copy only exists so the CSS loop (translate -50%) joins up; it is never on screen with the original.
+          people.forEach(p => el.append(card(p, true)));
+          el.style.setProperty('--alumni-duration', (people.length * 4.5) + 's');
         }
-        const half = [];
-        while (half.length < 10) half.push(...people);
-        half.forEach((p, i) => el.append(card(p, i >= people.length)));
-        half.forEach(p => el.append(card(p, true)));
-        el.style.setProperty('--alumni-duration', (half.length * 4.5) + 's');
         return el;
       }
 
+      let shown = [], layout = -1;
       function render(list) {
         const people = (Array.isArray(list) ? list : []).filter(p => p && p.name && p.title && p.company && p.years);
+        shown = people;
         rowsEl.replaceChildren();
         section.hidden = !people.length;
         if (!people.length) return;
-        const moving = people.length >= 6 && !reduceMotion;
-        rowsEl.classList.toggle('alumni-rows--static', !moving);
-        if (moving) {
+        const rows = layout = rowCount(people.length);
+        rowsEl.classList.toggle('alumni-rows--static', !rows);
+        if (rows === 2) {
           const mid = Math.ceil(people.length / 2);
           rowsEl.append(row(people.slice(0, mid), true, false), row(people.slice(mid), true, true));
         } else {
-          rowsEl.append(row(people, false, false));
+          rowsEl.append(row(people, rows === 1, false));
         }
       }
+
+      let resizeTimer;
+      addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => { if (shown.length && rowCount(shown.length) !== layout) render(shown); }, 200);
+      });
 
       let cached = null;
       try { cached = JSON.parse(localStorage.getItem(CACHE_KEY)); } catch (e) {}
