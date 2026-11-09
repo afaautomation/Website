@@ -527,6 +527,17 @@
       margin-top: 12px;
     }
 
+    /* "Soft skills" heading inside the chips row: takes a full line */
+    .skills-group-label {
+      flex-basis: 100%;
+      margin: 10px 0 0;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #94A3B8;
+    }
+
     .skill-tag {
       padding: 8px 16px;
       background: rgba(30, 41, 59, 0.6);
@@ -1633,14 +1644,21 @@
         reqEl.innerHTML = lines.map(l => `<li>${escapeHtml(l)}</li>`).join('');
       }
 
-      // Skills
+      // Skills: the listing's own skills line if it has one (older listings), otherwise the
+      // technical and soft skills HR ticked in the job's matching rules, essential ones first.
+      // No skills at all hides the section rather than showing made-up ones.
       const skillsEl = document.getElementById('j-skills');
-      if (job.skills) {
-        const skillsArr = job.skills.split(',').map(s => s.trim()).filter(Boolean);
-        skillsEl.innerHTML = skillsArr.map(s => `<span class="skill-tag">${escapeHtml(s)}</span>`).join('');
-      } else {
-        skillsEl.innerHTML = `<span class="skill-tag">Professional Excellence</span><span class="skill-tag">Team Collaboration</span>`;
-      }
+      const chips = names => names.map(s => `<span class="skill-tag">${escapeHtml(s)}</span>`).join('');
+      const listed = String(job.skills || '').split(',').map(s => s.trim()).filter(Boolean);
+      const rules = (job.applicationRequirements && job.applicationRequirements.matching) || {};
+      const ruled = key => (Array.isArray(rules[key]) ? rules[key] : [])
+        .filter(r => r && r.name).sort((a, b) => (b.essential === true) - (a.essential === true))
+        .map(r => skillDisplayName(r.name));
+      const technical = listed.length ? listed : ruled('skills');
+      const soft = ruled('softSkills');
+      skillsEl.innerHTML = chips(technical) +
+        (soft.length ? `<p class="skills-group-label">Soft skills</p>${chips(soft)}` : '');
+      document.getElementById('card-skills').style.display = technical.length || soft.length ? '' : 'none';
 
       // Company
       if (job.aboutCompany || job.about_company) {
@@ -2190,6 +2208,23 @@
       }
     });
 
+    // Matching rules store skill names in lowercase ("it troubleshooting", "aws"). Show the catalog's
+    // spelling when the skill is a catalog one, otherwise capitalise words and upper-case acronyms.
+    const SKILL_ACRONYMS = new Set(['ai', 'api', 'aws', 'bi', 'ci', 'cd', 'ci/cd', 'crm', 'css', 'dns', 'erp', 'gcp', 'hr', 'html', 'iam', 'it',
+      'kpi', 'llm', 'llms', 'ml', 'mis', 'nlp', 'qa', 'rag', 'rest', 'seo', 'sql', 'ui', 'ux', 'vpc', 'b2b', 'gst', 'tds', 'pf', 'esi']);
+    function skillDisplayName(name) {
+      const raw = String(name || '').trim();
+      const catalog = window.CareerCatalog;
+      if (catalog) {
+        const all = [...Object.values(catalog.areas || {}).flatMap(fields => Object.values(fields).flat()), ...(catalog.softSkills || [])];
+        const known = all.find(s => s.toLowerCase() === raw.toLowerCase());
+        if (known) return known;
+      }
+      if (raw !== raw.toLowerCase()) return raw; // already has the casing HR typed
+      return raw.split(' ').map(word => SKILL_ACRONYMS.has(word) ? word.toUpperCase()
+        : word.split('-').map(part => part.charAt(0).toUpperCase() + part.slice(1)).join('-')).join(' ');
+    }
+
     function escapeHtml(str) {
       if (!str) return '';
       return String(str)
@@ -2235,6 +2270,7 @@
   </script>
 
   <!-- Unified Auth Modal -->
+  <script src="js/career-catalog.js"></script>
   <script src="js/auth-modal.js?v=13"></script>
 </body>
 

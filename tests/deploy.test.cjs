@@ -22,7 +22,34 @@ test('build publishes public files only', () => {
       assert.ok(fs.existsSync(path.join(dist, f)), `missing ${f}`);
     for (const f of ['server.js', 'supabase_schema.sql', 'migrations', 'tests', 'scripts', 'functions', 'Resume', '.htaccess', '.git', '.gitignore', 'package.json'])
       assert.ok(!fs.existsSync(path.join(dist, f)), `must not publish ${f}`);
+    // Every local script/stylesheet a published page loads carries the hash of the file it gets
+    const crypto = require('node:crypto');
+    let checked = 0;
+    for (const page of fs.readdirSync(dist).filter(f => f.endsWith('.html'))) {
+      const html = fs.readFileSync(path.join(dist, page), 'utf8');
+      for (const [, ref] of html.matchAll(/<(?:script|link)\b[^>]*?\b(?:src|href)="((?:\.\/|\/)?(?:(?:js|css)\/[^"#]+|supabase-config\.js[^"#]*))"/gi)) {
+        const [file, query] = ref.replace(/^\.?\//, '').split('?');
+        const hash = crypto.createHash('sha256').update(fs.readFileSync(path.join(dist, file))).digest('hex').slice(0, 10);
+        assert.equal(query, 'v=' + hash, `${page}: ${ref}`); checked++;
+      }
+    }
+    assert.ok(checked > 100, 'pages load their scripts with content hashes');
+    assert.match(fs.readFileSync(path.join(dist, 'index.html'), 'utf8'), /src="js\/site-nav\.js\?v=[0-9a-f]{10}"/);
   } finally { fs.rmSync(dist, { recursive: true, force: true }); }
+});
+
+test('asset versioning rewrites only local scripts and stylesheets', () => {
+  const { versionAssets } = require('../scripts/asset-versions.cjs');
+  const hashes = { 'js/site-nav.js': 'aaaa', 'js/auth-modal.js': 'bbbb', 'css/mobile.css': 'cccc', 'supabase-config.js': 'dddd' };
+  const html = '<script src="js/site-nav.js" data-active="x"></script><script src="js/auth-modal.js?v=13"></script>' +
+    '<link rel="stylesheet" href="css/mobile.css" media="(max-width: 768px)"><script src="/js/site-nav.js" data-base="/"></script>' +
+    '<script src="supabase-config.js"></script><script src="https://cdn.jsdelivr.net/npm/x/js/a.js"></script>' +
+    '<a href="css/mobile.css">not an asset tag</a><script src="js/missing.js"></script>';
+  assert.equal(versionAssets(html, f => hashes[f] || null),
+    '<script src="js/site-nav.js?v=aaaa" data-active="x"></script><script src="js/auth-modal.js?v=bbbb"></script>' +
+    '<link rel="stylesheet" href="css/mobile.css?v=cccc" media="(max-width: 768px)"><script src="/js/site-nav.js?v=aaaa" data-base="/"></script>' +
+    '<script src="supabase-config.js?v=dddd"></script><script src="https://cdn.jsdelivr.net/npm/x/js/a.js"></script>' +
+    '<a href="css/mobile.css">not an asset tag</a><script src="js/missing.js"></script>');
 });
 
 test('api proxy forwards to Cloud Run with the secret and the real client IP only', async t => {

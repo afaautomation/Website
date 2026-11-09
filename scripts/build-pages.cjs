@@ -33,6 +33,10 @@ for (const name of PUBLIC_FILES) {
   if (!fs.existsSync(path.join(OUT, name))) throw new Error(`Missing required file: ${name}`);
 }
 
+// Pages ask for js/css by content hash, so returning visitors get changed files at once.
+const versioned = require('./asset-versions.cjs').versionSite(OUT);
+console.log(`Versioned ${versioned} script/stylesheet references by content hash.`);
+
 // A Git LFS pointer instead of the real file would publish a broken image.
 const LFS_POINTER = 'version https://git-lfs.github.com/spec/v1';
 (function checkPointers(dir) {

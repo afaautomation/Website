@@ -100,6 +100,6 @@ test('worker routes email to Gmail, records acceptance, and protects old-provide
     const sends=['normal','phone-only'].includes(scenario);
     assert.equal(updates.at(-1).state,sends?'accepted':['optout','unverified'].includes(scenario)?'cancelled':'review');
     assert.equal(googleCalls,sends?2:0);
-    if(sends) {assert.equal(updates[0].delivery.provider,'gmail');assert.equal(updates.at(-1).provider_id,'gmail-message-id');if(scenario==='phone-only') assert.doesNotMatch(updates[0].delivery.text,/Engineer/); else assert.match(updates[0].delivery.text,/Engineer/);}
+    if(sends) {assert.equal(updates[0].delivery.provider,'gmail');assert.equal(updates.at(-1).provider_id,'gmail-message-id');assert.match(updates[0].delivery.text,/Your application for Engineer has been successfully submitted/,'phone-only accounts get the full message too');}
   }
 });

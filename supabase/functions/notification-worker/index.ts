@@ -1,5 +1,5 @@
 import { messageFor, whatsappParams, failureState } from './messages.mjs';
-import { emailDestination, applicationEmail } from './email-policy.mjs';
+import { emailDestination } from './email-policy.mjs';
 import { emailProvider, gmailConfigured, createGmailSender } from './gmail.mjs';
 import { DEFAULT_TEMPLATES, templateMessage, effectiveStatus } from '../_shared/whatsapp.mjs';
 
@@ -31,18 +31,15 @@ Deno.serve(async request=>{
       const configured=q.channel==='email' ? (provider==='gmail' ? gmailConfigured(env) : provider==='resend' && env('RESEND_API_KEY') && env('EMAIL_FROM')) : env('WHATSAPP_PHONE_NUMBER_ID') && env('WHATSAPP_ACCESS_TOKEN') && template(q.payload.event);
       if(!configured) {await update(q.id,{state:'pending',attempts:q.attempts-1,first_attempt_at:q.first_attempt_at===q.started_at?null:q.first_attempt_at,available_at:new Date(Date.now()+3600000).toISOString(),last_error:'Provider configuration missing'});continue;}
       let destination=p.whatsapp_number;
-      let emailConfirmed=false;
       if(q.channel==='email') {
         const r=await fetch(`${base}/auth/v1/admin/users/${q.user_id}`,{headers:{apikey:service,Authorization:`Bearer ${service}`}});
         if(!r.ok) throw new Error('Could not load account email');
-        const user=await r.json(); destination=emailDestination(user,q.payload.event); emailConfirmed=!!user.email_confirmed_at;
+        const user=await r.json(); destination=emailDestination(user,q.payload.event);
       }
       if(!destination || (q.delivery && q.delivery.destination!==destination)) {await update(q.id,{state:'cancelled',last_error:'Recipient unavailable or changed'});continue;}
-      if(!q.delivery && emailConfirmed && q.payload.event==='not_matched') q.payload.alternatives=await db('rpc/notification_alternatives','POST',{p_user:q.user_id,p_exclude:q.payload.job_id});
-      // Full details (name, job, company, status) only reach a confirmed email; a phone-verified
-      // account's unconfirmed email might not belong to the candidate, so it gets the generic text.
-      const content=q.channel==='email' && !emailConfirmed?applicationEmail(q.payload.event,site):null;
-      const delivery=q.delivery || {destination,...(content || messageFor(q.payload,site)),...(q.channel==='email'?{provider,sender:provider==='gmail'?env('GMAIL_SENDER_EMAIL'):env('EMAIL_FROM')}:{params:whatsappParams(q.payload)})};
+      if(!q.delivery && q.channel==='email' && q.payload.event==='not_matched') q.payload.alternatives=await db('rpc/notification_alternatives','POST',{p_user:q.user_id,p_exclude:q.payload.job_id});
+      // Email and WhatsApp carry the same full message (name, job, company, status).
+      const delivery=q.delivery || {destination,...messageFor(q.payload,site),...(q.channel==='email'?{provider,sender:provider==='gmail'?env('GMAIL_SENDER_EMAIL'):env('EMAIL_FROM')}:{params:whatsappParams(q.payload)})};
       if(provider==='gmail' && delivery.sender!==env('GMAIL_SENDER_EMAIL')) {await update(q.id,{state:'review',last_error:'Gmail sender changed; reconcile previous send before retrying'});continue;}
       if(!q.delivery) await update(q.id,{delivery});
       if(provider==='gmail') {

@@ -170,7 +170,7 @@ Provider references: [Resend idempotency](https://resend.com/changelog/idempoten
    Kompetenzen Technologies
    ```
 
-   Email uses the same wording (built in `messages.mjs`), with links to each job. Only a **confirmed** account email gets these full messages; an account verified by phone only, whose email may not be the candidate's, still gets the short generic email without names, job or status.
+   Email uses the same wording (built in `messages.mjs`), with links to each job. Application updates (received, eligibility, HR status) go to the account email with this full content whether or not the email is confirmed (sign-up verifies the phone by WhatsApp code only). Job digests, which are marketing, still go only to a **confirmed** email.
 
    No footer is required. Replies of STOP still switch WhatsApp off once the webhook (step 7) is connected, and users can opt out on their profile. Meta may recategorise templates; job digests are marketing and cost more. Different names can be used if set in `WHATSAPP_TEMPLATE_<EVENT>`.
 
