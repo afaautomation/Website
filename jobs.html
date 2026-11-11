@@ -4,6 +4,23 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script>/* Desktop fit: the site is designed at 1920px wide. On laptop and desktop windows the whole page is
+     scaled to that design (smaller below 1920px, a little larger on big monitors) so every computer shows the same
+     proportions, whatever its screen size or Windows display scaling. Phones, tablets and touch screens are not scaled. */
+    (function (r) {
+      var touch = window.matchMedia && window.matchMedia('(hover: none)').matches;
+      function fit() {
+        var w = window.innerWidth, z = 1;
+        if (!touch && w > 1024) z = w < 1920 ? Math.max(w / 1920, 0.72) : Math.min(w / 1920, 1.2);
+        z = Math.round(z * 1000) / 1000;
+        r.style.zoom = z === 1 ? '' : z;
+        r.style.setProperty('--fit', z);
+        r.classList.toggle('kz-fit', z !== 1);
+        window.__fit = z;
+      }
+      fit();
+      addEventListener('resize', fit);
+    })(document.documentElement);</script>
 
   <title>Job Listings — Kompetenzen | Latest Career Opportunities in Kerala</title>
   <meta name="description"
@@ -55,7 +72,7 @@
       font-size: 16px;
       line-height: 1.5;
       position: relative;
-      min-height: 100vh;
+      min-height: calc(100vh / var(--fit, 1));
     }
 
     body::before {
@@ -64,7 +81,7 @@
       top: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: 100vw;
+      width: calc(100vw / var(--fit, 1));
       max-width: 1700px;
       height: 600px;
       background: radial-gradient(circle at 50% 10%, rgba(37, 99, 235, 0.14) 0%, rgba(14, 46, 201, 0.06) 45%, transparent 70%);
@@ -270,7 +287,7 @@
 
     .jobs-hero h1 {
       font-family: 'Google Sans', 'Product Sans', 'Outfit', 'Plus Jakarta Sans', sans-serif !important;
-      font-size: clamp(34px, 5.5vw, 64px); font-weight: 400 !important;
+      font-size: clamp(34px, calc(5.5vw / var(--fit, 1)), 64px); font-weight: 400 !important;
       line-height: 1.08; letter-spacing: -0.01em;
       color: #FFFFFF;
       margin-bottom: 12px; position: relative; z-index: 2;
@@ -284,7 +301,7 @@
     }
 
     .jobs-hero p {
-      font-size: clamp(15px, 1.8vw, 18px); color: var(--ink-mute);
+      font-size: clamp(15px, calc(1.8vw / var(--fit, 1)), 18px); color: var(--ink-mute);
       max-width: 520px; margin: 0 auto 20px; line-height: 1.55; position: relative; z-index: 2;
     }
 
@@ -757,8 +774,8 @@
         gap: 3px !important;
         border-bottom: 2px solid rgba(59, 130, 246, 0.35) !important;
         box-shadow: 0 20px 40px -4px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.06) !important;
-        max-height: calc(100vh - 72px) !important;
-        max-height: calc(100dvh - 72px) !important;
+        max-height: calc(calc(100vh / var(--fit, 1)) - 72px) !important;
+        max-height: calc(calc(100dvh / var(--fit, 1)) - 72px) !important;
         overflow-y: auto !important;
         -webkit-overflow-scrolling: touch !important;
         z-index: 99999 !important;

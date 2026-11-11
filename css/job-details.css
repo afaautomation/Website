@@ -15,7 +15,7 @@ body { background: #0c111b; }
 .badge { border: 1px solid #344153; border-radius: 5px; padding: 5px 10px; font-size: 10px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; }
 .badge-primary, .badge-success, .badge-warning, .badge-internship { background: #172131; color: #c6d7ed; }
 .posted-tag { color: #94a1b5; font-family: inherit; font-size: 12px; }
-.job-main-title { font-size: clamp(34px,4.6vw,58px); font-weight: 500; line-height: 1.12; letter-spacing: -1.8px; margin-bottom: 18px; overflow-wrap: anywhere; }
+.job-main-title { font-size: clamp(34px,calc(4.6vw / var(--fit, 1)),58px); font-weight: 500; line-height: 1.12; letter-spacing: -1.8px; margin-bottom: 18px; overflow-wrap: anywhere; }
 .job-company-subtitle { font-size: 16px; color: #a9b3c3; }
 .job-company-subtitle strong { color: #dce5f1; font-weight: 500; }
 .job-quick-meta { gap: 24px; margin-top: 30px; padding-top: 0; border: 0; }
@@ -87,7 +87,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid #96b4dc; outline-offs
 .req-submit:hover:not(:disabled) { background: #3575f5; }
 @media (max-width: 520px) {
   .req-overlay { padding: 12px; }
-  .req-dialog { padding: 23px 18px; max-height: calc(100dvh - 24px); border-radius: 14px; }
+  .req-dialog { padding: 23px 18px; max-height: calc(calc(100dvh / var(--fit, 1)) - 24px); border-radius: 14px; }
   .req-dialog h3 { font-size: 22px; }
   .req-profile-summary { padding: 2px 13px; }
   .req-profile-row { grid-template-columns: minmax(0, 1fr); gap: 5px; }

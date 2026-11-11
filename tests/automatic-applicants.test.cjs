@@ -125,3 +125,15 @@ test('all pages and jobs are scored once per refresh; cancellation and errors ca
   await assert.rejects(engine.load({...request,fetchPage:async()=>{throw Error('Offline');}}),/Offline/);
   assert.equal((await engine.load(request)).length,205);
 });
+
+test('skills ticked in the application skills check count as evidence',async()=>{
+  const {keywordScore}=await core;
+  const job={title:'AI/ML Intern',skills:'ML, Python'};
+  const ticked={...applicant(['JavaScript']),matched_skills:['Python','ML']};
+  const result=keywordScore(job,ticked);
+  assert.ok(result.matchedKeywords.includes('Python') && result.matchedKeywords.includes('ML'));
+  assert.ok(result.score>=60);
+  // "None of these yet" (empty list) adds nothing, and duplicates are not counted twice
+  assert.equal(keywordScore(job,{...applicant(['JavaScript']),matched_skills:[]}).score,keywordScore(job,applicant(['JavaScript'])).score);
+  assert.deepEqual(keywordScore(job,{...applicant(['Python']),matched_skills:['python']}).details.map(d=>d.exact),keywordScore(job,applicant(['Python'])).details.map(d=>d.exact));
+});

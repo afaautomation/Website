@@ -142,7 +142,7 @@ body {
 
 .main-title {
   font-family: var(--font-display);
-  font-size: clamp(34px, 4.4vw, 48px);
+  font-size: clamp(34px, calc(4.4vw / var(--fit, 1)), 48px);
   font-weight: 700;
   letter-spacing: -1.2px;
   line-height: 1.15;
@@ -552,7 +552,7 @@ legend.form-label,
 .background-heading h2 {
   font-family: var(--font-display);
   color: #FFFFFF;
-  font-size: clamp(26px, 3.2vw, 34px);
+  font-size: clamp(26px, calc(3.2vw / var(--fit, 1)), 34px);
   font-weight: 700;
   line-height: 1.25;
   letter-spacing: -0.6px;

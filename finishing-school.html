@@ -4,6 +4,23 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script>/* Desktop fit: the site is designed at 1920px wide. On laptop and desktop windows the whole page is
+     scaled to that design (smaller below 1920px, a little larger on big monitors) so every computer shows the same
+     proportions, whatever its screen size or Windows display scaling. Phones, tablets and touch screens are not scaled. */
+    (function (r) {
+      var touch = window.matchMedia && window.matchMedia('(hover: none)').matches;
+      function fit() {
+        var w = window.innerWidth, z = 1;
+        if (!touch && w > 1024) z = w < 1920 ? Math.max(w / 1920, 0.72) : Math.min(w / 1920, 1.2);
+        z = Math.round(z * 1000) / 1000;
+        r.style.zoom = z === 1 ? '' : z;
+        r.style.setProperty('--fit', z);
+        r.classList.toggle('kz-fit', z !== 1);
+        window.__fit = z;
+      }
+      fit();
+      addEventListener('resize', fit);
+    })(document.documentElement);</script>
   <title>Design Your Future: 2-Day Career Programme | Kompetenzen</title>
   <meta name="description"
     content="A two-day career discovery and future-readiness programme. Understand your strengths, explore career options and leave with a personalised DYF Report and roadmap." />
@@ -275,7 +292,7 @@
     }
 
     .fs-hero h1 {
-      font-size: clamp(46px, 6vw, 84px);
+      font-size: clamp(46px, calc(6vw / var(--fit, 1)), 84px);
       font-weight: 700;
       line-height: 0.98;
       letter-spacing: -0.045em;
@@ -477,7 +494,7 @@
     }
 
     .dyf-head h2 {
-      font-size: clamp(32px, 4.4vw, 52px);
+      font-size: clamp(32px, calc(4.4vw / var(--fit, 1)), 52px);
       font-weight: 700;
       letter-spacing: -0.035em;
       line-height: 1.05;
@@ -790,7 +807,7 @@
     }
 
     .final-card h2 {
-      font-size: clamp(32px, 4.6vw, 56px);
+      font-size: clamp(32px, calc(4.6vw / var(--fit, 1)), 56px);
       font-weight: 700;
       letter-spacing: -0.04em;
       line-height: 1.05;
@@ -837,16 +854,16 @@
 
     /* Responsive */
     @media (max-width: 1080px) {
-      .aud-grid {
+      :where(html:not(.kz-fit)) .aud-grid {
         grid-template-columns: repeat(2, 1fr);
       }
 
-      .steps {
+      :where(html:not(.kz-fit)) .steps {
         grid-template-columns: 1fr;
         gap: 28px;
       }
 
-      .steps::before {
+      :where(html:not(.kz-fit)) .steps::before {
         top: 24px;
         bottom: 24px;
         left: 23px;
@@ -856,19 +873,19 @@
         background: linear-gradient(180deg, var(--blue), rgba(25, 71, 255, 0.12));
       }
 
-      .steps li {
+      :where(html:not(.kz-fit)) .steps li {
         display: grid;
         grid-template-columns: 48px 1fr;
         column-gap: 24px;
         padding-right: 0;
       }
 
-      .steps li::before {
+      :where(html:not(.kz-fit)) .steps li::before {
         grid-row: span 2;
         margin-bottom: 0;
       }
 
-      .steps h3 {
+      :where(html:not(.kz-fit)) .steps h3 {
         margin-top: 10px;
       }
     }
@@ -889,7 +906,7 @@
       body {
         overflow-x: hidden;
         width: 100%;
-        max-width: 100vw;
+        max-width: calc(100vw / var(--fit, 1));
       }
 
       /* Sideways reveals push headings past a narrow screen; reveal upward instead. */
@@ -999,7 +1016,7 @@
     }
 
     .fs-hero h1 {
-      font-size: clamp(56px, 9.4vw, 136px);
+      font-size: clamp(56px, calc(9.4vw / var(--fit, 1)), 136px);
       line-height: 0.92;
       letter-spacing: -0.055em;
       margin-bottom: 28px;
@@ -1013,7 +1030,7 @@
     }
 
     .fs-lede {
-      font-size: clamp(18px, 1.6vw, 21px);
+      font-size: clamp(18px, calc(1.6vw / var(--fit, 1)), 21px);
       max-width: 560px;
       margin: 0 auto 40px;
     }
@@ -1057,7 +1074,7 @@
     }
 
     .dyf-head h2 {
-      font-size: clamp(38px, 5.8vw, 76px);
+      font-size: clamp(38px, calc(5.8vw / var(--fit, 1)), 76px);
       line-height: 1;
       letter-spacing: -0.045em;
     }
@@ -1171,7 +1188,7 @@
     }
 
     .final-card h2 {
-      font-size: clamp(40px, 7vw, 96px);
+      font-size: clamp(40px, calc(7vw / var(--fit, 1)), 96px);
       line-height: 0.98;
       letter-spacing: -0.05em;
       max-width: 960px;
@@ -1183,35 +1200,35 @@
     }
 
     @media (max-width: 1080px) {
-      .aud-grid {
+      :where(html:not(.kz-fit)) .aud-grid {
         gap: 40px 0;
       }
 
-      .aud-card:nth-child(3) {
+      :where(html:not(.kz-fit)) .aud-card:nth-child(3) {
         border-left: none;
       }
 
-      .steps li {
+      :where(html:not(.kz-fit)) .steps li {
         text-align: left;
         padding: 0;
       }
 
-      .steps li::before {
+      :where(html:not(.kz-fit)) .steps li::before {
         margin: 0;
       }
 
-      .steps::before {
+      :where(html:not(.kz-fit)) .steps::before {
         left: 27px;
         right: auto;
         top: 28px;
       }
 
-      .take-stack .take-list {
+      :where(html:not(.kz-fit)) .take-stack .take-list {
         grid-template-columns: repeat(2, 1fr);
         row-gap: 36px;
       }
 
-      .take-stack .take-list li:nth-child(3) {
+      :where(html:not(.kz-fit)) .take-stack .take-list li:nth-child(3) {
         border-left: none;
       }
     }
@@ -1654,12 +1671,12 @@
     }
 
     @media (max-width: 1080px) {
-      .js-anim .steps::before {
+      :where(html:not(.kz-fit)) .js-anim .steps::before {
         transform: scaleY(0);
         transform-origin: top;
       }
 
-      .js-anim .steps.is-drawn::before {
+      :where(html:not(.kz-fit)) .js-anim .steps.is-drawn::before {
         transform: scaleY(1);
       }
     }
@@ -1825,8 +1842,8 @@
         gap: 3px !important;
         border-bottom: 2px solid rgba(25, 71, 255, 0.15) !important;
         box-shadow: 0 20px 40px -4px rgba(15, 23, 42, 0.18), 0 0 0 1px rgba(15, 23, 42, 0.05) !important;
-        max-height: calc(100vh - 72px) !important;
-        max-height: calc(100dvh - 72px) !important;
+        max-height: calc(calc(100vh / var(--fit, 1)) - 72px) !important;
+        max-height: calc(calc(100dvh / var(--fit, 1)) - 72px) !important;
         overflow-y: auto !important;
         -webkit-overflow-scrolling: touch !important;
         z-index: 99999 !important;
@@ -2097,18 +2114,18 @@
       /* wider hero so the copy and illustration sit closer to the screen edges */
       .fs-hero > .fs-wrap {
         max-width: 1520px;
-        padding: 0 clamp(32px, 4vw, 72px);
+        padding: 0 clamp(32px, calc(4vw / var(--fit, 1)), 72px);
       }
 
       .fs-hero-grid {
         grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
         justify-items: stretch;
         align-items: center;
-        gap: clamp(32px, 5vw, 80px);
+        gap: clamp(32px, calc(5vw / var(--fit, 1)), 80px);
       }
 
       .fs-hero h1 {
-        font-size: clamp(52px, 6.2vw, 96px);
+        font-size: clamp(52px, calc(6.2vw / var(--fit, 1)), 96px);
         line-height: 1.14;
         margin-bottom: 26px;
       }
@@ -2129,7 +2146,7 @@
       .fs-lede {
         margin: 0 0 38px;
         max-width: none;
-        font-size: clamp(19px, 1.35vw, 23px);
+        font-size: clamp(19px, calc(1.35vw / var(--fit, 1)), 23px);
         line-height: 1.6;
         white-space: nowrap;
       }

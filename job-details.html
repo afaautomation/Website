@@ -4,6 +4,23 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script>/* Desktop fit: the site is designed at 1920px wide. On laptop and desktop windows the whole page is
+     scaled to that design (smaller below 1920px, a little larger on big monitors) so every computer shows the same
+     proportions, whatever its screen size or Windows display scaling. Phones, tablets and touch screens are not scaled. */
+    (function (r) {
+      var touch = window.matchMedia && window.matchMedia('(hover: none)').matches;
+      function fit() {
+        var w = window.innerWidth, z = 1;
+        if (!touch && w > 1024) z = w < 1920 ? Math.max(w / 1920, 0.72) : Math.min(w / 1920, 1.2);
+        z = Math.round(z * 1000) / 1000;
+        r.style.zoom = z === 1 ? '' : z;
+        r.style.setProperty('--fit', z);
+        r.classList.toggle('kz-fit', z !== 1);
+        window.__fit = z;
+      }
+      fit();
+      addEventListener('resize', fit);
+    })(document.documentElement);</script>
   <title id="page-title">Job Details — Kompetenzen Career Portal</title>
   <meta name="description" id="page-description"
     content="Explore detailed job requirements, responsibilities, salary range, and apply directly through Kompetenzen Technologies." />
@@ -63,7 +80,7 @@
       font-size: 16px;
       line-height: 1.6;
       position: relative;
-      min-height: 100vh;
+      min-height: calc(100vh / var(--fit, 1));
     }
 
     body::before {
@@ -72,7 +89,7 @@
       top: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: 100vw;
+      width: calc(100vw / var(--fit, 1));
       max-width: 1650px;
       height: 600px;
       background: radial-gradient(circle at 50% 10%, rgba(37, 99, 235, 0.14) 0%, rgba(14, 46, 201, 0.06) 45%, transparent 70%);
@@ -383,7 +400,7 @@
     }
 
     .job-main-title {
-      font-size: clamp(28px, 3.5vw, 40px);
+      font-size: clamp(28px, calc(3.5vw / var(--fit, 1)), 40px);
       font-weight: 800;
       color: #FFFFFF;
       letter-spacing: -0.03em;
@@ -976,8 +993,8 @@
         gap: 3px !important;
         border-bottom: 2px solid rgba(59, 130, 246, 0.35) !important;
         box-shadow: 0 20px 40px -4px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.06) !important;
-        max-height: calc(100vh - 72px) !important;
-        max-height: calc(100dvh - 72px) !important;
+        max-height: calc(calc(100vh / var(--fit, 1)) - 72px) !important;
+        max-height: calc(calc(100dvh / var(--fit, 1)) - 72px) !important;
         overflow-y: auto !important;
         -webkit-overflow-scrolling: touch !important;
         z-index: 99999 !important;
@@ -1040,7 +1057,7 @@
     .req-dialog {
       width: 100%;
       max-width: 520px;
-      max-height: calc(100vh - 32px);
+      max-height: calc(calc(100vh / var(--fit, 1)) - 32px);
       overflow-y: auto;
       background: var(--surface);
       border: 1px solid rgba(255, 255, 255, 0.08);

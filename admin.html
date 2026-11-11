@@ -2245,7 +2245,6 @@
             <p class="req-box-hint">Name, mobile number, email and course are always collected. Tick only what this opening needs; candidates who have not given it yet are asked when they apply, and nothing else.</p>
             <div class="req-checks">
               <label class="req-check"><input type="checkbox" name="reqResume" /> Resume is required</label>
-              <label class="req-check"><input type="checkbox" name="reqCollege" /> College name (relevant to eligibility)</label>
               <label class="req-check"><input type="checkbox" name="reqAvailability" /> Availability / notice period: when can they join?</label>
               <label class="req-check"><input type="checkbox" name="reqSalary" /> Expected salary / stipend</label>
             </div>
@@ -3484,7 +3483,7 @@
         ['title', 'category', 'company', 'location', 'jobType', 'experience', 'salary', 'description',
           'responsibilities', 'requirements', 'aboutCompany', 'expiresOn'].forEach(name => setField(name, job[name]));
         const req = job.applicationRequirements || {};
-        setField('reqResume', req.resume); setField('reqCollege', req.college);
+        setField('reqResume', req.resume);
         setField('reqAvailability', req.availability); setField('reqSalary', req.salary);
         setField('reqQuestions', Array.isArray(req.questions) ? req.questions.join('\n') : '');
         document.getElementById('enable-matching').checked = !!req.matching;

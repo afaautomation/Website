@@ -4,6 +4,23 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script>/* Desktop fit: the site is designed at 1920px wide. On laptop and desktop windows the whole page is
+     scaled to that design (smaller below 1920px, a little larger on big monitors) so every computer shows the same
+     proportions, whatever its screen size or Windows display scaling. Phones, tablets and touch screens are not scaled. */
+    (function (r) {
+      var touch = window.matchMedia && window.matchMedia('(hover: none)').matches;
+      function fit() {
+        var w = window.innerWidth, z = 1;
+        if (!touch && w > 1024) z = w < 1920 ? Math.max(w / 1920, 0.72) : Math.min(w / 1920, 1.2);
+        z = Math.round(z * 1000) / 1000;
+        r.style.zoom = z === 1 ? '' : z;
+        r.style.setProperty('--fit', z);
+        r.classList.toggle('kz-fit', z !== 1);
+        window.__fit = z;
+      }
+      fit();
+      addEventListener('resize', fit);
+    })(document.documentElement);</script>
   <title>Python Full Stack with Generative AI | Kompetenzen</title>
   <meta name="description"
     content="Build full-stack applications with Python and develop Generative AI solutions using LLMs, embeddings, vector databases and RAG. Explore the course at Kompetenzen Tech School." />
@@ -193,8 +210,8 @@
         gap: 3px !important;
         border-bottom: 2px solid rgba(25, 71, 255, 0.15) !important;
         box-shadow: 0 20px 40px -4px rgba(15, 23, 42, 0.18), 0 0 0 1px rgba(15, 23, 42, 0.05) !important;
-        max-height: calc(100vh - 72px) !important;
-        max-height: calc(100dvh - 72px) !important;
+        max-height: calc(calc(100vh / var(--fit, 1)) - 72px) !important;
+        max-height: calc(calc(100dvh / var(--fit, 1)) - 72px) !important;
         overflow-y: auto !important;
         -webkit-overflow-scrolling: touch !important;
         z-index: 99999 !important;
@@ -393,7 +410,7 @@
 
     .gx-title-lead {
       display: block;
-      font-size: clamp(22px, 2.4vw, 30px);
+      font-size: clamp(22px, calc(2.4vw / var(--fit, 1)), 30px);
       font-weight: 400;
       letter-spacing: -0.01em;
       color: rgba(255, 255, 255, 0.85);
@@ -402,7 +419,7 @@
 
     .gx-title-hl {
       display: block;
-      font-size: clamp(44px, 6.4vw, 76px);
+      font-size: clamp(44px, calc(6.4vw / var(--fit, 1)), 76px);
       font-weight: 800;
       line-height: 1.05;
       letter-spacing: -0.035em;
@@ -413,7 +430,7 @@
     }
 
     .gx-tagline {
-      font-size: clamp(18px, 1.8vw, 22px);
+      font-size: clamp(18px, calc(1.8vw / var(--fit, 1)), 22px);
       font-weight: 600;
       color: #fff;
       margin-bottom: 20px;
@@ -552,7 +569,7 @@
     }
 
     .gx-h2 {
-      font-size: clamp(30px, 3.6vw, 44px);
+      font-size: clamp(30px, calc(3.6vw / var(--fit, 1)), 44px);
       font-weight: 700;
       line-height: 1.15;
       letter-spacing: -0.03em;

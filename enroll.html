@@ -4,6 +4,23 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script>/* Desktop fit: the site is designed at 1920px wide. On laptop and desktop windows the whole page is
+     scaled to that design (smaller below 1920px, a little larger on big monitors) so every computer shows the same
+     proportions, whatever its screen size or Windows display scaling. Phones, tablets and touch screens are not scaled. */
+    (function (r) {
+      var touch = window.matchMedia && window.matchMedia('(hover: none)').matches;
+      function fit() {
+        var w = window.innerWidth, z = 1;
+        if (!touch && w > 1024) z = w < 1920 ? Math.max(w / 1920, 0.72) : Math.min(w / 1920, 1.2);
+        z = Math.round(z * 1000) / 1000;
+        r.style.zoom = z === 1 ? '' : z;
+        r.style.setProperty('--fit', z);
+        r.classList.toggle('kz-fit', z !== 1);
+        window.__fit = z;
+      }
+      fit();
+      addEventListener('resize', fit);
+    })(document.documentElement);</script>
   <title>Enroll Now — Joining Details | Kompetenzen Academy</title>
   <meta name="description"
     content="Complete your enrollment with Kompetenzen: career consultation, focused training and placement support to help you take your next career step with confidence." />

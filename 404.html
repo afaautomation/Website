@@ -3,10 +3,27 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>/* Desktop fit: the site is designed at 1920px wide. On laptop and desktop windows the whole page is
+     scaled to that design (smaller below 1920px, a little larger on big monitors) so every computer shows the same
+     proportions, whatever its screen size or Windows display scaling. Phones, tablets and touch screens are not scaled. */
+    (function (r) {
+      var touch = window.matchMedia && window.matchMedia('(hover: none)').matches;
+      function fit() {
+        var w = window.innerWidth, z = 1;
+        if (!touch && w > 1024) z = w < 1920 ? Math.max(w / 1920, 0.72) : Math.min(w / 1920, 1.2);
+        z = Math.round(z * 1000) / 1000;
+        r.style.zoom = z === 1 ? '' : z;
+        r.style.setProperty('--fit', z);
+        r.classList.toggle('kz-fit', z !== 1);
+        window.__fit = z;
+      }
+      fit();
+      addEventListener('resize', fit);
+    })(document.documentElement);</script>
   <meta name="robots" content="noindex">
   <title>Page not found | Kompetenzen</title>
   <link rel="icon" href="/favicon.ico">
-  <style>body{margin:0;background:#fff9e6;color:#172033;font:18px/1.6 system-ui,sans-serif}main{max-width:38rem;padding:2rem;margin:0 auto;min-height:calc(100vh - 64px);min-height:calc(100dvh - 64px);box-sizing:border-box;display:grid;align-content:center}a{color:#172033;text-underline-offset:4px}a:focus-visible{outline:3px solid #172033;outline-offset:5px}h1{line-height:1.2}</style>
+  <style>body{margin:0;background:#fff9e6;color:#172033;font:18px/1.6 system-ui,sans-serif}main{max-width:38rem;padding:2rem;margin:0 auto;min-height:calc(calc(100vh / var(--fit, 1)) - 64px);min-height:calc(calc(100dvh / var(--fit, 1)) - 64px);box-sizing:border-box;display:grid;align-content:center}a{color:#172033;text-underline-offset:4px}a:focus-visible{outline:3px solid #172033;outline-offset:5px}h1{line-height:1.2}</style>
 </head>
 <body>
   <!-- Shared top bar. Absolute paths: this page is served at any missing address, even nested ones -->

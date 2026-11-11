@@ -38,6 +38,9 @@
   ];
 
   var S = '#nav.kz-nav';
+  // G: rules for narrow desktop windows, used only when the page is not scaled by the head 'Desktop fit' script
+  // (a scaled page already has the full 1920px design width, so the bar keeps its normal spacing).
+  var G = ':where(html:not(.kz-fit)) ' + S;
   var CSS = [
     S + ',' + S + ' *{box-sizing:border-box;margin:0;padding:0}',
     /* Transparent frosted-glass bar: the page shows through, blurred so the links stay readable */
@@ -104,14 +107,14 @@
     S + '.kz-fixed-all{position:fixed;top:0;left:0;right:0}',
 
     /* Narrower desktops: nine links, so tighten spacing before the mobile menu kicks in */
-    '@media (min-width:981px) and (max-width:1280px){' + S + ' .kz-links{gap:16px}' + S + ' .kz-links a{font-size:13px}}',
+    '@media (min-width:981px) and (max-width:1280px){' + G + ' .kz-links{gap:16px}' + G + ' .kz-links a{font-size:13px}}',
     /* Common laptops (1366px): with Sign up and Talk to us side by side the bar ran past the edge */
-    '@media (min-width:1181px) and (max-width:1440px){' + S + ' .kz-inner{padding:0 24px;gap:20px}' + S + ' .kz-left,' + S + ' .kz-right{flex:0 0 auto}' + S + ' .kz-links{flex:1 1 auto;min-width:0;gap:18px}}',
-    '@media (min-width:1181px) and (max-width:1300px){' + S + ' .kz-links{gap:13px}' + S + ' .kz-login{padding:8px 12px;margin-right:8px}' + S + ' .kz-cta{padding:9px 16px}}',
-    '@media (min-width:981px) and (max-width:1180px){' + S + ' .kz-inner{padding:0 20px;gap:14px}' + S + ' .kz-links{gap:11px}' + S + ' .kz-links a{font-size:12.5px}' + S + ' .kz-brand img{height:30px}' + S + ' .kz-cta{padding:8px 14px;font-size:13px}' +
+    '@media (min-width:1181px) and (max-width:1440px){' + G + ' .kz-inner{padding:0 24px;gap:20px}' + G + ' .kz-left,' + G + ' .kz-right{flex:0 0 auto}' + G + ' .kz-links{flex:1 1 auto;min-width:0;gap:18px}}',
+    '@media (min-width:1181px) and (max-width:1300px){' + G + ' .kz-links{gap:13px}' + G + ' .kz-login{padding:8px 12px;margin-right:8px}' + G + ' .kz-cta{padding:9px 16px}}',
+    '@media (min-width:981px) and (max-width:1180px){' + G + ' .kz-inner{padding:0 20px;gap:14px}' + G + ' .kz-links{gap:11px}' + G + ' .kz-links a{font-size:12.5px}' + G + ' .kz-brand img{height:30px}' + G + ' .kz-cta{padding:8px 14px;font-size:13px}' +
       /* Small laptops and landscape tablets (1024px): the side groups shrink to their content so the links fit */
-      S + ' .kz-left,' + S + ' .kz-right{flex:0 0 auto}' + S + ' .kz-links{flex:1 1 auto;min-width:0}' +
-      S + ' .kz-login span{display:none}' + S + ' .kz-login{padding:7px 9px;margin-right:8px}}',
+      G + ' .kz-left,' + G + ' .kz-right{flex:0 0 auto}' + G + ' .kz-links{flex:1 1 auto;min-width:0}' +
+      G + ' .kz-login span{display:none}' + G + ' .kz-login{padding:7px 9px;margin-right:8px}}',
 
     /* Mobile: hamburger + dropdown panel */
     '@media (max-width:980px){',

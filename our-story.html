@@ -4,6 +4,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>/* Desktop fit: the site is designed at 1920px wide. On laptop and desktop windows the whole page is
+     scaled to that design (smaller below 1920px, a little larger on big monitors) so every computer shows the same
+     proportions, whatever its screen size or Windows display scaling. Phones, tablets and touch screens are not scaled. */
+    (function (r) {
+      var touch = window.matchMedia && window.matchMedia('(hover: none)').matches;
+      function fit() {
+        var w = window.innerWidth, z = 1;
+        if (!touch && w > 1024) z = w < 1920 ? Math.max(w / 1920, 0.72) : Math.min(w / 1920, 1.2);
+        z = Math.round(z * 1000) / 1000;
+        r.style.zoom = z === 1 ? '' : z;
+        r.style.setProperty('--fit', z);
+        r.classList.toggle('kz-fit', z !== 1);
+        window.__fit = z;
+      }
+      fit();
+      addEventListener('resize', fit);
+    })(document.documentElement);</script>
   <title>Our Story — Kompetenzen | Consultation, Training, Placement</title>
   <meta name="description"
     content="Kompetenzen Technologies is an integrated career development and talent solutions company in Kerala, established in 2020: consultation, training and placement in one ecosystem." />
@@ -193,15 +210,15 @@
     =========================================================== */
     .intro.telescope-hero {
       position: relative;
-      height: 100vh;
-      min-height: 100vh;
+      height: calc(100vh / var(--fit, 1));
+      min-height: calc(100vh / var(--fit, 1));
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
       overflow: hidden;
-      padding: 0 clamp(24px, 5vw, 64px);
+      padding: 0 clamp(24px, calc(5vw / var(--fit, 1)), 64px);
       --progress: 0;
       background: #FFFFFF;
       color: #02050E;
@@ -248,7 +265,7 @@
     }
 
     .hero-zoom-title {
-      font-size: clamp(2.6rem, 5.2vw, 5.2rem);
+      font-size: clamp(2.6rem, calc(5.2vw / var(--fit, 1)), 5.2rem);
       font-weight: 500;
       line-height: 1.18;
       letter-spacing: -0.03em;
@@ -272,26 +289,26 @@
     }
 
     .hero-zoom-title .left {
-      transform: translate3d(calc(var(--progress) * -75vw), 0, 0);
+      transform: translate3d(calc(var(--progress) * calc(-75vw / var(--fit, 1))), 0, 0);
     }
 
     .hero-zoom-title .right {
-      transform: translate3d(calc(var(--progress) * 75vw), 0, 0);
+      transform: translate3d(calc(var(--progress) * calc(75vw / var(--fit, 1))), 0, 0);
     }
 
     @media (max-width: 768px) {
       .hero-zoom-title {
-        font-size: clamp(1.85rem, 7.5vw, 2.8rem) !important;
+        font-size: clamp(1.85rem, calc(7.5vw / var(--fit, 1)), 2.8rem) !important;
         flex-direction: column;
         gap: 0.15em;
       }
 
       .hero-zoom-title .left {
-        transform: translate3d(calc(var(--progress) * -100vw), 0, 0);
+        transform: translate3d(calc(var(--progress) * calc(-100vw / var(--fit, 1))), 0, 0);
       }
 
       .hero-zoom-title .right {
-        transform: translate3d(calc(var(--progress) * 100vw), 0, 0);
+        transform: translate3d(calc(var(--progress) * calc(100vw / var(--fit, 1))), 0, 0);
       }
 
       .intro-stats {
@@ -316,7 +333,7 @@
     }
 
     .intro p.intro-desc {
-      font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+      font-size: clamp(1.05rem, calc(1.8vw / var(--fit, 1)), 1.35rem);
       color: #475569;
       max-width: 44ch;
       line-height: 1.6;
@@ -387,8 +404,8 @@
 
     .section__media .section__media__back.media-logo img {
       position: static;
-      width: min(820px, 76vw);
-      max-height: 42vh;
+      width: min(820px, calc(76vw / var(--fit, 1)));
+      max-height: calc(42vh / var(--fit, 1));
       height: auto;
       object-fit: contain;
     }
@@ -399,9 +416,9 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: 100vw;
-      height: 100vh;
-      perspective: 100vh;
+      width: calc(100vw / var(--fit, 1));
+      height: calc(100vh / var(--fit, 1));
+      perspective: calc(100vh / var(--fit, 1));
       pointer-events: none;
       z-index: 2;
       overflow: visible;
@@ -409,7 +426,7 @@
 
     .section__images img {
       position: absolute;
-      width: 10vw;
+      width: calc(10vw / var(--fit, 1));
       height: auto;
       border-radius: 4px;
       box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
@@ -423,106 +440,106 @@
     }
 
     .section__images img:nth-of-type(1) {
-      top: 15vw;
-      left: -3vw;
+      top: calc(15vw / var(--fit, 1));
+      left: calc(-3vw / var(--fit, 1));
     }
 
     .section__images img:nth-of-type(2) {
-      top: 5vw;
-      left: 20vw;
+      top: calc(5vw / var(--fit, 1));
+      left: calc(20vw / var(--fit, 1));
     }
 
     .section__images img:nth-of-type(3) {
-      top: 8vw;
-      left: 26.5vw;
+      top: calc(8vw / var(--fit, 1));
+      left: calc(26.5vw / var(--fit, 1));
     }
 
     @media (max-width: 768px) {
       .section__images img:nth-of-type(3) {
-        top: 30vw;
-        left: 30vw;
+        top: calc(30vw / var(--fit, 1));
+        left: calc(30vw / var(--fit, 1));
       }
     }
 
     .section__images img:nth-of-type(4) {
-      top: 18vw;
-      right: 18vw;
+      top: calc(18vw / var(--fit, 1));
+      right: calc(18vw / var(--fit, 1));
     }
 
     @media (max-width: 768px) {
       .section__images img:nth-of-type(4) {
-        right: 15vw;
-        top: 30vw;
+        right: calc(15vw / var(--fit, 1));
+        top: calc(30vw / var(--fit, 1));
       }
     }
 
     .section__images img:nth-of-type(5) {
-      top: 5vw;
-      right: 10vw;
+      top: calc(5vw / var(--fit, 1));
+      right: calc(10vw / var(--fit, 1));
     }
 
     @media (max-width: 768px) {
       .section__images img:nth-of-type(5) {
-        top: 10vw;
-        right: 5vw;
+        top: calc(10vw / var(--fit, 1));
+        right: calc(5vw / var(--fit, 1));
       }
     }
 
     .section__images img:nth-of-type(6) {
-      bottom: 5vw;
-      left: 10vw;
+      bottom: calc(5vw / var(--fit, 1));
+      left: calc(10vw / var(--fit, 1));
     }
 
     @media (max-width: 768px) {
       .section__images img:nth-of-type(6) {
-        left: 5vw;
+        left: calc(5vw / var(--fit, 1));
       }
     }
 
     .section__images img:nth-of-type(7) {
-      bottom: 8vw;
-      left: 22.5vw;
+      bottom: calc(8vw / var(--fit, 1));
+      left: calc(22.5vw / var(--fit, 1));
     }
 
     @media (max-width: 768px) {
       .section__images img:nth-of-type(7) {
-        left: 10vw;
-        bottom: 27.5vw;
+        left: calc(10vw / var(--fit, 1));
+        bottom: calc(27.5vw / var(--fit, 1));
       }
     }
 
     .section__images img:nth-of-type(8) {
-      bottom: 3vw;
-      left: 45vw;
+      bottom: calc(3vw / var(--fit, 1));
+      left: calc(45vw / var(--fit, 1));
     }
 
     @media (max-width: 768px) {
       .section__images img:nth-of-type(8) {
-        bottom: 10vw;
-        left: 35vw;
+        bottom: calc(10vw / var(--fit, 1));
+        left: calc(35vw / var(--fit, 1));
       }
     }
 
     .section__images img:nth-of-type(9) {
-      bottom: 5vw;
-      right: 15vw;
+      bottom: calc(5vw / var(--fit, 1));
+      right: calc(15vw / var(--fit, 1));
     }
 
     @media (max-width: 768px) {
       .section__images img:nth-of-type(9) {
-        bottom: 5vw;
+        bottom: calc(5vw / var(--fit, 1));
       }
     }
 
     .section__images img:nth-of-type(10) {
-      bottom: 9vw;
-      right: 7vw;
+      bottom: calc(9vw / var(--fit, 1));
+      right: calc(7vw / var(--fit, 1));
     }
 
     @media (max-width: 768px) {
       .section__images img:nth-of-type(10) {
-        right: 3vw;
-        bottom: 22vw;
+        right: calc(3vw / var(--fit, 1));
+        bottom: calc(22vw / var(--fit, 1));
       }
     }
 
@@ -534,8 +551,8 @@
       width: 100%;
       margin-left: auto;
       margin-right: auto;
-      padding-left: clamp(24px, 5vw, 64px);
-      padding-right: clamp(24px, 5vw, 64px);
+      padding-left: clamp(24px, calc(5vw / var(--fit, 1)), 64px);
+      padding-right: clamp(24px, calc(5vw / var(--fit, 1)), 64px);
       box-sizing: border-box;
     }
 
@@ -546,8 +563,8 @@
       margin-right: auto;
       padding-top: 80px;
       padding-bottom: 60px;
-      padding-left: clamp(24px, 5vw, 64px);
-      padding-right: clamp(24px, 5vw, 64px);
+      padding-left: clamp(24px, calc(5vw / var(--fit, 1)), 64px);
+      padding-right: clamp(24px, calc(5vw / var(--fit, 1)), 64px);
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
@@ -573,7 +590,7 @@
     .section-header--center {
       text-align: center;
       /* extra space from the section above */
-      padding-top: clamp(56px, 8vw, 120px);
+      padding-top: clamp(56px, calc(8vw / var(--fit, 1)), 120px);
     }
 
     .section-header--center .heading {
@@ -595,7 +612,7 @@
     }
 
     .heading {
-      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      font-size: clamp(2.2rem, calc(4vw / var(--fit, 1)), 3.4rem);
       font-weight: 800;
       line-height: 1.12;
       letter-spacing: -0.03em;
@@ -924,7 +941,7 @@
 
     .reach-grid b {
       font-family: "Plus Jakarta Sans", sans-serif;
-      font-size: clamp(2.4rem, 4.4vw, 3.6rem);
+      font-size: clamp(2.4rem, calc(4.4vw / var(--fit, 1)), 3.6rem);
       font-weight: 800;
       letter-spacing: -0.04em;
       line-height: 1;
@@ -975,12 +992,12 @@
     }
 
     @media (max-width: 1100px) {
-      .eco-map {
+      :where(html:not(.kz-fit)) .eco-map {
         grid-template-columns: repeat(3, minmax(0, 1fr));
       }
 
-      .eco-map li::before,
-      .eco-map li::after {
+      :where(html:not(.kz-fit)) .eco-map li::before,
+      :where(html:not(.kz-fit)) .eco-map li::after {
         display: none;
       }
     }
@@ -1022,7 +1039,7 @@
       margin: 0 auto;
       display: grid;
       grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-      gap: clamp(40px, 6vw, 96px);
+      gap: clamp(40px, calc(6vw / var(--fit, 1)), 96px);
       align-items: start;
       font-family: "Inter", "Plus Jakarta Sans", system-ui, sans-serif;
     }
@@ -1054,13 +1071,13 @@
 
     /* Large blue heading; uses the page's .heading style and reveal animation */
     .story-text .story-heading {
-      font-size: clamp(2.6rem, 5vw, 4.2rem);
+      font-size: clamp(2.6rem, calc(5vw / var(--fit, 1)), 4.2rem);
       color: var(--blue);
       margin-bottom: 26px;
     }
 
     .story-text p.story-lead {
-      font-size: clamp(1.2rem, 1.7vw, 1.45rem);
+      font-size: clamp(1.2rem, calc(1.7vw / var(--fit, 1)), 1.45rem);
       line-height: 1.6;
       font-weight: 500;
       letter-spacing: -0.01em;
@@ -1128,7 +1145,7 @@
     /* Vision & Mission cards under the story */
     .vm-grid {
       max-width: 1200px;
-      margin: clamp(56px, 7vw, 88px) auto 0;
+      margin: clamp(56px, calc(7vw / var(--fit, 1)), 88px) auto 0;
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 28px;
@@ -1240,11 +1257,11 @@
 
     .drives-head {
       max-width: 900px;
-      margin-bottom: clamp(36px, 5vw, 56px);
+      margin-bottom: clamp(36px, calc(5vw / var(--fit, 1)), 56px);
     }
 
     .drives-section .drives-heading {
-      font-size: clamp(2rem, 3.6vw, 3.2rem);
+      font-size: clamp(2rem, calc(3.6vw / var(--fit, 1)), 3.2rem);
       max-width: 24ch;
       color: #0B1E43;
     }
@@ -1252,7 +1269,7 @@
     /* Milestones as a ruled list: year on the left, detail on the right */
     .drives-timeline {
       list-style: none;
-      margin: 0 0 clamp(40px, 5vw, 64px);
+      margin: 0 0 clamp(40px, calc(5vw / var(--fit, 1)), 64px);
       padding: 0;
       border-top: 1px solid rgba(15, 23, 42, 0.1);
     }
@@ -1267,7 +1284,7 @@
 
     .drives-year {
       font-family: "Google Sans Flex", "Plus Jakarta Sans", sans-serif;
-      font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+      font-size: clamp(1.4rem, calc(2.2vw / var(--fit, 1)), 1.9rem);
       font-weight: 500;
       letter-spacing: -0.02em;
       color: var(--blue);
@@ -1295,10 +1312,10 @@
     /* Photo wall (3D, same engine as the Placements page) */
     .drives-universe {
       position: relative;
-      margin: 0 calc(50% - 50vw);
+      margin: 0 calc(50% - calc(50vw / var(--fit, 1)));
       /* full screen below the top bar */
-      height: calc(100vh - 64px);
-      height: calc(100dvh - 64px);
+      height: calc(calc(100vh / var(--fit, 1)) - 64px);
+      height: calc(calc(100dvh / var(--fit, 1)) - 64px);
       min-height: 560px;
       overflow: hidden;
       cursor: grab;
@@ -1371,7 +1388,7 @@
     }
 
     @media (max-width: 760px) {
-      .drives-universe { height: calc(100vh - 64px); height: calc(100dvh - 64px); min-height: 480px; }
+      .drives-universe { height: calc(calc(100vh / var(--fit, 1)) - 64px); height: calc(calc(100dvh / var(--fit, 1)) - 64px); min-height: 480px; }
       .drives-overlay { bottom: 44px; }
       .drives-tags li { font-size: 0.74rem; padding: 6px 12px; }
     }
@@ -1414,7 +1431,7 @@
       --cf-card: 300px;
       --cf-step: 230px;
       position: relative;
-      margin: 20px calc(50% - 50vw) 0;
+      margin: 20px calc(50% - calc(50vw / var(--fit, 1))) 0;
       height: 600px;
       overflow: hidden;
       perspective: 1400px;
@@ -1619,7 +1636,7 @@
       position: relative;
       display: grid;
       grid-template-columns: 340px minmax(0, 1fr);
-      margin-top: clamp(56px, 7vw, 96px);
+      margin-top: clamp(56px, calc(7vw / var(--fit, 1)), 96px);
       border-radius: 28px;
       overflow: hidden;
       color: #E8EEFF;
@@ -1673,7 +1690,7 @@
     .ceo-body {
       position: relative;
       z-index: 1;
-      padding: clamp(32px, 4vw, 52px) clamp(28px, 4vw, 56px);
+      padding: clamp(32px, calc(4vw / var(--fit, 1)), 52px) clamp(28px, calc(4vw / var(--fit, 1)), 56px);
     }
 
     .ceo-eyebrow {
@@ -1706,7 +1723,7 @@
 
     .ceo-body p.ceo-lead {
       font-family: "Plus Jakarta Sans", sans-serif;
-      font-size: clamp(1.25rem, 2vw, 1.6rem);
+      font-size: clamp(1.25rem, calc(2vw / var(--fit, 1)), 1.6rem);
       line-height: 1.45;
       font-weight: 600;
       color: #FFFFFF;
@@ -1752,7 +1769,7 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 28px;
       /* space below the heading and above the trainer carousel */
-      margin: clamp(32px, 4vw, 56px) 0 clamp(48px, 6vw, 96px);
+      margin: clamp(32px, calc(4vw / var(--fit, 1)), 56px) 0 clamp(48px, calc(6vw / var(--fit, 1)), 96px);
     }
 
     .lead-card {
@@ -1888,7 +1905,7 @@
     }
 
     @media (max-width: 1100px) {
-      .lead-trainers {
+      :where(html:not(.kz-fit)) .lead-trainers {
         grid-template-columns: 1fr;
       }
     }
@@ -2144,7 +2161,7 @@
     }
 
     .cta-strip h2 {
-      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-size: clamp(2rem, calc(3.5vw / var(--fit, 1)), 3rem);
       font-weight: 800;
       color: #02050E;
       margin-bottom: 16px;
@@ -2319,8 +2336,8 @@
         gap: 3px !important;
         border-bottom: 2px solid rgba(25, 71, 255, 0.15) !important;
         box-shadow: 0 20px 40px -4px rgba(15, 23, 42, 0.18), 0 0 0 1px rgba(15, 23, 42, 0.05) !important;
-        max-height: calc(100vh - 72px) !important;
-        max-height: calc(100dvh - 72px) !important;
+        max-height: calc(calc(100vh / var(--fit, 1)) - 72px) !important;
+        max-height: calc(calc(100dvh / var(--fit, 1)) - 72px) !important;
         overflow-y: auto !important;
         -webkit-overflow-scrolling: touch !important;
         z-index: 99999 !important;
@@ -3186,6 +3203,12 @@
 
         // Telescope Zoom on Scroll (3D perspective warp into the centre logo)
         if (heroSection) {
+          // GSAP measures in screen pixels but the page may be zoomed to fit a laptop (see "Desktop fit"),
+          // so the pin's scroll room comes from this CSS-sized spacer instead of GSAP's own padding.
+          const pinRoom = document.createElement("div");
+          pinRoom.setAttribute("aria-hidden", "true");
+          pinRoom.style.height = "calc(130vh / var(--fit, 1))";
+          heroSection.after(pinRoom);
           const telescopeTL = gsap.timeline({
             scrollTrigger: {
               trigger: heroSection,
@@ -3193,6 +3216,7 @@
               end: "+=130%",
               scrub: 1,
               pin: true,
+              pinSpacing: false,
               anticipatePin: 1,
               onUpdate: (self) => {
                 const easedProgress = gsap.parseEase("power1.inOut")(self.progress);
@@ -3211,7 +3235,7 @@
 
           // 2. Small peripheral images fly forward in 3D perspective towards viewer
           if (smallImages.length) telescopeTL.to(smallImages, {
-            z: "100vh",
+            z: () => window.innerHeight / (window.__fit || 1),
             duration: 1,
             ease: "power1.inOut",
             stagger: {

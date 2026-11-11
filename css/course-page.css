@@ -36,7 +36,7 @@ body { background: var(--cp-bg); }
 }
 
 .hero-title {
-  font-size: clamp(30px, 4vw, 46px);
+  font-size: clamp(30px, calc(4vw / var(--fit, 1)), 46px);
   line-height: 1.15;
   margin-bottom: 18px;
 }

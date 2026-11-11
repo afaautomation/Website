@@ -4,6 +4,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>/* Desktop fit: the site is designed at 1920px wide. On laptop and desktop windows the whole page is
+     scaled to that design (smaller below 1920px, a little larger on big monitors) so every computer shows the same
+     proportions, whatever its screen size or Windows display scaling. Phones, tablets and touch screens are not scaled. */
+    (function (r) {
+      var touch = window.matchMedia && window.matchMedia('(hover: none)').matches;
+      function fit() {
+        var w = window.innerWidth, z = 1;
+        if (!touch && w > 1024) z = w < 1920 ? Math.max(w / 1920, 0.72) : Math.min(w / 1920, 1.2);
+        z = Math.round(z * 1000) / 1000;
+        r.style.zoom = z === 1 ? '' : z;
+        r.style.setProperty('--fit', z);
+        r.classList.toggle('kz-fit', z !== 1);
+        window.__fit = z;
+      }
+      fit();
+      addEventListener('resize', fit);
+    })(document.documentElement);</script>
   <title>Privacy Policy | Kompetenzen</title>
   <meta name="description"
     content="How Kompetenzen Technologies collects, uses and protects your personal data, and how to access, correct or delete it." />
@@ -48,7 +65,7 @@
     .wrap {
       max-width: var(--maxw);
       margin: 0 auto;
-      padding: 0 clamp(16px, 5vw, 64px);
+      padding: 0 clamp(16px, calc(5vw / var(--fit, 1)), 64px);
     }
 
     /* NAV */
@@ -93,7 +110,7 @@
     }
 
     h1 {
-      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-size: clamp(2.2rem, calc(5vw / var(--fit, 1)), 3.4rem);
       margin-bottom: 12px;
     }
 

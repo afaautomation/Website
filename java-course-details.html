@@ -4,6 +4,23 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script>/* Desktop fit: the site is designed at 1920px wide. On laptop and desktop windows the whole page is
+     scaled to that design (smaller below 1920px, a little larger on big monitors) so every computer shows the same
+     proportions, whatever its screen size or Windows display scaling. Phones, tablets and touch screens are not scaled. */
+    (function (r) {
+      var touch = window.matchMedia && window.matchMedia('(hover: none)').matches;
+      function fit() {
+        var w = window.innerWidth, z = 1;
+        if (!touch && w > 1024) z = w < 1920 ? Math.max(w / 1920, 0.72) : Math.min(w / 1920, 1.2);
+        z = Math.round(z * 1000) / 1000;
+        r.style.zoom = z === 1 ? '' : z;
+        r.style.setProperty('--fit', z);
+        r.classList.toggle('kz-fit', z !== 1);
+        window.__fit = z;
+      }
+      fit();
+      addEventListener('resize', fit);
+    })(document.documentElement);</script>
   <title>Full Stack Java + AI Development Professional Certificate | Kompetenzen</title>
   <meta name="description"
     content="Master Java enterprise backend development, Spring Boot, React frontends, and integrate cutting-edge AI models into modern web applications." />
@@ -592,7 +609,7 @@
       body {
         overflow-x: hidden;
         width: 100%;
-        max-width: 100vw;
+        max-width: calc(100vw / var(--fit, 1));
       }
 
       .hero-section {
@@ -604,7 +621,7 @@
       }
 
       .hero-title {
-        font-size: clamp(24px, 6.5vw, 34px) !important;
+        font-size: clamp(24px, calc(6.5vw / var(--fit, 1)), 34px) !important;
         line-height: 1.25 !important;
       }
 
@@ -683,8 +700,8 @@
         gap: 3px !important;
         border-bottom: 2px solid rgba(25, 71, 255, 0.15) !important;
         box-shadow: 0 20px 40px -4px rgba(15, 23, 42, 0.18), 0 0 0 1px rgba(15, 23, 42, 0.05) !important;
-        max-height: calc(100vh - 72px) !important;
-        max-height: calc(100dvh - 72px) !important;
+        max-height: calc(calc(100vh / var(--fit, 1)) - 72px) !important;
+        max-height: calc(calc(100dvh / var(--fit, 1)) - 72px) !important;
         overflow-y: auto !important;
         -webkit-overflow-scrolling: touch !important;
         z-index: 99999 !important;

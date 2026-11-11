@@ -74,7 +74,10 @@ export function professionalEvidence(app) {
   const e = app.matching_evidence || {}, c=e.career || {};
   // Legacy snapshots use null for fields they never collected. An explicit
   // empty array or "I don't know yet" is an answer and must not revive old data.
-  const skills = c.skills != null ? list(c.skills) : list(e.skills ?? app.skills);
+  const profileSkills = c.skills != null ? list(c.skills) : list(e.skills ?? app.skills);
+  // Skills the applicant ticked in this job's "Skills check" are part of their application too.
+  const ticked = list(app.matched_skills);
+  const skills = [...profileSkills, ...ticked.filter(s => !profileSkills.some(p => p.toLowerCase() === s.toLowerCase()))];
   const degree = text(e.qualification ?? app.degree).split(/\s*[·|]\s*/).map(v=>v.trim());
   const specialisation = e.specialisation ?? app.course_name ?? (degree.slice(1).join(' · ') || undefined);
   return { ...e, career:{...c,skills,softSkills:list(c.softSkills)},
