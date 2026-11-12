@@ -21,7 +21,10 @@ Deno.serve(async request=>{
   let processed=0;
   try {
     await db('rpc/queue_job_digests','POST',{});
-    for(let i=0;i<20;i++) {
+    // Several lanes drain the queue in parallel (claim_notification uses skip locked, so no message is sent twice).
+    const perLane=Math.max(1,parseInt(env('NOTIFICATION_PER_LANE'))||15), lanes=Math.max(1,Math.min(8,parseInt(env('NOTIFICATION_LANES'))||4));
+    const lane=async()=>{
+    for(let i=0;i<perLane;i++) {
       const [q]=await db('rpc/claim_notification','POST',{}); if(!q) break;
       const provider=q.channel==='email' ? emailProvider(env) : 'whatsapp';
       if(q.channel==='email' && q.delivery && (q.delivery.provider || 'resend')!==provider) {await update(q.id,{state:'review',last_error:'Email provider changed; reconcile previous send before retrying'});continue;}
@@ -68,6 +71,8 @@ Deno.serve(async request=>{
       }
       processed++;
     }
+    };
+    await Promise.all(Array.from({length:lanes},lane));
     return Response.json({processed});
   } catch(error) { console.error(String(error)); return new Response('Worker failed; inspect notification queue',{status:500}); }
 });

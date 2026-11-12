@@ -936,6 +936,7 @@
 
       .fs-chip--a {
         left: 0;
+        top: 0;
       }
 
       .fs-chip--b {
@@ -1377,18 +1378,11 @@
     }
 
     /* Illustration life */
-    .fs-steplines line,
-    .fs-steplines path {
+    .fs-route-line {
       stroke-dasharray: 1;
       stroke-dashoffset: 1;
-      animation: drawLine 1.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+      animation: drawLine 1.6s cubic-bezier(0.65, 0, 0.35, 1) 0.6s forwards;
     }
-
-    .fs-steplines path,
-    .fs-steplines line:nth-child(1) { animation-delay: 0.6s; }
-    .fs-steplines line:nth-child(2) { animation-delay: 0.8s; }
-    .fs-steplines line:nth-child(3) { animation-delay: 1s; }
-    .fs-steplines line:nth-child(4) { animation-delay: 1.2s; }
 
     @keyframes drawLine {
       to {
@@ -1407,12 +1401,45 @@
       to { transform: scale(1); opacity: 1; }
     }
 
-    .fs-rocket {
-      animation: rocketBob 2.8s ease-in-out infinite;
-    }
+    /* Once the route is drawn, a gold marker follows it to the rocket. */
+    .fs-route-marker { opacity: 0; }
 
-    @keyframes rocketBob {
-      50% { transform: translate(3px, -5px); }
+    @media (prefers-reduced-motion: no-preference) {
+      .fs-board {
+        --trip-duration: 6s;
+        --trip-delay: 2.2s;
+      }
+
+      .fs-route-marker {
+        stroke-dasharray: .012 1.1;
+        animation: fsTravel var(--trip-duration) linear var(--trip-delay) infinite;
+      }
+
+      @keyframes fsTravel {
+        0% { stroke-dashoffset: .012; opacity: 0; }
+        4% { opacity: 1; }
+        58% { stroke-dashoffset: -1; opacity: 1; }
+        60%, 100% { stroke-dashoffset: -1; opacity: 0; }
+      }
+
+      .fs-milestone {
+        animation: fsMilestone var(--trip-duration) ease-out calc(var(--trip-delay) + var(--arrival)) infinite;
+      }
+
+      @keyframes fsMilestone {
+        0%, 14%, 100% { fill: white; stroke-width: 2; }
+        5% { fill: #FFE9A9; stroke-width: 3; }
+      }
+
+      .fs-rocket {
+        animation: fsLiftOff var(--trip-duration) ease-in-out var(--trip-delay) infinite;
+      }
+
+      @keyframes fsLiftOff {
+        0%, 57%, 88%, 100% { transform: translate(0, 0); }
+        62% { transform: translate(-2px, 2px); }
+        72% { transform: translate(8px, -8px); }
+      }
     }
 
     .fs-flame {
@@ -1461,31 +1488,136 @@
       50% { transform: scale(0.55) rotate(45deg); opacity: 0.45; }
     }
 
-    /* Drawing hand: small back-and-forth strokes at the board */
-    .fs-arm {
+    /* Lion mascot: the upper body sways and breathes on the hips, the head nods, the eyelids close and
+       open, the raised arm keeps drawing on the board and the tail wags. Tap or hover the lion for a jump,
+       confetti and a new tip (script at the end of the page). With reduced motion it is a still pose. */
+    .fs-lion { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    .fs-lion.is-jump { animation: lionJump 0.75s cubic-bezier(0.3, 0.7, 0.4, 1); }
+
+    @keyframes lionJump {
+      0%, 100% { transform: translateY(0); }
+      35% { transform: translateY(-26px); }
+      60% { transform: translateY(0); }
+      78% { transform: translateY(-7px); }
+    }
+
+    .fs-torso,
+    .fs-breath {
       transform-box: view-box;
-      transform-origin: 204px 322px;
-      animation: armDraw 2.4s ease-in-out infinite;
+      transform-origin: 173.4px 400.9px;
     }
 
-    @keyframes armDraw {
+    .fs-torso { animation: lionSway 4.4s ease-in-out infinite; }
+    .fs-breath { animation: lionBreath 2.3s ease-in-out infinite; }
+
+    @keyframes lionSway {
+      0%, 100% { transform: rotate(-1.5deg); }
+      50% { transform: rotate(1.5deg); }
+    }
+
+    @keyframes lionBreath {
+      0%, 100% { transform: scale(1, 1); }
+      50% { transform: scale(1.006, 1.016); }
+    }
+
+    .fs-head {
+      transform-box: view-box;
+      transform-origin: 173.4px 316.4px;
+      animation: lionNod 3.1s ease-in-out infinite;
+    }
+
+    @keyframes lionNod {
+      0%, 100% { transform: rotate(-2deg) translateY(0); }
+      50% { transform: rotate(2.2deg) translateY(-1.5px); }
+    }
+
+    /* Eyelids: the closed-eye layer grows down from the top of the eyes, so they visibly close and open.
+       Two normal blinks, then a quick double blink. */
+    .fs-blink {
+      transform-box: view-box;
+      transform-origin: 173.4px 257.9px;
+      transform: scaleY(0);
+      animation: lionBlink 5.2s ease-in-out infinite;
+    }
+
+    @keyframes lionBlink {
+      0%, 28% { transform: scaleY(0); }
+      30%, 32.5% { transform: scaleY(1); }
+      34.5%, 80% { transform: scaleY(0); }
+      82%, 83.5% { transform: scaleY(1); }
+      85%, 86.5% { transform: scaleY(0); }
+      88%, 89.5% { transform: scaleY(1); }
+      91.5%, 100% { transform: scaleY(0); }
+    }
+
+    .fs-tail {
+      transform-box: view-box;
+      transform-origin: 125.4px 416.7px;
+      animation: lionTail 1.7s ease-in-out infinite;
+    }
+
+    @keyframes lionTail {
+      0%, 100% { transform: rotate(-5deg); }
+      50% { transform: rotate(9deg); }
+    }
+
+    /* The resting pose is the raised arm; the keyframe only supplies the start (arm down). */
+    .fs-arm-raise,
+    .fs-arm-draw {
+      transform-box: view-box;
+      transform-origin: 227.5px 334.9px;
+    }
+
+    .fs-arm-raise {
+      transform: rotate(-108deg);
+      animation: lionRaise 1.1s cubic-bezier(0.34, 1.3, 0.64, 1) 0.9s backwards;
+    }
+
+    @keyframes lionRaise {
+      from { transform: rotate(0deg); }
+    }
+
+    .fs-arm-draw { animation: lionDraw 2.6s ease-in-out 2s infinite; }
+
+    @keyframes lionDraw {
       0%, 100% { transform: rotate(0deg); }
-      20% { transform: rotate(-3deg); }
-      40% { transform: rotate(2deg); }
-      60% { transform: rotate(-2.5deg); }
-      80% { transform: rotate(1.5deg); }
+      20% { transform: rotate(-4deg); }
+      40% { transform: rotate(3deg); }
+      60% { transform: rotate(-3.5deg); }
+      80% { transform: rotate(2deg); }
     }
 
-    .fs-eyes {
+    /* The baton bends in the fist so its tip rests on the path drawn on the board. */
+    .fs-baton {
+      transform-box: view-box;
+      transform-origin: 229.3px 390.3px;
+      transform: rotate(-33.3deg);
+    }
+
+    .fs-art.is-hot .fs-arm-draw { animation-duration: 0.7s; }
+    .fs-art.is-hot .fs-tail { animation-duration: 0.45s; }
+    .fs-art.is-hot .fs-torso { animation-duration: 1.5s; }
+    .fs-art.is-hot .fs-head { animation-duration: 1.2s; }
+
+    .fs-stick { animation: lionStick 0.4s ease 1.7s backwards; }
+
+    @keyframes lionStick {
+      from { opacity: 0; }
+    }
+
+    .fs-stick-tip {
       transform-box: fill-box;
       transform-origin: center;
-      animation: blink 4.5s infinite;
+      animation: lionTip 1.4s ease-in-out infinite;
     }
 
-    @keyframes blink {
-      0%, 93%, 100% { transform: scaleY(1); }
-      96% { transform: scaleY(0.1); }
+    @keyframes lionTip {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.7); opacity: 0.5; }
     }
+
+    .fs-bubble { transform-box: fill-box; transform-origin: 50% 100%; }
+    .fs-say { font: 700 13px 'Inter', sans-serif; fill: #0D1630; }
 
     .fs-bulb {
       animation: bulbGlow 2.6s ease-in-out infinite;
@@ -1690,8 +1822,7 @@
         transition: none !important;
       }
 
-      .fs-steplines line,
-      .fs-steplines path,
+      .fs-route-line,
       .take-list svg polyline {
         stroke-dashoffset: 0 !important;
       }
@@ -2251,10 +2382,11 @@
         </div>
 
         <div class="fs-art fs-art-in">
-          <!-- Caricature: a student with glasses and a coffee sketches "My Future" on a whiteboard -->
+          <!-- The Kompetenzen lion mascot points at a "My Future" whiteboard -->
           <svg viewBox="0 0 520 520" role="img"
-            aria-label="Illustration of a cheerful student with glasses and a coffee, drawing a career path to a rocket on a whiteboard titled My Future">
+            aria-label="Illustration of the Kompetenzen lion mascot in a graduation cap, pointing at a whiteboard titled My Future where a career path leads to a rocket">
             <defs>
+              <path id="fs-career-route" d="M268 252 C300 252 296 206 326 204 S372 238 396 214 S428 152 440 140" pathLength="1" />
               <linearGradient id="artBg" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0" stop-color="#F4F7FF" />
                 <stop offset="1" stop-color="#FFFFFF" />
@@ -2265,12 +2397,19 @@
               <pattern id="grid" width="16" height="16" patternUnits="userSpaceOnUse">
                 <path d="M16 0 H0 V16" fill="none" stroke="#EEF2FC" stroke-width="1" />
               </pattern>
+              <radialGradient id="lionGlow">
+                <stop offset="0" stop-color="#CFDCFF" stop-opacity="0.9" />
+                <stop offset="1" stop-color="#CFDCFF" stop-opacity="0" />
+              </radialGradient>
             </defs>
 
             <circle cx="260" cy="255" r="225" fill="url(#artBg)" />
             <circle cx="260" cy="255" r="175" fill="none" stroke="#E3E9FF" stroke-width="1.5" stroke-dasharray="3 7" />
             <ellipse cx="260" cy="466" rx="220" ry="9" fill="#0A1530" opacity="0.06" />
 
+            <circle cx="165" cy="330" r="150" fill="url(#lionGlow)" />
+
+            <g class="fs-board" transform="translate(34 0)">
             <!-- easel + whiteboard -->
             <g stroke="#0D1630" stroke-width="6" stroke-linecap="round">
               <line x1="278" y1="282" x2="256" y2="462" />
@@ -2312,18 +2451,18 @@
             </g>
 
             <!-- the path being drawn: me -> study -> work -> launch -->
-            <g class="fs-steplines">
-              <path d="M268 252 C300 252 296 206 326 204 S372 238 396 214 S428 152 440 140" pathLength="1"
-                stroke="#1947FF" stroke-width="3" stroke-linecap="round" fill="none" />
+            <g fill="none" stroke-linecap="round">
+              <use class="fs-route-line" href="#fs-career-route" stroke="#1947FF" stroke-width="3" />
+              <use class="fs-route-marker" href="#fs-career-route" stroke="#FFC23D" stroke-width="6" aria-hidden="true" pointer-events="none" />
             </g>
             <circle class="fs-pop" style="--pd:.5s" cx="268" cy="252" r="7" fill="#1947FF" />
             <g class="fs-pop" style="--pd:1.1s">
-              <circle cx="326" cy="204" r="15" fill="#FFFFFF" stroke="#1947FF" stroke-width="2" />
+              <circle class="fs-milestone" style="--arrival:.98s" cx="326" cy="204" r="15" fill="#FFFFFF" stroke="#1947FF" stroke-width="2" />
               <path d="M317 203 L326 198.5 L335 203 L326 207.5 Z" fill="#0D1630" />
               <path d="M320.5 205.5 v4 q5.5 3.5 11 0 v-4" stroke="#0D1630" stroke-width="1.6" fill="none" />
             </g>
             <g class="fs-pop" style="--pd:1.5s">
-              <circle cx="396" cy="214" r="15" fill="#FFFFFF" stroke="#1947FF" stroke-width="2" />
+              <circle class="fs-milestone" style="--arrival:2.1s" cx="396" cy="214" r="15" fill="#FFFFFF" stroke="#1947FF" stroke-width="2" />
               <rect x="389" y="207" width="14" height="9.5" rx="1.5" stroke="#0D1630" stroke-width="1.7" fill="none" />
               <line x1="386" y1="219.5" x2="406" y2="219.5" stroke="#0D1630" stroke-width="1.7" stroke-linecap="round" />
             </g>
@@ -2338,6 +2477,7 @@
                 </g>
               </g>
             </g>
+            </g>
 
             <!-- sparkles -->
             <path class="fs-twinkle" d="M478 52 l3 9 9 3 -9 3 -3 9 -3 -9 -9 -3 9 -3z" fill="#1947FF" />
@@ -2346,6 +2486,7 @@
             <path class="fs-twinkle" style="animation-delay:-2.1s" d="M70 300 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3z"
               fill="#FFC23D" />
 
+            <g transform="translate(-13 146.6) scale(.68)">
             <!-- books + plant -->
             <rect x="30" y="440" width="80" height="18" rx="3" fill="#1947FF" />
             <rect x="36" y="422" width="70" height="18" rx="3" fill="#FFC23D" />
@@ -2356,81 +2497,48 @@
               <ellipse cx="68" cy="354" rx="6" ry="18" fill="#47C483" />
             </g>
             <path d="M52 380 H84 L80 404 H56 Z" fill="#FFFFFF" stroke="#DCE3F5" stroke-width="2" />
-
-            <!-- the character -->
-            <g class="fs-float">
-              <ellipse cx="172" cy="460" rx="40" ry="5" fill="#0A1530" opacity="0.12" />
-              <!-- legs + shoes -->
-              <rect x="151" y="392" width="15" height="62" rx="7" fill="#0D1630" />
-              <rect x="177" y="392" width="15" height="62" rx="7" fill="#0D1630" />
-              <ellipse cx="157" cy="456" rx="14" ry="6" fill="#02050E" />
-              <ellipse cx="187" cy="456" rx="14" ry="6" fill="#02050E" />
-              <!-- hoodie -->
-              <path d="M128 400 C128 330 142 300 172 296 C202 300 216 330 216 400 Z" fill="#1947FF" />
-              <path d="M156 298 Q172 316 188 298" fill="#FFFFFF" />
-              <path d="M164 306 v20 M180 306 v20" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" />
-              <path d="M146 372 H198" stroke="#0E2EC9" stroke-width="2" stroke-linecap="round" />
-              <!-- left arm with coffee, held out in front -->
-              <path d="M140 322 Q118 346 122 372" stroke="#1947FF" stroke-width="15" stroke-linecap="round" fill="none" />
-              <!-- steam rising from the cup -->
-              <g class="fs-steam" stroke="#B9C6E8" stroke-width="2" stroke-linecap="round" fill="none">
-                <path d="M100 359 q-4 -6 0 -12 q4 -6 0 -12" />
-                <path d="M108 358 q-4 -6 0 -12 q4 -6 0 -12" />
-              </g>
-              <!-- coffee mug: handle on the right, held by the hand -->
-              <path d="M115 371 q10 0 10 8 q0 8 -10 8" stroke="#0D1630" stroke-width="2.5" fill="none" stroke-linecap="round" />
-              <path d="M92 366 H116 L114 388 Q113.4 393 108.5 393 H99.5 Q94.6 393 94 388 Z" fill="#FFFFFF" stroke="#0D1630" stroke-width="2" stroke-linejoin="round" />
-              <path d="M92.8 375 H115.2 L114.7 381 H93.3 Z" fill="#1947FF" />
-              <ellipse cx="104" cy="366" rx="12" ry="3" fill="#FFFFFF" stroke="#0D1630" stroke-width="2" />
-              <ellipse cx="104" cy="366.3" rx="9.4" ry="1.7" fill="#7A4A2A" />
-              <!-- hand wrapped round the handle -->
-              <circle cx="123" cy="379" r="7.5" fill="#F5CBA7" />
-              <path d="M118.5 376.5 q3 -1.5 6 0" stroke="#D9A57F" stroke-width="1.4" fill="none" stroke-linecap="round" />
-              <!-- right arm drawing on the board -->
-              <g class="fs-arm">
-                <path d="M204 322 Q232 300 247 271" stroke="#1947FF" stroke-width="15" stroke-linecap="round"
-                  fill="none" />
-                <path d="M252 262 L264 247" stroke="#0D1630" stroke-width="6" stroke-linecap="round" />
-                <path d="M262 249.5 L266 244.5" stroke="#1947FF" stroke-width="6" stroke-linecap="round" />
-                <circle cx="250" cy="265" r="9" fill="#F5CBA7" />
-              </g>
-              <!-- neck + head -->
-              <rect x="165" y="278" width="14" height="22" rx="4" fill="#E6B38C" />
-              <ellipse cx="122" cy="238" rx="9" ry="12" fill="#EDBE98" />
-              <ellipse cx="222" cy="238" rx="9" ry="12" fill="#EDBE98" />
-              <ellipse cx="172" cy="232" rx="50" ry="54" fill="#F5CBA7" />
-              <!-- messy hair -->
-              <path
-                d="M122 234 C115 184 145 166 176 168 C210 170 231 196 222 234 C217 208 202 197 186 200 L179 189 L170 202 C153 197 136 208 128 226 Z"
-                fill="#1E1B2E" />
-              <path d="M134 186 L144 160 L156 178 L168 152 L180 174 L194 156 L200 180 L210 172 L208 194 Z"
-                fill="#1E1B2E" />
-              <!-- brows -->
-              <path d="M144 213 Q155 206 166 212" stroke="#1E1B2E" stroke-width="4" stroke-linecap="round" fill="none" />
-              <path d="M180 212 Q191 205 202 211" stroke="#1E1B2E" stroke-width="4" stroke-linecap="round" fill="none" />
-              <!-- eyes, looking toward the board -->
-              <g class="fs-eyes">
-                <ellipse cx="156" cy="235" rx="8.5" ry="9.5" fill="#FFFFFF" />
-                <ellipse cx="190" cy="235" rx="8.5" ry="9.5" fill="#FFFFFF" />
-                <circle cx="159.5" cy="234" r="4.8" fill="#02050E" />
-                <circle cx="193.5" cy="234" r="4.8" fill="#02050E" />
-                <circle cx="161" cy="232" r="1.5" fill="#FFFFFF" />
-                <circle cx="195" cy="232" r="1.5" fill="#FFFFFF" />
-              </g>
-              <!-- round glasses -->
-              <g stroke="#0D1630" stroke-width="3" fill="none">
-                <circle cx="156" cy="235" r="14" />
-                <circle cx="190" cy="235" r="14" />
-                <path d="M170 234 Q173 230 176 234" />
-                <path d="M142 232 L129 228 M204 232 L215 228" />
-              </g>
-              <!-- nose, cheeks, grin -->
-              <path d="M175 243 Q185 255 173 258" stroke="#D39A74" stroke-width="3" stroke-linecap="round" fill="none" />
-              <circle cx="141" cy="258" r="7" fill="#FF8F7A" opacity="0.35" />
-              <circle cx="205" cy="258" r="7" fill="#FF8F7A" opacity="0.35" />
-              <path d="M154 266 Q173 288 192 266 Q173 273 154 266 Z" fill="#6B2430" />
-              <path d="M158 268 Q173 274 188 268 L186 272 Q173 277 160 272 Z" fill="#FFFFFF" />
             </g>
+
+            <!-- the character: Kompetenzen lion mascot (pixel art layers in /img) -->
+            <g class="fs-lion" id="fs-lion">
+              <ellipse cx="173.4" cy="463" rx="98" ry="7" fill="#0A1530" opacity="0.12" />
+              <g class="fs-tail"><image href="img/lion-tail.webp" x="70" y="180" width="184.8" height="282.04" /></g>
+              <image href="img/lion-legs.webp" x="70" y="180" width="184.8" height="282.04" />
+              <!-- upper body sways and breathes on the hips; legs stay planted -->
+              <g class="fs-torso">
+                <g class="fs-breath">
+                  <image href="img/lion-torso.webp" x="70" y="180" width="184.8" height="282.04" />
+                  <!-- raised arm: lifts to the board, then keeps drawing -->
+                  <g class="fs-arm-raise">
+                    <g class="fs-arm-draw">
+                      <image href="img/lion-arm.webp" x="70" y="180" width="184.8" height="282.04" />
+                      <g class="fs-stick">
+                        <g class="fs-baton">
+                          <line x1="229.3" y1="374.3" x2="229.3" y2="510.8" stroke="#0D1630" stroke-width="4" stroke-linecap="round" />
+                          <circle class="fs-stick-tip" cx="229.3" cy="510.8" r="5" fill="#1947FF" />
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                  <!-- head nods; the eyelids close and open -->
+                  <g class="fs-head">
+                    <image href="img/lion-head.webp" x="70" y="180" width="184.8" height="282.04" />
+                    <g class="fs-blink"><image href="img/lion-blink.webp" x="70" y="180" width="184.8" height="282.04" /></g>
+                  </g>
+                </g>
+              </g>
+            </g>
+
+            <!-- speech bubble: changes tip when you tap the lion -->
+            <g class="fs-pop" style="--pd:1.9s">
+              <g class="fs-bubble" id="fs-bubble" filter="url(#soft)">
+                <path d="M88 122 H252 A14 14 0 0 1 266 136 V150 A14 14 0 0 1 252 164 H176 L164 182 L152 164 H88 A14 14 0 0 1 74 150 V136 A14 14 0 0 1 88 122 Z"
+                  fill="#FFFFFF" stroke="#DCE3F5" stroke-width="1.5" stroke-linejoin="round" />
+                <text class="fs-say" id="fs-say" x="170" y="147" text-anchor="middle">Let's design your future!</text>
+              </g>
+            </g>
+
+            <g id="fs-confetti" pointer-events="none" data-x="173.4" data-y="232.8"></g>
           </svg>
 
           <div class="fs-chip fs-chip--a" aria-hidden="true">
@@ -2860,6 +2968,67 @@
           art.style.setProperty('--px', 0);
           art.style.setProperty('--py', 0);
         });
+      }
+
+      /* Lion mascot: tap (or hover with a mouse) for a jump, confetti and a new tip */
+      const lion = document.getElementById('fs-lion');
+      const say = document.getElementById('fs-say');
+      const tipBox = document.getElementById('fs-bubble');
+      if (lion && say && tipBox && art) {
+        const tips = ["Let's design your future!", 'Discover your strengths', 'Explore your options', 'Leave with a roadmap'];
+        let tip = 0, visible = false, hotTimer;
+        const showTip = i => {
+          tip = i % tips.length;
+          say.textContent = tips[tip];
+          if (!reduceMotion && tipBox.animate) {
+            tipBox.animate([{ transform: 'scale(0.88)', opacity: 0.3 }, { transform: 'scale(1)', opacity: 1 }],
+              { duration: 280, easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)' });
+          }
+        };
+        const heat = ms => {
+          art.classList.add('is-hot');
+          clearTimeout(hotTimer);
+          hotTimer = setTimeout(() => art.classList.remove('is-hot'), ms);
+        };
+        const burst = () => {
+          const g = document.getElementById('fs-confetti');
+          if (!g || !g.animate) return;
+          const ns = 'http://www.w3.org/2000/svg';
+          const x = +g.dataset.x, y = +g.dataset.y;
+          const colors = ['#1947FF', '#FFC23D', '#3BB273', '#FFFFFF', '#7FA6FF'];
+          for (let n = 0; n < 18; n++) {
+            const piece = document.createElementNS(ns, n % 3 ? 'circle' : 'rect');
+            const fill = colors[n % colors.length];
+            piece.setAttribute('fill', fill);
+            if (fill === '#FFFFFF') { piece.setAttribute('stroke', '#C9D4F0'); piece.setAttribute('stroke-width', '0.8'); }
+            if (piece.tagName === 'circle') { piece.setAttribute('cx', x); piece.setAttribute('cy', y); piece.setAttribute('r', 3 + Math.random() * 2.5); }
+            else { piece.setAttribute('x', x - 3); piece.setAttribute('y', y - 4.5); piece.setAttribute('width', 6); piece.setAttribute('height', 9); piece.setAttribute('rx', 1.5); }
+            piece.style.transformBox = 'fill-box';
+            piece.style.transformOrigin = 'center';
+            g.appendChild(piece);
+            const angle = -Math.PI / 2 + (Math.random() - 0.5) * 2.6, dist = 60 + Math.random() * 90;
+            piece.animate([
+              { transform: 'translate(0px, 0px) rotate(0deg)', opacity: 1, offset: 0 },
+              { opacity: 1, offset: 0.7 },
+              { transform: 'translate(' + (Math.cos(angle) * dist).toFixed(1) + 'px, ' + (Math.sin(angle) * dist + 55).toFixed(1) + 'px) rotate(' + Math.round(Math.random() * 540 - 270) + 'deg)', opacity: 0, offset: 1 }
+            ], { duration: 1100 + Math.random() * 500, easing: 'cubic-bezier(0.2, 0.7, 0.3, 1)' }).onfinish = () => piece.remove();
+          }
+        };
+        lion.addEventListener('click', () => {
+          showTip(tip + 1);
+          if (reduceMotion) return;
+          lion.classList.remove('is-jump');
+          void lion.getBoundingClientRect();
+          lion.classList.add('is-jump');
+          burst();
+          heat(1800);
+        });
+        lion.addEventListener('animationend', e => { if (e.animationName === 'lionJump') lion.classList.remove('is-jump'); });
+        lion.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse' && !reduceMotion) heat(1400); });
+        if (!reduceMotion) {
+          new IntersectionObserver(entries => { visible = entries[0].isIntersecting; }).observe(art);
+          setInterval(() => { if (visible && !document.hidden) showTip(tip + 1); }, 4200);
+        }
       }
 
       /* Spotlight on audience cards, gentle 3D tilt on the report card */

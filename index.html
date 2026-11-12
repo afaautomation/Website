@@ -31,7 +31,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Work+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;500&family=Michroma&family=Montserrat:wght@400;600;800&family=Inconsolata:wght@400;600;700&family=Open+Sans:wght@300;400;500;600&display=swap"
-    rel="stylesheet" />
+    rel="stylesheet" media="print" onload="this.media='all'" />
 
   <style>
     /* ===========================================================
@@ -502,8 +502,7 @@
       flex-wrap: wrap;
       gap: 12px;
       align-items: center;
-      opacity: 0;
-      animation: fade .9s .65s cubic-bezier(.2, .8, .2, 1) forwards
+      opacity: 1;
     }
 
     .btn-primary {
@@ -2774,10 +2773,14 @@
         background: #FFFFFF !important;
       }
     }
+    #training { scroll-margin-top: 64px; }
+    @media (max-width: 980px) {
+      html body .hero-actions > a { min-height: 44px !important; }
+    }
   </style>
   <link
     href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap"
-    rel="stylesheet">
+    rel="stylesheet" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="css/mobile.css" media="(max-width: 768px)" />
   <style>
     /* Top bar has nine links since Internships was added: keep each label on one
@@ -3387,40 +3390,40 @@
         </div>
         <div class="hire-marquee">
           <ul class="hire-track">
-            <li class="hire-logo" title="TCS"><img src="img/placed-companies/tcs.webp" alt="TCS logo" width="79" height="58" decoding="async" /></li>
-            <li class="hire-logo" title="Infosys"><img src="img/placed-companies/infosys.webp" alt="Infosys logo" width="116" height="43" decoding="async" /></li>
-            <li class="hire-logo" title="Accenture"><img src="img/placed-companies/accenture.webp" alt="Accenture logo" width="136" height="37" decoding="async" /></li>
-            <li class="hire-logo" title="IBM"><img src="img/placed-companies/ibm.webp" alt="IBM logo" width="116" height="43" decoding="async" /></li>
-            <li class="hire-logo" title="Tech Mahindra"><img src="img/placed-companies/tech-mahindra.webp" alt="Tech Mahindra logo" width="132" height="38" decoding="async" /></li>
-            <li class="hire-logo" title="UST"><img src="img/placed-companies/ust.webp" alt="UST logo" width="53" height="58" decoding="async" /></li>
-            <li class="hire-logo" title="Allianz"><img src="img/placed-companies/allianz.webp" alt="Allianz logo" width="140" height="36" decoding="async" /></li>
-            <li class="hire-logo" title="Quest Global"><img src="img/placed-companies/quest-global.webp" alt="Quest Global logo" width="114" height="44" decoding="async" /></li>
-            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/tcs.webp" alt="" width="79" height="58" decoding="async" /></li>
-            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/infosys.webp" alt="" width="116" height="43" decoding="async" /></li>
-            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/accenture.webp" alt="" width="136" height="37" decoding="async" /></li>
-            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/ibm.webp" alt="" width="116" height="43" decoding="async" /></li>
-            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/tech-mahindra.webp" alt="" width="132" height="38" decoding="async" /></li>
-            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/ust.webp" alt="" width="53" height="58" decoding="async" /></li>
-            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/allianz.webp" alt="" width="140" height="36" decoding="async" /></li>
-            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/quest-global.webp" alt="" width="114" height="44" decoding="async" /></li>
+            <li class="hire-logo" title="TCS"><img loading="lazy" src="img/placed-companies/tcs.webp" alt="TCS logo" width="79" height="58" decoding="async" /></li>
+            <li class="hire-logo" title="Infosys"><img loading="lazy" src="img/placed-companies/infosys.webp" alt="Infosys logo" width="116" height="43" decoding="async" /></li>
+            <li class="hire-logo" title="Accenture"><img loading="lazy" src="img/placed-companies/accenture.webp" alt="Accenture logo" width="136" height="37" decoding="async" /></li>
+            <li class="hire-logo" title="IBM"><img loading="lazy" src="img/placed-companies/ibm.webp" alt="IBM logo" width="116" height="43" decoding="async" /></li>
+            <li class="hire-logo" title="Tech Mahindra"><img loading="lazy" src="img/placed-companies/tech-mahindra.webp" alt="Tech Mahindra logo" width="132" height="38" decoding="async" /></li>
+            <li class="hire-logo" title="UST"><img loading="lazy" src="img/placed-companies/ust.webp" alt="UST logo" width="53" height="58" decoding="async" /></li>
+            <li class="hire-logo" title="Allianz"><img loading="lazy" src="img/placed-companies/allianz.webp" alt="Allianz logo" width="140" height="36" decoding="async" /></li>
+            <li class="hire-logo" title="Quest Global"><img loading="lazy" src="img/placed-companies/quest-global.webp" alt="Quest Global logo" width="114" height="44" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img loading="lazy" src="img/placed-companies/tcs.webp" alt="" width="79" height="58" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img loading="lazy" src="img/placed-companies/infosys.webp" alt="" width="116" height="43" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img loading="lazy" src="img/placed-companies/accenture.webp" alt="" width="136" height="37" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img loading="lazy" src="img/placed-companies/ibm.webp" alt="" width="116" height="43" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img loading="lazy" src="img/placed-companies/tech-mahindra.webp" alt="" width="132" height="38" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img loading="lazy" src="img/placed-companies/ust.webp" alt="" width="53" height="58" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img loading="lazy" src="img/placed-companies/allianz.webp" alt="" width="140" height="36" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img loading="lazy" src="img/placed-companies/quest-global.webp" alt="" width="114" height="44" decoding="async" /></li>
           </ul>
         </div>
         <div class="hire-marquee">
           <ul class="hire-track hire-track--rev">
-            <li class="hire-logo" title="Sutherland"><img src="img/placed-companies/sutherland.webp" alt="Sutherland logo" width="178" height="28" decoding="async" /></li>
-            <li class="hire-logo" title="CareStack"><img src="img/placed-companies/carestack.webp" alt="CareStack logo" width="178" height="22" decoding="async" /></li>
-            <li class="hire-logo" title="Litmus7"><img src="img/placed-companies/litmus7.webp" alt="Litmus7 logo" width="108" height="46" decoding="async" /></li>
-            <li class="hire-logo" title="Kameda Infologics"><img src="img/placed-companies/kameda-infologics.webp" alt="Kameda Infologics logo" width="95" height="53" decoding="async" /></li>
-            <li class="hire-logo" title="Skywalk Global"><img src="img/placed-companies/skywalk-global.webp" alt="Skywalk Global logo" width="120" height="42" decoding="async" /></li>
-            <li class="hire-logo" title="Alzone"><img src="img/placed-companies/alzone.webp" alt="Alzone logo" width="70" height="58" decoding="async" /></li>
-            <li class="hire-logo" title="Hiring partner"><img src="img/placed-companies/partner-dots.webp" alt="Hiring partner logo" width="53" height="58" decoding="async" /></li>
-            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/sutherland.webp" alt="" width="178" height="28" decoding="async" /></li>
-            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/carestack.webp" alt="" width="178" height="22" decoding="async" /></li>
-            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/litmus7.webp" alt="" width="108" height="46" decoding="async" /></li>
-            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/kameda-infologics.webp" alt="" width="95" height="53" decoding="async" /></li>
-            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/skywalk-global.webp" alt="" width="120" height="42" decoding="async" /></li>
-            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/alzone.webp" alt="" width="70" height="58" decoding="async" /></li>
-            <li class="hire-logo" aria-hidden="true"><img src="img/placed-companies/partner-dots.webp" alt="" width="53" height="58" decoding="async" /></li>
+            <li class="hire-logo" title="Sutherland"><img loading="lazy" src="img/placed-companies/sutherland.webp" alt="Sutherland logo" width="178" height="28" decoding="async" /></li>
+            <li class="hire-logo" title="CareStack"><img loading="lazy" src="img/placed-companies/carestack.webp" alt="CareStack logo" width="178" height="22" decoding="async" /></li>
+            <li class="hire-logo" title="Litmus7"><img loading="lazy" src="img/placed-companies/litmus7.webp" alt="Litmus7 logo" width="108" height="46" decoding="async" /></li>
+            <li class="hire-logo" title="Kameda Infologics"><img loading="lazy" src="img/placed-companies/kameda-infologics.webp" alt="Kameda Infologics logo" width="95" height="53" decoding="async" /></li>
+            <li class="hire-logo" title="Skywalk Global"><img loading="lazy" src="img/placed-companies/skywalk-global.webp" alt="Skywalk Global logo" width="120" height="42" decoding="async" /></li>
+            <li class="hire-logo" title="Alzone"><img loading="lazy" src="img/placed-companies/alzone.webp" alt="Alzone logo" width="70" height="58" decoding="async" /></li>
+            <li class="hire-logo" title="Hiring partner"><img loading="lazy" src="img/placed-companies/partner-dots.webp" alt="Hiring partner logo" width="53" height="58" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img loading="lazy" src="img/placed-companies/sutherland.webp" alt="" width="178" height="28" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img loading="lazy" src="img/placed-companies/carestack.webp" alt="" width="178" height="22" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img loading="lazy" src="img/placed-companies/litmus7.webp" alt="" width="108" height="46" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img loading="lazy" src="img/placed-companies/kameda-infologics.webp" alt="" width="95" height="53" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img loading="lazy" src="img/placed-companies/skywalk-global.webp" alt="" width="120" height="42" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img loading="lazy" src="img/placed-companies/alzone.webp" alt="" width="70" height="58" decoding="async" /></li>
+            <li class="hire-logo" aria-hidden="true"><img loading="lazy" src="img/placed-companies/partner-dots.webp" alt="" width="53" height="58" decoding="async" /></li>
           </ul>
         </div>
       </div>
@@ -3526,6 +3529,9 @@
 
             // Animation loop
             let time = 0;
+            let frame = 0;
+            let visible = false;
+            const motion = matchMedia('(prefers-reduced-motion: reduce)');
             function draw() {
               ctx.clearRect(0, 0, width, height);
 
@@ -3593,9 +3599,19 @@
               drawSphere(-width * 0.1, height * 0.5); // Left sphere
               drawSphere(width * 1.1, height * 0.5);  // Right sphere
 
-              requestAnimationFrame(draw);
+              frame = motion.matches ? 0 : requestAnimationFrame(draw);
             }
-            draw();
+            function refreshAnimation() {
+              cancelAnimationFrame(frame);
+              if (visible && !document.hidden) draw();
+            }
+            new IntersectionObserver(([entry]) => {
+              visible = entry.isIntersecting;
+              refreshAnimation();
+            }).observe(canvas);
+            document.addEventListener('visibilitychange', refreshAnimation);
+            motion.addEventListener('change', refreshAnimation);
+            window.addEventListener('resize', refreshAnimation);
           });
         </script>
 
@@ -4812,53 +4828,12 @@
     </div>
   </footer>
 
-  <!-- Lenis smooth scroll -->
-  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"
-    integrity="sha384-B2WBjDzEjJpYvhmi2UyEn7rektqkf5suS6sNoyyrf0EBAwBHdkiXxIlU0V5Ru2ed"
-    crossorigin="anonymous"></script>
   <script>
-    /* Smooth scroll - Disabled on mobile for performance */
-    const isMobile = window.innerWidth <= 768 || window.matchMedia("(max-width: 768px)").matches || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-    if (!isMobile) {
-      window.lenis = new Lenis({
-        lerp: 0.1, /* faster, more responsive interpolation */
-        wheelMultiplier: 1.5, /* very fast wheel scroll speed */
-        smoothWheel: !/Mac/.test(navigator.platform) /* macOS trackpads already scroll smoothly; smoothing again feels laggy */,
-        smoothTouch: false,
-      });
-      const lenis = window.lenis;
-      function raf(t) { lenis.raf(t); requestAnimationFrame(raf) }
-      requestAnimationFrame(raf);
-    } else {
-      // Fallback for mobile
-      const scrollListeners = [];
-      window.lenis = {
-        scrollTo: (target, options) => {
-          const offset = options && options.offset ? options.offset : 0;
-          if (typeof target === 'number') { window.scrollTo({ top: target + offset, behavior: 'smooth' }); }
-          else if (target) {
-            const y = target.getBoundingClientRect().top + window.scrollY + offset;
-            window.scrollTo({ top: y, behavior: 'smooth' });
-          }
-        },
-        on: (event, cb) => {
-          if (event === 'scroll') scrollListeners.push(cb);
-        },
-        stop: () => { },
-        start: () => { }
-      };
-      window.addEventListener('scroll', () => {
-        scrollListeners.forEach(cb => cb({ scroll: window.scrollY }));
-      });
-    }
-
-    const lenis = window.lenis;
-
     /* Nav scroll state with premium hide-on-scroll */
     const nav = document.getElementById('nav');
     let lastScroll = 0;
-    lenis.on('scroll', ({ scroll }) => {
+    window.addEventListener('scroll', () => {
+      const scroll = window.scrollY;
       nav.classList.toggle('scrolled', scroll > 20);
 
       if (scroll > lastScroll && scroll > 120) {
@@ -4869,13 +4844,16 @@
       lastScroll = scroll;
     });
 
-    /* Anchor links via Lenis */
+    /* Keep section headings clear of the fixed navigation. */
     document.querySelectorAll('a[href^="#"]').forEach(a => {
       a.addEventListener('click', e => {
         const id = a.getAttribute('href');
         if (id.length > 1) {
           const el = document.querySelector(id);
-          if (el) { e.preventDefault(); lenis.scrollTo(el, { offset: -60, duration: 1.4 }) }
+          if (el) {
+            e.preventDefault();
+            window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 60, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+          }
         }
       });
     });
@@ -4966,7 +4944,7 @@
       a.className = 'ig-post';
       a.innerHTML = `
     <div class="heart"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-7-10a4 4 0 018-1 4 4 0 018 1c0 5.65-7 10-7 10z"/></svg>${p.likes}</div>
-    <img src="${p.img}" alt="${p.name} placed @ ${p.co}" class="ig-post-img" width="440" height="550" decoding="async" />
+    <img src="${p.img}" alt="${p.name} placed @ ${p.co}" class="ig-post-img" loading="lazy" width="440" height="550" decoding="async" />
     <div class="overlay">
       <div class="open">View on Instagram <span>↗</span></div>
     </div>`;
@@ -4991,7 +4969,8 @@
     let maxScroll = 1;
 
     /* Single scroll handler for everything */
-    lenis.on('scroll', ({ scroll }) => {
+    window.addEventListener('scroll', () => {
+      const scroll = window.scrollY;
       maxScroll = Math.max(maxScroll, document.documentElement.scrollHeight - window.innerHeight);
       scrollBar.style.width = (scroll / maxScroll * 100) + '%';
       const v = Math.min(scroll * .05, 200);
@@ -5023,9 +5002,7 @@
       const wrapper = modal.querySelector('.video-iframe-wrapper');
       wrapper.innerHTML = `<iframe src="https://www.youtube.com/embed/PMvFvScBvqU?autoplay=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
       modal.classList.add('active');
-      if (window.lenis) {
-        window.lenis.stop();
-      }
+
     };
 
     window.closeVideoModal = function () {
@@ -5035,9 +5012,7 @@
       setTimeout(() => {
         wrapper.innerHTML = '';
       }, 350);
-      if (window.lenis) {
-        window.lenis.start();
-      }
+
     };
 
   </script>
@@ -5045,6 +5020,8 @@
 
   <!-- FINAL MOBILE OVERRIDES -->
   <style>
+    html:has(#videoModal.active) { overflow: hidden; }
+
     @media (max-width: 980px) {
 
       /* Mobile Performance GPU Hardware Acceleration */

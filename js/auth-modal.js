@@ -1004,6 +1004,33 @@
   }
 
   // 32 random bytes as base64url (43 characters): far beyond guessing, within phone-signup's 6–128 limit.
+  // EMAIL-TYPO-START (tests/email-typo.test.cjs runs this block on its own)
+  // Corrected address for a likely typo in a common email provider or ".com", otherwise ''.
+  function suggestEmailFix(email) {
+    const at = email.lastIndexOf('@');
+    if (at < 1) return '';
+    const user = email.slice(0, at), domain = email.slice(at + 1);
+    const providers = ['gmail.com', 'yahoo.com', 'yahoo.co.in', 'hotmail.com', 'outlook.com', 'icloud.com', 'rediffmail.com', 'live.com', 'ymail.com', 'mail.com', 'gmx.com', 'aol.com', 'zoho.com', 'protonmail.com', 'proton.me'];
+    if (providers.includes(domain)) return '';
+    // ".con", ".cmo", ".vom" … are not real endings; they are always a mistyped ".com".
+    let fixed = domain.replace(/\.(con|cmo|ocm|vom|xom|cpm|comm|coom|cim|clm)$/, '.com');
+    if (!providers.includes(fixed)) {
+      const distance = (a, b) => {
+        const d = Array.from({ length: a.length + 1 }, (_, i) => [i]);
+        for (let j = 1; j <= b.length; j++) d[0][j] = j;
+        for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++)
+          d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1),
+            i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1] ? d[i - 2][j - 2] + 1 : Infinity);
+        return d[a.length][b.length];
+      };
+      // Only near-misses of the big providers ("gmial.com", "gmail.co", "hotmial.com"), never other real domains.
+      const near = providers.filter(p => distance(fixed, p) <= (p.length > 9 ? 2 : 1));
+      fixed = near.length === 1 ? near[0] : fixed;
+    }
+    return fixed !== domain && (providers.includes(fixed) || fixed.endsWith('.com')) ? user + '@' + fixed : '';
+  }
+  // EMAIL-TYPO-END
+
   function randomAccountSecret() {
     try {
       const bytes = new Uint8Array(32);
@@ -1037,6 +1064,16 @@
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       window.showAuthMessage('Please enter a valid email address.', true);
+      return;
+    }
+    // Sign-up never confirms the email (login is by WhatsApp), so a typo like "gmail.con" would
+    // silently bounce every application email. Offer the fix once; a deliberate re-submit is allowed.
+    const fixedEmail = suggestEmailFix(email);
+    if (fixedEmail && window._emailTypoChecked !== email) {
+      window._emailTypoChecked = email;
+      const field = modal.querySelector('#signup-email');
+      if (field) { field.value = fixedEmail; field.focus(); }
+      window.showAuthMessage('Did you mean ' + fixedEmail + '? We have corrected it. Check your email and press the button again.', true);
       return;
     }
     // The account's password is a random secret the visitor never sees (they log in with WhatsApp codes).

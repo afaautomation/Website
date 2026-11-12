@@ -17,13 +17,18 @@ const SUPABASE_ANON_KEY = "sb_publishable_3Sq9ZteA_RLrGgP-nSx1gA_zncBTMdG";
 
 let supabaseClient = null;
 
-if (typeof supabase !== 'undefined' && SUPABASE_URL !== "YOUR_SUPABASE_URL" && SUPABASE_ANON_KEY !== "YOUR_SUPABASE_ANON_KEY") {
-  // supabase-js names the saved session after the URL's hostname; pin the original name
-  // so visitors who signed in before the /sb switch stay signed in.
-  supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-    auth: { storageKey: 'sb-lmimmujaqznybtcinwdo-auth-token' }
-  });
+function initializeSupabaseClient() {
+  if (supabaseClient) return;
+  if (typeof supabase !== 'undefined' && SUPABASE_URL !== "YOUR_SUPABASE_URL" && SUPABASE_ANON_KEY !== "YOUR_SUPABASE_ANON_KEY") {
+    // supabase-js names the saved session after the URL's hostname; pin the original name
+    // so visitors who signed in before the /sb switch stay signed in.
+    supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: { storageKey: 'sb-lmimmujaqznybtcinwdo-auth-token' }
+    });
+  }
 }
+
+initializeSupabaseClient();
 
 /**
  * Helper to check if Supabase is active

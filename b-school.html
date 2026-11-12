@@ -5,8 +5,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <script>/* Desktop fit: the site is designed at 1920px wide. On laptop and desktop windows the whole page is
-     scaled to that design (smaller below 1920px, a little larger on big monitors) so every computer shows the same
-     proportions, whatever its screen size or Windows display scaling. Phones, tablets and touch screens are not scaled. */
+scaled to that design (smaller below 1920px, a little larger on big monitors) so every computer shows the same
+proportions, whatever its screen size or Windows display scaling. Phones, tablets and touch screens are not scaled. */
     (function (r) {
       var touch = window.matchMedia && window.matchMedia('(hover: none)').matches;
       function fit() {
@@ -57,9 +57,14 @@
       --shadow-md: 0 2px 6px rgba(11, 27, 58, .05), 0 22px 48px rgba(11, 27, 58, .10);
     }
 
-    *, *::before, *::after { box-sizing: border-box; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
 
-    html, body {
+    html,
+    body {
       margin: 0;
       background: #fff;
       color: var(--ink-2);
@@ -68,20 +73,34 @@
       text-rendering: optimizeLegibility;
     }
 
-    body { overflow-x: hidden; }
+    body {
+      overflow-x: hidden;
+    }
 
-    h1, h2, h3 {
+    h1,
+    h2,
+    h3 {
       font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
       color: var(--ink);
       margin: 0;
       letter-spacing: -0.025em;
     }
 
-    p { margin: 0; }
-    img { display: block; max-width: 100%; }
-    a { color: inherit; }
+    p {
+      margin: 0;
+    }
 
-    a:focus-visible, button:focus-visible {
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
       outline: 3px solid #7096f1;
       outline-offset: 4px;
       border-radius: 8px;
@@ -94,8 +113,15 @@
       padding: 0 32px;
     }
 
-    .bs-section { padding: 112px 0; }
-    .bs-section--soft { background: var(--soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .bs-section {
+      padding: 112px 0;
+    }
+
+    .bs-section--soft {
+      background: var(--soft);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
 
     /* Shared section header */
     .bs-eyebrow {
@@ -125,14 +151,16 @@
       margin-bottom: 56px;
     }
 
-    .bs-head h2, .bs-h2 {
+    .bs-head h2,
+    .bs-h2 {
       font-size: clamp(32px, calc(3.1vw / var(--fit, 1)), 46px);
       font-weight: 700;
       line-height: 1.12;
       margin-top: 16px;
     }
 
-    .bs-head p, .bs-intro {
+    .bs-head p,
+    .bs-intro {
       font-size: 17px;
       line-height: 1.7;
       color: var(--muted);
@@ -155,7 +183,11 @@
       white-space: nowrap;
     }
 
-    .bs-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .bs-btn svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
 
     .bs-btn--primary {
       background: var(--blue);
@@ -163,7 +195,11 @@
       box-shadow: 0 8px 20px rgba(36, 84, 218, .22);
     }
 
-    .bs-btn--primary:hover { background: var(--blue-ink); transform: translateY(-1px); box-shadow: 0 12px 26px rgba(36, 84, 218, .28); }
+    .bs-btn--primary:hover {
+      background: var(--blue-ink);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 26px rgba(36, 84, 218, .28);
+    }
 
     .bs-btn--ghost {
       background: #fff;
@@ -171,7 +207,10 @@
       border: 1px solid var(--line-2);
     }
 
-    .bs-btn--ghost:hover { border-color: var(--blue); color: var(--blue); }
+    .bs-btn--ghost:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
 
     /* ---------------- HERO ---------------- */
     .bs-hero {
@@ -276,7 +315,10 @@
       letter-spacing: -0.045em;
     }
 
-    .bs-hero h1 span { color: var(--blue); white-space: nowrap; }
+    .bs-hero h1 span {
+      color: var(--blue);
+      white-space: nowrap;
+    }
 
     .bs-hero-lead {
       margin-top: 28px;
@@ -297,13 +339,24 @@
     .bs-hero-cta {
       display: flex;
       flex-wrap: wrap;
-      gap: 14px;
-      margin-top: 36px;
+      gap: 12px;
+      margin-top: 32px;
     }
+
+    /* compact buttons in the hero only (the Careers section keeps the full size) */
+    .bs-hero .bs-hero-cta .bs-btn {
+      height: 44px;
+      padding: 0 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      gap: 8px;
+    }
+
+    .bs-hero .bs-hero-cta .bs-btn svg { width: 16px; height: 16px; }
 
     .bs-facts {
       display: grid;
-      grid-template-columns: repeat(3, auto);
+      grid-template-columns: repeat(2, auto);
       justify-content: start;
       gap: 0;
       margin: 48px 0 0;
@@ -311,8 +364,17 @@
       border-top: 1px solid var(--line);
     }
 
-    .bs-facts div { padding-right: 36px; margin-right: 36px; border-right: 1px solid var(--line); }
-    .bs-facts div:last-child { border-right: 0; margin-right: 0; padding-right: 0; }
+    .bs-facts div {
+      padding-right: 36px;
+      margin-right: 36px;
+      border-right: 1px solid var(--line);
+    }
+
+    .bs-facts div:last-child {
+      border-right: 0;
+      margin-right: 0;
+      padding-right: 0;
+    }
 
     .bs-facts dt {
       font-family: 'Plus Jakarta Sans', sans-serif;
@@ -329,234 +391,242 @@
       color: var(--muted);
     }
 
-    .bs-hero-media { position: relative; }
+    .bs-hero-media {
+      position: relative;
+    }
 
-    /* Animated business dashboard (decorative, replaces the hero photo) */
-    .bs-dash {
+    /* Hero illustration: a line-drawn (stencil) business discussion.
+       Every line sketches itself in on load, then the meeting loops: bubbles take turns,
+       the chart grows, the presenter points and the coffee steams. Fully visible without motion. */
+    .bs-scene {
       position: relative;
       margin: 0 0 0 auto;
-      max-width: 560px;
-      padding: 26px 28px 28px;
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      box-shadow: 0 30px 70px rgba(11, 27, 58, .14);
+      max-width: 600px;
     }
 
-    .bs-dash-head {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .bs-dash-dots { display: flex; gap: 6px; }
-    .bs-dash-dots i { width: 10px; height: 10px; border-radius: 50%; background: #e2e8f2; }
-    .bs-dash-head b { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; color: var(--ink); }
-
-    .bs-live {
-      margin-left: 2px;
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      padding: 5px 11px;
-      border-radius: 99px;
-      background: #ecfdf5;
-      color: #047857;
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    .bs-live i {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #10b981;
-      animation: bsPing 1.8s ease-out infinite;
-    }
-
-    @keyframes bsPing {
-      0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, .55); }
-      80%, 100% { box-shadow: 0 0 0 7px rgba(16, 185, 129, 0); }
-    }
-
-    .bs-kpis {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 18px;
-    }
-
-    .bs-kpi {
-      padding: 14px 16px;
-      border-radius: 14px;
-      background: var(--soft);
-      border: 1px solid var(--line);
-    }
-
-    .bs-kpi span { display: block; font-size: 12px; color: var(--muted); }
-    .bs-kpi strong { display: block; margin-top: 4px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 21px; color: var(--ink); letter-spacing: -0.02em; }
-    .bs-kpi em { display: block; margin-top: 2px; font-style: normal; font-size: 11.5px; font-weight: 600; color: #059669; }
-
-    .bs-chart {
-      position: relative;
-      margin-top: 22px;
-      padding: 0 4px;
-    }
-
-    .bs-skills {
-      margin-top: 18px;
-      padding: 20px 4px 4px;
-      border-top: 1px solid var(--line);
-    }
-
-    .bs-skills .bs-meters { gap: 14px; margin-top: 14px; }
-    .bs-skills .bs-meter div { font-size: 13px; }
-
-    .bs-chart-label {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12.5px;
-      font-weight: 600;
-      color: var(--ink);
-    }
-
-    .bs-chart-label span { font-weight: 500; color: var(--muted); }
-    .bs-chart svg { display: block; width: 100%; height: auto; margin-top: 8px; overflow: visible; }
-
-    .bs-line {
-      fill: none;
-      stroke: var(--blue);
-      stroke-width: 3;
-      stroke-linecap: round;
-      stroke-dasharray: 1;
-      stroke-dashoffset: 1;
-      animation: bsDraw 8s cubic-bezier(.65, 0, .35, 1) infinite;
-    }
-
-    .bs-area { animation: bsArea 8s ease infinite; }
-
-    .bs-end {
-      fill: var(--blue);
-      stroke: #fff;
-      stroke-width: 3;
-      animation: bsEnd 8s ease infinite;
-    }
-
-    .bs-end-ring {
-      fill: none;
-      stroke: var(--blue);
-      stroke-width: 2;
-      transform-box: fill-box;
-      transform-origin: center;
-      animation: bsRing 8s ease-out infinite;
-    }
-
-    @keyframes bsDraw {
-      0% { stroke-dashoffset: 1; opacity: 1; }
-      35%, 88% { stroke-dashoffset: 0; opacity: 1; }
-      96%, 100% { stroke-dashoffset: 0; opacity: 0; }
-    }
-
-    @keyframes bsArea {
-      0%, 15% { opacity: 0; }
-      40%, 88% { opacity: 1; }
-      96%, 100% { opacity: 0; }
-    }
-
-    @keyframes bsEnd {
-      0%, 33% { opacity: 0; }
-      38%, 88% { opacity: 1; }
-      96%, 100% { opacity: 0; }
-    }
-
-    @keyframes bsRing {
-      0%, 36% { opacity: 0; transform: scale(1); }
-      40% { opacity: .6; transform: scale(1); }
-      60%, 100% { opacity: 0; transform: scale(3); }
-    }
-
-    .bs-dash-bottom {
-      display: grid;
-      grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
-      gap: 12px;
-      margin-top: 12px;
-    }
-
-    .bs-panel {
-      padding: 14px 16px;
-      border-radius: 16px;
-      border: 1px solid var(--line);
-    }
-
-    .bs-panel-title { font-size: 12.5px; font-weight: 600; color: var(--ink); }
-
-    .bs-bars {
-      display: flex;
-      align-items: flex-end;
-      gap: 8px;
-      height: 92px;
-      margin-top: 12px;
-    }
-
-    .bs-bars i {
-      flex: 1;
-      height: var(--h);
-      border-radius: 6px 6px 3px 3px;
-      background: linear-gradient(180deg, #5b84f0, var(--blue));
-      transform-origin: bottom;
-      animation: bsBar 8s cubic-bezier(.34, 1.3, .64, 1) infinite;
-      animation-delay: var(--d);
-    }
-
-    .bs-bars i:nth-child(odd) { background: linear-gradient(180deg, #c9d7fb, #a9bff6); }
-
-    @keyframes bsBar {
-      0%, 4% { transform: scaleY(.08); }
-      22%, 86% { transform: scaleY(1); }
-      96%, 100% { transform: scaleY(.08); }
-    }
-
-    .bs-meters { display: grid; gap: 11px; margin-top: 12px; }
-
-    .bs-meter div {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      color: var(--ink-2);
-    }
-
-    .bs-meter b { font-weight: 600; color: var(--ink); }
-
-    .bs-meter span {
-      position: relative;
+    .bs-scene svg {
       display: block;
-      height: 7px;
-      margin-top: 6px;
-      border-radius: 99px;
-      background: #edf1f8;
-      overflow: hidden;
+      width: 100%;
+      height: auto;
+      overflow: visible;
     }
 
-    .bs-meter span::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      width: var(--w);
-      border-radius: inherit;
-      background: var(--c, var(--blue));
-      transform-origin: left;
-      animation: bsFill 8s cubic-bezier(.65, 0, .35, 1) infinite;
-      animation-delay: var(--d, 0s);
+    .bs-scene .s-ink {
+      stroke: var(--ink);
+      stroke-width: 2.5;
     }
 
-    @keyframes bsFill {
-      0%, 6% { transform: scaleX(0); }
-      34%, 88% { transform: scaleX(1); }
-      97%, 100% { transform: scaleX(0); }
+    .bs-scene .s-blue {
+      stroke: var(--blue);
+      stroke-width: 2.5;
+    }
+
+    .bs-scene .s-soft {
+      stroke: #c9d4e6;
+      stroke-width: 2.5;
+    }
+
+    .bs-scene .w2 {
+      stroke-width: 2;
+    }
+
+    .bs-scene .w3 {
+      stroke-width: 3;
+    }
+
+    .bs-scene .w4 {
+      stroke-width: 4;
+    }
+
+    .bs-scene .f-white {
+      fill: #fff;
+    }
+
+    .bs-scene .f-tint {
+      fill: var(--blue-tint);
+    }
+
+    .bs-scene .f-blue {
+      fill: var(--blue);
+    }
+
+    .bs-scene .f-ink {
+      fill: var(--ink);
+    }
+
+    /* sketch-in on load (backwards fill keeps lines hidden until their turn) */
+    .bs-scene .d {
+      stroke-dasharray: 1;
+      animation: bsSketch 1.6s cubic-bezier(.65, 0, .35, 1) backwards;
+      animation-delay: var(--t, 0s);
+    }
+
+    @keyframes bsSketch {
+      from {
+        stroke-dashoffset: 1;
+        fill-opacity: 0;
+      }
+
+      65% {
+        fill-opacity: 0;
+      }
+
+      to {
+        stroke-dashoffset: 0;
+        fill-opacity: 1;
+      }
+    }
+
+    /* chart bars rise again each loop */
+    .bs-scene .bar {
+      transform-box: fill-box;
+      transform-origin: bottom;
+      animation: bsSketch 1.6s cubic-bezier(.65, 0, .35, 1) backwards, bsBarRise 8s cubic-bezier(.34, 1.3, .64, 1) infinite;
+      animation-delay: var(--t, 0s), calc(3s + var(--b, 0s));
+    }
+
+    @keyframes bsBarRise {
+
+      0%,
+      4% {
+        transform: scaleY(.15);
+      }
+
+      16%,
+      100% {
+        transform: scaleY(1);
+      }
+    }
+
+    /* presenter's arm points at the board */
+    .bs-scene .arm {
+      transform-box: view-box;
+      transform-origin: 330px 286px;
+      animation: bsPoint 4s ease-in-out 2.4s infinite;
+    }
+
+    @keyframes bsPoint {
+
+      0%,
+      100% {
+        transform: rotate(0);
+      }
+
+      40%,
+      60% {
+        transform: rotate(-9deg);
+      }
+    }
+
+    /* listeners nod gently */
+    .bs-scene .nod {
+      transform-box: view-box;
+      animation: bsNod 4s ease-in-out 2.6s infinite;
+    }
+
+    .bs-scene .nod-l {
+      transform-origin: 96px 300px;
+    }
+
+    .bs-scene .nod-r {
+      transform-origin: 504px 300px;
+      animation-delay: 4.6s;
+    }
+
+    @keyframes bsNod {
+
+      0%,
+      100% {
+        transform: rotate(0);
+      }
+
+      15% {
+        transform: rotate(2.5deg);
+      }
+
+      30% {
+        transform: rotate(0);
+      }
+    }
+
+    .bs-scene .steam {
+      stroke: #9fb0cc;
+      stroke-width: 2;
+      animation: bsSteam 2.4s ease-in-out infinite;
+      animation-delay: calc(2s + var(--s));
+    }
+
+    @keyframes bsSteam {
+      0% {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+
+      40% {
+        opacity: .9;
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+    }
+
+    /* speech bubbles: left speaks, then right replies */
+    .bs-scene .bub {
+      transform-box: fill-box;
+      animation: bsBubble 8s ease infinite backwards;
+    }
+
+    .bs-scene .bub-l {
+      transform-origin: 30% 100%;
+      animation-delay: 2s;
+    }
+
+    .bs-scene .bub-r {
+      transform-origin: 70% 100%;
+      animation-delay: 6s;
+    }
+
+    @keyframes bsBubble {
+
+      0%,
+      3% {
+        opacity: 0;
+        transform: scale(.6);
+      }
+
+      8%,
+      42% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      48%,
+      100% {
+        opacity: 0;
+        transform: scale(.9);
+      }
+    }
+
+    .bs-scene .dot {
+      animation: bsTyping 1.2s ease-in-out infinite;
+      animation-delay: var(--k);
+    }
+
+    @keyframes bsTyping {
+
+      0%,
+      60%,
+      100% {
+        transform: translateY(0);
+        opacity: .45;
+      }
+
+      30% {
+        transform: translateY(-5px);
+        opacity: 1;
+      }
     }
 
     .bs-float {
@@ -574,8 +644,16 @@
       animation: bsFloat 6s ease-in-out infinite;
     }
 
-    .bs-float--a { left: -52px; top: 236px; }
-    .bs-float--b { right: -28px; top: -28px; animation-delay: -3s; }
+    .bs-float--a {
+      left: -52px;
+      top: 236px;
+    }
+
+    .bs-float--b {
+      right: -28px;
+      top: -28px;
+      animation-delay: -3s;
+    }
 
     .bs-float-icon {
       width: 42px;
@@ -588,13 +666,34 @@
       color: var(--blue);
     }
 
-    .bs-float-icon svg { width: 21px; height: 21px; }
-    .bs-float strong { display: block; font-size: 14.5px; color: var(--ink); }
-    .bs-float div span { display: block; margin-top: 2px; font-size: 12.5px; color: var(--muted); }
+    .bs-float-icon svg {
+      width: 21px;
+      height: 21px;
+    }
+
+    .bs-float strong {
+      display: block;
+      font-size: 14.5px;
+      color: var(--ink);
+    }
+
+    .bs-float div span {
+      display: block;
+      margin-top: 2px;
+      font-size: 12.5px;
+      color: var(--muted);
+    }
 
     @keyframes bsFloat {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
     }
 
     /* ---------------- PROGRAMMES ---------------- */
@@ -630,8 +729,15 @@
       transition: transform .35s ease;
     }
 
-    .bs-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--line-2); }
-    .bs-card:hover::before { transform: scaleX(1); }
+    .bs-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--line-2);
+    }
+
+    .bs-card:hover::before {
+      transform: scaleX(1);
+    }
 
     .bs-card-top {
       display: flex;
@@ -650,7 +756,10 @@
       color: var(--blue);
     }
 
-    .bs-card-icon svg { width: 25px; height: 25px; }
+    .bs-card-icon svg {
+      width: 25px;
+      height: 25px;
+    }
 
     .bs-chip {
       display: inline-flex;
@@ -665,7 +774,11 @@
       color: var(--ink-2);
     }
 
-    .bs-chip svg { width: 14px; height: 14px; color: var(--blue); }
+    .bs-chip svg {
+      width: 14px;
+      height: 14px;
+      color: var(--blue);
+    }
 
     .bs-card-num {
       font-size: 12.5px;
@@ -714,7 +827,9 @@
       color: var(--muted);
     }
 
-    .bs-card-meta strong { color: var(--blue); }
+    .bs-card-meta strong {
+      color: var(--blue);
+    }
 
     .bs-card-link {
       margin-top: auto;
@@ -728,11 +843,23 @@
       text-decoration: none;
     }
 
-    .bs-card-link svg { width: 17px; height: 17px; transition: transform .25s ease; }
-    .bs-card-link:hover svg { transform: translateX(4px); }
+    .bs-card-link svg {
+      width: 17px;
+      height: 17px;
+      transition: transform .25s ease;
+    }
+
+    .bs-card-link:hover svg {
+      transform: translateX(4px);
+    }
 
     /* stretch the card link over the whole card */
-    .bs-card-link::after { content: ""; position: absolute; inset: 0; border-radius: var(--radius); }
+    .bs-card-link::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius);
+    }
 
     /* ---------------- WHY ---------------- */
     .bs-why {
@@ -742,8 +869,14 @@
       align-items: start;
     }
 
-    .bs-why-intro { position: sticky; top: 120px; }
-    .bs-why-intro .bs-intro { margin-top: 20px; }
+    .bs-why-intro {
+      position: sticky;
+      top: 120px;
+    }
+
+    .bs-why-intro .bs-intro {
+      margin-top: 20px;
+    }
 
     .bs-why-grid {
       display: grid;
@@ -761,7 +894,9 @@
       transition: background .25s ease;
     }
 
-    .bs-feature:hover { background: #fbfcff; }
+    .bs-feature:hover {
+      background: #fbfcff;
+    }
 
     .bs-feature-icon {
       width: 46px;
@@ -774,7 +909,10 @@
       background: #fff;
     }
 
-    .bs-feature-icon svg { width: 22px; height: 22px; }
+    .bs-feature-icon svg {
+      width: 22px;
+      height: 22px;
+    }
 
     .bs-feature h3 {
       margin-top: 24px;
@@ -830,7 +968,10 @@
       color: var(--blue);
     }
 
-    .bs-step-num svg { width: 24px; height: 24px; }
+    .bs-step-num svg {
+      width: 24px;
+      height: 24px;
+    }
 
     .bs-step small {
       display: block;
@@ -877,7 +1018,10 @@
       transition: border-color .25s ease, box-shadow .25s ease;
     }
 
-    .bs-month:hover { border-color: var(--line-2); box-shadow: var(--shadow-sm); }
+    .bs-month:hover {
+      border-color: var(--line-2);
+      box-shadow: var(--shadow-sm);
+    }
 
     .bs-month-no {
       width: 48px;
@@ -914,11 +1058,27 @@
     }
 
     /* months 5–6 are the hands-on phase */
-    .bs-month--live { background: var(--navy); border-color: var(--navy); }
-    .bs-month--live .bs-month-no { background: rgba(255, 255, 255, .1); color: #8fb0ff; }
-    .bs-month--live small { color: #8fb0ff; }
-    .bs-month--live h3 { color: #fff; }
-    .bs-month--live p { color: rgba(226, 232, 240, .78); }
+    .bs-month--live {
+      background: var(--navy);
+      border-color: var(--navy);
+    }
+
+    .bs-month--live .bs-month-no {
+      background: rgba(255, 255, 255, .1);
+      color: #8fb0ff;
+    }
+
+    .bs-month--live small {
+      color: #8fb0ff;
+    }
+
+    .bs-month--live h3 {
+      color: #fff;
+    }
+
+    .bs-month--live p {
+      color: rgba(226, 232, 240, .78);
+    }
 
     .bs-month-tag {
       position: absolute;
@@ -952,15 +1112,33 @@
       align-items: center;
     }
 
-    .bs-careers .bs-eyebrow { color: #8fb0ff; }
-    .bs-careers h2 { color: #fff; }
+    .bs-careers .bs-eyebrow {
+      color: #8fb0ff;
+    }
 
-    .bs-careers .bs-intro { margin-top: 20px; color: rgba(226, 232, 240, .75); }
+    .bs-careers h2 {
+      color: #fff;
+    }
 
-    .bs-careers .bs-hero-cta { margin-top: 36px; }
+    .bs-careers .bs-intro {
+      margin-top: 20px;
+      color: rgba(226, 232, 240, .75);
+    }
 
-    .bs-careers .bs-btn--primary { background: #fff; color: var(--navy); box-shadow: none; }
-    .bs-careers .bs-btn--primary:hover { background: #e8eeff; color: var(--navy); }
+    .bs-careers .bs-hero-cta {
+      margin-top: 36px;
+    }
+
+    .bs-careers .bs-btn--primary {
+      background: #fff;
+      color: var(--navy);
+      box-shadow: none;
+    }
+
+    .bs-careers .bs-btn--primary:hover {
+      background: #e8eeff;
+      color: var(--navy);
+    }
 
     .bs-careers .bs-btn--ghost {
       background: transparent;
@@ -968,7 +1146,10 @@
       border-color: rgba(255, 255, 255, .28);
     }
 
-    .bs-careers .bs-btn--ghost:hover { border-color: #fff; color: #fff; }
+    .bs-careers .bs-btn--ghost:hover {
+      border-color: #fff;
+      color: #fff;
+    }
 
     .bs-support {
       list-style: none;
@@ -991,9 +1172,16 @@
       transition: background .25s ease, border-color .25s ease, transform .25s ease;
     }
 
-    .bs-support li:hover { background: rgba(255, 255, 255, .07); border-color: rgba(143, 176, 255, .35); transform: translateX(4px); }
+    .bs-support li:hover {
+      background: rgba(255, 255, 255, .07);
+      border-color: rgba(143, 176, 255, .35);
+      transform: translateX(4px);
+    }
 
-    .bs-support strong { color: #fff; font-weight: 600; }
+    .bs-support strong {
+      color: #fff;
+      font-weight: 600;
+    }
 
     .bs-support-icon {
       width: 44px;
@@ -1006,7 +1194,10 @@
       color: #a9c1ff;
     }
 
-    .bs-support-icon svg { width: 21px; height: 21px; }
+    .bs-support-icon svg {
+      width: 21px;
+      height: 21px;
+    }
 
     /* ---------------- FOOTER ---------------- */
     .site-footer {
@@ -1018,9 +1209,19 @@
       border-top: 1px solid var(--line);
     }
 
-    .site-footer p { margin: 0; }
-    .site-footer a { color: var(--blue); text-decoration: none; font-weight: 500; }
-    .site-footer a:hover { text-decoration: underline; }
+    .site-footer p {
+      margin: 0;
+    }
+
+    .site-footer a {
+      color: var(--blue);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .site-footer a:hover {
+      text-decoration: underline;
+    }
 
     /* ---------------- REVEAL ON SCROLL ---------------- */
     .js-reveal [data-reveal] {
@@ -1030,68 +1231,193 @@
       transition-delay: var(--d, 0s);
     }
 
-    .js-reveal [data-reveal].is-in { opacity: 1; transform: none; }
+    .js-reveal [data-reveal].is-in {
+      opacity: 1;
+      transform: none;
+    }
 
     /* ---------------- RESPONSIVE ---------------- */
     @media (max-width: 1100px) {
-      :where(html:not(.kz-fit)) .bs-hero-grid { gap: 48px; }
-      :where(html:not(.kz-fit)) .bs-float--a { left: -12px; }
-      :where(html:not(.kz-fit)) .bs-float--b { right: -8px; }
-      :where(html:not(.kz-fit)) .bs-why { gap: 56px; }
-      :where(html:not(.kz-fit)) .bs-careers-grid { gap: 56px; }
+      :where(html:not(.kz-fit)) .bs-hero-grid {
+        gap: 48px;
+      }
+
+      :where(html:not(.kz-fit)) .bs-float--a {
+        left: -12px;
+      }
+
+      :where(html:not(.kz-fit)) .bs-float--b {
+        right: -8px;
+      }
+
+      :where(html:not(.kz-fit)) .bs-why {
+        gap: 56px;
+      }
+
+      :where(html:not(.kz-fit)) .bs-careers-grid {
+        gap: 56px;
+      }
     }
 
     @media (max-width: 1024px) {
-      .bs-section, .bs-careers { padding: 88px 0; }
-      .bs-hero { padding: 56px 0 80px; }
-      .bs-hero-grid { grid-template-columns: minmax(0, 1fr); min-height: 0; }
-      .bs-dash { margin: 0 auto; max-width: 600px; }
-      .bs-head { grid-template-columns: 1fr; gap: 16px; }
-      .bs-cards { grid-template-columns: 1fr; max-width: 640px; margin: 0 auto; }
-      .bs-why { grid-template-columns: 1fr; }
-      .bs-why-intro { position: static; }
-      .bs-months { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .bs-careers-grid { grid-template-columns: 1fr; }
+
+      .bs-section,
+      .bs-careers {
+        padding: 88px 0;
+      }
+
+      .bs-hero {
+        padding: 56px 0 80px;
+      }
+
+      .bs-hero-grid {
+        grid-template-columns: minmax(0, 1fr);
+        min-height: 0;
+      }
+
+      .bs-scene {
+        margin: 0 auto;
+        max-width: 560px;
+      }
+
+      .bs-head {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .bs-cards {
+        grid-template-columns: 1fr;
+        max-width: 640px;
+        margin: 0 auto;
+      }
+
+      .bs-why {
+        grid-template-columns: 1fr;
+      }
+
+      .bs-why-intro {
+        position: static;
+      }
+
+      .bs-months {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .bs-careers-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 768px) {
-      .bs-wrap { padding: 0 20px; }
-      .bs-section, .bs-careers { padding: 72px 0; }
-      .bs-hero { padding: 40px 0 64px; }
-      .bs-hero h1 { font-size: clamp(38px, calc(10.5vw / var(--fit, 1)), 52px); }
-      .bs-hero h1 span { white-space: normal; }
-      .bs-hero-sub { font-size: 16px; }
-      .bs-hero-cta .bs-btn { flex: 1 1 100%; }
-      .bs-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-      .bs-facts div { padding-right: 12px; margin-right: 12px; }
-      .bs-facts dt { font-size: 18px; white-space: normal; }
-      .bs-facts dd { font-size: 12.5px; }
-      .bs-float { display: none; }
-      .bs-dash { padding: 16px; border-radius: 20px; }
-      .bs-kpis { gap: 8px; }
-      .bs-kpi { padding: 11px 12px; }
-      .bs-kpi strong { font-size: 17px; }
-      .bs-kpi em { display: none; }
-      .bs-dash-bottom { grid-template-columns: 1fr; }
-      .bs-head { margin-bottom: 40px; }
-      .bs-card { padding: 26px 22px; }
-      .bs-why-grid { grid-template-columns: 1fr; }
-      .bs-feature { padding: 28px 24px; }
-      .bs-steps { grid-template-columns: 1fr; gap: 40px; }
-      .bs-steps::before { display: none; }
-      .bs-months { grid-template-columns: 1fr; }
-      .bs-month { padding: 22px; }
-      .bs-support li { padding: 16px 18px; font-size: 15.5px; }
+      .bs-wrap {
+        padding: 0 20px;
+      }
+
+      .bs-section,
+      .bs-careers {
+        padding: 72px 0;
+      }
+
+      .bs-hero {
+        padding: 40px 0 64px;
+      }
+
+      .bs-hero h1 {
+        font-size: clamp(38px, calc(10.5vw / var(--fit, 1)), 52px);
+      }
+
+      .bs-hero h1 span {
+        white-space: normal;
+      }
+
+      .bs-hero-sub {
+        font-size: 16px;
+      }
+
+      .bs-hero-cta .bs-btn {
+        flex: 1 1 100%;
+      }
+
+      .bs-facts {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .bs-facts div {
+        padding-right: 12px;
+        margin-right: 12px;
+      }
+
+      .bs-facts dt {
+        font-size: 18px;
+        white-space: normal;
+      }
+
+      .bs-facts dd {
+        font-size: 12.5px;
+      }
+
+      .bs-float {
+        display: none;
+      }
+
+      .bs-head {
+        margin-bottom: 40px;
+      }
+
+      .bs-card {
+        padding: 26px 22px;
+      }
+
+      .bs-why-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .bs-feature {
+        padding: 28px 24px;
+      }
+
+      .bs-steps {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .bs-steps::before {
+        display: none;
+      }
+
+      .bs-months {
+        grid-template-columns: 1fr;
+      }
+
+      .bs-month {
+        padding: 22px;
+      }
+
+      .bs-support li {
+        padding: 16px 18px;
+        font-size: 15.5px;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation: none !important; transition: none !important; }
-      .js-reveal [data-reveal] { opacity: 1; transform: none; }
+
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+
+      .js-reveal [data-reveal] {
+        opacity: 1;
+        transform: none;
+      }
     }
   </style>
   <link rel="canonical" href="https://kompetenzen.in/b-school">
   <meta property="og:title" content="Kompetenzen B-School | Build skills. Shape what's next.">
-  <meta property="og:description" content="Kompetenzen B-School offers practical, industry-mentored learning in HR, HR analytics and sales engineering. Build skills. Shape what's next.">
+  <meta property="og:description"
+    content="Kompetenzen B-School offers practical, industry-mentored learning in HR, HR analytics and sales engineering. Build skills. Shape what's next.">
   <meta property="og:url" content="https://kompetenzen.in/b-school">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary">
@@ -1109,65 +1435,143 @@
     <section class="bs-hero" id="bSchoolHero">
       <div class="bs-wrap bs-hero-grid">
         <div class="bs-hero-copy">
-          <span class="bs-badge" data-reveal><span class="bs-badge-new">Featured course</span>Professional Certificate</span>
-          <p class="bs-hero-kicker" data-reveal style="--d:.03s">Human Resource Analytics</p>
-          <h1 data-reveal style="--d:.06s">Make people data<br>your <span>advantage.</span></h1>
-          <p class="bs-hero-sub" data-reveal style="--d:.1s">Turn workforce data into clear insights and better-informed HR decisions.</p>
+          <span class="bs-badge" data-reveal><span class="bs-badge-new">Featured course</span>Professional
+            Certificate</span>
+
+          <h1 data-reveal style="--d:.06s">Human Resource<br><span>Analytics</span></h1>
+          <p class="bs-hero-sub" data-reveal style="--d:.1s">Turn workforce data into clear insights and better-informed
+            HR decisions.</p>
           <ul class="bs-hero-tags" data-reveal style="--d:.18s" aria-label="What you will work with">
-            <li>HR metrics</li><li>Excel</li><li>Power BI</li><li>Data storytelling</li>
+            <li>HR metrics</li>
+            <li>Excel</li>
+            <li>Power BI</li>
+            <li>Data storytelling</li>
           </ul>
           <div class="bs-hero-cta" data-reveal style="--d:.22s">
             <a href="hr-analytics-course-details.html" class="bs-btn bs-btn--primary">View course details
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </a>
             <a href="#programs" class="bs-btn bs-btn--ghost">Explore all courses
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" aria-hidden="true">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <polyline points="19 12 12 19 5 12"></polyline>
+              </svg>
             </a>
           </div>
           <dl class="bs-facts" data-reveal style="--d:.26s">
-            <div><dt>4 months</dt><dd>Duration</dd></div>
-            <div><dt data-batch-date="hr-analytics">Coming Soon</dt><dd>Next batch</dd></div>
-            <div><dt>Certified</dt><dd>On capstone completion</dd></div>
+            <div>
+              <dt>4 months</dt>
+              <dd>Duration</dd>
+            </div>
+            <div>
+              <dt>Certified</dt>
+              <dd>On capstone completion</dd>
+            </div>
           </dl>
         </div>
 
         <div class="bs-hero-media" data-reveal style="--d:.15s">
-          <div class="bs-dash" aria-hidden="true">
-            <div class="bs-dash-head">
-              <span class="bs-dash-dots"><i></i><i></i><i></i></span>
-              <b>People analytics</b>
-              <span class="bs-live"><i></i>Live</span>
-            </div>
-            <div class="bs-chart">
-              <div class="bs-chart-label">Employee retention <span>Jan &ndash; Jun</span></div>
-              <svg viewBox="0 0 520 170" preserveAspectRatio="none">
-                <defs>
-                  <linearGradient id="bsAreaFill" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0" stop-color="#2454da" stop-opacity=".22" />
-                    <stop offset="1" stop-color="#2454da" stop-opacity="0" />
-                  </linearGradient>
-                </defs>
-                <g stroke="#e8edf6" stroke-width="1">
-                  <line x1="0" y1="20" x2="520" y2="20" /><line x1="0" y1="70" x2="520" y2="70" />
-                  <line x1="0" y1="120" x2="520" y2="120" /><line x1="0" y1="168" x2="520" y2="168" />
-                </g>
-                <path class="bs-area" fill="url(#bsAreaFill)"
-                  d="M0,150 C50,146 80,124 125,128 S195,98 245,104 S320,70 370,76 S450,40 505,26 L505,168 L0,168 Z" />
-                <path class="bs-line" pathLength="1"
-                  d="M0,150 C50,146 80,124 125,128 S195,98 245,104 S320,70 370,76 S450,40 505,26" />
-                <circle class="bs-end-ring" cx="505" cy="26" r="7" />
-                <circle class="bs-end" cx="505" cy="26" r="7" />
-              </svg>
-            </div>
-            <div class="bs-skills">
-              <div class="bs-panel-title">Skill progress</div>
-              <div class="bs-meters">
-                <div class="bs-meter"><div><b>Excel for HR data</b>82%</div><span style="--w:82%"></span></div>
-                <div class="bs-meter"><div><b>Power BI dashboards</b>68%</div><span style="--w:68%;--c:#0ea5e9;--d:.2s"></span></div>
-                <div class="bs-meter"><div><b>HR metrics</b>91%</div><span style="--w:91%;--c:#10b981;--d:.4s"></span></div>
-              </div>
-            </div>
-          </div>
+          <figure class="bs-scene" aria-hidden="true">
+            <svg viewBox="0 0 600 450" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <!-- floor -->
+              <path class="d s-soft" pathLength="1" style="--t:0s" d="M24 432H576" />
+
+              <!-- presentation board -->
+              <rect class="d s-ink f-white" pathLength="1" style="--t:.1s" x="170" y="22" width="260" height="162"
+                rx="12" />
+              <path class="d s-blue w4" pathLength="1" style="--t:.5s" d="M192 46H262" />
+              <path class="d s-soft" pathLength="1" style="--t:.55s" d="M192 60H232" />
+              <path class="d s-ink" pathLength="1" style="--t:.6s" d="M190 166H352" />
+              <g class="bars">
+                <rect class="d s-blue f-tint bar" pathLength="1" style="--t:.7s;--b:0s" x="198" y="126" width="24"
+                  height="40" rx="4" />
+                <rect class="d s-blue f-blue bar" pathLength="1" style="--t:.75s;--b:.12s" x="234" y="104" width="24"
+                  height="62" rx="4" />
+                <rect class="d s-blue f-tint bar" pathLength="1" style="--t:.8s;--b:.24s" x="270" y="114" width="24"
+                  height="52" rx="4" />
+                <rect class="d s-blue f-blue bar" pathLength="1" style="--t:.85s;--b:.36s" x="306" y="80" width="24"
+                  height="86" rx="4" />
+              </g>
+              <path class="d s-ink trend" pathLength="1" style="--t:1s" d="M210 112L246 92L282 100L318 66L340 56" />
+              <path class="d s-ink" pathLength="1" style="--t:1.2s" d="M330 54L341 55L338 66" />
+              <circle class="d s-ink" pathLength="1" style="--t:.9s" cx="390" cy="118" r="26" />
+              <path class="d s-blue f-blue pie" pathLength="1" style="--t:1.1s" d="M390 118V92A26 26 0 0 1 413 130Z" />
+
+              <!-- middle person (facing us, pointing at the board) -->
+              <path class="d s-ink f-tint" pathLength="1" style="--t:.3s"
+                d="M262 332C262 292 276 270 300 270C324 270 338 292 338 332" />
+              <circle class="d s-ink f-white" pathLength="1" style="--t:.35s" cx="300" cy="238" r="22" />
+              <path class="d s-ink f-ink" pathLength="1" style="--t:.45s"
+                d="M278 236C277 215 290 207 302 207C316 207 324 217 322 235C313 226 292 224 278 236Z" />
+              <path class="d s-ink" pathLength="1" style="--t:.6s" d="M292 247Q300 253 308 247" />
+              <path class="d s-ink" pathLength="1" style="--t:.65s" d="M272 292C262 306 263 320 272 330" />
+              <g class="arm">
+                <path class="d s-ink" pathLength="1" style="--t:.7s" d="M330 286L352 260L360 228" />
+                <circle class="d s-ink f-white" pathLength="1" style="--t:.9s" cx="360" cy="224" r="5" />
+              </g>
+
+              <!-- left person (seated, facing right) -->
+              <g class="nod nod-l">
+                <path class="d s-ink" pathLength="1" style="--t:.2s"
+                  d="M52 262V408M52 346H128M70 346V420M118 346V420" />
+                <path class="d s-ink f-white" pathLength="1" style="--t:.3s"
+                  d="M66 346C64 302 76 280 96 280C115 280 127 302 125 346Z" />
+                <circle class="d s-ink f-white" pathLength="1" style="--t:.4s" cx="98" cy="248" r="22" />
+                <path class="d s-ink f-ink" pathLength="1" style="--t:.5s"
+                  d="M76 246C74 226 88 216 101 217C114 218 121 229 119 244C111 236 99 233 86 238Z" />
+                <path class="d s-ink" pathLength="1" style="--t:.6s" d="M112 300C130 314 146 323 168 327" />
+              </g>
+
+              <!-- right person (seated, facing left) -->
+              <g class="nod nod-r">
+                <path class="d s-ink" pathLength="1" style="--t:.25s"
+                  d="M548 262V408M548 346H472M530 346V420M482 346V420" />
+                <path class="d s-ink f-tint" pathLength="1" style="--t:.35s"
+                  d="M534 346C536 302 524 280 504 280C485 280 473 302 475 346Z" />
+                <path class="d s-ink f-ink" pathLength="1" style="--t:.55s"
+                  d="M524 244C528 268 530 284 520 296C516 272 512 262 504 258Z" />
+                <circle class="d s-ink f-white" pathLength="1" style="--t:.45s" cx="502" cy="248" r="22" />
+                <path class="d s-ink f-ink" pathLength="1" style="--t:.55s"
+                  d="M524 246C526 226 512 216 499 217C486 218 479 229 481 244C489 236 501 233 514 238Z" />
+                <path class="d s-ink" pathLength="1" style="--t:.65s" d="M488 300C470 314 454 323 432 327" />
+              </g>
+
+              <!-- table and what is on it -->
+              <rect class="d s-ink f-white" pathLength="1" style="--t:.5s" x="118" y="330" width="364" height="16"
+                rx="8" />
+              <path class="d s-ink" pathLength="1" style="--t:.6s" d="M156 346V430M444 346V430" />
+              <path class="d s-ink f-white" pathLength="1" style="--t:.8s" d="M170 330L178 296H226L218 330Z" />
+              <path class="d s-ink" pathLength="1" style="--t:.85s" d="M160 330H232" />
+              <circle class="d s-blue f-blue" pathLength="1" style="--t:1s" cx="202" cy="313" r="3.5" />
+              <path class="d s-ink f-white" pathLength="1" style="--t:.9s" d="M376 330L384 318H426L420 330Z" />
+              <path class="d s-soft" pathLength="1" style="--t:1s" d="M392 324H414" />
+              <path class="d s-ink f-white" pathLength="1" style="--t:.95s" d="M290 330V312H310V330Z" />
+              <path class="d s-ink" pathLength="1" style="--t:1s" d="M310 316C319 316 319 326 310 326" />
+              <path class="steam" style="--s:0s" d="M296 304C292 296 300 292 296 284" />
+              <path class="steam" style="--s:.6s" d="M304 304C300 296 308 292 304 284" />
+
+              <!-- speech bubbles take turns -->
+              <g class="bub bub-l">
+                <path class="s-ink f-white w2"
+                  d="M44 140H146A14 14 0 0 1 160 154V180A14 14 0 0 1 146 194H96L84 208L82 194H44A14 14 0 0 1 30 180V154A14 14 0 0 1 44 140Z" />
+                <circle class="dot f-blue" style="--k:0s" cx="74" cy="167" r="5" />
+                <circle class="dot f-blue" style="--k:.15s" cx="95" cy="167" r="5" />
+                <circle class="dot f-blue" style="--k:.3s" cx="116" cy="167" r="5" />
+              </g>
+              <g class="bub bub-r">
+                <path class="s-ink f-white w2"
+                  d="M454 140H556A14 14 0 0 1 570 154V180A14 14 0 0 1 556 194H518L516 208L504 194H454A14 14 0 0 1 440 180V154A14 14 0 0 1 454 140Z" />
+                <circle class="f-tint" cx="474" cy="167" r="12" />
+                <path class="s-blue w3" d="M468 167L473 172L481 162" />
+                <path class="s-soft w4" d="M496 161H546M496 174H530" />
+              </g>
+            </svg>
+          </figure>
         </div>
       </div>
     </section>
@@ -1187,48 +1591,92 @@
           <!-- 01 / Post Graduate Diploma in Human Resource -->
           <article class="bs-card" data-reveal>
             <div class="bs-card-top">
-              <span class="bs-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span>
-              <span class="bs-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>6 months</span>
+              <span class="bs-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg></span>
+              <span class="bs-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>6 months</span>
             </div>
             <span class="bs-card-num">01</span>
             <h3>Post Graduate Diploma in Human Resource</h3>
             <p class="bs-card-tag">Build practical foundations for the day-to-day work of HR.</p>
-            <p class="bs-card-desc">Explore how people operations support the employee journey, from recruitment through core workplace processes.</p>
+            <p class="bs-card-desc">Explore how people operations support the employee journey, from recruitment through
+              core workplace processes.</p>
             <div class="bs-card-meta"><b>Covers</b>Recruitment, payroll, labour laws, AI HR tools and KEKA HRMS</div>
             <a href="hr-course-details.html" class="bs-card-link">Explore course
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </a>
           </article>
 
           <!-- 02 / Human Resource Analytics -->
           <article class="bs-card" data-reveal style="--d:.08s">
             <div class="bs-card-top">
-              <span class="bs-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></span>
-              <span class="bs-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>4 months</span>
+              <span class="bs-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="18" y1="20" x2="18" y2="10"></line>
+                  <line x1="12" y1="20" x2="12" y2="4"></line>
+                  <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg></span>
+              <span class="bs-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>4 months</span>
             </div>
             <span class="bs-card-num">02</span>
             <h3>Human Resource Analytics</h3>
             <p class="bs-card-tag">Make people data your advantage.</p>
-            <p class="bs-card-desc">Build the confidence to turn workforce information into clearer questions, useful insights and better-informed HR decisions &mdash; from understanding workforce measures to interpreting patterns and communicating what they mean.</p>
+            <p class="bs-card-desc">Build the confidence to turn workforce information into clearer questions, useful
+              insights and better-informed HR decisions &mdash; from understanding workforce measures to interpreting
+              patterns and communicating what they mean.</p>
             <div class="bs-card-meta"><b>Next batch</b><strong data-batch-date="hr-analytics">Coming Soon</strong></div>
             <a href="hr-analytics-course-details.html" class="bs-card-link">Explore course
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </a>
           </article>
 
           <!-- 03 / Certified Sales Engineer -->
           <article class="bs-card" data-reveal style="--d:.16s">
             <div class="bs-card-top">
-              <span class="bs-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg></span>
-              <span class="bs-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>6 months</span>
+              <span class="bs-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                  <polyline points="17 6 23 6 23 12"></polyline>
+                </svg></span>
+              <span class="bs-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>6 months</span>
             </div>
             <span class="bs-card-num">03</span>
             <h3>Certified Sales Engineer</h3>
             <p class="bs-card-tag">Turn technical know-how into customer value.</p>
-            <p class="bs-card-desc">Learn to understand customer needs, explain technical solutions and support a more structured B2B sales journey.</p>
-            <div class="bs-card-meta"><b>Covers</b>B2B sales strategies, technical account management, pipeline tracking and high-ticket closing</div>
+            <p class="bs-card-desc">Learn to understand customer needs, explain technical solutions and support a more
+              structured B2B sales journey.</p>
+            <div class="bs-card-meta"><b>Covers</b>B2B sales strategies, technical account management, pipeline tracking
+              and high-ticket closing</div>
             <a href="sales-engineering-course-details.html" class="bs-card-link">Explore course
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </a>
           </article>
         </div>
@@ -1241,29 +1689,51 @@
         <div class="bs-why-intro" data-reveal>
           <span class="bs-eyebrow">Why Kompetenzen B-School</span>
           <h2 class="bs-h2">A practical start to your next step</h2>
-          <p class="bs-intro">Every programme combines business fundamentals, modern tools and real workplace exposure.</p>
+          <p class="bs-intro">Every programme combines business fundamentals, modern tools and real workplace exposure.
+          </p>
         </div>
 
         <div class="bs-why-grid" data-reveal style="--d:.1s">
           <div class="bs-feature">
-            <span class="bs-feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span>
+            <span class="bs-feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path
+                  d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+              </svg></span>
             <h3>Industry-Oriented Technical Skills</h3>
-            <p>Develop practical business and professional competencies aligned with real-world industry requirements.</p>
+            <p>Develop practical business and professional competencies aligned with real-world industry requirements.
+            </p>
           </div>
           <div class="bs-feature">
-            <span class="bs-feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></span>
+            <span class="bs-feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10" />
+                <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+              </svg></span>
             <h3>Specialised Career Pathways</h3>
-            <p>Explore focused career opportunities in Human Resource Management, HR Analytics and Sales Engineering.</p>
+            <p>Explore focused career opportunities in Human Resource Management, HR Analytics and Sales Engineering.
+            </p>
           </div>
           <div class="bs-feature">
-            <span class="bs-feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></span>
+            <span class="bs-feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M3 3v18h18" />
+                <path d="M7 15l4-4 3 3 5-6" />
+              </svg></span>
             <h3>AI-Enabled Business Skills</h3>
-            <p>Understand how AI and analytics are transforming HR operations, recruitment, business decisions and sales processes.</p>
+            <p>Understand how AI and analytics are transforming HR operations, recruitment, business decisions and sales
+              processes.</p>
           </div>
           <div class="bs-feature">
-            <span class="bs-feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/></svg></span>
+            <span class="bs-feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="7" width="18" height="13" rx="2" />
+                <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                <path d="M3 13h18" />
+              </svg></span>
             <h3>Live Industry Internship</h3>
-            <p>Gain practical workplace exposure through live internship opportunities and experience real-world industry environments.</p>
+            <p>Gain practical workplace exposure through live internship opportunities and experience real-world
+              industry environments.</p>
           </div>
         </div>
       </div>
@@ -1282,19 +1752,41 @@
 
         <div class="bs-steps">
           <div class="bs-step" data-reveal>
-            <span class="bs-step-num"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg></span>
+            <span class="bs-step-num"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"></circle>
+                <circle cx="12" cy="12" r="6"></circle>
+                <circle cx="12" cy="12" r="2"></circle>
+              </svg></span>
             <small>STAGE 01</small>
             <h3>Discovery</h3>
             <p>Career mapping, skill gap analysis, and structured roadmap planning tailored to your goals.</p>
           </div>
           <div class="bs-step" data-reveal style="--d:.1s">
-            <span class="bs-step-num"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20h20"></path><path d="M5 20V10"></path><path d="M10 20V4"></path><path d="M15 20v-7"></path><path d="M20 20V8"></path></svg></span>
+            <span class="bs-step-num"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M2 20h20"></path>
+                <path d="M5 20V10"></path>
+                <path d="M10 20V4"></path>
+                <path d="M15 20v-7"></path>
+                <path d="M20 20V8"></path>
+              </svg></span>
             <small>STAGE 02</small>
             <h3>Development</h3>
-            <p>Core HR foundations, recruitment cycles, payroll processing, labor laws, and modern corporate communication.</p>
+            <p>Core HR foundations, recruitment cycles, payroll processing, labor laws, and modern corporate
+              communication.</p>
           </div>
           <div class="bs-step" data-reveal style="--d:.2s">
-            <span class="bs-step-num"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-4.05 11a22.7 22.7 0 0 1-3.95 2z"></path><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path></svg></span>
+            <span class="bs-step-num"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z">
+                </path>
+                <path
+                  d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-4.05 11a22.7 22.7 0 0 1-3.95 2z">
+                </path>
+                <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path>
+                <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path>
+              </svg></span>
             <small>STAGE 03</small>
             <h3>Launch</h3>
             <p>Portfolio projects, resume building, LinkedIn optimization, mock interviews, and placement drives.</p>
@@ -1317,29 +1809,47 @@
         <ol class="bs-months">
           <li class="bs-month" data-reveal>
             <span class="bs-month-no">01</span>
-            <div><small>MONTH 01</small><h3>Fundamentals</h3><p>Business communication, corporate etiquette, &amp; core HR / sales principles.</p></div>
+            <div><small>MONTH 01</small>
+              <h3>Fundamentals</h3>
+              <p>Business communication, corporate etiquette, &amp; core HR / sales principles.</p>
+            </div>
           </li>
           <li class="bs-month" data-reveal style="--d:.06s">
             <span class="bs-month-no">02</span>
-            <div><small>MONTH 02</small><h3>Recruitment &amp; Sourcing</h3><p>Talent acquisition strategies, LinkedIn headhunting, &amp; structured interviewing.</p></div>
+            <div><small>MONTH 02</small>
+              <h3>Recruitment &amp; Sourcing</h3>
+              <p>Talent acquisition strategies, LinkedIn headhunting, &amp; structured interviewing.</p>
+            </div>
           </li>
           <li class="bs-month" data-reveal style="--d:.12s">
             <span class="bs-month-no">03</span>
-            <div><small>MONTH 03</small><h3>Operations &amp; Payroll</h3><p>Labour law compliance, compensation structuring, &amp; end-to-end payroll processing.</p></div>
+            <div><small>MONTH 03</small>
+              <h3>Operations &amp; Payroll</h3>
+              <p>Labour law compliance, compensation structuring, &amp; end-to-end payroll processing.</p>
+            </div>
           </li>
           <li class="bs-month" data-reveal>
             <span class="bs-month-no">04</span>
-            <div><small>MONTH 04</small><h3>AI &amp; HR Tech / CRM</h3><p>Hands-on mastery of KEKA HRMS, Salesforce/HubSpot CRMs, &amp; AI workflow tools.</p></div>
+            <div><small>MONTH 04</small>
+              <h3>AI &amp; HR Tech / CRM</h3>
+              <p>Hands-on mastery of KEKA HRMS, Salesforce/HubSpot CRMs, &amp; AI workflow tools.</p>
+            </div>
           </li>
           <li class="bs-month bs-month--live" data-reveal style="--d:.06s">
             <span class="bs-month-tag">Hands-on</span>
             <span class="bs-month-no">05</span>
-            <div><small>MONTH 05</small><h3>Corporate Internship</h3><p>Live corporate project handling real enterprise HR workflows or sales pipelines.</p></div>
+            <div><small>MONTH 05</small>
+              <h3>Corporate Internship</h3>
+              <p>Live corporate project handling real enterprise HR workflows or sales pipelines.</p>
+            </div>
           </li>
           <li class="bs-month bs-month--live" data-reveal style="--d:.12s">
             <span class="bs-month-tag">Career</span>
             <span class="bs-month-no">06</span>
-            <div><small>MONTH 06</small><h3>Placement Drives &amp; Launch</h3><p>Executive resume optimization, LinkedIn branding, mock HR rounds, &amp; exclusive drives.</p></div>
+            <div><small>MONTH 06</small>
+              <h3>Placement Drives &amp; Launch</h3>
+              <p>Executive resume optimization, LinkedIn branding, mock HR rounds, &amp; exclusive drives.</p>
+            </div>
           </li>
         </ol>
       </div>
@@ -1351,7 +1861,8 @@
         <div data-reveal>
           <span class="bs-eyebrow">Careers</span>
           <h2 class="bs-h2">Placement &amp; Career Support</h2>
-          <p class="bs-intro">From your first mock interview to your first offer, our placement team works alongside you.</p>
+          <p class="bs-intro">From your first mock interview to your first offer, our placement team works alongside
+            you.</p>
           <div class="bs-hero-cta">
             <a href="https://wa.me/918590886009?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20Kompetenzen%20B-School%20courses."
               target="_blank" rel="noopener" class="bs-btn bs-btn--primary">Talk to an advisor</a>
@@ -1361,23 +1872,45 @@
 
         <ul class="bs-support" data-reveal style="--d:.1s">
           <li>
-            <span class="bs-support-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><polyline points="16 11 18 13 22 9"></polyline></svg></span>
+            <span class="bs-support-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <polyline points="16 11 18 13 22 9"></polyline>
+              </svg></span>
             <span><strong>Dedicated B2B placement team</strong> working for your success.</span>
           </li>
           <li>
-            <span class="bs-support-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></span>
+            <span class="bs-support-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="7" width="18" height="13" rx="2"></rect>
+                <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg></span>
             <span><strong>Mega job drives</strong> connecting you with top employers.</span>
           </li>
           <li>
-            <span class="bs-support-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg></span>
+            <span class="bs-support-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+              </svg></span>
             <span><strong>Resume &amp; LinkedIn optimization</strong> to stand out.</span>
           </li>
           <li>
-            <span class="bs-support-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></span>
+            <span class="bs-support-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              </svg></span>
             <span><strong>Company-specific mock interviews</strong> to build confidence.</span>
           </li>
           <li>
-            <span class="bs-support-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg></span>
+            <span class="bs-support-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+                <polyline points="16 7 22 7 22 13"></polyline>
+              </svg></span>
             <span><strong>Continuous employer feedback</strong> &amp; skill enhancement.</span>
           </li>
         </ul>
@@ -1393,12 +1926,16 @@
   </footer>
 
   <!-- Reusable Auth Modal for School Pages -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js"
+    integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP"
+    crossorigin="anonymous"></script>
   <script src="supabase-config.js"></script>
   <script src="js/site-content.js"></script>
   <script src="js/auth-modal.js?v=13"></script>
   <!-- Lenis smooth scroll -->
-  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" integrity="sha384-B2WBjDzEjJpYvhmi2UyEn7rektqkf5suS6sNoyyrf0EBAwBHdkiXxIlU0V5Ru2ed" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"
+    integrity="sha384-B2WBjDzEjJpYvhmi2UyEn7rektqkf5suS6sNoyyrf0EBAwBHdkiXxIlU0V5Ru2ed"
+    crossorigin="anonymous"></script>
   <script>
     const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if (!isMobile && typeof Lenis !== 'undefined') {
