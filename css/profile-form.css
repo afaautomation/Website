@@ -1168,3 +1168,6 @@ legend.form-label:has(#challenge-question) {
     scroll-behavior: auto !important;
   }
 }
+.notification-digest { display:flex; align-items:flex-start; margin-top:8px; line-height:1.4; }
+.notification-digest input { margin-top:2px; flex:none; }
+.notification-digest small { opacity:.75; }
