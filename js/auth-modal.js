@@ -75,15 +75,6 @@
       .auth-pill-btn:hover {
         transform: translateY(-1px) !important;
       }
-      .auth-google-btn {
-        background: #f0f4fe !important;
-        border: 1px solid rgba(25, 71, 255, 0.12) !important;
-        color: #0f172a !important;
-      }
-      .auth-google-btn:hover {
-        background: #e4ecfc !important;
-        box-shadow: 0 4px 12px rgba(25, 71, 255, 0.1) !important;
-      }
       .auth-email-btn {
         background: #ffffff !important;
         border: 1.5px solid #e2e8f0 !important;
@@ -452,23 +443,6 @@
   }
 
   // ===== NAVIGATION & STEP TOGGLING =====
-
-  window.showChoiceStep = function () {
-    ensureAuthModalDOM();
-    const stepChoice = document.getElementById('auth-step-choice');
-    const stepEmail = document.getElementById('auth-step-email');
-    const stepOtp = document.getElementById('auth-step-otp');
-    const inlineMsg = document.getElementById('auth-inline-msg');
-    const otpMsg = document.getElementById('otp-inline-msg');
-    const smsBanner = document.getElementById('simulated-sms-banner');
-    if (inlineMsg) inlineMsg.style.display = 'none';
-    if (otpMsg) otpMsg.style.display = 'none';
-    if (smsBanner) smsBanner.style.display = 'none';
-
-    if (stepChoice) stepChoice.style.display = 'block';
-    if (stepEmail) stepEmail.style.display = 'none';
-    if (stepOtp) stepOtp.style.display = 'none';
-  };
 
   window.showEmailAuthStep = function (mode = 'signup') {
     ensureAuthModalDOM();
@@ -1216,32 +1190,6 @@
     window._pendingOtpAuth = { mode: 'login', phone, formattedPhone };
     window.showOtpStep(formattedPhone, 'login');
     startOtpCountdown(LOGIN_RESEND_SECONDS);
-  };
-
-  window.triggerWebsiteGoogleSignIn = async function () {
-    if (!isSupabaseConfigured()) {
-      window.showAuthMessage('Google sign-in is temporarily unavailable. Please try again shortly.', true);
-      return;
-    }
-
-    const btn = document.getElementById('lead-google-btn');
-    const btnText = document.getElementById('lead-google-btn-text');
-    if (btnText) btnText.textContent = 'Connecting with Google…';
-    if (btn) btn.disabled = true;
-
-    try {
-      const redirect = window._pendingAuthRedirect || null;
-      const section = window._pendingAuthSection || null;
-      // supabaseSignInWithGoogle() saves (or clears) the redirect; the section follows suit.
-      if (section) localStorage.setItem('kompetenzen_pending_auth_section', section);
-      else localStorage.removeItem('kompetenzen_pending_auth_section');
-      await supabaseSignInWithGoogle(redirect);
-      // Browser redirects to Google OAuth
-    } catch (err) {
-      window.showAuthMessage((err && err.message) || 'Google sign-in failed. Please try again.', true);
-      if (btnText) btnText.textContent = 'Continue with Google';
-      if (btn) btn.disabled = false;
-    }
   };
 
   // Resume any pending OAuth redirect/session after Google sign-in bounces back

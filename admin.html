@@ -2890,20 +2890,6 @@
     };
 
     // ===== JOB MATCHING & ADVANCED KEYWORD FILTRATION =====
-    function getAllJobsForFilter() {
-      if (hrJobs.length) return hrJobs;
-      try {
-        const stored = localStorage.getItem('kompetenzen_hr_draft_jobs');
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          if (Array.isArray(parsed)) {
-            return parsed.filter(j => j && !String(j.id).startsWith('def-'));
-          }
-        }
-      } catch (e) { }
-      return [];
-    }
-
     window.selectApplicantSection = async function(status) {
       if (!['matched', 'all', 'not_matched'].includes(status)) return;
       document.getElementById('matching-status').value = status;
@@ -2954,33 +2940,6 @@
         document.getElementById('matching-page').textContent = 'Could not load analysis';
         document.getElementById('applicant-analysis-status').textContent = error.message;
       }
-    };
-    window.editMatchingRules = function() {
-      const job = hrJobs.find(j => String(j.id) === String(selectedJobId));
-      if(!job) return;
-      const dialog = document.createElement('dialog');
-      dialog.className = 'mc-dialog';
-      const form = document.createElement('form');
-      const title = document.createElement('h2'); title.textContent = 'Matching rules — ' + job.title;
-      const fields = document.createElement('div'); ApplicantMatching.mount(fields, job.applicationRequirements.matching);
-      const save = document.createElement('button'); save.type = 'submit'; save.className = 'btn-primary'; save.textContent = 'Save and recalculate applicants';
-      const cancel = document.createElement('button'); cancel.type = 'button'; cancel.className = 'btn-secondary'; cancel.textContent = 'Cancel'; cancel.onclick = () => dialog.close();
-      const errorBox = document.createElement('p'); errorBox.className = 'mc-dialog-error'; errorBox.setAttribute('role','alert');
-      const actions = document.createElement('div'); actions.className = 'mc-dialog-actions'; actions.append(cancel,save);
-      form.append(title,fields,errorBox,actions); dialog.append(form); document.body.append(dialog);
-      dialog.addEventListener('close',()=>dialog.remove()); dialog.showModal();
-      form.onsubmit = async event => {
-        event.preventDefault(); save.disabled = true;
-        try {
-          const matching = ApplicantMatching.read(fields);
-          const requirements = {...job.applicationRequirements, matching};
-          const {data,error} = await supabaseClient.from('hr_jobs').update({application_requirements:requirements}).eq('id',job.id).select('id');
-          if(error) throw error;
-          if(!data?.length) throw Error('Rules were not saved. Check staff access.');
-          dialog.close(); await loadApplicationsList();
-        } catch(error) { errorBox.textContent = error.message; }
-        finally { save.disabled = false; }
-      };
     };
     document.addEventListener('DOMContentLoaded', () => ApplicantMatching.mount(document.getElementById('matching-config')));
 

@@ -31,7 +31,7 @@ test('integrated applicant tabs use AI scores and preserve counts across the who
     } }
   });
   ctx.window = ctx;
-  vm.runInContext(extract(admin, 'window.selectApplicantSection =', 'window.editMatchingRules ='), ctx);
+  vm.runInContext(extract(admin, 'window.selectApplicantSection =', "document.addEventListener('DOMContentLoaded', () => ApplicantMatching.mount"), ctx);
   for (const status of ['matched', 'all', 'not_matched']) {
     element('apps-search-input').value = 'old search';
     await ctx.selectApplicantSection(status);

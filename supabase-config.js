@@ -43,32 +43,6 @@ function isSupabaseConfigured() {
  * on index.html and job-details.html.
  */
 
-async function supabaseSignUp(name, email, phone, password) {
-  let redirectUrl = 'http://localhost:3000/';
-  if (typeof window !== 'undefined' && window.location.protocol.startsWith('http')) {
-    redirectUrl = window.location.origin + window.location.pathname;
-  }
-  const { data, error } = await supabaseClient.auth.signUp({
-    email: email,
-    password: password,
-    options: {
-      data: { name: name, phone: phone },
-      emailRedirectTo: redirectUrl
-    }
-  });
-  if (error) throw error;
-  return data.user
-    ? {
-        name: name,
-        email: email,
-        phone: phone,
-        authType: 'Email Signup',
-        needsConfirmation: !data.session,
-        session: data.session
-      }
-    : null;
-}
-
 // WhatsApp-number login. Supabase issues and checks the OTP; the send-sms-hook Edge Function
 // delivers it on WhatsApp. shouldCreateUser:false keeps login from creating accounts.
 async function supabaseSendLoginOtp(phone) {
@@ -303,9 +277,3 @@ async function supabaseSignOut() {
   try { await supabaseClient.auth.signOut(); } catch (e) {}
 }
 
-async function supabaseResetPassword(email) {
-  const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-    redirectTo: window.location.href
-  });
-  if (error) throw error;
-}
