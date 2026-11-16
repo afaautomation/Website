@@ -2128,7 +2128,9 @@
         let session = null;
         try { session = (await supabaseClient.auth.getSession()).data.session; } catch (err) {}
         if (resumeFile) {
-          const ext = resumeFile.name.split('.').pop().toLowerCase();
+          // Extension comes from a short allow-list, never straight from the filename.
+          const rawExt = (resumeFile.name.split('.').pop() || '').toLowerCase();
+          const ext = ['pdf', 'doc', 'docx'].includes(rawExt) ? rawExt : 'pdf';
           const storagePath = `applications/candidate_${Date.now()}.${ext}`;
           const { error } = await supabaseClient.storage.from('resumes').upload(storagePath, resumeFile, { contentType: resumeFile.type || 'application/pdf', upsert: false });
           if (error) { fail('resume', 'Your resume could not be uploaded. Please try again.'); submitBtn.disabled = false; submitBtn.textContent = 'Submit Application'; return; }

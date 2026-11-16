@@ -128,7 +128,23 @@ async function supabasePhoneSignUp(name, email, password, phone, code) {
 const PENDING_AUTH_REDIRECT_KEY = 'kompetenzen_pending_auth_redirect';
 const PENDING_AUTH_REDIRECT_MAX_AGE_MS = 30 * 60 * 1000;
 
+// Only pages of this website may be a sign-in destination. Links such as
+// page#auth-redirect=javascript:... or =https://another.site would otherwise run
+// script in, or send, a visitor who has just signed in. Returns the URL or null.
+function safeAuthRedirect(url) {
+  if (typeof url !== 'string') return null;
+  const value = url.trim();
+  // Browsers ignore tabs and newlines inside a URL, so "java\tscript:" must not pass.
+  if (!value || value.length > 2000 || /[\u0000-\u001f\u007f\\]/.test(value)) return null;
+  const origin = (typeof window !== 'undefined' && window.location && window.location.origin) || '';
+  if (origin && (value === origin || value.indexOf(origin + '/') === 0)) return value;
+  // Otherwise it must be a path on this site: no scheme (https:, javascript:, data:) and no //host.
+  if (/^[a-z][a-z0-9+.-]*:/i.test(value) || value.indexOf('//') === 0) return null;
+  return value;
+}
+
 function savePendingAuthRedirect(url) {
+  url = safeAuthRedirect(url);
   try {
     if (url) localStorage.setItem(PENDING_AUTH_REDIRECT_KEY, JSON.stringify({ url, at: Date.now() }));
     else localStorage.removeItem(PENDING_AUTH_REDIRECT_KEY);
@@ -142,7 +158,7 @@ function takePendingAuthRedirect() {
     localStorage.removeItem(PENDING_AUTH_REDIRECT_KEY);
     const saved = raw && JSON.parse(raw);
     const fresh = saved && typeof saved.url === 'string' && Date.now() - saved.at < PENDING_AUTH_REDIRECT_MAX_AGE_MS;
-    return fresh ? saved.url : null;
+    return fresh ? safeAuthRedirect(saved.url) : null;
   } catch (e) {
     return null;
   }

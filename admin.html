@@ -3012,22 +3012,20 @@
       }
 
       const headers = ['Full Name', 'Phone', 'Email', 'Degree', 'Grad Year', 'Experience', 'Preferred Location', 'Job Role', 'Skills', 'Resume File', 'Submitted At', 'Keyword Match', 'Match Suggestion', 'Match Reason'];
+      // Applicants type these values. A cell starting with = + - or @ is run as a
+      // formula by Excel and Google Sheets, so such cells get a leading apostrophe
+      // (shown as plain text). Phone numbers like +91... stay readable.
+      const cell = value => {
+        let text = String(value ?? '');
+        if (/^[=+\-@\t\r]/.test(text)) text = "'" + text;
+        return `"${text.replace(/"/g, '""')}"`;
+      };
       const rows = exportApps.map(a => [
-        `"${(a.name || '').replace(/"/g, '""')}"`,
-        `"${(a.phone || '').replace(/"/g, '""')}"`,
-        `"${(a.email || '').replace(/"/g, '""')}"`,
-        `"${(a.degree || '').replace(/"/g, '""')}"`,
-        `"${(a.gradYear || '').replace(/"/g, '""')}"`,
-        `"${(a.experience || '').replace(/"/g, '""')}"`,
-        `"${(a.preferredLocation || '').replace(/"/g, '""')}"`,
-        `"${(a.jobRole || '').replace(/"/g, '""')}"`,
-        `"${(Array.isArray(a.matching_evidence?.career?.skills) ? a.matching_evidence.career.skills.join(', ') : '').replace(/"/g, '""')}"`,
-        `"${(a.resumeFileName || (a.resumeBlob ? 'Attached' : 'None')).replace(/"/g, '""')}"`,
-        `"${a.createdAt || ''}"`,
-        `"${a.ai_review?.score ?? ''}"`,
-        `"${(a.ai_review?.label || '').replace(/"/g, '""')}"`,
-        `"${(a.ai_review?.explanation || '').replace(/"/g, '""')}"`
-      ]);
+        a.name, a.phone, a.email, a.degree, a.gradYear, a.experience, a.preferredLocation, a.jobRole,
+        Array.isArray(a.matching_evidence?.career?.skills) ? a.matching_evidence.career.skills.join(', ') : '',
+        a.resumeFileName || (a.resumeBlob ? 'Attached' : 'None'),
+        a.createdAt, a.ai_review?.score, a.ai_review?.label, a.ai_review?.explanation
+      ].map(cell));
 
       const csvContent = 'data:text/csv;charset=utf-8,\uFEFF' + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
       const encodedUri = encodeURI(csvContent);

@@ -1,5 +1,9 @@
 # Admin workflow update
 
+## Security hardening (2026-11-16)
+
+Run `20261116_resume_upload_signed_in_only.sql` and `20261116_security_hardening.sql` in the Supabase SQL Editor (either order, both re-runnable), and deploy the Resume Builder backend from the same day. The first lets only signed-in users upload an application resume. The second makes every Resume Builder resume readable by its owner only (the unused "public resume" policy let anyone list resumes marked public), limits how much one account can store (100 resumes, 50 versions per resume, 20 import records, size limits per row), and accepts a candidate resume link only when it points at `applications/` or the candidate's own folder. Regression test: `node --test tests/security-hardening.test.cjs`. These migrations have not been applied to production.
+
 ## Notification wording with name and company (2026-11-03)
 
 Run `20261103_notification_details.sql` **after** `20261103_listing_expiry.sql` (it uses `hr_job_open()`). It adds the candidate's name and the hiring company to every new notification, and company, location and experience to each digest job; digests also skip expired listings. Re-running the older `20261015_notifications.sql` would restore the old functions, so run this one again after it if that ever happens. Then get the five `_v2` WhatsApp templates in `NOTIFICATIONS_SETUP.md` approved and only after that deploy `notification-worker`. Notifications queued before the migration greet "Hi there" and leave out the company. This migration has not been applied to production.

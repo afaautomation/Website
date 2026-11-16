@@ -11,7 +11,7 @@
       el('notify-phone').value=value;
     }
   }
-  function values() {return {p_email:el('notify-email').checked,p_whatsapp:el('notify-whatsapp').checked,p_number:el('notify-phone').value.replace(/[\s()-]/g,''),p_digest:((el('notify-email').checked||el('notify-whatsapp').checked)&&el('notify-digest').checked)?'weekly':'off'};}
+  function values() {return {p_email:el('notify-email').checked,p_whatsapp:el('notify-whatsapp').checked,p_number:el('notify-phone').value.replace(/[\s()-]/g,''),p_digest:(el('notify-email').checked||el('notify-whatsapp').checked)?'weekly':'off'};}
   function problem(message) {feedback.textContent=message; const error=new Error(message);error.notificationPreference=true;return error;}
   const ready=(async()=>{
     try {
@@ -19,7 +19,7 @@
       if(authError||!session) throw new Error('Sign in to manage notifications.');
       const {data,error}=await supabaseClient.from('notification_preferences').select('*').eq('user_id',session.user.id).maybeSingle();
       if(error) throw new Error('Notification settings are unavailable. Your profile can still be saved; existing choices will be preserved.');
-      if(data) {el('notify-email').checked=data.email_enabled;el('notify-whatsapp').checked=data.whatsapp_enabled;el('notify-phone').value=data.whatsapp_number;el('notify-digest').checked=data.job_digest==='weekly'||data.job_digest==='daily';}
+      if(data) {el('notify-email').checked=data.email_enabled;el('notify-whatsapp').checked=data.whatsapp_enabled;el('notify-phone').value=data.whatsapp_number;}
       loaded=true;phoneVisibility();initial=JSON.stringify(values());el('notification-channels').disabled=false;button.disabled=false;
     } catch(error) {feedback.textContent=error.message;}
   })();

@@ -33,9 +33,10 @@ test('database consent, atomic queueing, deduplication, status events and claim 
     const schema=fs.readFileSync('supabase_schema.sql','utf8');
     for(const name of ['hr_jobs','job_applications','candidate_profiles']) await db.exec(schema.match(new RegExp('create table if not exists public\\.'+name+' \\([\\s\\S]*?\\n\\);'))[0]);
     await db.exec('alter table job_applications add column user_id uuid,add column job_id uuid; create unique index on job_applications(user_id,job_id)');
-    for(const file of ['20261011_candidate_onboarding.sql','20261011_application_requirements.sql','20261015_applicant_matching.sql','20261015_career_matching.sql','20261015_notifications.sql','20261103_listing_expiry.sql','20261103_notification_details.sql']) await db.exec(fs.readFileSync('migrations/'+file,'utf8'));
+    for(const file of ['20261011_candidate_onboarding.sql','20261011_application_requirements.sql','20261015_applicant_matching.sql','20261015_career_matching.sql','20261020_local_profile_scoring.sql','20261015_notifications.sql','20261103_listing_expiry.sql','20261103_notification_details.sql']) await db.exec(fs.readFileSync('migrations/'+file,'utf8'));
     await db.exec(fs.readFileSync('migrations/20261015_notifications.sql','utf8'));
     await db.exec(fs.readFileSync('migrations/20261103_notification_details.sql','utf8')); // rerunnable; restores the new payload after the rerun above
+    await db.exec(fs.readFileSync('migrations/20261116_matching_job_alerts.sql','utf8'));
     const uid='00000000-0000-0000-0000-000000000001';
     await db.exec(`insert into auth.users values('${uid}','test@example.invalid'); set test.uid='${uid}';
       insert into candidate_profiles(user_id,name,whatsapp) values('${uid}','Test','+919876543210');`);
@@ -65,13 +66,25 @@ test('database consent, atomic queueing, deduplication, status events and claim 
     const Matching=require('../js/applicant-matching.js');
     const rules=Matching.parse({skills:'Python | essential | 3',qualifications:'',preferredQualifications:'',skillsWeight:70,academicsWeight:20,experienceWeight:10,preferred:0});
     await db.query('update candidate_profiles set career_preferences=$1 where user_id=$2',[JSON.stringify({skills:['Python']}),uid]);
-    const job=(await db.query("insert into hr_jobs(title,company,application_requirements) values ($1,'Acme',$2) returning id",['Suitable job',JSON.stringify({matching:rules})])).rows[0].id;
+    const job=(await db.query("insert into hr_jobs(title,company,application_requirements,created_at) values ($1,'Acme',$2,now()-interval '1 hour') returning id",['Suitable job',JSON.stringify({matching:rules})])).rows[0].id;
     await db.exec("update notification_preferences set digest_since=now()-interval '2 days'; select queue_job_digests();");
     assert.equal(Number((await db.query("select count(*) n from notification_queue where payload->>'event'='digest'")).rows[0].n),2);
     const digest=(await db.query("select payload from notification_queue where payload->>'event'='digest' limit 1")).rows[0].payload;
     assert.equal(digest.name,'Test'); assert.equal(digest.jobs[0].company,'Acme');
     await db.exec('select queue_job_digests();');
     assert.equal(Number((await db.query("select count(*) n from notification_queue where payload->>'event'='digest'")).rows[0].n),2,'digest not duplicated');
+    const otherRules=Matching.parse({skills:'Welding | essential | 3',qualifications:'',preferredQualifications:'',skillsWeight:70,academicsWeight:20,experienceWeight:10,preferred:0});
+    await db.query("insert into hr_jobs(title,company,application_requirements,created_at) values ('Unrelated job','Other',$1,now()-interval '1 hour')",[JSON.stringify({matching:otherRules})]);
+    await db.exec('select queue_job_digests();');
+    assert.equal(Number((await db.query("select count(*) n from notification_queue where payload->>'event'='digest'")).rows[0].n),2,'a job the profile does not match is never sent');
+    await db.query("insert into hr_jobs(title,company,application_requirements,created_at) values ('Experienced job','Exp Co',$1,now()-interval '1 hour')",[JSON.stringify({matching:{...rules,minimumMonths:12,experienceScope:'Python'}})]);
+    await db.query("insert into hr_jobs(title,company,application_requirements,created_at) values ('Final year only','Year Co',$1,now()-interval '1 hour')",[JSON.stringify({matching:{...rules,graduationYears:['2031']}})]);
+    await db.query("update candidate_profiles set grad_year='2026' where user_id=$1",[uid]);
+    await db.exec("update notification_preferences set digest_since=now()-interval '2 hours'; select queue_job_digests();");
+    const latest=(await db.query("select payload from notification_queue where payload->>'event'='digest' order by created_at desc limit 1")).rows[0].payload.jobs.map(j=>j.title);
+    assert.ok(latest.includes('Experienced job'),'experience months are checked when applying, not by the alert');
+    assert.ok(!latest.includes('Final year only'),'completion-year filter excludes a profile outside the intake');
+    assert.ok(!latest.includes('Unrelated job'));
     const alternatives=(await db.query('select notification_alternatives($1,null) jobs',[uid])).rows[0].jobs;
     assert.equal(alternatives[0].id,job);
     await db.query('insert into job_applications(user_id,job_id) values ($1,$2)',[uid,job]);

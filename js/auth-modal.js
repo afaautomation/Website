@@ -753,6 +753,9 @@
     ensureAuthModalDOM();
     const modal = document.getElementById('jobs-auth-modal');
     if (modal && !modal.contains(document.activeElement)) authReturnFocus = document.activeElement;
+    // The redirect can come from the address bar (#auth-redirect=...), so only a
+    // page of this site is accepted; anything else is dropped (supabase-config.js).
+    redirectUrl = typeof safeAuthRedirect === 'function' ? safeAuthRedirect(redirectUrl) : null;
     if (redirectUrl) window._pendingAuthRedirect = redirectUrl;
 
     const heroTitle = document.getElementById('auth-modal-hero-title');
@@ -790,7 +793,9 @@
       toast.style.cssText = 'position:fixed; bottom:28px; right:28px; z-index:999999; background:#0F172A; color:#FFFFFF; padding:14px 22px; border-radius:12px; border:1px solid rgba(59,130,246,0.3); box-shadow:0 12px 30px rgba(0,0,0,0.4); font-size:14px; font-weight:600; display:flex; align-items:center; gap:10px; transform:translateY(80px); opacity:0; transition:all 0.3s cubic-bezier(0.16,1,0.3,1); font-family:inherit;';
       document.body.appendChild(toast);
     }
-    toast.innerHTML = `<span style="color:#34D399; font-size:18px;">✓</span> <span>Downloading <strong>${courseName}</strong> Syllabus PDF…</span>`;
+    // The course name is read back from browser storage, so it is inserted as text.
+    toast.innerHTML = '<span style="color:#34D399; font-size:18px;">✓</span> <span>Downloading <strong></strong> Syllabus PDF…</span>';
+    toast.querySelector('strong').textContent = courseName;
     setTimeout(() => { toast.style.transform = 'translateY(0)'; toast.style.opacity = '1'; }, 50);
     setTimeout(() => { toast.style.transform = 'translateY(80px)'; toast.style.opacity = '0'; }, 4500);
   };
@@ -977,13 +982,15 @@
         return;
       }
 
-      if (redirect) {
-        if (redirect.indexOf('http') === 0 && redirect.indexOf(window.location.host) === -1) {
-          window.open(redirect, '_blank');
-          window.closeJobsAuthModal();
-        } else {
+      // Checked again at the point of use: only a page of this site is followed.
+      const safeRedirect = typeof safeAuthRedirect === 'function' ? safeAuthRedirect(redirect) : null;
+      if (redirect && !safeRedirect) {
+        window.closeJobsAuthModal();
+        updateNavBadge();
+      } else if (redirect) {
+        {
           try {
-            const targetUrl = new URL(redirect, window.location.href);
+            const targetUrl = new URL(safeRedirect, window.location.href);
             const currentUrl = new URL(window.location.href);
             if (targetUrl.pathname === currentUrl.pathname && targetUrl.searchParams.get('id') === currentUrl.searchParams.get('id')) {
               window.closeJobsAuthModal();
@@ -995,7 +1002,7 @@
               return;
             }
           } catch (e) {}
-          window.location.href = redirect;
+          window.location.href = safeRedirect;
         }
       } else {
         window.closeJobsAuthModal();

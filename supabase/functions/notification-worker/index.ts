@@ -30,7 +30,7 @@ Deno.serve(async request=>{
       if(q.channel==='email' && q.delivery && (q.delivery.provider || 'resend')!==provider) {await update(q.id,{state:'review',last_error:'Email provider changed; reconcile previous send before retrying'});continue;}
       if(provider==='resend' && q.attempts>1 && Date.now()-Date.parse(q.first_attempt_at)>23*3600000) {await update(q.id,{state:'review',last_error:'Retry window expired; reconcile with provider'});continue;}
       const [p]=await db(`notification_preferences?user_id=eq.${q.user_id}`);
-      if(!p || !p[`${q.channel}_enabled`] || (q.payload.event==='digest' && p.job_digest==='off')) {await update(q.id,{state:'cancelled'});continue;}
+      if(!p || !p[`${q.channel}_enabled`]) {await update(q.id,{state:'cancelled'});continue;}
       const configured=q.channel==='email' ? (provider==='gmail' ? gmailConfigured(env) : provider==='resend' && env('RESEND_API_KEY') && env('EMAIL_FROM')) : env('WHATSAPP_PHONE_NUMBER_ID') && env('WHATSAPP_ACCESS_TOKEN') && template(q.payload.event);
       if(!configured) {await update(q.id,{state:'pending',attempts:q.attempts-1,first_attempt_at:q.first_attempt_at===q.started_at?null:q.first_attempt_at,available_at:new Date(Date.now()+3600000).toISOString(),last_error:'Provider configuration missing'});continue;}
       let destination=p.whatsapp_number;
