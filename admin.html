@@ -562,6 +562,32 @@
       cursor: not-allowed;
     }
 
+    .draft-notify {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border: 1px solid rgba(25, 71, 255, 0.25);
+      border-radius: 999px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      font: inherit;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .draft-notify:hover:not(:disabled) {
+      border-color: var(--blue);
+      background: rgba(25, 71, 255, 0.14);
+    }
+
+    .draft-notify:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
     .draft-control-btn.draft-edit:hover {
       color: var(--blue);
       border-color: var(--blue);
@@ -3249,6 +3275,45 @@
           : [`⏳ Expires ${date} · ${days === 0 ? 'last day' : `${days} day${days === 1 ? '' : 's'} left`}`, days <= 3 ? '217, 119, 6' : '5, 150, 105'];
         return `<span class="draft-tag" style="background: rgba(${colour}, 0.1); color: rgb(${colour}); border: 1px solid rgba(${colour}, 0.3); margin-left: 6px;">${escapeHtml(text)}</span>`;
       }
+      // "Notify matching candidates": sends this listing to subscribed candidates whose profile
+      // matches it 50% or more (public.send_job_alert). Needs matching rules and an open listing.
+      function notifyButton(job) {
+        if (job.isDirectLink) return '';
+        const reason = !(job.applicationRequirements && job.applicationRequirements.matching)
+          ? 'Turn on candidate matching for this listing first (Edit listing)'
+          : (job.expiresOn && job.expiresOn < todayInIndia()) ? 'This listing has expired. Set a new expiry date first' : '';
+        return `<button class="draft-notify" type="button" data-id="${escapeHtml(String(job.id))}" ${reason ? `disabled title="${escapeHtml(reason)}"` : 'title="Send this listing to candidates whose profile matches 50% or more"'}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+          Notify matching candidates</button>`;
+      }
+      async function sendJobAlert(button) {
+        if (!isSupabaseConfigured()) { alert('Database connection is unavailable.'); return; }
+        const id = button.getAttribute('data-id');
+        const label = button.innerHTML;
+        button.disabled = true;
+        button.textContent = 'Checking…';
+        try {
+          const run = async send => {
+            const { data, error } = await supabaseClient.rpc('send_job_alert', { p_job_id: id, p_send: send });
+            if (error) throw error;
+            return data;
+          };
+          const preview = await run(false);
+          const toSend = preview.matched - preview.already_notified;
+          if (!preview.matched) { alert('No subscribed candidate matches this listing 50% or more yet. Nothing was sent.'); return; }
+          if (!toSend) { alert(`All ${preview.matched} matching candidate${preview.matched === 1 ? ' has' : 's have'} already been notified about this listing. Nothing was sent.`); return; }
+          const note = preview.already_notified ? `\n\n${preview.already_notified} other matching candidate${preview.already_notified === 1 ? ' was' : 's were'} already notified and will be skipped.` : '';
+          if (!confirm(`Send this listing to ${toSend} matching candidate${toSend === 1 ? '' : 's'} (profile match 50% or more) by their chosen Email / WhatsApp?${note}`)) return;
+          button.textContent = 'Sending…';
+          const result = await run(true);
+          alert(`Queued for ${result.queued} candidate${result.queued === 1 ? '' : 's'}. Messages go out within about a minute.`);
+        } catch (err) {
+          alert('Notifications were not sent: ' + (err.message || err));
+        } finally {
+          button.disabled = false;
+          button.innerHTML = label;
+        }
+      }
       async function deleteJobFromCloud(id) {
         if (!isSupabaseConfigured()) throw new Error('Database connection is unavailable.');
         const { data, error } = await supabaseClient.from('hr_jobs').delete().eq('id', id).select('id');
@@ -3393,6 +3458,7 @@
                   Expiry date
                   <input class="draft-expiry" type="date" data-id="${escapeHtml(String(job.id))}" value="${escapeHtml(job.expiresOn || '')}" style="width:auto; padding:4px 8px; font-size:12.5px;" />
                 </label>
+                ${notifyButton(job)}
               </div>
             </div>
             <div class="draft-controls">
@@ -3471,6 +3537,9 @@
       cancelEditButton.addEventListener('click', () => { stopEditing(); render(); });
 
       list.addEventListener('click', async (e) => {
+        const notifyBtn = e.target.closest('.draft-notify');
+        if (notifyBtn) { await sendJobAlert(notifyBtn); return; }
+
         const editBtn = e.target.closest('.draft-edit');
         if (editBtn) {
           const job = loadLocal().find(j => String(j.id) === editBtn.getAttribute('data-id'));

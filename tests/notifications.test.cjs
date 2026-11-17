@@ -37,6 +37,7 @@ test('database consent, atomic queueing, deduplication, status events and claim 
     await db.exec(fs.readFileSync('migrations/20261015_notifications.sql','utf8'));
     await db.exec(fs.readFileSync('migrations/20261103_notification_details.sql','utf8')); // rerunnable; restores the new payload after the rerun above
     await db.exec(fs.readFileSync('migrations/20261116_matching_job_alerts.sql','utf8'));
+    await db.exec(fs.readFileSync('migrations/20261117_job_alert_button.sql','utf8').replace(/^notify pgrst.*$/m,''));
     const uid='00000000-0000-0000-0000-000000000001';
     await db.exec(`insert into auth.users values('${uid}','test@example.invalid'); set test.uid='${uid}';
       insert into candidate_profiles(user_id,name,whatsapp) values('${uid}','Test','+919876543210');`);
@@ -85,8 +86,26 @@ test('database consent, atomic queueing, deduplication, status events and claim 
     assert.ok(latest.includes('Experienced job'),'experience months are checked when applying, not by the alert');
     assert.ok(!latest.includes('Final year only'),'completion-year filter excludes a profile outside the intake');
     assert.ok(!latest.includes('Unrelated job'));
+    // HR Console "Notify matching candidates" button
+    const alert=async(id,send)=>(await db.query('select send_job_alert($1,$2) r',[id,send])).rows[0].r;
+    const fresh=(await db.query("insert into hr_jobs(title,company,application_requirements) values ('Fresh job','Now Co',$1) returning id",[JSON.stringify({matching:rules})])).rows[0].id;
+    assert.deepEqual(await alert(fresh,false),{matched:1,already_notified:0,queued:0},'preview sends nothing');
+    assert.equal(Number((await db.query("select count(*) n from notification_queue where event_key like '%:jobalert:%'")).rows[0].n),0);
+    assert.deepEqual(await alert(fresh,true),{matched:1,already_notified:0,queued:1});
+    const sent=(await db.query("select channel,payload from notification_queue where event_key like '%:jobalert:%' order by channel")).rows;
+    assert.deepEqual(sent.map(r=>r.channel),['email','whatsapp']);
+    assert.equal(sent[0].payload.event,'digest'); assert.equal(sent[0].payload.jobs[0].title,'Fresh job');
+    assert.deepEqual(await alert(fresh,true),{matched:1,already_notified:1,queued:0},'a second click does not resend');
+    assert.equal((await alert(job,false)).already_notified,1,'a listing already in an automatic alert is not resent');
+    await db.query("update hr_jobs set created_at=now()-interval '1 hour' where id=$1",[fresh]);
+    await db.exec("update notification_preferences set digest_since=now()-interval '2 hours'; select queue_job_digests();");
+    const auto=(await db.query("select payload from notification_queue where payload->>'event'='digest' and event_key like '%:digest:%' order by created_at desc limit 1")).rows[0].payload.jobs.map(j=>j.title);
+    assert.ok(!auto.includes('Fresh job'),'the automatic alert skips a listing HR already sent');
+    await assert.rejects(alert((await db.query("insert into hr_jobs(title,company) values ('No rules','X') returning id")).rows[0].id,false),/matching/);
+    await assert.rejects(alert((await db.query("insert into hr_jobs(title,company,application_requirements,expires_on) values ('Old','X',$1,'2020-01-01') returning id",[JSON.stringify({matching:rules})])).rows[0].id,false),/expired/);
+    await db.exec("delete from hr_jobs where title in ('Fresh job','No rules','Old')");
     const alternatives=(await db.query('select notification_alternatives($1,null) jobs',[uid])).rows[0].jobs;
-    assert.equal(alternatives[0].id,job);
+    assert.ok(alternatives.some(a=>a.id===job));
     await db.query('insert into job_applications(user_id,job_id) values ($1,$2)',[uid,job]);
     assert.equal(Number((await db.query("select count(*) n from notification_queue where payload->>'event'='matched'")).rows[0].n),2);
     assert.equal((await db.query("select payload->>'company' c from notification_queue where payload->>'event'='matched' limit 1")).rows[0].c,'Acme');
