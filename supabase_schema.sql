@@ -1669,6 +1669,10 @@ grant execute on function public.hr_job_open(date) to anon, authenticated, servi
 drop policy if exists "Public can view jobs" on public.hr_jobs;
 create policy "Public can view jobs" on public.hr_jobs
   for select to public using (public.hr_job_open(expires_on));
+-- Staff must see expired listings too, or they cannot edit, extend or delete them.
+drop policy if exists "Admins can view all jobs" on public.hr_jobs;
+create policy "Admins can view all jobs" on public.hr_jobs
+  for select to authenticated using (public.is_admin());
 
 grant select (expires_on) on public.hr_jobs to anon, authenticated;
 
