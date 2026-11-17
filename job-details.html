@@ -1113,9 +1113,164 @@
       padding: 11px 12px;
     }
 
-    .req-field input[type="file"] {
+    /* Resume upload card */
+    .req-upload {
+      position: relative;
+    }
+
+    .req-file-input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .req-drop {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 18px;
+      border: 1.5px dashed rgba(96, 165, 250, 0.35);
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(59, 130, 246, 0.02));
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+
+    .req-drop:hover,
+    .req-drop.is-over {
+      border-color: #60A5FA;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.16), rgba(59, 130, 246, 0.05));
+      box-shadow: 0 8px 24px -12px rgba(37, 99, 235, 0.6);
+    }
+
+    .req-drop.is-over {
+      transform: scale(1.01);
+    }
+
+    .req-upload:focus-within .req-drop {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+    }
+
+    .req-drop[hidden],
+    .req-file-chosen[hidden] {
+      display: none;
+    }
+
+    .req-drop-icon {
+      flex: none;
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--grad-main);
+      color: #FFFFFF;
+      box-shadow: 0 6px 18px -6px rgba(59, 130, 246, 0.7);
+    }
+
+    .req-drop-text {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .req-drop-text strong {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .req-drop-text > span {
+      font-size: 12.5px;
       color: var(--ink-mute);
-      font-size: 13px;
+    }
+
+    .req-drop-text em {
+      font-style: normal;
+      font-weight: 600;
+      color: #60A5FA;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .req-drop-types {
+      flex: none;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      color: var(--ink-mute);
+    }
+
+    .req-file-chosen {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      border-radius: 14px;
+      background: var(--green-soft);
+    }
+
+    .req-file-chosen .req-drop-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--green);
+      box-shadow: none;
+    }
+
+    .req-file-meta {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .req-file-name {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--ink);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .req-file-size {
+      font-size: 12px;
+      color: var(--ink-mute);
+    }
+
+    .req-file-remove {
+      flex: none;
+      width: 30px;
+      height: 30px;
+      border: 0;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--ink-mute);
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .req-file-remove:hover {
+      background: rgba(248, 113, 113, 0.15);
+      color: #F87171;
+    }
+
+    @media (max-width: 480px) {
+      .req-drop-types {
+        display: none;
+      }
     }
 
     .req-field input:focus,
@@ -1979,6 +2134,44 @@
       return node;
     }
 
+    // Drag-and-drop resume picker around a real (visually hidden) file input, so the
+    // submit code keeps reading #req-resume.files and keyboard users can still tab to it.
+    function buildResumeDrop(title) {
+      const icon = svg => { const s = buildEl('span', { className: 'req-drop-icon', 'aria-hidden': 'true' }); s.innerHTML = svg; return s; };
+      const UPLOAD_SVG = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="m6 10 6-6 6 6"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>';
+      const FILE_SVG = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="m9 15 2 2 4-4"/></svg>';
+      const input = buildEl('input', { id: 'req-resume', type: 'file', accept: '.pdf,.doc,.docx', className: 'req-file-input' });
+      const drop = buildEl('label', { className: 'req-drop', for: 'req-resume' },
+        icon(UPLOAD_SVG),
+        buildEl('span', { className: 'req-drop-text' },
+          buildEl('strong', { text: title }),
+          buildEl('span', { text: 'Drag & drop here, or ' }, buildEl('em', { text: 'browse files' }))),
+        buildEl('span', { className: 'req-drop-types', text: 'PDF · DOC · DOCX' }));
+      const name = buildEl('span', { className: 'req-file-name' });
+      const size = buildEl('span', { className: 'req-file-size' });
+      const remove = buildEl('button', { type: 'button', className: 'req-file-remove', 'aria-label': 'Remove file', text: '×' });
+      const chosen = buildEl('div', { className: 'req-file-chosen', hidden: true },
+        icon(FILE_SVG), buildEl('span', { className: 'req-file-meta' }, name, size), remove);
+      const update = () => {
+        const file = input.files[0];
+        chosen.hidden = !file;
+        drop.hidden = !!file;
+        if (file) {
+          name.textContent = file.name;
+          size.textContent = file.size >= 1048576 ? (file.size / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(file.size / 1024)) + ' KB';
+        }
+      };
+      input.addEventListener('change', update);
+      remove.addEventListener('click', () => { input.value = ''; update(); input.focus(); });
+      ['dragenter', 'dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('is-over'); }));
+      ['dragleave', 'drop'].forEach(ev => drop.addEventListener(ev, () => drop.classList.remove('is-over')));
+      drop.addEventListener('drop', e => {
+        e.preventDefault();
+        if (e.dataTransfer && e.dataTransfer.files.length) { input.files = e.dataTransfer.files; update(); }
+      });
+      return buildEl('div', { className: 'req-upload' }, input, drop, chosen);
+    }
+
     function closeRequirementsForm() {
       const overlay = document.getElementById('req-overlay');
       if (overlay) overlay.remove();
@@ -2025,10 +2218,9 @@
         }
         group.append(summary);
         group.append(buildEl('a',{className:'req-profile-edit',href:profileFormFor(currentJob) + '?jobId=' + encodeURIComponent(currentJob.id),text:'Edit career profile →'}));
-        group.append(buildEl('label',{className:'req-check req-confirm'},buildEl('input',{id:'req-match-confirm',type:'checkbox'}),buildEl('span',{text:'I confirm that my career details are accurate and up to date.'})));
         form.append(buildEl('section',{className:'req-field','aria-labelledby':'req-profile-title'},
           buildEl('h4',{id:'req-profile-title',className:'req-section-title',text:'Your career profile'}),
-          group,buildEl('p',{className:'req-error',id:'req-err-matching',role:'alert'})));
+          group));
       }
       // The resume sits on the same step as the profile review. It is required only when
       // HR ticked "Resume is required" and the profile has none; otherwise it is optional.
@@ -2038,7 +2230,13 @@
         const resumeHint = resumeRequired ? `Required for this ${isIntern ? 'internship' : 'job'}. PDF, DOC or DOCX, up to 5 MB. It is also saved to your profile.`
           : profile.resume_url ? 'Your saved resume will be sent. Upload a new one only to replace it. PDF, DOC or DOCX, up to 5 MB.'
           : 'Optional. PDF, DOC or DOCX, up to 5 MB. It is also saved to your profile.';
-        form.append(field('resume', resumeRequired ? 'Resume' : 'Resume (optional)', buildEl('input', { id: 'req-resume', type: 'file', accept: '.pdf,.doc,.docx' }), resumeHint));
+        form.append(field('resume', resumeRequired ? 'Resume' : 'Resume (optional)', buildResumeDrop(profile.resume_url ? 'Upload a new resume' : 'Upload your resume'), resumeHint));
+      }
+      // The confirmation comes last, after the candidate has attached their resume.
+      if (missing.includes('matching') && matchRules) {
+        form.append(buildEl('div',{className:'req-field'},
+          buildEl('label',{className:'req-check req-confirm'},buildEl('input',{id:'req-match-confirm',type:'checkbox'}),buildEl('span',{text:'I confirm that my career details are accurate and up to date.'})),
+          buildEl('p',{className:'req-error',id:'req-err-matching',role:'alert'})));
       }
       if (missing.includes('college')) {
         form.append(field('college', 'College name', buildEl('input', { id: 'req-college', type: 'text', maxlength: '200', autocomplete: 'organization', value: prev.college || profile.institution || '' })));
