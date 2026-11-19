@@ -660,22 +660,19 @@
     }
 
     /* Scrolling starts once the inline script has added the second set ("is-looping") */
+    /* Each column moves on its own: left 14s up, middle 18s down, right 22s up. */
     .tcol.is-looping {
-      animation: roll 30s linear infinite;
+      animation: roll 14s linear infinite;
       will-change: transform
     }
 
     .tcol.r.is-looping {
       animation-direction: reverse;
-      animation-duration: 36s
+      animation-duration: 18s
     }
 
     .tcol.slow.is-looping {
-      animation-duration: 42s
-    }
-
-    .hero-vis:hover .tcol {
-      animation-play-state: paused
+      animation-duration: 22s
     }
 
     @keyframes roll {
@@ -694,11 +691,12 @@
       }
     }
 
+    /* Card wall colours come from the logo: blue #0054FA and navy #001A3B */
     .tcard {
-      --card-ink: var(--ink);
+      --card-ink: #001A3B;
       --card-mute: var(--ink-mute);
-      --chip-bg: var(--blue-soft);
-      --chip-ink: var(--blue);
+      --chip-bg: #E6EEFF;
+      --chip-ink: #0054FA;
       flex: 0 0 auto;
       margin-bottom: 12px;
       position: relative;
@@ -710,7 +708,7 @@
       /* the hero centres its text on phones; cards always read left-aligned */
       text-align: left;
       gap: 5px;
-      min-height: 118px;
+      height: var(--card-h, 132px);
       padding: 14px 14px 13px;
       border-radius: 16px;
       color: var(--card-ink);
@@ -782,17 +780,30 @@
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 18px 36px -18px rgba(2, 5, 14, .6)
     }
 
-    /* Brand blue with a light sheen */
+    /* Logo blue (#0054FA) with a light sheen */
     .tcard.brand {
       --card-ink: #FFFFFF;
-      --card-mute: rgba(232, 236, 255, .82);
-      --chip-bg: rgba(255, 255, 255, .16);
+      --card-mute: rgba(232, 238, 255, .85);
+      --chip-bg: rgba(255, 255, 255, .18);
       --chip-ink: #FFFFFF;
       background:
-        radial-gradient(110% 80% at 0% 0%, rgba(255, 255, 255, .22), transparent 50%),
-        linear-gradient(150deg, #2F5BFF, #0E2EC9 55%, #0A1F8F);
-      border-color: rgba(255, 255, 255, .14);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), 0 18px 36px -16px rgba(14, 46, 201, .55)
+        radial-gradient(110% 80% at 0% 0%, rgba(255, 255, 255, .2), transparent 50%),
+        linear-gradient(150deg, #1A66FF, #0054FA 50%, #0049DE);
+      border-color: rgba(255, 255, 255, .16);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), 0 18px 36px -16px rgba(0, 84, 250, .5)
+    }
+
+    /* Logo navy (#001A3B), the wordmark colour, with a faint logo-blue glow */
+    .tcard.navy {
+      --card-ink: #FFFFFF;
+      --card-mute: rgba(214, 226, 255, .75);
+      --chip-bg: rgba(0, 84, 250, .28);
+      --chip-ink: #FFFFFF;
+      background:
+        radial-gradient(110% 80% at 0% 0%, rgba(0, 84, 250, .3), transparent 55%),
+        linear-gradient(150deg, #0A2A55, #001A3B 55%, #00132D);
+      border-color: rgba(255, 255, 255, .08);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1), 0 18px 36px -16px rgba(0, 26, 59, .55)
     }
 
     /* Signature Gen AI card: dark glass inside a slowly turning gradient border */
@@ -854,7 +865,7 @@
 
     /* Big-number stat card */
     .tcard.stat {
-      min-height: 150px
+      justify-content: center
     }
 
     .tcard .tc-figure {
@@ -864,10 +875,6 @@
       line-height: .9;
       letter-spacing: -.02em;
       margin: 2px 0 2px
-    }
-
-    .tcard.tall {
-      min-height: 150px
     }
 
     @media (max-width:980px) {
@@ -2551,14 +2558,9 @@
       .tcard {
         margin-bottom: 7px;
         padding: 9px 10px 8px;
-        min-height: 66px;
+        --card-h: 88px;
         gap: 2px;
         border-radius: 11px;
-      }
-
-      .tcard.tall,
-      .tcard.stat {
-        min-height: 84px;
       }
 
       .tcard .tc-icon {
@@ -2981,86 +2983,73 @@
            below copies every column's cards so the loop is seamless. -->
       <div class="hero-vis" aria-hidden="true">
         <div class="columns">
-          <!-- Trainings (Tech School) -->
+          <!-- Guidance first: consulting, placements and careers lead; courses are a few plain cards.
+               Colours are staggered across the columns: whites sit on alternating rows (rows 2 and 4 in the
+               first two columns, rows 1 and 3 in the third), with blue and dark blue filling the rest. -->
           <div class="tcol">
-            <div class="tcard ai tall">
-              <span class="tc-new">NEW</span>
+            <div class="tcard navy">
+              <span class="tc-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+              <span class="tag">Consulting</span>
+              <span class="tname">1:1 Career Consulting</span>
+            </div>
+            <div class="tcard">
               <span class="tc-icon"><svg viewBox="0 0 24 24"><path d="M12 3l1.9 4.6 4.6 1.9-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg></span>
               <span class="tag">Tech School</span>
-              <span class="tname">Python + Generative AI</span>
-              <span class="tmeta">LLMs · RAG · LangChain</span>
+              <span class="tname">GenAI</span>
+            </div>
+            <div class="tcard brand">
+              <span class="tc-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span>
+              <span class="tag">Careers</span>
+              <span class="tname">Jobs</span>
             </div>
             <div class="tcard">
-              <span class="tc-icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>
-              <span class="tag">Tech School</span>
-              <span class="tname">Python Full Stack + AI</span>
-              <span class="tmeta">Django · React · SQL</span>
-            </div>
-            <div class="tcard ink">
-              <span class="tc-icon"><svg viewBox="0 0 24 24"><path d="M17 8h1a4 4 0 0 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><path d="M6 2v2M10 2v2M14 2v2"/></svg></span>
-              <span class="tag">Tech School</span>
-              <span class="tname">Java Full Stack + AI</span>
-              <span class="tmeta">Spring Boot · React</span>
-            </div>
-            <div class="tcard">
-              <span class="tc-icon"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 16v-4M12 16V8M17 16v-7"/></svg></span>
-              <span class="tag">Tech School</span>
-              <span class="tname">Data Analytics</span>
-              <span class="tmeta">Excel · SQL · Power BI</span>
+              <span class="tc-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M16 8l-2.5 5.5L8 16l2.5-5.5z"/></svg></span>
+              <span class="tag">Finishing School</span>
+              <span class="tname">Design Your Future</span>
             </div>
           </div>
-          <!-- Signature: placements and services -->
           <div class="tcol r">
             <div class="tcard brand stat">
               <span class="tag">Placements</span>
               <span class="tc-figure">5,000+</span>
               <span class="tname">Students placed</span>
-              <span class="tmeta">Across 120+ hiring partners</span>
             </div>
             <div class="tcard">
-              <span class="tc-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
-              <span class="tag">Consulting</span>
-              <span class="tname">1:1 Career Consulting</span>
-              <span class="tmeta">Find your direction</span>
-            </div>
-            <div class="tcard ink tall">
-              <span class="tc-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M16 8l-2.5 5.5L8 16l2.5-5.5z"/></svg></span>
-              <span class="tag">Finishing School</span>
-              <span class="tname">Design Your Future</span>
-              <span class="tmeta">2-day programme · 14 hours</span>
-            </div>
-            <div class="tcard">
-              <span class="tc-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span>
-              <span class="tag">Careers</span>
-              <span class="tname">Jobs &amp; Internships</span>
-              <span class="tmeta">Live openings from our partners</span>
-            </div>
-          </div>
-          <!-- B-School and career tools -->
-          <div class="tcol slow">
-            <div class="tcard">
-              <span class="tc-icon"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg></span>
-              <span class="tag">B-School</span>
-              <span class="tname">PG Diploma in HR &amp; Operations</span>
-              <span class="tmeta">Payroll · HR operations</span>
-            </div>
-            <div class="tcard ink">
               <span class="tc-icon"><svg viewBox="0 0 24 24"><path d="M21.2 15.9A10 10 0 1 1 8 2.8"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg></span>
               <span class="tag">B-School</span>
-              <span class="tname">HR Analytics</span>
-              <span class="tmeta">HR metrics · Power BI</span>
+              <span class="tname">HR &amp; Analytics</span>
+            </div>
+            <div class="tcard navy stat">
+              <span class="tag">Partners</span>
+              <span class="tc-figure">120+</span>
+              <span class="tname">Hiring partners</span>
             </div>
             <div class="tcard">
-              <span class="tc-icon"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>
-              <span class="tag">B-School</span>
-              <span class="tname">Sales Engineering</span>
-              <span class="tmeta">CRM · B2B sales</span>
+              <span class="tc-icon"><svg viewBox="0 0 24 24"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></svg></span>
+              <span class="tag">Careers</span>
+              <span class="tname">Internships</span>
+            </div>
+          </div>
+          <div class="tcol slow">
+            <div class="tcard">
+              <span class="tc-icon"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 16v-4M12 16V8M17 16v-7"/></svg></span>
+              <span class="tag">Tech School</span>
+              <span class="tname">Data Analytics</span>
+            </div>
+            <div class="tcard navy stat">
+              <span class="tag">Reviews</span>
+              <span class="tc-figure">4.8★</span>
+              <span class="tname">Google rating</span>
+            </div>
+            <div class="tcard">
+              <span class="tc-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M16 8l-2.5 5.5L8 16l2.5-5.5z"/></svg></span>
+              <span class="tag">Consulting</span>
+              <span class="tname">Career Roadmap</span>
             </div>
             <div class="tcard brand">
               <span class="tc-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg></span>
               <span class="tag">Career tools</span>
               <span class="tname">Resume Builder</span>
-              <span class="tmeta">Build your resume online</span>
             </div>
           </div>
         </div>
