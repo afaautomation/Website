@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-IN">
 
 <head>
   <meta charset="utf-8" />
@@ -21,9 +21,12 @@
       fit();
       addEventListener('resize', fit);
     })(document.documentElement);</script>
-  <title id="page-title">Job Details — Kompetenzen Career Portal</title>
+  <title id="page-title">Job Details | Jobs for Freshers in Kerala | Kompetenzen</title>
   <meta name="description" id="page-description"
-    content="Explore detailed job requirements, responsibilities, salary range, and apply directly through Kompetenzen Technologies." />
+    content="Job details, requirements and salary for verified openings in Kerala. Apply free with one profile on Kompetenzen Jobs." />
+  <meta property="og:site_name" content="Kompetenzen Technologies" />
+  <meta property="og:image" content="https://www.kompetenzen.in/img/og/og-jobs.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" type="image/png" href="icon.png?v=2" />
   <link rel="shortcut icon" href="favicon.ico?v=2" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2" />
@@ -1705,7 +1708,7 @@
       }
 
       if (!foundJob) {
-        document.getElementById('page-title').textContent = 'Job Not Found — Kompetenzen Careers';
+        document.getElementById('page-title').textContent = 'Job Not Found | Kompetenzen Jobs';
         document.getElementById('j-title').textContent = 'Opening Not Found';
         document.getElementById('j-company').textContent = 'Kompetenzen';
         document.getElementById('j-description').innerHTML = `
@@ -1744,7 +1747,8 @@
     }
 
     function renderJob(job) {
-      document.getElementById('page-title').textContent = `${job.title} at ${job.company} — Kompetenzen Careers`;
+      // Same format as functions/job-details.js, which sets it before the page reaches the browser.
+      document.getElementById('page-title').textContent = `${job.title}${job.company ? ' at ' + job.company : ''}, ${job.location || 'Kochi, Kerala'} | Kompetenzen Jobs`;
       document.getElementById('bc-title').textContent = job.title;
       document.getElementById('bc-category').textContent = (job.category || 'Tech').toUpperCase();
 

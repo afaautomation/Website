@@ -135,6 +135,27 @@ Redeploy after adding them (Deployments → latest → Retry deployment).
 - [ ] `https://kompetenzen.in/Resume/` opens the Resume Builder already signed in; templates load; export a PDF.
 - [ ] Cloud Run → Logs show requests with visitors' IPs, and no errors.
 
+## 5. Traffic and free-plan limits
+
+**Pages themselves are not the limit.** Cloudflare serves the website's pages, images, CSS and JS from its edge network with no request or bandwidth cap on any plan, so 10,000+ visitors a day simply load the static files. Each deployment must stay under 20,000 files and 25 MiB per file (the current build is about 130 files, and the largest, the on-device AI model, is 23 MB).
+
+**The limit is Pages Functions.** Everything that runs code, not just serves a file, counts against the **Workers Free plan: 100,000 requests a day, shared across the whole project**. Once it is used up, those routes return an error until the next UTC day (about 5:30 am India time) and the rest of the site keeps working. The routes that count:
+
+| Route | Used for | Roughly per visit |
+|---|---|---|
+| `/sb/*` | every database and sign-in call (Indian ISPs block supabase.co, so the browser goes through the site) | homepage 2, jobs list 1, sign-in several, applying several |
+| `/reel-cover/*` | the 7 homepage reel pictures | up to 7 (browsers keep them for a day) |
+| `/job-details` | each job page, adds the Google job data | 1 (kept at the edge for 5 minutes) |
+| `/Resume/*`, `/api/*` | Resume Builder pages and API | 1 per file or call |
+
+A first-time homepage visitor costs about 10 of the 100,000, so the free plan covers **roughly 5,000 to 8,000 new visitors a day**, fewer if people browse several pages, sign in or build resumes. That is the point where reels, job lists and sign-in start failing.
+
+**Before a big push (launch event, exam results season, an ad campaign), switch the account to Workers Paid.** It costs about US$5 a month, includes 10 million Function requests a month and is billed as extra requests beyond that. In the dashboard: **Workers & Pages → Plans → Change plan → Workers Paid**. Nothing in the code has to change. To see usage: **Workers & Pages → kompetenzen → Metrics**, and set **Notifications → Usage-based billing** so you are told before the daily limit is reached.
+
+Already built in to keep usage down: the homepage keeps the reels list and showcase in the visitor's browser for 5 minutes, the jobs page keeps its list, reel pictures are cached at the edge for a week, and each job page is cached for 5 minutes.
+
+**Other free tiers behind the site** (check each dashboard before a push): Supabase free allows 50,000 monthly active users, 5 GB of traffic a month, 500 MB of database and 1 GB of file storage (resumes are stored there); the Resume Builder's AI features are limited by the quotas of the AI providers behind it (Gemini, OpenRouter, xAI), and Cloud Run scales on its own but bills for use.
+
 ## Local development (unchanged)
 - Website: `node server.js` → http://localhost:3000
 - Resume backend: `cd Resume/backend && npm run dev` → http://localhost:5000 (the builder at localhost uses it automatically)

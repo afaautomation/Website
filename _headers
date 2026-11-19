@@ -54,3 +54,9 @@ https://kompetenzen.pages.dev/career-consultation*
   X-Robots-Tag: noindex
 https://kompetenzen.pages.dev/finishing-school*
   X-Robots-Tag: noindex
+https://:version.kompetenzen.pages.dev/*
+  X-Robots-Tag: noindex
+
+# Summary of the business for AI assistants (llmstxt.org)
+/llms.txt
+  Content-Type: text/plain; charset=utf-8

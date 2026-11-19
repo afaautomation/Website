@@ -123,16 +123,22 @@ test('the Resume Builder home is served at /Resume/ with the shared site bar add
   assert.equal(home.status, 200); assert.equal(home.headers.get('content-length'), null);
   const html = await home.text();
   assert.equal(html.split('/js/site-nav.js').length - 1, 1, 'bar added exactly once');
+  assert.equal(home.headers.get('x-robots-tag'), null, 'the builder home screen is the one page search engines may index');
   assert.match(html, /<section id="landing-view" class="view"><script src="\/js\/site-nav\.js" data-base="\/" data-active="Resume\/"/);
   assert.match(html, /<style id="kz-site-bar">[^<]*<\/style><\/head>/);
-  // A page that already includes the bar (a future builder deploy) is left as it is
+  // The home screen gets the website's search tags in place of the builder's "ResumePro" title
+  assert.match(html, /<title>Free Resume Builder[^<]*<\/title><meta name="description"/);
+  assert.ok(html.includes('<link rel="canonical" href="https://www.kompetenzen.in/Resume/">'));
+  // A page that already includes the bar (a future builder deploy) keeps it; only the search tags are added
   body = page.replace('<nav', '<script src="../js/site-nav.js"></script><nav');
   const already = await (await onRequest({ request: new Request('https://kompetenzen.in/Resume/'), env })).text();
-  assert.equal(already, body);
+  const { withSeo } = await fn('Resume/[[path]].js');
+  assert.equal(already, withSeo(body));
   // Files and HEAD requests pass through untouched
   body = 'console.log(1)';
   const js = await onRequest({ request: new Request('https://kompetenzen.in/Resume/frontend/app.js'), env });
   assert.equal(await js.text(), 'console.log(1)');
+  assert.equal(js.headers.get('x-robots-tag'), 'noindex, nofollow', 'everything else the proxy serves stays out of search');
 });
 
 test('reel covers come from Instagram, are edge-cacheable, and fail closed', async t => {

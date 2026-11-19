@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Public pages, most important first. Job listings are in sitemap-jobs.xml (built live by functions/sitemap-jobs.xml.js). -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://kompetenzen.in/b-school</loc></url>
-  <url><loc>https://kompetenzen.in/career-consultation</loc></url>
-  <url><loc>https://kompetenzen.in/course-details</loc></url>
-  <url><loc>https://kompetenzen.in/data-analytics-course-details</loc></url>
-  <url><loc>https://kompetenzen.in/finishing-school</loc></url>
-  <url><loc>https://kompetenzen.in/genai-course-details</loc></url>
-  <url><loc>https://kompetenzen.in/hr-course-details</loc></url>
-  <url><loc>https://kompetenzen.in/hr-analytics-course-details</loc></url>
-  <url><loc>https://kompetenzen.in/</loc></url>
-  <url><loc>https://kompetenzen.in/internships</loc></url>
-  <url><loc>https://kompetenzen.in/java-course-details</loc></url>
-  <url><loc>https://kompetenzen.in/jobs</loc></url>
-  <url><loc>https://kompetenzen.in/our-story</loc></url>
-  <url><loc>https://kompetenzen.in/placements</loc></url>
-  <url><loc>https://kompetenzen.in/privacy</loc></url>
-  <url><loc>https://kompetenzen.in/sales-engineering-course-details</loc></url>
-  <url><loc>https://kompetenzen.in/talent-hunt</loc></url>
-  <url><loc>https://kompetenzen.in/tech-school</loc></url>
+  <url><loc>https://www.kompetenzen.in/</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.kompetenzen.in/career-consultation</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.kompetenzen.in/finishing-school</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.kompetenzen.in/genai-course-details</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.kompetenzen.in/jobs</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.kompetenzen.in/Resume/</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.kompetenzen.in/internships</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.kompetenzen.in/tech-school</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.kompetenzen.in/b-school</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.kompetenzen.in/course-details</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.kompetenzen.in/java-course-details</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.kompetenzen.in/data-analytics-course-details</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.kompetenzen.in/hr-course-details</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.kompetenzen.in/hr-analytics-course-details</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.kompetenzen.in/sales-engineering-course-details</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.kompetenzen.in/placements</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.kompetenzen.in/our-story</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.kompetenzen.in/talent-hunt</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.kompetenzen.in/privacy</loc><lastmod>2026-11-19</lastmod></url>
 </urlset>

@@ -1,0 +1,34 @@
+# Kompetenzen
+
+> Kompetenzen Technologies is a consultation-first career company in Kerala, India, founded in 2020, with centres in Kochi (Vyttila) and Thiruvananthapuram (Palayam). It starts with 1-to-1 career consultation, runs the two-day Design Your Future career programme and a Python Full Stack with Generative AI course, and connects freshers with employers through a free job portal for Kerala, internships, job drives and placement support. It also offers a free resume builder.
+
+Website: https://www.kompetenzen.in
+Email: hr@kompetenzen.in
+Phone and WhatsApp: +91 85908 86009
+Kochi centre: 3rd Floor, Sree Hari Building, Sahodaran Ayyappan Road, Vyttila, Kochi, Kerala 682019. Phone 062383 02063.
+Thiruvananthapuram centre: Sunny Meads Lane, opposite JKV Charging Station, Vanross, Palayam, Thiruvananthapuram, Kerala 695001. Phone 085908 49708.
+Instagram: https://www.instagram.com/kompetenzen.techschool
+
+## Main services, in order of priority
+
+- [Career Consultation](https://www.kompetenzen.in/career-consultation): 1-to-1 career counselling in Kochi and Trivandrum for students, graduates and professionals returning after a career break. Four steps: self-discovery and assessment (guided conversations and structured questionnaires), career goal alignment, skill-gap mapping and a personalised career roadmap. Book with the form on the page or on WhatsApp at +91 85908 86009.
+- [Design Your Future](https://www.kompetenzen.in/finishing-school): a two-day, in-person career programme with eight sessions (14 hours). Participants understand their strengths, explore employment, freelancing, startup and hybrid paths, find skill gaps, build human skills and a foundation in AI, and leave with a personalised DYF Report, a career roadmap and an AI Prompt PDF. It does not promise jobs.
+- [Python Full Stack with Generative AI](https://www.kompetenzen.in/genai-course-details): an advanced Tech School programme for learners who already know basic Python. Covers Python, SQL, frontend basics, Django, Django REST Framework, LLMs, embeddings, vector databases, RAG, LangChain and LangGraph, ending in a domain-specific AI knowledge assistant capstone.
+
+## Jobs and career tools
+
+- [Jobs for freshers in Kerala](https://www.kompetenzen.in/jobs): a job portal for freshers and graduates in Kerala with verified tech, HR, sales and management openings from hiring partners in Kochi, Trivandrum and across Kerala. Applying is 100% free, with no placement charges. Candidates apply with one saved profile and can register for job alerts.
+- [Internships](https://www.kompetenzen.in/internships): tech, HR and management internships for students and freshers in Kerala, applied for with one internship profile.
+- [Free Resume Builder](https://www.kompetenzen.in/Resume/): free for every job seeker. ATS-friendly templates, AI suggestions and PDF download.
+
+## Training
+
+- [Tech School](https://www.kompetenzen.in/tech-school): Python Full Stack with Generative AI, [Full Stack Python + AI](https://www.kompetenzen.in/course-details), [Full Stack Java + AI](https://www.kompetenzen.in/java-course-details) and the [Data Analyst Program](https://www.kompetenzen.in/data-analytics-course-details). Courses run offline in Kochi and Trivandrum and online.
+- [B-School](https://www.kompetenzen.in/b-school): [PG Diploma in HR & Operations](https://www.kompetenzen.in/hr-course-details), [HR Analytics](https://www.kompetenzen.in/hr-analytics-course-details) and [Sales Engineering](https://www.kompetenzen.in/sales-engineering-course-details).
+
+## About
+
+- [Our Story](https://www.kompetenzen.in/our-story): history, team and campuses.
+- [Placements](https://www.kompetenzen.in/placements): placement record and hiring partners.
+- [Talent Hunt 2026](https://www.kompetenzen.in/talent-hunt): a Kerala recruitment drive connecting graduates with hiring companies.
+- [Privacy Policy](https://www.kompetenzen.in/privacy)

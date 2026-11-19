@@ -116,6 +116,31 @@ Adding it early is harmless; the old address keeps working.
 
 Publish the final version to Cloudflare Pages and test it on `https://kompetenzen.pages.dev`: homepage, sign up with WhatsApp OTP, sign in, staff login, job application, consultation booking, privacy page.
 
+### 2.5 One address for everything
+
+The website's single address is **`https://www.kompetenzen.in`**. Every page's canonical tag, `sitemap.xml`, `robots.txt`, `llms.txt` and share image already use it, so keep it as the main one. Every other way of reaching the site must end up there with a permanent (301) redirect, so Google counts all visits, links and rankings for one address:
+
+| Someone types or clicks | What happens | Set up by |
+|---|---|---|
+| `https://www.kompetenzen.in/...` | The website. This is the one real address. | Custom domain (Phase 3, step 2) |
+| `https://kompetenzen.in/...` | 301 to `https://www.kompetenzen.in/...`, same page and query | Redirect Rule **Root to www** (section 2.3) |
+| `http://` versions of both | Forced to `https://` first | **Always Use HTTPS** (section 4.1) |
+| An old page such as `kompetenzen.in/about` or `/courses/java-full-stack-ai` | 301 to the nearest new page (`/our-story`, `/java-course-details`) | `_redirects` file, already in the repository (14 old addresses) |
+| `kompetenzen.pages.dev` | Stays as a private test copy and is hidden from Google | `_headers`, already in the repository |
+| Any other domain you own, for example `kompetenzentech.com` if it is yours | 301 to `https://www.kompetenzen.in/...` | See below |
+
+**For another domain you own:** add it to the same Cloudflare account (**Add → Connect a domain**, as in section 1.2), then edit the **Root to www** rule so its filter is **Hostname** *is in* `kompetenzen.in`, `kompetenzentech.com`, `www.kompetenzentech.com`. The redirect target stays `concat("https://www.kompetenzen.in", http.request.uri.path)`. Domains you do not own, or have not added to Cloudflare, cannot be redirected from here.
+
+**Check it after launch** (PowerShell, each line should print `301` and the `https://www.kompetenzen.in` address):
+
+```powershell
+curl.exe -sI http://kompetenzen.in/jobs | Select-String "HTTP|location"
+curl.exe -sI https://kompetenzen.in/about | Select-String "HTTP|location"
+curl.exe -sI https://www.kompetenzen.in/about | Select-String "HTTP|location"
+```
+
+The first two take two hops (to `www`, then to the new page); that is fine. Then in **Google Search Console**, add the **Domain** property `kompetenzen.in` (it covers `www` and the bare address together), and expect the old addresses to drop out of search and the new ones to appear over a few weeks.
+
 ---
 
 ## Phase 3: Launch day (start 30–45 minutes before the announcement)
@@ -169,8 +194,15 @@ The old website returns within minutes. Email keeps working throughout.
 
 ### 4.2 Search engines
 
-1. Hide the `kompetenzen.pages.dev` copy from Google so only `www.kompetenzen.in` appears in search (a `_headers` rule; ask for it to be added and publish).
-2. **Google Search Console** (search.google.com/search-console) → **Add property** → **Domain** `kompetenzen.in` → verify with the TXT record it gives you (add it in Cloudflare **DNS → Records**).
+The site is set up for search with `www.kompetenzen.in` as its address: every page's canonical tag, `sitemap.xml`, `robots.txt` and `llms.txt` use it, and `_headers` already keeps the `kompetenzen.pages.dev` copies out of Google. Do these steps on launch day, after **Root to www** is live:
+
+1. **Google Search Console** (search.google.com/search-console) → **Add property** → **Domain** `kompetenzen.in` → verify with the TXT record it gives you (add it in Cloudflare **DNS → Records**).
+2. Search Console → **Sitemaps** → submit `https://www.kompetenzen.in/sitemap.xml` and `https://www.kompetenzen.in/sitemap-jobs.xml` (the second lists open jobs and updates itself).
+3. Search Console → **URL inspection** → request indexing for, in this order: `/`, `/career-consultation`, `/finishing-school`, `/genai-course-details`, `/jobs`, `/Resume/`.
+4. **Bing Webmaster Tools** (bing.com/webmasters) → **Import from Google Search Console**. Bing also feeds ChatGPT search and Copilot.
+5. **Cloudflare → AI Crawl Control** (or **Security → Bots**): make sure AI crawlers such as GPTBot, OAI-SearchBot, ClaudeBot and PerplexityBot are **allowed**, and turn **off** "Block AI bots" and any Cloudflare-managed robots.txt. Otherwise ChatGPT, Claude and Perplexity cannot read the site to recommend it.
+6. **Google Business Profile** (business.google.com): claim or update both centres (Vyttila, Kochi and Palayam, Thiruvananthapuram) with the website `https://www.kompetenzen.in/career-consultation`, category *Career guidance service*, phone numbers, photos and opening hours. Ask happy students for Google reviews. This is what puts Kompetenzen in the map results for "career counselling near me".
+7. After a week, check Search Console → **Pages** (indexed pages) and **Enhancements → Job postings / FAQ / Breadcrumbs** for errors, and test a job page at search.google.com/test/rich-results.
 
 ### 4.3 Hostinger
 

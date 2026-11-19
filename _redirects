@@ -13,5 +13,21 @@
 /Aparna.png          /Aparna.webp           301
 /Nafia.jpg           /Nafia.webp            301
 /Jithu.jpg           /Jithu.webp            301
-/student_hr.jpg      /student_hr.webp       301
 /student_python.jpg  /student_python.webp   301
+
+# Addresses from the previous kompetenzen.in website (the pages Google already knows), sent to the nearest new page
+# so no ranking is lost at launch. Anything not listed here shows the 404 page.
+/about                           /our-story                        301
+/careers                         /jobs                             301
+/college-partnerships            /talent-hunt                      301
+/apply                           /career-consultation              301
+/blog                            /                                 301
+/course-python-ai                /course-details                   301
+/course-java-ai                  /java-course-details              301
+/course-data-analytics           /data-analytics-course-details    301
+/course-bschool-hr               /hr-course-details                301
+/courses/python-full-stack-ai    /course-details                   301
+/courses/java-full-stack-ai      /java-course-details              301
+/courses/data-analytics-genai    /data-analytics-course-details    301
+/courses/upskill-bootcamp        /tech-school                      301
+/courses/hr-corporate-readiness  /hr-course-details                301
