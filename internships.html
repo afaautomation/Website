@@ -409,6 +409,39 @@
 
     .hero-stat .lbl { font-size: 12px; color: var(--ink-mute); font-weight: 600; letter-spacing: 0.04em; }
 
+    /* "Applying is free" line under the stats: no box, just a check, the message and a text link */
+    .free-note {
+      display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+      gap: 10px 14px; margin-top: 30px; position: relative; z-index: 2;
+      font-size: 14px; color: var(--ink-mute); letter-spacing: 0.01em;
+    }
+    .free-note-icon {
+      display: inline-grid; place-items: center; width: 22px; height: 22px; flex-shrink: 0;
+      border-radius: 50%; color: #34D399;
+      background: rgba(52, 211, 153, 0.12);
+      box-shadow: 0 0 0 1px rgba(52, 211, 153, 0.35), 0 0 18px rgba(52, 211, 153, 0.25);
+    }
+    .free-note-text strong { color: #F1F5F9; font-weight: 600; }
+    .free-note-text em { font-style: normal; color: #34D399; }
+    .free-note-sep {
+      display: inline-block; width: 4px; height: 4px; margin: 0 12px 2px;
+      border-radius: 50%; background: rgba(148, 163, 184, 0.45); vertical-align: middle;
+    }
+    .free-note-cta {
+      background: none; border: 0; padding: 0 0 0 16px; cursor: pointer;
+      border-left: 1px solid rgba(255, 255, 255, 0.14);
+      font: inherit; font-weight: 600; color: #60A5FA; transition: color 0.2s;
+    }
+    .free-note-cta span { display: inline-block; transition: transform 0.2s; }
+    .free-note-cta:hover { color: #93C5FD; }
+    .free-note-cta:hover span { transform: translateX(3px); }
+    @media (max-width: 640px) {
+      .free-note { margin-top: 22px; font-size: 13px; gap: 8px 10px; }
+      .free-note-text { flex-basis: calc(100% - 40px); text-align: left; line-height: 1.6; }
+      .free-note-sep { margin: 0 8px 2px; }
+      .free-note-cta { min-height: 44px; border-left: 0; padding: 0; }
+    }
+
     /* SEARCH */
 
     /* MAIN */
@@ -964,28 +997,18 @@
         <span class="lbl">Placements Made</span>
       </div>
     </div>
+
+    <!-- Applying is free: a quiet line under the stats; the Sign up link hides once signed in -->
+    <div class="free-note">
+      <span class="free-note-icon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+      <span class="free-note-text"><strong>Applying is <em>100% free</em></strong><span class="free-note-sep" aria-hidden="true"></span>No payment, no limits<span class="free-note-sep" aria-hidden="true"></span>One saved profile for every internship</span>
+      <button type="button" id="free-strip-signup" class="free-note-cta" onclick="openAuthModal('signup')">Sign up free <span aria-hidden="true">&rarr;</span></button>
+    </div>
   </section>
 
   <!-- MAIN -->
   <main class="jobs-main">
-
-    <!-- FREE STRIP — applying is free; the sign-up button hides once signed in -->
-    <div class="free-apply-strip sr" style="background: linear-gradient(90deg, rgba(37, 99, 235, 0.15) 0%, rgba(16, 185, 129, 0.12) 100%); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 16px; padding: 16px 24px; margin-bottom: 32px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
-      <div style="display: flex; align-items: center; gap: 14px;">
-        <span style="font-size: 24px;">🎁</span>
-        <div>
-          <div style="font-size: 14.5px; font-weight: 700; color: #FFFFFF;">
-            Applying to internships is <span style="color: #34D399;">100% free</span> — no payment, no limits
-          </div>
-          <div style="font-size: 12.5px; color: #94A3B8;">
-            Fill your internship profile once, then apply to any opening below.
-          </div>
-        </div>
-      </div>
-      <button type="button" id="free-strip-signup" onclick="openAuthModal('signup')" class="apply-btn" style="padding: 9px 20px; font-size: 12.5px;">
-        Sign up free →
-      </button>
-    </div>
 
     <!-- Internship profile: shares its answers with create-profile.html -->
     <a href="internship-profile.html" class="listing-switch sr">
