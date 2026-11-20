@@ -486,7 +486,8 @@
     }
 
     .fs-chip--b {
-      top: 33%;
+      top: auto;
+      bottom: 3%;
       right: -2%;
       animation-delay: -3s;
     }
@@ -673,6 +674,45 @@
       font-size: 14.5px;
       line-height: 1.55;
       color: var(--ink-mute);
+    }
+
+    /* Programme: two day cards, four sessions each */
+    .days { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+    .day-card {
+      border-radius: 26px; overflow: hidden; background: #fff; border: 1px solid var(--line-soft);
+      box-shadow: 0 1px 2px rgba(2, 5, 14, 0.04), 0 40px 80px -50px rgba(25, 71, 255, 0.35);
+    }
+    .day-head { position: relative; padding: 30px 32px 28px; background: var(--blue); color: #fff; overflow: hidden; }
+    .day-head::after {
+      content: ''; position: absolute; right: -60px; top: -60px; width: 220px; height: 220px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 70%);
+    }
+    .day-tag { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.85; }
+    .day-big { display: block; font-size: clamp(64px, 8vw, 96px); font-weight: 800; letter-spacing: -0.05em; line-height: 1; margin: 6px 0 12px; }
+    .day-head h3 { font-size: clamp(20px, 2.2vw, 25px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; max-width: 14em; }
+    .day-meta { margin-top: 10px; font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.85; }
+    .day-bar { display: flex; gap: 4px; height: 6px; margin-top: 20px; }
+    .day-bar i { flex: var(--h); position: relative; overflow: hidden; border-radius: 3px; background: rgba(255, 255, 255, 0.25); }
+    .day-bar i::after {
+      content: ''; position: absolute; inset: 0; background: #fff; border-radius: 3px;
+      transform-origin: left; transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) calc(0.3s + var(--i) * 0.18s);
+    }
+    .js-anim .day-bar i::after { transform: scaleX(0); }
+    .js-anim .day-card.is-visible .day-bar i::after { transform: scaleX(1); }
+    .day-list { list-style: none; padding: 6px 32px 10px; }
+    .day-list li { display: grid; grid-template-columns: 34px 1fr; gap: 4px 14px; padding: 20px 0; border-bottom: 1px solid var(--line-soft); }
+    .day-list li:last-child { border-bottom: 0; }
+    .day-n { font-size: 15px; font-weight: 800; color: var(--blue); letter-spacing: -0.01em; padding-top: 1px; }
+    .day-list h3 { font-size: 17px; font-weight: 700; letter-spacing: -0.015em; color: var(--ink); margin-bottom: 5px; }
+    .day-list p { font-size: 14.5px; line-height: 1.55; color: var(--ink-mute); }
+    .day-list li { transition: background 0.3s; }
+    @media (max-width: 860px) {
+      .days { grid-template-columns: 1fr; }
+      .day-head { padding: 26px 22px 24px; }
+      .day-list { padding: 4px 22px 8px; }
+    }
+    @media (max-width: 480px) {
+      .day-list li { grid-template-columns: 28px 1fr; }
     }
 
     /* Take-home */
@@ -1465,221 +1505,213 @@
       to { transform: scale(1); opacity: 1; }
     }
 
-    /* Hero story, one 10s loop (see the SVG): the student's pencil draws the path up the mountain 4-56%,
-       each soft skill lights up as the line reaches it, the sun rises and the flag goes up 50-62%, the
-       student cheers, and at 90-96% it fades for the next round. Without motion it shows the finished picture. */
-    .fs-badge, .fs-ring, .fs-flag, .fs-cloth, .fs-bit, .fs-rays { transform-box: fill-box; transform-origin: center; }
-    .fs-label { transform-box: view-box; }
-    .fs-flag { transform-origin: 50% 100%; }
-    .fs-cloth { transform-origin: 0 50%; }
+    /* Hero story, one 12s loop (see the SVG): the pencil draws the two-day path 4-84%, each of the eight sessions
+       lights up as the line reaches it, Day 2 begins round the bend, the last stop celebrates, and at 94-98% it
+       fades for the next round. Without motion it shows the finished picture. */
+    .fs-badge, .fs-ring, .fs-bit, .fs-label, .fs-d1, .fs-d2 { transform-box: fill-box; transform-origin: center; }
     .fs-ring, .fs-bit, .fs-spark { opacity: 0; }
-    .fs-lbl { font: 700 10.5px 'Inter', sans-serif; fill: #001A3B; }
-    .fs-s-arm, .fs-s-cheer, .fs-s-eyes, .fs-s-body { transform-box: view-box; }
-    .fs-s-arm { transform-origin: 13px -82px; }
-    .fs-s-cheer { transform-origin: -13px -82px; }
+    .fs-num { font: 800 10.5px 'Inter', sans-serif; text-anchor: middle; }
+    .fs-num0 { fill: #8DA2D6; }
+    .fs-num1 { fill: #FFFFFF; }
+    .fs-lbl { font: 700 9.5px 'Inter', sans-serif; fill: #001A3B; text-anchor: middle; }
+    .fs-day { font: 800 9.5px 'Inter', sans-serif; fill: #001A3B; letter-spacing: 0.08em; }
 
     @media (prefers-reduced-motion: no-preference) {
-      .fs-story { --T: 10s; --D: 1.2s; }
-
-      .fs-ink { animation: fsInk var(--T) linear var(--D) infinite both; }
-
-      @keyframes fsInk {
-        0%, 4% { stroke-dashoffset: 875.2; opacity: 1; }
-        56%, 90% { stroke-dashoffset: 0; opacity: 1; }
-        96% { stroke-dashoffset: 0; opacity: 0; }
-        100% { stroke-dashoffset: 875.2; opacity: 0; }
-      }
-
-      .fs-ink-glow { animation-name: fsInkGlow; }
-
-      @keyframes fsInkGlow {
-        0%, 4% { stroke-dashoffset: 875.2; opacity: 0.14; }
-        56%, 90% { stroke-dashoffset: 0; opacity: 0.14; }
-        96% { stroke-dashoffset: 0; opacity: 0; }
-        100% { stroke-dashoffset: 875.2; opacity: 0; }
-      }
-
-      .fs-badge, .fs-label, .fs-ring {
+      .fs-story { --T: 12s; --D: 0.8s; }
+      .fs-ink, .fs-badge, .fs-label, .fs-ring, .fs-bit, .fs-d1, .fs-d2 {
         animation-duration: var(--T);
         animation-delay: var(--D);
         animation-iteration-count: infinite;
         animation-fill-mode: both;
-        animation-timing-function: ease-out;
+      }
+      .fs-ink { animation-name: fsInk; animation-timing-function: linear; }
+      .fs-ink-glow { animation-name: fsInkGlow; }
+      .fs-badge, .fs-label, .fs-ring, .fs-bit, .fs-d1, .fs-d2 { animation-timing-function: ease-out; }
+
+      @keyframes fsInk {
+        0%, 4% { stroke-dashoffset: 100; opacity: 1; }
+        84%, 94% { stroke-dashoffset: 0; opacity: 1; }
+        98% { stroke-dashoffset: 0; opacity: 0; }
+        100% { stroke-dashoffset: 100; opacity: 0; }
+      }
+      @keyframes fsInkGlow {
+        0%, 4% { stroke-dashoffset: 100; opacity: 0.14; }
+        84%, 94% { stroke-dashoffset: 0; opacity: 0.14; }
+        98% { stroke-dashoffset: 0; opacity: 0; }
+        100% { stroke-dashoffset: 100; opacity: 0; }
       }
 
-      .fs-n1 .fs-badge { animation-name: fsNode1; }
-      .fs-n1 .fs-label { animation-name: fsLab1; }
-      .fs-n1 .fs-ring { animation-name: fsRing1; }
+      .fs-d1 { animation-name: fsDay1; }
+      .fs-d2 { animation-name: fsDay2; }
+      @keyframes fsDay1 {
+        0%, 1% { opacity: 0; transform: scale(0.8); }
+        5%, 94% { opacity: 1; transform: scale(1); }
+        98%, 100% { opacity: 0; transform: scale(1); }
+      }
+      @keyframes fsDay2 {
+        0%, 46% { opacity: 0; transform: scale(0.8); }
+        51%, 94% { opacity: 1; transform: scale(1); }
+        98%, 100% { opacity: 0; transform: scale(1); }
+      }
+      .fs-b1 { animation-name: fsNode1; }
+      .fs-l1 { animation-name: fsLab1; }
+      .fs-r1 { animation-name: fsRing1; }
       @keyframes fsNode1 {
-        0%, 16.4% { opacity: 0; transform: scale(0.3); }
-        18.9% { opacity: 1; transform: scale(1.18); }
-        20.9%, 90% { opacity: 1; transform: scale(1); }
-        95%, 100% { opacity: 0; transform: scale(0.6); }
+        0%, 2.8% { opacity: 0; transform: scale(0.3); }
+        5.2% { opacity: 1; transform: scale(1.18); }
+        7.2%, 94% { opacity: 1; transform: scale(1); }
+        98%, 100% { opacity: 0; transform: scale(0.6); }
       }
       @keyframes fsLab1 {
-        0%, 17.9% { opacity: 0; transform: translateX(-8px) scale(0.9); }
-        21.4%, 90% { opacity: 1; transform: none; }
-        95%, 100% { opacity: 0; transform: none; }
+        0%, 3.6% { opacity: 0; transform: translateY(-8px) scale(0.92); }
+        7.4%, 94% { opacity: 1; transform: none; }
+        98%, 100% { opacity: 0; transform: none; }
       }
       @keyframes fsRing1 {
-        0%, 17.9% { opacity: 0; transform: scale(1); }
-        18.6% { opacity: 0.6; transform: scale(1); }
-        25.4%, 100% { opacity: 0; transform: scale(2.1); }
+        0%, 3.6% { opacity: 0; transform: scale(1); }
+        4% { opacity: 0.6; transform: scale(1); }
+        10%, 100% { opacity: 0; transform: scale(2.3); }
       }
-      .fs-n2 .fs-badge { animation-name: fsNode2; }
-      .fs-n2 .fs-label { animation-name: fsLab2; }
-      .fs-n2 .fs-ring { animation-name: fsRing2; }
+      .fs-b2 { animation-name: fsNode2; }
+      .fs-l2 { animation-name: fsLab2; }
+      .fs-r2 { animation-name: fsRing2; }
       @keyframes fsNode2 {
-        0%, 26.7% { opacity: 0; transform: scale(0.3); }
-        29.2% { opacity: 1; transform: scale(1.18); }
-        31.2%, 90% { opacity: 1; transform: scale(1); }
-        95%, 100% { opacity: 0; transform: scale(0.6); }
+        0%, 12.6% { opacity: 0; transform: scale(0.3); }
+        15% { opacity: 1; transform: scale(1.18); }
+        17%, 94% { opacity: 1; transform: scale(1); }
+        98%, 100% { opacity: 0; transform: scale(0.6); }
       }
       @keyframes fsLab2 {
-        0%, 28.2% { opacity: 0; transform: translateX(8px) scale(0.9); }
-        31.7%, 90% { opacity: 1; transform: none; }
-        95%, 100% { opacity: 0; transform: none; }
+        0%, 13.4% { opacity: 0; transform: translateY(8px) scale(0.92); }
+        17.2%, 94% { opacity: 1; transform: none; }
+        98%, 100% { opacity: 0; transform: none; }
       }
       @keyframes fsRing2 {
-        0%, 28.2% { opacity: 0; transform: scale(1); }
-        28.9% { opacity: 0.6; transform: scale(1); }
-        35.7%, 100% { opacity: 0; transform: scale(2.1); }
+        0%, 13.4% { opacity: 0; transform: scale(1); }
+        13.8% { opacity: 0.6; transform: scale(1); }
+        19.8%, 100% { opacity: 0; transform: scale(2.3); }
       }
-      .fs-n3 .fs-badge { animation-name: fsNode3; }
-      .fs-n3 .fs-label { animation-name: fsLab3; }
-      .fs-n3 .fs-ring { animation-name: fsRing3; }
+      .fs-b3 { animation-name: fsNode3; }
+      .fs-l3 { animation-name: fsLab3; }
+      .fs-r3 { animation-name: fsRing3; }
       @keyframes fsNode3 {
-        0%, 37.8% { opacity: 0; transform: scale(0.3); }
-        40.3% { opacity: 1; transform: scale(1.18); }
-        42.3%, 90% { opacity: 1; transform: scale(1); }
-        95%, 100% { opacity: 0; transform: scale(0.6); }
+        0%, 22.3% { opacity: 0; transform: scale(0.3); }
+        24.7% { opacity: 1; transform: scale(1.18); }
+        26.7%, 94% { opacity: 1; transform: scale(1); }
+        98%, 100% { opacity: 0; transform: scale(0.6); }
       }
       @keyframes fsLab3 {
-        0%, 39.3% { opacity: 0; transform: translateX(-8px) scale(0.9); }
-        42.8%, 90% { opacity: 1; transform: none; }
-        95%, 100% { opacity: 0; transform: none; }
+        0%, 23.1% { opacity: 0; transform: translateY(-8px) scale(0.92); }
+        26.9%, 94% { opacity: 1; transform: none; }
+        98%, 100% { opacity: 0; transform: none; }
       }
       @keyframes fsRing3 {
-        0%, 39.3% { opacity: 0; transform: scale(1); }
-        40% { opacity: 0.6; transform: scale(1); }
-        46.8%, 100% { opacity: 0; transform: scale(2.1); }
+        0%, 23.1% { opacity: 0; transform: scale(1); }
+        23.5% { opacity: 0.6; transform: scale(1); }
+        29.5%, 100% { opacity: 0; transform: scale(2.3); }
       }
-      .fs-n4 .fs-badge { animation-name: fsNode4; }
-      .fs-n4 .fs-label { animation-name: fsLab4; }
-      .fs-n4 .fs-ring { animation-name: fsRing4; }
+      .fs-b4 { animation-name: fsNode4; }
+      .fs-l4 { animation-name: fsLab4; }
+      .fs-r4 { animation-name: fsRing4; }
       @keyframes fsNode4 {
-        0%, 47.4% { opacity: 0; transform: scale(0.3); }
-        49.9% { opacity: 1; transform: scale(1.18); }
-        51.9%, 90% { opacity: 1; transform: scale(1); }
-        95%, 100% { opacity: 0; transform: scale(0.6); }
+        0%, 32.1% { opacity: 0; transform: scale(0.3); }
+        34.5% { opacity: 1; transform: scale(1.18); }
+        36.5%, 94% { opacity: 1; transform: scale(1); }
+        98%, 100% { opacity: 0; transform: scale(0.6); }
       }
       @keyframes fsLab4 {
-        0%, 48.9% { opacity: 0; transform: translateX(8px) scale(0.9); }
-        52.4%, 90% { opacity: 1; transform: none; }
-        95%, 100% { opacity: 0; transform: none; }
+        0%, 32.9% { opacity: 0; transform: translateY(8px) scale(0.92); }
+        36.7%, 94% { opacity: 1; transform: none; }
+        98%, 100% { opacity: 0; transform: none; }
       }
       @keyframes fsRing4 {
-        0%, 48.9% { opacity: 0; transform: scale(1); }
-        49.6% { opacity: 0.6; transform: scale(1); }
-        56.4%, 100% { opacity: 0; transform: scale(2.1); }
+        0%, 32.9% { opacity: 0; transform: scale(1); }
+        33.3% { opacity: 0.6; transform: scale(1); }
+        39.3%, 100% { opacity: 0; transform: scale(2.3); }
       }
-
-      .fs-sun { animation: fsSunUp var(--T) cubic-bezier(0.3, 0.6, 0.3, 1) var(--D) infinite both; }
-
-      @keyframes fsSunUp {
-        0%, 46% { opacity: 0; transform: translateY(50px); }
-        64%, 90% { opacity: 1; transform: translateY(0); }
-        97%, 100% { opacity: 0; transform: translateY(50px); }
+      .fs-b5 { animation-name: fsNode5; }
+      .fs-l5 { animation-name: fsLab5; }
+      .fs-r5 { animation-name: fsRing5; }
+      @keyframes fsNode5 {
+        0%, 53.5% { opacity: 0; transform: scale(0.3); }
+        55.9% { opacity: 1; transform: scale(1.18); }
+        57.9%, 94% { opacity: 1; transform: scale(1); }
+        98%, 100% { opacity: 0; transform: scale(0.6); }
       }
-
-      .fs-rays { animation: fsSpin 24s linear infinite; }
-      @keyframes fsSpin { to { transform: rotate(360deg); } }
-
-      .fs-flag { animation: fsFlag var(--T) cubic-bezier(0.34, 1.4, 0.64, 1) var(--D) infinite both; }
-
-      @keyframes fsFlag {
-        0%, 55% { opacity: 0; transform: scaleY(0); }
-        60%, 90% { opacity: 1; transform: scaleY(1); }
-        95%, 100% { opacity: 0; transform: scaleY(1); }
+      @keyframes fsLab5 {
+        0%, 54.3% { opacity: 0; transform: translateY(8px) scale(0.92); }
+        58.1%, 94% { opacity: 1; transform: none; }
+        98%, 100% { opacity: 0; transform: none; }
       }
-
-      .fs-cloth { animation: fsWave 1.6s ease-in-out infinite; }
-
-      @keyframes fsWave {
-        0%, 100% { transform: skewY(-3deg) scaleX(1); }
-        50% { transform: skewY(3deg) scaleX(0.95); }
+      @keyframes fsRing5 {
+        0%, 54.3% { opacity: 0; transform: scale(1); }
+        54.7% { opacity: 0.6; transform: scale(1); }
+        60.7%, 100% { opacity: 0; transform: scale(2.3); }
       }
-
-      .fs-bit { animation: fsBurst var(--T) cubic-bezier(0.2, 0.7, 0.3, 1) var(--D) infinite both; }
-
+      .fs-b6 { animation-name: fsNode6; }
+      .fs-l6 { animation-name: fsLab6; }
+      .fs-r6 { animation-name: fsRing6; }
+      @keyframes fsNode6 {
+        0%, 63.3% { opacity: 0; transform: scale(0.3); }
+        65.7% { opacity: 1; transform: scale(1.18); }
+        67.7%, 94% { opacity: 1; transform: scale(1); }
+        98%, 100% { opacity: 0; transform: scale(0.6); }
+      }
+      @keyframes fsLab6 {
+        0%, 64.1% { opacity: 0; transform: translateY(-8px) scale(0.92); }
+        67.9%, 94% { opacity: 1; transform: none; }
+        98%, 100% { opacity: 0; transform: none; }
+      }
+      @keyframes fsRing6 {
+        0%, 64.1% { opacity: 0; transform: scale(1); }
+        64.5% { opacity: 0.6; transform: scale(1); }
+        70.5%, 100% { opacity: 0; transform: scale(2.3); }
+      }
+      .fs-b7 { animation-name: fsNode7; }
+      .fs-l7 { animation-name: fsLab7; }
+      .fs-r7 { animation-name: fsRing7; }
+      @keyframes fsNode7 {
+        0%, 73% { opacity: 0; transform: scale(0.3); }
+        75.4% { opacity: 1; transform: scale(1.18); }
+        77.4%, 94% { opacity: 1; transform: scale(1); }
+        98%, 100% { opacity: 0; transform: scale(0.6); }
+      }
+      @keyframes fsLab7 {
+        0%, 73.8% { opacity: 0; transform: translateY(8px) scale(0.92); }
+        77.6%, 94% { opacity: 1; transform: none; }
+        98%, 100% { opacity: 0; transform: none; }
+      }
+      @keyframes fsRing7 {
+        0%, 73.8% { opacity: 0; transform: scale(1); }
+        74.2% { opacity: 0.6; transform: scale(1); }
+        80.2%, 100% { opacity: 0; transform: scale(2.3); }
+      }
+      .fs-b8 { animation-name: fsNode8; }
+      .fs-l8 { animation-name: fsLab8; }
+      .fs-r8 { animation-name: fsRing8; }
+      @keyframes fsNode8 {
+        0%, 82.8% { opacity: 0; transform: scale(0.3); }
+        85.2% { opacity: 1; transform: scale(1.18); }
+        87.2%, 94% { opacity: 1; transform: scale(1); }
+        98%, 100% { opacity: 0; transform: scale(0.6); }
+      }
+      @keyframes fsLab8 {
+        0%, 83.6% { opacity: 0; transform: translateY(-8px) scale(0.92); }
+        87.4%, 94% { opacity: 1; transform: none; }
+        98%, 100% { opacity: 0; transform: none; }
+      }
+      @keyframes fsRing8 {
+        0%, 83.6% { opacity: 0; transform: scale(1); }
+        84% { opacity: 0.6; transform: scale(1); }
+        90%, 100% { opacity: 0; transform: scale(2.3); }
+      }
       @keyframes fsBurst {
-        0%, 56% { opacity: 0; transform: translate(0, 0) scale(0.3); }
-        58% { opacity: 1; transform: translate(0, 0) scale(1); }
-        68% { opacity: 1; }
-        74%, 100% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(var(--r)) scale(1); }
+        0%, 84% { opacity: 0; transform: translate(0, 0) scale(0.3); }
+        85.5% { opacity: 1; transform: translate(0, 0) scale(1); }
+        90% { opacity: 1; }
+        94%, 100% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(var(--r)) scale(1); }
       }
-
-      .fs-s-arm { animation: fsSketch var(--T) ease-in-out var(--D) infinite both; }
-
-      @keyframes fsSketch {
-        0%, 4%, 56%, 100% { transform: rotate(0deg); }
-        6% { transform: rotate(-2.5deg); }
-        8% { transform: rotate(2deg); }
-        10% { transform: rotate(-2.5deg); }
-        12% { transform: rotate(2deg); }
-        14% { transform: rotate(-2.5deg); }
-        16% { transform: rotate(2deg); }
-        18% { transform: rotate(-2.5deg); }
-        20% { transform: rotate(2deg); }
-        22% { transform: rotate(-2.5deg); }
-        24% { transform: rotate(2deg); }
-        26% { transform: rotate(-2.5deg); }
-        28% { transform: rotate(2deg); }
-        30% { transform: rotate(-2.5deg); }
-        32% { transform: rotate(2deg); }
-        34% { transform: rotate(-2.5deg); }
-        36% { transform: rotate(2deg); }
-        38% { transform: rotate(-2.5deg); }
-        40% { transform: rotate(2deg); }
-        42% { transform: rotate(-2.5deg); }
-        44% { transform: rotate(2deg); }
-        46% { transform: rotate(-2.5deg); }
-        48% { transform: rotate(2deg); }
-        50% { transform: rotate(-2.5deg); }
-        52% { transform: rotate(2deg); }
-        54% { transform: rotate(-2.5deg); }
-      }
-
-      .fs-s-cheer { animation: fsCheer var(--T) ease-in-out var(--D) infinite both; }
-
-      @keyframes fsCheer {
-        0%, 58%, 90%, 100% { transform: rotate(0deg); }
-        63% { transform: rotate(150deg); }
-        68% { transform: rotate(168deg); }
-        73% { transform: rotate(146deg); }
-        78% { transform: rotate(166deg); }
-        84% { transform: rotate(150deg); }
-      }
-
-      .fs-s-body { animation: fsHop var(--T) ease-in-out var(--D) infinite both; }
-
-      @keyframes fsHop {
-        0%, 58%, 70%, 100% { transform: translateY(0); }
-        61% { transform: translateY(-9px); }
-        64% { transform: translateY(0); }
-        67% { transform: translateY(-4px); }
-      }
-
-      .fs-s-eyes { animation: fsGaze var(--T) ease-in-out var(--D) infinite both; }
-
-      @keyframes fsGaze {
-        0%, 56%, 92%, 100% { transform: translate(0, 0); }
-        60%, 88% { transform: translate(-1px, -2.5px); }
-      }
-
-      .fs-cloud { animation: fsDrift 9s ease-in-out infinite alternate; }
-
-      @keyframes fsDrift { to { transform: translateX(14px); } }
+      .fs-bit { animation-name: fsBurst; animation-timing-function: cubic-bezier(0.2, 0.7, 0.3, 1); }
     }
 
     .fs-steam path {
@@ -2462,10 +2494,11 @@
         </div>
 
         <div class="fs-art fs-art-in">
-          <!-- Design your future: a student sketches their own path up a mountain; soft skills light up along it
-               and a flag marked Your Future rises at the summit -->
+          <!-- Design your future: a two-day journey. A pencil line draws the path through all eight sessions of the
+               programme, Day 1 along the top (Discover Yourself and Your Possibilities), overnight round the bend,
+               Day 2 back along the bottom (Build Your Capabilities and Career Engine), ending at Your Career Map -->
           <svg viewBox="0 0 520 520" role="img"
-            aria-label="Illustration of a student sketching their own path up a mountain with a big pencil. As the line is drawn, soft skills appear along the way: communication, teamwork, confidence and leadership. At the summit a flag marked Your Future rises in front of the morning sun">
+            aria-label="Illustration of the two-day Design Your Future journey. A pencil line draws a path through eight sessions: on Day 1 Understand the World, Discover Yourself, Learn, Express and Connect, and Discover Your Starting Point; on Day 2 Master Your Human Advantage, Build Your AI Engine, Show Your Value and Your Career Map">
             <defs>
               <linearGradient id="artBg" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0" stop-color="#EEF2FF" />
@@ -2474,22 +2507,6 @@
               <pattern id="fsGrid" width="26" height="26" patternUnits="userSpaceOnUse">
                 <path d="M26 0 H0 V26" fill="none" stroke="#DCE4FF" stroke-width="0.8" />
               </pattern>
-              <radialGradient id="fsSunGlow">
-                <stop offset="0" stop-color="#FFD66B" stop-opacity="0.75" />
-                <stop offset="1" stop-color="#FFD66B" stop-opacity="0" />
-              </radialGradient>
-              <linearGradient id="fsSun" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#FFE38A" />
-                <stop offset="1" stop-color="#FFB627" />
-              </linearGradient>
-              <linearGradient id="fsMtn" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#C3D3FF" />
-                <stop offset="1" stop-color="#EAF0FF" />
-              </linearGradient>
-              <linearGradient id="fsMtnBack" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#DCE5FF" />
-                <stop offset="1" stop-color="#F2F5FF" />
-              </linearGradient>
               <filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
                 <feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#0A1530" flood-opacity="0.1" />
               </filter>
@@ -2498,121 +2515,94 @@
             <circle cx="260" cy="255" r="225" fill="url(#artBg)" />
             <circle cx="260" cy="255" r="225" fill="url(#fsGrid)" opacity="0.8" />
             <circle cx="260" cy="255" r="175" fill="none" stroke="#E3E9FF" stroke-width="1.5" stroke-dasharray="3 7" />
-            <ellipse cx="270" cy="464" rx="235" ry="10" fill="#0A1530" opacity="0.06" />
 
-            <!-- the story, one 10s loop (CSS above): the pencil draws the path, the skills light up as it passes,
-                 the sun rises and the flag goes up, the student cheers, then it starts again -->
+            <!-- one 12s loop (CSS above): the line is drawn, each session lights up as the pencil reaches it,
+                 Day 2 begins round the bend, the last session celebrates, then it starts again -->
             <g class="fs-story">
-              <!-- morning sun behind the summit -->
-              <g class="fs-sun">
-                <circle cx="306" cy="128" r="96" fill="url(#fsSunGlow)" />
-                <g class="fs-rays" stroke="#FFC23D" stroke-width="3" stroke-linecap="round" opacity="0.8">
-                  <line x1="358.0" y1="128.0" x2="370.0" y2="128.0" /><line x1="351.0" y1="154.0" x2="361.4" y2="160.0" /><line x1="332.0" y1="173.0" x2="338.0" y2="183.4" /><line x1="306.0" y1="180.0" x2="306.0" y2="192.0" /><line x1="280.0" y1="173.0" x2="274.0" y2="183.4" /><line x1="261.0" y1="154.0" x2="250.6" y2="160.0" /><line x1="254.0" y1="128.0" x2="242.0" y2="128.0" /><line x1="261.0" y1="102.0" x2="250.6" y2="96.0" /><line x1="280.0" y1="83.0" x2="274.0" y2="72.6" /><line x1="306.0" y1="76.0" x2="306.0" y2="64.0" /><line x1="332.0" y1="83.0" x2="338.0" y2="72.6" /><line x1="351.0" y1="102.0" x2="361.4" y2="96.0" />
-                </g>
-                <circle cx="306" cy="128" r="40" fill="url(#fsSun)" />
-              </g>
-
-              <!-- clouds -->
-              <g class="fs-cloud"><path d="M196 132 h44 a10 10 0 0 0 -8 -16 a14 14 0 0 0 -26 -4 a9 9 0 0 0 -10 20 z" fill="#FFFFFF" stroke="#E1E8FA" stroke-width="1.2" /></g>
-              <g class="fs-cloud" style="animation-delay:-5s"><path d="M432 268 h46 a10 10 0 0 0 -8 -16 a14 14 0 0 0 -27 -4 a9 9 0 0 0 -11 20 z" fill="#FFFFFF" stroke="#E1E8FA" stroke-width="1.2" /></g>
-
-              <!-- mountains -->
-              <path d="M330 464 L408 270 Q416 256 424 270 L508 464 Z" fill="url(#fsMtnBack)" />
-              <path d="M66 464 L140 336 Q150 322 160 336 L216 432 L230 464 Z" fill="url(#fsMtnBack)" />
-              <path d="M84 464 C150 380 214 262 288 156 Q306 130 324 156 C398 262 448 372 508 464 Z" fill="url(#fsMtn)" />
-              <path d="M306 135 C326 210 356 320 392 464 H508 C448 372 398 262 324 156 Q316 142 306 135 Z" fill="#A9C0FF" opacity="0.35" />
-              <path d="M288 156 Q306 130 324 156 L318 164 L311 158 L304 167 L297 159 Z" fill="#FFFFFF" />
-              <g fill="#5B7CFF" opacity="0.55">
-                <path d="M452 462 L462 436 L472 462 Z" /><path d="M468 462 L480 428 L492 462 Z" /><path d="M118 462 L126 442 L134 462 Z" />
-              </g>
-
               <!-- the plan (faint guide) and the line as it is drawn -->
-              <path d="M152 452 C270 458 372 456 372 428 C372 402 214 398 214 372 C214 346 384 342 384 314 C384 288 240 284 240 256 C240 226 306 196 306 154" fill="none" stroke="#9FB4F5" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 6" />
-              <path class="fs-ink fs-ink-glow" d="M152 452 C270 458 372 456 372 428 C372 402 214 398 214 372 C214 346 384 342 384 314 C384 288 240 284 240 256 C240 226 306 196 306 154" fill="none" stroke="#0054FA" stroke-width="11" stroke-linecap="round" opacity="0.14" stroke-dasharray="875.2 875.2" />
-              <path class="fs-ink" d="M152 452 C270 458 372 456 372 428 C372 402 214 398 214 372 C214 346 384 342 384 314 C384 288 240 284 240 256 C240 226 306 196 306 154" fill="none" stroke="#0054FA" stroke-width="4" stroke-linecap="round" stroke-dasharray="875.2 875.2" />
-              <circle cx="152" cy="452" r="5" fill="#FFFFFF" stroke="#0054FA" stroke-width="2.5" />
+              <path d="M100 185 H400 A70 70 0 0 1 400 325 H100" fill="none" stroke="#9FB4F5" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 6" />
+              <path class="fs-ink fs-ink-glow" pathLength="100" d="M100 185 H400 A70 70 0 0 1 400 325 H100" fill="none" stroke="#0054FA" stroke-width="11" stroke-linecap="round" opacity="0.14" stroke-dasharray="100 100" />
+              <path class="fs-ink" pathLength="100" d="M100 185 H400 A70 70 0 0 1 400 325 H100" fill="none" stroke="#0054FA" stroke-width="4" stroke-linecap="round" stroke-dasharray="100 100" />
+              
+              <g transform="translate(180 256)"><g class="fs-d1">
+                <rect x="-64" y="-14" width="128" height="28" rx="14" fill="#FFFFFF" stroke="#DCE3F5" stroke-width="1.2" filter="url(#soft)" />
+                <g transform="translate(-44 0)"><circle r="6" fill="#FFC23D" /><g stroke="#FFC23D" stroke-width="1.6" stroke-linecap="round"><line x1="9.0" y1="0.0" x2="12.0" y2="0.0" /><line x1="6.4" y1="6.4" x2="8.5" y2="8.5" /><line x1="0.0" y1="9.0" x2="0.0" y2="12.0" /><line x1="-6.4" y1="6.4" x2="-8.5" y2="8.5" /><line x1="-9.0" y1="0.0" x2="-12.0" y2="0.0" /><line x1="-6.4" y1="-6.4" x2="-8.5" y2="-8.5" /><line x1="-0.0" y1="-9.0" x2="-0.0" y2="-12.0" /><line x1="6.4" y1="-6.4" x2="8.5" y2="-8.5" /></g></g>
+                <text x="8" y="3.8" text-anchor="middle" class="fs-day">DAY 1 · 7 HOURS</text>
+              </g></g>
+              
+              <g transform="translate(320 256)"><g class="fs-d2">
+                <rect x="-64" y="-14" width="128" height="28" rx="14" fill="#FFFFFF" stroke="#DCE3F5" stroke-width="1.2" filter="url(#soft)" />
+                <g transform="translate(-44 0)"><path d="M2.4 -8 A8.4 8.4 0 1 0 8.2 3 A6.6 6.6 0 0 1 2.4 -8 Z" fill="#FFC23D" /><circle cx="9" cy="-6" r="1.1" fill="#FFC23D" /></g>
+                <text x="8" y="3.8" text-anchor="middle" class="fs-day">DAY 2 · 7 HOURS</text>
+              </g></g>
+              
+              <g class="fs-st" transform="translate(100 185)">
+                <circle r="15" fill="#FFFFFF" stroke="#CFDBFF" stroke-width="1.5" />
+                <text class="fs-num fs-num0" y="3.8">01</text>
+                <circle class="fs-ring fs-r1" r="15" fill="none" stroke="#0054FA" stroke-width="2" />
+                <g class="fs-badge fs-b1"><circle r="15" fill="#0054FA" filter="url(#soft)" /><text class="fs-num fs-num1" y="3.8">01</text></g>
+                <g class="fs-label fs-l1"><rect x="-22" y="-43" width="131" height="22" rx="11" fill="#FFFFFF" stroke="#DCE3F5" stroke-width="1.2" filter="url(#soft)" />
+                  <text x="43.5" y="-28.2" class="fs-lbl" fill="#001A3B" style="fill:#001A3B">Understand the World</text></g>
+              </g>
+              <g class="fs-st" transform="translate(200 185)">
+                <circle r="15" fill="#FFFFFF" stroke="#CFDBFF" stroke-width="1.5" />
+                <text class="fs-num fs-num0" y="3.8">02</text>
+                <circle class="fs-ring fs-r2" r="15" fill="none" stroke="#0054FA" stroke-width="2" />
+                <g class="fs-badge fs-b2"><circle r="15" fill="#0054FA" filter="url(#soft)" /><text class="fs-num fs-num1" y="3.8">02</text></g>
+                <g class="fs-label fs-l2"><rect x="-75.5" y="21" width="115" height="22" rx="11" fill="#FFFFFF" stroke="#DCE3F5" stroke-width="1.2" filter="url(#soft)" />
+                  <text x="-18" y="35.8" class="fs-lbl" fill="#001A3B" style="fill:#001A3B">Discover Yourself</text></g>
+              </g>
+              <g class="fs-st" transform="translate(300 185)">
+                <circle r="15" fill="#FFFFFF" stroke="#CFDBFF" stroke-width="1.5" />
+                <text class="fs-num fs-num0" y="3.8">03</text>
+                <circle class="fs-ring fs-r3" r="15" fill="none" stroke="#0054FA" stroke-width="2" />
+                <g class="fs-badge fs-b3"><circle r="15" fill="#0054FA" filter="url(#soft)" /><text class="fs-num fs-num1" y="3.8">03</text></g>
+                <g class="fs-label fs-l3"><rect x="-76" y="-43" width="152" height="22" rx="11" fill="#FFFFFF" stroke="#DCE3F5" stroke-width="1.2" filter="url(#soft)" />
+                  <text x="0" y="-28.2" class="fs-lbl" fill="#001A3B" style="fill:#001A3B">Learn, Express &amp; Connect</text></g>
+              </g>
+              <g class="fs-st" transform="translate(400 185)">
+                <circle r="15" fill="#FFFFFF" stroke="#CFDBFF" stroke-width="1.5" />
+                <text class="fs-num fs-num0" y="3.8">04</text>
+                <circle class="fs-ring fs-r4" r="15" fill="none" stroke="#0054FA" stroke-width="2" />
+                <g class="fs-badge fs-b4"><circle r="15" fill="#0054FA" filter="url(#soft)" /><text class="fs-num fs-num1" y="3.8">04</text></g>
+                <g class="fs-label fs-l4"><rect x="-152" y="21" width="174" height="22" rx="11" fill="#FFFFFF" stroke="#DCE3F5" stroke-width="1.2" filter="url(#soft)" />
+                  <text x="-65" y="35.8" class="fs-lbl" fill="#001A3B" style="fill:#001A3B">Discover Your Starting Point</text></g>
+              </g>
+              <g class="fs-st" transform="translate(400 325)">
+                <circle r="15" fill="#FFFFFF" stroke="#CFDBFF" stroke-width="1.5" />
+                <text class="fs-num fs-num0" y="3.8">05</text>
+                <circle class="fs-ring fs-r5" r="15" fill="none" stroke="#0054FA" stroke-width="2" />
+                <g class="fs-badge fs-b5"><circle r="15" fill="#0054FA" filter="url(#soft)" /><text class="fs-num fs-num1" y="3.8">05</text></g>
+                <g class="fs-label fs-l5"><rect x="-146" y="21" width="168" height="22" rx="11" fill="#FFFFFF" stroke="#DCE3F5" stroke-width="1.2" filter="url(#soft)" />
+                  <text x="-62" y="35.8" class="fs-lbl" fill="#001A3B" style="fill:#001A3B">Master Your Human Advantage</text></g>
+              </g>
+              <g class="fs-st" transform="translate(300 325)">
+                <circle r="15" fill="#FFFFFF" stroke="#CFDBFF" stroke-width="1.5" />
+                <text class="fs-num fs-num0" y="3.8">06</text>
+                <circle class="fs-ring fs-r6" r="15" fill="none" stroke="#0054FA" stroke-width="2" />
+                <g class="fs-badge fs-b6"><circle r="15" fill="#0054FA" filter="url(#soft)" /><text class="fs-num fs-num1" y="3.8">06</text></g>
+                <g class="fs-label fs-l6"><rect x="-65.5" y="-43" width="131" height="22" rx="11" fill="#FFFFFF" stroke="#DCE3F5" stroke-width="1.2" filter="url(#soft)" />
+                  <text x="0" y="-28.2" class="fs-lbl" fill="#001A3B" style="fill:#001A3B">Build Your AI Engine</text></g>
+              </g>
+              <g class="fs-st" transform="translate(200 325)">
+                <circle r="15" fill="#FFFFFF" stroke="#CFDBFF" stroke-width="1.5" />
+                <text class="fs-num fs-num0" y="3.8">07</text>
+                <circle class="fs-ring fs-r7" r="15" fill="none" stroke="#0054FA" stroke-width="2" />
+                <g class="fs-badge fs-b7"><circle r="15" fill="#0054FA" filter="url(#soft)" /><text class="fs-num fs-num1" y="3.8">07</text></g>
+                <g class="fs-label fs-l7"><rect x="-52" y="21" width="104" height="22" rx="11" fill="#FFFFFF" stroke="#DCE3F5" stroke-width="1.2" filter="url(#soft)" />
+                  <text x="0" y="35.8" class="fs-lbl" fill="#001A3B" style="fill:#001A3B">Show Your Value</text></g>
+              </g>
+              <g class="fs-st" transform="translate(100 325)">
+                <circle r="15" fill="#FFFFFF" stroke="#CFDBFF" stroke-width="1.5" />
+                <text class="fs-num fs-num0" y="3.8">08</text>
+                <circle class="fs-ring fs-r8" r="15" fill="none" stroke="#0054FA" stroke-width="2" />
+                <g class="fs-badge fs-b8"><circle r="15" fill="#0054FA" filter="url(#soft)" /><text class="fs-num fs-num1" y="3.8">08</text></g>
+                <g class="fs-label fs-l8"><rect x="-22" y="-43" width="104" height="22" rx="11" fill="#0054FA" stroke="#0054FA" stroke-width="1.2" filter="url(#soft)" />
+                  <text x="30" y="-28.2" class="fs-lbl" fill="#FFFFFF" style="fill:#FFFFFF">Your Career Map</text></g>
+              </g>
 
-              <!-- soft skills along the way -->
-              <g class="fs-n1" transform="translate(372 428)">
-                <g class="fs-label" style="transform-origin:22px 0px"><rect x="22" y="-10" width="103" height="20" rx="10" fill="#FFFFFF" stroke="#DCE3F5" stroke-width="1.2" filter="url(#soft)" />
-                  <text x="73.5" y="3.8" text-anchor="middle" class="fs-lbl">Communication</text></g>
-                <circle class="fs-ring" r="17" fill="none" stroke="#0054FA" stroke-width="2" />
-                <g class="fs-badge"><circle r="17" fill="#FFFFFF" stroke="#CFDBFF" stroke-width="1.5" filter="url(#soft)" />
-                  <rect x="-1.5" y="-9" width="11" height="8.5" rx="3" fill="#FFC23D" />
-                  <path d="M-6.5 -5 H2.5 A3 3 0 0 1 5.5 -2 V2.5 A3 3 0 0 1 2.5 5.5 H-2 L-6 9 V5.5 H-6.5 A3 3 0 0 1 -9.5 2.5 V-2 A3 3 0 0 1 -6.5 -5 Z" fill="#0054FA" />
-                  <g fill="#FFFFFF"><circle cx="-5.5" cy="0.3" r="1.1" /><circle cx="-2" cy="0.3" r="1.1" /><circle cx="1.5" cy="0.3" r="1.1" /></g></g>
-              </g>
-              <g class="fs-n2" transform="translate(214 372)">
-                <g class="fs-label" style="transform-origin:-22px 0px"><rect x="-93" y="-10" width="71" height="20" rx="10" fill="#FFFFFF" stroke="#DCE3F5" stroke-width="1.2" filter="url(#soft)" />
-                  <text x="-57.5" y="3.8" text-anchor="middle" class="fs-lbl">Teamwork</text></g>
-                <circle class="fs-ring" r="17" fill="none" stroke="#0054FA" stroke-width="2" />
-                <g class="fs-badge"><circle r="17" fill="#FFFFFF" stroke="#CFDBFF" stroke-width="1.5" filter="url(#soft)" />
-                  <g fill="#001A3B"><circle cx="-6.5" cy="-2.5" r="2.6" /><path d="M-11 6 Q-11 1 -6.5 1 Q-3.5 1 -2.6 3.5 L-3 6 Z" />
-                  <circle cx="6.5" cy="-2.5" r="2.6" /><path d="M11 6 Q11 1 6.5 1 Q3.5 1 2.6 3.5 L3 6 Z" /></g>
-                  <circle cy="-4.5" r="3.4" fill="#0054FA" /><path d="M-5.5 7 Q-5.5 0 0 0 Q5.5 0 5.5 7 Z" fill="#0054FA" /></g>
-              </g>
-              <g class="fs-n3" transform="translate(384 314)">
-                <g class="fs-label" style="transform-origin:22px 0px"><rect x="22" y="-10" width="84" height="20" rx="10" fill="#FFFFFF" stroke="#DCE3F5" stroke-width="1.2" filter="url(#soft)" />
-                  <text x="64" y="3.8" text-anchor="middle" class="fs-lbl">Confidence</text></g>
-                <circle class="fs-ring" r="17" fill="none" stroke="#0054FA" stroke-width="2" />
-                <g class="fs-badge"><circle r="17" fill="#FFFFFF" stroke="#CFDBFF" stroke-width="1.5" filter="url(#soft)" />
-                  <path d="M0 -9.5 L2.8 -3.3 L9.4 -2.7 L4.4 1.7 L5.9 8.3 L0 4.8 L-5.9 8.3 L-4.4 1.7 L-9.4 -2.7 L-2.8 -3.3 Z" fill="#FFC23D" stroke="#F0A818" stroke-width="1" stroke-linejoin="round" /></g>
-              </g>
-              <g class="fs-n4" transform="translate(240 256)">
-                <g class="fs-label" style="transform-origin:-22px 0px"><rect x="-106" y="-10" width="84" height="20" rx="10" fill="#FFFFFF" stroke="#DCE3F5" stroke-width="1.2" filter="url(#soft)" />
-                  <text x="-64" y="3.8" text-anchor="middle" class="fs-lbl">Leadership</text></g>
-                <circle class="fs-ring" r="17" fill="none" stroke="#0054FA" stroke-width="2" />
-                <g class="fs-badge"><circle r="17" fill="#FFFFFF" stroke="#CFDBFF" stroke-width="1.5" filter="url(#soft)" />
-                  <circle r="8.6" fill="none" stroke="#001A3B" stroke-width="1.8" />
-                  <path d="M0 -6.6 L2.6 0 H-2.6 Z" fill="#FF5A5F" /><path d="M0 6.6 L2.6 0 H-2.6 Z" fill="#0054FA" />
-                  <circle r="1.3" fill="#001A3B" /></g>
-              </g>
-
-              <!-- the summit: flag and confetti -->
-              <g class="fs-flag">
-                <line x1="306" y1="156" x2="306" y2="88" stroke="#001A3B" stroke-width="2.6" stroke-linecap="round" />
-                <circle cx="306" cy="87" r="3" fill="#FFC23D" />
-                <g class="fs-cloth">
-                  <path d="M307 91 Q327 85 346 91 T385 91 V119 Q365 113 346 119 T307 119 Z" fill="#0054FA" />
-                  <text x="346" y="108.5" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.2" font-weight="800"
-                    fill="#FFFFFF" letter-spacing="0.6">YOUR FUTURE</text>
-                </g>
-              </g>
-              <circle cx="306" cy="155" r="6" fill="#FFFFFF" stroke="#0054FA" stroke-width="2.5" />
-              <g class="fs-burst"><g class="fs-bit" style="--dx:-41px; --dy:-5px; --r:-123deg" fill="#0054FA"><rect x="304" y="147" width="4" height="6" rx="1" /></g><g class="fs-bit" style="--dx:-40px; --dy:-16px; --r:-176deg" fill="#FFC23D"><circle cx="306" cy="150" r="2.6" /></g><g class="fs-bit" style="--dx:-28px; --dy:-21px; --r:74deg" fill="#3BB273"><rect x="304" y="147" width="4" height="6" rx="1" /></g><g class="fs-bit" style="--dx:-22px; --dy:-29px; --r:98deg" fill="#FF5A5F"><circle cx="306" cy="150" r="2.6" /></g><g class="fs-bit" style="--dx:-14px; --dy:-33px; --r:59deg" fill="#7FA6FF"><rect x="304" y="147" width="4" height="6" rx="1" /></g><g class="fs-bit" style="--dx:-5px; --dy:-38px; --r:-156deg" fill="#0054FA"><circle cx="306" cy="150" r="2.6" /></g><g class="fs-bit" style="--dx:6px; --dy:-43px; --r:-165deg" fill="#FFC23D"><rect x="304" y="147" width="4" height="6" rx="1" /></g><g class="fs-bit" style="--dx:15px; --dy:-36px; --r:82deg" fill="#3BB273"><circle cx="306" cy="150" r="2.6" /></g><g class="fs-bit" style="--dx:27px; --dy:-34px; --r:89deg" fill="#FF5A5F"><rect x="304" y="147" width="4" height="6" rx="1" /></g><g class="fs-bit" style="--dx:29px; --dy:-22px; --r:-86deg" fill="#7FA6FF"><circle cx="306" cy="150" r="2.6" /></g><g class="fs-bit" style="--dx:44px; --dy:-18px; --r:98deg" fill="#0054FA"><rect x="304" y="147" width="4" height="6" rx="1" /></g><g class="fs-bit" style="--dx:54px; --dy:-7px; --r:95deg" fill="#FFC23D"><circle cx="306" cy="150" r="2.6" /></g></g>
-
-              <!-- the student, sketching their own path -->
-              <g transform="translate(92 462)">
-                <ellipse cx="10" cy="0" rx="30" ry="4" fill="#0A1530" opacity="0.12" />
-                <g class="fs-s-body">
-                  <g class="fs-s-cheer">
-                    <line x1="-13" y1="-82" x2="-19" y2="-56" stroke="#0049DE" stroke-width="8.5" stroke-linecap="round" />
-                    <circle cx="-19.5" cy="-52.5" r="4.6" fill="#E8B98F" />
-                  </g>
-                  <rect x="-11" y="-46" width="9" height="42" rx="4.5" fill="#1E2A55" />
-                  <rect x="2" y="-46" width="9" height="42" rx="4.5" fill="#1E2A55" />
-                  <path d="M-15 -1 Q-15 -7 -7 -7 Q0 -7 0 -1 Z" fill="#0D1630" />
-                  <path d="M1 -1 Q1 -7 9 -7 Q17 -7 17 -1 Z" fill="#0D1630" />
-                  <path d="M-18 -40 V-74 Q-18 -90 0 -90 Q18 -90 18 -74 V-40 Q0 -36 -18 -40 Z" fill="#0054FA" />
-                  <path d="M-9 -54 H9 V-46 Q0 -44 -9 -46 Z" fill="#0049DE" />
-                  <path d="M-11 -89 Q0 -80 11 -89" fill="none" stroke="#0049DE" stroke-width="4" stroke-linecap="round" />
-                  <g stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round"><line x1="-3" y1="-84" x2="-3" y2="-75" /><line x1="3" y1="-84" x2="3" y2="-77" /></g>
-                  <rect x="-4" y="-96" width="8" height="8" rx="2" fill="#D9A578" />
-                  <g class="fs-s-head">
-                    <circle cx="2" cy="-107" r="15" fill="#E8B98F" />
-                    <circle cx="-11" cy="-105" r="3.6" fill="#D9A578" />
-                    <path d="M-14 -102 Q-17 -125 3 -124 Q19 -123 18 -108 Q11 -116 1 -114 Q-6 -112 -8 -103 Z" fill="#1B1F3B" />
-                    <g class="fs-s-eyes" fill="#0D1630"><circle cx="6.5" cy="-105" r="1.7" /><circle cx="13" cy="-105" r="1.7" /></g>
-                    <path d="M7 -98.5 q3.4 3 6.6 -0.4" fill="none" stroke="#0D1630" stroke-width="1.6" stroke-linecap="round" />
-                    <circle cx="15" cy="-100" r="2.4" fill="#FF8A8A" opacity="0.45" />
-                  </g>
-                  <g class="fs-s-arm">
-                    <path d="M33.1 -66.1 L37.0 -59.1 L30.0 -55.2 L26.1 -62.1 Z" fill="#FF8FA3" /><path d="M37.2 -59.2 L39.1 -55.7 L31.8 -51.6 L29.8 -55.1 Z" fill="#B8C2D9" /><path d="M38.9 -55.6 L58.1 -21.5 L51.1 -17.6 L32.0 -51.7 Z" fill="#FFC23D" /><path d="M36.6 -54.3 L55.7 -20.2 L53.5 -18.9 L34.3 -53.0 Z" fill="#F0A818" /><path d="M58.1 -21.5 L60.2 -11.8 L51.1 -17.6 Z" fill="#F6D7A7" /><path d="M59.6 -13.9 L60.0 -10.0 L56.8 -12.4 Z" fill="#0D1630" />
-                    <line x1="13" y1="-82" x2="31" y2="-61" stroke="#0054FA" stroke-width="8.5" stroke-linecap="round" />
-                    <circle cx="33" cy="-58" r="4.8" fill="#E8B98F" />
-                  </g>
-                </g>
-              </g>
+              <!-- the last session: confetti -->
+              <g transform="translate(100 325)"><g class="fs-burst"><g class="fs-bit" style="--dx:38px; --dy:4px; --r:163deg" fill="#0054FA"><circle r="2.6" /></g><g class="fs-bit" style="--dx:50px; --dy:25px; --r:-122deg" fill="#FFC23D"><rect x="-2" y="-3" width="4" height="6" rx="1" /></g><g class="fs-bit" style="--dx:19px; --dy:30px; --r:89deg" fill="#3BB273"><circle r="2.6" /></g><g class="fs-bit" style="--dx:6px; --dy:36px; --r:44deg" fill="#FF5A5F"><rect x="-2" y="-3" width="4" height="6" rx="1" /></g><g class="fs-bit" style="--dx:-9px; --dy:35px; --r:47deg" fill="#7FA6FF"><circle r="2.6" /></g><g class="fs-bit" style="--dx:-31px; --dy:38px; --r:-56deg" fill="#0054FA"><rect x="-2" y="-3" width="4" height="6" rx="1" /></g><g class="fs-bit" style="--dx:-48px; --dy:13px; --r:-139deg" fill="#FFC23D"><circle r="2.6" /></g><g class="fs-bit" style="--dx:-44px; --dy:-8px; --r:-57deg" fill="#3BB273"><rect x="-2" y="-3" width="4" height="6" rx="1" /></g><g class="fs-bit" style="--dx:-50px; --dy:-25px; --r:-22deg" fill="#FF5A5F"><circle r="2.6" /></g><g class="fs-bit" style="--dx:-25px; --dy:-41px; --r:122deg" fill="#7FA6FF"><rect x="-2" y="-3" width="4" height="6" rx="1" /></g><g class="fs-bit" style="--dx:-7px; --dy:-55px; --r:-78deg" fill="#0054FA"><circle r="2.6" /></g><g class="fs-bit" style="--dx:12px; --dy:-47px; --r:-74deg" fill="#FFC23D"><rect x="-2" y="-3" width="4" height="6" rx="1" /></g><g class="fs-bit" style="--dx:34px; --dy:-34px; --r:-138deg" fill="#3BB273"><circle r="2.6" /></g><g class="fs-bit" style="--dx:48px; --dy:-14px; --r:84deg" fill="#FF5A5F"><rect x="-2" y="-3" width="4" height="6" rx="1" /></g></g></g>
 
               <!-- the glowing pencil tip, moved along the line by the script at the end of the page -->
               <g id="fs-spark" class="fs-spark" pointer-events="none">
@@ -2627,19 +2617,6 @@
               fill="#1947FF" opacity="0.5" />
             <path class="fs-twinkle" style="animation-delay:-2.1s" d="M44 292 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3z"
               fill="#FFC23D" />
-
-            <g transform="translate(-13 146.6) scale(.68)">
-            <!-- books + plant -->
-            <rect x="30" y="440" width="80" height="18" rx="3" fill="#1947FF" />
-            <rect x="36" y="422" width="70" height="18" rx="3" fill="#FFC23D" />
-            <rect x="28" y="404" width="76" height="18" rx="3" fill="#0D1630" />
-            <g class="fs-leaves">
-              <ellipse cx="60" cy="364" rx="7" ry="16" fill="#3BB273" transform="rotate(-28 60 364)" />
-              <ellipse cx="76" cy="362" rx="7" ry="16" fill="#2E9A61" transform="rotate(28 76 362)" />
-              <ellipse cx="68" cy="354" rx="6" ry="18" fill="#47C483" />
-            </g>
-            <path d="M52 380 H84 L80 404 H56 Z" fill="#FFFFFF" stroke="#DCE3F5" stroke-width="2" />
-            </g>
           </svg>
 
           <div class="fs-chip fs-chip--a" aria-hidden="true">
@@ -2725,35 +2702,69 @@
     </div>
   </section>
 
-  <!-- HOW IT WORKS -->
+  <!-- HOW IT WORKS: the two days and eight sessions of the programme guide -->
   <section class="dyf-section" id="how-it-works">
     <div class="fs-wrap">
       <div class="dyf-head">
-        <span class="eyebrow">How it works</span>
-        <h2>Five steps to a <span class="serif">clear direction.</span></h2>
+        <span class="eyebrow">The programme</span>
+        <h2>Two days. Eight sessions. <span class="serif">One clear direction.</span></h2>
       </div>
-      <ol class="steps">
-        <li>
-          <h3>Understand Yourself</h3>
-          <p>Strengths, interests and motivations.</p>
-        </li>
-        <li>
-          <h3>Explore Paths</h3>
-          <p>Employment, freelance, startup or hybrid.</p>
-        </li>
-        <li>
-          <h3>Find Skill Gaps</h3>
-          <p>What your direction really needs.</p>
-        </li>
-        <li>
-          <h3>Build Capabilities</h3>
-          <p>Human skills plus a foundation in AI.</p>
-        </li>
-        <li>
-          <h3>Map Your Roadmap</h3>
-          <p>A personal plan for what comes next.</p>
-        </li>
-      </ol>
+      <div class="days">
+      <article class="day-card">
+        <header class="day-head">
+          <span class="day-tag">Day 1</span>
+          <span class="day-big" aria-hidden="true">01</span>
+          <h3>Discover Yourself &amp; Your Possibilities</h3>
+          <p class="day-meta">7 hours &middot; 4 sessions</p>
+          <p class="day-bar" aria-hidden="true"><i style="--h:1; --i:0"></i><i style="--h:1; --i:1"></i><i style="--h:1; --i:2"></i><i style="--h:1; --i:3"></i></p>
+        </header>
+        <ol class="day-list">
+          <li>
+            <span class="day-n">01</span>
+            <div><h3>Understand the World</h3><p>Understand the changing world you are entering, and why designing your career has become important.</p></div>
+          </li>
+          <li>
+            <span class="day-n">02</span>
+            <div><h3>Discover Yourself</h3><p>Begin understanding yourself more deeply: your strengths, your potential and what holds you back.</p></div>
+          </li>
+          <li>
+            <span class="day-n">03</span>
+            <div><h3>Learn, Express &amp; Connect</h3><p>Become a better learner and a more confident communicator.</p></div>
+          </li>
+          <li>
+            <span class="day-n">04</span>
+            <div><h3>Discover Your Starting Point</h3><p>Begin your personal self-analysis, the starting point for your DYF Career Report.</p></div>
+          </li>
+        </ol>
+      </article>
+      <article class="day-card">
+        <header class="day-head">
+          <span class="day-tag">Day 2</span>
+          <span class="day-big" aria-hidden="true">02</span>
+          <h3>Build Your Capabilities &amp; Career Engine</h3>
+          <p class="day-meta">7 hours &middot; 4 sessions</p>
+          <p class="day-bar" aria-hidden="true"><i style="--h:1; --i:0"></i><i style="--h:1; --i:1"></i><i style="--h:1; --i:2"></i><i style="--h:1; --i:3"></i></p>
+        </header>
+        <ol class="day-list">
+          <li>
+            <span class="day-n">05</span>
+            <div><h3>Master Your Human Advantage</h3><p>Strengthen the human capabilities that help you perform well in any career path.</p></div>
+          </li>
+          <li>
+            <span class="day-n">06</span>
+            <div><h3>Build Your AI Engine</h3><p>Build a practical foundation for using AI in your learning, work and career.</p></div>
+          </li>
+          <li>
+            <span class="day-n">07</span>
+            <div><h3>Show Your Value</h3><p>Learn to present yourself and your value with confidence in professional situations.</p></div>
+          </li>
+          <li>
+            <span class="day-n">08</span>
+            <div><h3>Your Career Map</h3><p>Receive and understand your personalised DYF Report, skill gaps, career direction and practical pathway.</p></div>
+          </li>
+        </ol>
+      </article>
+      </div>
     </div>
   </section>
 
@@ -3028,10 +3039,10 @@
 
       /* Scroll reveal (hero is left static so it paints immediately) */
       const hero = document.querySelector('.fs-hero');
-      document.querySelectorAll('.dyf-head, .faq-list details, .report, .take-list li, .final-card').forEach(el => {
+      document.querySelectorAll('.dyf-head, .faq-list details, .report, .take-list li, .final-card, .day-card').forEach(el => {
         if (!hero.contains(el)) el.classList.add('sr');
       });
-      document.querySelectorAll('.aud-grid, .steps, .take-list').forEach(group => {
+      document.querySelectorAll('.aud-grid, .steps, .take-list, .day-list').forEach(group => {
         [...group.children].forEach((card, i) => card.classList.add('sr', 'sr-scale', `sr-delay-${Math.min(i + 1, 8)}`));
       });
       const observer = new IntersectionObserver(entries => {
@@ -3095,8 +3106,8 @@
           if (onScreen) {
             const anim = ink.getAnimations()[0];
             const p = anim && anim.effect ? anim.effect.getComputedTiming().progress : null;
-            if (p != null && p >= 0.04 && p <= 0.56) {
-              const pt = ink.getPointAtLength(((p - 0.04) / 0.52) * len);
+            if (p != null && p >= 0.04 && p <= 0.84) {
+              const pt = ink.getPointAtLength(((p - 0.04) / 0.80) * len);
               spark.setAttribute('transform', 'translate(' + pt.x.toFixed(1) + ' ' + pt.y.toFixed(1) + ')');
               spark.style.opacity = 1;
             } else {
