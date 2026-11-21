@@ -17,6 +17,7 @@ Instagram: https://www.instagram.com/kompetenzen.techschool
 
 ## Jobs and career tools
 
+- [Kompetenzen Jobs](https://www.kompetenzen.in/job-portal): the starting page for the job portal, with one button for jobs and one for internships, live opening counts, how it works and an employer contact.
 - [Jobs for freshers in Kerala](https://www.kompetenzen.in/jobs): a job portal for freshers and graduates in Kerala with verified tech, HR, sales and management openings from hiring partners in Kochi, Trivandrum and across Kerala. Applying is 100% free, with no placement charges. Candidates apply with one saved profile and can register for job alerts.
 - [Internships](https://www.kompetenzen.in/internships): tech, HR and management internships for students and freshers in Kerala, applied for with one internship profile.
 - [Free Resume Builder](https://www.kompetenzen.in/Resume/): free for every job seeker. ATS-friendly templates, AI suggestions and PDF download.

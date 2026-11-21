@@ -20,6 +20,8 @@
   var current = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
   var active = ((script && script.getAttribute('data-active')) || current).toLowerCase();
   var position = (script && script.getAttribute('data-position')) || '';
+  // data-resume-url: where the Resume Builder link goes when the builder has its own address
+  var resumeUrl = (script && script.getAttribute('data-resume-url')) || '';
   var fixed = position === 'fixed';
   var fixedAll = position === 'fixed-all';
   // data-account="off": leave out Sign up and the account badge (pages with their own sign-in)
@@ -31,8 +33,7 @@
     { href: 'tech-school.html', label: 'Tech School' },
     { href: 'b-school.html', label: 'B-School' },
     { href: 'placements.html', label: 'Placements' },
-    { href: 'jobs.html', label: 'Jobs' },
-    { href: 'internships.html', label: 'Internships' },
+    { href: 'job-portal.html', label: 'Jobs' },
     { href: 'Resume/', label: 'Resume Builder', resume: true },
     { href: 'our-story.html', label: 'Our Story' }
   ];
@@ -165,7 +166,8 @@
 
   var linksHtml = LINKS.map(function (l) {
     var isActive = l.href.toLowerCase() === active;
-    var attrs = 'href="' + base + l.href + '"' + (isActive ? ' class="active" aria-current="page"' : '');
+    var target = l.resume && resumeUrl ? resumeUrl : base + l.href;
+    var attrs = 'href="' + target + '"' + (isActive ? ' class="active" aria-current="page"' : '');
     if (l.resume) attrs += ' data-resume-builder';
     return '<a ' + attrs + '><span>' + l.label + '</span><span class="kz-arrow" aria-hidden="true">' + (l.resume ? '↗' : '→') + '</span></a>';
   }).join('');

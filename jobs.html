@@ -511,25 +511,86 @@
       color: #93C5FD; padding: 5px 14px; border-radius: 99px; letter-spacing: 0.04em;
     }
 
-    /* LINK TO THE OTHER LISTING PAGE (jobs <-> internships) */
-    .listing-switch {
+    /* TOOLBAR: job search | internships link | create profile */
+    .jobs-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    /* the two links are compact pills sitting right after the search bar */
+    .tool-link {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 32px;
-      padding: 14px 20px;
-      border-radius: 14px;
+      gap: 8px;
+      flex: none;
+      padding: 4px 16px 4px 4px;
+      border-radius: 999px;
+      line-height: 1.2;
       border: 1px solid rgba(255, 255, 255, 0.08);
       background: rgba(255, 255, 255, 0.03);
       color: var(--ink-mute);
-      font-size: 14px;
       text-decoration: none;
-      transition: background 0.22s, border-color 0.22s, color 0.22s;
+      white-space: nowrap;
+      transition: background 0.22s, border-color 0.22s;
     }
-    .listing-switch strong { color: #FFFFFF; }
-    .listing-switch:hover { background: rgba(255, 255, 255, 0.07); border-color: rgba(255, 255, 255, 0.16); color: #FFFFFF; }
-    .listing-switch-arrow { font-weight: 700; color: #60A5FA; }
+    .tool-link:hover { background: rgba(255, 255, 255, 0.07); border-color: rgba(255, 255, 255, 0.16); }
+    .tool-link small { display: block; font-size: 10.5px; color: var(--ink-mute); }
+    .tool-link strong { display: block; font-size: 12.5px; color: #FFFFFF; }
+    .tool-ic { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; flex: none; font-size: 14px; background: rgba(59, 130, 246, 0.12); }
+    .tool-arrow { margin-left: 10px; font-size: 13px; font-weight: 700; color: #60A5FA; transition: transform 0.2s; }
+    .tool-link:hover .tool-arrow { transform: translateX(3px); }
+    .jobs-search {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 0 1 540px;
+      min-width: 0;
+      min-height: 44px;
+      padding: 0 7px 0 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(96, 165, 250, 0.3);
+      background: rgba(255, 255, 255, 0.04);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .jobs-search:focus-within { border-color: #60A5FA; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.18); }
+    .jobs-search svg { color: #60A5FA; flex: none; }
+    .jobs-search input {
+      flex: 1;
+      min-width: 0;
+      padding: 10px 0;
+      border: 0;
+      outline: none;
+      background: none;
+      color: #FFFFFF;
+      font: inherit;
+      font-size: 14px;
+    }
+    .jobs-search input::placeholder { color: var(--ink-dim); }
+    .jobs-search input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; display: none; }
+    .jobs-search-clear {
+      width: 28px;
+      height: 28px;
+      flex: none;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      color: #FFFFFF;
+      font-size: 17px;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .jobs-search-clear:hover { background: rgba(255, 255, 255, 0.16); }
+    @media (max-width: 900px) {
+      .jobs-search { flex: 1 1 100%; }
+      .tool-link { flex: 1 1 0; min-width: 0; }
+      .tool-arrow { margin-left: auto; }
+    }
+    @media (max-width: 560px) {
+      .tool-link { flex-basis: 100%; }
+      .jobs-search input { font-size: 16px; }
+    }
 
     /* GRID */
     .jobs-grid {
@@ -1103,7 +1164,7 @@
 
   <!-- NAV -->
   <!-- Shared top bar: edit js/site-nav.js to change it on every page -->
-  <script src="js/site-nav.js" data-active="jobs.html"></script>
+  <script src="js/site-nav.js" data-active="job-portal.html"></script>
 
   <!-- HERO -->
   <section class="jobs-hero">
@@ -1143,11 +1204,23 @@
   <!-- MAIN -->
   <main class="jobs-main">
 
-    <!-- Internships have their own page -->
-    <a href="internships.html" class="listing-switch">
-      <span>🎓 Student or fresher? <strong>Browse internships</strong></span>
-      <span class="listing-switch-arrow">→</span>
-    </a>
+    <div class="jobs-toolbar">
+      <div class="jobs-search" role="search">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+        <input id="jobs-search-input" type="search" placeholder="Search jobs, skills, companies or places" aria-label="Search jobs" autocomplete="off" enterkeyhint="search" />
+        <button type="button" id="jobs-search-clear" class="jobs-search-clear" aria-label="Clear search" style="display: none;">&times;</button>
+      </div>
+      <a href="internships.html" class="tool-link">
+        <span class="tool-ic" aria-hidden="true">🎓</span>
+        <span><small>Student or fresher?</small><strong>Browse internships</strong></span>
+        <span class="tool-arrow" aria-hidden="true">→</span>
+      </a>
+      <a href="create-profile.html" class="tool-link">
+        <span class="tool-ic" aria-hidden="true">📝</span>
+        <span><small>One profile for every job</small><strong>Create profile</strong></span>
+        <span class="tool-arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
 
     <div class="section-head">
       <h2 id="section-head-title">Job <span>Openings</span></h2>
@@ -1553,6 +1626,21 @@
         jobsGrid.appendChild(emptyBox);
       }
     }
+
+    const searchInput = document.getElementById('jobs-search-input');
+    const searchClear = document.getElementById('jobs-search-clear');
+    searchInput.addEventListener('input', () => {
+      searchQuery = searchInput.value;
+      searchClear.style.display = searchInput.value ? '' : 'none';
+      filterJobsings();
+    });
+    searchClear.addEventListener('click', () => {
+      searchInput.value = '';
+      searchQuery = '';
+      searchClear.style.display = 'none';
+      filterJobsings();
+      searchInput.focus();
+    });
 
     document.getElementById('retry-jobs').addEventListener('click', loadDynamicJobs);
     loadDynamicJobs();

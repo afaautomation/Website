@@ -19,6 +19,13 @@ const BAR_STYLE = '<style id="kz-site-bar">' +
   '</style>';
 const BAR_SCRIPT = '<script src="/js/site-nav.js" data-base="/" data-active="Resume/" data-position="fixed-all" data-account="off"></script>';
 
+// resume.kompetenzen.in shows the same builder at its own address. Every bar link and the builder's
+// own "../" links point back to the main website, so clicking a heading leaves for www.kompetenzen.in.
+export const RESUME_HOST = 'resume.kompetenzen.in';
+const WWW = 'https://www.kompetenzen.in/';
+const SUBDOMAIN_BAR_SCRIPT = BAR_SCRIPT.replace('data-base="/"', 'data-base="' + WWW + '" data-resume-url="/"');
+export const onResumeHost = request => new URL(request.url).hostname === RESUME_HOST;
+
 // Search-engine tags for the builder's home screen, added on the way through like the top bar (the
 // builder's own <title> is "ResumePro"). The canonical address keeps ?resume=<id> links out of search.
 const SEO_TITLE = 'Free Resume Builder: ATS-Friendly Templates | Kompetenzen';
@@ -61,7 +68,7 @@ export function withSeo(html) {
     : cleaned.replace(/<\/head>/i, () => SEO_TAGS + '</head>');
 }
 
-export async function withSiteBar(response) {
+export async function withSiteBar(response, subdomain = false) {
   const type = response.headers.get('content-type') || '';
   if (!response.ok || !type.includes('text/html')) return response;
   let out = withSeo(await response.text());
@@ -69,26 +76,33 @@ export async function withSiteBar(response) {
   if (landing && !out.includes('site-nav.js')) {
     out = out
       .replace(/<\/head>/i, () => BAR_STYLE + '</head>')
-      .replace(landing[0], () => landing[0] + BAR_SCRIPT);
+      .replace(landing[0], () => landing[0] + (subdomain ? SUBDOMAIN_BAR_SCRIPT : BAR_SCRIPT));
   }
+  if (subdomain) out = out.replace(/href="\.\.\//g, () => 'href="' + WWW);
   const result = new Response(out, response);
   result.headers.delete('content-length');
   return result;
 }
 
-export async function onRequest({ request, env }) {
-  const url = new URL(request.url);
-  const path = url.pathname.replace(/^\/Resume/, '');
-  if (path === '' || path === PAGE) return Response.redirect(url.origin + '/Resume/' + url.search, 301);
+// Serves the builder for a path relative to its root ('/' is the home screen).
+export async function serveBuilder(request, env, path) {
   if (request.method !== 'GET' && request.method !== 'HEAD') {
     return new Response('Method not allowed', { status: 405, headers: { Allow: 'GET, HEAD' } });
   }
   if (path === '/') {
     const page = await forward(request, env, PAGE);
-    const out = request.method === 'GET' ? await withSiteBar(page) : page;
+    const out = request.method === 'GET' ? await withSiteBar(page, onResumeHost(request)) : page;
     // forward() marks everything it proxies noindex; the builder's home screen is the one page to index
     if (out.ok && (out.headers.get('content-type') || '').includes('text/html')) out.headers.delete('X-Robots-Tag');
     return out;
   }
   return forward(request, env, path);
+}
+
+export async function onRequest({ request, env }) {
+  const url = new URL(request.url);
+  const path = url.pathname.replace(/^\/Resume/, '');
+  if (onResumeHost(request)) return Response.redirect(url.origin + (path || '/') + url.search, 301);
+  if (path === '' || path === PAGE) return Response.redirect(url.origin + '/Resume/' + url.search, 301);
+  return serveBuilder(request, env, path);
 }
