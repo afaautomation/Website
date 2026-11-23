@@ -556,7 +556,7 @@
         return d < 1 ? 'Today' : d < 7 ? d + 'd ago' : d < 60 ? Math.floor(d / 7) + 'w ago' : Math.floor(d / 30) + 'mo ago';
       }
 
-      // The hero board: up to four of the newest openings, jobs and internships together.
+      // The hero board: the three newest openings, jobs and internships together.
       function board(list) {
         var box = document.getElementById('board-list');
         box.textContent = '';
@@ -570,7 +570,7 @@
           box.appendChild(empty);
           return;
         }
-        list.slice(0, 4).forEach(function (j, i) {
+        list.slice(0, 3).forEach(function (j, i) {
           var name = String(j.company || j.title).trim();
           var tint = TINTS[name.split('').reduce(function (h, ch) { return (h * 31 + ch.charCodeAt(0)) >>> 0; }, 7) % TINTS.length];
           var card = el('a', 'jc');
