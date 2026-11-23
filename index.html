@@ -4402,8 +4402,7 @@
   </section>
 
   <!-- ============ JOB LISTING ============ -->
-  <!-- Copy on the left, a line-drawn job board on the right: it sketches itself in when scrolled into view,
-       then each listing in turn is highlighted, its Apply button fills and a check appears. -->
+  <!-- Job Listings: centred heading, line and one button to the Kompetenzen Jobs portal. -->
   <section id="job-listing-section" class="job-listing-section">
     <style>
       .job-listing-section {
@@ -4415,33 +4414,30 @@
       }
 
       .job-split {
-        display: grid;
-        grid-template-columns: 1.05fr .95fr;
-        gap: clamp(32px, 5vw, 72px);
-        align-items: center;
-        max-width: 1200px;
+        max-width: 960px;
         margin: 0 auto;
+        text-align: center;
       }
 
       .job-live {
         display: inline-flex;
         align-items: center;
-        gap: 9px;
-        padding: 7px 15px;
+        gap: 10px;
+        padding: 9px 20px;
         border-radius: 99px;
         background: #FFFFFF;
         border: 1px solid var(--line, rgba(10, 21, 48, 0.12));
         color: var(--ink, #02050E);
         font-family: 'Inria Sans', sans-serif;
-        font-size: 12.5px;
+        font-size: 14px;
         font-weight: 700;
         letter-spacing: 0.08em;
         text-transform: uppercase;
       }
 
       .job-live i {
-        width: 8px;
-        height: 8px;
+        width: 9px;
+        height: 9px;
         border-radius: 50%;
         background: #10B981;
         animation: jobDotPulse 2s ease-out infinite;
@@ -4454,9 +4450,9 @@
 
       .job-title {
         font-family: 'Inria Sans', sans-serif !important;
-        font-size: clamp(40px, calc(5vw / var(--fit, 1)), 72px);
+        font-size: clamp(52px, calc(6.4vw / var(--fit, 1)), 100px);
         color: var(--ink, #02050E);
-        margin: 18px 0 16px;
+        margin: 22px 0 20px;
         letter-spacing: -0.03em;
         font-weight: 700;
         line-height: 1.05;
@@ -4464,29 +4460,31 @@
 
       .job-desc {
         font-family: 'Inria Sans', sans-serif !important;
-        max-width: 560px;
-        margin: 0 0 32px;
+        max-width: 720px;
+        margin: 0 auto 40px;
         color: var(--ink-mute, #474F66);
-        font-size: clamp(16px, calc(1.6vw / var(--fit, 1)), 19px);
+        font-size: clamp(18px, calc(1.9vw / var(--fit, 1)), 24px);
         line-height: 1.62;
+        text-wrap: balance;
       }
 
       .job-cta-buttons {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
+        justify-content: center;
         gap: 12px;
       }
 
       .job-btn-primary {
         display: inline-flex;
         align-items: center;
-        gap: 12px;
-        padding: 16px 32px;
+        gap: 14px;
+        padding: 20px 26px 20px 42px;
         background: var(--ink, #02050E);
         color: #FFFFFF;
         font-family: 'Inria Sans', sans-serif !important;
-        font-size: 16px;
+        font-size: 19px;
         font-weight: 700;
         border-radius: 99px;
         text-decoration: none;
@@ -4520,11 +4518,11 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 28px;
-        height: 28px;
+        width: 36px;
+        height: 36px;
         border-radius: 50%;
         background: rgba(255, 255, 255, 0.14);
-        font-size: 14px;
+        font-size: 17px;
         transition: transform 0.25s ease, background 0.25s ease;
       }
 
@@ -4537,21 +4535,24 @@
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        gap: 10px 22px;
-        margin-top: 26px;
+        justify-content: center;
+        gap: 12px 28px;
+        margin-top: 32px;
         color: var(--ink-mute, #64748B);
         font-family: 'Inria Sans', sans-serif;
-        font-size: 13.5px;
+        font-size: 16px;
         font-weight: 500;
       }
 
       .job-trust-item {
         display: inline-flex;
         align-items: center;
-        gap: 6px;
+        gap: 8px;
       }
 
       .job-trust-item svg {
+        width: 18px;
+        height: 18px;
         color: var(--blue, #1947FF);
         flex-shrink: 0;
       }
@@ -4563,129 +4564,15 @@
         background: var(--line, rgba(10, 21, 48, 0.2));
       }
 
-      /* the line-drawn job board */
-      .job-art {
-        position: relative;
-        max-width: 560px;
-        width: 100%;
-        margin: 0 0 0 auto;
-      }
-
-      .job-art::before {
-        content: '';
-        position: absolute;
-        inset: -8% -10%;
-        z-index: -1;
-        background-image: radial-gradient(rgba(25, 71, 255, 0.16) 1.2px, transparent 1.6px);
-        background-size: 24px 24px;
-        -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 72%);
-        mask-image: radial-gradient(ellipse at center, #000 30%, transparent 72%);
-      }
-
-      .job-art svg { display: block; width: 100%; height: auto; overflow: visible; }
-      .job-art .ja-ink { stroke: var(--ink, #02050E); stroke-width: 2.5; fill: none; }
-      .job-art .ja-blue { stroke: var(--blue, #1947FF); stroke-width: 2.5; }
-      .job-art .ja-soft { stroke: #CBD5E6; stroke-width: 2.5; }
-      .job-art .ja-white { stroke: #FFFFFF; stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-      .job-art .w2 { stroke-width: 2; }
-      .job-art .w3 { stroke-width: 3; }
-      .job-art .f-white { fill: #FFFFFF; }
-      .job-art .f-tint { fill: #EEF3FF; }
-      .job-art .f-soft { fill: #E2E8F0; }
-      .job-art .f-blue { fill: var(--blue, #1947FF); }
-      .job-art .f-ink { fill: var(--ink, #02050E); }
-      /* arms are drawn as outlined tubes: a dark wide stroke with a lighter, narrower one on top */
-      .job-art .arm-o { stroke: var(--ink, #02050E); stroke-width: 15; fill: none; }
-      .job-art .arm-i { stroke: #EEF3FF; stroke-width: 10; fill: none; }
-      .job-art text { font-family: 'Inria Sans', sans-serif; font-weight: 700; }
-      .job-art .t-ink { fill: var(--ink, #02050E); }
-      .job-art .t-mute { fill: #64748B; font-weight: 600; }
-      .job-art .t-blue { fill: var(--blue, #1947FF); }
-      .job-art .t-white { fill: #FFFFFF; }
-      .job-art .t-green { fill: #047857; }
-      .job-art .link { stroke: #CBD5E6; stroke-width: 2; stroke-dasharray: 2 7; fill: none; }
-      .job-art .type-cover { transform: translateX(172px); }
-      .job-art .toast, .job-art .bub-happy { transform-box: fill-box; transform-origin: center; }
-      .job-art .toast { transform-origin: 80% 100%; }
-      .job-art .plane, .job-art .ripple, .job-art .conf, .job-art .bub-search { opacity: 0; }
-      .job-art .ripple, .job-art .conf { transform-box: fill-box; transform-origin: center; }
-
-      /* the script adds .wait (hidden) and swaps it for .on when the board scrolls into view;
-         without the script or with reduced motion the finished drawing simply shows */
-      .job-art.wait .d { stroke-dasharray: 1; stroke-dashoffset: 1; fill-opacity: 0; }
-      .job-art.on .d { stroke-dasharray: 1; animation: jaSketch 1.4s cubic-bezier(0.65, 0, 0.35, 1) both; animation-delay: var(--t, 0s); }
-      @keyframes jaSketch {
-        from { stroke-dashoffset: 1; fill-opacity: 0; }
-        65% { fill-opacity: 0; }
-        to { stroke-dashoffset: 0; fill-opacity: 1; }
-      }
-      .job-art.wait .dyn, .job-art.wait .fade { opacity: 0; }
-      .job-art.on .fade { animation: jaFade 0.6s ease both; animation-delay: var(--t, 0s); }
-      @keyframes jaFade { from { opacity: 0; } to { opacity: 1; } }
-
-      /* 8s loop: he types a search, filters light up, results slide in, he taps Apply, the application
-         flies up into an "Applied" note with confetti, an interview invite arrives; then it all resets */
-      .job-art.on .type-cover { animation: jaType 8s 1.8s infinite both; }
-      .job-art.on .chip-on-1 { animation: jaChip1 8s ease 1.8s infinite both; }
-      .job-art.on .chip-on-2 { animation: jaChip2 8s ease 1.8s infinite both; }
-      .job-art.on .chip-on-3 { animation: jaChip3 8s ease 1.8s infinite both; }
-      .job-art.on .res1 { animation: jaRes1 8s ease 1.8s infinite both; }
-      .job-art.on .res2 { animation: jaRes2 8s ease 1.8s infinite both; }
-      .job-art.on .phone { animation: jaTap 8s ease 1.8s infinite both; }
-      .job-art.on .ripple { animation: jaRipple 8s ease-out 1.8s infinite both; }
-      .job-art.on .ap-fill { animation: jaFill 8s ease 1.8s infinite both; }
-      .job-art.on .plane { animation: jaPlane 8s ease-in-out 1.8s infinite both; }
-      .job-art.on .toast, .job-art.on .bell-dot { animation: jaToast 8s ease 1.8s infinite both; }
-      .job-art.on .conf { animation: jaConf 8s ease-out 1.8s infinite both; }
-      .job-art.on .invite { animation: jaInvite 8s ease 1.8s infinite both; }
-      .job-art.on .bub-search { animation: jaBubSearch 8s ease 1.8s infinite both; }
-      .job-art.on .bub-happy { animation: jaBubHappy 8s ease 1.8s infinite both; }
-      .job-art.on .nod { transform-origin: 122px 110px; animation: jaNod 8s ease-in-out 1.8s infinite both; }
-      @keyframes jaType { 0% { transform: translateX(0); animation-timing-function: steps(21, end); } 16%, 100% { transform: translateX(172px); } }
-      @keyframes jaChip1 { 0%, 16% { opacity: 0; } 19%, 92% { opacity: 1; } 97%, 100% { opacity: 0; } }
-      @keyframes jaChip2 { 0%, 19% { opacity: 0; } 22%, 92% { opacity: 1; } 97%, 100% { opacity: 0; } }
-      @keyframes jaChip3 { 0%, 22% { opacity: 0; } 25%, 92% { opacity: 1; } 97%, 100% { opacity: 0; } }
-      @keyframes jaRes1 { 0%, 26% { opacity: 0; transform: translateY(10px); } 30%, 92% { opacity: 1; transform: none; } 97%, 100% { opacity: 0; transform: none; } }
-      @keyframes jaRes2 { 0%, 30% { opacity: 0; transform: translateY(10px); } 34%, 92% { opacity: 1; transform: none; } 97%, 100% { opacity: 0; transform: none; } }
-      @keyframes jaTap { 0%, 38%, 44%, 100% { transform: translateY(0); } 41% { transform: translateY(3px); } }
-      @keyframes jaRipple { 0%, 40% { opacity: 0; transform: scale(0.5); } 42% { opacity: 0.9; transform: scale(0.8); } 52%, 100% { opacity: 0; transform: scale(1.9); } }
-      @keyframes jaFill { 0%, 41% { opacity: 0; } 44%, 92% { opacity: 1; } 97%, 100% { opacity: 0; } }
-      @keyframes jaPlane {
-        0%, 44% { opacity: 0; transform: translate(401px, 190px) rotate(-60deg) scale(0.5); }
-        47% { opacity: 1; transform: translate(420px, 150px) rotate(-72deg) scale(0.9); }
-        51% { opacity: 1; transform: translate(414px, 92px) rotate(-100deg) scale(0.8); }
-        54%, 100% { opacity: 0; transform: translate(396px, 42px) rotate(-112deg) scale(0.4); }
-      }
-      @keyframes jaToast {
-        0%, 53% { opacity: 0; transform: translateY(8px) scale(0.8); }
-        57% { opacity: 1; transform: scale(1.05); }
-        60%, 90% { opacity: 1; transform: none; }
-        95%, 100% { opacity: 0; transform: translateY(-6px); }
-      }
-      @keyframes jaConf {
-        0%, 54% { opacity: 0; transform: translate(0, 0) rotate(0); }
-        57% { opacity: 1; }
-        70% { opacity: 1; transform: translate(var(--dx), var(--dy)) rotate(140deg); }
-        78%, 100% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(180deg); }
-      }
-      @keyframes jaInvite { 0%, 64% { opacity: 0; transform: translateY(14px); } 69%, 92% { opacity: 1; transform: none; } 97%, 100% { opacity: 0; transform: none; } }
-      @keyframes jaBubSearch { 0% { opacity: 0; } 4%, 50% { opacity: 1; } 54%, 100% { opacity: 0; } }
-      @keyframes jaBubHappy { 0%, 52% { opacity: 0; transform: scale(0.5); } 58%, 92% { opacity: 1; transform: scale(1); } 97%, 100% { opacity: 0; transform: scale(0.8); } }
-      @keyframes jaNod { 0%, 58%, 64%, 70%, 100% { transform: rotate(0); } 61%, 67% { transform: rotate(5deg); } }
-
       @media (prefers-reduced-motion: reduce) {
         .job-live i { animation: none; }
-      }
-
-      @media (max-width: 900px) {
-        .job-split { grid-template-columns: 1fr; }
-        .job-art { margin: 0 auto; max-width: 460px; }
       }
 
       @media (max-width: 640px) {
         .job-cta-buttons { flex-direction: column; align-items: stretch; }
         .job-cta-buttons a { justify-content: center; }
-        .job-trust-row { gap: 10px 14px; font-size: 12px; }
+        .job-btn-primary { padding: 18px 22px 18px 32px; font-size: 17px; }
+        .job-trust-row { gap: 10px 16px; font-size: 14px; }
         .job-trust-dot { display: none; }
       }
     </style>
@@ -4735,162 +4622,9 @@
           </div>
         </div>
 
-        <figure class="job-art" aria-hidden="true">
-          <svg viewBox="0 0 480 380" fill="none" stroke-linecap="round" stroke-linejoin="round">
-            <clipPath id="jaBarClip"><rect x="258" y="72" width="170" height="26" /></clipPath>
-
-            <!-- city skyline: the companies that are hiring -->
-            <rect class="d ja-soft f-white" pathLength="1" style="--t:0s" x="30" y="246" width="46" height="96" rx="4" />
-            <path class="d ja-soft w3" pathLength="1" style="--t:0.1s" d="M40 260h8M56 260h8M40 275h8M56 275h8M40 290h8M56 290h8M40 305h8M56 305h8M40 320h8M56 320h8" />
-            <path class="d ja-soft" pathLength="1" style="--t:0.15s" d="M68 246V226" />
-            <path class="dyn f-blue" fill-opacity=".85" d="M68 226h16l-4 5 4 5h-16z" />
-            <rect class="d ja-soft f-white" pathLength="1" style="--t:0.05s" x="166" y="226" width="36" height="116" rx="4" />
-            <path class="d ja-soft w3" pathLength="1" style="--t:0.15s" d="M174 240h6M188 240h6M174 256h6M188 256h6M174 272h6M188 272h6M174 288h6M188 288h6M174 304h6M188 304h6M174 320h6M188 320h6" />
-            <path class="d ja-soft" pathLength="1" style="--t:0.2s" d="M184 226V210" />
-            <rect class="d ja-soft f-white" pathLength="1" style="--t:0.1s" x="452" y="212" width="26" height="130" rx="4" />
-            <path class="d ja-soft w3" pathLength="1" style="--t:0.2s" d="M459 226h10M459 241h10M459 256h10M459 271h10M459 286h10M459 301h10M459 316h10" />
-            <path class="d ja-soft" pathLength="1" style="--t:0s" d="M20 342H460" />
-
-            <!-- the job seeker: resume in one hand, phone held up in the other -->
-            <path class="d ja-ink f-white" pathLength="1" style="--t:0.1s" d="M97 216L100 332H118L122 244L126 332H144L147 216Z" />
-            <path class="d ja-soft w2" pathLength="1" style="--t:0.2s" d="M109 240V326M135 240V326" />
-            <path class="d ja-ink f-ink" pathLength="1" style="--t:0.15s" d="M88 340c0-6 5-8 12-8h18v8Z" />
-            <path class="d ja-ink f-ink" pathLength="1" style="--t:0.15s" d="M126 332h18c7 0 12 2 12 8h-30Z" />
-            <path class="d ja-ink f-white" pathLength="1" style="--t:0.2s" d="M116 106h12v20h-12z" />
-            <path class="d ja-ink f-tint" pathLength="1" style="--t:0.2s" d="M94 136C98 128 108 124 122 124C136 124 146 128 150 136L148 216H96Z" />
-            <path class="d ja-ink w2" pathLength="1" style="--t:0.3s" d="M112 125L122 138L132 125" />
-            <path class="d ja-soft w2" pathLength="1" style="--t:0.35s" d="M122 140V212" />
-            <circle class="dyn f-ink" cx="122" cy="160" r="1.6" /><circle class="dyn f-ink" cx="122" cy="180" r="1.6" /><circle class="dyn f-ink" cx="122" cy="200" r="1.6" />
-            <path class="d ja-ink w2" pathLength="1" style="--t:0.35s" d="M130 150h13v11h-13z" />
-            <path class="d ja-ink w3" pathLength="1" style="--t:0.3s" d="M96 214H148" />
-            <path class="d arm-o" pathLength="1" style="--t:0.3s" d="M98 138C90 156 86 176 86 198" />
-            <path class="d arm-i" pathLength="1" style="--t:0.35s" d="M98 138C90 156 86 176 86 198" />
-            <g transform="rotate(-8 76 218)">
-              <rect class="d ja-ink f-white" pathLength="1" style="--t:0.4s" x="60" y="198" width="32" height="42" rx="3" />
-              <circle class="d ja-blue w2" pathLength="1" style="--t:0.5s" cx="70" cy="208" r="4" />
-              <path class="d ja-soft w2" pathLength="1" style="--t:0.55s" d="M78 206h9M78 211h6M66 220h20M66 227h20M66 234h13" />
-            </g>
-            <circle class="d ja-ink f-white" pathLength="1" style="--t:0.45s" cx="88" cy="204" r="6" />
-            <path class="d arm-o" pathLength="1" style="--t:0.35s" d="M146 138C152 154 156 170 154 184C160 178 166 170 170 162" />
-            <path class="d arm-i" pathLength="1" style="--t:0.4s" d="M146 138C152 154 156 170 154 184C160 178 166 170 170 162" />
-            <g transform="rotate(6 122 110)"><g class="nod">
-              <ellipse class="d ja-ink f-white" pathLength="1" style="--t:0.3s" cx="122" cy="92" rx="17" ry="20" />
-              <ellipse class="d ja-ink f-white w2" pathLength="1" style="--t:0.4s" cx="106" cy="94" rx="3.5" ry="5.5" />
-              <path class="d ja-ink f-ink" pathLength="1" style="--t:0.4s" d="M103 90C100 72 111 62 124 62C137 62 145 71 141 86C136 79 128 76 120 80C113 83 108 85 103 90Z" />
-              <path class="d ja-ink w2" pathLength="1" style="--t:0.5s" d="M126 83q4-2.5 8 0" />
-              <circle class="dyn f-ink" cx="130" cy="90" r="2.2" />
-              <path class="d ja-ink w2" pathLength="1" style="--t:0.5s" d="M137 91l4 6-4 1" />
-              <path class="d ja-ink w2" pathLength="1" style="--t:0.55s" d="M127 103q5 3 9-1" />
-            </g></g>
-            <g class="phone">
-              <g transform="rotate(10 174 149)">
-                <rect class="d ja-ink f-white" pathLength="1" style="--t:0.45s" x="164" y="132" width="20" height="34" rx="4" />
-                <path class="d ja-blue w2" pathLength="1" style="--t:0.55s" d="M169 140h10M169 146h7" />
-              </g>
-              <circle class="d ja-ink f-white" pathLength="1" style="--t:0.5s" cx="171" cy="163" r="6" />
-            </g>
-            <path class="link fade" style="--t:.8s" d="M190 146C198 142 204 140 210 138" />
-
-            <!-- thought bubble: searching, then happy -->
-            <path class="d ja-ink f-white w2" pathLength="1" style="--t:0.6s" d="M32 26h48a12 12 0 0 1 12 12v20a12 12 0 0 1-12 12H64l-10 9v-9H32a12 12 0 0 1-12-12V38a12 12 0 0 1 12-12z" />
-            <circle class="d ja-ink f-white w2" pathLength="1" style="--t:0.7s" cx="92" cy="80" r="3" />
-            <g class="bub-search"><circle class="ja-blue w2" cx="52" cy="46" r="8" /><path class="ja-blue w2" d="M58 52l6 6" /></g>
-            <g class="dyn bub-happy"><path class="f-blue" d="M56 35l3.6 7.4 8.2 1.2-5.9 5.8 1.4 8.1-7.3-3.8-7.3 3.8 1.4-8.1-5.9-5.8 8.2-1.2z" /></g>
-
-            <!-- the job app -->
-            <rect class="d ja-ink f-white" pathLength="1" style="--t:0.3s" x="210" y="34" width="244" height="296" rx="20" />
-            <text class="t-ink fade" x="228" y="60" font-size="12.5" style="--t:.6s">Kompetenzen Jobs</text>
-            <path class="d ja-blue w2" pathLength="1" style="--t:0.6s" d="M430 59a6 6 0 0 1 12 0v4l2 3h-16l2-3zM434 69a2.5 2.5 0 0 0 4 0" />
-            <circle class="dyn bell-dot" cx="443" cy="51" r="3.5" fill="#10B981" />
-            <rect class="d ja-soft" pathLength="1" style="--t:0.5s" x="228" y="70" width="208" height="30" rx="15" />
-            <circle class="d ja-blue w2" pathLength="1" style="--t:0.6s" cx="245" cy="84" r="6" />
-            <path class="d ja-blue w2" pathLength="1" style="--t:0.65s" d="M249 88l5 5" />
-            <g class="dyn" clip-path="url(#jaBarClip)">
-              <text class="t-ink" x="260" y="90" font-size="13">Fresher jobs in Kochi</text>
-              <g class="type-cover"><rect x="258" y="72" width="172" height="26" fill="#FFFFFF" /><path class="ja-blue w2" d="M260 78V93" /></g>
-            </g>
-            <rect class="d ja-soft w2" pathLength="1" style="--t:0.65s" x="228" y="108" width="60" height="22" rx="11" />
-            <text class="t-mute fade" x="258.0" y="123" font-size="10.5" text-anchor="middle" style="--t:0.85s">Kochi</text>
-            <g class="dyn chip-on-1"><rect x="228" y="108" width="60" height="22" rx="11" fill="#EEF3FF" stroke="var(--blue, #1947FF)" stroke-width="2" /><text class="t-blue" x="258.0" y="123" font-size="10.5" text-anchor="middle">Kochi</text></g>
-            <rect class="d ja-soft w2" pathLength="1" style="--t:0.7s" x="294" y="108" width="66" height="22" rx="11" />
-            <text class="t-mute fade" x="327.0" y="123" font-size="10.5" text-anchor="middle" style="--t:0.90s">Fresher</text>
-            <g class="dyn chip-on-2"><rect x="294" y="108" width="66" height="22" rx="11" fill="#EEF3FF" stroke="var(--blue, #1947FF)" stroke-width="2" /><text class="t-blue" x="327.0" y="123" font-size="10.5" text-anchor="middle">Fresher</text></g>
-            <rect class="d ja-soft w2" pathLength="1" style="--t:0.75s" x="366" y="108" width="50" height="22" rx="11" />
-            <text class="t-mute fade" x="391.0" y="123" font-size="10.5" text-anchor="middle" style="--t:0.95s">Tech</text>
-            <g class="dyn chip-on-3"><rect x="366" y="108" width="50" height="22" rx="11" fill="#EEF3FF" stroke="var(--blue, #1947FF)" stroke-width="2" /><text class="t-blue" x="391.0" y="123" font-size="10.5" text-anchor="middle">Tech</text></g>
-            <g class="dyn res1">
-              <rect class="d ja-soft f-white" pathLength="1" style="--t:0.7s" x="228" y="140" width="208" height="84" rx="14" />
-              <rect class="d ja-blue f-tint" pathLength="1" style="--t:0.8s" x="240" y="152" width="28" height="28" rx="8" />
-              <path class="d ja-blue w2" pathLength="1" style="--t:0.85s" d="M248 174v-13h12v13M251 165h2M255 165h2M251 169h2M255 169h2" />
-              <text class="t-ink" x="278" y="164" font-size="12.5">Junior Developer</text>
-              <text class="t-mute" x="278" y="179" font-size="10">Infopark, Kochi · ₹3.5 LPA</text>
-              <rect class="d ja-soft w2" pathLength="1" style="--t:1.0s" x="240" y="192" width="54" height="18" rx="9" />
-              <text class="t-mute" x="267.0" y="205" font-size="9.5" text-anchor="middle">Full-time</text>
-              <rect class="d ja-soft w2" pathLength="1" style="--t:1.05s" x="300" y="192" width="48" height="18" rx="9" />
-              <text class="t-mute" x="324.0" y="205" font-size="9.5" text-anchor="middle">Fresher</text>
-              <rect x="398" y="150" width="30" height="16" rx="8" fill="#ECFDF5" /><text class="t-green" x="413" y="162" font-size="9.5" text-anchor="middle">New</text>
-              <rect class="d ja-blue" pathLength="1" style="--t:1.1s" x="376" y="190" width="50" height="22" rx="11" />
-              <text class="t-blue" x="401" y="205" font-size="10.5" text-anchor="middle">Apply</text>
-            </g>
-            <g class="dyn res2">
-              <rect class="d ja-soft f-white" pathLength="1" style="--t:0.8s" x="228" y="234" width="208" height="84" rx="14" />
-              <rect class="d ja-blue f-tint" pathLength="1" style="--t:0.9s" x="240" y="246" width="28" height="28" rx="8" />
-              <path class="d ja-blue w2" pathLength="1" style="--t:0.95s" d="M248 268v-13h12v13M251 259h2M255 259h2M251 263h2M255 263h2" />
-              <text class="t-ink" x="278" y="258" font-size="12.5">Data Analyst Trainee</text>
-              <text class="t-mute" x="278" y="273" font-size="10">Technopark, TVM · ₹3 LPA</text>
-              <rect class="d ja-soft w2" pathLength="1" style="--t:1.1s" x="240" y="286" width="44" height="18" rx="9" />
-              <text class="t-mute" x="262.0" y="299" font-size="9.5" text-anchor="middle">Hybrid</text>
-              <rect class="d ja-soft w2" pathLength="1" style="--t:1.15s" x="290" y="286" width="42" height="18" rx="9" />
-              <text class="t-mute" x="311.0" y="299" font-size="9.5" text-anchor="middle">0-1 yr</text>
-              <path class="d ja-blue w2" pathLength="1" style="--t:0.9s" d="M414 246h12v16l-6-4-6 4z" />
-              <rect class="d ja-blue" pathLength="1" style="--t:1.2s" x="376" y="284" width="50" height="22" rx="11" />
-              <text class="t-blue" x="401" y="299" font-size="10.5" text-anchor="middle">Apply</text>
-            </g>
-            <g class="dyn ap-fill"><rect class="f-blue" x="376" y="190" width="50" height="22" rx="11" /><path class="ja-white" d="M394 201l4 4 7-7" /></g>
-            <circle class="ripple ja-blue w2" cx="401" cy="201" r="16" />
-
-            <!-- applied: the application flies off, a note pops up, then an interview invite -->
-            <g class="plane"><path class="ja-ink f-white w2" d="M-14 -10L14 0L-14 10L-8 0Z" /><path class="ja-ink w2" d="M-8 0H14" /></g>
-            <g class="dyn toast">
-              <rect class="f-blue" x="322" y="6" width="134" height="38" rx="19" />
-              <circle cx="344" cy="25" r="10" fill="#FFFFFF" />
-              <path class="ja-blue w2" d="M339 25l3.5 3.5 6.5-6.5" />
-              <text class="t-white" x="362" y="30" font-size="15">Applied</text>
-            </g>
-            <rect class="conf" style="--dx:-44px;--dy:-12px" x="386" y="22" width="6" height="6" rx="1.5" fill="#2563EB" />
-            <rect class="conf" style="--dx:40px;--dy:-16px" x="386" y="22" width="6" height="6" rx="1.5" fill="#10B981" />
-            <rect class="conf" style="--dx:-28px;--dy:20px" x="386" y="22" width="6" height="6" rx="1.5" fill="#7C3AED" />
-            <rect class="conf" style="--dx:52px;--dy:14px" x="386" y="22" width="6" height="6" rx="1.5" fill="#2563EB" />
-            <rect class="conf" style="--dx:8px;--dy:-26px" x="386" y="22" width="6" height="6" rx="1.5" fill="#F59E0B" />
-            <rect class="conf" style="--dx:-58px;--dy:6px" x="386" y="22" width="6" height="6" rx="1.5" fill="#10B981" />
-            <g class="dyn invite">
-              <rect x="304" y="276" width="166" height="62" rx="14" fill="rgba(15, 23, 42, 0.08)" />
-              <rect class="ja-ink f-white w2" x="300" y="270" width="166" height="62" rx="14" />
-              <rect class="ja-blue f-tint w2" x="314" y="284" width="30" height="34" rx="6" />
-              <path class="ja-blue w2" d="M314 294h30M322 280v8M336 280v8" />
-              <text class="t-blue" x="329" y="312" font-size="11" text-anchor="middle">12</text>
-              <text class="t-ink" x="354" y="297" font-size="12">Interview invite</text>
-              <text class="t-mute" x="354" y="314" font-size="10.5">Mon · 10:30 AM</text>
-            </g>
-          </svg>
-        </figure>
       </div>
     </div>
 
-    <script>
-      (function () {
-        var art = document.querySelector('#job-listing-section .job-art');
-        if (!art || !('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-        art.classList.add('wait');
-        var io = new IntersectionObserver(function (entries) {
-          if (!entries[0].isIntersecting) return;
-          art.classList.remove('wait');
-          art.classList.add('on');
-          io.disconnect();
-        }, { threshold: 0.3 });
-        io.observe(art);
-      })();
-    </script>
   </section>
 
   <!-- ============ AI RESUME BUILDER ============ -->

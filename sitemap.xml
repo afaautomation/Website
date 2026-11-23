@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Public pages, most important first. Job listings are in sitemap-jobs.xml (built live by functions/sitemap-jobs.xml.js). -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://www.kompetenzen.in/</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.kompetenzen.in/</loc><lastmod>2026-11-21</lastmod></url>
   <url><loc>https://www.kompetenzen.in/career-consultation</loc><lastmod>2026-11-19</lastmod></url>
   <url><loc>https://www.kompetenzen.in/finishing-school</loc><lastmod>2026-11-19</lastmod></url>
   <url><loc>https://www.kompetenzen.in/genai-course-details</loc><lastmod>2026-11-19</lastmod></url>
   <url><loc>https://www.kompetenzen.in/job-portal</loc><lastmod>2026-11-21</lastmod></url>
-  <url><loc>https://www.kompetenzen.in/jobs</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.kompetenzen.in/jobs</loc><lastmod>2026-11-21</lastmod></url>
   <url><loc>https://www.kompetenzen.in/Resume/</loc><lastmod>2026-11-19</lastmod></url>
-  <url><loc>https://www.kompetenzen.in/internships</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://www.kompetenzen.in/internships</loc><lastmod>2026-11-21</lastmod></url>
   <url><loc>https://www.kompetenzen.in/tech-school</loc><lastmod>2026-11-19</lastmod></url>
   <url><loc>https://www.kompetenzen.in/b-school</loc><lastmod>2026-11-19</lastmod></url>
   <url><loc>https://www.kompetenzen.in/course-details</loc><lastmod>2026-11-19</lastmod></url>

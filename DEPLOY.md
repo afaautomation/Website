@@ -101,7 +101,7 @@ Pages project → **Custom domains** → add `kompetenzen.in` and `www.kompetenz
 
 Then, for the domain:
 - **SSL/TLS** → mode **Full (strict)**; **Edge Certificates** → **Always Use HTTPS** on.
-- **Rules → Redirect Rules** → redirect `www.kompetenzen.in/*` to `https://kompetenzen.in/$1` (301).
+- **Rules → Redirect Rules** → redirect `kompetenzen.in/*` to `https://www.kompetenzen.in/$1` (301). The main address is **www**: every canonical tag, the sitemaps, `robots.txt` and `llms.txt` use it (see `DOMAIN_LAUNCH.md` section 2.5). Redirecting the other way would send Google to pages whose canonical points back, and rankings would split.
 
 ### 2.3 Variables (Pages project → Settings → Variables and Secrets, Production)
 | Name | Type | Value |

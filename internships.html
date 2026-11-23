@@ -1395,7 +1395,12 @@
 
         const matchesCategory = (activeCategory === 'all') || (category === activeCategory);
         let matchesSearch = true;
-        if (query !== '') matchesSearch = card.textContent.toLowerCase().includes(query);
+        // every word must appear somewhere on the card, so "python kochi" finds Python roles in Kochi
+        const words = query.split(/\s+/).filter(Boolean);
+        if (words.length) {
+          const text = card.textContent.toLowerCase();
+          matchesSearch = words.every(w => text.includes(w));
+        }
 
         const show = matchesCategory && matchesSearch;
         card.style.display = show ? '' : 'none';
@@ -1445,6 +1450,14 @@
         filterJobsings();
         searchInput.focus();
       });
+
+      // the job portal's search card opens this page with ?q=, so start with that search filled in
+      const urlQuery = (new URLSearchParams(location.search).get('q') || '').trim().slice(0, 100);
+      if (urlQuery) {
+        searchInput.value = urlQuery;
+        searchQuery = urlQuery;
+        searchClear.style.display = '';
+      }
 
       initNavUser();
       loadDynamicJobs();
