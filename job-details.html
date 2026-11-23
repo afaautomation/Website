@@ -2184,9 +2184,12 @@
 
     async function openRequirementsForm(missing, previous) {
       closeRequirementsForm();
-      // Confirming the profile alone is not a rejected answer, so the next step opens without errors.
-      const isRetry = !!previous && Object.keys(previous).some(key => key !== 'matching');
+      // Only an answer the candidate gave and the server turned down counts as a retry;
+      // a question shown for the first time opens without an error.
+      const ANSWER_KEY = { resume: 'resume_url', college: 'college', availability: 'availability', skills: 'matched_skills', salary: 'expected_salary', questions: 'answers' };
       const prev = previous || {};
+      const rejected = missing.filter(key => ANSWER_KEY[key] && ANSWER_KEY[key] in prev);
+      const isRetry = rejected.length > 0;
       const req = (currentJob && currentJob.applicationRequirements) || {};
       const isIntern = /intern/i.test(currentJob.jobType || '') || /intern/i.test(currentJob.title || '');
       let profile = {};
@@ -2197,6 +2200,20 @@
           profile = data || {};
         }
       } catch (e) {}
+
+      // Ask everything HR switched on for this listing in this one step, not in a second form after
+      // the resume: the server reports the profile check first and the other answers only afterwards.
+      // apply_to_job() still checks every answer.
+      const on = key => req[key] === true || req[key] === 'true';
+      const unanswered = key => !(ANSWER_KEY[key] in prev);
+      const ask = new Set(missing);
+      if (on('college') && !profile.institution && unanswered('college')) ask.add('college');
+      if (on('availability') && unanswered('availability')) ask.add('availability');
+      if (on('skills') && unanswered('skills')) ask.add('skills');
+      if (on('salary') && unanswered('salary')) ask.add('salary');
+      if (Array.isArray(req.questions) && req.questions.length && unanswered('questions')) ask.add('questions');
+      if (on('resume') && !profile.resume_url && unanswered('resume')) ask.add('resume');
+      missing = [...ask];
 
       const field = (key, label, input, hint) => buildEl('div', { className: 'req-field' },
         buildEl('label', { className: 'req-label', for: input.id, text: label }),
@@ -2226,22 +2243,7 @@
           buildEl('h4',{id:'req-profile-title',className:'req-section-title',text:'Your career profile'}),
           group));
       }
-      // The resume sits on the same step as the profile review. It is required only when
-      // HR ticked "Resume is required" and the profile has none; otherwise it is optional.
-      const showResume = missing.includes('resume') || missing.includes('matching');
-      const resumeRequired = missing.includes('resume') || (!!req.resume && !profile.resume_url);
-      if (showResume) {
-        const resumeHint = resumeRequired ? `Required for this ${isIntern ? 'internship' : 'job'}. PDF, DOC or DOCX, up to 5 MB. It is also saved to your profile.`
-          : profile.resume_url ? 'Your saved resume will be sent. Upload a new one only to replace it. PDF, DOC or DOCX, up to 5 MB.'
-          : 'Optional. PDF, DOC or DOCX, up to 5 MB. It is also saved to your profile.';
-        form.append(field('resume', resumeRequired ? 'Resume' : 'Resume (optional)', buildResumeDrop(profile.resume_url ? 'Upload a new resume' : 'Upload your resume'), resumeHint));
-      }
-      // The confirmation comes last, after the candidate has attached their resume.
-      if (missing.includes('matching') && matchRules) {
-        form.append(buildEl('div',{className:'req-field'},
-          buildEl('label',{className:'req-check req-confirm'},buildEl('input',{id:'req-match-confirm',type:'checkbox'}),buildEl('span',{text:'I confirm that my career details are accurate and up to date.'})),
-          buildEl('p',{className:'req-error',id:'req-err-matching',role:'alert'})));
-      }
+      // HR's questions come next, before the resume.
       if (missing.includes('college')) {
         form.append(field('college', 'College name', buildEl('input', { id: 'req-college', type: 'text', maxlength: '200', autocomplete: 'organization', value: prev.college || profile.institution || '' })));
       }
@@ -2271,6 +2273,22 @@
           form.append(field('q' + i, q, buildEl('textarea', { id: 'req-q-' + i, maxlength: '1000', rows: '3' }, (prev.answers && prev.answers[i]) || '')));
         });
       }
+      // Then the resume. It is required only when HR ticked "Resume is required" and the
+      // profile has none; otherwise it is optional.
+      const showResume = missing.includes('resume') || missing.includes('matching');
+      const resumeRequired = missing.includes('resume') || (on('resume') && !profile.resume_url);
+      if (showResume) {
+        const resumeHint = resumeRequired ? `Required for this ${isIntern ? 'internship' : 'job'}. PDF, DOC or DOCX, up to 5 MB. It is also saved to your profile.`
+          : profile.resume_url ? 'Your saved resume will be sent. Upload a new one only to replace it. PDF, DOC or DOCX, up to 5 MB.'
+          : 'Optional. PDF, DOC or DOCX, up to 5 MB. It is also saved to your profile.';
+        form.append(field('resume', resumeRequired ? 'Resume' : 'Resume (optional)', buildResumeDrop(profile.resume_url ? 'Upload a new resume' : 'Upload your resume'), resumeHint));
+      }
+      // The confirmation comes last, after the candidate has attached their resume.
+      if (missing.includes('matching') && matchRules) {
+        form.append(buildEl('div',{className:'req-field'},
+          buildEl('label',{className:'req-check req-confirm'},buildEl('input',{id:'req-match-confirm',type:'checkbox'}),buildEl('span',{text:'I confirm that my career details are accurate and up to date.'})),
+          buildEl('p',{className:'req-error',id:'req-err-matching',role:'alert'})));
+      }
 
       const submitBtn = buildEl('button', { type: 'submit', className: 'req-submit', text: 'Submit Application' });
       form.append(buildEl('div', { className: 'req-actions' },
@@ -2289,7 +2307,7 @@
       overlay.querySelector('.req-cancel').addEventListener('click', closeRequirementsForm);
       overlay.addEventListener('click', e => { if (e.target === overlay) closeRequirementsForm(); });
       overlay.addEventListener('keydown', e => { if (e.key === 'Escape') closeRequirementsForm(); });
-      if (isRetry) missing.forEach(key => { const err = document.getElementById('req-err-' + (key === 'questions' ? 'q0' : key)); if (err) err.textContent = 'Please check this answer.'; });
+      if (isRetry) rejected.forEach(key => { const err = document.getElementById('req-err-' + (key === 'questions' ? 'q0' : key)); if (err) err.textContent = 'Please check this answer.'; });
       const first = form.querySelector('input, select, textarea');
       if (first) first.focus();
 
