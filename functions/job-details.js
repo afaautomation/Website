@@ -195,33 +195,49 @@ export function withNoindex(html) {
   return html.replace(/<title id="page-title">[\s\S]*?<\/title>/, m => m + '\n  <meta name="robots" content="noindex, follow" />');
 }
 
-const OPEN_TTL = 300; // seconds a rendered open listing stays in Cloudflare's cache
+const OPEN_TTL = 300; // seconds an open listing's data stays in Cloudflare's cache
 const MISSING_TTL = 60;
 
 function edgeCache() {
   try { return typeof caches !== 'undefined' ? caches.default : null; } catch { return null; }
 }
 
+// The listing's data, not the finished page, is what gets cached: repeat visits and crawlers still do not
+// reach the database, while the page around it always comes from the current deployment, so a release
+// shows on job pages at once instead of after the cache runs out. Throws if the database cannot be reached.
+async function cachedJob(id, context) {
+  const store = edgeCache();
+  // One entry per listing, whatever else is in the query string, so ?x=1 cannot be used to skip it.
+  const key = new Request(`${SITE}/job-details/data?id=${id}`, { method: 'GET' });
+  if (store) {
+    try {
+      const hit = await store.match(key);
+      if (hit) return (await hit.json()).job || null;
+    } catch { /* fall through to the database */ }
+  }
+  const job = await loadJob(id);
+  if (store) {
+    const copy = new Response(JSON.stringify({ job }), { headers: {
+      'Content-Type': 'application/json',
+      'Cache-Control': `public, max-age=0, s-maxage=${job ? OPEN_TTL : MISSING_TTL}`
+    } });
+    const saved = store.put(key, copy).catch(() => {});
+    if (context.waitUntil) context.waitUntil(saved); else await saved;
+  }
+  return job;
+}
+
 export async function onRequestGet(context) {
   const id = (new URL(context.request.url).searchParams.get('id') || '').toLowerCase();
   const valid = UUID.test(id);
-  // One cache entry per listing, whatever else is in the query string, so ?x=1 cannot be used to skip it.
-  const store = valid ? edgeCache() : null;
-  const cacheKey = valid ? new Request(`${SITE}/job-details?id=${id}`, { method: 'GET' }) : null;
-  if (store) {
-    try {
-      const hit = await store.match(cacheKey);
-      if (hit) return hit;
-    } catch { /* fall through to a fresh render */ }
-  }
   const response = await context.next();
   if (!response.ok || !(response.headers.get('content-type') || '').includes('text/html')) return response;
   let job = null;
   if (valid) {
     try {
-      job = await loadJob(id);
+      job = await cachedJob(id, context);
     } catch {
-      return response; // database unreachable: serve the page as published and do not cache it
+      return response; // database unreachable: serve the page as published
     }
   }
   const html = await response.text();
@@ -229,12 +245,5 @@ export async function onRequestGet(context) {
   const headers = new Headers(response.headers);
   headers.delete('content-length');
   headers.delete('etag');
-  const result = new Response(page, { status: response.status, statusText: response.statusText, headers });
-  if (store) {
-    const copy = new Response(page, { status: 200, headers });
-    copy.headers.set('Cache-Control', `public, max-age=0, s-maxage=${job ? OPEN_TTL : MISSING_TTL}`);
-    const saved = store.put(cacheKey, copy).catch(() => {});
-    if (context.waitUntil) context.waitUntil(saved); else await saved;
-  }
-  return result;
+  return new Response(page, { status: response.status, statusText: response.statusText, headers });
 }

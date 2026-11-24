@@ -100,7 +100,7 @@ test('the Resume Builder home screen gets its own search tags and keeps the site
   assert.ok(!out.includes('ResumePro'));
 });
 
-test('a rendered listing is cached at the edge so repeat visits and crawlers do not reach the database', async t => {
+test('a listing is cached at the edge so repeat visits and crawlers do not reach the database', async t => {
   const { onRequestGet } = await load();
   const store = new Map();
   globalThis.caches = { default: {
@@ -122,8 +122,15 @@ test('a rendered listing is cached at the edge so repeat visits and crawlers do 
   const again = await visit('&utm_source=whatsapp');
   assert.match(await again.text(), /"@type":"JobPosting"/);
   assert.equal(database, 2, 'second visit, even with extra query text, came from the cache');
-  assert.equal(assets, 1);
   assert.match([...store.values()][0].headers.get('cache-control'), /s-maxage=300/);
+  // only the data is cached: a new deployment of the page shows on the next visit, still without the database
+  const released = page().replace('</body>', '<!-- new release --></body>');
+  const fresh = await onRequestGet({ request: new Request('https://www.kompetenzen.in/job-details?id=' + JOB.id),
+    next: async () => new Response(released, { headers: { 'content-type': 'text/html' } }) });
+  const freshHtml = await fresh.text();
+  assert.ok(freshHtml.includes('<!-- new release -->'), 'the page comes from the current deployment');
+  assert.match(freshHtml, /"@type":"JobPosting"/);
+  assert.equal(database, 2);
   // a listing that is not found is remembered for a minute only
   store.clear(); database = 0;
   t.mock.method(globalThis, 'fetch', async () => { database++; return new Response('[]', { headers: { 'content-type': 'application/json' } }); });
