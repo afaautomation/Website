@@ -429,7 +429,6 @@
     /* Illustration */
     .fs-art {
       position: relative;
-      aspect-ratio: 1 / 1;
       max-width: 540px;
       width: 100%;
       justify-self: end;
@@ -1505,213 +1504,107 @@
       to { transform: scale(1); opacity: 1; }
     }
 
-    /* Hero story, one 12s loop (see the SVG): the pencil draws the two-day path 4-84%, each of the eight sessions
-       lights up as the line reaches it, Day 2 begins round the bend, the last stop celebrates, and at 94-98% it
-       fades for the next round. Without motion it shows the finished picture. */
-    .fs-badge, .fs-ring, .fs-bit, .fs-label, .fs-d1, .fs-d2 { transform-box: fill-box; transform-origin: center; }
-    .fs-ring, .fs-bit, .fs-spark { opacity: 0; }
-    .fs-num { font: 800 10.5px 'Inter', sans-serif; text-anchor: middle; }
-    .fs-num0 { fill: #8DA2D6; }
-    .fs-num1 { fill: #FFFFFF; }
-    .fs-lbl { font: 700 9.5px 'Inter', sans-serif; fill: #001A3B; text-anchor: middle; }
-    .fs-day { font: 800 9.5px 'Inter', sans-serif; fill: #001A3B; letter-spacing: 0.08em; }
+    /* Hero: three sample DYF Reports, fanned out */
+    .fs-art::before {
+      content: "";
+      position: absolute;
+      inset: -4% -6%;
+      border-radius: 50%;
+      background: radial-gradient(closest-side, rgba(25, 71, 255, 0.13), rgba(25, 71, 255, 0) 100%);
+      pointer-events: none;
+    }
 
-    @media (prefers-reduced-motion: no-preference) {
-      .fs-story { --T: 12s; --D: 0.8s; }
-      .fs-ink, .fs-badge, .fs-label, .fs-ring, .fs-bit, .fs-d1, .fs-d2 {
-        animation-duration: var(--T);
-        animation-delay: var(--D);
-        animation-iteration-count: infinite;
-        animation-fill-mode: both;
-      }
-      .fs-ink { animation-name: fsInk; animation-timing-function: linear; }
-      .fs-ink-glow { animation-name: fsInkGlow; }
-      .fs-badge, .fs-label, .fs-ring, .fs-bit, .fs-d1, .fs-d2 { animation-timing-function: ease-out; }
+    .dyfr-stack {
+      position: relative;
+      display: grid;
+      place-items: center;
+      padding: 18px 0 10px;
+    }
 
-      @keyframes fsInk {
-        0%, 4% { stroke-dashoffset: 100; opacity: 1; }
-        84%, 94% { stroke-dashoffset: 0; opacity: 1; }
-        98% { stroke-dashoffset: 0; opacity: 0; }
-        100% { stroke-dashoffset: 100; opacity: 0; }
-      }
-      @keyframes fsInkGlow {
-        0%, 4% { stroke-dashoffset: 100; opacity: 0.14; }
-        84%, 94% { stroke-dashoffset: 0; opacity: 0.14; }
-        98% { stroke-dashoffset: 0; opacity: 0; }
-        100% { stroke-dashoffset: 100; opacity: 0; }
-      }
+    .dyfr {
+      --tx: 0%; --ty: 0px; --r: 0deg; --s: 1;
+      grid-area: 1 / 1;
+      position: relative;
+      width: 62%;
+      min-width: 270px;
+      aspect-ratio: 210 / 297; /* A4 portrait */
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      padding: 14px 16px 14px;
+      border-radius: 14px;
+      background: #FFFFFF;
+      border: 1px solid rgba(10, 21, 48, 0.1);
+      box-shadow: 0 1px 2px rgba(2, 5, 14, 0.05), 0 26px 50px -24px rgba(10, 21, 48, 0.4);
+      color: var(--ink);
+      transform: translateX(var(--tx)) translateY(var(--ty)) rotate(var(--r)) scale(var(--s));
+      translate: calc(var(--px, 0) * -8px) calc(var(--py, 0) * -6px);
+      transition: translate 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: dyfrIn 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
 
-      .fs-d1 { animation-name: fsDay1; }
-      .fs-d2 { animation-name: fsDay2; }
-      @keyframes fsDay1 {
-        0%, 1% { opacity: 0; transform: scale(0.8); }
-        5%, 94% { opacity: 1; transform: scale(1); }
-        98%, 100% { opacity: 0; transform: scale(1); }
-      }
-      @keyframes fsDay2 {
-        0%, 46% { opacity: 0; transform: scale(0.8); }
-        51%, 94% { opacity: 1; transform: scale(1); }
-        98%, 100% { opacity: 0; transform: scale(1); }
-      }
-      .fs-b1 { animation-name: fsNode1; }
-      .fs-l1 { animation-name: fsLab1; }
-      .fs-r1 { animation-name: fsRing1; }
-      @keyframes fsNode1 {
-        0%, 2.8% { opacity: 0; transform: scale(0.3); }
-        5.2% { opacity: 1; transform: scale(1.18); }
-        7.2%, 94% { opacity: 1; transform: scale(1); }
-        98%, 100% { opacity: 0; transform: scale(0.6); }
-      }
-      @keyframes fsLab1 {
-        0%, 3.6% { opacity: 0; transform: translateY(-8px) scale(0.92); }
-        7.4%, 94% { opacity: 1; transform: none; }
-        98%, 100% { opacity: 0; transform: none; }
-      }
-      @keyframes fsRing1 {
-        0%, 3.6% { opacity: 0; transform: scale(1); }
-        4% { opacity: 0.6; transform: scale(1); }
-        10%, 100% { opacity: 0; transform: scale(2.3); }
-      }
-      .fs-b2 { animation-name: fsNode2; }
-      .fs-l2 { animation-name: fsLab2; }
-      .fs-r2 { animation-name: fsRing2; }
-      @keyframes fsNode2 {
-        0%, 12.6% { opacity: 0; transform: scale(0.3); }
-        15% { opacity: 1; transform: scale(1.18); }
-        17%, 94% { opacity: 1; transform: scale(1); }
-        98%, 100% { opacity: 0; transform: scale(0.6); }
-      }
-      @keyframes fsLab2 {
-        0%, 13.4% { opacity: 0; transform: translateY(8px) scale(0.92); }
-        17.2%, 94% { opacity: 1; transform: none; }
-        98%, 100% { opacity: 0; transform: none; }
-      }
-      @keyframes fsRing2 {
-        0%, 13.4% { opacity: 0; transform: scale(1); }
-        13.8% { opacity: 0.6; transform: scale(1); }
-        19.8%, 100% { opacity: 0; transform: scale(2.3); }
-      }
-      .fs-b3 { animation-name: fsNode3; }
-      .fs-l3 { animation-name: fsLab3; }
-      .fs-r3 { animation-name: fsRing3; }
-      @keyframes fsNode3 {
-        0%, 22.3% { opacity: 0; transform: scale(0.3); }
-        24.7% { opacity: 1; transform: scale(1.18); }
-        26.7%, 94% { opacity: 1; transform: scale(1); }
-        98%, 100% { opacity: 0; transform: scale(0.6); }
-      }
-      @keyframes fsLab3 {
-        0%, 23.1% { opacity: 0; transform: translateY(-8px) scale(0.92); }
-        26.9%, 94% { opacity: 1; transform: none; }
-        98%, 100% { opacity: 0; transform: none; }
-      }
-      @keyframes fsRing3 {
-        0%, 23.1% { opacity: 0; transform: scale(1); }
-        23.5% { opacity: 0.6; transform: scale(1); }
-        29.5%, 100% { opacity: 0; transform: scale(2.3); }
-      }
-      .fs-b4 { animation-name: fsNode4; }
-      .fs-l4 { animation-name: fsLab4; }
-      .fs-r4 { animation-name: fsRing4; }
-      @keyframes fsNode4 {
-        0%, 32.1% { opacity: 0; transform: scale(0.3); }
-        34.5% { opacity: 1; transform: scale(1.18); }
-        36.5%, 94% { opacity: 1; transform: scale(1); }
-        98%, 100% { opacity: 0; transform: scale(0.6); }
-      }
-      @keyframes fsLab4 {
-        0%, 32.9% { opacity: 0; transform: translateY(8px) scale(0.92); }
-        36.7%, 94% { opacity: 1; transform: none; }
-        98%, 100% { opacity: 0; transform: none; }
-      }
-      @keyframes fsRing4 {
-        0%, 32.9% { opacity: 0; transform: scale(1); }
-        33.3% { opacity: 0.6; transform: scale(1); }
-        39.3%, 100% { opacity: 0; transform: scale(2.3); }
-      }
-      .fs-b5 { animation-name: fsNode5; }
-      .fs-l5 { animation-name: fsLab5; }
-      .fs-r5 { animation-name: fsRing5; }
-      @keyframes fsNode5 {
-        0%, 53.5% { opacity: 0; transform: scale(0.3); }
-        55.9% { opacity: 1; transform: scale(1.18); }
-        57.9%, 94% { opacity: 1; transform: scale(1); }
-        98%, 100% { opacity: 0; transform: scale(0.6); }
-      }
-      @keyframes fsLab5 {
-        0%, 54.3% { opacity: 0; transform: translateY(8px) scale(0.92); }
-        58.1%, 94% { opacity: 1; transform: none; }
-        98%, 100% { opacity: 0; transform: none; }
-      }
-      @keyframes fsRing5 {
-        0%, 54.3% { opacity: 0; transform: scale(1); }
-        54.7% { opacity: 0.6; transform: scale(1); }
-        60.7%, 100% { opacity: 0; transform: scale(2.3); }
-      }
-      .fs-b6 { animation-name: fsNode6; }
-      .fs-l6 { animation-name: fsLab6; }
-      .fs-r6 { animation-name: fsRing6; }
-      @keyframes fsNode6 {
-        0%, 63.3% { opacity: 0; transform: scale(0.3); }
-        65.7% { opacity: 1; transform: scale(1.18); }
-        67.7%, 94% { opacity: 1; transform: scale(1); }
-        98%, 100% { opacity: 0; transform: scale(0.6); }
-      }
-      @keyframes fsLab6 {
-        0%, 64.1% { opacity: 0; transform: translateY(-8px) scale(0.92); }
-        67.9%, 94% { opacity: 1; transform: none; }
-        98%, 100% { opacity: 0; transform: none; }
-      }
-      @keyframes fsRing6 {
-        0%, 64.1% { opacity: 0; transform: scale(1); }
-        64.5% { opacity: 0.6; transform: scale(1); }
-        70.5%, 100% { opacity: 0; transform: scale(2.3); }
-      }
-      .fs-b7 { animation-name: fsNode7; }
-      .fs-l7 { animation-name: fsLab7; }
-      .fs-r7 { animation-name: fsRing7; }
-      @keyframes fsNode7 {
-        0%, 73% { opacity: 0; transform: scale(0.3); }
-        75.4% { opacity: 1; transform: scale(1.18); }
-        77.4%, 94% { opacity: 1; transform: scale(1); }
-        98%, 100% { opacity: 0; transform: scale(0.6); }
-      }
-      @keyframes fsLab7 {
-        0%, 73.8% { opacity: 0; transform: translateY(8px) scale(0.92); }
-        77.6%, 94% { opacity: 1; transform: none; }
-        98%, 100% { opacity: 0; transform: none; }
-      }
-      @keyframes fsRing7 {
-        0%, 73.8% { opacity: 0; transform: scale(1); }
-        74.2% { opacity: 0.6; transform: scale(1); }
-        80.2%, 100% { opacity: 0; transform: scale(2.3); }
-      }
-      .fs-b8 { animation-name: fsNode8; }
-      .fs-l8 { animation-name: fsLab8; }
-      .fs-r8 { animation-name: fsRing8; }
-      @keyframes fsNode8 {
-        0%, 82.8% { opacity: 0; transform: scale(0.3); }
-        85.2% { opacity: 1; transform: scale(1.18); }
-        87.2%, 94% { opacity: 1; transform: scale(1); }
-        98%, 100% { opacity: 0; transform: scale(0.6); }
-      }
-      @keyframes fsLab8 {
-        0%, 83.6% { opacity: 0; transform: translateY(-8px) scale(0.92); }
-        87.4%, 94% { opacity: 1; transform: none; }
-        98%, 100% { opacity: 0; transform: none; }
-      }
-      @keyframes fsRing8 {
-        0%, 83.6% { opacity: 0; transform: scale(1); }
-        84% { opacity: 0.6; transform: scale(1); }
-        90%, 100% { opacity: 0; transform: scale(2.3); }
-      }
-      @keyframes fsBurst {
-        0%, 84% { opacity: 0; transform: translate(0, 0) scale(0.3); }
-        85.5% { opacity: 1; transform: translate(0, 0) scale(1); }
-        90% { opacity: 1; }
-        94%, 100% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(var(--r)) scale(1); }
-      }
-      .fs-bit { animation-name: fsBurst; animation-timing-function: cubic-bezier(0.2, 0.7, 0.3, 1); }
+    .dyfr--l { --tx: -34%; --ty: 16px; --r: -6deg; --s: 0.92; z-index: 1; animation-delay: 0.45s; }
+    .dyfr--r { --tx: 34%; --ty: 16px; --r: 6deg; --s: 0.92; z-index: 1; animation-delay: 0.6s; }
+    .dyfr--c { z-index: 2; animation-delay: 0.2s; }
+
+    @keyframes dyfrIn {
+      from { opacity: 0; transform: translateX(0) translateY(24px) rotate(0deg) scale(0.9); }
+      to { opacity: 1; transform: translateX(var(--tx)) translateY(var(--ty)) rotate(var(--r)) scale(var(--s)); }
+    }
+
+    .dyfr small { display: block; font-size: 10.5px; color: var(--ink-mute); font-weight: 500; }
+    .dyfr b { display: block; line-height: 1.25; }
+
+    /* letterhead: Kompetenzen logo on the left, the blue arrows on the right, a navy rule beneath */
+    .dyfr-brand { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 10px; border-bottom: 1.5px solid #0A1530; }
+    .dyfr-brand img { display: block; height: 24px; width: auto; }
+    .dyfr .dyfr-chev { display: block; height: 14px; width: 92px; flex-shrink: 0; overflow: hidden; translate: none; }
+
+    .dyfr-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin: 11px 0 9px; }
+    .dyfr-head b { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; letter-spacing: -0.01em; }
+    .dyfr-head span { font-size: 9.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mute); white-space: nowrap; }
+
+    .dyfr-person { display: flex; align-items: center; gap: 9px; }
+    .dyfr-avatar { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: #0A1530; color: #fff; font-size: 10px; font-weight: 700; flex-shrink: 0; }
+    .dyfr-person b { font-size: 12.5px; }
+
+    .dyfr-direction { position: relative; margin-top: 10px; padding: 9px 12px; border-radius: 9px; background: #F1F5FF; border-left: 3px solid var(--blue); }
+    .dyfr-direction small { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue); }
+    .dyfr-direction b { margin-top: 2px; font-size: 13px; letter-spacing: -0.01em; padding-right: 58px; }
+    .dyfr-fit { position: absolute; top: 50%; right: 10px; transform: translateY(-50%); font-size: 10.5px; font-weight: 700; color: var(--blue); background: #fff; border: 1px solid #C9D6FF; padding: 4px 8px; border-radius: 99px; }
+
+    .dyfr-h { margin: 12px 0 7px; font-size: 9.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); }
+
+    .dyfr-row { margin-bottom: 8px; }
+    .dyfr-row div { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 11.5px; font-weight: 600; }
+    .dyfr-row div span { color: var(--ink-mute); font-weight: 500; }
+    .dyfr-bar { height: 5px; border-radius: 5px; background: #EDF0F7; overflow: hidden; }
+    .dyfr-bar i { display: block; height: 100%; width: var(--w); border-radius: 5px; background: linear-gradient(90deg, var(--blue), #6E8FFF); transform-origin: left; animation: dyfrFill 1.1s cubic-bezier(0.16, 1, 0.3, 1) calc(1s + var(--i) * 0.16s) both; }
+    @keyframes dyfrFill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+    .dyfr-road { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 0; padding: 0; position: relative; }
+    .dyfr-road::before { content: ""; position: absolute; left: 4px; right: 4px; top: 4px; border-top: 1.5px dashed #B9C8FF; }
+    .dyfr-road li { position: relative; padding-top: 14px; font-size: 10.5px; font-weight: 600; line-height: 1.3; }
+    .dyfr-road li::before { content: ""; position: absolute; left: 0; top: 0; width: 9px; height: 9px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 0 3px #E3EAFF; }
+    .dyfr-road li span { display: block; margin-bottom: 1px; font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--blue); }
+
+    .dyfr-chips { list-style: none; display: flex; flex-wrap: wrap; gap: 5px; margin: 0; padding: 0; }
+    .dyfr-chips li { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 99px; background: #fff; border: 1px solid rgba(10, 21, 48, 0.14); }
+    .dyfr-foot { display: flex; justify-content: space-between; gap: 8px; margin-top: auto; padding-top: 9px; border-top: 1px solid rgba(10, 21, 48, 0.1); font-size: 8.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-mute); }
+    .dyfr-road { margin-bottom: 12px !important; }
+
+    .dyfr-note { position: relative; margin: 6px 0 0; font-size: 11.5px; color: var(--ink-mute); text-align: center; }
+
+    @media (max-width: 768px) {
+      .dyfr { width: 86%; min-width: 0; padding: 12px 13px; }
+      .dyfr--l { --tx: -9%; --r: -4deg; --s: 0.94; }
+      .dyfr--r { --tx: 9%; --r: 4deg; --s: 0.94; }
+      .dyfr-chips, .dyfr-h:has(+ .dyfr-chips) { display: none; }
+      .dyfr-direction b { font-size: 12.5px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .dyfr { animation: none; }
     }
 
     .fs-steam path {
@@ -2494,150 +2387,58 @@
         </div>
 
         <div class="fs-art fs-art-in">
-          <!-- Design your future: a two-day journey. A pencil line draws the path through all eight sessions of the
-               programme, Day 1 along the top (Discover Yourself and Your Possibilities), overnight round the bend,
-               Day 2 back along the bottom (Build Your Capabilities and Career Engine), ending at Your Career Map -->
-          <svg viewBox="0 0 520 520" role="img"
-            aria-label="Illustration of the two-day Design Your Future journey. A pencil line draws a path through eight sessions: on Day 1 Understand the World, Discover Yourself, Learn, Express and Connect, and Discover Your Starting Point; on Day 2 Master Your Human Advantage, Build Your AI Engine, Show Your Value and Your Career Map">
-            <defs>
-              <linearGradient id="artBg" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#EEF2FF" />
-                <stop offset="1" stop-color="#FFFFFF" />
-              </linearGradient>
-              <pattern id="fsGrid" width="26" height="26" patternUnits="userSpaceOnUse">
-                <path d="M26 0 H0 V26" fill="none" stroke="#DCE4FF" stroke-width="0.8" />
-              </pattern>
-              <filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
-                <feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#0A1530" flood-opacity="0.1" />
-              </filter>
-            </defs>
-
-            <circle cx="260" cy="255" r="225" fill="url(#artBg)" />
-            <circle cx="260" cy="255" r="225" fill="url(#fsGrid)" opacity="0.8" />
-            <circle cx="260" cy="255" r="175" fill="none" stroke="#E3E9FF" stroke-width="1.5" stroke-dasharray="3 7" />
-
-            <!-- one 12s loop (CSS above): the line is drawn, each session lights up as the pencil reaches it,
-                 Day 2 begins round the bend, the last session celebrates, then it starts again -->
-            <g class="fs-story">
-              <!-- the plan (faint guide) and the line as it is drawn -->
-              <path d="M100 185 H400 A70 70 0 0 1 400 325 H100" fill="none" stroke="#9FB4F5" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 6" />
-              <path class="fs-ink fs-ink-glow" pathLength="100" d="M100 185 H400 A70 70 0 0 1 400 325 H100" fill="none" stroke="#0054FA" stroke-width="11" stroke-linecap="round" opacity="0.14" stroke-dasharray="100 100" />
-              <path class="fs-ink" pathLength="100" d="M100 185 H400 A70 70 0 0 1 400 325 H100" fill="none" stroke="#0054FA" stroke-width="4" stroke-linecap="round" stroke-dasharray="100 100" />
-              
-              <g transform="translate(180 256)"><g class="fs-d1">
-                <rect x="-64" y="-14" width="128" height="28" rx="14" fill="#FFFFFF" stroke="#DCE3F5" stroke-width="1.2" filter="url(#soft)" />
-                <g transform="translate(-44 0)"><circle r="6" fill="#FFC23D" /><g stroke="#FFC23D" stroke-width="1.6" stroke-linecap="round"><line x1="9.0" y1="0.0" x2="12.0" y2="0.0" /><line x1="6.4" y1="6.4" x2="8.5" y2="8.5" /><line x1="0.0" y1="9.0" x2="0.0" y2="12.0" /><line x1="-6.4" y1="6.4" x2="-8.5" y2="8.5" /><line x1="-9.0" y1="0.0" x2="-12.0" y2="0.0" /><line x1="-6.4" y1="-6.4" x2="-8.5" y2="-8.5" /><line x1="-0.0" y1="-9.0" x2="-0.0" y2="-12.0" /><line x1="6.4" y1="-6.4" x2="8.5" y2="-8.5" /></g></g>
-                <text x="8" y="3.8" text-anchor="middle" class="fs-day">DAY 1 · 7 HOURS</text>
-              </g></g>
-              
-              <g transform="translate(320 256)"><g class="fs-d2">
-                <rect x="-64" y="-14" width="128" height="28" rx="14" fill="#FFFFFF" stroke="#DCE3F5" stroke-width="1.2" filter="url(#soft)" />
-                <g transform="translate(-44 0)"><path d="M2.4 -8 A8.4 8.4 0 1 0 8.2 3 A6.6 6.6 0 0 1 2.4 -8 Z" fill="#FFC23D" /><circle cx="9" cy="-6" r="1.1" fill="#FFC23D" /></g>
-                <text x="8" y="3.8" text-anchor="middle" class="fs-day">DAY 2 · 7 HOURS</text>
-              </g></g>
-              
-              <g class="fs-st" transform="translate(100 185)">
-                <circle r="15" fill="#FFFFFF" stroke="#CFDBFF" stroke-width="1.5" />
-                <text class="fs-num fs-num0" y="3.8">01</text>
-                <circle class="fs-ring fs-r1" r="15" fill="none" stroke="#0054FA" stroke-width="2" />
-                <g class="fs-badge fs-b1"><circle r="15" fill="#0054FA" filter="url(#soft)" /><text class="fs-num fs-num1" y="3.8">01</text></g>
-                <g class="fs-label fs-l1"><rect x="-22" y="-43" width="131" height="22" rx="11" fill="#FFFFFF" stroke="#DCE3F5" stroke-width="1.2" filter="url(#soft)" />
-                  <text x="43.5" y="-28.2" class="fs-lbl" fill="#001A3B" style="fill:#001A3B">Understand the World</text></g>
-              </g>
-              <g class="fs-st" transform="translate(200 185)">
-                <circle r="15" fill="#FFFFFF" stroke="#CFDBFF" stroke-width="1.5" />
-                <text class="fs-num fs-num0" y="3.8">02</text>
-                <circle class="fs-ring fs-r2" r="15" fill="none" stroke="#0054FA" stroke-width="2" />
-                <g class="fs-badge fs-b2"><circle r="15" fill="#0054FA" filter="url(#soft)" /><text class="fs-num fs-num1" y="3.8">02</text></g>
-                <g class="fs-label fs-l2"><rect x="-75.5" y="21" width="115" height="22" rx="11" fill="#FFFFFF" stroke="#DCE3F5" stroke-width="1.2" filter="url(#soft)" />
-                  <text x="-18" y="35.8" class="fs-lbl" fill="#001A3B" style="fill:#001A3B">Discover Yourself</text></g>
-              </g>
-              <g class="fs-st" transform="translate(300 185)">
-                <circle r="15" fill="#FFFFFF" stroke="#CFDBFF" stroke-width="1.5" />
-                <text class="fs-num fs-num0" y="3.8">03</text>
-                <circle class="fs-ring fs-r3" r="15" fill="none" stroke="#0054FA" stroke-width="2" />
-                <g class="fs-badge fs-b3"><circle r="15" fill="#0054FA" filter="url(#soft)" /><text class="fs-num fs-num1" y="3.8">03</text></g>
-                <g class="fs-label fs-l3"><rect x="-76" y="-43" width="152" height="22" rx="11" fill="#FFFFFF" stroke="#DCE3F5" stroke-width="1.2" filter="url(#soft)" />
-                  <text x="0" y="-28.2" class="fs-lbl" fill="#001A3B" style="fill:#001A3B">Learn, Express &amp; Connect</text></g>
-              </g>
-              <g class="fs-st" transform="translate(400 185)">
-                <circle r="15" fill="#FFFFFF" stroke="#CFDBFF" stroke-width="1.5" />
-                <text class="fs-num fs-num0" y="3.8">04</text>
-                <circle class="fs-ring fs-r4" r="15" fill="none" stroke="#0054FA" stroke-width="2" />
-                <g class="fs-badge fs-b4"><circle r="15" fill="#0054FA" filter="url(#soft)" /><text class="fs-num fs-num1" y="3.8">04</text></g>
-                <g class="fs-label fs-l4"><rect x="-152" y="21" width="174" height="22" rx="11" fill="#FFFFFF" stroke="#DCE3F5" stroke-width="1.2" filter="url(#soft)" />
-                  <text x="-65" y="35.8" class="fs-lbl" fill="#001A3B" style="fill:#001A3B">Discover Your Starting Point</text></g>
-              </g>
-              <g class="fs-st" transform="translate(400 325)">
-                <circle r="15" fill="#FFFFFF" stroke="#CFDBFF" stroke-width="1.5" />
-                <text class="fs-num fs-num0" y="3.8">05</text>
-                <circle class="fs-ring fs-r5" r="15" fill="none" stroke="#0054FA" stroke-width="2" />
-                <g class="fs-badge fs-b5"><circle r="15" fill="#0054FA" filter="url(#soft)" /><text class="fs-num fs-num1" y="3.8">05</text></g>
-                <g class="fs-label fs-l5"><rect x="-146" y="21" width="168" height="22" rx="11" fill="#FFFFFF" stroke="#DCE3F5" stroke-width="1.2" filter="url(#soft)" />
-                  <text x="-62" y="35.8" class="fs-lbl" fill="#001A3B" style="fill:#001A3B">Master Your Human Advantage</text></g>
-              </g>
-              <g class="fs-st" transform="translate(300 325)">
-                <circle r="15" fill="#FFFFFF" stroke="#CFDBFF" stroke-width="1.5" />
-                <text class="fs-num fs-num0" y="3.8">06</text>
-                <circle class="fs-ring fs-r6" r="15" fill="none" stroke="#0054FA" stroke-width="2" />
-                <g class="fs-badge fs-b6"><circle r="15" fill="#0054FA" filter="url(#soft)" /><text class="fs-num fs-num1" y="3.8">06</text></g>
-                <g class="fs-label fs-l6"><rect x="-65.5" y="-43" width="131" height="22" rx="11" fill="#FFFFFF" stroke="#DCE3F5" stroke-width="1.2" filter="url(#soft)" />
-                  <text x="0" y="-28.2" class="fs-lbl" fill="#001A3B" style="fill:#001A3B">Build Your AI Engine</text></g>
-              </g>
-              <g class="fs-st" transform="translate(200 325)">
-                <circle r="15" fill="#FFFFFF" stroke="#CFDBFF" stroke-width="1.5" />
-                <text class="fs-num fs-num0" y="3.8">07</text>
-                <circle class="fs-ring fs-r7" r="15" fill="none" stroke="#0054FA" stroke-width="2" />
-                <g class="fs-badge fs-b7"><circle r="15" fill="#0054FA" filter="url(#soft)" /><text class="fs-num fs-num1" y="3.8">07</text></g>
-                <g class="fs-label fs-l7"><rect x="-52" y="21" width="104" height="22" rx="11" fill="#FFFFFF" stroke="#DCE3F5" stroke-width="1.2" filter="url(#soft)" />
-                  <text x="0" y="35.8" class="fs-lbl" fill="#001A3B" style="fill:#001A3B">Show Your Value</text></g>
-              </g>
-              <g class="fs-st" transform="translate(100 325)">
-                <circle r="15" fill="#FFFFFF" stroke="#CFDBFF" stroke-width="1.5" />
-                <text class="fs-num fs-num0" y="3.8">08</text>
-                <circle class="fs-ring fs-r8" r="15" fill="none" stroke="#0054FA" stroke-width="2" />
-                <g class="fs-badge fs-b8"><circle r="15" fill="#0054FA" filter="url(#soft)" /><text class="fs-num fs-num1" y="3.8">08</text></g>
-                <g class="fs-label fs-l8"><rect x="-22" y="-43" width="104" height="22" rx="11" fill="#0054FA" stroke="#0054FA" stroke-width="1.2" filter="url(#soft)" />
-                  <text x="30" y="-28.2" class="fs-lbl" fill="#FFFFFF" style="fill:#FFFFFF">Your Career Map</text></g>
-              </g>
-
-              <!-- the last session: confetti -->
-              <g transform="translate(100 325)"><g class="fs-burst"><g class="fs-bit" style="--dx:38px; --dy:4px; --r:163deg" fill="#0054FA"><circle r="2.6" /></g><g class="fs-bit" style="--dx:50px; --dy:25px; --r:-122deg" fill="#FFC23D"><rect x="-2" y="-3" width="4" height="6" rx="1" /></g><g class="fs-bit" style="--dx:19px; --dy:30px; --r:89deg" fill="#3BB273"><circle r="2.6" /></g><g class="fs-bit" style="--dx:6px; --dy:36px; --r:44deg" fill="#FF5A5F"><rect x="-2" y="-3" width="4" height="6" rx="1" /></g><g class="fs-bit" style="--dx:-9px; --dy:35px; --r:47deg" fill="#7FA6FF"><circle r="2.6" /></g><g class="fs-bit" style="--dx:-31px; --dy:38px; --r:-56deg" fill="#0054FA"><rect x="-2" y="-3" width="4" height="6" rx="1" /></g><g class="fs-bit" style="--dx:-48px; --dy:13px; --r:-139deg" fill="#FFC23D"><circle r="2.6" /></g><g class="fs-bit" style="--dx:-44px; --dy:-8px; --r:-57deg" fill="#3BB273"><rect x="-2" y="-3" width="4" height="6" rx="1" /></g><g class="fs-bit" style="--dx:-50px; --dy:-25px; --r:-22deg" fill="#FF5A5F"><circle r="2.6" /></g><g class="fs-bit" style="--dx:-25px; --dy:-41px; --r:122deg" fill="#7FA6FF"><rect x="-2" y="-3" width="4" height="6" rx="1" /></g><g class="fs-bit" style="--dx:-7px; --dy:-55px; --r:-78deg" fill="#0054FA"><circle r="2.6" /></g><g class="fs-bit" style="--dx:12px; --dy:-47px; --r:-74deg" fill="#FFC23D"><rect x="-2" y="-3" width="4" height="6" rx="1" /></g><g class="fs-bit" style="--dx:34px; --dy:-34px; --r:-138deg" fill="#3BB273"><circle r="2.6" /></g><g class="fs-bit" style="--dx:48px; --dy:-14px; --r:84deg" fill="#FF5A5F"><rect x="-2" y="-3" width="4" height="6" rx="1" /></g></g></g>
-
-              <!-- the glowing pencil tip, moved along the line by the script at the end of the page -->
-              <g id="fs-spark" class="fs-spark" pointer-events="none">
-                <circle r="9" fill="#FFD66B" opacity="0.45" />
-                <circle r="3.6" fill="#FFFFFF" stroke="#FFC23D" stroke-width="1.5" />
-              </g>
-            </g>
-
-            <!-- sparkles -->
-            <path class="fs-twinkle" d="M488 70 l3 9 9 3 -9 3 -3 9 -3 -9 -9 -3 9 -3z" fill="#1947FF" />
-            <path class="fs-twinkle" style="animation-delay:-1.2s" d="M206 82 l2 6 6 2 -6 2 -2 6 -2 -6 -6 -2 6 -2z"
-              fill="#1947FF" opacity="0.5" />
-            <path class="fs-twinkle" style="animation-delay:-2.1s" d="M44 292 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3z"
-              fill="#FFC23D" />
-          </svg>
-
-          <div class="fs-chip fs-chip--a" aria-hidden="true">
-            <i><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                <polyline points="14 2 14 8 20 8"></polyline>
-                <line x1="8" y1="13" x2="16" y2="13"></line>
-                <line x1="8" y1="17" x2="13" y2="17"></line>
-              </svg></i>
-            <div><b>DYF Report</b><small>Personalised to you</small></div>
+          <!-- Three sample DYF Reports (made-up people) so visitors see what they leave with -->
+          <div class="dyfr-stack">
+            <article class="dyfr dyfr--l" aria-label="Sample DYF Report for a made-up student">
+              <header class="dyfr-brand">
+                <img src="kompetenzen%20logo-02.webp" alt="" width="120" height="29" />
+                <svg class="dyfr-chev" viewBox="0 0 112 16" preserveAspectRatio="xMaxYMid slice" aria-hidden="true" focusable="false"><g fill="none" stroke="#1947FF" stroke-width="3.6" stroke-linejoin="miter"><path d="M0 1.5 L6 8 L0 14.5"/><path d="M8 1.5 L14 8 L8 14.5"/><path d="M16 1.5 L22 8 L16 14.5"/><path d="M24 1.5 L30 8 L24 14.5"/><path d="M32 1.5 L38 8 L32 14.5"/><path d="M40 1.5 L46 8 L40 14.5"/><path d="M48 1.5 L54 8 L48 14.5"/><path d="M56 1.5 L62 8 L56 14.5"/><path d="M64 1.5 L70 8 L64 14.5"/><path d="M72 1.5 L78 8 L72 14.5"/><path d="M80 1.5 L86 8 L80 14.5"/><path d="M88 1.5 L94 8 L88 14.5"/><path d="M96 1.5 L102 8 L96 14.5"/><path d="M104 1.5 L110 8 L104 14.5"/><path d="M112 1.5 L118 8 L112 14.5"/><path d="M120 1.5 L126 8 L120 14.5"/><path d="M128 1.5 L134 8 L128 14.5"/></g></svg>
+              </header>
+              <div class="dyfr-head"><b>DYF Career Report</b><span>Sample &middot; No. 0427</span></div>
+              <div class="dyfr-person"><span class="dyfr-avatar" aria-hidden="true">MN</span><div><b>Meera Nair</b><small>B.Tech student &middot; Trivandrum</small></div></div>
+              <div class="dyfr-direction"><small>Best-fit direction</small><b>Software Development &amp; AI</b><span class="dyfr-fit">91% fit</span></div>
+              <p class="dyfr-h">Where you stand</p>
+              <div class="dyfr-row"><div>Strengths <span>Strong</span></div><p class="dyfr-bar"><i style="--w:90%; --i:0"></i></p></div><div class="dyfr-row"><div>Career clarity <span>Clear</span></div><p class="dyfr-bar"><i style="--w:82%; --i:1"></i></p></div><div class="dyfr-row"><div>AI readiness <span>Strong</span></div><p class="dyfr-bar"><i style="--w:71%; --i:2"></i></p></div>
+              <p class="dyfr-h">Skills to build next</p>
+              <ul class="dyfr-chips"><li>Python</li><li>Machine learning</li><li>Git</li></ul>
+              <p class="dyfr-h">Your roadmap</p>
+              <ol class="dyfr-road"><li><span>Now</span>Build projects</li><li><span>Month 3</span>Tech internship</li><li><span>Month 6</span>Junior developer</li></ol>
+              <footer class="dyfr-foot"><span>Confidential &middot; for the student</span><span>Page 1 of 1</span></footer>
+            </article>
+            <article class="dyfr dyfr--r" aria-label="Sample DYF Report for a made-up student">
+              <header class="dyfr-brand">
+                <img src="kompetenzen%20logo-02.webp" alt="" width="120" height="29" />
+                <svg class="dyfr-chev" viewBox="0 0 112 16" preserveAspectRatio="xMaxYMid slice" aria-hidden="true" focusable="false"><g fill="none" stroke="#1947FF" stroke-width="3.6" stroke-linejoin="miter"><path d="M0 1.5 L6 8 L0 14.5"/><path d="M8 1.5 L14 8 L8 14.5"/><path d="M16 1.5 L22 8 L16 14.5"/><path d="M24 1.5 L30 8 L24 14.5"/><path d="M32 1.5 L38 8 L32 14.5"/><path d="M40 1.5 L46 8 L40 14.5"/><path d="M48 1.5 L54 8 L48 14.5"/><path d="M56 1.5 L62 8 L56 14.5"/><path d="M64 1.5 L70 8 L64 14.5"/><path d="M72 1.5 L78 8 L72 14.5"/><path d="M80 1.5 L86 8 L80 14.5"/><path d="M88 1.5 L94 8 L88 14.5"/><path d="M96 1.5 L102 8 L96 14.5"/><path d="M104 1.5 L110 8 L104 14.5"/><path d="M112 1.5 L118 8 L112 14.5"/><path d="M120 1.5 L126 8 L120 14.5"/><path d="M128 1.5 L134 8 L128 14.5"/></g></svg>
+              </header>
+              <div class="dyfr-head"><b>DYF Career Report</b><span>Sample &middot; No. 0431</span></div>
+              <div class="dyfr-person"><span class="dyfr-avatar" aria-hidden="true">RD</span><div><b>Rahul Das</b><small>MBA graduate &middot; Thrissur</small></div></div>
+              <div class="dyfr-direction"><small>Best-fit direction</small><b>HR &amp; People Analytics</b><span class="dyfr-fit">82% fit</span></div>
+              <p class="dyfr-h">Where you stand</p>
+              <div class="dyfr-row"><div>Strengths <span>Strong</span></div><p class="dyfr-bar"><i style="--w:80%; --i:0"></i></p></div><div class="dyfr-row"><div>Career clarity <span>Clear</span></div><p class="dyfr-bar"><i style="--w:69%; --i:1"></i></p></div><div class="dyfr-row"><div>AI readiness <span>Growing</span></div><p class="dyfr-bar"><i style="--w:52%; --i:2"></i></p></div>
+              <p class="dyfr-h">Skills to build next</p>
+              <ul class="dyfr-chips"><li>HR analytics</li><li>Excel</li><li>Recruitment</li></ul>
+              <p class="dyfr-h">Your roadmap</p>
+              <ol class="dyfr-road"><li><span>Now</span>Get certified</li><li><span>Month 3</span>Trainee role</li><li><span>Month 6</span>HR executive</li></ol>
+              <footer class="dyfr-foot"><span>Confidential &middot; for the student</span><span>Page 1 of 1</span></footer>
+            </article>
+            <article class="dyfr dyfr--c" aria-label="Sample DYF Report for a made-up student">
+              <header class="dyfr-brand">
+                <img src="kompetenzen%20logo-02.webp" alt="" width="120" height="29" />
+                <svg class="dyfr-chev" viewBox="0 0 112 16" preserveAspectRatio="xMaxYMid slice" aria-hidden="true" focusable="false"><g fill="none" stroke="#1947FF" stroke-width="3.6" stroke-linejoin="miter"><path d="M0 1.5 L6 8 L0 14.5"/><path d="M8 1.5 L14 8 L8 14.5"/><path d="M16 1.5 L22 8 L16 14.5"/><path d="M24 1.5 L30 8 L24 14.5"/><path d="M32 1.5 L38 8 L32 14.5"/><path d="M40 1.5 L46 8 L40 14.5"/><path d="M48 1.5 L54 8 L48 14.5"/><path d="M56 1.5 L62 8 L56 14.5"/><path d="M64 1.5 L70 8 L64 14.5"/><path d="M72 1.5 L78 8 L72 14.5"/><path d="M80 1.5 L86 8 L80 14.5"/><path d="M88 1.5 L94 8 L88 14.5"/><path d="M96 1.5 L102 8 L96 14.5"/><path d="M104 1.5 L110 8 L104 14.5"/><path d="M112 1.5 L118 8 L112 14.5"/><path d="M120 1.5 L126 8 L120 14.5"/><path d="M128 1.5 L134 8 L128 14.5"/></g></svg>
+              </header>
+              <div class="dyfr-head"><b>DYF Career Report</b><span>Sample &middot; No. 0419</span></div>
+              <div class="dyfr-person"><span class="dyfr-avatar" aria-hidden="true">AM</span><div><b>Aarav Menon</b><small>B.Com graduate &middot; Kochi</small></div></div>
+              <div class="dyfr-direction"><small>Best-fit direction</small><b>Digital Marketing &amp; Analytics</b><span class="dyfr-fit">86% fit</span></div>
+              <p class="dyfr-h">Where you stand</p>
+              <div class="dyfr-row"><div>Strengths <span>Strong</span></div><p class="dyfr-bar"><i style="--w:86%; --i:0"></i></p></div><div class="dyfr-row"><div>Career clarity <span>Clear</span></div><p class="dyfr-bar"><i style="--w:74%; --i:1"></i></p></div><div class="dyfr-row"><div>AI readiness <span>Growing</span></div><p class="dyfr-bar"><i style="--w:58%; --i:2"></i></p></div>
+              <p class="dyfr-h">Skills to build next</p>
+              <ul class="dyfr-chips"><li>Data storytelling</li><li>SEO basics</li><li>AI prompting</li></ul>
+              <p class="dyfr-h">Your roadmap</p>
+              <ol class="dyfr-road"><li><span>Now</span>Build a portfolio</li><li><span>Month 3</span>Marketing internship</li><li><span>Month 6</span>First role</li></ol>
+              <footer class="dyfr-foot"><span>Confidential &middot; for the student</span><span>Page 1 of 1</span></footer>
+            </article>
           </div>
-          <div class="fs-chip fs-chip--b" aria-hidden="true">
-            <i><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
-                <line x1="8" y1="2" x2="8" y2="18"></line>
-                <line x1="16" y1="6" x2="16" y2="22"></line>
-              </svg></i>
-            <div><b>Career Roadmap</b><small>Your next steps</small></div>
-          </div>
+          <p class="dyfr-note">Made-up examples. Your report is personalised to you.</p>
         </div>
       </div>
 
@@ -3091,32 +2892,6 @@
           art.style.setProperty('--px', 0);
           art.style.setProperty('--py', 0);
         });
-      }
-
-      /* Hero: a glowing pencil tip follows the line as it is drawn (synced to the line's CSS animation) */
-      const ink = document.querySelector('.fs-ink:not(.fs-ink-glow)');
-      const spark = document.getElementById('fs-spark');
-      if (ink && spark && !reduceMotion && ink.getAnimations && ink.getTotalLength) {
-        const len = ink.getTotalLength();
-        let onScreen = true;
-        if ('IntersectionObserver' in window) {
-          new IntersectionObserver(entries => { onScreen = entries[0].isIntersecting; }).observe(ink.ownerSVGElement);
-        }
-        const frame = () => {
-          if (onScreen) {
-            const anim = ink.getAnimations()[0];
-            const p = anim && anim.effect ? anim.effect.getComputedTiming().progress : null;
-            if (p != null && p >= 0.04 && p <= 0.84) {
-              const pt = ink.getPointAtLength(((p - 0.04) / 0.80) * len);
-              spark.setAttribute('transform', 'translate(' + pt.x.toFixed(1) + ' ' + pt.y.toFixed(1) + ')');
-              spark.style.opacity = 1;
-            } else {
-              spark.style.opacity = 0;
-            }
-          }
-          requestAnimationFrame(frame);
-        };
-        requestAnimationFrame(frame);
       }
 
       /* Spotlight on audience cards, gentle 3D tilt on the report card */
