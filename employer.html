@@ -198,6 +198,16 @@
           <button class="btn btn-primary" id="auth-submit" type="submit">Sign in</button>
           <button class="link" id="auth-forgot" type="button">Forgot your password?</button>
         </form>
+
+        <form id="otp-form" novalidate hidden>
+          <label>Verification code
+            <input id="otp-code" inputmode="numeric" autocomplete="one-time-code" maxlength="10" pattern="[0-9]*" style="letter-spacing:.35em; font-size:22px; text-align:center;" required />
+          </label>
+          <div class="msg" id="otp-msg" role="alert" hidden></div>
+          <button class="btn btn-primary" id="otp-submit" type="submit">Verify and continue</button>
+          <button class="link" id="otp-resend" type="button">Send a new code</button>
+          <button class="link" id="otp-back" type="button">Use a different email</button>
+        </form>
       </div>
     </div>
   </header>
@@ -387,7 +397,7 @@
           <p>Four steps, and you stay in control of your listings.</p>
         </div>
         <ol class="steps">
-          <li><h3>Create an account</h3><p>Sign up with your work email and confirm it from your inbox.</p></li>
+          <li><h3>Create an account</h3><p>Sign up with your work email and enter the code we email you.</p></li>
           <li><h3>Register your company</h3><p>Add your company details and a registration document.</p></li>
           <li><h3>We verify and approve</h3><p>Our team checks every company. Your jobs show on the site only after approval.</p></li>
           <li><h3>Post jobs, receive candidates</h3><p>Candidates apply with a profile and resume. We screen them and share the matches.</p></li>
@@ -473,7 +483,7 @@
         $('tab-signin').setAttribute('aria-selected', String(!up));
         $('tab-signup').setAttribute('aria-selected', String(up));
         $('auth-title').textContent = up ? 'Create your employer account' : 'Employer sign in';
-        $('auth-sub').textContent = up ? 'Use your work email. We will send a link to confirm it.' : 'Use the work email you registered with.';
+        $('auth-sub').textContent = up ? 'Use your work email. We will send a verification code to it.' : 'Use the work email you registered with.';
         $('auth-submit').textContent = up ? 'Create account' : 'Sign in';
         $('auth-password').autocomplete = up ? 'new-password' : 'current-password';
         $('auth-hint').hidden = !up;
@@ -495,9 +505,9 @@
           if (mode === 'signup') {
             const { error } = await supabaseClient.auth.signUp({ email, password, options: { emailRedirectTo: location.origin + '/employer' } });
             if (error) throw error;
-            // The same message whether or not the address already has an account.
-            say('auth-msg', 'Check your inbox for a link to confirm your email, then sign in.', 'ok');
+            // The same screen whether or not the address already has an account.
             $('auth-password').value = '';
+            showOtp(email);
           } else {
             const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
             if (error) throw error;
@@ -505,8 +515,50 @@
           }
         } catch (e) {
           const m = readable(e);
-          say('auth-msg', /not confirmed/i.test(m) ? 'Please confirm your email first. Check your inbox for the link.'
-            : /invalid login/i.test(m) ? 'The email or password is not correct.' : m);
+          if (/not confirmed/i.test(m)) {
+            // Account exists but the email was never verified: send a fresh code and ask for it.
+            supabaseClient.auth.resend({ type: 'signup', email }).catch(() => {});
+            showOtp(email);
+          } else say('auth-msg', /invalid login/i.test(m) ? 'The email or password is not correct.' : m);
+        } finally { busy(button, false, label); }
+      });
+
+      // ---------- email code ----------
+      let otpEmail = '', resendAt = 0;
+      function showOtp(email) {
+        otpEmail = email;
+        $('auth-form').hidden = true; document.querySelector('.tabs').hidden = true; $('otp-form').hidden = false;
+        $('auth-title').textContent = 'Check your email';
+        $('auth-sub').textContent = 'We sent a verification code to ' + email + '. Enter it below.';
+        $('otp-code').value = ''; say('otp-msg', '');
+        resendAt = Date.now() + 30000;
+        $('otp-code').focus();
+      }
+      function hideOtp() {
+        $('otp-form').hidden = true; $('auth-form').hidden = false; document.querySelector('.tabs').hidden = false;
+        setMode(mode);
+      }
+      $('otp-back').addEventListener('click', hideOtp);
+      $('otp-resend').addEventListener('click', async () => {
+        const wait = Math.ceil((resendAt - Date.now()) / 1000);
+        if (wait > 0) return say('otp-msg', 'Please wait ' + wait + ' seconds before asking for a new code.');
+        resendAt = Date.now() + 30000;
+        const { error } = await supabaseClient.auth.resend({ type: 'signup', email: otpEmail });
+        say('otp-msg', error ? readable(error) : 'A new code is on its way.', error ? 'err' : 'ok');
+      });
+      $('otp-form').addEventListener('submit', async event => {
+        event.preventDefault();
+        const code = $('otp-code').value.replace(/\s/g, '');
+        if (!/^[0-9]{6,10}$/.test(code)) return say('otp-msg', 'Enter the code from the email (digits only).');
+        const button = $('otp-submit'), label = button.textContent;
+        busy(button, true, 'Checking...');
+        say('otp-msg', '');
+        try {
+          const { error } = await supabaseClient.auth.verifyOtp({ email: otpEmail, token: code, type: 'signup' });
+          if (error) throw error;
+          // Verified and signed in: the sign-in listener opens the dashboard.
+        } catch (e) {
+          say('otp-msg', /expired|invalid/i.test(readable(e)) ? 'That code is not correct or has expired. Check it or send a new one.' : readable(e));
         } finally { busy(button, false, label); }
       });
 
@@ -526,6 +578,7 @@
       // ---------- screens ----------
       function showSignedOut() {
         user = null; company = null; jobs = []; loadToken++;
+        if (!$('otp-form').hidden) hideOtp();
         $('dash').hidden = true; $('intro').hidden = false; $('info').hidden = false;
         ['register', 'jobs-area', 'company-details', 'banner'].forEach(id => { $(id).hidden = true; });
         $('job-list').replaceChildren();
