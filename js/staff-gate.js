@@ -61,6 +61,7 @@
     if (window.reloadAdminJobs) window.reloadAdminJobs();
     if (window.reloadAdminContent) window.reloadAdminContent();
     if (window.renderReels) window.renderReels();
+    if (window.loadCompanies) window.loadCompanies();
   }
 
   function showError(err) {

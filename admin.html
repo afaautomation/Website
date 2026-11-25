@@ -340,6 +340,29 @@
       transform: translateY(-1px);
     }
 
+    /* HIRING COMPANIES */
+    .co-pill { padding: 7px 16px; border-radius: 99px; border: 1px solid var(--line); background: #FFFFFF; color: var(--ink-mute); font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; }
+    .co-pill:hover { border-color: var(--ink); color: var(--ink); }
+    .co-pill.active { background: var(--ink); color: #FFFFFF; border-color: var(--ink); }
+    .co-filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 18px; }
+    .co-card { border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; margin-bottom: 14px; background: #fff; }
+    .co-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+    .co-name { font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
+    .co-sub { font-size: 13px; color: var(--ink-mute); margin-top: 2px; }
+    .co-status { font-size: 11.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; padding: 4px 10px; border-radius: 99px; border: 1px solid transparent; }
+    .co-status.pending { background: #FEF9C3; color: #854D0E; border-color: #FDE68A; }
+    .co-status.approved { background: #DCFCE7; color: #166534; border-color: #BBF7D0; }
+    .co-status.suspended { background: #FFEDD5; color: #9A3412; border-color: #FED7AA; }
+    .co-status.rejected { background: #FEE2E2; color: #991B1B; border-color: #FECACA; }
+    .co-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px 22px; margin: 14px 0; font-size: 13.5px; }
+    .co-grid small { display: block; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-mute); }
+    .co-grid span, .co-grid a { overflow-wrap: anywhere; }
+    .co-about { font-size: 13.5px; color: var(--ink-mute); white-space: pre-wrap; overflow-wrap: anywhere; margin-bottom: 12px; }
+    .co-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .co-note { flex: 1 1 220px; min-height: 40px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 9px; font: inherit; font-size: 13px; }
+    .co-actions button.ok { background: #16A34A; color: #fff; border: 0; padding: 9px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; font-family: inherit; }
+    .co-actions button.warn { background: #FFF7ED; color: #C2410C; border: 1px solid #FED7AA; padding: 9px 14px; border-radius: 8px; font-weight: 600; cursor: pointer; font-family: inherit; }
+
     /* ADMIN FORM CARD */
     .admin-card {
       background: #fff;
@@ -2047,6 +2070,17 @@
         </svg>
         <span>Post &amp; Manage Jobs &amp; Internships</span>
       </button>
+      <button type="button" class="admin-tab-btn" onclick="switchAdminTab('companies')" id="tab-btn-companies">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 21V7l9-4 9 4v14" />
+          <path d="M9 21v-6h6v6" />
+          <line x1="8" y1="10" x2="8" y2="10.01" />
+          <line x1="12" y1="10" x2="12" y2="10.01" />
+          <line x1="16" y1="10" x2="16" y2="10.01" />
+        </svg>
+        <span>Hiring Companies</span>
+        <span class="tab-badge" id="company-counter-badge">0</span>
+      </button>
       <button type="button" class="admin-tab-btn" onclick="switchAdminTab('staff')" id="tab-btn-staff">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <rect x="3" y="4" width="18" height="16" rx="2" />
@@ -2332,6 +2366,30 @@
     <!-- ========================================== -->
     <!-- PANEL 3: OUR STAFF (our-story.html)        -->
     <!-- ========================================== -->
+    <!-- ========================================== -->
+    <!-- PANEL: HIRING COMPANIES (employer portal)  -->
+    <!-- ========================================== -->
+    <div id="panel-companies" class="admin-tab-panel">
+      <section class="admin-card">
+        <div class="list-head">
+          <div>
+            <h2>Companies that registered on the employer portal</h2>
+            <p style="font-size: 13px; color: var(--ink-mute); margin-top: 4px;">A company's jobs appear on the site only while it is Approved. Check its website and registration document first. Suspending or rejecting a company hides all of its jobs at once. Applicants' details and resumes stay with us.</p>
+          </div>
+          <span class="list-count" id="company-count">0 companies</span>
+        </div>
+        <div class="co-filters" id="co-filters" role="group" aria-label="Filter companies">
+          <button type="button" class="co-pill active" data-co="pending">Waiting for review</button>
+          <button type="button" class="co-pill" data-co="approved">Approved</button>
+          <button type="button" class="co-pill" data-co="suspended">Suspended</button>
+          <button type="button" class="co-pill" data-co="rejected">Rejected</button>
+          <button type="button" class="co-pill" data-co="all">All</button>
+        </div>
+        <div id="company-empty" class="list-empty" style="display:none;">No companies here.</div>
+        <div id="company-list"></div>
+      </section>
+    </div>
+
     <div id="panel-staff" class="admin-tab-panel">
       <section class="admin-card">
         <h2 id="staff-form-title">Add a Staff Member</h2>
@@ -2545,6 +2603,7 @@
       if (tabId === 'applications') {
         loadApplicationsList();
       }
+      if (tabId === 'companies' && window.loadCompanies) window.loadCompanies();
 
       try {
         if (history.replaceState) {
@@ -3674,6 +3733,131 @@
     /* =============================================
        OUR STAFF (our-story.html)
     ============================================= */
+    (function () {
+      // Employer portal: approve, reject or suspend the companies that registered.
+      const $ = id => document.getElementById(id);
+      let filter = 'pending', all = [], loadVersion = 0;
+      const LABEL = { pending: 'Waiting for review', approved: 'Approved', suspended: 'Suspended', rejected: 'Rejected' };
+
+      function node(tag, text, className) {
+        const n = document.createElement(tag);
+        if (text != null) n.textContent = text;
+        if (className) n.className = className;
+        return n;
+      }
+      function fact(label, value) {
+        const d = document.createElement('div');
+        d.append(node('small', label), node('span', value || '-'));
+        return d;
+      }
+
+      function card(c) {
+        const box = node('article', null, 'co-card');
+        const top = node('div', null, 'co-top');
+        const title = document.createElement('div');
+        title.append(node('div', c.name, 'co-name'),
+          node('div', (c.industry || 'Industry not given') + ' · ' + (c.city || 'City not given') + ' · registered ' + new Date(c.created_at).toLocaleDateString('en-IN'), 'co-sub'));
+        top.append(title, node('span', LABEL[c.status] || c.status, 'co-status ' + (LABEL[c.status] ? c.status : '')));
+        box.append(top);
+
+        const grid = node('div', null, 'co-grid');
+        grid.append(fact('Contact', c.contact_name), fact('Verified email', c.contact_email), fact('Phone', c.contact_phone), fact('Team size', c.company_size));
+        const site = document.createElement('div');
+        site.append(node('small', 'Website'));
+        if (/^https?:\/\//i.test(c.website || '')) {
+          const a = node('a', c.website);
+          a.href = c.website; a.target = '_blank'; a.rel = 'noopener noreferrer nofollow';
+          site.append(a);
+        } else site.append(node('span', '-'));
+        grid.append(site, fact('Jobs posted', String(c.jobs)), fact('Applications received', String(c.applicants)));
+        box.append(grid);
+        if (c.about) box.append(node('p', c.about, 'co-about'));
+        if (c.review_note) box.append(node('p', 'Last note: ' + c.review_note, 'co-about'));
+
+        const actions = node('div', null, 'co-actions');
+        const note = node('input', null, 'co-note');
+        note.type = 'text'; note.maxLength = 500; note.placeholder = 'Note (the company sees it if rejected or suspended)';
+        note.setAttribute('aria-label', 'Note for ' + c.name);
+        const act = (label, status, cls) => {
+          const b = node('button', label, cls);
+          b.type = 'button';
+          b.addEventListener('click', () => review(c, status, note.value, b));
+          return b;
+        };
+        if (c.registration_doc) {
+          const d = node('button', 'Open document', 'btn-secondary');
+          d.type = 'button';
+          d.addEventListener('click', () => openDoc(c, d));
+          actions.append(d);
+        } else actions.append(node('span', 'No document uploaded', 'co-sub'));
+        actions.append(note);
+        if (c.status !== 'approved') actions.append(act(c.status === 'pending' ? 'Approve' : 'Approve again', 'approved', 'ok'));
+        if (c.status === 'pending') actions.append(act('Reject', 'rejected', 'warn'));
+        if (c.status === 'approved') actions.append(act('Suspend', 'suspended', 'warn'));
+        box.append(actions);
+        return box;
+      }
+
+      async function openDoc(c, button) {
+        button.disabled = true;
+        try {
+          // A one-minute link to the private file, made with the staff member's own access.
+          const { data, error } = await supabaseClient.storage.from('company-docs').createSignedUrl(c.registration_doc, 60);
+          if (error || !data || !data.signedUrl) throw error || new Error('Could not open the document.');
+          window.open(data.signedUrl, '_blank', 'noopener,noreferrer');
+        } catch (e) {
+          alert('Could not open the document: ' + (e && e.message || 'try again'));
+        } finally { button.disabled = false; }
+      }
+
+      async function review(c, status, note, button) {
+        const verb = { approved: 'approve', rejected: 'reject', suspended: 'suspend' }[status];
+        const effect = status === 'suspended' ? ' All of its jobs will be hidden from the site.' : status === 'approved' ? ' Its jobs will show on the site.' : '';
+        if (!confirm('Do you want to ' + verb + ' ' + c.name + '?' + effect)) return;
+        button.disabled = true;
+        try {
+          const { error } = await supabaseClient.rpc('admin_employer_review', { p_id: c.id, p_status: status, p_note: note || null });
+          if (error) throw error;
+          await load();
+        } catch (e) {
+          alert('Could not save: ' + (e && e.message || 'try again'));
+          button.disabled = false;
+        }
+      }
+
+      function render() {
+        const shown = all.filter(c => filter === 'all' || c.status === filter);
+        $('company-list').replaceChildren(...shown.map(card));
+        $('company-empty').textContent = 'No companies here.';
+        $('company-empty').style.display = shown.length ? 'none' : 'block';
+        $('company-count').textContent = shown.length + (shown.length === 1 ? ' company' : ' companies');
+        $('company-counter-badge').textContent = String(all.filter(c => c.status === 'pending').length);
+      }
+
+      async function load() {
+        const version = ++loadVersion;
+        const { data, error } = await supabaseClient.rpc('admin_employer_list', { p_status: null });
+        if (version !== loadVersion) return;
+        if (error) {
+          // Until migrations/20261124_employer_portal.sql is applied the function does not exist.
+          $('company-empty').textContent = 'Could not load companies: ' + error.message;
+          $('company-empty').style.display = 'block';
+          return;
+        }
+        all = Array.isArray(data) ? data : [];
+        render();
+      }
+
+      $('co-filters').addEventListener('click', event => {
+        const b = event.target.closest('[data-co]');
+        if (!b) return;
+        filter = b.getAttribute('data-co');
+        document.querySelectorAll('#co-filters [data-co]').forEach(x => x.classList.toggle('active', x === b));
+        render();
+      });
+      window.loadCompanies = load;
+    })();
+
     (function () {
       const KEY = 'kompetenzen_staff';
       const BUCKET = 'site-media';

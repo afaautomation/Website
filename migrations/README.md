@@ -1,5 +1,24 @@
 # Admin workflow update
 
+## Employer portal (2026-11-24)
+
+Run `20261124_employer_portal.sql` in the Supabase SQL Editor (re-runnable) **before** publishing `employer.html` and the updated `admin.html`, and after `20261103_listing_expiry.sql` (it uses `hr_job_open()`). Companies register at `/employer`, staff approve them in the HR console's **Hiring Companies** tab, and only then do their jobs appear on the site.
+
+How it is locked down:
+- Companies, their audit trail and their listings are written only through security-definer functions. Browsers have no INSERT/UPDATE/DELETE on `employer_companies` or `employer_events`, and the existing `hr_jobs` policies still allow only staff to write directly.
+- A company can post only while its status is `approved`. Suspending or rejecting it sets `hr_jobs.held` on every listing, which hides them from visitors, `job_details()` and the apply trigger. Approving again restores them.
+- The contact email is taken from the verified sign-in, never from the form. Text from companies is trimmed, stripped of `<` `>` and control characters, and length-limited. A listing cannot carry an outside apply link, matching rules, or another company's name.
+- Limits: one company per account, 10 new listings a day, 50 open listings, 3 screening questions, a last date within 120 days, 5 uploads per account.
+- Registration documents go to the private `company-docs` bucket (PDF/JPG/PNG, 5 MB), readable by the owner and staff only. Staff open them through one-minute signed links.
+- Candidates still apply through `apply_to_job()`: their details land in `job_applications` and resumes in the private `resumes` bucket. Companies only see an applicant count, never who applied.
+
+Do these in the Supabase dashboard too:
+1. Authentication > Providers > Email: keep **Confirm email** ON (the portal also refuses accounts whose email is unverified). Use a minimum password length of 10 or more.
+2. Authentication > URL configuration: add `https://www.kompetenzen.in/employer` (and the kompetenzentech.com and pages.dev equivalents) to the redirect URLs, so confirmation and reset links come back to the portal.
+3. Authentication > Attack protection: turn on CAPTCHA (Cloudflare Turnstile) and keep the default rate limits.
+
+Regression test: `node --test tests/employer-portal.test.cjs`. This migration has not been applied to production.
+
 ## Security hardening (2026-11-16)
 
 Run `20261116_resume_upload_signed_in_only.sql` and `20261116_security_hardening.sql` in the Supabase SQL Editor (either order, both re-runnable), and deploy the Resume Builder backend from the same day. The first lets only signed-in users upload an application resume. The second makes every Resume Builder resume readable by its owner only (the unused "public resume" policy let anyone list resumes marked public), limits how much one account can store (100 resumes, 50 versions per resume, 20 import records, size limits per row), and accepts a candidate resume link only when it points at `applications/` or the candidate's own folder. Regression test: `node --test tests/security-hardening.test.cjs`. These migrations have not been applied to production.

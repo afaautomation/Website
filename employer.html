@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="en-IN">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script>/* Desktop fit: scales the 1920px design to laptop and desktop windows (same as the other pages). */
+    (function (r) {
+      var touch = window.matchMedia && window.matchMedia('(hover: none)').matches;
+      function fit() {
+        var w = window.innerWidth, z = 1;
+        if (!touch && w > 1024) z = w < 1920 ? Math.max(w / 1920, 0.72) : Math.min(w / 1920, 1.2);
+        z = Math.round(z * 1000) / 1000;
+        r.style.zoom = z === 1 ? '' : z;
+        r.style.setProperty('--fit', z);
+        r.classList.toggle('kz-fit', z !== 1);
+        window.__fit = z;
+      }
+      fit();
+      addEventListener('resize', fit);
+    })(document.documentElement);</script>
+
+  <title>Hire Freshers in Kerala: Post Jobs and Internships | Kompetenzen</title>
+  <meta name="description" content="Companies: register free, get approved by Kompetenzen, then post jobs and internships for freshers in Kerala. Applications and resumes are collected and screened for you." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://www.kompetenzen.in/employer" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Kompetenzen Technologies" />
+  <meta property="og:locale" content="en_IN" />
+  <meta property="og:title" content="Hire Freshers in Kerala: Post Jobs and Internships | Kompetenzen" />
+  <meta property="og:description" content="Register your company, get approved, and post jobs and internships for freshers in Kerala." />
+  <meta property="og:url" content="https://www.kompetenzen.in/employer" />
+  <link rel="icon" type="image/png" href="icon.png?v=2" />
+  <link rel="shortcut icon" href="favicon.ico?v=2" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" media="print" onload="this.media='all'" />
+  <link href="https://fonts.cdnfonts.com/css/google-sans" rel="stylesheet" media="print" onload="this.media='all'" />
+
+  <style>
+    :root {
+      --bg: #FFFFFF; --surface-2: #F1F5FB; --border: rgba(15, 23, 42, 0.12);
+      --ink: #0B1226; --ink-mute: #475569; --ink-dim: #64748B;
+      --blue: #3B82F6; --blue-mid: #2563EB; --blue-soft: rgba(37, 99, 235, 0.09);
+      --green: #15803D; --red: #B91C1C; --amber: #B45309;
+      --maxw: 1180px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+    html, body {
+      background: var(--bg); color: var(--ink);
+      font-family: "Google Sans", "Product Sans", "Outfit", "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+      font-size: 16px; line-height: 1.55; min-height: calc(100vh / var(--fit, 1));
+    }
+    body { overflow-x: hidden; }
+    [hidden] { display: none !important; }
+    a { color: var(--blue-mid); }
+    .wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+    h1, h2, h3 { letter-spacing: -.02em; line-height: 1.12; }
+
+    .eyebrow { display: inline-block; padding: 6px 14px; border-radius: 99px; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #1D4ED8; background: var(--blue-soft); border: 1px solid rgba(37, 99, 235, .22); }
+    .hero { padding: 72px 0 40px; }
+    .hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 56px; align-items: center; }
+    .hero h1 { font-size: clamp(34px, 4.4vw, 58px); margin: 18px 0 16px; font-weight: 600; }
+    .grad { background: linear-gradient(120deg, #2563EB, #4F46E5); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .lead { font-size: clamp(16px, 1.4vw, 19px); color: var(--ink-mute); max-width: 540px; }
+    .points { list-style: none; margin-top: 24px; display: grid; gap: 10px; color: var(--ink-mute); font-size: 15px; }
+    .points li { display: flex; gap: 10px; align-items: flex-start; }
+    .points svg { flex: none; margin-top: 3px; color: var(--green); }
+
+    .card { background: #fff; border: 1px solid var(--border); border-radius: 22px; padding: 28px; box-shadow: 0 24px 60px -34px rgba(15, 23, 42, .35); }
+    .card h2 { font-size: 22px; margin-bottom: 4px; }
+    .card .sub { color: var(--ink-mute); font-size: 14.5px; margin-bottom: 18px; }
+    .tabs { display: grid; grid-template-columns: 1fr 1fr; background: var(--surface-2); border-radius: 12px; padding: 4px; margin-bottom: 20px; }
+    .tabs button { border: 0; background: transparent; font: inherit; font-weight: 600; font-size: 14.5px; padding: 10px; border-radius: 9px; cursor: pointer; color: var(--ink-mute); }
+    .tabs button[aria-selected="true"] { background: #fff; color: var(--ink); box-shadow: 0 1px 4px rgba(15, 23, 42, .12); }
+
+    form { display: grid; gap: 14px; }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    label { display: grid; gap: 6px; font-size: 13.5px; font-weight: 600; }
+    label .opt { font-weight: 400; color: var(--ink-dim); }
+    input, select, textarea { font: inherit; font-size: 15px; font-weight: 400; color: var(--ink); width: 100%; padding: 11px 13px; border: 1px solid var(--border); border-radius: 11px; background: #fff; }
+    textarea { min-height: 96px; resize: vertical; }
+    input:focus, select:focus, textarea:focus { outline: 2px solid var(--blue); outline-offset: 1px; border-color: var(--blue); }
+    .hint { font-size: 12.5px; color: var(--ink-dim); font-weight: 400; }
+    .check { display: flex; gap: 10px; align-items: flex-start; font-weight: 400; font-size: 13.5px; color: var(--ink-mute); }
+    .check input { width: 18px; height: 18px; margin-top: 2px; flex: none; }
+
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; padding: 0 22px; border-radius: 99px; border: 1px solid transparent; font: inherit; font-weight: 700; font-size: 15px; cursor: pointer; text-decoration: none; }
+    .btn-primary { background: var(--ink); color: #fff; }
+    .btn-primary:hover { background: #1c2a52; }
+    .btn-ghost { background: #fff; color: var(--ink); border-color: rgba(15, 23, 42, .2); }
+    .btn-ghost:hover { border-color: var(--ink); }
+    .btn-danger { background: #fff; color: var(--red); border-color: #FECACA; }
+    .btn-sm { min-height: 36px; padding: 0 14px; font-size: 13.5px; }
+    .btn:disabled { opacity: .55; cursor: wait; }
+    .link { background: none; border: 0; font: inherit; font-size: 13.5px; color: var(--blue-mid); cursor: pointer; text-decoration: underline; justify-self: start; padding: 0; }
+
+    .msg { padding: 11px 14px; border-radius: 11px; font-size: 14px; }
+    .msg.err { background: #FEF2F2; color: var(--red); border: 1px solid #FECACA; }
+    .msg.ok { background: #F0FDF4; color: var(--green); border: 1px solid #BBF7D0; }
+
+    /* dashboard */
+    #dash { padding: 44px 0 20px; }
+    .dash-head { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; }
+    .dash-head h1 { font-size: clamp(26px, 3vw, 36px); font-weight: 600; }
+    .dash-head p { color: var(--ink-mute); font-size: 14.5px; }
+    .banner { display: flex; gap: 14px; align-items: flex-start; padding: 18px 20px; border-radius: 16px; margin-bottom: 24px; border: 1px solid; }
+    .banner b { display: block; margin-bottom: 2px; }
+    .banner.pending { background: #FFFBEB; border-color: #FDE68A; color: #78350F; }
+    .banner.approved { background: #F0FDF4; border-color: #BBF7D0; color: #14532D; }
+    .banner.rejected, .banner.suspended { background: #FEF2F2; border-color: #FECACA; color: #7F1D1D; }
+    .dash-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+    .panel-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+    .panel-head h2 { font-size: 22px; }
+
+    .job { display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; align-items: center; padding: 16px 18px; border: 1px solid var(--border); border-radius: 16px; margin-bottom: 12px; background: #fff; }
+    .job h3 { font-size: 17px; font-weight: 600; letter-spacing: -.01em; overflow-wrap: anywhere; }
+    .job .meta { color: var(--ink-mute); font-size: 13.5px; display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 4px; }
+    .job .acts { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .pill { display: inline-block; font-size: 11.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; padding: 3px 10px; border-radius: 99px; margin-left: 8px; vertical-align: 2px; }
+    .pill.live { background: #DCFCE7; color: #166534; }
+    .pill.closed { background: #E2E8F0; color: #475569; }
+    .pill.held { background: #FFEDD5; color: #9A3412; }
+    .empty { padding: 30px 24px; border: 1px dashed rgba(15, 23, 42, .2); border-radius: 16px; text-align: center; color: var(--ink-mute); }
+    .details { border: 1px solid var(--border); border-radius: 16px; padding: 4px 20px; }
+    .details > summary { cursor: pointer; font-weight: 700; padding: 14px 0; }
+    .details form { padding: 4px 0 20px; }
+
+    section.block { padding: 64px 0 8px; }
+    .head { text-align: center; max-width: 700px; margin: 0 auto 36px; }
+    .head h2 { font-size: clamp(26px, 3vw, 38px); font-weight: 600; margin: 14px 0 10px; }
+    .head p { color: var(--ink-mute); font-size: 17px; }
+    .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; list-style: none; counter-reset: s; }
+    .steps li { counter-increment: s; padding: 24px; border: 1px solid var(--border); border-radius: 18px; background: #fff; }
+    .steps li::before { content: counter(s); display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: var(--blue-soft); color: #1D4ED8; font-weight: 800; margin-bottom: 14px; }
+    .steps h3 { font-size: 17px; margin-bottom: 6px; }
+    .steps p { color: var(--ink-mute); font-size: 14.5px; }
+    .faq { max-width: 760px; margin: 0 auto; }
+    .faq details { border-bottom: 1px solid var(--border); }
+    .faq summary { cursor: pointer; font-weight: 600; padding: 18px 0; }
+    .faq details p { color: var(--ink-mute); padding: 0 0 18px; }
+    footer { margin-top: 72px; padding: 32px 24px 44px; border-top: 1px solid var(--border); text-align: center; color: var(--ink-dim); font-size: 14px; }
+    footer a { color: var(--ink-mute); text-decoration: none; }
+    footer nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 22px; margin-bottom: 14px; }
+
+    @media (max-width: 960px) {
+      .hero { padding: 44px 0 28px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 32px; }
+      .steps { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 560px) {
+      .wrap { padding: 0 16px; }
+      .card { padding: 22px 18px; border-radius: 18px; }
+      .row2 { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; }
+      .job { grid-template-columns: 1fr; }
+      .job .acts { justify-content: flex-start; }
+      .btn-primary.wide { width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+  <script src="js/site-nav.js" data-active="job-portal.html" data-account="off"></script>
+
+  <!-- Signed-out: intro and sign-in -->
+  <header class="hero" id="intro">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">For employers</span>
+        <h1>Hire <span class="grad">job-ready freshers</span> from Kerala.</h1>
+        <p class="lead">Register your company, get verified by our team, and post jobs and internships yourself. Candidates apply through Kompetenzen, and we screen and share the matched ones with you.</p>
+        <ul class="points">
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>Free to register and post</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>Every company is checked before its jobs go live</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>Candidate details and resumes are kept safely with us</li>
+        </ul>
+      </div>
+
+      <div class="card" id="auth-card">
+        <div class="tabs" role="tablist" aria-label="Account">
+          <button type="button" role="tab" id="tab-signin" aria-selected="true" data-mode="signin">Sign in</button>
+          <button type="button" role="tab" id="tab-signup" aria-selected="false" data-mode="signup">Create account</button>
+        </div>
+        <h2 id="auth-title">Employer sign in</h2>
+        <p class="sub" id="auth-sub">Use the work email you registered with.</p>
+        <form id="auth-form" novalidate>
+          <label>Work email
+            <input id="auth-email" type="email" autocomplete="email" maxlength="200" required />
+          </label>
+          <label>Password
+            <input id="auth-password" type="password" autocomplete="current-password" maxlength="100" required />
+            <span class="hint" id="auth-hint" hidden>At least 10 characters.</span>
+          </label>
+          <div class="msg" id="auth-msg" role="alert" hidden></div>
+          <button class="btn btn-primary" id="auth-submit" type="submit">Sign in</button>
+          <button class="link" id="auth-forgot" type="button">Forgot your password?</button>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <!-- Signed-in dashboard -->
+  <main id="dash" hidden>
+    <div class="wrap">
+      <div class="dash-head">
+        <div>
+          <h1 id="dash-title">Employer portal</h1>
+          <p id="dash-email"></p>
+        </div>
+        <button class="btn btn-ghost btn-sm" id="signout" type="button">Sign out</button>
+      </div>
+
+      <div class="banner" id="banner" hidden>
+        <div><b id="banner-title"></b><span id="banner-text"></span></div>
+      </div>
+
+      <!-- Step 1: register the company -->
+      <section class="card" id="register" hidden>
+        <h2>Register your company</h2>
+        <p class="sub">Our team reviews every company, usually within one working day. You can post jobs as soon as it is approved.</p>
+        <form id="register-form" novalidate>
+          <div class="row2">
+            <label>Company name
+              <input id="r-name" maxlength="120" required autocomplete="organization" />
+            </label>
+            <label>Website <span class="opt">(recommended)</span>
+              <input id="r-website" type="url" maxlength="300" placeholder="https://" autocomplete="url" />
+            </label>
+          </div>
+          <div class="row2">
+            <label>Industry
+              <select id="r-industry">
+                <option value="">Select</option>
+                <option>IT and software</option><option>Education and training</option><option>Finance and banking</option>
+                <option>Marketing and media</option><option>Retail and e-commerce</option><option>Healthcare</option>
+                <option>Manufacturing</option><option>Hospitality and travel</option><option>Other</option>
+              </select>
+            </label>
+            <label>Company size
+              <select id="r-size">
+                <option value="">Select</option>
+                <option>1-10</option><option>11-50</option><option>51-200</option><option>201-1000</option><option>1000+</option>
+              </select>
+            </label>
+          </div>
+          <div class="row2">
+            <label>City
+              <input id="r-city" maxlength="80" autocomplete="address-level2" />
+            </label>
+            <label>Contact person
+              <input id="r-contact" maxlength="80" required autocomplete="name" />
+            </label>
+          </div>
+          <div class="row2">
+            <label>Phone / WhatsApp
+              <input id="r-phone" type="tel" maxlength="20" required autocomplete="tel" placeholder="+91 98765 43210" />
+            </label>
+            <label>Registration document <span class="opt">(GST, incorporation or licence)</span>
+              <input id="r-doc" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" />
+              <span class="hint">PDF, JPG or PNG, up to 5 MB. Only our verification team can open it.</span>
+            </label>
+          </div>
+          <label>About the company <span class="opt">(shown on your job listings)</span>
+            <textarea id="r-about" maxlength="1500"></textarea>
+          </label>
+          <label class="check"><input id="r-consent" type="checkbox" /> <span>I am authorised to hire for this company and the details above are true.</span></label>
+          <div class="msg" id="register-msg" role="alert" hidden></div>
+          <button class="btn btn-primary wide" id="register-submit" type="submit">Submit for approval</button>
+        </form>
+      </section>
+
+      <!-- Step 2: post and manage jobs (approved companies) -->
+      <div class="dash-grid" id="jobs-area" hidden>
+        <section aria-labelledby="listings-title">
+          <div class="panel-head">
+            <h2 id="listings-title">Your listings</h2>
+            <button class="btn btn-primary btn-sm" id="new-job" type="button">+ Post a job</button>
+          </div>
+
+          <div class="card" id="job-card" hidden style="margin-bottom:20px;">
+            <h2 id="job-form-title">Post a job</h2>
+            <p class="sub">Candidates apply on Kompetenzen with their profile and resume. Your listing shows your company name and goes live straight away.</p>
+            <form id="job-form" novalidate>
+              <label>Job title
+                <input id="j-title" maxlength="120" required placeholder="e.g. Junior Python Developer" />
+              </label>
+              <div class="row2">
+                <label>Category
+                  <select id="j-category" required>
+                    <option value="">Select</option>
+                    <option value="tech">Tech</option>
+                    <option value="hr">HR &amp; Management</option>
+                    <option value="sales">Sales</option>
+                  </select>
+                </label>
+                <label>Type
+                  <select id="j-type" required>
+                    <option value="">Select</option>
+                    <optgroup label="Jobs">
+                      <option value="full-time">Full-time</option><option value="part-time">Part-time</option>
+                      <option value="contract">Contract</option><option value="remote">Remote</option>
+                    </optgroup>
+                    <optgroup label="Internships">
+                      <option value="internship">Internship</option><option value="internship-fulltime">Full-time internship</option>
+                      <option value="internship-parttime">Part-time internship</option><option value="internship-remote">Remote internship</option>
+                    </optgroup>
+                  </select>
+                </label>
+              </div>
+              <div class="row2">
+                <label>Location
+                  <input id="j-location" maxlength="120" required placeholder="e.g. Kochi, Kerala" />
+                </label>
+                <label>Last date to apply
+                  <input id="j-expires" type="date" required />
+                </label>
+              </div>
+              <div class="row2">
+                <label>Experience / eligibility <span class="opt">(optional)</span>
+                  <input id="j-experience" maxlength="100" placeholder="e.g. Freshers or 0-1 years" />
+                </label>
+                <label>Salary / stipend <span class="opt">(optional)</span>
+                  <input id="j-salary" maxlength="100" placeholder="e.g. ₹3 - 4.5 LPA" />
+                </label>
+              </div>
+              <label>Skills <span class="opt">(optional, comma separated)</span>
+                <input id="j-skills" maxlength="400" placeholder="e.g. Python, SQL, Communication" />
+              </label>
+              <label>Description
+                <textarea id="j-description" maxlength="4000" required></textarea>
+              </label>
+              <label>Responsibilities <span class="opt">(optional)</span>
+                <textarea id="j-responsibilities" maxlength="3000"></textarea>
+              </label>
+              <label>Requirements <span class="opt">(optional)</span>
+                <textarea id="j-requirements" maxlength="3000"></textarea>
+              </label>
+              <label>Screening question 1 <span class="opt">(optional)</span><input class="j-q" maxlength="200" /></label>
+              <label>Screening question 2 <span class="opt">(optional)</span><input class="j-q" maxlength="200" /></label>
+              <label>Screening question 3 <span class="opt">(optional)</span><input class="j-q" maxlength="200" /></label>
+              <div class="msg" id="job-msg" role="alert" hidden></div>
+              <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <button class="btn btn-primary" id="job-submit" type="submit">Publish listing</button>
+                <button class="btn btn-ghost" id="job-cancel" type="button">Cancel</button>
+              </div>
+            </form>
+          </div>
+
+          <div id="job-list"></div>
+          <div class="empty" id="job-empty" hidden>You have not posted anything yet. Use “Post a job” to publish your first opening.</div>
+        </section>
+      </div>
+
+      <details class="details" id="company-details" style="margin-top:28px;" hidden>
+        <summary>Company details</summary>
+        <form id="company-form" novalidate>
+          <p class="hint">Your company name and registration document cannot be changed here. Email hr@kompetenzen.in if they need to change.</p>
+          <div class="row2">
+            <label>Website<input id="c-website" type="url" maxlength="300" placeholder="https://" /></label>
+            <label>City<input id="c-city" maxlength="80" /></label>
+          </div>
+          <div class="row2">
+            <label>Industry<input id="c-industry" maxlength="80" /></label>
+            <label>Company size<input id="c-size" maxlength="40" /></label>
+          </div>
+          <div class="row2">
+            <label>Contact person<input id="c-contact" maxlength="80" required /></label>
+            <label>Phone / WhatsApp<input id="c-phone" type="tel" maxlength="20" required /></label>
+          </div>
+          <label>About the company<textarea id="c-about" maxlength="1500"></textarea></label>
+          <div class="msg" id="company-msg" role="alert" hidden></div>
+          <button class="btn btn-ghost btn-sm" id="company-save" type="submit" style="justify-self:start;">Save details</button>
+        </form>
+      </details>
+    </div>
+  </main>
+
+  <main id="info">
+    <section class="block" aria-labelledby="how-title">
+      <div class="wrap">
+        <div class="head">
+          <span class="eyebrow">How it works</span>
+          <h2 id="how-title">From sign-up to first hire</h2>
+          <p>Four steps, and you stay in control of your listings.</p>
+        </div>
+        <ol class="steps">
+          <li><h3>Create an account</h3><p>Sign up with your work email and confirm it from your inbox.</p></li>
+          <li><h3>Register your company</h3><p>Add your company details and a registration document.</p></li>
+          <li><h3>We verify and approve</h3><p>Our team checks every company. Your jobs show on the site only after approval.</p></li>
+          <li><h3>Post jobs, receive candidates</h3><p>Candidates apply with a profile and resume. We screen them and share the matches.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="block" aria-labelledby="faq-title">
+      <div class="wrap">
+        <div class="head"><span class="eyebrow">FAQ</span><h2 id="faq-title">Questions from companies</h2></div>
+        <div class="faq">
+          <details><summary>Does it cost anything?</summary><p>No. Registering, posting jobs and receiving matched candidates is free.</p></details>
+          <details><summary>Why does my company need approval?</summary><p>Candidates trust Kompetenzen because every employer is real. We check each company before its listings appear, and we can hide a company's listings at any time.</p></details>
+          <details><summary>Where do applications go?</summary><p>Candidates apply on Kompetenzen with their profile and resume. These are stored safely with us. Our team screens the applications and shares the matched candidates with you.</p></details>
+          <details><summary>Can I add my own application link?</summary><p>No. Applications always come through Kompetenzen, so candidates are never sent to unknown sites.</p></details>
+          <details><summary>How do I contact you?</summary><p>Email <a href="mailto:hr@kompetenzen.in">hr@kompetenzen.in</a> or message +91 85908 86009 on WhatsApp.</p></details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <nav aria-label="More from Kompetenzen">
+      <a href="job-portal.html">Jobs for freshers</a>
+      <a href="jobs.html">Jobs</a>
+      <a href="internships.html">Internships</a>
+      <a href="talent-hunt.html">Campus hiring</a>
+    </nav>
+    <p>&copy; 2026 Kompetenzen Technologies. All rights reserved. &middot; <a href="privacy.html">Privacy Policy</a> &middot; <a href="/">Back to Main Site</a></p>
+  </footer>
+
+  <script src="js/vendor/supabase-2.116.0.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP"></script>
+  <script src="supabase-config.js"></script>
+  <script>
+    (function () {
+      'use strict';
+      const $ = id => document.getElementById(id);
+      const DOC_TYPES = { 'application/pdf': 'pdf', 'image/jpeg': 'jpg', 'image/png': 'png' };
+      const MAX_DOC = 5 * 1024 * 1024;
+      const STATUS_TEXT = {
+        pending: ['Your company is waiting for approval', 'Our team is reviewing it, usually within one working day. You will be able to post jobs here as soon as it is approved.'],
+        approved: ['Your company is approved', 'Your listings are visible to candidates until their last date to apply.'],
+        rejected: ['Your company was not approved', 'Please contact hr@kompetenzen.in if you think this is a mistake.'],
+        suspended: ['Your company is suspended', 'Your listings are hidden and candidates cannot apply. Please contact hr@kompetenzen.in.']
+      };
+      let mode = 'signin', user = null, company = null, jobs = [], editingId = null, loadToken = 0;
+
+      // ---------- helpers ----------
+      function el(tag, text, className) {
+        const n = document.createElement(tag);
+        if (text != null) n.textContent = text;
+        if (className) n.className = className;
+        return n;
+      }
+      function say(id, text, kind) {
+        const n = $(id);
+        n.textContent = text || '';
+        n.className = 'msg ' + (kind || 'err');
+        n.hidden = !text;
+      }
+      function busy(button, on, label) {
+        button.disabled = on;
+        if (label) button.textContent = label;
+      }
+      function readable(error) {
+        const m = (error && error.message) || '';
+        if (/Failed to fetch|Load failed|NetworkError/i.test(m)) return 'Could not reach our server. Check your connection and try again.';
+        return m || 'Something went wrong. Please try again.';
+      }
+      function today() {
+        // India date, so the allowed range matches what the database checks.
+        return new Date(Date.now() + 5.5 * 3600e3).toISOString().slice(0, 10);
+      }
+      function plusDays(n) {
+        return new Date(Date.now() + 5.5 * 3600e3 + n * 864e5).toISOString().slice(0, 10);
+      }
+      const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+      // ---------- sign in / create account ----------
+      function setMode(next) {
+        mode = next;
+        const up = mode === 'signup';
+        $('tab-signin').setAttribute('aria-selected', String(!up));
+        $('tab-signup').setAttribute('aria-selected', String(up));
+        $('auth-title').textContent = up ? 'Create your employer account' : 'Employer sign in';
+        $('auth-sub').textContent = up ? 'Use your work email. We will send a link to confirm it.' : 'Use the work email you registered with.';
+        $('auth-submit').textContent = up ? 'Create account' : 'Sign in';
+        $('auth-password').autocomplete = up ? 'new-password' : 'current-password';
+        $('auth-hint').hidden = !up;
+        $('auth-forgot').hidden = up;
+        say('auth-msg', '');
+      }
+      document.querySelectorAll('[data-mode]').forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
+
+      $('auth-form').addEventListener('submit', async event => {
+        event.preventDefault();
+        const email = $('auth-email').value.trim().toLowerCase(), password = $('auth-password').value;
+        if (!/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(email)) return say('auth-msg', 'Enter a valid email address.');
+        if (mode === 'signup' && password.length < 10) return say('auth-msg', 'Choose a password of at least 10 characters.');
+        if (!password) return say('auth-msg', 'Enter your password.');
+        const button = $('auth-submit'), label = button.textContent;
+        busy(button, true, 'Please wait...');
+        say('auth-msg', '');
+        try {
+          if (mode === 'signup') {
+            const { error } = await supabaseClient.auth.signUp({ email, password, options: { emailRedirectTo: location.origin + '/employer' } });
+            if (error) throw error;
+            // The same message whether or not the address already has an account.
+            say('auth-msg', 'Check your inbox for a link to confirm your email, then sign in.', 'ok');
+            $('auth-password').value = '';
+          } else {
+            const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+            if (error) throw error;
+            $('auth-password').value = '';
+          }
+        } catch (e) {
+          const m = readable(e);
+          say('auth-msg', /not confirmed/i.test(m) ? 'Please confirm your email first. Check your inbox for the link.'
+            : /invalid login/i.test(m) ? 'The email or password is not correct.' : m);
+        } finally { busy(button, false, label); }
+      });
+
+      $('auth-forgot').addEventListener('click', async () => {
+        const email = $('auth-email').value.trim().toLowerCase();
+        if (!/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(email)) return say('auth-msg', 'Type your email above first.');
+        try {
+          await supabaseClient.auth.resetPasswordForEmail(email, { redirectTo: location.origin + '/employer' });
+        } catch (e) { /* the answer is the same either way */ }
+        say('auth-msg', 'If this email has an account, a password reset link is on its way.', 'ok');
+      });
+
+      $('signout').addEventListener('click', async () => {
+        await supabaseClient.auth.signOut();
+      });
+
+      // ---------- screens ----------
+      function showSignedOut() {
+        user = null; company = null; jobs = []; loadToken++;
+        $('dash').hidden = true; $('intro').hidden = false; $('info').hidden = false;
+        ['register', 'jobs-area', 'company-details', 'banner'].forEach(id => { $(id).hidden = true; });
+        $('job-list').replaceChildren();
+      }
+
+      async function showSignedIn(session) {
+        const token = ++loadToken;
+        user = session.user;
+        $('intro').hidden = true; $('info').hidden = true; $('dash').hidden = false;
+        $('dash-email').textContent = user.email || '';
+        try {
+          const { data, error } = await supabaseClient.from('employer_companies').select('*').maybeSingle();
+          if (token !== loadToken) return;
+          if (error) throw error;
+          company = data;
+        } catch (e) {
+          $('dash-title').textContent = 'Employer portal';
+          const b = $('banner'); b.className = 'banner rejected'; b.hidden = false;
+          $('banner-title').textContent = 'Could not load your account. ';
+          $('banner-text').textContent = readable(e);
+          return;
+        }
+        render();
+        if (company && company.status === 'approved') await loadJobs(token);
+      }
+
+      function render() {
+        const banner = $('banner');
+        $('register').hidden = !!company;
+        $('dash-title').textContent = company ? company.name : 'Register your company';
+        const approved = !!company && company.status === 'approved';
+        $('jobs-area').hidden = !approved;
+        $('company-details').hidden = !company;
+        if (!company) { banner.hidden = true; return; }
+        const [title, text] = STATUS_TEXT[company.status] || ['', ''];
+        banner.className = 'banner ' + company.status;
+        $('banner-title').textContent = title;
+        $('banner-text').textContent = (company.review_note && company.status !== 'approved' ? text + ' Note from our team: ' + company.review_note : text);
+        banner.hidden = false;
+        $('c-website').value = company.website || ''; $('c-city').value = company.city || '';
+        $('c-industry').value = company.industry || ''; $('c-size').value = company.company_size || '';
+        $('c-contact').value = company.contact_name || ''; $('c-phone').value = company.contact_phone || '';
+        $('c-about').value = company.about || '';
+      }
+
+      // ---------- registration ----------
+      $('register-form').addEventListener('submit', async event => {
+        event.preventDefault();
+        const button = $('register-submit'), label = button.textContent;
+        const name = $('r-name').value.trim(), contact = $('r-contact').value.trim(), phone = $('r-phone').value.trim();
+        const file = $('r-doc').files[0];
+        if (name.length < 2) return say('register-msg', 'Enter your company name.');
+        if (contact.length < 2) return say('register-msg', 'Enter the contact person\'s name.');
+        if (!/^\+?[0-9\s()-]{8,20}$/.test(phone)) return say('register-msg', 'Enter a valid phone number.');
+        if (!$('r-consent').checked) return say('register-msg', 'Please confirm you are authorised to hire for this company.');
+        if (file && (!DOC_TYPES[file.type] || file.size > MAX_DOC)) return say('register-msg', 'The document must be a PDF, JPG or PNG up to 5 MB.');
+        busy(button, true, 'Submitting...');
+        say('register-msg', '');
+        try {
+          let path = null;
+          if (file) {
+            path = user.id + '/' + crypto.randomUUID() + '.' + DOC_TYPES[file.type];
+            const up = await supabaseClient.storage.from('company-docs').upload(path, file, { contentType: file.type, upsert: false });
+            if (up.error) throw up.error;
+          }
+          const { error } = await supabaseClient.rpc('employer_register', {
+            p_name: name, p_website: $('r-website').value.trim() || null, p_industry: $('r-industry').value || null,
+            p_size: $('r-size').value || null, p_city: $('r-city').value.trim() || null, p_about: $('r-about').value.trim() || null,
+            p_contact_name: contact, p_contact_phone: phone, p_registration_doc: path
+          });
+          if (error) throw error;
+          const { data: session } = await supabaseClient.auth.getSession();
+          if (session.session) await showSignedIn(session.session);
+        } catch (e) {
+          say('register-msg', readable(e));
+        } finally { busy(button, false, label); }
+      });
+
+      // ---------- company details ----------
+      $('company-form').addEventListener('submit', async event => {
+        event.preventDefault();
+        const button = $('company-save'), label = button.textContent;
+        busy(button, true, 'Saving...');
+        try {
+          const { error } = await supabaseClient.rpc('employer_update_company', {
+            p_website: $('c-website').value.trim() || null, p_industry: $('c-industry').value.trim() || null,
+            p_size: $('c-size').value.trim() || null, p_city: $('c-city').value.trim() || null,
+            p_about: $('c-about').value.trim() || null, p_contact_name: $('c-contact').value.trim(),
+            p_contact_phone: $('c-phone').value.trim()
+          });
+          if (error) throw error;
+          const { data } = await supabaseClient.from('employer_companies').select('*').maybeSingle();
+          if (data) company = data;
+          say('company-msg', 'Saved.', 'ok');
+        } catch (e) {
+          say('company-msg', readable(e));
+        } finally { busy(button, false, label); }
+      });
+
+      // ---------- jobs ----------
+      async function loadJobs(token) {
+        const { data, error } = await supabaseClient.rpc('employer_my_jobs');
+        if (token !== undefined && token !== loadToken) return;
+        if (error) { jobs = []; $('job-empty').textContent = readable(error); $('job-empty').hidden = false; return; }
+        jobs = Array.isArray(data) ? data : [];
+        renderJobs();
+      }
+
+      function renderJobs() {
+        $('job-empty').textContent = 'You have not posted anything yet. Use “Post a job” to publish your first opening.';
+        $('job-empty').hidden = jobs.length > 0;
+        $('job-list').replaceChildren(...jobs.map(j => {
+          const box = el('article', null, 'job');
+          const left = document.createElement('div');
+          const h = el('h3', j.title);
+          const state = j.held ? ['Hidden', 'held'] : j.open ? ['Live', 'live'] : ['Closed', 'closed'];
+          h.append(el('span', state[0], 'pill ' + state[1]));
+          const meta = el('div', null, 'meta');
+          meta.append(el('span', j.location), el('span', j.job_type),
+            el('span', j.applicants + (j.applicants === 1 ? ' applicant' : ' applicants')),
+            el('span', 'Apply by ' + new Date(j.expires_on + 'T00:00:00').toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })));
+          left.append(h, meta);
+          const acts = el('div', null, 'acts');
+          if (j.open && UUID.test(j.id)) {
+            const view = el('a', 'View', 'btn btn-ghost btn-sm');
+            view.href = 'job-details.html?id=' + j.id; view.target = '_blank'; view.rel = 'noopener';
+            acts.append(view);
+          }
+          if (!j.held) {
+            const edit = el('button', 'Edit', 'btn btn-ghost btn-sm'); edit.type = 'button';
+            edit.addEventListener('click', () => openJobForm(j));
+            acts.append(edit);
+          }
+          if (j.open) {
+            const close = el('button', 'Close', 'btn btn-danger btn-sm'); close.type = 'button';
+            close.addEventListener('click', () => closeJob(j, close));
+            acts.append(close);
+          }
+          box.append(left, acts);
+          return box;
+        }));
+      }
+
+      function openJobForm(job) {
+        editingId = job ? job.id : null;
+        $('job-form-title').textContent = job ? 'Edit listing' : 'Post a job';
+        $('job-submit').textContent = job ? 'Save changes' : 'Publish listing';
+        const f = job || {};
+        $('j-title').value = f.title || ''; $('j-category').value = f.category || ''; $('j-type').value = f.job_type || '';
+        $('j-location').value = f.location || ''; $('j-experience').value = f.experience || ''; $('j-salary').value = f.salary || '';
+        $('j-skills').value = f.skills || ''; $('j-description').value = f.description || '';
+        $('j-responsibilities').value = f.responsibilities || ''; $('j-requirements').value = f.requirements || '';
+        $('j-expires').min = today(); $('j-expires').max = plusDays(120);
+        $('j-expires').value = job && job.open ? job.expires_on : plusDays(30);
+        const qs = Array.isArray(f.questions) ? f.questions : [];
+        document.querySelectorAll('.j-q').forEach((input, i) => { input.value = qs[i] || ''; });
+        say('job-msg', '');
+        $('job-card').hidden = false;
+        $('job-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        $('j-title').focus({ preventScroll: true });
+      }
+      $('new-job').addEventListener('click', () => openJobForm(null));
+      $('job-cancel').addEventListener('click', () => { $('job-card').hidden = true; editingId = null; });
+
+      $('job-form').addEventListener('submit', async event => {
+        event.preventDefault();
+        const button = $('job-submit'), label = button.textContent;
+        const job = {
+          title: $('j-title').value, category: $('j-category').value, job_type: $('j-type').value,
+          location: $('j-location').value, experience: $('j-experience').value, salary: $('j-salary').value,
+          skills: $('j-skills').value, description: $('j-description').value, responsibilities: $('j-responsibilities').value,
+          requirements: $('j-requirements').value, expires_on: $('j-expires').value,
+          questions: [...document.querySelectorAll('.j-q')].map(i => i.value.trim()).filter(Boolean)
+        };
+        if (job.title.trim().length < 3) return say('job-msg', 'Enter a job title.');
+        if (!job.category || !job.job_type) return say('job-msg', 'Choose a category and a type.');
+        if (!job.location.trim()) return say('job-msg', 'Enter the job location.');
+        if (job.description.trim().length < 30) return say('job-msg', 'Describe the role in at least 30 characters.');
+        if (!job.expires_on) return say('job-msg', 'Choose the last date to apply.');
+        busy(button, true, 'Saving...');
+        say('job-msg', '');
+        try {
+          const call = editingId
+            ? supabaseClient.rpc('employer_update_job', { p_id: editingId, p_job: job })
+            : supabaseClient.rpc('employer_post_job', { p_job: job });
+          const { error } = await call;
+          if (error) throw error;
+          $('job-card').hidden = true; editingId = null;
+          await loadJobs();
+        } catch (e) {
+          say('job-msg', readable(e));
+        } finally { busy(button, false, label); }
+      });
+
+      async function closeJob(job, button) {
+        if (!confirm('Close "' + job.title + '"? Candidates will no longer be able to apply.')) return;
+        button.disabled = true;
+        try {
+          const { error } = await supabaseClient.rpc('employer_close_job', { p_id: job.id });
+          if (error) throw error;
+          await loadJobs();
+        } catch (e) {
+          alert(readable(e));
+          button.disabled = false;
+        }
+      }
+
+      // ---------- start ----------
+      async function start() {
+        setMode('signin');
+        if (!isSupabaseConfigured()) {
+          say('auth-msg', 'The portal is unavailable right now. Please try again shortly.');
+          return;
+        }
+        const { data } = await supabaseClient.auth.getSession();
+        if (data.session) await showSignedIn(data.session); else showSignedOut();
+        supabaseClient.auth.onAuthStateChange((event, session) => {
+          if (event === 'SIGNED_OUT' || !session) { showSignedOut(); return; }
+          if (event === 'SIGNED_IN' && (!user || user.id !== session.user.id)) {
+            // Defer: the auth callback must not call back into the client directly.
+            setTimeout(() => showSignedIn(session), 0);
+          }
+        });
+      }
+      start();
+    })();
+  </script>
+</body>
+
+</html>
