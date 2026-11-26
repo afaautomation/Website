@@ -38,6 +38,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
     rel="stylesheet" media="print" onload="this.media='all'" />
   <link href="https://fonts.cdnfonts.com/css/google-sans" rel="stylesheet" media="print" onload="this.media='all'" />
+  <link rel="stylesheet" href="css/matching-builder.css" />
 
   <style>
     :root {
@@ -45,6 +46,8 @@
       --ink: #0B1226; --ink-mute: #475569; --ink-dim: #64748B;
       --blue: #3B82F6; --blue-mid: #2563EB; --blue-soft: rgba(37, 99, 235, 0.09);
       --green: #15803D; --red: #B91C1C; --amber: #B45309;
+      /* names used by css/matching-builder.css */
+      --line: rgba(15, 23, 42, 0.12); --line-soft: rgba(15, 23, 42, 0.07); --paper: #FFFFFF; --ink-2: #1F2A44;
       --maxw: 1180px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
@@ -80,7 +83,7 @@
     .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     label { display: grid; gap: 6px; font-size: 13.5px; font-weight: 600; }
     label .opt { font-weight: 400; color: var(--ink-dim); }
-    input, select, textarea { font: inherit; font-size: 15px; font-weight: 400; color: var(--ink); width: 100%; padding: 11px 13px; border: 1px solid var(--border); border-radius: 11px; background: #fff; }
+    input:not([type="checkbox"]):not([type="radio"]), select, textarea { font: inherit; font-size: 15px; font-weight: 400; color: var(--ink); width: 100%; padding: 11px 13px; border: 1px solid var(--border); border-radius: 11px; background: #fff; }
     textarea { min-height: 96px; resize: vertical; }
     input:focus, select:focus, textarea:focus { outline: 2px solid var(--blue); outline-offset: 1px; border-color: var(--blue); }
     .hint { font-size: 12.5px; color: var(--ink-dim); font-weight: 400; }
@@ -127,6 +130,50 @@
     .details { border: 1px solid var(--border); border-radius: 16px; padding: 4px 20px; }
     .details > summary { cursor: pointer; font-weight: 700; padding: 14px 0; }
     .details form { padding: 4px 0 20px; }
+
+    /* screening rules inside the job form */
+    .rank-box { border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; }
+    .rank-box > summary { cursor: pointer; font-weight: 700; }
+    .rank-box .hint { margin: 6px 0 12px; }
+    .rank-box .mc { margin-top: 12px; }
+    .rank-box .mc .field label { display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-mute); margin-bottom: 6px; }
+    .rank-box .mc .field-hint { font-size: 12px; color: var(--ink-dim); margin-top: 5px; font-weight: 400; }
+
+    /* applicants */
+    .filters { display: grid; grid-template-columns: 1.4fr repeat(3, 1fr) auto; gap: 12px; align-items: end; padding: 18px; margin-bottom: 16px; border-radius: 18px; }
+    .filters label { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-mute); }
+    .filters input, .filters select { height: 42px; padding: 0 11px; font-size: 14px; }
+    .tally { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 14px; }
+    .tally button { border: 1px solid var(--border); background: #fff; border-radius: 99px; padding: 6px 14px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--ink-mute); }
+    .tally button[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+    .cand { border: 1px solid var(--border); border-radius: 16px; padding: 18px 20px; margin-bottom: 12px; background: #fff; display: grid; gap: 10px; }
+    .cand.is-shortlisted { border-color: #86EFAC; background: #FAFFFB; }
+    .cand.is-rejected { opacity: .65; }
+    .cand-top { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; }
+    .score { width: 58px; height: 58px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; border: 3px solid; }
+    .score small { font-size: 11px; font-weight: 700; margin: 3px 0 0 1px; }
+    .score.hi { color: #166534; border-color: #4ADE80; background: #F0FDF4; }
+    .score.mid { color: #92400E; border-color: #FBBF24; background: #FFFBEB; }
+    .score.lo { color: #475569; border-color: #CBD5E1; background: #F8FAFC; }
+    .cand h3 { font-size: 17px; font-weight: 600; letter-spacing: -.01em; overflow-wrap: anywhere; }
+    .cand .sub { color: var(--ink-mute); font-size: 13.5px; }
+    .chip { display: inline-block; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 99px; background: var(--surface-2); color: var(--ink-mute); margin-left: 6px; vertical-align: 1px; }
+    .chip.good { background: #DCFCE7; color: #166534; }
+    .chip.warn { background: #FEF3C7; color: #92400E; }
+    .chip.bad { background: #FEE2E2; color: #991B1B; }
+    .skillrow { display: flex; flex-wrap: wrap; gap: 6px; }
+    .skillrow span { font-size: 12.5px; padding: 3px 10px; border-radius: 99px; border: 1px solid var(--border); color: var(--ink-mute); }
+    .cand details { font-size: 14px; }
+    .cand details summary { cursor: pointer; font-weight: 600; color: var(--blue-mid); }
+    .cand details ul { margin: 8px 0 0 18px; color: var(--ink-mute); }
+    .cand details p { margin-top: 8px; color: var(--ink-mute); overflow-wrap: anywhere; }
+    .cand details p b { color: var(--ink); }
+    .contact { display: flex; flex-wrap: wrap; gap: 8px 20px; padding: 12px 14px; border-radius: 12px; background: #F0FDF4; border: 1px solid #BBF7D0; font-size: 14px; align-items: center; }
+    .contact a { overflow-wrap: anywhere; }
+    .locked { font-size: 13px; color: var(--ink-dim); }
+    .cand-acts { display: flex; flex-wrap: wrap; gap: 8px; }
+    @media (max-width: 960px) { .filters { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 560px) { .filters { grid-template-columns: 1fr; } .cand-top { grid-template-columns: auto 1fr; } .cand-top .chipcol { grid-column: 1 / -1; } }
 
     section.block { padding: 64px 0 8px; }
     .head { text-align: center; max-width: 700px; margin: 0 auto 36px; }
@@ -351,6 +398,12 @@
               <label>Screening question 1 <span class="opt">(optional)</span><input class="j-q" maxlength="200" /></label>
               <label>Screening question 2 <span class="opt">(optional)</span><input class="j-q" maxlength="200" /></label>
               <label>Screening question 3 <span class="opt">(optional)</span><input class="j-q" maxlength="200" /></label>
+              <details class="rank-box" id="rank-box">
+                <summary>Score and rank applicants automatically <span class="opt" style="font-weight:400;">(optional)</span></summary>
+                <p class="hint">Choose the skills, qualifications and experience you want. Every applicant then gets a fit score out of 100 that you can sort and filter by. Candidates confirm their skills when they apply.</p>
+                <label class="check"><input id="j-rank" type="checkbox" /> <span>Turn on scoring for this listing</span></label>
+                <div id="j-matching" hidden></div>
+              </details>
               <div class="msg" id="job-msg" role="alert" hidden></div>
               <div style="display:flex; gap:10px; flex-wrap:wrap;">
                 <button class="btn btn-primary" id="job-submit" type="submit">Publish listing</button>
@@ -361,6 +414,36 @@
 
           <div id="job-list"></div>
           <div class="empty" id="job-empty" hidden>You have not posted anything yet. Use “Post a job” to publish your first opening.</div>
+        </section>
+
+        <section id="applicants" aria-labelledby="applicants-title">
+          <div class="panel-head">
+            <h2 id="applicants-title">Applicants</h2>
+            <span class="hint" id="app-total"></span>
+          </div>
+          <div class="tally" id="app-tally" role="group" aria-label="Applicant status"></div>
+          <form class="filters card" id="app-filters" novalidate>
+            <label>Search<input id="f-search" maxlength="80" placeholder="Name, college or skill" /></label>
+            <label>Listing<select id="f-job"><option value="">All listings</option></select></label>
+            <label>Fit
+              <select id="f-match">
+                <option value="">Any</option>
+                <option value="matched">Meets requirements</option>
+                <option value="needs_information">Needs information</option>
+                <option value="not_matched">Requirement not met</option>
+              </select>
+            </label>
+            <label>Minimum score
+              <select id="f-score">
+                <option value="">Any</option><option value="80">80 and above</option><option value="60">60 and above</option>
+                <option value="40">40 and above</option><option value="20">20 and above</option>
+              </select>
+            </label>
+            <button class="btn btn-ghost btn-sm" id="f-reset" type="button">Clear</button>
+          </form>
+          <div id="app-list"></div>
+          <div class="empty" id="app-empty" hidden>No applicants yet. They appear here as candidates apply to your listings.</div>
+          <div style="text-align:center; margin-top:14px;"><button class="btn btn-ghost" id="app-more" type="button" hidden>Show more</button></div>
         </section>
       </div>
 
@@ -431,6 +514,9 @@
 
   <script src="js/vendor/supabase-2.116.0.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP"></script>
   <script src="supabase-config.js"></script>
+  <script src="js/matching-terms.js"></script>
+  <script src="js/career-catalog.js"></script>
+  <script src="js/applicant-matching.js"></script>
   <script>
     (function () {
       'use strict';
@@ -581,7 +667,7 @@
         if (!$('otp-form').hidden) hideOtp();
         $('dash').hidden = true; $('intro').hidden = false; $('info').hidden = false;
         ['register', 'jobs-area', 'company-details', 'banner'].forEach(id => { $(id).hidden = true; });
-        $('job-list').replaceChildren();
+        $('job-list').replaceChildren(); $('app-list').replaceChildren(); apps = [];
       }
 
       async function showSignedIn(session) {
@@ -602,7 +688,7 @@
           return;
         }
         render();
-        if (company && company.status === 'approved') await loadJobs(token);
+        if (company && company.status === 'approved') { await loadJobs(token); if (token === loadToken) loadApplicants(true); }
       }
 
       function render() {
@@ -698,7 +784,7 @@
           h.append(el('span', state[0], 'pill ' + state[1]));
           const meta = el('div', null, 'meta');
           meta.append(el('span', j.location), el('span', j.job_type),
-            el('span', j.applicants + (j.applicants === 1 ? ' applicant' : ' applicants')),
+            el('span', j.applicants + (j.applicants === 1 ? ' applicant' : ' applicants') + (j.shortlisted ? ' (' + j.shortlisted + ' shortlisted)' : '')),
             el('span', 'Apply by ' + new Date(j.expires_on + 'T00:00:00').toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })));
           left.append(h, meta);
           const acts = el('div', null, 'acts');
@@ -706,6 +792,14 @@
             const view = el('a', 'View', 'btn btn-ghost btn-sm');
             view.href = 'job-details.html?id=' + j.id; view.target = '_blank'; view.rel = 'noopener';
             acts.append(view);
+          }
+          if (j.applicants > 0) {
+            const see = el('button', 'Applicants', 'btn btn-ghost btn-sm'); see.type = 'button';
+            see.addEventListener('click', () => {
+              $('f-job').value = j.id; loadApplicants(true);
+              $('applicants').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            acts.append(see);
           }
           if (!j.held) {
             const edit = el('button', 'Edit', 'btn btn-ghost btn-sm'); edit.type = 'button';
@@ -735,11 +829,20 @@
         $('j-expires').value = job && job.open ? job.expires_on : plusDays(30);
         const qs = Array.isArray(f.questions) ? f.questions : [];
         document.querySelectorAll('.j-q').forEach((input, i) => { input.value = qs[i] || ''; });
+        $('j-rank').checked = !!f.matching;
+        mountRules(f.matching || null);
+        $('rank-box').open = !!f.matching;
         say('job-msg', '');
         $('job-card').hidden = false;
         $('job-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
         $('j-title').focus({ preventScroll: true });
       }
+      function mountRules(rules) {
+        const box = $('j-matching');
+        if (window.ApplicantMatching) ApplicantMatching.mount(box, rules);
+        box.hidden = !$('j-rank').checked;
+      }
+      $('j-rank').addEventListener('change', () => { $('j-matching').hidden = !$('j-rank').checked; });
       $('new-job').addEventListener('click', () => openJobForm(null));
       $('job-cancel').addEventListener('click', () => { $('job-card').hidden = true; editingId = null; });
 
@@ -758,6 +861,10 @@
         if (!job.location.trim()) return say('job-msg', 'Enter the job location.');
         if (job.description.trim().length < 30) return say('job-msg', 'Describe the role in at least 30 characters.');
         if (!job.expires_on) return say('job-msg', 'Choose the last date to apply.');
+        if ($('j-rank').checked) {
+          try { job.matching = ApplicantMatching.read($('j-matching')); }
+          catch (e) { $('rank-box').open = true; return say('job-msg', 'Scoring: ' + (e && e.message || 'check the rules')); }
+        } else job.matching = {};
         busy(button, true, 'Saving...');
         say('job-msg', '');
         try {
@@ -785,6 +892,177 @@
           button.disabled = false;
         }
       }
+
+      // ---------- applicants ----------
+      let apps = [], appTotal = 0, appToken = 0;
+      const MATCH_TEXT = {
+        matched: ['Meets requirements', 'good'], needs_information: ['Needs information', 'warn'],
+        not_matched: ['Requirement not met', 'bad'], unconfigured: ['No scoring set', ''], pending: ['Scoring...', '']
+      };
+      const STATUS_TABS = [['', 'All'], ['new', 'New'], ['shortlisted', 'Shortlisted'], ['rejected', 'Rejected']];
+      let statusTab = '';
+
+      function filters() {
+        const n = Number($('f-score').value);
+        return {
+          p_job: $('f-job').value || null, p_status: statusTab || null, p_match: $('f-match').value || null,
+          p_min_score: $('f-score').value && Number.isFinite(n) ? n : null, p_search: $('f-search').value.trim() || null
+        };
+      }
+
+      function fillJobFilter() {
+        const select = $('f-job'), keep = select.value;
+        select.replaceChildren(new Option('All listings', ''), ...jobs.map(j => new Option(j.title, j.id)));
+        select.value = jobs.some(j => j.id === keep) ? keep : '';
+      }
+
+      async function loadApplicants(reset) {
+        const token = ++appToken;
+        if (reset) { apps = []; }
+        fillJobFilter();
+        const offset = reset ? 0 : apps.length;
+        const { data, error } = await supabaseClient.rpc('employer_applicants', { ...filters(), p_offset: offset, p_limit: 25 });
+        if (token !== appToken) return;
+        if (error) { $('app-empty').textContent = readable(error); $('app-empty').hidden = false; return; }
+        apps = apps.concat(data.rows || []);
+        appTotal = data.total || 0;
+        renderTally(data.counts || {});
+        renderApplicants();
+      }
+
+      // Re-read what is on screen after a shortlist or rejection, without losing "Show more" pages.
+      async function refreshApplicants() {
+        const token = ++appToken;
+        const { data, error } = await supabaseClient.rpc('employer_applicants', { ...filters(), p_offset: 0, p_limit: Math.min(100, Math.max(25, apps.length)) });
+        if (token !== appToken || error) return;
+        apps = data.rows || []; appTotal = data.total || 0;
+        renderTally(data.counts || {});
+        renderApplicants();
+        loadJobs();
+      }
+
+      function renderTally(counts) {
+        $('app-tally').replaceChildren(...STATUS_TABS.map(([key, label]) => {
+          const b = el('button', label + ' · ' + (counts[key || 'all'] || 0));
+          b.type = 'button'; b.setAttribute('aria-pressed', String(statusTab === key));
+          b.addEventListener('click', () => { statusTab = key; loadApplicants(true); });
+          return b;
+        }));
+      }
+
+      function renderApplicants() {
+        $('app-total').textContent = appTotal ? 'Showing ' + apps.length + ' of ' + appTotal : '';
+        $('app-empty').textContent = 'No applicants match these filters.';
+        $('app-empty').hidden = apps.length > 0;
+        $('app-more').hidden = apps.length >= appTotal;
+        $('app-list').replaceChildren(...apps.map(card));
+      }
+
+      function card(a) {
+        const box = el('article', null, 'cand' + (a.status === 'shortlisted' ? ' is-shortlisted' : a.status === 'rejected' ? ' is-rejected' : ''));
+        const score = a.match && typeof a.match.score === 'number' ? Math.round(a.match.score) : null;
+        const badge = el('div', null, 'score ' + (score === null ? 'lo' : score >= 70 ? 'hi' : score >= 40 ? 'mid' : 'lo'));
+        if (score === null) badge.textContent = '-';
+        else { badge.textContent = String(score); badge.append(el('small', '%')); }
+        badge.title = score === null ? 'No score for this listing' : 'Fit score out of 100';
+
+        const who = document.createElement('div');
+        const h = el('h3', a.name || 'Candidate');
+        if (a.status === 'shortlisted') h.append(el('span', 'Shortlisted', 'chip good'));
+        if (a.status === 'rejected') h.append(el('span', 'Rejected', 'chip bad'));
+        const study = [a.degree, a.course, a.college, a.grad_year].filter(Boolean).join(' · ');
+        who.append(h, el('div', study || 'Education not given', 'sub'),
+          el('div', [a.experience, a.location, a.availability && 'Available: ' + a.availability, a.expected_salary && 'Expects ' + a.expected_salary].filter(Boolean).join(' · '), 'sub'));
+
+        const [mText, mClass] = MATCH_TEXT[a.match && a.match.status] || ['', ''];
+        const side = el('div', null, 'chipcol');
+        if (mText) side.append(el('span', mText, 'chip ' + mClass));
+        side.append(el('div', a.job_title + ' · applied ' + new Date(a.applied_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }), 'sub'));
+        const top = el('div', null, 'cand-top'); top.append(badge, who, side);
+        box.append(top);
+
+        const skills = String(a.skills || '').split(',').map(x => x.trim()).filter(Boolean).slice(0, 12);
+        if (skills.length) { const row = el('div', null, 'skillrow'); skills.forEach(x => row.append(el('span', x))); box.append(row); }
+
+        const why = a.match && Array.isArray(a.match.reasons) ? a.match.reasons : [];
+        if (why.length) {
+          const d = el('details'); d.append(el('summary', 'Why this score'));
+          const ul = el('ul'); why.forEach(r => ul.append(el('li', String(r))));
+          const comp = a.match.components || {};
+          Object.keys(comp).forEach(k => ul.append(el('li', k + ': ' + comp[k].points + ' of ' + comp[k].weight + ' points')));
+          d.append(ul); box.append(d);
+        }
+        const answers = Array.isArray(a.answers) ? a.answers : [];
+        if (answers.length) {
+          const d = el('details'); d.append(el('summary', 'Answers to your questions'));
+          answers.forEach(x => { const p = el('p'); p.append(el('b', String(x.question) + ' '), document.createTextNode(String(x.answer))); d.append(p); });
+          box.append(d);
+        }
+
+        if (a.contact) {
+          const c = el('div', null, 'contact');
+          if (a.contact.email) { const m = el('a', a.contact.email); m.href = 'mailto:' + encodeURIComponent(a.contact.email).replace(/%40/g, '@'); c.append(m); }
+          const phone = String(a.contact.whatsapp || '').replace(/[^0-9]/g, '');
+          if (phone.length >= 8) { const w = el('a', 'WhatsApp ' + a.contact.whatsapp); w.href = 'https://wa.me/' + phone; w.target = '_blank'; w.rel = 'noopener noreferrer'; c.append(w); }
+          if (/^https?:\/\//i.test(a.contact.portfolio || '')) { const l = el('a', 'Portfolio'); l.href = a.contact.portfolio; l.target = '_blank'; l.rel = 'noopener noreferrer nofollow'; c.append(l); }
+          if (a.contact.resume) {
+            const r = el('button', 'Open resume', 'btn btn-ghost btn-sm'); r.type = 'button';
+            r.addEventListener('click', () => openResume(a.contact.resume, r));
+            c.append(r);
+          }
+          box.append(c);
+        } else {
+          box.append(el('p', 'Contact details and the resume unlock when you shortlist this candidate.', 'locked'));
+        }
+
+        const acts = el('div', null, 'cand-acts');
+        const set = (label, status, cls) => {
+          const b = el('button', label, 'btn btn-sm ' + cls); b.type = 'button';
+          b.addEventListener('click', () => setStatus(a, status, b));
+          return b;
+        };
+        if (a.status !== 'shortlisted') acts.append(set('Shortlist', 'shortlisted', 'btn-primary'));
+        if (a.status !== 'rejected') acts.append(set('Reject', 'rejected', 'btn-danger'));
+        if (a.status !== 'new') acts.append(set('Move back to new', 'new', 'btn-ghost'));
+        box.append(acts);
+        return box;
+      }
+
+      async function setStatus(a, status, button) {
+        button.disabled = true;
+        try {
+          const { error } = await supabaseClient.rpc('employer_set_applicant_status', { p_id: a.id, p_status: status });
+          if (error) throw error;
+          await refreshApplicants();
+        } catch (e) {
+          alert(readable(e));
+          button.disabled = false;
+        }
+      }
+
+      async function openResume(path, button) {
+        button.disabled = true;
+        try {
+          // A one-minute link; storage only issues it for applicants this company shortlisted.
+          const { data, error } = await supabaseClient.storage.from('resumes').createSignedUrl(path, 60);
+          if (error || !data || !data.signedUrl) throw error || new Error('Could not open the resume.');
+          const link = document.createElement('a');
+          link.href = data.signedUrl; link.target = '_blank'; link.rel = 'noopener noreferrer';
+          document.body.append(link); link.click(); link.remove();
+        } catch (e) {
+          alert(readable(e));
+        } finally { button.disabled = false; }
+      }
+
+      let searchTimer;
+      $('f-search').addEventListener('input', () => { clearTimeout(searchTimer); searchTimer = setTimeout(() => loadApplicants(true), 350); });
+      ['f-job', 'f-match', 'f-score'].forEach(id => $(id).addEventListener('change', () => loadApplicants(true)));
+      $('app-filters').addEventListener('submit', e => e.preventDefault());
+      $('f-reset').addEventListener('click', () => {
+        $('f-search').value = ''; $('f-job').value = ''; $('f-match').value = ''; $('f-score').value = ''; statusTab = '';
+        loadApplicants(true);
+      });
+      $('app-more').addEventListener('click', () => loadApplicants(false));
 
       // ---------- start ----------
       async function start() {

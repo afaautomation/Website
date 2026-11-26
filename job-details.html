@@ -2290,6 +2290,8 @@
           buildEl('p',{className:'req-error',id:'req-err-matching',role:'alert'})));
       }
 
+      form.append(buildEl('p', { className: 'req-hint', text: 'The employer sees a summary of your profile and your answers. Your phone number, email and resume are shared only if they shortlist you.' }));
+
       const submitBtn = buildEl('button', { type: 'submit', className: 'req-submit', text: 'Submit Application' });
       form.append(buildEl('div', { className: 'req-actions' },
         buildEl('button', { type: 'button', className: 'req-cancel', text: 'Cancel', onclick: null }), submitBtn));

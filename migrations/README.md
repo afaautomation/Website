@@ -1,5 +1,11 @@
 # Admin workflow update
 
+## Employer applicant view (2026-11-25)
+
+Run `20261125_employer_applicants.sql` after `20261124_employer_portal.sql` and **before** publishing the updated `employer.html`. Approved companies can then open an **Applicants** list for their own listings, sort and filter by the fit score, and shortlist or reject people. Companies can also turn on the same screening rules our staff use (skills, qualifications, experience, weights) when posting, so each applicant gets a score.
+
+Privacy rules, enforced in the database: a company sees only applicants to its own listings and only while approved. Before shortlisting it sees a summary (education, college, experience, skills, its own screening answers, score and reasons). Email, WhatsApp number, portfolio link and the resume are released only for shortlisted applicants, and resumes open through one-minute links that storage issues only for those files. At most 100 rows per request; every shortlist or rejection is written to `employer_events`. The apply form and `privacy.html` tell candidates this. Regression test: `node --test tests/employer-applicants.test.cjs`. This migration has not been applied to production.
+
 ## Employer portal (2026-11-24)
 
 Run `20261124_employer_portal.sql` in the Supabase SQL Editor (re-runnable) **before** publishing `employer.html` and the updated `admin.html`, and after `20261103_listing_expiry.sql` (it uses `hr_job_open()`). Companies register at `/employer`, staff approve them in the HR console's **Hiring Companies** tab, and only then do their jobs appear on the site.
