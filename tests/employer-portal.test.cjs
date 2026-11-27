@@ -178,6 +178,10 @@ test('the employer page and admin console use only the safe functions', () => {
   const admin = fs.readFileSync('admin.html', 'utf8');
   assert.doesNotMatch(employer, /\.from\('hr_jobs'\)|\.from\('job_applications'\)/, 'employers never query job or applicant tables');
   assert.doesNotMatch(employer, /innerHTML\s*=/, 'listing text is rendered as text, not markup');
+  // Staff can read every company, so a staff member signed in here must still get only their own.
+  const companyReads = employer.match(/\.from\('employer_companies'\)[^;]*/g) || [];
+  assert.ok(companyReads.length > 0);
+  for (const read of companyReads) assert.match(read, /\.eq\('owner_id', user\.id\)/, read);
   for (const fn of ['employer_register', 'employer_post_job', 'employer_my_jobs', 'employer_close_job']) assert.ok(employer.includes(fn), fn);
   for (const fn of ['admin_employer_list', 'admin_employer_review']) assert.ok(admin.includes(fn), fn);
   assert.ok(fs.readFileSync('sitemap.xml', 'utf8').includes('/employer</loc>'));

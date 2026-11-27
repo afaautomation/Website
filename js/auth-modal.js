@@ -236,7 +236,7 @@
 
           <!-- Terms / Privacy Disclaimer -->
           <p style="font-size:0.75rem; color:#94a3b8; line-height:1.45; text-align:center; margin:1.75rem 0 0;">
-            By continuing you agree to the <a href="javascript:void(0)" style="color:#64748b; text-decoration:underline;">Terms of Service</a> and <a href="javascript:void(0)" style="color:#64748b; text-decoration:underline;">Privacy Policy</a>
+            By continuing you agree to the <a href="terms.html" target="_blank" rel="noopener" style="color:#64748b; text-decoration:underline;">Terms of Use</a> and <a href="privacy.html" target="_blank" rel="noopener" style="color:#64748b; text-decoration:underline;">Privacy Policy</a>, and you have read our <a href="disclaimer.html" target="_blank" rel="noopener" style="color:#64748b; text-decoration:underline;">Disclaimer</a>
           </p>
 
           <!-- Existing user link -->
@@ -312,7 +312,7 @@
             <button type="submit" id="signup-submit-btn" class="auth-pill-btn auth-submit-btn" style="margin-top:0.4rem;">
               Create Account →
             </button>
-            <p style="font-size:0.8rem; color:#475569;">Read how we use your information in our <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</p>
+            <p style="font-size:0.8rem; color:#475569;">By creating an account you agree to our <a href="terms.html" target="_blank" rel="noopener">Terms of Use</a>. Read how we use your information in our <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</p>
 
             <div style="margin-top:0.85rem; text-align:center; font-size:0.8rem; color:#64748b;">
               Already have an account? <a href="javascript:void(0)" onclick="switchAuthTab('login')" style="color:#1947FF; font-weight:700; text-decoration:none;">Log In</a>

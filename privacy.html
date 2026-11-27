@@ -154,8 +154,22 @@
     .policy {
       max-width: 760px;
       margin: 0 auto;
-      padding: 72px 0 96px;
+      padding: 56px 0 96px;
     }
+
+    /* Privacy / Terms / Disclaimer switcher (same on all three pages) */
+    .legal-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 36px; }
+    .legal-nav a {
+      padding: 7px 16px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--ink-mute);
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .legal-nav a:hover { border-color: var(--blue); color: var(--blue); }
+    .legal-nav a[aria-current="page"] { background: var(--blue); border-color: var(--blue); color: #FFFFFF; }
 
     .eyebrow {
       font-size: 13px;
@@ -280,6 +294,11 @@
 
   <main class="wrap">
     <article class="policy">
+      <nav class="legal-nav" aria-label="Legal pages">
+        <a href="privacy.html" aria-current="page">Privacy Policy</a>
+        <a href="terms.html">Terms of Use</a>
+        <a href="disclaimer.html">Disclaimer</a>
+      </nav>
       <p class="eyebrow">Privacy Policy</p>
       <h1>How we handle your data</h1>
       <p class="updated">Last updated: 29 October 2026</p>
@@ -353,10 +372,9 @@
       <ul>
         <li><strong>Employers:</strong> when you apply for a job or internship, our HR team reviews your application and
           may share your profile and resume with that employer. Companies that post on our employer portal are checked
-          and approved by us first. An approved company can see a summary of people who applied to its own listings
-          (name, education, college, experience, skills, your answers to its questions and a fit score). It receives
-          your phone number, email and resume only if it shortlists you. It cannot see anyone who applied to another
-          company.</li>
+          and approved by us first. An approved company can see the profile, your answers to its questions, a fit score,
+          your phone number, email and resume, but only for people who applied to its own listings. It cannot see anyone
+          who applied to another company.</li>
         <li><strong>Service providers</strong> who run parts of the website for us, only to provide that service:
           <ul>
             <li>Supabase: database, file storage and sign-in (servers in Mumbai, India)</li>
@@ -422,7 +440,7 @@
   <footer>
     <div class="wrap">
       <span>&copy; 2026 Kompetenzen Technologies. All rights reserved.</span>
-      <span><a href="index.html">Home</a> · <a href="privacy.html">Privacy Policy</a></span>
+      <span><a href="index.html">Home</a> · <a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Use</a> · <a href="disclaimer.html">Disclaimer</a></span>
     </div>
   </footer>
 

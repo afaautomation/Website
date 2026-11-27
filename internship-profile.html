@@ -926,6 +926,19 @@
       outline-offset: 4px;
     }
 
+    /* links to the legal pages, under the consent tick */
+    .profile-consent .consent-legal {
+      margin: 4px 0 0 30px;
+      color: var(--ink-2);
+      font-size: 12.5px;
+      line-height: 1.6;
+    }
+
+    .profile-consent .consent-legal a {
+      color: var(--blue);
+      font-weight: 600;
+    }
+
     /* TOAST NOTIFICATION */
     .success-toast {
       position: fixed;
@@ -1456,6 +1469,7 @@
                 applications, and sharing it with companies I apply to. Promotional messages are excluded.
                 <strong>(Required)</strong></span>
             </label>
+            <p class="consent-legal">Read our <a href="terms.html" target="_blank" rel="noopener">Terms of Use</a>, <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a> and <a href="disclaimer.html" target="_blank" rel="noopener">Disclaimer</a>.</p>
             <p class="field-error" id="err-profile-consent" role="alert"></p>
           </div>
 

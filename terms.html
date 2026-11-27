@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>/* Desktop fit: the site is designed at 1920px wide. On laptop and desktop windows the whole page is
+     scaled to that design (smaller below 1920px, a little larger on big monitors) so every computer shows the same
+     proportions, whatever its screen size or Windows display scaling. Phones, tablets and touch screens are not scaled. */
+    (function (r) {
+      var touch = window.matchMedia && window.matchMedia('(hover: none)').matches;
+      function fit() {
+        var w = window.innerWidth, z = 1;
+        if (!touch && w > 1024) z = w < 1920 ? Math.max(w / 1920, 0.72) : Math.min(w / 1920, 1.2);
+        z = Math.round(z * 1000) / 1000;
+        r.style.zoom = z === 1 ? '' : z;
+        r.style.setProperty('--fit', z);
+        r.classList.toggle('kz-fit', z !== 1);
+        window.__fit = z;
+      }
+      fit();
+      addEventListener('resize', fit);
+    })(document.documentElement);</script>
+  <title>Terms of Use | Kompetenzen</title>
+  <meta name="description" content="The terms for using the Kompetenzen website: accounts, job and internship applications, training programmes, the Resume Builder and the employer portal." />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <link rel="canonical" href="https://www.kompetenzen.in/terms" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Kompetenzen Technologies" />
+  <meta property="og:locale" content="en_IN" />
+  <meta property="og:title" content="Terms of Use | Kompetenzen" />
+  <meta property="og:description" content="The terms for using the Kompetenzen website: accounts, job and internship applications, training programmes, the Resume Builder and the employer portal." />
+  <meta property="og:url" content="https://www.kompetenzen.in/terms" />
+  <meta property="og:image" content="https://www.kompetenzen.in/img/og/og-home.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Kompetenzen Technologies" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Terms of Use | Kompetenzen" />
+  <meta name="twitter:description" content="The terms for using the Kompetenzen website: accounts, job and internship applications, training programmes, the Resume Builder and the employer portal." />
+  <meta name="twitter:image" content="https://www.kompetenzen.in/img/og/og-home.jpg" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://www.kompetenzen.in/terms#webpage",
+        "url": "https://www.kompetenzen.in/terms",
+        "name": "Terms of Use | Kompetenzen",
+        "description": "The terms for using the Kompetenzen website: accounts, job and internship applications, training programmes, the Resume Builder and the employer portal.",
+        "isPartOf": {
+          "@id": "https://www.kompetenzen.in/#website"
+        },
+        "about": {
+          "@id": "https://www.kompetenzen.in/#organization"
+        },
+        "inLanguage": "en-IN",
+        "dateModified": "2026-11-27"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.kompetenzen.in/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Terms of Use",
+            "item": "https://www.kompetenzen.in/terms"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" type="image/png" href="icon.png?v=2" />
+  <link rel="shortcut icon" href="favicon.ico?v=2" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    :root {
+      --ink: #02050E;
+      --ink-mute: #475569;
+      --blue: #1947FF;
+      --line: rgba(10, 21, 48, .12);
+      --maxw: 1440px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+
+    html, body {
+      background: #FFFFFF;
+      color: var(--ink);
+      font-family: "Plus Jakarta Sans", "Inter", sans-serif;
+      line-height: 1.65;
+    }
+
+    a { color: var(--blue); }
+
+    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 clamp(16px, calc(5vw / var(--fit, 1)), 64px); }
+
+    /* POLICY */
+    .policy { max-width: 760px; margin: 0 auto; padding: 56px 0 96px; }
+
+    /* Privacy / Terms / Disclaimer switcher (same on all three pages) */
+    .legal-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 36px; }
+    .legal-nav a {
+      padding: 7px 16px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--ink-mute);
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .legal-nav a:hover { border-color: var(--blue); color: var(--blue); }
+    .legal-nav a[aria-current="page"] { background: var(--blue); border-color: var(--blue); color: #FFFFFF; }
+
+    .eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--blue); margin-bottom: 12px; }
+
+    h1, h2 { font-family: "Google Sans Flex", "Plus Jakarta Sans", sans-serif; font-weight: 500; letter-spacing: -0.02em; line-height: 1.2; }
+    h1 { font-size: clamp(2.2rem, calc(5vw / var(--fit, 1)), 3.4rem); margin-bottom: 12px; }
+    .updated { color: var(--ink-mute); font-size: 0.95rem; margin-bottom: 32px; }
+    .lead { font-size: 1.15rem; color: #1e293b; padding-bottom: 32px; border-bottom: 1px solid var(--line); }
+    h2 { font-size: 1.55rem; margin: 48px 0 14px; scroll-margin-top: 80px; }
+
+    .policy p, .policy li { color: #1e293b; }
+    .policy p + p, .policy ul + p { margin-top: 12px; }
+    .policy ul { margin: 12px 0 0 1.2em; }
+    .policy li + li { margin-top: 8px; }
+
+    .contact-card { margin-top: 16px; padding: 20px 22px; border: 1px solid var(--line); border-radius: 14px; background: #f8fafc; }
+
+    /* FOOTER */
+    footer { background: var(--ink); color: rgba(255, 255, 255, 0.6); padding: 40px 0; font-size: 0.9rem; }
+    footer .wrap { display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; }
+    footer a { color: #fff; text-decoration: none; }
+    footer a:hover { color: var(--blue); }
+  </style>
+</head>
+
+<body>
+
+  <!-- Shared top bar: edit js/site-nav.js to change it on every page -->
+  <script src="js/site-nav.js"></script>
+
+  <main class="wrap">
+    <article class="policy">
+      <nav class="legal-nav" aria-label="Legal pages">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html" aria-current="page">Terms of Use</a>
+        <a href="disclaimer.html">Disclaimer</a>
+      </nav>
+      <p class="eyebrow">Terms of Use</p>
+      <h1>The terms for using Kompetenzen</h1>
+      <p class="updated">Last updated: 27 November 2026</p>
+      <p class="lead">Kompetenzen Technologies ("Kompetenzen", "we") runs this website, our training programmes, career
+        consultations, the Resume Builder, the job and internship listings and the employer portal. These terms apply
+        whenever you use any of them. By using the website or creating an account you agree to these terms, to our
+        <a href="privacy.html">Privacy Policy</a> and to our <a href="disclaimer.html">Disclaimer</a>. If you do not
+        agree, please do not use the website.</p>
+
+      <h2 id="eligibility">1. Who can use the website</h2>
+      <ul>
+        <li>Our services are for students, job seekers and companies. You must be 18 or older, or have a parent or
+          guardian's agreement if you are under 18.</li>
+        <li>The details you give us must be true and your own. Do not sign up or apply as someone else.</li>
+      </ul>
+
+      <h2 id="account">2. Your account</h2>
+      <ul>
+        <li>Keep one account per person, and keep your phone number and email up to date.</li>
+        <li>Sign-in codes (OTPs) we send on WhatsApp are for you only. <strong>We will never ask you to tell us a
+          code</strong>, so never share it with anyone, including someone who says they are from Kompetenzen.</li>
+        <li>You are responsible for what happens on your account. If you think someone else has used it, tell us
+          straight away.</li>
+      </ul>
+
+      <h2 id="jobs">3. Jobs and internships</h2>
+      <ul>
+        <li>Listings are posted by our placement team or by companies we have checked and approved. What the
+          "Verified" badge means is explained in our <a href="disclaimer.html#verified">Disclaimer</a>.</li>
+        <li>Applying is free. We never charge you to apply, to be interviewed or to receive an offer.</li>
+        <li>When you apply, the employer can see the details described in our
+          <a href="privacy.html#share">Privacy Policy</a>. Make sure your profile, answers and resume are accurate.</li>
+        <li>The employer decides whom to interview and hire. We do not promise an interview, a job, or a particular
+          salary or stipend.</li>
+        <li>Listings marked "Official portal" take you to the company's own careers website. That company's terms
+          apply there.</li>
+      </ul>
+
+      <h2 id="programmes">4. Training programmes and career consultations</h2>
+      <ul>
+        <li>Programme content, duration, schedule and fees are confirmed with you before you pay. The fee, payment
+          schedule and any refund terms given to you in writing when you enrol apply to your enrolment.</li>
+        <li>We may update a syllabus, trainers or timings to keep a programme current. We will tell you about important
+          changes before they happen.</li>
+        <li>Placement support helps you prepare and connects you with openings. It is not a promise of a job.</li>
+        <li>Career consultations give guidance based on what you tell us. The decisions you make are your own.</li>
+        <li>Course material we give you is for your own learning. Please do not copy, resell or share it publicly.</li>
+      </ul>
+
+      <h2 id="tools">5. The Resume Builder and automated tools</h2>
+      <ul>
+        <li>The Resume Builder uses AI services to suggest improvements to the text you give it. Fit scores and match
+          results on listings are worked out automatically. Both can be wrong, so check them before you rely on
+          them.</li>
+        <li>You are responsible for what your resume says. Keep it true, and do not upload other people's personal
+          details without their permission.</li>
+      </ul>
+
+      <h2 id="employers">6. Companies using the employer portal</h2>
+      <p>These extra terms apply to companies that register on our employer portal and to the people who use it for
+        them.</p>
+      <ul>
+        <li>You must be authorised to hire for the company, and the company details and documents you give must be
+          true. We decide whether to approve a company, and we may hold or remove a company or a listing at any
+          time.</li>
+        <li>Post only real, open roles that you are hiring for, with an honest description of the work, location, pay
+          and experience needed. Close a listing when the role is filled.</li>
+        <li><strong>Never ask candidates for money</strong>, at any stage: no registration fees, deposits, training
+          charges or payments for equipment or documents. A company that does will be removed and may be reported to
+          the authorities.</li>
+        <li>Use applicants' details only to consider them for the role they applied to. Do not sell or share them,
+          or contact applicants about anything else. Keep the details secure, delete them when you no longer need
+          them, and follow India's Digital Personal Data Protection Act, 2023.</li>
+        <li>Do not post listings that discriminate against people because of religion, caste, gender, disability or
+          any other ground the law protects.</li>
+        <li>We may limit how many listings a company can post.</li>
+      </ul>
+
+      <h2 id="acceptable-use">7. What you must not do</h2>
+      <ul>
+        <li>Post or send anything false, misleading, offensive or unlawful, or pretend to be someone else.</li>
+        <li>Copy listings, profiles or other content from the website in bulk, or collect it with automated
+          tools.</li>
+        <li>Try to get into accounts or data that are not yours, test or get around our security or limits, overload
+          the website, or upload harmful files.</li>
+        <li>Use the website, or our WhatsApp and email messages, to send spam.</li>
+      </ul>
+
+      <h2 id="content">8. Content and ownership</h2>
+      <p>The website's text, designs, logos, course pages and syllabus documents belong to Kompetenzen or to the people
+        who licensed them to us. You may view and download them for your own personal use.</p>
+      <p>What you add, such as your profile, resume, answers or a company's listings, stays yours. You allow us to
+        store, use and share it only as needed to run our services and as our <a href="privacy.html">Privacy
+        Policy</a> describes.</p>
+
+      <h2 id="messages">9. Messages from us</h2>
+      <p>We send sign-in codes on WhatsApp. If you turn them on, we also send application updates and job alerts by
+        WhatsApp or email. You can turn these off in your profile at any time, or reply <strong>STOP</strong> to any
+        WhatsApp message.</p>
+
+      <h2 id="suspension">10. Suspending accounts and removing content</h2>
+      <p>We may remove content, close a listing, or suspend or close an account that breaks these terms or the law, or
+        to protect other users. You can stop using the website at any time and
+        <a href="privacy.html#delete">ask us to delete your account</a>.</p>
+
+      <h2 id="liability">11. Our responsibility</h2>
+      <p>We work to keep the website accurate and running, but we provide it "as is" and cannot promise it will always
+        be available or free of errors. Our <a href="disclaimer.html">Disclaimer</a> explains the limits of the
+        information on it.</p>
+      <p>As far as the law allows, we are not responsible for the decisions or conduct of employers, other users or
+        other websites, or for indirect losses. For a paid service, our total responsibility is limited to the fees you
+        paid us for it. Nothing in these terms removes rights that the law does not allow us to limit.</p>
+
+      <h2 id="changes">12. Changes to these terms</h2>
+      <p>We may update these terms when our services change. We will change the date at the top, and for important
+        changes we will tell you on the website or by message. If you keep using the website after a change, the new
+        terms apply.</p>
+
+      <h2 id="law">13. Law and disputes</h2>
+      <p>These terms are governed by the laws of India. If you have a problem, please contact us first and we will try
+        to sort it out. If we cannot, the courts at Ernakulam, Kerala will decide the dispute.</p>
+
+      <h2 id="contact">14. Contact and grievances</h2>
+      <p>For questions or complaints about these terms, or to report a fake listing or anyone asking for money in
+        Kompetenzen's name, contact our grievance officer:</p>
+      <div class="contact-card">
+        <strong>Kompetenzen Technologies</strong><br />
+        Email: <a href="mailto:hr@kompetenzen.in">hr@kompetenzen.in</a><br />
+        Phone and WhatsApp: <a href="tel:+918590886009">+91 85908 86009</a><br />
+        Kochi: 3rd Floor, Sree Hari Building, Sahodaran Ayyappan Rd, Vyttila, Ernakulam, Kerala 682019<br />
+        Thiruvananthapuram: Sunny Meads Ln, opp. JKV Charging Station, Vanross, Palayam, Kerala 695001
+      </div>
+      <p style="margin-top:16px">We reply within 7 working days.</p>
+    </article>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>&copy; 2026 Kompetenzen Technologies. All rights reserved.</span>
+      <span><a href="index.html">Home</a> · <a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Use</a> · <a href="disclaimer.html">Disclaimer</a></span>
+    </div>
+  </footer>
+
+</body>
+
+</html>

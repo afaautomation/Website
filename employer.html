@@ -89,6 +89,7 @@
     .hint { font-size: 12.5px; color: var(--ink-dim); font-weight: 400; }
     .check { display: flex; gap: 10px; align-items: flex-start; font-weight: 400; font-size: 13.5px; color: var(--ink-mute); }
     .check input { width: 18px; height: 18px; margin-top: 2px; flex: none; }
+    .check-legal { margin: -4px 0 0 28px; }
 
     .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; padding: 0 22px; border-radius: 99px; border: 1px solid transparent; font: inherit; font-weight: 700; font-size: 15px; cursor: pointer; text-decoration: none; }
     .btn-primary { background: var(--ink); color: #fff; }
@@ -105,12 +106,11 @@
     .msg.ok { background: #F0FDF4; color: var(--green); border: 1px solid #BBF7D0; }
 
     /* dashboard */
-    #dash { padding: 44px 0 20px; }
-    .dash-head { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; }
-    .dash-head h1 { font-size: clamp(26px, 3vw, 36px); font-weight: 600; }
-    .dash-head p { color: var(--ink-mute); font-size: 14.5px; }
+    #dash { padding: 0; }
     .banner { display: flex; gap: 14px; align-items: flex-start; padding: 18px 20px; border-radius: 16px; margin-bottom: 24px; border: 1px solid; }
     .banner b { display: block; margin-bottom: 2px; }
+    .banner-x { margin-left: auto; flex: none; width: 32px; height: 32px; border: 0; border-radius: 50%; background: transparent; color: inherit; font-size: 22px; line-height: 1; cursor: pointer; opacity: .7; }
+    .banner-x:hover { background: rgba(0, 0, 0, .06); opacity: 1; }
     .banner.pending { background: #FFFBEB; border-color: #FDE68A; color: #78350F; }
     .banner.approved { background: #F0FDF4; border-color: #BBF7D0; color: #14532D; }
     .banner.rejected, .banner.suspended { background: #FEF2F2; border-color: #FECACA; color: #7F1D1D; }
@@ -122,14 +122,180 @@
     .job h3 { font-size: 17px; font-weight: 600; letter-spacing: -.01em; overflow-wrap: anywhere; }
     .job .meta { color: var(--ink-mute); font-size: 13.5px; display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 4px; }
     .job .acts { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .job-side { display: flex; align-items: center; justify-content: flex-end; gap: 22px; }
+    .job-stats { display: flex; }
+    .job-stat { display: grid; min-width: 78px; padding: 0 12px; text-align: center; border-left: 1px solid var(--border); }
+    .job-stat:first-child { border-left: 0; }
+    .job-stat strong { font-size: 20px; line-height: 1.15; font-weight: 700; color: var(--ink); }
+    .job-stat span { font-size: 11.5px; color: var(--ink-dim); }
+    .job-stat.match strong { color: #15803D; }
+    .job-stat.zero strong { color: #94A3B8; }
+    /* the three-dot menu on a listing: pause or resume, and close (last) */
+    .job-menu { position: relative; }
+    .job-menu-btn { width: 36px; padding: 0; font-size: 20px; line-height: 1; }
+    .job-menu-list { position: absolute; right: 0; top: calc(100% + 6px); z-index: 30; display: grid; gap: 2px; min-width: 250px; padding: 6px; background: #fff; border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 24px 50px -20px rgba(15, 23, 42, .45); }
+    .job-menu-list[hidden] { display: none; }
+    .job-menu-item { display: grid; gap: 1px; width: 100%; padding: 9px 12px; border: 0; border-radius: 10px; background: none; font: inherit; color: var(--ink); text-align: left; cursor: pointer; }
+    .job-menu-item b { font-size: 14px; font-weight: 600; }
+    .job-menu-item span { font-size: 12px; color: var(--ink-dim); }
+    .job-menu-item:hover, .job-menu-item:focus-visible { background: var(--surface-2); outline: none; }
+    .job-menu-item.danger b { color: var(--red); }
+    .job-menu-item.danger:hover, .job-menu-item.danger:focus-visible { background: #FEF2F2; }
+    .job-menu-sep { height: 1px; margin: 4px 6px; background: var(--border); }
     .pill { display: inline-block; font-size: 11.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; padding: 3px 10px; border-radius: 99px; margin-left: 8px; vertical-align: 2px; }
     .pill.live { background: #DCFCE7; color: #166534; }
     .pill.closed { background: #E2E8F0; color: #475569; }
     .pill.held { background: #FFEDD5; color: #9A3412; }
+    .pill.paused { background: #FEF3C7; color: #92400E; }
     .empty { padding: 30px 24px; border: 1px dashed rgba(15, 23, 42, .2); border-radius: 16px; text-align: center; color: var(--ink-mute); }
     .details { border: 1px solid var(--border); border-radius: 16px; padding: 4px 20px; }
     .details > summary { cursor: pointer; font-weight: 700; padding: 14px 0; }
     .details form { padding: 4px 0 20px; }
+
+    /* dashboard sections */
+    .ebar { position: sticky; top: 0; z-index: 50; height: 64px; display: flex; align-items: center; padding: 0 24px; background: rgba(255, 255, 255, .92); -webkit-backdrop-filter: saturate(160%) blur(12px); backdrop-filter: saturate(160%) blur(12px); border-bottom: 1px solid var(--border); }
+    .ebar-brand { display: inline-flex; align-items: center; }
+    .ebar-brand img { height: 34px; width: auto; display: block; }
+    .ebar-tag { margin-left: 16px; padding-left: 16px; border-left: 1px solid var(--border); font-size: 14px; font-weight: 600; color: var(--ink-mute); white-space: nowrap; }
+    .ebar-links { margin-left: auto; display: flex; align-items: center; gap: 22px; }
+    .ebar-links a { display: inline-flex; align-items: center; gap: 6px; color: var(--ink-mute); font-size: 14px; font-weight: 600; text-decoration: none; }
+    .ebar-links a:hover, .ebar-links a:focus-visible { color: var(--blue-mid); }
+    .ebar-links svg { width: 15px; height: 15px; }
+    @media (max-width: 560px) { .ebar { height: 58px; padding: 0 16px; } .ebar-brand img { height: 30px; } .ebar-links { display: none; } .ebar-tag { margin-left: 12px; padding-left: 12px; font-size: 13px; } }
+    .shell { display: grid; grid-template-columns: 270px minmax(0, 1fr); min-height: calc(100vh / var(--fit, 1) - 64px); }
+    /* sidebar: deep navy with a soft blue glow, the company's badge, icon tabs and a help card */
+    .side { position: sticky; top: 64px; align-self: start; height: calc(100vh / var(--fit, 1) - 64px); display: flex; flex-direction: column; gap: 18px; padding: 24px 16px 20px; overflow-y: auto; isolation: isolate; color: #E2E8F0;
+      background: radial-gradient(140% 50% at 0% 0%, rgba(59, 130, 246, .26), transparent 60%), radial-gradient(120% 40% at 100% 100%, rgba(99, 102, 241, .22), transparent 60%), linear-gradient(180deg, #0B1226 0%, #101B38 55%, #0C1530 100%); }
+    .side-co { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px 12px; align-items: center; padding: 4px 6px 18px; border-bottom: 1px solid rgba(255, 255, 255, .09); }
+    .side-av { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; font-size: 18px; font-weight: 800; letter-spacing: .02em; color: #fff; background: linear-gradient(135deg, #3B82F6, #6366F1); box-shadow: 0 12px 26px -12px rgba(99, 102, 241, .9), inset 0 1px 0 rgba(255, 255, 255, .28); }
+    .side-co h1 { font-size: 18px; font-weight: 600; color: #fff; overflow-wrap: anywhere; }
+    .side-co p { color: #94A3B8; font-size: 12.5px; overflow-wrap: anywhere; margin-top: 2px; }
+    .side-badge { grid-column: 1 / -1; justify-self: start; display: inline-flex; align-items: center; gap: 6px; padding: 4px 11px; border-radius: 99px; font-size: 12px; font-weight: 700; background: rgba(148, 163, 184, .14); color: #CBD5E1; }
+    .side-badge::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+    .side-badge.approved { background: rgba(52, 211, 153, .14); color: #6EE7B7; }
+    .side-badge.pending { background: rgba(251, 191, 36, .14); color: #FCD34D; }
+    .side-badge.rejected, .side-badge.suspended { background: rgba(248, 113, 113, .15); color: #FCA5A5; }
+    .side-label { padding: 0 10px; margin-bottom: -10px; font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #64748B; }
+    .side-help { margin-top: auto; padding: 16px; border-radius: 16px; background: linear-gradient(160deg, rgba(59, 130, 246, .2), rgba(99, 102, 241, .08)); border: 1px solid rgba(147, 197, 253, .2); }
+    .side-help b { display: block; color: #fff; font-size: 14.5px; }
+    .side-help p { margin: 4px 0 10px; color: #A3B1C6; font-size: 12.5px; line-height: 1.5; }
+    .side-help a { display: flex; align-items: center; gap: 8px; padding: 5px 0; color: #BFDBFE; font-size: 13px; font-weight: 600; text-decoration: none; overflow-wrap: anywhere; }
+    .side-help a:hover, .side-help a:focus-visible { color: #fff; }
+    .side-help svg { width: 15px; height: 15px; flex: none; }
+    .side .side-out { align-self: stretch; display: flex; align-items: center; justify-content: center; gap: 8px; background: transparent; color: #CBD5E1; border-color: rgba(255, 255, 255, .16); }
+    .side .side-out:hover { border-color: rgba(255, 255, 255, .45); color: #fff; }
+    .side .side-out svg { width: 16px; height: 16px; }
+    .content { min-width: 0; padding: 32px clamp(20px, 3.2vw, 56px) 48px; }
+    .dtabs { display: flex; flex-direction: column; gap: 4px; }
+    .dtabs button { display: flex; align-items: center; gap: 12px; width: 100%; border: 0; background: transparent; font: inherit; font-weight: 600; font-size: 15px; color: #CBD5E1; padding: 8px 12px 8px 8px; cursor: pointer; border-radius: 14px; text-align: left; transition: background .15s ease, color .15s ease; }
+    .dtabs button:hover { background: rgba(255, 255, 255, .06); color: #fff; }
+    .dtabs button:focus-visible { outline: 2px solid #93C5FD; outline-offset: 2px; }
+    .dtabs button[aria-selected="true"] { background: linear-gradient(135deg, #2563EB, #4F46E5); color: #fff; box-shadow: 0 14px 30px -14px rgba(79, 70, 229, .95); }
+    .dtabs button[hidden], .dtabs[hidden] { display: none; }
+    .dt-ic { width: 34px; height: 34px; flex: none; display: grid; place-items: center; border-radius: 10px; background: rgba(255, 255, 255, .06); color: #93C5FD; }
+    .dt-ic svg { width: 18px; height: 18px; }
+    .dtabs button[aria-selected="true"] .dt-ic { background: rgba(255, 255, 255, .18); color: #fff; }
+    .dt-label { flex: 1; }
+    .dtabs .n { min-width: 24px; padding: 1px 8px; border-radius: 99px; background: rgba(255, 255, 255, .09); color: #CBD5E1; font-size: 12px; font-weight: 800; text-align: center; }
+    .dtabs button[aria-selected="true"] .n { background: rgba(255, 255, 255, .22); color: #fff; }
+
+    /* dashboard header on the Jobs and Internships tabs: greeting, then four summary tiles over its edge */
+    .overview { margin-bottom: 28px; }
+    .ov-hero { position: relative; overflow: hidden; padding: 30px 32px 62px; border-radius: 22px; color: #fff;
+      background: radial-gradient(60% 130% at 100% 0%, rgba(129, 140, 248, .5), transparent 60%), radial-gradient(50% 100% at 0% 100%, rgba(56, 189, 248, .28), transparent 60%), linear-gradient(135deg, #0F1B3D 0%, #1D3A8A 58%, #3730A3 100%);
+      box-shadow: 0 30px 60px -36px rgba(30, 58, 138, .85); }
+    .ov-hero::after { content: ''; position: absolute; right: -70px; top: -90px; width: 260px; height: 260px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .14); box-shadow: 0 0 0 34px rgba(255, 255, 255, .035), 0 0 0 70px rgba(255, 255, 255, .025); pointer-events: none; }
+    .ov-eyebrow { display: block; font-size: 11.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #A5B4FC; }
+    .ov-hero h2 { margin: 8px 0 6px; font-size: 30px; font-weight: 600; color: #fff; overflow-wrap: anywhere; }
+    .ov-hero p { max-width: 640px; color: #C7D2FE; font-size: 15px; }
+    .ov-date { position: absolute; top: 26px; right: 30px; z-index: 1; padding: 6px 13px; border-radius: 99px; background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .2); color: #E0E7FF; font-size: 12.5px; font-weight: 600; }
+    .ov-kpis { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: -36px; padding: 0 18px; }
+    .kpi { display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: #fff; border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 20px 40px -28px rgba(15, 23, 42, .5); }
+    .kpi-ic { width: 44px; height: 44px; flex: none; display: grid; place-items: center; border-radius: 13px; }
+    .kpi-ic svg { width: 21px; height: 21px; }
+    .kpi-ic.live { background: #E0F2FE; color: #0369A1; }
+    .kpi-ic.apps { background: #DBEAFE; color: #1D4ED8; }
+    .kpi-ic.match { background: #D1FAE5; color: #047857; }
+    .kpi-ic.short { background: #EDE9FE; color: #6D28D9; }
+    .kpi div { display: grid; min-width: 0; }
+    .kpi strong { font-size: 26px; line-height: 1.05; font-weight: 700; color: var(--ink); }
+    .kpi b { font-size: 13.5px; font-weight: 600; color: var(--ink); }
+    .kpi small { font-size: 12px; color: var(--ink-dim); }
+
+    /* tips under the Jobs and Internships lists */
+    .tips { margin-top: 28px; padding: 22px 24px; border-radius: 20px; background: linear-gradient(180deg, #F8FAFF, #F1F5FD); border: 1px solid rgba(37, 99, 235, .12); }
+    .tips-head b { display: block; font-size: 16px; color: var(--ink); }
+    .tips-head span { font-size: 13.5px; color: var(--ink-mute); }
+    .tips-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 16px; }
+    .tip { display: flex; gap: 12px; align-items: flex-start; padding: 14px; background: #fff; border: 1px solid var(--border); border-radius: 14px; }
+    .tip-ic { width: 34px; height: 34px; flex: none; display: grid; place-items: center; border-radius: 10px; background: var(--blue-soft); color: var(--blue-mid); }
+    .tip-ic svg { width: 17px; height: 17px; }
+    .tip b { display: block; font-size: 14px; color: var(--ink); }
+    .tip p { margin-top: 2px; font-size: 12.5px; line-height: 1.5; color: var(--ink-mute); }
+    @media (max-width: 1100px) { .ov-kpis, .tips-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 560px) {
+      .ov-hero { padding: 22px 20px 54px; }
+      .ov-hero h2 { font-size: 24px; }
+      .ov-date { position: static; display: inline-block; margin-bottom: 10px; }
+      .ov-kpis { gap: 10px; padding: 0 10px; }
+      .kpi { flex-direction: column; align-items: flex-start; gap: 8px; padding: 14px; }
+      .tips { padding: 18px 16px; }
+      .tips-grid { grid-template-columns: 1fr; }
+    }
+    #register { max-width: 860px; }
+    #job-card { max-width: 980px; }
+    @media (max-width: 860px) {
+      .shell { display: block; min-height: 0; }
+      .side { position: static; height: auto; padding: 16px; gap: 12px; }
+      .side-label, .side-help { display: none; }
+      .side .side-out { align-self: flex-start; }
+      .dtabs { flex-direction: row; overflow-x: auto; gap: 6px; }
+      .dtabs button { width: auto; flex: none; white-space: nowrap; }
+      .content { padding: 20px 16px 40px; }
+    }
+    .dpanel .panel-head p { color: var(--ink-mute); font-size: 14px; margin-top: 2px; }
+    .slot:empty { display: none; }
+
+    /* applicant profile page: shown in place of the list at #applicant=<id>, so Back, refresh and new tabs work */
+    .pp-back { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 16px; font-size: 14px; font-weight: 600; color: var(--ink-mute); text-decoration: none; }
+    .pp-back:hover, .pp-back:focus-visible { color: var(--blue-mid); }
+    .card.pp-head { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 18px; align-items: center; padding: 22px 26px; margin-bottom: 18px; }
+    .pp-av { width: 56px; height: 56px; font-size: 22px; }
+    .pp-head h2 { font-size: 26px; letter-spacing: -.02em; overflow-wrap: anywhere; outline: none; }
+    .pp-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
+    .pp-tags .chip { margin-left: 0; }
+    .pp-head .sub { color: var(--ink-mute); font-size: 14px; }
+    .pp-score strong { font-size: 24px; }
+    .pp-grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 18px; align-items: start; }
+    .card.pp-main { display: grid; gap: 26px; padding: 26px; }
+    .pp-side { display: grid; gap: 18px; position: sticky; top: 84px; }
+    .card.pp-box { padding: 20px; }
+    .pd-sec h3, .pp-box h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-dim); margin-bottom: 10px; }
+    .pd-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 24px; }
+    .pd-row span { display: block; font-size: 12.5px; color: var(--ink-dim); }
+    .pd-row b { font-weight: 600; font-size: 15px; overflow-wrap: anywhere; }
+    .pd-sub { margin: 14px 0 6px; font-size: 13px; color: var(--ink-mute); font-weight: 600; }
+    .stage-list { display: grid; gap: 6px; }
+    .stage-btn { --dot: #94A3B8; --tint: #F8FAFC; display: flex; align-items: center; gap: 10px; width: 100%; min-height: 42px; padding: 0 12px; border: 1px solid var(--border); border-radius: 12px; background: #fff; font: inherit; font-size: 14.5px; font-weight: 600; color: var(--ink); text-align: left; cursor: pointer; transition: border-color .15s ease, background .15s ease; }
+    .stage-btn:hover { border-color: var(--dot); }
+    .stage-btn:focus-visible { outline: 2px solid var(--blue-mid); outline-offset: 2px; }
+    .stage-btn:disabled { opacity: .6; cursor: progress; }
+    .stage-btn[aria-pressed="true"] { background: var(--tint); border-color: var(--dot); cursor: default; }
+    .stage-btn .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--dot); flex: none; }
+    .stage-now { margin-left: auto; font-size: 12px; font-weight: 700; color: var(--ink-mute); }
+    .stage-btn.s-shortlisted { --dot: #22C55E; --tint: #F0FDF4; }
+    .stage-btn.s-contacted { --dot: #3B82F6; --tint: #EFF6FF; }
+    .stage-btn.s-interview { --dot: #8B5CF6; --tint: #F5F3FF; }
+    .stage-btn.s-selected { --dot: #047857; --tint: #ECFDF5; }
+    .stage-btn.s-rejected { --dot: #EF4444; --tint: #FEF2F2; }
+    .pp-note { margin-top: 10px; font-size: 12.5px; color: var(--ink-dim); }
+    @media (max-width: 960px) { .pp-grid { grid-template-columns: 1fr; } .pp-side { position: static; order: -1; } }
+    @media (max-width: 560px) {
+      .card.pp-head { grid-template-columns: auto minmax(0, 1fr); padding: 18px; }
+      .pp-head .pp-score { grid-column: 1 / -1; justify-items: start; text-align: left; }
+      .card.pp-main { padding: 18px; }
+      .pd-grid { grid-template-columns: 1fr; }
+    }
 
     /* screening rules inside the job form */
     .rank-box { border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; }
@@ -140,16 +306,35 @@
     .rank-box .mc .field-hint { font-size: 12px; color: var(--ink-dim); margin-top: 5px; font-weight: 400; }
 
     /* applicants */
-    .filters { display: grid; grid-template-columns: 1.4fr repeat(3, 1fr) auto; gap: 12px; align-items: end; padding: 18px; margin-bottom: 16px; border-radius: 18px; }
+    .filters { display: grid; grid-template-columns: repeat(3, 1fr) auto; gap: 12px; align-items: end; padding: 18px; margin-bottom: 16px; border-radius: 18px; }
     .filters label { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-mute); }
     .filters input, .filters select { height: 42px; padding: 0 11px; font-size: 14px; }
     .tally { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 14px; }
     .tally button { border: 1px solid var(--border); background: #fff; border-radius: 99px; padding: 6px 14px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--ink-mute); }
     .tally button[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
-    .cand { border: 1px solid var(--border); border-radius: 16px; padding: 18px 20px; margin-bottom: 12px; background: #fff; display: grid; gap: 10px; }
-    .cand.is-shortlisted { border-color: #86EFAC; background: #FAFFFB; }
-    .cand.is-rejected { opacity: .65; }
-    .cand-top { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; }
+    .cand { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 16px; align-items: center; border: 1px solid var(--border); border-left: 4px solid var(--border); border-radius: 14px; padding: 14px 18px; margin-bottom: 10px; background: #fff; position: relative; transition: box-shadow .15s ease; }
+    .cand:hover { box-shadow: 0 14px 32px -20px rgba(15, 23, 42, .45); }
+    .cand.is-shortlisted { border-left-color: #22C55E; }
+    .cand.is-contacted { border-left-color: #3B82F6; }
+    .cand.is-interview { border-left-color: #8B5CF6; }
+    .cand.is-selected { border-left-color: #047857; }
+    .cand.is-rejected { opacity: .6; }
+    .cand-av { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: var(--blue-soft); color: #1D4ED8; font-weight: 800; font-size: 16px; }
+    /* The name is the card's link, stretched over the whole card: a click anywhere opens the profile page.
+       The status buttons sit above it. */
+    .cand-name { font-size: 16.5px; font-weight: 600; color: var(--ink); text-decoration: none; overflow-wrap: anywhere; }
+    .cand-name::after { content: ''; position: absolute; inset: -1px -1px -1px -4px; border-radius: 14px; }
+    .cand:hover .cand-name, .cand-name:focus-visible { color: var(--blue-mid); }
+    .cand-name:focus-visible { outline: none; }
+    .cand-name:focus-visible::after { outline: 2px solid var(--blue-mid); outline-offset: 2px; }
+    .cand-acts .btn { position: relative; z-index: 1; }
+    .cand-side { display: flex; align-items: center; gap: 18px; }
+    .cand-score { display: grid; text-align: center; min-width: 74px; }
+    .cand-score strong { font-size: 19px; line-height: 1.1; }
+    .cand-score span { font-size: 11.5px; color: var(--ink-dim); }
+    .cand-score.hi strong { color: #15803D; }
+    .cand-score.mid strong { color: #B45309; }
+    .cand-score.lo strong { color: #64748B; }
     .score { width: 58px; height: 58px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; border: 3px solid; }
     .score small { font-size: 11px; font-weight: 700; margin: 3px 0 0 1px; }
     .score.hi { color: #166534; border-color: #4ADE80; background: #F0FDF4; }
@@ -161,19 +346,21 @@
     .chip.good { background: #DCFCE7; color: #166534; }
     .chip.warn { background: #FEF3C7; color: #92400E; }
     .chip.bad { background: #FEE2E2; color: #991B1B; }
+    .chip.info { background: #DBEAFE; color: #1E40AF; }
+    .chip.violet { background: #EDE9FE; color: #5B21B6; }
+    .chip.win { background: #047857; color: #fff; }
     .skillrow { display: flex; flex-wrap: wrap; gap: 6px; }
     .skillrow span { font-size: 12.5px; padding: 3px 10px; border-radius: 99px; border: 1px solid var(--border); color: var(--ink-mute); }
-    .cand details { font-size: 14px; }
-    .cand details summary { cursor: pointer; font-weight: 600; color: var(--blue-mid); }
-    .cand details ul { margin: 8px 0 0 18px; color: var(--ink-mute); }
-    .cand details p { margin-top: 8px; color: var(--ink-mute); overflow-wrap: anywhere; }
-    .cand details p b { color: var(--ink); }
+    .skillrow .ok { background: #F0FDF4; border-color: #BBF7D0; color: #166534; }
+    .skillrow .no { background: #FEF2F2; border-color: #FECACA; color: #991B1B; }
+    .skillrow .q { background: #FFFBEB; border-color: #FDE68A; color: #92400E; }
     .contact { display: flex; flex-wrap: wrap; gap: 8px 20px; padding: 12px 14px; border-radius: 12px; background: #F0FDF4; border: 1px solid #BBF7D0; font-size: 14px; align-items: center; }
     .contact a { overflow-wrap: anywhere; }
     .locked { font-size: 13px; color: var(--ink-dim); }
     .cand-acts { display: flex; flex-wrap: wrap; gap: 8px; }
     @media (max-width: 960px) { .filters { grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 560px) { .filters { grid-template-columns: 1fr; } .cand-top { grid-template-columns: auto 1fr; } .cand-top .chipcol { grid-column: 1 / -1; } }
+    @media (max-width: 760px) { .cand { grid-template-columns: auto minmax(0, 1fr); } .cand-side { grid-column: 1 / -1; justify-content: space-between; flex-wrap: wrap; } }
+    @media (max-width: 560px) { .filters { grid-template-columns: 1fr; } }
 
     section.block { padding: 64px 0 8px; }
     .head { text-align: center; max-width: 700px; margin: 0 auto 36px; }
@@ -204,13 +391,26 @@
       .steps { grid-template-columns: 1fr; }
       .job { grid-template-columns: 1fr; }
       .job .acts { justify-content: flex-start; }
+      .job-side { flex-wrap: wrap; justify-content: flex-start; gap: 12px; }
+      .job-stat:first-child { padding-left: 0; text-align: left; }
+      .job { position: relative; }
+      .job-menu { position: static; }
+      .job-menu-list { top: auto; left: 16px; right: 16px; min-width: 0; margin-top: 6px; }
       .btn-primary.wide { width: 100%; }
     }
   </style>
 </head>
 
 <body>
-  <script src="js/site-nav.js" data-active="job-portal.html" data-account="off"></script>
+  <!-- The employer portal keeps only the logo at the top, no site menu -->
+  <header class="ebar">
+    <a href="index.html" class="ebar-brand" aria-label="Kompetenzen home"><img src="kompetenzen%20logo-02.webp" alt="Kompetenzen" width="150" height="36" /></a>
+    <span class="ebar-tag">Employer portal</span>
+    <nav class="ebar-links" aria-label="Portal links">
+      <a href="jobs.html" target="_blank" rel="noopener">See live jobs <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+      <a href="mailto:hr@kompetenzen.in">Help</a>
+    </nav>
+  </header>
 
   <!-- Signed-out: intro and sign-in -->
   <header class="hero" id="intro">
@@ -261,17 +461,36 @@
 
   <!-- Signed-in dashboard -->
   <main id="dash" hidden>
-    <div class="wrap">
-      <div class="dash-head">
-        <div>
-          <h1 id="dash-title">Employer portal</h1>
-          <p id="dash-email"></p>
+    <div class="shell">
+      <aside class="side" aria-label="Employer menu">
+        <div class="side-co">
+          <span class="side-av" id="side-av" aria-hidden="true">E</span>
+          <div>
+            <h1 id="dash-title">Employer portal</h1>
+            <p id="dash-email"></p>
+          </div>
+          <span class="side-badge" id="side-badge" hidden></span>
         </div>
-        <button class="btn btn-ghost btn-sm" id="signout" type="button">Sign out</button>
-      </div>
+        <p class="side-label" id="side-label" hidden>Manage hiring</p>
+        <nav class="dtabs" id="dtabs" role="tablist" aria-label="Employer sections" hidden>
+          <button type="button" role="tab" data-tab="jobs" aria-selected="true"><span class="dt-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/></svg></span><span class="dt-label">Jobs</span><span class="n" id="n-jobs">0</span></button>
+          <button type="button" role="tab" data-tab="interns" aria-selected="false"><span class="dt-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></svg></span><span class="dt-label">Internships</span><span class="n" id="n-interns">0</span></button>
+          <button type="button" role="tab" data-tab="applicants" aria-selected="false"><span class="dt-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span class="dt-label">Applicants</span><span class="n" id="n-apps">0</span></button>
+          <button type="button" role="tab" data-tab="company" aria-selected="false"><span class="dt-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 7h1M14 7h1M9 11h1M14 11h1M9 15h1M14 15h1"/><path d="M10 21v-3h4v3"/></svg></span><span class="dt-label">Company</span></button>
+        </nav>
+        <div class="side-help">
+          <b>Need help hiring?</b>
+          <p>Our placement team can help you write a listing or find the right candidates.</p>
+          <a href="https://wa.me/918590886009" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.6 8.6 0 0 1-3.8-.9L3 20l1.1-4.6A8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5z"/></svg>WhatsApp +91 85908 86009</a>
+          <a href="mailto:hr@kompetenzen.in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>hr@kompetenzen.in</a>
+        </div>
+        <button class="btn btn-ghost btn-sm side-out" id="signout" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sign out</button>
+      </aside>
 
+      <div class="content">
       <div class="banner" id="banner" hidden>
         <div><b id="banner-title"></b><span id="banner-text"></span></div>
+        <button class="banner-x" id="banner-close" type="button" aria-label="Dismiss this message" hidden>&times;</button>
       </div>
 
       <!-- Step 1: register the company -->
@@ -324,24 +543,40 @@
             <textarea id="r-about" maxlength="1500"></textarea>
           </label>
           <label class="check"><input id="r-consent" type="checkbox" /> <span>I am authorised to hire for this company and the details above are true.</span></label>
+          <p class="hint check-legal">By submitting, you agree to our <a href="terms.html#employers" target="_blank" rel="noopener">Terms of Use for employers</a>, <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a> and <a href="disclaimer.html" target="_blank" rel="noopener">Disclaimer</a>.</p>
           <div class="msg" id="register-msg" role="alert" hidden></div>
           <button class="btn btn-primary wide" id="register-submit" type="submit">Submit for approval</button>
         </form>
       </section>
 
       <!-- Step 2: post and manage jobs (approved companies) -->
-      <div class="dash-grid" id="jobs-area" hidden>
-        <section aria-labelledby="listings-title">
+      <div id="jobs-area" hidden>
+        <section class="overview" id="overview" aria-labelledby="ov-greet">
+          <div class="ov-hero">
+            <span class="ov-date" id="ov-date"></span>
+            <span class="ov-eyebrow">Employer dashboard</span>
+            <h2 id="ov-greet">Welcome</h2>
+            <p>Here is how your listings are doing. Post openings, see who applied and move the right people forward, all in one place.</p>
+          </div>
+          <div class="ov-kpis">
+            <div class="kpi"><span class="kpi-ic live"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49M7.76 16.24a6 6 0 0 1 0-8.49M19.07 4.93a10 10 0 0 1 0 14.14M4.93 19.07a10 10 0 0 1 0-14.14"/></svg></span><div><strong id="kpi-live">0</strong><b>Live listings</b><small id="kpi-live-note">Open to candidates now</small></div></div>
+            <div class="kpi"><span class="kpi-ic apps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><div><strong id="kpi-apps">0</strong><b>Applicants</b><small>Across all your listings</small></div></div>
+            <div class="kpi"><span class="kpi-ic match"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span><div><strong id="kpi-match">0</strong><b>Matched</b><small>A strong fit for the listing</small></div></div>
+            <div class="kpi"><span class="kpi-ic short"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><div><strong id="kpi-short">0</strong><b>Shortlisted</b><small>Taken forward to next steps</small></div></div>
+          </div>
+        </section>
+        <section class="dpanel" id="tab-jobs" aria-labelledby="jobs-title">
           <div class="panel-head">
-            <h2 id="listings-title">Your listings</h2>
+            <div><h2 id="jobs-title">Jobs</h2><p>Full-time, part-time, contract and remote roles. Candidates apply with their Kompetenzen profile and resume, and each applicant is scored against your listing.</p></div>
             <button class="btn btn-primary btn-sm" id="new-job" type="button">+ Post a job</button>
           </div>
 
+          <div class="slot" id="slot-jobs">
           <div class="card" id="job-card" hidden style="margin-bottom:20px;">
             <h2 id="job-form-title">Post a job</h2>
             <p class="sub">Candidates apply on Kompetenzen with their profile and resume. Your listing shows your company name and goes live straight away.</p>
             <form id="job-form" novalidate>
-              <label>Job title
+              <label><span id="l-title">Job title</span>
                 <input id="j-title" maxlength="120" required placeholder="e.g. Junior Python Developer" />
               </label>
               <div class="row2">
@@ -354,17 +589,7 @@
                   </select>
                 </label>
                 <label>Type
-                  <select id="j-type" required>
-                    <option value="">Select</option>
-                    <optgroup label="Jobs">
-                      <option value="full-time">Full-time</option><option value="part-time">Part-time</option>
-                      <option value="contract">Contract</option><option value="remote">Remote</option>
-                    </optgroup>
-                    <optgroup label="Internships">
-                      <option value="internship">Internship</option><option value="internship-fulltime">Full-time internship</option>
-                      <option value="internship-parttime">Part-time internship</option><option value="internship-remote">Remote internship</option>
-                    </optgroup>
-                  </select>
+                  <select id="j-type" required></select>
                 </label>
               </div>
               <div class="row2">
@@ -376,10 +601,10 @@
                 </label>
               </div>
               <div class="row2">
-                <label>Experience / eligibility <span class="opt">(optional)</span>
+                <label><span><span id="l-exp">Experience / eligibility</span> <span class="opt">(optional)</span></span>
                   <input id="j-experience" maxlength="100" placeholder="e.g. Freshers or 0-1 years" />
                 </label>
-                <label>Salary / stipend <span class="opt">(optional)</span>
+                <label><span><span id="l-sal">Salary</span> <span class="opt">(optional)</span></span>
                   <input id="j-salary" maxlength="100" placeholder="e.g. ₹3 - 4.5 LPA" />
                 </label>
               </div>
@@ -411,26 +636,47 @@
               </div>
             </form>
           </div>
+          </div>
 
           <div id="job-list"></div>
-          <div class="empty" id="job-empty" hidden>You have not posted anything yet. Use “Post a job” to publish your first opening.</div>
+          <div class="empty" id="job-empty" hidden></div>
         </section>
 
-        <section id="applicants" aria-labelledby="applicants-title">
+        <section class="dpanel" id="tab-interns" hidden aria-labelledby="interns-title">
+          <div class="panel-head">
+            <div><h2 id="interns-title">Internships</h2><p>Learn-while-you-work roles for students and freshers. Interns are scored the same way as job applicants, so you can compare them quickly.</p></div>
+            <button class="btn btn-primary btn-sm" id="new-intern" type="button">+ Post an internship</button>
+          </div>
+          <div class="slot" id="slot-interns"></div>
+          <div id="intern-list"></div>
+          <div class="empty" id="intern-empty" hidden></div>
+        </section>
+
+        <aside class="tips" id="listing-tips" aria-labelledby="tips-title">
+          <div class="tips-head"><b id="tips-title">Write a listing that attracts the right people</b><span>A few details help candidates decide, and help the keyword match score applicants fairly.</span></div>
+          <div class="tips-grid">
+            <div class="tip"><span class="tip-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span><div><b>Use a clear, specific title</b><p>"Junior Python Developer" says more than "Developer", and it is what candidates search for.</p></div></div>
+            <div class="tip"><span class="tip-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41 13.42 20.6a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.5"/></svg></span><div><b>Name 3 to 5 key skills</b><p>The keyword match compares your title, skills and requirements with each applicant's profile.</p></div></div>
+            <div class="tip"><span class="tip-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12M6 8h12M6 13l8.5 8M6 13h3a5 5 0 0 0 0-10"/></svg></span><div><b>Show the salary or stipend</b><p>A range lets candidates judge the role before they apply.</p></div></div>
+            <div class="tip"><span class="tip-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg></span><div><b>Turn on screening rules</b><p>Mark must-have skills and qualifications, and applicants who meet them are marked Matched.</p></div></div>
+          </div>
+        </aside>
+
+        <section class="dpanel" id="tab-applicants" hidden aria-labelledby="applicants-title">
+          <div id="app-browse">
           <div class="panel-head">
             <h2 id="applicants-title">Applicants</h2>
             <span class="hint" id="app-total"></span>
           </div>
           <div class="tally" id="app-tally" role="group" aria-label="Applicant status"></div>
           <form class="filters card" id="app-filters" novalidate>
-            <label>Search<input id="f-search" maxlength="80" placeholder="Name, college or skill" /></label>
             <label>Listing<select id="f-job"><option value="">All listings</option></select></label>
             <label>Fit
               <select id="f-match">
                 <option value="">Any</option>
-                <option value="matched">Meets requirements</option>
+                <option value="matched">Matched</option>
                 <option value="needs_information">Needs information</option>
-                <option value="not_matched">Requirement not met</option>
+                <option value="not_matched">Not matched</option>
               </select>
             </label>
             <label>Minimum score
@@ -444,12 +690,13 @@
           <div id="app-list"></div>
           <div class="empty" id="app-empty" hidden>No applicants yet. They appear here as candidates apply to your listings.</div>
           <div style="text-align:center; margin-top:14px;"><button class="btn btn-ghost" id="app-more" type="button" hidden>Show more</button></div>
+          </div>
+          <div id="app-profile" hidden></div>
         </section>
-      </div>
 
-      <details class="details" id="company-details" style="margin-top:28px;" hidden>
-        <summary>Company details</summary>
-        <form id="company-form" novalidate>
+        <section class="dpanel" id="tab-company" hidden aria-labelledby="company-title">
+          <div class="panel-head"><h2 id="company-title">Company details</h2></div>
+        <form id="company-form" class="card" novalidate>
           <p class="hint">Your company name and registration document cannot be changed here. Email hr@kompetenzen.in if they need to change.</p>
           <div class="row2">
             <label>Website<input id="c-website" type="url" maxlength="300" placeholder="https://" /></label>
@@ -467,7 +714,9 @@
           <div class="msg" id="company-msg" role="alert" hidden></div>
           <button class="btn btn-ghost btn-sm" id="company-save" type="submit" style="justify-self:start;">Save details</button>
         </form>
-      </details>
+        </section>
+      </div>
+      </div>
     </div>
   </main>
 
@@ -509,7 +758,7 @@
       <a href="internships.html">Internships</a>
       <a href="talent-hunt.html">Campus hiring</a>
     </nav>
-    <p>&copy; 2026 Kompetenzen Technologies. All rights reserved. &middot; <a href="privacy.html">Privacy Policy</a> &middot; <a href="/">Back to Main Site</a></p>
+    <p>&copy; 2026 Kompetenzen Technologies. All rights reserved. &middot; <a href="privacy.html">Privacy Policy</a> &middot; <a href="terms.html">Terms of Use</a> &middot; <a href="disclaimer.html">Disclaimer</a> &middot; <a href="/">Back to Main Site</a></p>
   </footer>
 
   <script src="js/vendor/supabase-2.116.0.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP"></script>
@@ -517,6 +766,7 @@
   <script src="js/matching-terms.js"></script>
   <script src="js/career-catalog.js"></script>
   <script src="js/applicant-matching.js"></script>
+  <script src="js/local-ai-ui.js"></script>
   <script>
     (function () {
       'use strict';
@@ -529,7 +779,7 @@
         rejected: ['Your company was not approved', 'Please contact hr@kompetenzen.in if you think this is a mistake.'],
         suspended: ['Your company is suspended', 'Your listings are hidden and candidates cannot apply. Please contact hr@kompetenzen.in.']
       };
-      let mode = 'signin', user = null, company = null, jobs = [], editingId = null, loadToken = 0;
+      let mode = 'signin', user = null, company = null, jobs = [], editingId = null, loadToken = 0, currentTab = 'jobs', formKind = 'job';
 
       // ---------- helpers ----------
       function el(tag, text, className) {
@@ -660,14 +910,16 @@
       $('signout').addEventListener('click', async () => {
         await supabaseClient.auth.signOut();
       });
+      $('banner-close').addEventListener('click', () => { $('banner').hidden = true; });
 
       // ---------- screens ----------
       function showSignedOut() {
         user = null; company = null; jobs = []; loadToken++;
         if (!$('otp-form').hidden) hideOtp();
         $('dash').hidden = true; $('intro').hidden = false; $('info').hidden = false;
-        ['register', 'jobs-area', 'company-details', 'banner'].forEach(id => { $(id).hidden = true; });
-        $('job-list').replaceChildren(); $('app-list').replaceChildren(); apps = [];
+        ['register', 'jobs-area', 'banner'].forEach(id => { $(id).hidden = true; });
+        $('job-list').replaceChildren(); $('intern-list').replaceChildren(); $('app-list').replaceChildren(); apps = []; allRows = []; jobStats = null; statsFailed = false; statsToken++;
+        profile = null; $('app-profile').replaceChildren(); $('app-profile').hidden = true; $('app-browse').hidden = false;
       }
 
       async function showSignedIn(session) {
@@ -676,7 +928,7 @@
         $('intro').hidden = true; $('info').hidden = true; $('dash').hidden = false;
         $('dash-email').textContent = user.email || '';
         try {
-          const { data, error } = await supabaseClient.from('employer_companies').select('*').maybeSingle();
+          const { data, error } = await supabaseClient.from('employer_companies').select('*').eq('owner_id', user.id).maybeSingle();
           if (token !== loadToken) return;
           if (error) throw error;
           company = data;
@@ -695,15 +947,33 @@
         const banner = $('banner');
         $('register').hidden = !!company;
         $('dash-title').textContent = company ? company.name : 'Register your company';
+        // Sidebar badge: the company's initials and where it stands with our team.
+        const words = String(company ? company.name : (user && user.email) || 'E').replace(/[^\p{L}\p{N} ]/gu, ' ').trim().split(/\s+/);
+        $('side-av').textContent = ((words[0] || 'E').charAt(0) + (words[1] ? words[1].charAt(0) : '')).toUpperCase();
+        const BADGE = { approved: 'Verified employer', pending: 'Under review', rejected: 'Not approved', suspended: 'Suspended' };
+        $('side-badge').hidden = !company;
+        if (company) { $('side-badge').textContent = BADGE[company.status] || company.status; $('side-badge').className = 'side-badge ' + company.status; }
+        $('side-label').hidden = !company;
         const approved = !!company && company.status === 'approved';
-        $('jobs-area').hidden = !approved;
-        $('company-details').hidden = !company;
+        $('jobs-area').hidden = !company;
+        $('dtabs').hidden = !company;
+        // Until approved, the only section is the company's own details.
+        document.querySelectorAll('#dtabs [data-tab]').forEach(b => { b.hidden = !approved && b.dataset.tab !== 'company'; });
         if (!company) { banner.hidden = true; return; }
+        showTab(approved ? currentTab : 'company');
         const [title, text] = STATUS_TEXT[company.status] || ['', ''];
         banner.className = 'banner ' + company.status;
         $('banner-title').textContent = title;
         $('banner-text').textContent = (company.review_note && company.status !== 'approved' ? text + ' Note from our team: ' + company.review_note : text);
-        banner.hidden = false;
+        // "Approved" is news once: show it on the first visit after approval (again after a re-approval), then never.
+        // Waiting, rejected and suspended stay visible because the company has to act on them.
+        let seen = false;
+        if (company.status === 'approved') {
+          const key = 'kz_employer_approved_' + company.id + '_' + (company.reviewed_at || '');
+          try { seen = localStorage.getItem(key) === '1'; localStorage.setItem(key, '1'); } catch (e) { /* private mode: just show it */ }
+        }
+        banner.hidden = seen;
+        $('banner-close').hidden = company.status !== 'approved';
         $('c-website').value = company.website || ''; $('c-city').value = company.city || '';
         $('c-industry').value = company.industry || ''; $('c-size').value = company.company_size || '';
         $('c-contact').value = company.contact_name || ''; $('c-phone').value = company.contact_phone || '';
@@ -756,7 +1026,7 @@
             p_contact_phone: $('c-phone').value.trim()
           });
           if (error) throw error;
-          const { data } = await supabaseClient.from('employer_companies').select('*').maybeSingle();
+          const { data } = await supabaseClient.from('employer_companies').select('*').eq('owner_id', user.id).maybeSingle();
           if (data) company = data;
           say('company-msg', 'Saved.', 'ok');
         } catch (e) {
@@ -773,53 +1043,201 @@
         renderJobs();
       }
 
+      function showTab(name) {
+        currentTab = name;
+        ['jobs', 'interns', 'applicants', 'company'].forEach(t => { $('tab-' + t).hidden = t !== name; });
+        // The dashboard header and the listing tips belong to the two listing tabs.
+        $('overview').hidden = $('listing-tips').hidden = !(name === 'jobs' || name === 'interns');
+        document.querySelectorAll('#dtabs [data-tab]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === name)));
+      }
+      document.querySelectorAll('#dtabs [data-tab]').forEach(b => b.addEventListener('click', () => {
+        if (profile) { clearHash(); closeProfilePage(); }
+        showTab(b.dataset.tab);
+      }));
+
+      const isIntern = j => /^internship/.test(j.job_type || '');
+
       function renderJobs() {
-        $('job-empty').textContent = 'You have not posted anything yet. Use “Post a job” to publish your first opening.';
-        $('job-empty').hidden = jobs.length > 0;
-        $('job-list').replaceChildren(...jobs.map(j => {
-          const box = el('article', null, 'job');
-          const left = document.createElement('div');
-          const h = el('h3', j.title);
-          const state = j.held ? ['Hidden', 'held'] : j.open ? ['Live', 'live'] : ['Closed', 'closed'];
-          h.append(el('span', state[0], 'pill ' + state[1]));
-          const meta = el('div', null, 'meta');
-          meta.append(el('span', j.location), el('span', j.job_type),
-            el('span', j.applicants + (j.applicants === 1 ? ' applicant' : ' applicants') + (j.shortlisted ? ' (' + j.shortlisted + ' shortlisted)' : '')),
-            el('span', 'Apply by ' + new Date(j.expires_on + 'T00:00:00').toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })));
-          left.append(h, meta);
-          const acts = el('div', null, 'acts');
-          if (j.open && UUID.test(j.id)) {
-            const view = el('a', 'View', 'btn btn-ghost btn-sm');
-            view.href = 'job-details.html?id=' + j.id; view.target = '_blank'; view.rel = 'noopener';
-            acts.append(view);
-          }
-          if (j.applicants > 0) {
-            const see = el('button', 'Applicants', 'btn btn-ghost btn-sm'); see.type = 'button';
-            see.addEventListener('click', () => {
-              $('f-job').value = j.id; loadApplicants(true);
-              $('applicants').scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
-            acts.append(see);
-          }
-          if (!j.held) {
-            const edit = el('button', 'Edit', 'btn btn-ghost btn-sm'); edit.type = 'button';
-            edit.addEventListener('click', () => openJobForm(j));
-            acts.append(edit);
-          }
-          if (j.open) {
-            const close = el('button', 'Close', 'btn btn-danger btn-sm'); close.type = 'button';
-            close.addEventListener('click', () => closeJob(j, close));
-            acts.append(close);
-          }
-          box.append(left, acts);
-          return box;
-        }));
+        closeMenu(false); // the rows are rebuilt
+        const parts = [
+          [jobs.filter(j => !isIntern(j)), 'job-list', 'job-empty', 'n-jobs', 'No jobs posted yet. Use “Post a job” to publish your first opening.'],
+          [jobs.filter(isIntern), 'intern-list', 'intern-empty', 'n-interns', 'No internships posted yet. Use “Post an internship” to publish your first one.']
+        ];
+        for (const [items, listId, emptyId, countId, emptyText] of parts) {
+          $(countId).textContent = String(items.length);
+          $(emptyId).textContent = emptyText;
+          $(emptyId).hidden = items.length > 0;
+          $(listId).replaceChildren(...items.map(jobCard));
+        }
+        renderOverview();
       }
 
-      function openJobForm(job) {
+      // The dashboard header: a greeting and four totals across every listing.
+      function renderOverview() {
+        const hour = new Date().getHours();
+        $('ov-greet').textContent = (hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening') + (company ? ', ' + company.name : '');
+        $('ov-date').textContent = new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' });
+        const live = jobs.filter(j => j.open).length, paused = jobs.filter(j => j.paused && !j.closed).length;
+        const applied = jobs.reduce((n, j) => n + (j.applicants || 0), 0);
+        const matched = !applied ? 0 : jobStats ? [...jobStats.values()].reduce((n, s) => n + s.matched, 0) : null;
+        $('kpi-live').textContent = String(live);
+        $('kpi-live-note').textContent = paused ? paused + ' paused' : live ? 'Open to candidates now' : 'Post a listing to start';
+        $('kpi-apps').textContent = String(applied);
+        $('kpi-match').textContent = matched === null ? (statsFailed ? '–' : '…') : String(matched);
+        $('kpi-short').textContent = String(jobs.reduce((n, j) => n + (j.shortlisted || 0), 0));
+      }
+
+      function jobCard(j) {
+        const box = el('article', null, 'job');
+        box.dataset.id = j.id;
+        const left = document.createElement('div');
+        const h = el('h3', j.title);
+        const state = j.paused && !j.closed ? ['Paused', 'paused'] : j.held ? ['Hidden', 'held'] : j.open ? ['Live', 'live'] : ['Closed', 'closed'];
+        h.append(el('span', state[0], 'pill ' + state[1]));
+        const meta = el('div', null, 'meta');
+        const day = { day: 'numeric', month: 'short', year: 'numeric' };
+        meta.append(el('span', j.location), el('span', j.job_type),
+          el('span', 'Posted ' + new Date(j.created_at).toLocaleDateString('en-IN', day)),
+          el('span', 'Apply by ' + new Date(j.expires_on + 'T00:00:00').toLocaleDateString('en-IN', day)));
+        left.append(h, meta);
+
+        // Applied; Matched, the same verdict as the Applicants tab's "Matched" (scored in this browser, so it
+        // shows "…" until scoring finishes); Shortlisted, which also counts the later steps.
+        const applied = j.applicants || 0;
+        const matched = !applied ? 0 : jobStats ? ((jobStats.get(j.id) || {}).matched || 0) : null;
+        const stat = (n, label, cls, title) => {
+          const s = el('div', null, 'job-stat' + (cls ? ' ' + cls : '') + (n === 0 ? ' zero' : ''));
+          s.append(el('strong', n === null ? (statsFailed ? '–' : '…') : String(n)), el('span', label));
+          if (title) s.title = title;
+          return s;
+        };
+        const stats = el('div', null, 'job-stats');
+        stats.append(stat(applied, 'Applied', '', 'Everyone who applied to this listing'),
+          stat(matched, 'Matched', 'match', matched === null && statsFailed ? 'Applicants could not be scored right now' : 'Applicants marked Matched on the Applicants tab'),
+          stat(j.shortlisted || 0, 'Shortlisted', '', 'Shortlisted, contacted, at interview or selected'));
+        const acts = el('div', null, 'acts');
+        if (j.open && UUID.test(j.id)) {
+          const view = el('a', 'View', 'btn btn-ghost btn-sm');
+          view.href = 'job-details.html?id=' + j.id; view.target = '_blank'; view.rel = 'noopener';
+          acts.append(view);
+        }
+        if (j.applicants > 0) {
+          const see = el('button', 'Applicants', 'btn btn-ghost btn-sm'); see.type = 'button';
+          see.addEventListener('click', () => { $('f-job').value = j.id; showTab('applicants'); loadApplicants(true); });
+          acts.append(see);
+        }
+        if (!j.held || j.paused) {
+          const edit = el('button', 'Edit', 'btn btn-ghost btn-sm'); edit.type = 'button';
+          edit.addEventListener('click', () => openJobForm(j));
+          acts.append(edit);
+        }
+        const menu = listingMenu(j);
+        if (menu) acts.append(menu);
+        const side = el('div', null, 'job-side');
+        side.append(stats, acts);
+        box.append(left, side);
+        return box;
+      }
+
+      // ---------- listing menu (⋮): pause or resume, then close listing last ----------
+      let openMenu = null; // { wrap, button, menu } of the menu that is open
+      function closeMenu(returnFocus) {
+        if (!openMenu) return;
+        const { button, menu } = openMenu;
+        openMenu = null;
+        menu.hidden = true;
+        button.setAttribute('aria-expanded', 'false');
+        if (returnFocus) button.focus();
+      }
+      document.addEventListener('click', e => { if (openMenu && !openMenu.wrap.contains(e.target)) closeMenu(false); });
+      document.addEventListener('keydown', e => {
+        if (!openMenu) return;
+        const items = [...openMenu.menu.querySelectorAll('[role="menuitem"]')];
+        const i = items.indexOf(document.activeElement);
+        if (e.key === 'Escape') { e.preventDefault(); closeMenu(true); }
+        else if (e.key === 'ArrowDown') { e.preventDefault(); items[(i + 1) % items.length].focus(); }
+        else if (e.key === 'ArrowUp') { e.preventDefault(); items[(i - 1 + items.length) % items.length].focus(); }
+        else if (e.key === 'Tab') closeMenu(false);
+      });
+
+      function listingMenu(j) {
+        const live = !j.closed && j.open, paused = !j.closed && j.paused;
+        const items = [];
+        if (live) items.push(['Pause listing', 'Hide it from candidates for now', '', b => pauseJob(j, true, b)]);
+        if (paused) items.push(['Resume listing', 'Show it to candidates again', '', b => pauseJob(j, false, b)]);
+        if (live || paused) items.push(['Close listing', 'Stop applications for good', 'danger', b => closeJob(j, b)]);
+        if (!items.length) return null;
+        const wrap = el('div', null, 'job-menu');
+        const button = el('button', '⋮', 'btn btn-ghost btn-sm job-menu-btn'); button.type = 'button';
+        button.title = 'More actions';
+        button.setAttribute('aria-label', 'More actions for ' + j.title);
+        button.setAttribute('aria-haspopup', 'menu');
+        button.setAttribute('aria-expanded', 'false');
+        const menu = el('div', null, 'job-menu-list'); menu.hidden = true;
+        menu.setAttribute('role', 'menu');
+        menu.setAttribute('aria-label', 'Actions for ' + j.title);
+        items.forEach(([label, hint, cls, act], i) => {
+          if (cls === 'danger' && i > 0) { const sep = el('div', null, 'job-menu-sep'); sep.setAttribute('role', 'separator'); menu.append(sep); }
+          const item = el('button', null, 'job-menu-item' + (cls ? ' ' + cls : '')); item.type = 'button';
+          item.setAttribute('role', 'menuitem');
+          item.append(el('b', label), el('span', hint));
+          item.addEventListener('click', () => { closeMenu(false); act(button); });
+          menu.append(item);
+        });
+        button.addEventListener('click', () => {
+          const wasOpen = openMenu && openMenu.menu === menu;
+          closeMenu(false);
+          if (wasOpen) return;
+          openMenu = { wrap, button, menu };
+          menu.hidden = false;
+          button.setAttribute('aria-expanded', 'true');
+          menu.querySelector('[role="menuitem"]').focus();
+        });
+        wrap.append(button, menu);
+        return wrap;
+      }
+
+      // Pause hides the listing and stops new applications; resume shows it again. People who applied keep access.
+      async function pauseJob(job, pause, button) {
+        button.disabled = true;
+        try {
+          const { error } = await supabaseClient.rpc('employer_pause_job', { p_id: job.id, p_paused: pause });
+          if (error) throw error;
+          await loadJobs();
+          const again = document.querySelector('.job[data-id="' + job.id + '"] .job-menu-btn');
+          if (again) again.focus();
+        } catch (e) {
+          alert(readable(e));
+          button.disabled = false;
+        }
+      }
+
+      // The same form serves jobs and internships; only the wording and the type choices change.
+      const KIND = {
+        job: {
+          noun: 'job', title: 'Job title', titleHint: 'e.g. Junior Python Developer', exp: 'Experience / eligibility', expHint: 'e.g. Freshers or 0-1 years',
+          sal: 'Salary', salHint: 'e.g. ₹3 - 4.5 LPA', publish: 'Publish listing',
+          types: [['full-time', 'Full-time'], ['part-time', 'Part-time'], ['contract', 'Contract'], ['remote', 'Remote']]
+        },
+        intern: {
+          noun: 'internship', title: 'Internship title', titleHint: 'e.g. Python Developer Intern', exp: 'Duration / eligibility', expHint: 'e.g. 3 months, final-year students',
+          sal: 'Stipend', salHint: 'e.g. ₹10,000 / month, or Unpaid with certificate', publish: 'Publish internship',
+          types: [['internship', 'Internship'], ['internship-fulltime', 'Full-time internship'], ['internship-parttime', 'Part-time internship'], ['internship-remote', 'Remote internship']]
+        }
+      };
+
+      function openJobForm(job, kindName) {
+        formKind = job ? (isIntern(job) ? 'intern' : 'job') : (kindName || 'job');
+        const k = KIND[formKind];
+        showTab(formKind === 'intern' ? 'interns' : 'jobs');
+        (formKind === 'intern' ? $('slot-interns') : $('slot-jobs')).append($('job-card'));
         editingId = job ? job.id : null;
-        $('job-form-title').textContent = job ? 'Edit listing' : 'Post a job';
-        $('job-submit').textContent = job ? 'Save changes' : 'Publish listing';
+        $('job-form-title').textContent = job ? 'Edit ' + k.noun : 'Post ' + (formKind === 'intern' ? 'an internship' : 'a job');
+        $('job-submit').textContent = job ? 'Save changes' : k.publish;
+        $('l-title').textContent = k.title; $('j-title').placeholder = k.titleHint;
+        $('l-exp').textContent = k.exp; $('j-experience').placeholder = k.expHint;
+        $('l-sal').textContent = k.sal; $('j-salary').placeholder = k.salHint;
+        $('j-type').replaceChildren(new Option('Select', ''), ...k.types.map(([v, t]) => new Option(t, v)));
         const f = job || {};
         $('j-title').value = f.title || ''; $('j-category').value = f.category || ''; $('j-type').value = f.job_type || '';
         $('j-location').value = f.location || ''; $('j-experience').value = f.experience || ''; $('j-salary').value = f.salary || '';
@@ -843,7 +1261,8 @@
         box.hidden = !$('j-rank').checked;
       }
       $('j-rank').addEventListener('change', () => { $('j-matching').hidden = !$('j-rank').checked; });
-      $('new-job').addEventListener('click', () => openJobForm(null));
+      $('new-job').addEventListener('click', () => openJobForm(null, 'job'));
+      $('new-intern').addEventListener('click', () => openJobForm(null, 'intern'));
       $('job-cancel').addEventListener('click', () => { $('job-card').hidden = true; editingId = null; });
 
       $('job-form').addEventListener('submit', async event => {
@@ -873,8 +1292,10 @@
             : supabaseClient.rpc('employer_post_job', { p_job: job });
           const { error } = await call;
           if (error) throw error;
+          const edited = !!editingId;
           $('job-card').hidden = true; editingId = null;
           await loadJobs();
+          if (edited) loadJobStats(); // new text or rules change who matches
         } catch (e) {
           say('job-msg', readable(e));
         } finally { busy(button, false, label); }
@@ -894,20 +1315,24 @@
       }
 
       // ---------- applicants ----------
-      let apps = [], appTotal = 0, appToken = 0;
-      const MATCH_TEXT = {
-        matched: ['Meets requirements', 'good'], needs_information: ['Needs information', 'warn'],
-        not_matched: ['Requirement not met', 'bad'], unconfigured: ['No scoring set', ''], pending: ['Scoring...', '']
-      };
-      const STATUS_TABS = [['', 'All'], ['new', 'New'], ['shortlisted', 'Shortlisted'], ['rejected', 'Rejected']];
+      // Scores come from the same engine as the HR console ("Keyword match", js/automatic-applicants.mjs):
+      // the listing's title, skills, requirements and description against each applicant's declared skills
+      // and education, with the same Matched / Needs information / Not matched rules and 60/100 threshold.
+      let allRows = [], apps = [], shown = 25, appToken = 0, scoring = null;
+      const REVIEW_CLASS = { matched: 'good', needs_information: 'warn', not_matched: 'bad', unconfigured: '' };
+      const STATUS_TABS = [['', 'All'], ['new', 'New'], ['shortlisted', 'Shortlisted'], ['contacted', 'Contacted'], ['interview', 'Interview'], ['selected', 'Selected'], ['rejected', 'Rejected']];
+      // The hiring steps, in order: New, Shortlisted, Contacted, Interview, Selected (and Rejected at any point).
+      // Each card has a button for the next step, Reject, and one to go back a step; the profile page can set any step.
+      const STATUS_CHIP = { shortlisted: ['Shortlisted', 'good'], contacted: ['Contacted', 'info'], interview: ['Interview', 'violet'], selected: ['Selected', 'win'], rejected: ['Rejected', 'bad'] };
+      const NEXT_STEP = { new: ['Shortlist', 'shortlisted'], shortlisted: ['Mark contacted', 'contacted'], contacted: ['Move to interview', 'interview'], interview: ['Mark selected', 'selected'] };
+      const BACK_STEP = { shortlisted: ['Back to new', 'new'], contacted: ['Back to shortlisted', 'shortlisted'], interview: ['Back to contacted', 'contacted'], selected: ['Back to interview', 'interview'], rejected: ['Back to new', 'new'] };
+      const THRESHOLD = 60;
       let statusTab = '';
+      let jobStats = null, statsFailed = false, statsToken = 0; // listing id -> { matched }, from an unfiltered scoring
 
+      // Listing and status tab are applied by the database; fit and score are applied here after scoring.
       function filters() {
-        const n = Number($('f-score').value);
-        return {
-          p_job: $('f-job').value || null, p_status: statusTab || null, p_match: $('f-match').value || null,
-          p_min_score: $('f-score').value && Number.isFinite(n) ? n : null, p_search: $('f-search').value.trim() || null
-        };
+        return { p_job: $('f-job').value || null, p_status: statusTab || null };
       }
 
       function fillJobFilter() {
@@ -916,32 +1341,115 @@
         select.value = jobs.some(j => j.id === keep) ? keep : '';
       }
 
-      async function loadApplicants(reset) {
-        const token = ++appToken;
-        if (reset) { apps = []; }
-        fillJobFilter();
-        const offset = reset ? 0 : apps.length;
-        const { data, error } = await supabaseClient.rpc('employer_applicants', { ...filters(), p_offset: offset, p_limit: 25 });
-        if (token !== appToken) return;
-        if (error) { $('app-empty').textContent = readable(error); $('app-empty').hidden = false; return; }
-        apps = apps.concat(data.rows || []);
-        appTotal = data.total || 0;
-        renderTally(data.counts || {});
-        renderApplicants();
+      function engine() {
+        scoring ||= Promise.all([import('./js/automatic-applicants.mjs'), import('./js/applicant-agent.mjs')])
+          .catch(e => { scoring = null; throw e; });
+        return scoring;
       }
 
-      // Re-read what is on screen after a shortlist or rejection, without losing "Show more" pages.
-      async function refreshApplicants() {
+      async function fetchAll(args, isCurrent) {
+        const rows = []; let total = 0, counts = {};
+        for (let offset = 0; offset < 2000; offset += 100) {
+          const { data, error } = await supabaseClient.rpc('employer_applicants', { ...args, p_offset: offset, p_limit: 100 });
+          if (!isCurrent()) return null;
+          if (error) throw error;
+          total = data.total || 0; counts = data.counts || {};
+          rows.push(...(data.rows || []));
+          if (rows.length >= total || !(data.rows || []).length) break;
+        }
+        return { rows, counts };
+      }
+
+      function scoreRows(rows, modules) {
+        const [{ keywordScore, jobKeywords, professionalEvidence }, { agentReview }] = modules;
+        const keywordCache = new Map();
+        rows.forEach(row => {
+          const job = jobs.find(j => j.id === row.job_id) || {};
+          const listing = { title: job.title || row.job_title, skills: job.skills || '', requirements: job.requirements || '',
+            responsibilities: job.responsibilities || '', description: job.description || '', application_requirements: { matching: job.matching || {} } };
+          // Like the HR console, prefer the rules the applicant was scored against.
+          const rules = row.match && row.match.rules && Object.keys(row.match.rules).length ? row.match.rules : (job.matching || {});
+          const applicant = { matching_evidence: row.evidence || {}, skills: row.skills, matched_skills: row.matched_skills, degree: row.degree, course_name: row.course };
+          try {
+            const key = row.job_id + '|' + JSON.stringify(rules);
+            if (!keywordCache.has(key)) keywordCache.set(key, jobKeywords(listing, rules));
+            const ai = keywordScore(listing, applicant, rules, keywordCache.get(key));
+            ai.agent = agentReview(listing, ai, professionalEvidence(applicant));
+            row.ai = ai;
+            row.review = LocalApplicantAI.review({ ai_result: ai, match_result: row.match || {} }, THRESHOLD);
+          } catch (e) {
+            row.ai = null;
+            row.review = { status: 'needs_information', label: 'Needs information', score: null, explanation: 'This applicant could not be scored automatically. Open the profile to review them.' };
+          }
+        });
+      }
+
+      async function loadApplicants(reset) {
         const token = ++appToken;
-        const { data, error } = await supabaseClient.rpc('employer_applicants', { ...filters(), p_offset: 0, p_limit: Math.min(100, Math.max(25, apps.length)) });
-        if (token !== appToken || error) return;
-        apps = data.rows || []; appTotal = data.total || 0;
-        renderTally(data.counts || {});
-        renderApplicants();
+        if (reset) shown = 25;
+        fillJobFilter();
+        $('app-total').textContent = 'Scoring applicants…';
+        const args = filters(), unfiltered = !args.p_job && !args.p_status;
+        try {
+          const [result, modules] = await Promise.all([fetchAll(args, () => token === appToken), engine()]);
+          if (!result || token !== appToken) return;
+          scoreRows(result.rows, modules);
+          allRows = result.rows;
+          // Every applicant is here, so this also gives each listing its Matched number.
+          if (unfiltered) setJobStats(result.rows);
+          renderTally(result.counts);
+          applyClient();
+        } catch (e) {
+          if (token !== appToken) return;
+          if (unfiltered && !jobStats) { statsFailed = true; renderJobs(); }
+          $('app-total').textContent = '';
+          $('app-list').replaceChildren();
+          $('app-empty').textContent = readable(e);
+          $('app-empty').hidden = false;
+        }
+      }
+
+      function setJobStats(rows) {
+        statsToken++; // a newer full count replaces any still running
+        jobStats = new Map();
+        rows.forEach(r => {
+          const s = jobStats.get(r.job_id) || { matched: 0 };
+          if (r.review && r.review.status === 'matched') s.matched++;
+          jobStats.set(r.job_id, s);
+        });
+        statsFailed = false;
+        renderJobs();
+      }
+
+      // Score every applicant again for the listings' numbers, whatever the Applicants tab is filtered to
+      // (after a listing's text or screening rules change).
+      async function loadJobStats() {
+        const token = ++statsToken;
+        try {
+          const [result, modules] = await Promise.all([fetchAll({}, () => token === statsToken), engine()]);
+          if (!result || token !== statsToken) return;
+          scoreRows(result.rows, modules);
+          setJobStats(result.rows);
+        } catch (e) {
+          if (token === statsToken && !jobStats) { statsFailed = true; renderJobs(); }
+        }
+      }
+
+      // After a status change: reload, keeping how far the company had scrolled.
+      async function refreshApplicants() {
+        await loadApplicants(false);
         loadJobs();
       }
 
+      function applyClient() {
+        const fit = $('f-match').value, min = $('f-score').value === '' ? null : Number($('f-score').value);
+        apps = allRows.filter(r => (!fit || r.review.status === fit) && (min === null || (typeof r.review.score === 'number' && r.review.score >= min)))
+          .sort((a, b) => (b.review.score ?? -1) - (a.review.score ?? -1) || String(b.applied_at).localeCompare(String(a.applied_at)));
+        renderApplicants();
+      }
+
       function renderTally(counts) {
+        $('n-apps').textContent = String(counts.all || 0);
         $('app-tally').replaceChildren(...STATUS_TABS.map(([key, label]) => {
           const b = el('button', label + ' · ' + (counts[key || 'all'] || 0));
           b.type = 'button'; b.setAttribute('aria-pressed', String(statusTab === key));
@@ -951,81 +1459,244 @@
       }
 
       function renderApplicants() {
-        $('app-total').textContent = appTotal ? 'Showing ' + apps.length + ' of ' + appTotal : '';
-        $('app-empty').textContent = 'No applicants match these filters.';
+        const visible = apps.slice(0, shown);
+        $('app-total').textContent = apps.length ? 'Showing ' + visible.length + ' of ' + apps.length : '';
+        $('app-empty').textContent = allRows.length ? 'No applicants match these filters.' : 'No applicants yet. They appear here as candidates apply to your listings.';
         $('app-empty').hidden = apps.length > 0;
-        $('app-more').hidden = apps.length >= appTotal;
-        $('app-list').replaceChildren(...apps.map(card));
+        $('app-more').hidden = visible.length >= apps.length;
+        $('app-list').replaceChildren(...visible.map(card));
+        // An open profile page keeps its applicant even when a status change moved them out of the current filter.
+        if (profile) profile = allRows.find(x => x.id === profile.id) || profile;
+        else syncRoute(false);
       }
 
+      const scoreText = n => (Math.round(n * 10) / 10) + '/100';
+
+      // One line per applicant, like the HR console: name, listing, score and the actions.
+      // Everything else is on the applicant's profile page, opened by a click anywhere on the card.
       function card(a) {
-        const box = el('article', null, 'cand' + (a.status === 'shortlisted' ? ' is-shortlisted' : a.status === 'rejected' ? ' is-rejected' : ''));
-        const score = a.match && typeof a.match.score === 'number' ? Math.round(a.match.score) : null;
-        const badge = el('div', null, 'score ' + (score === null ? 'lo' : score >= 70 ? 'hi' : score >= 40 ? 'mid' : 'lo'));
-        if (score === null) badge.textContent = '-';
-        else { badge.textContent = String(score); badge.append(el('small', '%')); }
-        badge.title = score === null ? 'No score for this listing' : 'Fit score out of 100';
+        const box = el('article', null, 'cand' + (STATUS_CHIP[a.status] ? ' is-' + a.status : ''));
+        box.append(el('div', String(a.name || 'C').trim().charAt(0).toUpperCase() || 'C', 'cand-av'));
 
         const who = document.createElement('div');
-        const h = el('h3', a.name || 'Candidate');
-        if (a.status === 'shortlisted') h.append(el('span', 'Shortlisted', 'chip good'));
-        if (a.status === 'rejected') h.append(el('span', 'Rejected', 'chip bad'));
-        const study = [a.degree, a.course, a.college, a.grad_year].filter(Boolean).join(' · ');
-        who.append(h, el('div', study || 'Education not given', 'sub'),
-          el('div', [a.experience, a.location, a.availability && 'Available: ' + a.availability, a.expected_salary && 'Expects ' + a.expected_salary].filter(Boolean).join(' · '), 'sub'));
+        const name = el('a', a.name || 'Candidate', 'cand-name');
+        name.href = '#applicant=' + a.id;
+        name.title = 'Open ' + (a.name || 'this candidate') + '’s profile';
+        who.append(name);
+        const rv = a.review || {};
+        if (rv.label) who.append(el('span', rv.label, 'chip ' + (REVIEW_CLASS[rv.status] || '')));
+        const stage = STATUS_CHIP[a.status];
+        if (stage) who.append(el('span', stage[0], 'chip ' + stage[1]));
+        who.append(el('div', a.job_title + ' · applied ' + new Date(a.applied_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }), 'sub'));
 
-        const [mText, mClass] = MATCH_TEXT[a.match && a.match.status] || ['', ''];
-        const side = el('div', null, 'chipcol');
-        if (mText) side.append(el('span', mText, 'chip ' + mClass));
-        side.append(el('div', a.job_title + ' · applied ' + new Date(a.applied_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }), 'sub'));
-        const top = el('div', null, 'cand-top'); top.append(badge, who, side);
-        box.append(top);
+        const score = typeof rv.score === 'number' ? rv.score : null;
+        const sc = el('div', null, 'cand-score ' + (score === null ? 'lo' : score >= THRESHOLD ? 'hi' : score >= 30 ? 'mid' : 'lo'));
+        sc.append(el('strong', score === null ? '–' : scoreText(score)), el('span', score === null ? 'Not scored' : 'Keyword match'));
 
-        const skills = String(a.skills || '').split(',').map(x => x.trim()).filter(Boolean).slice(0, 12);
-        if (skills.length) { const row = el('div', null, 'skillrow'); skills.forEach(x => row.append(el('span', x))); box.append(row); }
+        const acts = actionButtons(a);
 
-        const why = a.match && Array.isArray(a.match.reasons) ? a.match.reasons : [];
-        if (why.length) {
-          const d = el('details'); d.append(el('summary', 'Why this score'));
-          const ul = el('ul'); why.forEach(r => ul.append(el('li', String(r))));
-          const comp = a.match.components || {};
-          Object.keys(comp).forEach(k => ul.append(el('li', k + ': ' + comp[k].points + ' of ' + comp[k].weight + ' points')));
-          d.append(ul); box.append(d);
-        }
-        const answers = Array.isArray(a.answers) ? a.answers : [];
-        if (answers.length) {
-          const d = el('details'); d.append(el('summary', 'Answers to your questions'));
-          answers.forEach(x => { const p = el('p'); p.append(el('b', String(x.question) + ' '), document.createTextNode(String(x.answer))); d.append(p); });
-          box.append(d);
-        }
+        const side = el('div', null, 'cand-side');
+        side.append(sc, acts);
+        box.append(who, side);
+        return box;
+      }
 
-        if (a.contact) {
-          const c = el('div', null, 'contact');
-          if (a.contact.email) { const m = el('a', a.contact.email); m.href = 'mailto:' + encodeURIComponent(a.contact.email).replace(/%40/g, '@'); c.append(m); }
-          const phone = String(a.contact.whatsapp || '').replace(/[^0-9]/g, '');
-          if (phone.length >= 8) { const w = el('a', 'WhatsApp ' + a.contact.whatsapp); w.href = 'https://wa.me/' + phone; w.target = '_blank'; w.rel = 'noopener noreferrer'; c.append(w); }
-          if (/^https?:\/\//i.test(a.contact.portfolio || '')) { const l = el('a', 'Portfolio'); l.href = a.contact.portfolio; l.target = '_blank'; l.rel = 'noopener noreferrer nofollow'; c.append(l); }
-          if (a.contact.resume) {
-            const r = el('button', 'Open resume', 'btn btn-ghost btn-sm'); r.type = 'button';
-            r.addEventListener('click', () => openResume(a.contact.resume, r));
-            c.append(r);
-          }
-          box.append(c);
-        } else {
-          box.append(el('p', 'Contact details and the resume unlock when you shortlist this candidate.', 'locked'));
-        }
+      // Contact details and the resume of someone who applied to this company's own listing.
+      function contactBlock(a) {
+        // No contact object means the database did not release it (for example an older database rule):
+        // say so instead of wrongly claiming there is no resume.
+        if (!a.contact) return el('p', 'Contact details and the resume are not available right now. Please refresh, or contact hr@kompetenzen.in.', 'locked');
+        const c = el('div', null, 'contact');
+        const k = a.contact;
+        if (k.email) { const m = el('a', k.email); m.href = 'mailto:' + encodeURIComponent(k.email).replace(/%40/g, '@'); c.append(m); }
+        const phone = String(k.whatsapp || '').replace(/[^0-9]/g, '');
+        if (phone.length >= 8) { const w = el('a', 'WhatsApp ' + k.whatsapp); w.href = 'https://wa.me/' + phone; w.target = '_blank'; w.rel = 'noopener noreferrer'; c.append(w); }
+        if (/^https?:\/\//i.test(k.portfolio || '')) { const l = el('a', 'Portfolio'); l.href = k.portfolio; l.target = '_blank'; l.rel = 'noopener noreferrer nofollow'; c.append(l); }
+        if (k.resume) {
+          const open = el('button', 'Open resume', 'btn btn-ghost btn-sm'); open.type = 'button';
+          open.addEventListener('click', () => openResume(k.resume, open, false));
+          const save = el('button', 'Download', 'btn btn-ghost btn-sm'); save.type = 'button';
+          save.addEventListener('click', () => openResume(k.resume, save, true));
+          c.append(open, save);
+        } else c.append(el('span', 'No resume uploaded', 'locked'));
+        return c;
+      }
 
+      function actionButtons(a) {
         const acts = el('div', null, 'cand-acts');
         const set = (label, status, cls) => {
           const b = el('button', label, 'btn btn-sm ' + cls); b.type = 'button';
           b.addEventListener('click', () => setStatus(a, status, b));
           return b;
         };
-        if (a.status !== 'shortlisted') acts.append(set('Shortlist', 'shortlisted', 'btn-primary'));
+        const next = NEXT_STEP[a.status], back = BACK_STEP[a.status];
+        if (next) acts.append(set(next[0], next[1], 'btn-primary'));
         if (a.status !== 'rejected') acts.append(set('Reject', 'rejected', 'btn-danger'));
-        if (a.status !== 'new') acts.append(set('Move back to new', 'new', 'btn-ghost'));
-        box.append(acts);
-        return box;
+        if (back) acts.append(set(back[0], back[1], 'btn-ghost'));
+        return acts;
+      }
+
+      // ---------- applicant profile page ----------
+      let profile = null, listScroll = 0, cameFromList = false; // the applicant whose page is open
+      const STAGE = { studying: 'Studying', graduated: 'Graduated', experienced: 'Working professional' };
+      function pdSection(title, rows) {
+        const shown = rows.filter(([, v]) => v !== null && v !== undefined && String(v).trim() !== '');
+        if (!shown.length) return null;
+        const sec = el('section', null, 'pd-sec'), grid = el('div', null, 'pd-grid');
+        sec.append(el('h3', title));
+        shown.forEach(([label, v]) => { const r = el('div', null, 'pd-row'); r.append(el('span', label), el('b', String(v))); grid.append(r); });
+        sec.append(grid);
+        return sec;
+      }
+      function chips(title, list) {
+        const items = (Array.isArray(list) ? list : String(list || '').split(',')).map(x => String(x).trim()).filter(Boolean).slice(0, 40);
+        if (!items.length) return null;
+        const wrap = document.createElement('div');
+        const row = el('div', null, 'skillrow');
+        items.forEach(x => row.append(el('span', x)));
+        wrap.append(el('div', title, 'pd-sub'), row);
+        return wrap;
+      }
+
+      function buildProfile(a) {
+        const pr = a.profile || {};
+        const back = el('a', '← All applicants', 'pp-back'); back.href = '#';
+        back.addEventListener('click', e => { e.preventDefault(); leaveProfile(); });
+
+        // Who they are, the listing, where they are in hiring, and the score.
+        const rv = a.review || {}, ai = a.ai;
+        const score = typeof rv.score === 'number' ? Math.round(rv.score * 10) / 10 : null;
+        const head = el('div', null, 'card pp-head'), who = document.createElement('div');
+        const h = el('h2', a.name || 'Candidate'); h.id = 'pp-title'; h.tabIndex = -1;
+        const tags = el('div', null, 'pp-tags');
+        if (rv.label) tags.append(el('span', rv.label, 'chip ' + (REVIEW_CLASS[rv.status] || '')));
+        const stage = STATUS_CHIP[a.status];
+        if (stage) tags.append(el('span', stage[0], 'chip ' + stage[1]));
+        who.append(h);
+        if (tags.children.length) who.append(tags);
+        who.append(el('div', a.job_title + ' · applied ' + new Date(a.applied_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }), 'sub'));
+        const sc = el('div', null, 'cand-score pp-score ' + (score === null ? 'lo' : score >= THRESHOLD ? 'hi' : score >= 30 ? 'mid' : 'lo'));
+        sc.append(el('strong', score === null ? '–' : scoreText(score)), el('span', score === null ? 'Not scored' : 'Keyword match'));
+        head.append(el('div', String(a.name || 'C').trim().charAt(0).toUpperCase() || 'C', 'cand-av pp-av'), who, sc);
+
+        const main = el('div', null, 'card pp-main');
+        const parts = [
+          pdSection('Education', [['Qualification', pr.qualification || a.degree], ['Specialisation', pr.specialisation || a.course], ['College', a.college],
+            ['Current semester', pr.semester], ['Completion year', a.grad_year], ['Stage', STAGE[pr.career_stage]]]),
+          pdSection('Experience and availability', [['Experience', a.experience], ['Most recent role', pr.recent_role], ['Industry', pr.industry],
+            ['Available', a.availability], ['Expected salary', a.expected_salary], ['Location', a.location], ['Work mode', a.work_mode]]),
+          pdSection('Career interests', [['Interest area', pr.career_area], ['Field', pr.career_field],
+            ['Preferred roles', Array.isArray(pr.preferred_roles) ? pr.preferred_roles.join(', ') : '']])
+        ];
+        parts.forEach(x => x && main.append(x));
+
+        const skills = [chips('Skills listed on their profile', a.skills), chips('Technical skills they chose', pr.career_skills),
+          chips('Soft skills they chose', pr.soft_skills), chips('Skills they confirmed for this listing', a.matched_skills)].filter(Boolean);
+        if (skills.length) { const sec = el('section', null, 'pd-sec'); sec.append(el('h3', 'Skills')); skills.forEach(x => sec.append(x)); main.append(sec); }
+
+        if (ai) {
+          const sec = el('section', null, 'pd-sec');
+          sec.append(el('h3', 'Keyword match' + (score === null ? '' : ' · ' + scoreText(score))));
+          if (rv.explanation) sec.append(el('p', rv.explanation, 'locked'));
+          const tagRow = (title, items, cls) => {
+            if (!items.length) return;
+            const row = el('div', null, 'skillrow');
+            items.forEach(x => row.append(el('span', x, cls)));
+            sec.append(el('div', title, 'pd-sub'), row);
+          };
+          const checks = Array.isArray(ai.checks) ? ai.checks : [];
+          tagRow('Requirements met', checks.filter(c => c.status === 'met').map(c => c.label + ': ' + c.required), 'ok');
+          tagRow('Requirements not met', checks.filter(c => c.status === 'unmet').map(c => c.label + ': ' + c.required + ' (has ' + c.provided + ')'), 'no');
+          tagRow('Not confirmed or not given', checks.filter(c => c.status === 'missing').map(c => c.label + ': ' + c.required), 'q');
+          tagRow('Keywords found', (ai.matchedKeywords || []).slice(0, 30), 'ok');
+          tagRow('Keywords not found', (ai.missingKeywords || []).slice(0, 30), '');
+          const questions = (ai.agent && Array.isArray(ai.agent.questions)) ? ai.agent.questions : [];
+          if (questions.length) {
+            sec.append(el('div', 'Questions you could ask', 'pd-sub'));
+            const ul = el('ul'); ul.style.cssText = 'margin-left:18px;color:var(--ink-mute);font-size:14px;';
+            questions.forEach(q => ul.append(el('li', q)));
+            sec.append(ul);
+          }
+          main.append(sec);
+        }
+
+        const answers = Array.isArray(a.answers) ? a.answers : [];
+        if (answers.length) {
+          const sec = el('section', null, 'pd-sec'); sec.append(el('h3', 'Answers to your questions'));
+          answers.forEach(x => { const q = el('div', null, 'pd-row'); q.append(el('span', String(x.question)), el('b', String(x.answer))); q.style.marginBottom = '10px'; sec.append(q); });
+          main.append(sec);
+        }
+        if (!main.children.length) main.append(el('p', 'This applicant has not added more details yet.', 'locked'));
+
+        // The company's own hiring steps for this applicant: any step can be chosen.
+        const status = el('section', null, 'card pp-box');
+        status.append(el('h3', 'Hiring status'));
+        const steps = el('div', null, 'stage-list');
+        steps.setAttribute('role', 'group'); steps.setAttribute('aria-label', 'Hiring status');
+        STATUS_TABS.filter(([key]) => key).forEach(([key, label]) => {
+          const current = a.status === key;
+          const b = el('button', null, 'stage-btn s-' + key); b.type = 'button'; b.dataset.status = key;
+          b.setAttribute('aria-pressed', String(current));
+          b.append(el('span', null, 'dot'), el('span', label));
+          if (current) { const now = el('span', 'Current', 'stage-now'); now.setAttribute('aria-hidden', 'true'); b.append(now); }
+          b.addEventListener('click', () => { if (a.status !== key) setStatus(a, key, b); });
+          steps.append(b);
+        });
+        status.append(steps);
+        if (a.status_at) status.append(el('p', 'Updated ' + new Date(a.status_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }), 'pp-note'));
+        status.append(el('p', 'Only your team sees this. The candidate is not told.', 'pp-note'));
+
+        const contact = el('section', null, 'card pp-box');
+        contact.append(el('h3', 'Contact and resume'), contactBlock(a));
+        const side = el('aside', null, 'pp-side');
+        side.append(status, contact);
+        const grid = el('div', null, 'pp-grid');
+        grid.append(main, side);
+        $('app-profile').replaceChildren(back, head, grid);
+      }
+
+      function openProfilePage(a, fromList) {
+        if (!profile) listScroll = window.scrollY;
+        cameFromList = fromList;
+        profile = a;
+        showTab('applicants');
+        $('app-browse').hidden = true;
+        $('app-profile').hidden = false;
+        buildProfile(a);
+        window.scrollTo(0, 0);
+        $('pp-title').focus({ preventScroll: true });
+      }
+
+      function closeProfilePage() {
+        if (!profile) return;
+        profile = null;
+        $('app-profile').hidden = true;
+        $('app-profile').replaceChildren();
+        $('app-browse').hidden = false;
+        window.scrollTo(0, listScroll);
+      }
+
+      const hashId = () => (/^#applicant=([0-9a-f-]{36})$/i.exec(location.hash) || [])[1] || null;
+      function clearHash() {
+        if (location.hash) history.replaceState(history.state, '', location.pathname + location.search);
+      }
+
+      // Make the screen match the address: #applicant=<id> shows that applicant's page, anything else the list.
+      function syncRoute(fromList) {
+        const id = hashId();
+        if (!id) { closeProfilePage(); return; }
+        if (profile && profile.id === id) return;
+        const row = allRows.find(x => x.id === id);
+        if (row) openProfilePage(row, fromList);
+        else { clearHash(); closeProfilePage(); }
+      }
+      window.addEventListener('hashchange', () => { if (user && company) syncRoute(!profile); });
+
+      // Back to the list where the company left it: through history when it came from the list, so the
+      // browser's own Back button and this link agree.
+      function leaveProfile() {
+        if (cameFromList) history.back();
+        else { clearHash(); closeProfilePage(); }
       }
 
       async function setStatus(a, status, button) {
@@ -1033,6 +1704,14 @@
         try {
           const { error } = await supabaseClient.rpc('employer_set_applicant_status', { p_id: a.id, p_status: status });
           if (error) throw error;
+          if (profile && profile.id === a.id) {
+            // Show the change on the profile page at once; the list reloads behind it.
+            a.status = status; a.status_at = new Date().toISOString();
+            profile = a;
+            buildProfile(a);
+            const now = $('app-profile').querySelector('.stage-btn[data-status="' + status + '"]');
+            if (now) now.focus();
+          }
           await refreshApplicants();
         } catch (e) {
           alert(readable(e));
@@ -1040,11 +1719,11 @@
         }
       }
 
-      async function openResume(path, button) {
+      async function openResume(path, button, download) {
         button.disabled = true;
         try {
-          // A one-minute link; storage only issues it for applicants this company shortlisted.
-          const { data, error } = await supabaseClient.storage.from('resumes').createSignedUrl(path, 60);
+          // A one-minute link; storage only issues it for people who applied to this company's own listings.
+          const { data, error } = await supabaseClient.storage.from('resumes').createSignedUrl(path, 60, download ? { download: true } : undefined);
           if (error || !data || !data.signedUrl) throw error || new Error('Could not open the resume.');
           const link = document.createElement('a');
           link.href = data.signedUrl; link.target = '_blank'; link.rel = 'noopener noreferrer';
@@ -1054,15 +1733,14 @@
         } finally { button.disabled = false; }
       }
 
-      let searchTimer;
-      $('f-search').addEventListener('input', () => { clearTimeout(searchTimer); searchTimer = setTimeout(() => loadApplicants(true), 350); });
-      ['f-job', 'f-match', 'f-score'].forEach(id => $(id).addEventListener('change', () => loadApplicants(true)));
+      $('f-job').addEventListener('change', () => loadApplicants(true));
+      ['f-match', 'f-score'].forEach(id => $(id).addEventListener('change', () => { shown = 25; applyClient(); }));
       $('app-filters').addEventListener('submit', e => e.preventDefault());
       $('f-reset').addEventListener('click', () => {
-        $('f-search').value = ''; $('f-job').value = ''; $('f-match').value = ''; $('f-score').value = ''; statusTab = '';
+        $('f-job').value = ''; $('f-match').value = ''; $('f-score').value = ''; statusTab = '';
         loadApplicants(true);
       });
-      $('app-more').addEventListener('click', () => loadApplicants(false));
+      $('app-more').addEventListener('click', () => { shown += 25; renderApplicants(); });
 
       // ---------- start ----------
       async function start() {
